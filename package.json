@@ -1,0 +1,50 @@
+{
+  "name": "@aca/a2-widgets",
+  "version": "0.1.0",
+  "scripts": {
+    "lint": "tslint src/**/*.ts",
+    "test": "tsc && karma start",
+    "postinstall": "typings install",
+    "prepublish": "tsc",
+    "tsc": "tsc",
+    "typings": "typings"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/advancedcontrol/aca/a2-widgets"
+  },
+  "author": {
+    "name": "Alex Sorafumo",
+    "email": "alex@yuion.net"
+  },
+  "keywords": [
+    "angular",
+    "angular2"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/advancedcontrol/aca/a2-widgets/issues"
+  },
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@angular/core": "2.0.0-rc.4",
+    "@angular/common": "2.0.0-rc.4",
+    "@angular/http": "2.0.0-rc.4",
+    "@angular/compiler": "2.0.0-rc.4",
+    "@angular/platform-browser": "2.0.0-rc.4",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.4",
+    "@angular/router": "3.0.0-beta.2",
+    "codelyzer": "^0.0.20",
+    "rxjs": "5.0.0-beta.6",
+    "tslint": "^3.6.0",
+    "typescript": "^1.8.10",
+    "typings":"^1.0.4",
+    "zone.js": "0.6.12"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}

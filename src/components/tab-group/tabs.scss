@@ -1,0 +1,43 @@
+$dim: 2.0em;
+$border-color: #ABABAB;
+$green: #23CE6B;
+$red: #F64740;
+$bg-color: #FFFFFF;
+
+.tab-group {
+    & .tab-header {
+        & ul {
+            padding: 0 1.0em;
+            margin-bottom: 0;
+            list-style: none;
+            border-bottom: 1px solid #ddd;
+            & > li {
+                position: relative;
+                display: inline-block;
+                top: 4px;
+                padding: 0.5em 1.5em;
+                border: 1px solid #ddd;
+                overflow: hidden;
+                &.active {
+                    margin-bottom: -1px;
+                    border-bottom: 1px solid #FFF;
+                    &:hover {
+                        background-color: $bg-color;
+                    }
+                }
+                &:hover{
+                    background-color: $bg-color - #222222;
+                }
+
+            }
+
+        }
+
+
+    }
+    & .tab-contents{
+        & .tab-head{
+            display: hidden;
+        }
+    }
+}

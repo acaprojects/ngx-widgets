@@ -1,0 +1,16 @@
+<div class="slider" (window:resize)="resize()">
+    <div class="slider-block horizon" *ngIf="align!=='vertical'">
+        <!-- Vertical Slider -->
+        <div class="slider-bar"  #barHorz>
+            <div class="slider-progress" #progressHorz></div>
+            <div class="slider-knob" #knobHorz></div>
+        </div>
+    </div>
+    <div class="slider-block vertical" *ngIf="align==='vertical'">
+        <!-- Horizontal Slider -->
+        <div class="slider-bar"  #barVert>
+            <div class="slider-progress" #progressVert></div>
+            <div class="slider-knob" #knobVert></div>
+        </div>
+    </div>
+</div>

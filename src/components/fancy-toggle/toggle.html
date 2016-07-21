@@ -1,0 +1,26 @@
+<div class="toggle" (click)="changeState($event)">
+    <div *ngIf="type==='text'" @toggleBg="tstate" class="text-toggle">
+        <div *ngIf="state" class="text active">{{active ? active : 'On'}}</div>
+        <div *ngIf="!state" class="text inactive">{{inactive ? inactive : 'Off'}}</div>
+        <div #textKnob @textToggle="tstate" class="toggle-knob"></div>
+    </div>
+    <div *ngIf="type==='image'" class="image-toggle">
+        <div *ngIf="state" class="toggle-image-inactive">
+            <img class="toggle-img" [src]="inactiveImage"/>
+        </div>
+        <div *ngIf="!state" class="toggle-image-active">
+            <img class="toggle-img"  [src]="activeImage"/>
+        </div>
+    </div>
+    <div *ngIf="type==='icon'" class="icon-toggle">
+        <div [class]="'toggle-icon ' + (shape === 'square' ? 'square' : 'circle')">
+            <div class="icon">
+                <span *ngIf="state" [class]="'icn-yes ' + activeIcon"></span>
+                <span *ngIf="!state" [class]="'icn-no ' + inactiveIcon"></span>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="type!=='text'&&type!=='image'&&type!=='icon'" @toggleBg="tstate" class="ios-toggle">
+        <div #iosKnob @iosToggle="tstate" class="toggle-knob"></div>
+    </div>
+</div>

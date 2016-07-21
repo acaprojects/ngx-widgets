@@ -1,0 +1,10 @@
+<div class="tab-group" >
+    <div #header class="tab-header">
+        <ul>
+            <li *ngFor="let tab of tabHeaders" [innerHTML]="tab.contents | safe" (click)="setActiveTab(tab.id)" [class.active]="tab.activeTab"></li>
+        </ul>
+    </div>
+    <div #body class="tab-contents">
+        <ng-content></ng-content>
+    </div>
+</div>

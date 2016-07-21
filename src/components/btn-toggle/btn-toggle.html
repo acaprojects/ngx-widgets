@@ -1,0 +1,4 @@
+<div class="btn-toggle" [class.active]="value" [class.inactive]="!value" (click)="clickEvent($event)">
+    <span *ngIf='value'>{{(active ? active : 'On')}}</span>
+    <span *ngIf='!value'>{{(inactive ? inactive : 'Off')}}</span>
+</div>

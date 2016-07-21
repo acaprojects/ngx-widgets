@@ -1,0 +1,30 @@
+$border: 3px;
+$base-color: #EE6352;
+$padding: 0.5em;
+
+
+.btn-toggle {
+    min-width: 4.0em;
+    max-width: 100%;
+    width: auto;
+    min-height: 1.0em;
+    padding: $padding $padding*2;
+    text-align: center;
+    border-radius: 8px;
+    border: $border solid $base-color;
+    display: inline-block;
+    margin: $padding/5*4;
+}
+
+.btn-toggle:hover{
+    border: $border solid ($base-color + #111111);
+    background-color: #FFFFFF - #111111;
+}
+
+.btn-toggle.active:hover {
+    background-color: ($base-color + #111111);
+}
+
+.btn-toggle.active {
+    background-color: $base-color;
+}
