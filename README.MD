@@ -168,6 +168,21 @@ A TabGroup has 3 attributes that can be set.
 `routable` & `routeParam` are one-way bindings.
 `state` is two-way bound.
 
+#### Tab Head
+
+Inside tab groups the contents for the heading for each tab is defined within a tab-head tag
+
+A TabHead has 1 attributes that can be set.
+
+* `id` which is the identifier of the tab this is also used to refernce the TabBody that it matches with.
+
+#### Tab Body
+
+Inside tab groups the contents for the body for each tab is defined within a tab-body tag
+
+A TabBody has 1 attributes that can be set.
+
+* `id` which is the identifier of the tab this is also used to refernce the TabHead that it matches with.
 
 ## License
 
