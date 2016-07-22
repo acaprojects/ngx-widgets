@@ -17,6 +17,7 @@ export class Slider {
     @Input() value: number = 0;
     @Input() step: number = 1;
     @Input() precision: number = 1;
+    @Input() stylePrefix: string = '';
     @Output() valueChange = new EventEmitter();
     //*
         //Slider Bar
@@ -41,13 +42,12 @@ export class Slider {
     constructor(){
     }
 
-    ngInit(){
-    }
-
-    ngAfterContentInit(){
+    ngAfterViewInit(){
         this.available = true;
         this.initElements();
-        this.updateValue(true);
+        setInterval(() => {
+            this.updateValue(true);
+        }, 1000);
     }
 
     ngOnChanges(changes: any){
@@ -59,7 +59,11 @@ export class Slider {
         if(!this.precision) this.precision = 1;
         if(!this.min) this.min = 0;
         if(!this.max) this.max = 100;
-        this.initElements();
+        if(!this.knob) {
+            this.initElements();
+            this.refresh();
+        }
+        if(changes.value) this.refresh();
     }
 
     initElements(){
@@ -206,17 +210,19 @@ export class Slider {
     moveSlider(event){
         let prev = this.value;
         this.value = this.calcValue(event);
-        if(prev !== this.value) this.updateValue(true);
+        this.refresh();
     }
 
     sliderStop(event){
-        console.log('Stop Sliding');
-        this.updateValue(true);
         this.slideEnd(event);
+        this.refresh();
     }
 
     resize(){
         if(this.bar) this.bb = this.bar.nativeElement.getBoundingClientRect();
+    }
+
+    refresh(){
         this.updateValue(true);
     }
 }

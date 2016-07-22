@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/advancedcontrol/aca/a2-widgets"
+    "url": "https://github.com/advancedcontrol/a2-widgets"
   },
   "author": {
     "name": "Alex Sorafumo",
@@ -23,13 +23,11 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/advancedcontrol/aca/a2-widgets/issues"
+    "url": "https://github.com/advancedcontrol/a2-widgets/issues"
   },
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "dependencies": {
-  },
-  "devDependencies": {
     "@angular/core": "2.0.0-rc.4",
     "@angular/common": "2.0.0-rc.4",
     "@angular/http": "2.0.0-rc.4",
@@ -39,10 +37,12 @@
     "@angular/router": "3.0.0-beta.2",
     "codelyzer": "^0.0.20",
     "rxjs": "5.0.0-beta.6",
-    "tslint": "^3.6.0",
     "typescript": "^1.8.10",
     "typings":"^1.0.4",
     "zone.js": "0.6.12"
+  },
+  "devDependencies": 
+    "tslint": "^3.6.0"
   },
   "engines": {
     "node": ">=0.8.0"

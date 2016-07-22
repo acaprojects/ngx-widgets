@@ -1,7 +1,7 @@
-<div class="btn-group">
+<div [class]="stylePrefix + ' btn-group'">
     <div class="btn-obj" *ngFor="let item of items; let i = index">
-        <btn-toggle [active]="item" [inactive]="item" [value]="selected==i" (valueChange)="clickEvent(i)">
-
+        <btn-toggle [stylePrefix]="stylePrefix" [active]="item" [inactive]="item" [value]="selected==i" (valueChange)="clickEvent(i)">
         </btn-toggle>
+        <ng-content></ng-content>
     </div>
 </div>

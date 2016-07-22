@@ -44,12 +44,8 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 export class FancyToggle {
     @Input() type;
     @Input() state: boolean = true;
-    @Input() activeText: string;
-    @Input() inactiveText: string;
-    @Input() activeImage: string;
-    @Input() inactiveImage: string;
-    @Input() activeIcon: string;
-    @Input() inactiveIcon: string;
+    @Input() active: string;
+    @Input() inactive: string;
     @Input() shape: string;
     @Input() colours: { active: string, inactive: string, bg: string };
     @Output() stateChange = new EventEmitter();

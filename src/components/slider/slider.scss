@@ -70,6 +70,7 @@ $base-color: #343434;
     box-sizing: border-box;
     background-color: #898989;
     border-radius: $dim/2;
+    cursor: pointer;
 }
 
 .slider-progress {
@@ -78,6 +79,7 @@ $base-color: #343434;
     border-radius: $dim;
     top:0;
     left:0;
+    cursor: pointer;
 }
 
 .slider-knob{
@@ -87,4 +89,5 @@ $base-color: #343434;
     border-radius: $dim;
     background-color: #FFFFFF;
     box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    cursor: pointer;
 }

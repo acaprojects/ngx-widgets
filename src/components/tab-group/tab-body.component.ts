@@ -1,7 +1,9 @@
 import { Component, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 import { ContentChildren, QueryList, AfterContentInit } from '@angular/core';
+
 @Component({
     selector: 'tab-body',
+    directives: [ ],
     template: `
         <div class="tab-body" *ngIf="visible">
             <ng-content></ng-content>
@@ -27,5 +29,8 @@ export class TabBody {
     hide() {
         this.visible = false;
         return false;
+    }
+    ngOnDestroy() {
+        console.warn('Body Destroyed.');
     }
 }

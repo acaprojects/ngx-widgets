@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
 @Component({
     selector: 'btn-toggle',
@@ -10,6 +10,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class ButtonToggle {
     @Input() active;
     @Input() inactive;
+    @Input() stylePrefix: string = '';
     @Input() value: boolean = false;
     @Output() valueChange = new EventEmitter();
     available: boolean = false;

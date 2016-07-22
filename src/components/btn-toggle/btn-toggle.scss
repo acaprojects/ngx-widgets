@@ -14,6 +14,7 @@ $padding: 0.5em;
     border: $border solid $base-color;
     display: inline-block;
     margin: $padding/5*4;
+    cursor: pointer;
 }
 
 .btn-toggle:hover{

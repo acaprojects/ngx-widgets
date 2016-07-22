@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { ButtonToggle } from '../btn-toggle';
 
 @Component({
@@ -12,6 +12,7 @@ import { ButtonToggle } from '../btn-toggle';
 export class ButtonGroup {
     @Input() items;
     @Input() selected: number = 0;
+    @Input() stylePrefix: string = '';
     @Output() selectedChange = new EventEmitter();
 
     constructor(){

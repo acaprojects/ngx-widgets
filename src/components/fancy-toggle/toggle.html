@@ -6,17 +6,17 @@
     </div>
     <div *ngIf="type==='image'" class="image-toggle">
         <div *ngIf="state" class="toggle-image-inactive">
-            <img class="toggle-img" [src]="inactiveImage"/>
+            <img class="toggle-img" [src]="inactive"/>
         </div>
         <div *ngIf="!state" class="toggle-image-active">
-            <img class="toggle-img"  [src]="activeImage"/>
+            <img class="toggle-img"  [src]="active"/>
         </div>
     </div>
     <div *ngIf="type==='icon'" class="icon-toggle">
         <div [class]="'toggle-icon ' + (shape === 'square' ? 'square' : 'circle')">
             <div class="icon">
-                <span *ngIf="state" [class]="'icn-yes ' + activeIcon"></span>
-                <span *ngIf="!state" [class]="'icn-no ' + inactiveIcon"></span>
+                <span *ngIf="state" [class]="'icn-yes ' + active"></span>
+                <span *ngIf="!state" [class]="'icn-no ' + inactive"></span>
             </div>
         </div>
     </div>
