@@ -12,7 +12,10 @@ To use a Button Toggle in your component for import the ButtonToggle directive i
 
 Then you can use insert a btn-toggle tag into you html when you want the element to appear.
 
-e.g. `<btn-toggle active="Active" inactive="Inactive" [(value)]="value"></btn-toggle>`
+e.g. 
+```html
+<btn-toggle active="Active" inactive="Inactive" [(value)]="value"></btn-toggle>
+```
 
 A Button Toggle has 3 attributes that can be set.
 
@@ -33,7 +36,10 @@ To use a button group in your component for import the ButtonGroup directive int
 
 Then you can use insert a btn-group tag into you html when you want the element to appear.
 
-e.g. `<btn-group [items]="['One', 'Two', 'Three', 'Four']" [(selected)]="value"></btn-group>`
+e.g. 
+```html
+<btn-group [items]="['One', 'Two', 'Three', 'Four']" [(selected)]="value"></btn-group>
+```
 
 A Button Group has 2 attributes that can be set.
 
@@ -66,7 +72,10 @@ The following attributes are common for all fancy toggle buttons.
 
 Creates a toggle switch that display text inside the toggle space.
 
-e.g. `<fancy-toggle type="text" [(state)]="value" inactive="Off" active="On"></fancy-toggle>`
+e.g. 
+```html
+<fancy-toggle type="text" [(state)]="value" inactive="Off" active="On"></fancy-toggle>
+```
 
 A Text Toggle has 2 extra attributes that can be set.
 
@@ -81,7 +90,10 @@ A Text Toggle has 2 extra attributes that can be set.
 
 Creates a toggle switch that displays an image based off of the state of the toggle
 
-e.g. `<fancy-toggle type="image" [(state)]="value" inactive="/img/off_img.png" active="/img/on_img.png"></fancy-toggle>`
+e.g. 
+```html
+<fancy-toggle type="image" [(state)]="value" inactive="/img/off_img.png" active="/img/on_img.png"></fancy-toggle>
+```
 
 A Image Toggle has 2 extra attributes that can be set.
 
@@ -96,7 +108,10 @@ A Image Toggle has 2 extra attributes that can be set.
 
 Creates a toggle switch that displays an icon based off of the state of the toggle.
 
-e.g. `<fancy-toggle type="image" [(state)]="value" inactive="fa fa-times" active="fa fa-tick"></fancy-toggle>`
+e.g. 
+```html
+<fancy-toggle type="image" [(state)]="value" inactive="fa fa-times" active="fa fa-tick"></fancy-toggle>
+```
 
 A Image Toggle has 3 extra attributes that can be set.
 
@@ -112,7 +127,10 @@ A Image Toggle has 3 extra attributes that can be set.
 
 Creates a simple toggle switch that looks like the toggles used in iOS.
 
-e.g. `<fancy-toggle type="ios" [(state)]="value" inactive="Off" active="On"></fancy-toggle>`
+e.g. 
+```html
+<fancy-toggle type="ios" [(state)]="value" inactive="Off" active="On"></fancy-toggle>
+```
 
 A iOS Toggle has no extra attributes that can be set.
 
@@ -128,7 +146,10 @@ To use a slider in your component for import the Slider directive into your comp
 
 Then you can use insert a slider attribute into you html when you want the element to 
 
-e.g. `<div slider align="horizontal" [min]="-65535" max="65535" [(value)]="slider2"></div>`
+e.g. 
+```html
+<div slider align="horizontal" [min]="-65535" max="65535" [(value)]="slider2"></div>
+```
 
 A Slider has 4 attributes that can be set.
 
