@@ -151,12 +151,13 @@ To use a tab group in your component for import the TABS_DIRECTIVES into your co
 
 Then you can use insert a tab-group tag into you html when you want the element to appear.
 
-e.g. `
+e.g. 
+```html
 <tab-group [(state)]="tab_value" routable="route" routeParam="tab">
     <tab-head id="0">Title of Tab</tab-head>
     <tab-body id="0">Content of Tab</tab-body>
 </tab-group>
-`
+```
 
 A TabGroup has 3 attributes that can be set.
 
@@ -203,7 +204,8 @@ Button Toggles and Button Groups share the same CSS.
 The styles of buttons can be changes using the css class `aca-btn-c1`
 When a button is active the css class `active` is also applied the active element
 
-e.g. `
+e.g. 
+```css
   .aca-btn-c1 {
       /*background-color: #123456;*/
       border: 3px solid #123456;
@@ -221,7 +223,7 @@ e.g. `
       border: 3px solid #123456;
   }
 
-`
+```
 
 ### Slider
 The styles of sliders can be changes using the css classes `aca-slider-c1, aca-slider-c2 & aca-slider-c3`
@@ -230,7 +232,8 @@ The styles of sliders can be changes using the css classes `aca-slider-c1, aca-s
 * `aca-slider-c2` is applied on the progress strip of the bar.
 * `aca-slider-c3` is applied on the knob of the slider.
 
-e.g. `
+e.g. 
+```css
   .aca-slider-c1 {
       background-color:  #123456;
   }
@@ -241,7 +244,7 @@ e.g. `
       background-color: #454545;
   }
 
-`
+```
 
 ## License
 
