@@ -176,6 +176,8 @@ A TabHead has 1 attributes that can be set.
 
 * `id` which is the identifier of the tab this is also used to refernce the TabBody that it matches with.
 
+`id` is one-way bound.
+
 #### Tab Body
 
 Inside tab groups the contents for the body for each tab is defined within a tab-body tag
@@ -183,6 +185,63 @@ Inside tab groups the contents for the body for each tab is defined within a tab
 A TabBody has 1 attributes that can be set.
 
 * `id` which is the identifier of the tab this is also used to refernce the TabHead that it matches with.
+
+`id` is one-way bound.
+
+## Custom Styling
+
+All stylable elements have and attribute to all for adding a css class prefix to the element.
+
+`stylePrefix` attribute add the set prefix to the root element in the widget component.
+
+`stylePrefix` is one-way bound.
+
+### Button
+
+Button Toggles and Button Groups share the same CSS.
+
+The styles of buttons can be changes using the css class `aca-btn-c1`
+When a button is active the css class `active` is also applied the active element
+
+e.g. `
+  .aca-btn-c1 {
+      /*background-color: #123456;*/
+      border: 3px solid #123456;
+  }
+
+  .aca-btn-c1:hover, .btn-test .aca-btn-c1.active:hover {
+      background-color: #345678;
+      color: #FFFFFF;
+      border: 3px solid #123456;
+  }
+
+  .aca-btn-c1.active{
+      background-color: #123456;
+      color: #FFFFFF;
+      border: 3px solid #123456;
+  }
+
+`
+
+### Slider
+The styles of sliders can be changes using the css classes `aca-slider-c1, aca-slider-c2 & aca-slider-c3`
+
+* `aca-slider-c1` is applied on the slider bar base.
+* `aca-slider-c2` is applied on the progress strip of the bar.
+* `aca-slider-c3` is applied on the knob of the slider.
+
+e.g. `
+  .aca-slider-c1 {
+      background-color:  #123456;
+  }
+  .aca-slider-c2 {
+      background-color:  #1239A4;
+  }
+  .aca-slider-c3 {
+      background-color: #454545;
+  }
+
+`
 
 ## License
 
