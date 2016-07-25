@@ -1,1 +1,1 @@
-export * from './btn-group.component.ts';
+export * from './btn-group.component';

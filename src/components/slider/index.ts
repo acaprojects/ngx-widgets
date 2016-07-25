@@ -1,1 +1,1 @@
-export * from './slider.component.ts';
+export * from './slider.component';

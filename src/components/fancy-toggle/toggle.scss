@@ -16,6 +16,7 @@ $bg-color: #FFFFFF;
         box-sizing: content-box;
         color: $bg-color;
         background-color: $bg-color - #222222;
+        cursor: pointer;
         & .text{
             position: absolute;
             box-sizing: content-box;
@@ -49,6 +50,7 @@ $bg-color: #FFFFFF;
     & .image-toggle{
         width: $dim;
         height: $dim;
+        cursor: pointer;
         & .toggle-img{
             max-width: 100%;
             max-height: 100%;
@@ -59,6 +61,7 @@ $bg-color: #FFFFFF;
         position: relative;
         width: $dim;
         height: $dim;
+        cursor: pointer;
         & .toggle-icon {
             position: relative;
             width: 100%;
@@ -97,6 +100,7 @@ $bg-color: #FFFFFF;
         border-radius: $dim;
         border: 1px solid $border-color;
         background-color: $bg-color;
+        cursor: pointer;
         & .toggle-knob {
             position:absolute;
             height: 90%;

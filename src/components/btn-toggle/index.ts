@@ -1,1 +1,1 @@
-export * from './btn-toggle.component.ts';
+export * from './btn-toggle.component';

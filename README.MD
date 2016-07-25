@@ -6,6 +6,8 @@ Import the desired widget into your component.
 
 ### Button Toggle
 
+A simple button for toggling.
+
 Import `import { ButtonToggle } from '@aca/a2-widgets';`
 
 To use a Button Toggle in your component for import the ButtonToggle directive into your component.
@@ -27,6 +29,8 @@ A Button Toggle has 3 attributes that can be set.
 `value` is two-way bound.
 
 ### Button Groups
+
+A group of button toggles
 
 ![Image of Button Group](https://cdn.yuion.net/projects/aca/img/btn-group.png)
 
@@ -50,6 +54,8 @@ A Button Group has 2 attributes that can be set.
 `selected` is two-way bound.
 
 ### Toggle Buttons
+
+An array of various types of customisable toggle buttons.
 
 Import `import { FancyToggle } from '@aca/a2-widgets';`
 
@@ -140,6 +146,8 @@ A iOS Toggle has no extra attributes that can be set.
 
 ![Image of Vertical Slider](https://cdn.yuion.net/projects/aca/img/slider-vert.png)
 
+A simple slider that can be vertical or horizontal.
+
 Import `import { Slider } from '@aca/a2-widgets';`
 
 To use a slider in your component for import the Slider directive into your component.
@@ -209,6 +217,36 @@ A TabBody has 1 attributes that can be set.
 * `id` which is the identifier of the tab this is also used to refernce the TabHead that it matches with.
 
 `id` is one-way bound.
+
+### Interactive Map
+
+![Image of Interactive Maps](https://cdn.yuion.net/projects/aca/img/interactive-map.png)
+
+An interactive map which renders a svg xml which is scalable and pannable.
+
+Import `import { InteractiveMap } from '@aca/a2-widgets';`
+
+To use a interactive map in your component for import the InteractiveMap into your component.
+
+Then you can use insert a interactive-map tag into you html when you want the element to appear.
+
+The interactive map will fill the parent container so make sure you size the parent to reflect how you want your map to be displayed.
+
+e.g. 
+```html
+<interactive-map map="/assets/img/map.svg" [active]="true" [controls]="true" [zoomMax]="400" (tap)="doSomething($event)"></interactive-map>
+```
+
+An Interactive Map has 4 attributes that can be set and one that can be read from.
+
+* `map` which determines if the tab value affects the routing of the application.
+* `zoomMax` is used to set the maximum zoom level of the map i.e. 100 + zoomMax is the max zoom in %.
+* `active` is used when the maps visibility changes so that the map area can update correctly.
+* `controls` is used to set whether or not the zoom controls are displayed.
+* `tap` is used to get the ids of the elements in the svg that have been click/tapped on.
+
+`map`, `zoomMax`, `active` & `controls` are one-way bindings.
+`tab` is one-way bound read-only.
 
 ## Custom Styling
 
