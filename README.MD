@@ -32,7 +32,7 @@ A Button Toggle has 3 attributes that can be set.
 
 A group of button toggles
 
-![Image of Button Group](https://cdn.yuion.net/projects/aca/img/btn-group.png)
+![Image of Button Group](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
 
 Import `import { ButtonGroup } from '@aca/a2-widgets';`
 
@@ -74,7 +74,7 @@ The following attributes are common for all fancy toggle buttons.
 
 #### Text Toggle
 
-![Image of Text Toggle](https://cdn.yuion.net/projects/aca/img/toggle-text.png)
+![Image of Text Toggle](https://cloud.githubusercontent.com/assets/20103948/17200838/e66ef50c-54cb-11e6-83e6-2994dbb055b7.png)
 
 Creates a toggle switch that display text inside the toggle space.
 
@@ -92,7 +92,7 @@ A Text Toggle has 2 extra attributes that can be set.
 
 #### Image Toggle
 
-![Image of Image Toggle](https://cdn.yuion.net/projects/aca/img/toggle-img.png)
+![Image of Image Toggle](https://cloud.githubusercontent.com/assets/20103948/17200836/e669e7ec-54cb-11e6-9f70-18fb15432ec7.png)
 
 Creates a toggle switch that displays an image based off of the state of the toggle
 
@@ -110,7 +110,7 @@ A Image Toggle has 2 extra attributes that can be set.
 
 #### Icon Toggle
 
-![Image of Icon Toggle](https://cdn.yuion.net/projects/aca/img/toggle-icon.png)
+![Image of Icon Toggle](https://cloud.githubusercontent.com/assets/20103948/17200835/e62640e6-54cb-11e6-9417-16eaafe6a512.png)
 
 Creates a toggle switch that displays an icon based off of the state of the toggle.
 
@@ -129,7 +129,7 @@ A Image Toggle has 3 extra attributes that can be set.
 
 #### iOS Toggle
 
-![Image of iOS Toggle](https://cdn.yuion.net/projects/aca/img/toggle-ios.png)
+![Image of iOS Toggle](https://cloud.githubusercontent.com/assets/20103948/17200837/e66d32ee-54cb-11e6-94ce-c38d6cfe0eb2.png)
 
 Creates a simple toggle switch that looks like the toggles used in iOS.
 
@@ -142,9 +142,9 @@ A iOS Toggle has no extra attributes that can be set.
 
 ### Slider
 
-![Image of Horizontal Slider](https://cdn.yuion.net/projects/aca/img/slider-horz.png)
+![Image of Horizontal Slider](https://cloud.githubusercontent.com/assets/20103948/17200832/e61af240-54cb-11e6-8401-9f64821a1b76.png)
 
-![Image of Vertical Slider](https://cdn.yuion.net/projects/aca/img/slider-vert.png)
+![Image of Vertical Slider](https://cloud.githubusercontent.com/assets/20103948/17200833/e61ea930-54cb-11e6-938f-21c7d0ad7b5d.png)
 
 A simple slider that can be vertical or horizontal.
 
@@ -172,7 +172,7 @@ A Slider has 4 attributes that can be set.
 
 ### Tab Group
 
-![Image of Tab Group](https://cdn.yuion.net/projects/aca/img/tab-group.png)
+![Image of Tab Group](https://cloud.githubusercontent.com/assets/20103948/17200834/e620bebe-54cb-11e6-912c-a1d6ed4717dc.png)
 
 Import `import { TABS_DIRECTIVES } from '@aca/a2-widgets';`
 
@@ -220,7 +220,7 @@ A TabBody has 1 attributes that can be set.
 
 ### Interactive Map
 
-![Image of Interactive Maps](https://cdn.yuion.net/projects/aca/img/interactive-map.png)
+![Image of Interactive Maps](https://cloud.githubusercontent.com/assets/20103948/17200831/e6176fb2-54cb-11e6-99c5-9348a5b1991b.png)
 
 An interactive map which renders a svg xml which is scalable and pannable.
 
