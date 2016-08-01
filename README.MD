@@ -4,6 +4,8 @@
 
 Import the desired widget into your component.
 
+All two-way bindings can be read on one-way binding `<attribute>Change`. e.g. `stateChange`
+
 ### Button Toggle
 
 A simple button for toggling.
@@ -19,14 +21,13 @@ e.g.
 <btn-toggle active="Active" inactive="Inactive" [(value)]="value"></btn-toggle>
 ```
 
-A Button Toggle has 3 attributes that can be set.
+A Button Toggle has 3 attributes.
 
-* `active` is used to define the text displayed inside the button when it is in an active state.
-* `inactive` is used to define the text displayed inside the button when it is in an inactive state.
-* `value` is used to get and set the state of the button.
-
-`active` & `inactive` are one-way bindings.
-`value` is two-way bound.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`active`| One-way | Write-only | String | Used to define the text displayed inside the button when it is in an active state.
+`inactive`| One-way | Write-only | String | Used to define the text displayed inside the button when it is in an inactive state.
+`value`| Two-way | Read & Write | Boolean | Used to get and set the state of the button
 
 ### Button Groups
 
@@ -45,13 +46,12 @@ e.g.
 <btn-group [items]="['One', 'Two', 'Three', 'Four']" [(selected)]="value"></btn-group>
 ```
 
-A Button Group has 2 attributes that can be set.
+A Button Group has 2 attributes.
 
-* `items` is an array used to define the text displayed on each of the buttons.
-* `selected` is used to get and set the index of the button that is selected within the group.
-
-`items` is one-way bindings.
-`selected` is two-way bound.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`items`| One-way | Write-only | String Array | Used to define the text displayed on each of the buttons.
+`selected`| Two-way | Read & Write | Integer | Used to get and set the index of the button that is selected within the group.
 
 ### Toggle Buttons
 
@@ -65,12 +65,11 @@ Then you can use insert a fancy-toggle tag into you html when you want the eleme
 
 The following attributes are common for all fancy toggle buttons.
 
-* `type` attribute is used to select the type of toggle button that you wish to use.
-** The value of `type` can be 'text', 'image', 'icon', and 'ios'.
-* `state` is used to get and set the state of the button.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`type`| One-way | Write-only | String | Used to select the type of toggle button that you wish to use. Value can be 'text', 'image', 'icon', and 'ios'.
+`state`| Two-way | Read & Write | Boolean | Used to get and set the state of the toggle
 
-`type` is one-way bound.
-`state` is two-way bound.
 
 #### Text Toggle
 
@@ -83,12 +82,12 @@ e.g.
 <fancy-toggle type="text" [(state)]="value" inactive="Off" active="On"></fancy-toggle>
 ```
 
-A Text Toggle has 2 extra attributes that can be set.
+A Text Toggle has 2 other attributes.
 
-* `active` is used to define the text displayed inside the toggle when it is in an active state.
-* `inactive` is used to define the text displayed inside the toggle when it is in an inactive state.
-
-`inactive` & `active` are one-way bindings.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`active`| One-way | Write-only | String | Used to define the text displayed inside the toggle when it is in an active state.
+`inactive`| One-way | Write-only | String | Used to define the text displayed inside the toggle when it is in an inactive state.
 
 #### Image Toggle
 
@@ -101,12 +100,12 @@ e.g.
 <fancy-toggle type="image" [(state)]="value" inactive="/img/off_img.png" active="/img/on_img.png"></fancy-toggle>
 ```
 
-A Image Toggle has 2 extra attributes that can be set.
+A Image Toggle has 2 other attributes.
 
-* `active` is used to define the image displayed when the toggle it is in an active state.
-* `inactive` is used to define the image displayed when the toggle it is in an inactive state.
-
-`inactive` & `active` are one-way bindings.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`active`| One-way | Write-only | String | Used to define the image file used for the toggle when it is in an active state.
+`inactive`| One-way | Write-only | String | Used to define the image file used for the toggle when it is in an inactive state.
 
 #### Icon Toggle
 
@@ -119,13 +118,13 @@ e.g.
 <fancy-toggle type="image" [(state)]="value" inactive="fa fa-times" active="fa fa-tick"></fancy-toggle>
 ```
 
-A Image Toggle has 3 extra attributes that can be set.
+A Image Toggle has 3 other attributes.
 
-* `active` is used to define the css styles of the icon to be displayed when the toggle it is in an active state.
-* `inactive` is used to define the image displayed when the toggle it is in an inactive state.
-* `shape` is used to define the shape of the bound box of the toggle.
-
-`inactive`, `active` & `shape` are one-way bindings.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`active`| One-way | Write-only | String | Used to define the icon css classes used for the toggle when it is in an active state.
+`inactive`| One-way | Write-only | String | Used to define the icon css classes used for the toggle when it is in an inactive state.
+`shape`| One-way | Write-only | String | Used to define the shape of the bound box of the toggle. Value can be `circle` or `square`
 
 #### iOS Toggle
 
@@ -138,7 +137,7 @@ e.g.
 <fancy-toggle type="ios" [(state)]="value" inactive="Off" active="On"></fancy-toggle>
 ```
 
-A iOS Toggle has no extra attributes that can be set.
+A iOS Toggle has no other attributes that can be set.
 
 ### Slider
 
@@ -159,16 +158,14 @@ e.g.
 <div slider align="horizontal" [min]="-65535" max="65535" [(value)]="slider2"></div>
 ```
 
-A Slider has 4 attributes that can be set.
+A Slider has 4 attributes.
 
-* `align` which determines the direction of the slider.
-** The value of `align` can be 'horizontal', or 'vertical'.
-* `min` is used set the minimum value of the slider.
-* `max` is used set the maximum value of the slider.
-* `value` is used to get and set the state of the button.
-
-`align`, `min` & `max` are one-way bindings.
-`value` is two-way bound.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`align`| One-way | Write-only | String | Used to determine the render direction of the slider. Value can be 'horizontal', or 'vertical'.
+`min`| One-way | Write-only | Integer | Used set the minimum value of the slider.
+`max`| One-way | Write-only | Integer | Used set the maximum value of the slider.
+`value`| Two-way | Read & Write | Integer | Used get the value of the slider.
 
 ### Tab Group
 
@@ -188,35 +185,33 @@ e.g.
 </tab-group>
 ```
 
-A TabGroup has 3 attributes that can be set.
+A TabGroup has 3 attributes.
 
-* `routable` which determines if the tab value affects the routing of the application.
-** The value of `routable` can be 'route', 'query', or 'hash'.
-* `routeParam` is used to name the variable that is used in routing for the selection of tab.
-* `state` is used to get and set the id of the selected tab.
-
-`routable` & `routeParam` are one-way bindings.
-`state` is two-way bound.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`routable`| One-way | Write-only | String | Used to determine if the tabs read and write to the route of the application. Value can be 'route', 'query', or 'hash'.
+`routeParam`| One-way | Write-only | String | Used to name the variable that is used in routing for the selection of tab.
+`state`| Two-way | Read & Write | String | Used to get and set the id of the selected tab.
 
 #### Tab Head
 
 Inside tab groups the contents for the heading for each tab is defined within a tab-head tag
 
-A TabHead has 1 attributes that can be set.
+A TabHead has 1 attributes.
 
-* `id` which is the identifier of the tab this is also used to refernce the TabBody that it matches with.
-
-`id` is one-way bound.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`id`| One-way | Write-only | String | Used to set identifier of the tab this is also used to refernce the TabBody that it matches with.
 
 #### Tab Body
 
 Inside tab groups the contents for the body for each tab is defined within a tab-body tag
 
-A TabBody has 1 attributes that can be set.
+A TabBody has 1 attributes.
 
-* `id` which is the identifier of the tab this is also used to refernce the TabHead that it matches with.
-
-`id` is one-way bound.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`id`| One-way | Write-only | String | Used to set identifier of the tab this is also used to refernce the TabHead that it matches with.
 
 ### Interactive Map
 
@@ -237,24 +232,58 @@ e.g.
 <interactive-map map="/assets/img/map.svg" [active]="true" [controls]="true" [zoomMax]="400" (tap)="doSomething($event)"></interactive-map>
 ```
 
-An Interactive Map has 4 attributes that can be set and one that can be read from.
+An Interactive Map has 6 attributes.
 
-* `map` which determines if the tab value affects the routing of the application.
-* `zoomMax` is used to set the maximum zoom level of the map i.e. 100 + zoomMax is the max zoom in %.
-* `active` is used when the maps visibility changes so that the map area can update correctly.
-* `controls` is used to set whether or not the zoom controls are displayed.
-* `tap` is used to get the ids of the elements in the svg that have been click/tapped on.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`map`| One-way | Write-only | String | Used to set the svg image used for the map.
+`zoom`| Two-way | Read & Write | Integer | Used to set and get the zoom level of the map.
+`zoomMax`| One-way | Write-only | Integer | Used to set the maximum zoom level of the map i.e. 100 + zoomMax is the max zoom in %.
+`active`| One-way | Write-only | Boolean | Used when the maps visibility changes so that the map area can update correctly.
+`controls`| One-way | Write-only | Boolean | Used to set whether or not the zoom controls are displayed.
+`tap`| One-way | Read-only | Object | Used to get classes of items inside the map that were tap/clicked on.
 
-`map`, `zoomMax`, `active` & `controls` are one-way bindings.
-`tab` is one-way bound read-only.
+### Calendar
+
+A Calendar which allows for selecting a date and time.
+
+Import `import { Calendar } from '@aca/a2-widgets';`
+
+To use a Calendar in your component for import the Calendar directive into your component.
+
+Then you can use insert a calendar tag into you html when you want the element to appear.
+
+e.g. 
+```html
+<calendar [(date)]="start_date" [(time)]="start_time" selectTime="true" futureOnly="true"></calendar>
+```
+
+![Image of Calendar](https://cloud.githubusercontent.com/assets/20103948/17283852/7dd71436-57f8-11e6-920c-56b04ef446ef.png)
+
+![Image of Calendar Time picker](https://cloud.githubusercontent.com/assets/20103948/17283853/7dd982e8-57f8-11e6-92b1-f688a2ee0fd2.png)
+
+A Calendar has 6 attributes.
+
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`date`| Two-way | Read & Write | Date | Used to get and set the date value used by the calendar.
+`minDate`| One-way | Write-only | Date | Used to define first date that is selectable by the user.
+`futureOnly`| One-way | Write-only | Boolean | Sets `minDate` to the current date if true.
+`selectTime`| One-way | Write-only | Boolean | Allows the user to set the time of day.
+`time`| Two-way | Write-only | Object | Used to get and set the time value of the selected date. i.e. time object is { h: <hour>, m: <min> }
+`minuteStep`| One-way | Write-only | Integer | Sets number of minutes the added or removed when minutes is changed.
+
 
 ## Custom Styling
 
-All stylable elements have and attribute to all for adding a css class prefix to the element.
+All stylable elements have an attribute for adding a css class prefix to the element and attributes for setting colours.
 
-`stylePrefix` attribute add the set prefix to the root element in the widget component.
-
-`stylePrefix` is one-way bound.
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`cssClass`| One-way | Write-only | String | Added the set value to the classes of the root element.
+`color1` | One-way | Write-only | String | Sets the background colour of the element.
+`color2` | One-way | Write-only | String | Sets the foreground colour of the element.
+`colors` | One-way | Write-only | Object | Sets the background and foreground colours of the element. e.g. { fg: '#123456', bg: '#FFF' }
 
 ### Button
 

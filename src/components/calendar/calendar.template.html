@@ -1,0 +1,75 @@
+<div class="calendar">
+	<div class="arrow left" [style.color]="color1" (click)="prevMonth()">
+		&#x27E8;
+	</div>
+	<div class="calendar-space">
+		<div class="header" [style.color]="color2" [style.background-color]="color1"> {{months[display_month]}} {{display_year}}</div>
+		<div class="week-days">
+			<div class="weekday" *ngFor="let day of days;let i = index" [class.even]="i%2==0">{{day}}</div>
+		</div>
+		<div class="divider"><div class="inner"></div></div>
+		<div class="month-days">
+			<div class="week" *ngFor="let week of [0, 1, 2, 3, 4, 5]">
+				<div class="day" *ngFor="let day of [0, 1, 2, 3, 4, 5, 6]"
+					[style.background-color]="isActive(week, day)?color1:''" 
+					[style.color]="isActive(week, day)?color2:''" 
+					[class.valid]="isValid(week, day)" 
+					[class.today]="isToday(week, day)" 
+					[class.past]="isPast(week, day)" 
+					[class.active]="isActive(week, day)"
+					[class.disabled]="isBeforeMinDate(week, day)" 
+					(click)="selectDate(week, day)">
+					
+					{{month_node[week * 7 + day]}}
+				</div>
+			</div>
+		</div>
+		<div class="divider"><div class="inner"></div></div>
+		<div class="key">
+			<div class="item">
+				<div class="color today"></div>
+				<div class="text">Today</div>
+			</div>
+			<div class="item">
+				<div class="color active" [style.background-color]="color1"></div>
+				<div class="text">Selected</div>
+			</div>
+			<div class="item">
+				<div class="color disabled"></div>
+				<div class="text">Unavailable</div>
+			</div>
+		</div>
+	</div>
+	<div class="arrow right" [style.color]="color1" (click)="nextMonth()">
+		&#x27E9;
+	</div>
+	<div @dateTime="pick_time" class="time-picker">
+		<div class="time-space">
+			<div class="header">Pick time of day on the {{ formatDate() }}</div>
+			<div class="picker">
+				<div class="pick">
+					<div class='change' [style.color]="color1" (click)="addHour()">&#x27E8;</div>
+					<div class='set'>
+						{{display_hour}}
+					</div>
+					<div class='change' [style.color]="color1" (click)="minusHour()">&#x27E9;</div>
+				</div>
+				<div class="pick">
+					<div class='change' [style.color]="color1" (click)="addMinute()">&#x27E8;</div>
+					<div class='set'>
+						{{display_minutes < 10 ? '0' + display_minutes : display_minutes }}
+					</div>
+					<div class='change' [style.color]="color1" (click)="minusMinute()">&#x27E9;</div>
+				</div>
+				<div class="pick btn">
+					<div class="btn" (click)="changePeriod()" [style.background-color]="color1"  [style.color]="color2">
+						<buttton class="am-pm">{{display_period}}</buttton>
+					</div>
+				</div>
+			</div>
+			<div class="finish-btn" >
+				<div class="btn" [style.background-color]="color1"  [style.color]="color2" (click)="timeSet()"> Done </div>
+			</div>
+		</div>
+	</div>
+</div>

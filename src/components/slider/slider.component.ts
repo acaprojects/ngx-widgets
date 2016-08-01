@@ -17,7 +17,7 @@ export class Slider {
     @Input() value: number = 0;
     @Input() step: number = 1;
     @Input() precision: number = 1;
-    @Input() stylePrefix: string = '';
+    @Input() cssClass: string = '';
     @Output() valueChange = new EventEmitter();
     //*
         //Slider Bar

@@ -47,7 +47,7 @@ export class FancyToggle {
     @Input() active: string;
     @Input() inactive: string;
     @Input() shape: string;
-    @Input() colours: { active: string, inactive: string, bg: string };
+    @Input() colors: { active: string, inactive: string, bg: string };
     @Output() stateChange = new EventEmitter();
     //*
         //Toggle Knob

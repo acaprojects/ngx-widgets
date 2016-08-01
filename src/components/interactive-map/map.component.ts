@@ -14,9 +14,11 @@ declare let Hammer: any;
 export class InteractiveMap {
     @Input() map: string;
     @Input() zoomMax: number = 200;
+    @Input() zoom: number = 0;
     @Input() controls: boolean = true;
     @Input() active: boolean = true;
     @Output() tap = new EventEmitter();
+    @Output() zoomChange = new EventEmitter();
     //*
         //Toggle Knob
     @ViewChild('displayArea')  self: ElementRef;
@@ -27,13 +29,13 @@ export class InteractiveMap {
     map_data: any;
     map_item: any;
     touchmap: any;
-    zoom: number = 50; // As Percentage
+    private _zoom: number = 50; // As Percentage
     rotate: number = 0; // In degrees
     left: number = 0;
     top: number = 0;
     maxTop: number = 100;
     maxLeft: number = 100;
-    zoomChange: boolean = false;
+    zoomed: boolean = false;
     debug: string[] = [];
     map_orientation: string = '';
 
@@ -75,6 +77,9 @@ export class InteractiveMap {
         if(changes.map){
             this.loadMapData();
         }
+        if(changes.zoom) {
+        	this._zoom = this.zoom;
+        }
     }
 
     loadMapData() {
@@ -90,7 +95,7 @@ export class InteractiveMap {
             this.map_display.nativeElement.innerHTML = this.map_data;
             this.map_item = this.map_display.nativeElement.children[0];
             this.map_item.style[this.map_orientation] = '100%';
-            this.zoomChange = true;
+            this.zoomed = true;
             setTimeout(() => { this.resize(); }, 200);
         }
     }
@@ -136,26 +141,26 @@ export class InteractiveMap {
 
     scaleMap(event) {
         this.debug.push(JSON.stringify(event));
-        this.zoom += event.scale;
-        this.zoomChange = true;
+        this._zoom += event.scale;
+        this.zoomed = true;
         this.redraw();
     }
 
     zoomIn() {
-        this.zoom += 10;
-        this.zoomChange = true;
+        this._zoom += 10;
+        this.zoomed = true;
         this.redraw();
     }
 
     zoomOut() {
-        this.zoom -= 10;
-        this.zoomChange = true;
+        this._zoom -= 10;
+        this.zoomed = true;
         this.redraw();
     }
 
     resetZoom() {
-        this.zoom = 0;
-        this.zoomChange = true;
+        this._zoom = 0;
+        this.zoomed = true;
         this.redraw();
     }
 
@@ -171,15 +176,17 @@ export class InteractiveMap {
         else if(this.left > 0) this.left = 0;
         if(this.top < -this.maxTop) this.top = -this.maxTop;
         else if(this.top > 0) this.top = 0;
-        if(this.zoom > this.zoomMax) this.zoom = this.zoomMax;
-        else if (this.zoom < -50) this.zoom = -50;
+        if(this._zoom > this.zoomMax) this._zoom = this.zoomMax;
+        else if (this._zoom < -50) this._zoom = -50;
+        this.zoom = this._zoom;
+        this.zoomChange.emit(this._zoom);
         this.rotate = this.rotate % 360;
             // Update map
-        this.map_display.nativeElement.style[this.map_orientation] = 100 + this.zoom + '%';
+        this.map_display.nativeElement.style[this.map_orientation] = 100 + this._zoom + '%';
         this.map_display.nativeElement.style.top = this.top + 'px';
         this.map_display.nativeElement.style.left = this.left + 'px';
-        if(this.zoomChange) {
-            this.zoomChange = false;
+        if(this.zoomed) {
+            this.zoomed = false;
             this.update();
         }
     }

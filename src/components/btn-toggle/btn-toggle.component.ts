@@ -10,7 +10,7 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angu
 export class ButtonToggle {
     @Input() active;
     @Input() inactive;
-    @Input() stylePrefix: string = '';
+    @Input() cssClass: string = '';
     @Input() value: boolean = false;
     @Output() valueChange = new EventEmitter();
     available: boolean = false;
