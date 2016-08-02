@@ -274,6 +274,21 @@ Name | Bindings | Direction | Valid Types | Description
 `time`| Two-way | Write-only | Object | Used to get and set the time value of the selected date. i.e. time object is { h: <hour>, m: <min> }
 `minuteStep`| One-way | Write-only | Integer | Sets number of minutes the added or removed when minutes is changed.
 
+## Modals
+
+### Setup
+
+### Directive
+
+### Service
+
+## Notifications
+
+### Setup
+
+### Directive
+
+### Service
 
 ## Custom Styling
 
