@@ -1,11 +1,13 @@
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
+import { ACA_Animate } from '../../services';
 
 declare let Hammer: any;
 
 @Component({
     selector: 'interactive-map',
     directives: [ ],
+    providers: [ ACA_Animate ], 
     templateUrl: './map.html',
     styles: [
         require('./map.scss')
@@ -16,7 +18,6 @@ export class InteractiveMap {
     @Input() zoomMax: number = 200;
     @Input() zoom: number = 0;
     @Input() controls: boolean = true;
-    @Input() active: boolean = true;
     @Output() tap = new EventEmitter();
     @Output() zoomChange = new EventEmitter();
     //*
@@ -33,26 +34,55 @@ export class InteractiveMap {
     rotate: number = 0; // In degrees
     left: number = 0;
     top: number = 0;
+    useTop: number = 0;
+    useLeft: number = 0;
     maxTop: number = 100;
     maxLeft: number = 100;
     zoomed: boolean = false;
     debug: string[] = [];
     map_orientation: string = '';
+    activate: boolean = false;
+    de: any;
+    active = false;
 
 
 
-    constructor(private http: Http){
+    constructor(private http: Http, private a: ACA_Animate){
     }
 
-    ngInit(){
-        setInterval(() => {
-            if(this.active) this.resize();
-        }, 1000);
+    draw: any;
+
+    ngOnInit(){
+    	this.setupUpdate();
+
+    	this.draw = this.a.animation(() => {
+            	// Clean up any dimension changes
+	        if(this.left < -this.maxLeft) this.left = -this.maxLeft;
+	        else if(this.left > 0) this.left = 0;
+	        if(this.top < -this.maxTop) this.top = -this.maxTop;
+	        else if(this.top > 0) this.top = 0;
+	        if(this._zoom > this.zoomMax) this._zoom = this.zoomMax;
+	        else if (this._zoom < -50) this._zoom = -50;
+	        this.zoom = this._zoom;
+	        this.zoomChange.emit(this._zoom);
+	        this.rotate = this.rotate % 360;
+	        return true;
+        }, () => {
+            	// Update map
+            let z = this.map_display.nativeElement.style[this.map_orientation];
+	        this.map_display.nativeElement.style[this.map_orientation] = 100 + this._zoom + '%';
+	        this.map_display.nativeElement.style.top = this.top + 'px';
+	        this.map_display.nativeElement.style.left = this.left + 'px';
+	        if(z !== (100 + this._zoom + '%')) this.update(); 
+        });
+    	this.checkStatus(null, 0);
     }
 
     ngAfterViewInit() {
         if(Hammer && this.map_area){
                 // Setup events via Hammer.js if it is included
+            this.de = new Hammer(document, {});
+            this.de.on('tap', (event) => { this.checkStatus(event, 0); })
             this.touchmap = new Hammer(this.map_area.nativeElement, {});
                 //Tap Map
             this.touchmap.on('tap', (event) => {this.tapMap(event);});
@@ -68,6 +98,28 @@ export class InteractiveMap {
                 //*/
         }
     }
+
+   	checkStatus(e, i) {
+   		if(i > 3 || !this.map_area) return;
+   		let visible = false;
+   		let el = this.map_area.nativeElement;
+   		while(el) {
+   			if(el.nodeName === 'BODY') {
+   				visible = true;
+   				break;
+   			}
+   			el = el.parentNode;
+   		}
+   		if(!visible) {
+   			this.active = false;
+   			setTimeout(() => { this.checkStatus(e, i+1); }, 100);
+   		} else {
+   			if(this.active !== visible)  {
+   				this.active = true;
+   				this.resize();
+   			}
+   		}
+   	}
 
     ngAfterContentInit() {
 
@@ -96,7 +148,7 @@ export class InteractiveMap {
             this.map_item = this.map_display.nativeElement.children[0];
             this.map_item.style[this.map_orientation] = '100%';
             this.zoomed = true;
-            setTimeout(() => { this.resize(); }, 200);
+            setTimeout(() => { this.resize(); this.update(); }, 200);
         }
     }
 
@@ -127,68 +179,51 @@ export class InteractiveMap {
         return elems;
     }
 
+
     moveMap(event) {
+    	if(this.move.x === 0 && this.move.y === 0) {
+            this.move.x = event.deltaX;
+            this.move.y = event.deltaY;
+    	}
         this.top += event.deltaY - this.move.y;
         this.left += event.deltaX - this.move.x; 
+        	// Update the display of the map
         this.redraw();
         if(event.type === 'pan' && (event.additionalEvent && event.additionalEvent.indexOf('pan') >= 0)){
             this.move.x = event.deltaX;
             this.move.y = event.deltaY;
         } else if(event.type === 'pan') {
             this.move.x = this.move.y = 0;
+            this.activate = false;
         }
     }
 
     scaleMap(event) {
         this.debug.push(JSON.stringify(event));
         this._zoom += event.scale;
-        this.zoomed = true;
         this.redraw();
+	    this.update();
     }
 
     zoomIn() {
         this._zoom += 10;
-        this.zoomed = true;
         this.redraw();
+	    this.update();
     }
 
     zoomOut() {
         this._zoom -= 10;
-        this.zoomed = true;
         this.redraw();
     }
 
     resetZoom() {
         this._zoom = 0;
-        this.zoomed = true;
         this.redraw();
+	    this.update();
     }
 
-
     private redraw(){
-        if(this.content_box.width === 0 || this.map_box.height === 0) {
-            setTimeout(() => {
-                this.resize();
-            }, 1000);
-        } 
-            // Clean up any dimension changes
-        if(this.left < -this.maxLeft) this.left = -this.maxLeft;
-        else if(this.left > 0) this.left = 0;
-        if(this.top < -this.maxTop) this.top = -this.maxTop;
-        else if(this.top > 0) this.top = 0;
-        if(this._zoom > this.zoomMax) this._zoom = this.zoomMax;
-        else if (this._zoom < -50) this._zoom = -50;
-        this.zoom = this._zoom;
-        this.zoomChange.emit(this._zoom);
-        this.rotate = this.rotate % 360;
-            // Update map
-        this.map_display.nativeElement.style[this.map_orientation] = 100 + this._zoom + '%';
-        this.map_display.nativeElement.style.top = this.top + 'px';
-        this.map_display.nativeElement.style.left = this.left + 'px';
-        if(this.zoomed) {
-            this.zoomed = false;
-            this.update();
-        }
+    	this.draw.animate();
     }
 
     resize() {
@@ -203,13 +238,21 @@ export class InteractiveMap {
         this.update();
     }
 
+    updateAnimation: any;
+
+    setupUpdate() {
+    	this.updateAnimation = this.a.animation(() => {}, () => {
+	        this.map_box = this.map_display.nativeElement.getBoundingClientRect();
+	        this.maxTop  = this.map_box.height - this.content_box.height;
+	        this.maxLeft = this.map_box.width - this.content_box.width;
+	        if(this.maxTop < 0) this.maxTop = 0;
+	        if(this.maxLeft < 0) this.maxLeft = 0;
+	        this.redraw();
+	    });
+    }
+
     update() {
-        this.map_box = this.map_display.nativeElement.getBoundingClientRect();
-        this.maxTop  = this.map_box.height - this.content_box.height;
-        this.maxLeft = this.map_box.width - this.content_box.width;
-        if(this.maxTop < 0) this.maxTop = 0;
-        if(this.maxLeft < 0) this.maxLeft = 0;
-        this.redraw();
+    	this.updateAnimation.animate();
     }
 
 }

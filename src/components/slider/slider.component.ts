@@ -1,10 +1,12 @@
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { ACA_Animate } from '../../services';
 
 declare let Hammer: any;
 
 @Component({
     selector: '[slider]',
     directives: [ ],
+    providers: [ ACA_Animate ],
     templateUrl: './slider.html',
     styles: [
         require('./slider.scss')
@@ -20,6 +22,8 @@ export class Slider {
     @Input() cssClass: string = '';
     @Output() valueChange = new EventEmitter();
     //*
+    @ViewChild('vspace') vspace:any;
+    @ViewChild('hspace') hspace:any;
         //Slider Bar
     @ViewChild('barVert') vslider:any;
     @ViewChild('barHorz') hslider:any;
@@ -35,19 +39,18 @@ export class Slider {
     knob: ElementRef;
     bar: ElementRef;
     prog: ElementRef;
+    space: ElementRef;
+    de: any;
     touchbar: any;
     touchknob: any;
     bb : any;
 
-    constructor(){
+    constructor(private a: ACA_Animate){
     }
 
     ngAfterViewInit(){
         this.available = true;
         this.initElements();
-        setInterval(() => {
-            this.updateValue(true);
-        }, 1000);
     }
 
     ngOnChanges(changes: any){
@@ -67,6 +70,7 @@ export class Slider {
     }
 
     initElements(){
+        this.space = this.align === 'horizontal' ? this.hspace : this.vspace;
         this.bar = this.align === 'horizontal' ? this.hslider : this.vslider;
         this.knob = this.align === 'horizontal' ? this.hknob : this.vknob;
         this.prog = this.align === 'horizontal' ? this.hprog : this.vprog;
@@ -90,18 +94,15 @@ export class Slider {
                     }
                 }
             };
-            this.touchbar = new Hammer(this.bar.nativeElement, {});
+            this.de = new Hammer(document, {});
+            this.de.on('tap', () => { this.checkStatus(null, 0); });
+            this.touchbar = new Hammer(this.space.nativeElement, {});
             this.touchbar.on('tap', fn);
             this.touchbar.on('pan', fn);
-            this.touchknob = new Hammer(this.knob.nativeElement, {});
-            this.touchknob.on('tap', fn);
-            this.touchknob.on('pan', fn);
             if(this.align === 'vertical'){
                 this.touchbar.get('pan').set({ directive: Hammer.DIRECTION_VERTICAL, threshold: 5 });
-                this.touchknob.get('pan').set({ directive: Hammer.DIRECTION_VERTICAL, threshold: 5 });
             } else {
                 this.touchbar.get('pan').set({ directive: Hammer.DIRECTION_HORIZONTAL, threshold: 5 });
-                this.touchknob.get('pan').set({ directive: Hammer.DIRECTION_HORIZONTAL, threshold: 5 });
             }
         } else if(this.bar && this.knob){
                 //Setup Normal Events
@@ -133,7 +134,6 @@ export class Slider {
     }
 
     slideEnd(event) {
-        //console.log(event);
         document.onmousemove = null;
         document.onmouseup = null;
         document.ontouchmove = null;
@@ -152,20 +152,22 @@ export class Slider {
     }
 
     updateValue(update:boolean = false) {
-        let range = +this.max - +this.min;
-        let percent = (this.value - this.min) / range;
         if(!this.knob) {
             this.initElements();
             setTimeout(() => { this.updateValue(update); }, 20);
         } else if(update) {
-            if(this.align === 'horizontal') {
-                this.knob.nativeElement.style.left = percent*this.bar.nativeElement.offsetWidth + 'px';
-                this.prog.nativeElement.style.width = percent*this.bar.nativeElement.offsetWidth + 'px';
-            } else {
-                this.knob.nativeElement.style.top = (1-percent)*this.bar.nativeElement.offsetHeight + 'px';
-                this.prog.nativeElement.style.height = (percent)*this.bar.nativeElement.offsetHeight + 'px';
-                this.prog.nativeElement.style.top = (1-percent)*this.bar.nativeElement.offsetHeight + 'px';
-            }
+        	this.a.animation(() => {}, () => {
+		        let range = +this.max - +this.min;
+		        let percent = (this.value - this.min) / range;
+	            if(this.align === 'horizontal') {
+	                this.knob.nativeElement.style.left = percent*this.bar.nativeElement.offsetWidth + 'px';
+	                this.prog.nativeElement.style.width = percent*this.bar.nativeElement.offsetWidth + 'px';
+	            } else {
+	                this.knob.nativeElement.style.top = (1-percent)*this.bar.nativeElement.offsetHeight + 'px';
+	                this.prog.nativeElement.style.height = (percent)*this.bar.nativeElement.offsetHeight + 'px';
+	                this.prog.nativeElement.style.top = (1-percent)*this.bar.nativeElement.offsetHeight + 'px';
+	            }
+            }).animate();
         }
         this.valueChange.emit(this.value);
     }
@@ -193,10 +195,24 @@ export class Slider {
         return Math.min(+this.max, Math.max(+this.min, (rounded + +this.min)));
     }
 
+   	checkStatus(e, i) {
+   		if(i > 3 || !this.space) return;
+   		let visible = false;
+   		let el = this.space.nativeElement;
+   		while(el) {
+   			if(el.nodeName === 'BODY') {
+   				visible = true;
+   				break;
+   			}
+   			el = el.parentNode;
+   		}
+   		if(!visible) setTimeout(() => { this.checkStatus(e, i+1); }, 100);
+   		else this.resize();
+   	}
+
 
     clickSlider(event) {
         if(document.onmousemove !== null) return;
-        console.log('Start Sliding');
         this.value = this.calcValue(event);
         this.updateValue();
         document.onmouseup = (event) => {
@@ -220,6 +236,7 @@ export class Slider {
 
     resize(){
         if(this.bar) this.bb = this.bar.nativeElement.getBoundingClientRect();
+        this.updateValue(true);
     }
 
     refresh(){

@@ -1,12 +1,12 @@
 <div [class]="cssClass + ' slider'" (window:resize)="resize()">
-    <div class="slider-block horizon" *ngIf="align!=='vertical'">
+    <div #hspace class="slider-block horizon" *ngIf="align!=='vertical'">
         <!-- Vertical Slider -->
         <div class="slider-bar aca-slider-c1"  #barHorz>
             <div class="slider-progress aca-slider-c2" #progressHorz></div>
             <div class="slider-knob aca-slider-c3" #knobHorz></div>
         </div>
     </div>
-    <div class="slider-block vertical" *ngIf="align==='vertical'">
+    <div #vspace class="slider-block vertical" *ngIf="align==='vertical'">
         <!-- Horizontal Slider -->
         <div class="slider-bar aca-slider-c1"  #barVert>
             <div class="slider-progress aca-slider-c2" #progressVert></div>

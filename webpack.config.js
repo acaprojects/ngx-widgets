@@ -5,7 +5,7 @@ var path = require('path');
 // Webpack Config
 var webpackConfig = {
   entry: {
-    'a2-widgets': './src/index.ts',
+    'a2-widgets': __dirname + '/src/index.ts',
   },
 
   output: {

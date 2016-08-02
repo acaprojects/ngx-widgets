@@ -6,6 +6,8 @@ Import the desired widget into your component.
 
 All two-way bindings can be read on one-way binding `<attribute>Change`. e.g. `stateChange`
 
+[Hammer.js](http://hammerjs.github.io/) version 2.x.x is required for the sliders and interactive map widgets
+
 ### Button Toggle
 
 A simple button for toggling.
@@ -232,14 +234,13 @@ e.g.
 <interactive-map map="/assets/img/map.svg" [active]="true" [controls]="true" [zoomMax]="400" (tap)="doSomething($event)"></interactive-map>
 ```
 
-An Interactive Map has 6 attributes.
+An Interactive Map has 5 attributes.
 
 Name | Bindings | Direction | Valid Types | Description
 -----|----------|-----------|-------------|------------
 `map`| One-way | Write-only | String | Used to set the svg image used for the map.
 `zoom`| Two-way | Read & Write | Integer | Used to set and get the zoom level of the map.
 `zoomMax`| One-way | Write-only | Integer | Used to set the maximum zoom level of the map i.e. 100 + zoomMax is the max zoom in %.
-`active`| One-way | Write-only | Boolean | Used when the maps visibility changes so that the map area can update correctly.
 `controls`| One-way | Write-only | Boolean | Used to set whether or not the zoom controls are displayed.
 `tap`| One-way | Read-only | Object | Used to get classes of items inside the map that were tap/clicked on.
 
