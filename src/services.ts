@@ -6,6 +6,7 @@ import { ACA_Animate } from './services';
 // Export all services
 export * from './components/modal';
 export * from './components/notification';
+export * from './services';
 
 // Export convenience property
 export const ACA_WIDGET_PROVIDERS: any[] = [

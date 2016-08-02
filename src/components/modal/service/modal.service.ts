@@ -101,7 +101,7 @@ export class ModalService {
 
 	clear() {
 		let keys = Object.keys(this.modal);
-		for(let i = 0; i < this.keys.length; i++) {
+		for(let i = 0; i < keys.length; i++) {
 			this.modal[keys[i]].close_fn();
 		}
 	}

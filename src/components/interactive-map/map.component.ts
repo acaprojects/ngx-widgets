@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
-import { ACA_Animate } from '../../services';
+import { ACA_Animate } from '../../services/animate.service';
 
 declare let Hammer: any;
 
