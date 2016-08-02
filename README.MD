@@ -353,7 +353,7 @@ Modals can also be added via code using the `ModalService`.
 ```javascript
 	open(id: String, attr?: Object);
 ```
-#### Open Function
+##### Open Function
 * No return value.
 * Function sets up the properties for the modal with the given id
 * attr can set all the writable attributes defined in the modal directive above
@@ -428,7 +428,7 @@ Notifications can also be added via code using the `NotificationService`.
 ```javascript
 	add(message: String, cssClass?: String, options?: Object);
 ```
-#### Open Function
+##### Open Function
 * Returns the id value of the notification.
 * Function opens a notification with the given `message` using the given `options`.
 * `options` has 3 properties that can be set `timeout`, `canClose` and `styles`. `timeout` defined the time in ms the notification will close if `canClose` is false. `canClose` defines is the user can close the notification. `styles` is use to define custom styles for the notification.
