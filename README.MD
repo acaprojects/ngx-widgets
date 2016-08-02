@@ -267,28 +267,133 @@ A Calendar has 6 attributes.
 
 Name | Bindings | Direction | Valid Types | Description
 -----|----------|-----------|-------------|------------
-`date`| Two-way | Read & Write | Date | Used to get and set the date value used by the calendar.
-`minDate`| One-way | Write-only | Date | Used to define first date that is selectable by the user.
+`date`      | Two-way | Read & Write | Date | Used to get and set the date value used by the calendar.
+`minDate`   | One-way | Write-only | Date | Used to define first date that is selectable by the user.
 `futureOnly`| One-way | Write-only | Boolean | Sets `minDate` to the current date if true.
 `selectTime`| One-way | Write-only | Boolean | Allows the user to set the time of day.
-`time`| Two-way | Write-only | Object | Used to get and set the time value of the selected date. i.e. time object is { h: <hour>, m: <min> }
+`time`      | Two-way | Write-only | Object | Used to get and set the time value of the selected date. i.e. time object is `{ h: Integer, m: Integer }`
 `minuteStep`| One-way | Write-only | Integer | Sets number of minutes the added or removed when minutes is changed.
 
 ## Modals
 
 ### Setup
 
+Modal Service must be initialised in the root component by setting the `view` property with a ViewContainerRef.
+
+```javascript
+
+import { Component, ViewContainerRef } from '@angular/core';
+import { ModalService } from '@aca-1/a2-widgets';
+
+@Component({
+  selector: 'app',
+  styleUrls: [...]
+  template: ...
+})
+export class App {
+  constructor(view: ViewContainerRef, private modal: ModalService) {
+    modal.view = view;
+  }
+}
+
+```
+
+Service should be injected as a global provider.
+
 ### Directive
 
+Import `import { ModalDirective } from '@aca/a2-widgets';`
+
+To use a Modal in your component for import the ModalDirective directive into your component.
+
+Then you can use insert a modal attribute into you html when you want the element to appear.
+
+e.g. 
+```html
+<div modal [title]="'ModalTest'" [id]="'a modal'" [close]="true" [html]="html" [data]="data" [size]="'small'" (ok)="done($event)"  (cancel)="failed($event)" [active]="true"></div>
+```
+
+A Modal has 3 attributes.
+
+Name      | Bindings | Direction   | Valid Types | Description
+----------|----------|-------------|-------------|------------
+`title`   | One-way | Write-only   | String   | Used to define the text displayed inside the header of the modal.
+`id`      | One-way | Write-only   | String   | Used to define the id of the modal. id is used by the modal service.
+`close`   | One-way | Write-only   | Boolean  | Used to define whether or not the user can close the modal by clicking outside it.
+`html`    | One-way | Write-only   | String   | Used to define the html contents of the modal.
+`data`    | Two-way | Read & Write | Any      | Used to define data property used by the modal content.
+`options` | One-way | Write-only   | Object[] | Used to define the buttons in the footer of the modal. Objects are structured like so: `{ text: String, fn: Function }`
+`size`    | One-way | Write-only   | String   | Used to define the size of the modal. Value can be 'small' or 'large'.
+`styles`  | One-way | Write-only   | String   | Used to define the css styles of the modal content.
+`active`  | One-way | Write-only   | Boolean  | Used to open modal.
+`ok`      | One-way | Read-only    | N/A      | Called when the default 'ok' options is called.
+`cancel`  | One-way | Read-only    | N/A      | Called when the default 'cancel' options is called.
+
+Value in `data` can be bound to inside the html contents.
+
+e.g.
+```html
+	<div>{{data.name}}</div>
+```
+
 ### Service
+
+Modals can also be added via code using the `ModalService`.
+
+#### Functions
 
 ## Notifications
 
 ### Setup
 
+Notifications Service must be initialised in the root component by setting the `view` property with a ViewContainerRef.
+
+```javascript
+
+import { Component, ViewContainerRef } from '@angular/core';
+import { NotificationService } from '@aca-1/a2-widgets';
+
+@Component({
+  selector: 'app',
+  styleUrls: [...]
+  template: ...
+})
+export class App {
+  constructor(view: ViewContainerRef, private notifications: NotificationService) {
+    notifications.view = view;
+  }
+}
+
+```
+
+Service should be injected as a global provider.
+
 ### Directive
 
+Import `import { ButtonToggle } from '@aca/a2-widgets';`
+
+To use a Button Toggle in your component for import the ButtonToggle directive into your component.
+
+Then you can use insert a btn-toggle tag into you html when you want the element to appear.
+
+e.g. 
+```html
+<div notification inactive="Inactive" [(value)]="value"></btn-toggle>
+```
+
+A Button Toggle has 3 attributes.
+
+Name | Bindings | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`active`| One-way | Write-only | String | Used to define the text displayed inside the button when it is in an active state.
+`inactive`| One-way | Write-only | String | Used to define the text displayed inside the button when it is in an inactive state.
+`value`| Two-way | Read & Write | Boolean | Used to get and set the state of the button
+
 ### Service
+
+Notifications can also be added via code using the `NotificationService`.
+
+#### Functions
 
 ## Custom Styling
 
