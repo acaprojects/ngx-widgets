@@ -12,7 +12,7 @@ All two-way bindings can be read on one-way binding `<attribute>Change`. e.g. `s
 
 A simple button for toggling.
 
-Import `import { ButtonToggle } from '@aca/a2-widgets';`
+Import `import { ButtonToggle } from '@aca-1/a2-widgets';`
 
 To use a Button Toggle in your component for import the ButtonToggle directive into your component.
 
@@ -37,7 +37,7 @@ A group of button toggles
 
 ![Image of Button Group](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
 
-Import `import { ButtonGroup } from '@aca/a2-widgets';`
+Import `import { ButtonGroup } from '@aca-1/a2-widgets';`
 
 To use a button group in your component for import the ButtonGroup directive into your component.
 
@@ -59,7 +59,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 An array of various types of customisable toggle buttons.
 
-Import `import { FancyToggle } from '@aca/a2-widgets';`
+Import `import { FancyToggle } from '@aca-1/a2-widgets';`
 
 To use a fancy toggle button in your component for import the FancyToggle directive into your component.
 
@@ -149,7 +149,7 @@ A iOS Toggle has no other attributes that can be set.
 
 A simple slider that can be vertical or horizontal.
 
-Import `import { Slider } from '@aca/a2-widgets';`
+Import `import { Slider } from '@aca-1/a2-widgets';`
 
 To use a slider in your component for import the Slider directive into your component.
 
@@ -173,7 +173,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 ![Image of Tab Group](https://cloud.githubusercontent.com/assets/20103948/17200834/e620bebe-54cb-11e6-912c-a1d6ed4717dc.png)
 
-Import `import { TABS_DIRECTIVES } from '@aca/a2-widgets';`
+Import `import { TABS_DIRECTIVES } from '@aca-1/a2-widgets';`
 
 To use a tab group in your component for import the TABS_DIRECTIVES into your component.
 
@@ -221,7 +221,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 An interactive map which renders a svg xml which is scalable and pannable.
 
-Import `import { InteractiveMap } from '@aca/a2-widgets';`
+Import `import { InteractiveMap } from '@aca-1/a2-widgets';`
 
 To use a interactive map in your component for import the InteractiveMap into your component.
 
@@ -248,7 +248,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 A Calendar which allows for selecting a date and time.
 
-Import `import { Calendar } from '@aca/a2-widgets';`
+Import `import { Calendar } from '@aca-1/a2-widgets';`
 
 To use a Calendar in your component for import the Calendar directive into your component.
 
@@ -302,7 +302,7 @@ Service should be injected as a global provider.
 
 ### Directive
 
-Import `import { ModalDirective } from '@aca/a2-widgets';`
+Import `import { ModalDirective } from '@aca-1/a2-widgets';`
 
 To use a Modal in your component for import the ModalDirective directive into your component.
 
@@ -345,32 +345,32 @@ Modals can also be added via code using the `ModalService`.
 ```javascript
 	setup(id: String, attr: Object);
 ```
-* Setup Function
-** No return value.
-** Function sets up the properties for the modal with the given id
-** attr can set all the writable attributes defined in the modal directive above
+##### Setup Function
+* No return value.
+* Function sets up the properties for the modal with the given id
+* attr can set all the writable attributes defined in the modal directive above
 
 ```javascript
 	open(id: String, attr?: Object);
 ```
-* Open Function
-** No return value.
-** Function sets up the properties for the modal with the given id
-** attr can set all the writable attributes defined in the modal directive above
+#### Open Function
+* No return value.
+* Function sets up the properties for the modal with the given id
+* attr can set all the writable attributes defined in the modal directive above
 
 ```javascript
 	close(id: String);
 ```
-* Close Function
-** No return value.
-** Function closes a modal with the given id.
+##### Close Function
+* No return value.
+* Function closes a modal with the given id.
 
 ```javascript
 	clear();
 ```
-* Clear Function
-** No return value.
-** Function closes all modals open.
+##### Clear Function
+* No return value.
+* Function closes all modals open.
 
 ## Notifications
 
@@ -400,30 +400,52 @@ Service should be injected as a global provider.
 
 ### Directive
 
-Import `import { ButtonToggle } from '@aca/a2-widgets';`
+Import `import { NotificationDirective } from '@aca-1/a2-widgets';`
 
-To use a Button Toggle in your component for import the ButtonToggle directive into your component.
+To use a Notification Directive in your component for import the NotificationDirective directive into your component.
 
-Then you can use insert a btn-toggle tag into you html when you want the element to appear.
+Then you can use insert a notification attribute into you html on the page you want the notification to be displayed.
 
 e.g. 
 ```html
-<div notification inactive="Inactive" [(value)]="value"></btn-toggle>
+<div notification message="The world is ending... now!" [(value)]="value"></btn-toggle>
 ```
 
-A Button Toggle has 3 attributes.
+A Notification Directive has 3 attributes.
 
 Name | Bindings | Direction | Valid Types | Description
 -----|----------|-----------|-------------|------------
-`active`| One-way | Write-only | String | Used to define the text displayed inside the button when it is in an active state.
-`inactive`| One-way | Write-only | String | Used to define the text displayed inside the button when it is in an inactive state.
-`value`| Two-way | Read & Write | Boolean | Used to get and set the state of the button
+`message` | One-way | Write-only | String  | Used to define the text displayed inside the notification, can be html.
+`cssClass`| One-way | Write-only | String  | Used to define any css class that will be applied to the created notification
+`options` | One-way | Write-only | Object  | Used to define options for the notification. `timeout`, `canClose` and `styles` can be set. `timeout` defined the time in ms the notification will close if `canClose` is false. `canClose` defines is the user can close the notification. `styles` is use to define custom styles for the notification.
 
 ### Service
 
 Notifications can also be added via code using the `NotificationService`.
 
 #### Functions
+
+```javascript
+	add(message: String, cssClass?: String, options?: Object);
+```
+#### Open Function
+* Returns the id value of the notification.
+* Function opens a notification with the given `message` using the given `options`.
+* `options` has 3 properties that can be set `timeout`, `canClose` and `styles`. `timeout` defined the time in ms the notification will close if `canClose` is false. `canClose` defines is the user can close the notification. `styles` is use to define custom styles for the notification.
+
+```javascript
+	close(id: String);
+```
+##### Close Function
+* No return value.
+* Function closes a notification with the given id.
+
+```javascript
+	clear();
+```
+##### Clear Function
+* No return value.
+* Function closes all open notifications.
 
 ## Custom Styling
 
