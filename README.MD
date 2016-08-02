@@ -322,14 +322,14 @@ Name      | Bindings | Direction   | Valid Types | Description
 `close`   | One-way | Write-only   | Boolean  | Used to define whether or not the user can close the modal by clicking outside it.
 `html`    | One-way | Write-only   | String   | Used to define the html contents of the modal.
 `data`    | Two-way | Read & Write | Any      | Used to define data property used by the modal content.
-`options` | One-way | Write-only   | Object[] | Used to define the buttons in the footer of the modal. Objects are structured like so: `{ text: String, fn: Function }`
+`options` | One-way | Write-only   | Object[] | Used to define the buttons in the footer of the modal. Objects are structured like so: `{ text: String, fn: Function }`. Functions should have 2 arguments `data` and `callback`.
 `size`    | One-way | Write-only   | String   | Used to define the size of the modal. Value can be 'small' or 'large'.
 `styles`  | One-way | Write-only   | String   | Used to define the css styles of the modal content.
 `active`  | One-way | Write-only   | Boolean  | Used to open modal.
 `ok`      | One-way | Read-only    | N/A      | Called when the default 'ok' options is called.
 `cancel`  | One-way | Read-only    | N/A      | Called when the default 'cancel' options is called.
 
-Value in `data` can be bound to inside the html contents.
+Values in `data` can be bound to inside the html contents.
 
 e.g.
 ```html
@@ -341,6 +341,36 @@ e.g.
 Modals can also be added via code using the `ModalService`.
 
 #### Functions
+
+```javascript
+	setup(id: String, attr: Object);
+```
+* Setup Function
+** No return value.
+** Function sets up the properties for the modal with the given id
+** attr can set all the writable attributes defined in the modal directive above
+
+```javascript
+	open(id: String, attr?: Object);
+```
+* Open Function
+** No return value.
+** Function sets up the properties for the modal with the given id
+** attr can set all the writable attributes defined in the modal directive above
+
+```javascript
+	close(id: String);
+```
+* Close Function
+** No return value.
+** Function closes a modal with the given id.
+
+```javascript
+	clear();
+```
+* Clear Function
+** No return value.
+** Function closes all modals open.
 
 ## Notifications
 

@@ -99,7 +99,14 @@ export class ModalService {
 		}
 	}
 
-	cleanModal(id:string) {
+	clear() {
+		let keys = Object.keys(this.modal);
+		for(let i = 0; i < this.keys.length; i++) {
+			this.modal[keys[i]].close_fn();
+		}
+	}
+
+	private cleanModal(id:string) {
 		if(this.modalRef[id]) {
 			console.log('Modal Closed');
 				// Remove Modal from DOM
