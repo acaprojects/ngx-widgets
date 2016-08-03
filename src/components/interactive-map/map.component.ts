@@ -50,7 +50,7 @@ export class InteractiveMap {
     constructor(private http: Http, private a: ACA_Animate){
     }
 
-    draw: any;
+    draw: any = null;
 
     ngOnInit(){
     	this.setupUpdate();
@@ -70,10 +70,10 @@ export class InteractiveMap {
         }, () => {
             	// Update map
             let z = this.map_display.nativeElement.style[this.map_orientation];
-	        this.map_display.nativeElement.style[this.map_orientation] = 100 + this._zoom + '%';
+	        this.map_display.nativeElement.style[this.map_orientation] = Math.round(100 + this._zoom) + '%';
 	        this.map_display.nativeElement.style.top = this.top + 'px';
 	        this.map_display.nativeElement.style.left = this.left + 'px';
-	        if(z !== (100 + this._zoom + '%')) this.update(); 
+	        if(z !== (Math.round(100 + this._zoom) + '%')) this.update(); 
         });
     	this.checkStatus(null, 0);
     }
@@ -131,6 +131,7 @@ export class InteractiveMap {
         }
         if(changes.zoom) {
         	this._zoom = this.zoom;
+        	if(this.draw !== null) this.update();
         }
     }
 
@@ -214,6 +215,7 @@ export class InteractiveMap {
     zoomOut() {
         this._zoom -= 10;
         this.redraw();
+	    this.update();
     }
 
     resetZoom() {
@@ -247,6 +249,7 @@ export class InteractiveMap {
 	        this.maxLeft = this.map_box.width - this.content_box.width;
 	        if(this.maxTop < 0) this.maxTop = 0;
 	        if(this.maxLeft < 0) this.maxLeft = 0;
+	        this.zoomChange.emit(this.zoom);
 	        this.redraw();
 	    });
     }

@@ -1,7 +1,7 @@
 // Import all services
 import { ModalService } from './components/modal';
 import { NotificationService } from './components/notification';
-import { ACA_Animate } from './services';
+import { ACA_Animate } from './services/animate.service';
 
 // Export all services
 export * from './components/modal';

@@ -4,7 +4,7 @@
     </div>
     <div class="map-controls" *ngIf="controls">
         <div class="zoom-btn" (click)="zoomIn()" >+</div>
-        <div class="zoom-btn" syle="font-size:0.7em;" (click)="resetZoom()">{{(100 + zoom).toFixed(1) + '%'}}</div>
+        <div class="zoom-btn" syle="font-size:0.7em;" (click)="resetZoom()">{{(100 + zoom).toFixed(0) + '%'}}</div>
         <div class="zoom-btn" (click)="zoomOut()">-</div>
     </div>
 </div>
