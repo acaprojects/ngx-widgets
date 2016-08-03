@@ -7,4 +7,5 @@ export * from './interactive-map';
 export * from './modal';
 export * from './notification';
 export * from './slider';
+export * from './spinner';
 export * from './tab-group';

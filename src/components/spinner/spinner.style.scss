@@ -1,0 +1,141 @@
+
+@import '~bourbon/app/assets/stylesheets/bourbon';
+
+$angle: 30deg;
+$space: 0.5em;
+
+.spinner {
+    position: relative;
+    display: inline-block;
+    padding: 0.8em;
+    &.plane {
+    	height: 5.0em;
+    	width: 5.0em;
+    }
+    &.bounce {
+    	height: 5.0em;
+    	width: 5.0em;
+    }
+    &.dot-bounce {
+    	height: 3.0em;
+    	width: 6.0em;
+    }
+    &.bars {
+    	height: 5.0em;
+    	width: 9.0em;
+    }
+    &.cubemove {
+    	height: 5.0em;
+    	width: 5.0em;
+    }
+    &.dot-circle {
+    	height: 5.0em;
+    	width: 5.0em;
+    }
+    &.double-bounce {
+    	height: 5.0em;
+    	width: 5.0em;
+    }
+    & .spin {
+    	position: absolute;
+    	top: 50%; left: 50%;
+    	@include transform( translate(-50%, -50%) );
+    	& .plane {
+    		height: 4.0em;
+    		width: 4.0em;
+    		background-color: #FFF;
+    	}
+    	& .bounce {
+    		height: 4.0em;
+    		width: 4.0em;
+    		& .circle {
+		    	position: absolute;
+		    	height: 100%;
+		    	width: 100%;
+		    	background-color: #FFF;
+		    	border-radius: 4.0em;
+    		}
+
+    		&.2x {
+    			& .circle {
+    				opacity: 0.5;
+    			}
+    		}
+    	}
+
+    	& .bars {
+    		width: 7.0em;
+    		height: 4.0em;
+    		display: flex;
+    		& .bar {
+    			width: 1.0em;
+    			height: 100%;
+    			background-color: #FFF;
+    		}
+    		& .gap {
+    			width: 0.4em;
+    			height: 100%;
+    		}
+    	}
+
+    	& .cubemove {
+    		& .cube {
+    			position: absolute;
+    			width: 0.5em;
+    			height: 0.5em;
+    			top: 0;
+    			left: 0;
+    			background-color: #FFF;
+    		}
+    	}
+    	& .bounce-grp {
+    		height: 1.0em;
+    		width: 4.0em;
+    		display: flex;
+    		& .circle {
+		    	height: 1.0em;
+		    	width: 1.0em;
+		    	background-color: #FFF;
+		    	border-radius: 1.0em;
+    		}
+    		& .gap {
+    			width: 1.0em;
+    			height: 100%;
+    		}
+
+    	}
+
+    	& .dot-circle {
+    		position: relative;
+    		& .dot {
+				position: absolute;
+				top: 0; left: 0;
+				height: 0.4em;
+				width: 0.4em;
+				&.s1 {  @include transform(translateX( $space*0) translateY(-$space*3) rotate($angle*0)); }
+				&.s4 {  @include transform(translateX( $space*3) translateY( $space*0) rotate($angle*3)); }
+				&.s7 {  @include transform(translateX(-$space*0) translateY( $space*3) rotate($angle*6)); }
+				&.s10 { @include transform(translateX(-$space*3) translateY(-$space*0) rotate($angle*9)); }
+
+				&.s2 {  @include transform(translateX( $space*1.5) translateY(-$space*2.5) rotate($angle*1)); }
+				&.s5 {  @include transform(translateX( $space*2.5) translateY( $space*1.5) rotate($angle*4)); }
+				&.s8 {  @include transform(translateX(-$space*1.5) translateY( $space*2.5) rotate($angle*7)); }
+				&.s11 { @include transform(translateX(-$space*2.5) translateY(-$space*1.5) rotate($angle*10)); }
+
+				&.s3 {  @include transform(translateX( $space*2.5) translateY(-$space*1.5) rotate($angle*2)); }
+				&.s6 {  @include transform(translateX( $space*1.5) translateY( $space*2.5) rotate($angle*5)); }
+				&.s9 {  @include transform(translateX(-$space*2.5) translateY( $space*1.5) rotate($angle*8)); }
+				&.s12 { @include transform(translateX(-$space*1.5) translateY(-$space*2.5) rotate($angle*11)); }
+
+				& .inner{
+					height: 100%;
+					width: 100%;
+					border-radius: 0.1em;
+					background-color: #FFF;
+				}
+    		}
+
+    	}
+
+    }
+}
