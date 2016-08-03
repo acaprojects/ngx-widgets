@@ -44,7 +44,7 @@ export class InteractiveMap {
     activate: boolean = false;
     de: any;
     active = false;
-
+   	min = 20;
 
 
     constructor(private http: Http, private a: ACA_Animate){
@@ -186,19 +186,20 @@ export class InteractiveMap {
             this.move.x = event.deltaX;
             this.move.y = event.deltaY;
     	}
-    	let min = 20;
     	let dX = +event.deltaX - +this.move.x;
     	let dY = +event.deltaY - +this.move.y
-        this.top += Math.min(min, +Math.abs(dY)) * (dY < 0 ? -1 : 1);;
-        this.left += Math.min(min, +Math.abs(dX)) * (dX < 0 ? -1 : 1); 
+        this.top += Math.min(this.min, +Math.abs(dY)) * (dY < 0 ? -1 : 1);;
+        this.left += Math.min(this.min, +Math.abs(dX)) * (dX < 0 ? -1 : 1); 
         	// Update the display of the map
         this.redraw();
         if(event.type === 'pan' && (event.additionalEvent && event.additionalEvent.indexOf('pan') >= 0)){
             this.move.x = event.deltaX;
             this.move.y = event.deltaY;
+            this.min = 100;
         } else if(event.type === 'pan') {
             this.move.x = this.move.y = 0;
             this.activate = false;
+            this.min = 10;
         }
     }
 
