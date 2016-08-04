@@ -1,8 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core'; 
 import { ComponentResolver, ComponentRef, ReflectiveInjector, ResolvedReflectiveProvider, ViewContainerRef, OnInit, Type } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet, FORM_DIRECTIVES } from '@angular/common';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
-import { FORM_DIRECTIVES } from '@angular/forms';
 import { ModalService } from './modal.service';
 
 const PLACEHOLDER = '-';

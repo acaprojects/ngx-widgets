@@ -1,12 +1,13 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
-import { Http } from '@angular/http';
+import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { ACA_Animate } from '../../services/animate.service';
+import { MapService } from './map.service';
+import { Spinner } from '../spinner';
 
 declare let Hammer: any;
 
 @Component({
     selector: 'interactive-map',
-    directives: [ ],
+    directives: [ Spinner ],
     providers: [ ACA_Animate ], 
     templateUrl: './map.html',
     styles: [
@@ -20,6 +21,14 @@ export class InteractiveMap {
     @Input() controls: boolean = true;
     @Output() tap = new EventEmitter();
     @Output() zoomChange = new EventEmitter();
+    @Input() disable: string[] = [];
+    @Input() pins: any[] = []; 
+    @Input() mapSize: any = { x: 100, y: 100 };
+    @Input() focus: string;
+    @Input() focusScroll: boolean = false;
+    @Input() focusZoom: number = 60;
+    @Input() color: string = '#000';
+
     //*
         //Toggle Knob
     @ViewChild('displayArea')  self: ElementRef;
@@ -45,41 +54,243 @@ export class InteractiveMap {
     de: any;
     active = false;
    	min = 20;
+   	isFocus = false;
+   	loading = true;
+   	private _top: number = 0;
+   	private _left: number = 0;
+
+   	pin_html = `
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 20.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="flat_x5F_Pin" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 53 65.7" style="enable-background:new 0 0 53 65.7;" xml:space="preserve">
+<style type="text/css">
+	.aca-st0{fill:#FFFFFF;}
+	.aca-st1{fill:#DC6900;stroke:#FFFFFF;stroke-width:2.5;stroke-miterlimit:10;}
+</style>
+<g>
+	<circle class="aca-st0" cx="27.6" cy="21.8" r="13.1"/>
+	<path class="aca-st1" d="M27.6,4c9.9,0,18,8.1,18,18s-17.1,38.2-18,39.6c-0.9-1.5-18-29.7-18-39.6S17.7,4,27.6,4z M27.6,32.8
+		c6,0,10.8-4.8,10.8-10.8s-4.8-10.8-10.8-10.8S16.8,16,16.8,22S21.6,32.8,27.6,32.8"/>
+</g>
+</svg>
+   	`
+
+   	pin_defaults = {
+   		x: 0,
+   		y: 0,
+   		colors : {
+   			one: '#DC6900',
+   			two : '#FFFFFF'
+   		}
+   	}
 
 
-    constructor(private http: Http, private a: ACA_Animate){
+    constructor(private a: ACA_Animate, private service: MapService){
     }
 
     draw: any = null;
+    drawing: any = null;
 
     ngOnInit(){
     	this.setupUpdate();
 
     	this.draw = this.a.animation(() => {
-            	// Clean up any dimension changes
-	        if(this.left < -this.maxLeft) this.left = -this.maxLeft;
-	        else if(this.left > 0) this.left = 0;
-	        if(this.top < -this.maxTop) this.top = -this.maxTop;
-	        else if(this.top > 0) this.top = 0;
-	        if(this._zoom > this.zoomMax) this._zoom = this.zoomMax;
-	        else if (this._zoom < -50) this._zoom = -50;
-	        this.zoom = this._zoom;
-	        this.zoomChange.emit(this._zoom);
-	        this.rotate = this.rotate % 360;
-	        return true;
+    		return this.update();
         }, () => {
-            	// Update map
-            let z = this.map_display.nativeElement.style[this.map_orientation];
-	        this.map_display.nativeElement.style[this.map_orientation] = Math.round(100 + this._zoom) + '%';
-	        this.map_display.nativeElement.style.top = this.top + 'px';
-	        this.map_display.nativeElement.style.left = this.left + 'px';
-	        if(z !== (Math.round(100 + this._zoom) + '%')) this.update(); 
+        	this.render();
         });
     	this.checkStatus(null, 0);
     }
 
+    update() {
+    	this.left = this._left;
+    	this.top = this._top;
+        	// Clean up any dimension changes
+        if(this.left < -this.maxLeft) this.left = -this.maxLeft;
+        else if(this.left > 0) this.left = 0;
+        if(this.top < -this.maxTop) this.top = -this.maxTop;
+        else if(this.top > 0) this.top = 0;
+        if(this._zoom > this.zoomMax) this._zoom = this.zoomMax;
+        else if (this._zoom < -50) this._zoom = -50;
+        this.zoom = this._zoom;
+        this.zoomChange.emit(this._zoom);
+        this.rotate = this.rotate % 360;
+        return true;
+    }
+
+    render() {
+        	// Update map
+        if(this.map_display) {
+            let z = this.map_display.nativeElement.style[this.map_orientation];
+	        this.map_display.nativeElement.style[this.map_orientation] = Math.round(100 + this._zoom) + '%';
+	        this.map_display.nativeElement.style.top = this.top + 'px';
+	        this.map_display.nativeElement.style.left = this.left + 'px';
+	        if(z !== (Math.round(100 + this._zoom) + '%')) this.updateBoxes(); 
+	        this.setupPins();
+        	if(this.isFocus) this.finishFocus();
+	    }
+    }
+
+    clearDisabled(strs:string[]) {
+        for(let i = 0; i < strs.length; i++) {
+        	let el = this.map_display.nativeElement.querySelector('#' + strs[i]);
+        	if(el !== null) {
+        		el.style.display = 'inherit';
+        	}
+        }
+    }
+
+    setupDisabled() {
+        for(let i = 0; i < this.disable.length; i++) {
+        	let el = this.map_display.nativeElement.querySelector('#' + this.disable[i]);
+        	if(el !== null) {
+        		el.style.display = 'none';
+        	}
+        }
+    }
+
+    clearPins() {
+    	this.pins = [];
+    }
+
+    setupPins() {
+        for(let i = 0; i < this.pins.length; i++) {
+        	let pin = this.pins[i];
+        	if(typeof pin !== 'object') {
+        		pin = this.pin_defaults;
+        	} else {
+        		if(!pin.x) pin.x = this.pin_defaults.x;
+        		if(!pin.y) pin.x = this.pin_defaults.y;
+        		if(!pin.colors) pin.x = this.pin_defaults.colors;
+        		else { 
+        			if(!pin.colors.one   || pin.colors.one.length > 25) pin.colors.one = this.pin_defaults.colors.one;
+        			if(!pin.colors.two   || pin.colors.one.length > 25) pin.colors.two = this.pin_defaults.colors.two;
+        		}
+        	}
+        	let el = this.map_area.nativeElement.querySelector('#aca-map-pin' + i);
+        	if(el !== null) {
+        		if(pin.id) {
+        			let elc = this.map_display.nativeElement.querySelector('#' + this.escape(pin.id));
+        			if(elc !== null) {
+        				let bb = elc.getBoundingClientRect();
+		        		let ebb = el.getBoundingClientRect();
+    					let cbb = this.map_area.nativeElement.getBoundingClientRect();
+        				el.style.top = (bb.top - (ebb.height) + bb.height/2 - cbb.top) + 'px';
+        				el.style.left = (bb.left) + 'px';
+        			}
+        		} else {
+	        		let percentY = Math.min(this.mapSize.y, pin.y) / this.mapSize.y;
+	        		let percentX = Math.min(this.mapSize.x, pin.x) / this.mapSize.x;
+	        		let w = 0; let h = 0; let aw = 0; let ah = 0;
+	        		if(this.content_box) {
+		        		w = parseInt(this.map_display.nativeElement.style[this.map_orientation])/100 * this.content_box.width;
+		        		h = parseInt(this.map_display.nativeElement.style[this.map_orientation])/100 * this.content_box.height;
+		        		aw = this.content_box.width;
+		        		ah = this.content_box.height;
+		        	}
+		        	let bb = el.getBoundingClientRect();
+
+	        		el.style.top = ((Math.round(percentY * h) + this.top) - bb.height) + 'px';
+	        		el.style.left = (Math.round(percentX * w) + this.left ) + 'px';
+	        	}
+	        	let html = this.getPin(pin, i);
+	        	let text = el.children[el.children.length-1];
+	        	el.innerHTML = html;
+	        	if(text) el.appendChild(text);
+        	}
+        }
+    }
+
+    escape (value) {
+		var string = String(value);
+		var length = string.length;
+		var index = -1;
+		var codeUnit;
+		var result = '';
+		var firstCodeUnit = string.charCodeAt(0);
+		while (++index < length) {
+			codeUnit = string.charCodeAt(index);
+			// Note: there’s no need to special-case astral symbols, surrogate
+			// pairs, or lone surrogates.
+
+			// If the character is NULL (U+0000), then the REPLACEMENT CHARACTER
+			// (U+FFFD).
+			if (codeUnit == 0x0000) {
+				result += '\uFFFD';
+				continue;
+			}
+
+			if (
+				// If the character is in the range [\1-\1F] (U+0001 to U+001F) or is
+				// U+007F, […]
+				(codeUnit >= 0x0001 && codeUnit <= 0x001F) || codeUnit == 0x007F ||
+				// If the character is the first character and is in the range [0-9]
+				// (U+0030 to U+0039), […]
+				(index == 0 && codeUnit >= 0x0030 && codeUnit <= 0x0039) ||
+				// If the character is the second character and is in the range [0-9]
+				// (U+0030 to U+0039) and the first character is a `-` (U+002D), […]
+				(
+					index == 1 &&
+					codeUnit >= 0x0030 && codeUnit <= 0x0039 &&
+					firstCodeUnit == 0x002D
+				)
+			) {
+				// https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
+				result += '\\' + codeUnit.toString(16) + ' ';
+				continue;
+			}
+
+			if (
+				// If the character is the first character and is a `-` (U+002D), and
+				// there is no second character, […]
+				index == 0 &&
+				length == 1 &&
+				codeUnit == 0x002D
+			) {
+				result += '\\' + string.charAt(index);
+				continue;
+			}
+
+			// If the character is not handled by one of the above rules and is
+			// greater than or equal to U+0080, is `-` (U+002D) or `_` (U+005F), or
+			// is in one of the ranges [0-9] (U+0030 to U+0039), [A-Z] (U+0041 to
+			// U+005A), or [a-z] (U+0061 to U+007A), […]
+			if (
+				codeUnit >= 0x0080 ||
+				codeUnit == 0x002D ||
+				codeUnit == 0x005F ||
+				codeUnit >= 0x0030 && codeUnit <= 0x0039 ||
+				codeUnit >= 0x0041 && codeUnit <= 0x005A ||
+				codeUnit >= 0x0061 && codeUnit <= 0x007A
+			) {
+				// the character itself
+				result += string.charAt(index);
+				continue;
+			}
+
+			// Otherwise, the escaped character.
+			// https://drafts.csswg.org/cssom/#escape-a-character
+			result += '\\' + string.charAt(index);
+
+		}
+		return result;
+	}
+
+    getPin(data: any, i: number) {
+    	let pin = this.pin_html;
+    	pin = this.replaceAll(pin, '#DC6900', data.colors.one);
+    	pin = this.replaceAll(pin, '#FFFFFF', data.colors.two);
+    	pin = this.replaceAll(pin, 'aca-', ('aca-' + i + '-'));
+    	return pin;
+    }
+
+    private replaceAll(str, find, replace) {
+  		return str.replace(new RegExp(find, 'g'), replace);
+	}
+
     ngAfterViewInit() {
-        if(Hammer && this.map_area){
+        if(Hammer && this.map_area && (!this.focus || this.focus === '' || this.focusScroll)){
                 // Setup events via Hammer.js if it is included
             this.de = new Hammer(document, {});
             this.de.on('tap', (event) => { this.checkStatus(event, 0); })
@@ -88,15 +299,18 @@ export class InteractiveMap {
             this.touchmap.on('tap', (event) => {this.tapMap(event);});
                 //Moving Map
             this.touchmap.on('pan', (event) => {this.moveMap(event);});
+            this.touchmap.on('panend', (event) => {this.moveEnd(event);});
             this.touchmap.get('pan').set({ directive: Hammer.DIRECTION_ALL, threshold: 5 });
                 // Scaling map
             this.touchmap.on('pinch', (event) => {this.scaleMap(event);});
+            this.touchmap.on('pinchend', (event) => {this.scaleEnd(event);});
             this.touchmap.get('pinch').set({ enable: true });
         } else if(this.map_area){
                 //Setup Normal Events
              
                 //*/
         }
+        this.setupPins();
     }
 
    	checkStatus(e, i) {
@@ -112,11 +326,12 @@ export class InteractiveMap {
    		}
    		if(!visible) {
    			this.active = false;
+   			this.loading = true;
    			setTimeout(() => { this.checkStatus(e, i+1); }, 100);
    		} else {
    			if(this.active !== visible)  {
    				this.active = true;
-   				this.resize();
+   				setTimeout(() => { this.resize() }, 100);
    			}
    		}
    	}
@@ -127,20 +342,67 @@ export class InteractiveMap {
 
     ngOnChanges(changes: any){
         if(changes.map){
+        	this.loading = true;
             this.loadMapData();
         }
         if(changes.zoom) {
         	this._zoom = this.zoom;
-        	if(this.draw !== null) this.update();
+        	if(this.draw !== null) this.updateBoxes();
+        }
+        if(changes.disable) {
+        	let pv = changes.disable.previousValue;
+        	if(pv !== null && pv !== undefined) this.clearDisabled(pv);
+        	this.setupDisabled();
+        }
+        if(changes.pins) {
+        	this.setupPins();
+        }
+        if(changes.focus) {
+        	this.updateFocus();
         }
     }
 
+    updateFocus() {
+    	if(this.focus === null || this.focus === undefined || this.focus === '') return;
+    	this.zoomMax = 100000;
+    	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.focus));
+    	if(el !== null) {
+    		let cbb = this.content_box;
+    		let mbb = this.map_area.nativeElement.getBoundingClientRect();
+    		if(cbb && mbb) {
+	    		let bb = el.getBoundingClientRect();
+	    		let wZoom = mbb.width / bb.width   * 0.35 * (this.focusZoom/100);
+	    		let hZoom = mbb.height / bb.height * 0.35 * (this.focusZoom/100);
+	    		this._zoom = Math.min(wZoom, hZoom) * 100;
+	    		this.isFocus = true;
+	    		this.redraw()
+	    		this.updateBoxes();
+    		} else {
+    			setTimeout(() => {
+    				this.updateFocus();
+    			}, 100)
+    		}
+    	}
+    }
+
+    finishFocus() {
+    	this.isFocus = false;
+    	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.focus));
+    	if(el !== null) {
+    		let cbb = this.content_box;
+    		let mbb = this.map_area.nativeElement.getBoundingClientRect();
+    		let bb = el.getBoundingClientRect();
+    		this._top = -(bb.top - mbb.top) + (mbb.height/2 - bb.height/2);
+    		this._left = -(bb.left - mbb.left) + (mbb.width/2 - bb.width/2);
+    		this.redraw();
+    	}
+    }
+
     loadMapData() {
-        this.http.get(this.map).map(res => res.text()).subscribe(
-            data => this.map_data = data,
-            err => console.error(err),
-            () => this.setupMap()
-        );
+    	this.service.getMap(this.map).then((data) => {
+    		this.map_data = data;
+    		this.setupMap();
+    	});
     }
 
     setupMap(){
@@ -149,7 +411,9 @@ export class InteractiveMap {
             this.map_item = this.map_display.nativeElement.children[0];
             this.map_item.style[this.map_orientation] = '100%';
             this.zoomed = true;
-            setTimeout(() => { this.resize(); this.update(); }, 200);
+            setTimeout(() => { this.resize(); this.updateBoxes(); }, 200);
+        	this.setupDisabled();
+        	this.loading = false;
         }
     }
 
@@ -180,52 +444,58 @@ export class InteractiveMap {
         return elems;
     }
 
-
     moveMap(event) {
-    	if(this.move.x === 0 && this.move.y === 0) {
-            this.move.x = event.deltaX;
-            this.move.y = event.deltaY;
-    	}
     	let dX = +event.deltaX - +this.move.x;
     	let dY = +event.deltaY - +this.move.y
-        this.top += Math.min(this.min, +Math.abs(dY)) * (dY < 0 ? -1 : 1);;
-        this.left += Math.min(this.min, +Math.abs(dX)) * (dX < 0 ? -1 : 1); 
+        this._top += Math.min(this.min, +Math.abs(dY)) * (dY < 0 ? -1 : 1);
+        this._left += Math.min(this.min, +Math.abs(dX)) * (dX < 0 ? -1 : 1);
+        if(this._left < -this.maxLeft) this._left = -this.maxLeft;
+        else if(this._left > 0) this._left = 0;
+        if(this._top < -this.maxTop) this._top = -this.maxTop;
+        else if(this._top > 0) this._top = 0;
         	// Update the display of the map
         this.redraw();
-        if(event.type === 'pan' && (event.additionalEvent && event.additionalEvent.indexOf('pan') >= 0)){
-            this.move.x = event.deltaX;
-            this.move.y = event.deltaY;
-            this.min = 100;
-        } else if(event.type === 'pan') {
-            this.move.x = this.move.y = 0;
-            this.activate = false;
-            this.min = 10;
-        }
+        this.move.x = event.deltaX;
+        this.move.y = event.deltaY;
+        if(this.min < 100) this.min += 10;
     }
 
+    moveEnd(event) {
+        this.move.x = this.move.y = 0;
+        this.activate = false;
+        this.min = 1;
+    }
+
+
+    dZoom = 1;
+
     scaleMap(event) {
-        this.debug.push(JSON.stringify(event));
-        this._zoom += event.scale;
+        this._zoom = (100 + this._zoom) * (1 + (event.scale - this.dZoom) / 10 ) - 100;
         this.redraw();
-	    this.update();
+	    this.updateBoxes();
+        this.dZoom = event.scale;
+    }
+
+    scaleEnd(event) {
+    	this.dZoom = 1
     }
 
     zoomIn() {
         this._zoom += 10;
         this.redraw();
-	    this.update();
+	    this.updateBoxes();
     }
 
     zoomOut() {
         this._zoom -= 10;
         this.redraw();
-	    this.update();
+	    this.updateBoxes();
     }
 
     resetZoom() {
         this._zoom = 0;
         this.redraw();
-	    this.update();
+	    this.updateBoxes();
     }
 
     private redraw(){
@@ -241,7 +511,9 @@ export class InteractiveMap {
                 md.style[this.map_orientation] = '';
             this.map_orientation = rect.width > rect.height ? 'width' : 'height';
         }
-        this.update();
+        this.updateBoxes();
+        this.updateFocus();
+     	this.loading = false;
     }
 
     updateAnimation: any;
@@ -258,8 +530,9 @@ export class InteractiveMap {
 	    });
     }
 
-    update() {
+    updateBoxes() {
     	this.updateAnimation.animate();
     }
 
 }
+

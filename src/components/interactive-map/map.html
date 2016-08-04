@@ -1,8 +1,16 @@
 <div #displayArea class="interactive-map" (window:resize)="resize()">
-    <div #mapArea class="map-contents">
+    <div #mapArea class="map-contents" [style.display]="loading?'none':'inherit'">
+		<div class="pins"> 
+			<div class="pin" *ngFor="let pin of pins;let i = index;" [id]="'aca-map-pin' + i ">
+				<div *ngIf="pin.text" class="text">{{pin.text}}</div>
+			</div>
+		</div>
         <div #mapDisplay class="map-area"></div>
     </div>
-    <div class="map-controls" *ngIf="controls">
+	<div *ngIf="loading" class="loading-space">
+		<spinner type="dot-circle" [color]="color"></spinner>
+	</div>
+    <div class="map-controls" *ngIf="controls&&!loading">
         <div class="zoom-btn" (click)="zoomIn()" >+</div>
         <div class="zoom-btn" syle="font-size:0.7em;" (click)="resetZoom()">{{(100 + zoom).toFixed(0) + '%'}}</div>
         <div class="zoom-btn" (click)="zoomOut()">-</div>
