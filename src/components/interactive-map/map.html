@@ -1,5 +1,5 @@
 <div #displayArea class="interactive-map" (window:resize)="resize()">
-    <div #mapArea class="map-contents" [style.display]="loading?'none':'inherit'">
+    <div #mapArea class="map-contents" [style.display]="(loading || !map_data)?'none':'inherit'">
 		<div class="pins"> 
 			<div class="pin" *ngFor="let pin of pins;let i = index;" [id]="'aca-map-pin' + i ">
 				<div *ngIf="pin.text" class="text">{{pin.text}}</div>
@@ -9,6 +9,9 @@
     </div>
 	<div *ngIf="loading" class="loading-space">
 		<spinner type="dot-circle" [color]="color"></spinner>
+	</div>
+	<div *ngIf="!loading && !map_data" class="loading-space" [style.font-size]="'25px'">
+		Map not found!
 	</div>
     <div class="map-controls" *ngIf="controls&&!loading">
         <div class="zoom-btn" (click)="zoomIn()" >+</div>
