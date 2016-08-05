@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 
 const PLACEHOLDER = '-';
 
@@ -6,6 +7,19 @@ const PLACEHOLDER = '-';
     selector: 'time-picker', 
     styles: [ require('./time-picker.style.scss') ],
     templateUrl: './time-picker.template.html',
+    animations: [
+        trigger('dateTime', [
+            state('hide',   style({'top':'100%'})),
+            state('show', style({'top':'0'})),
+            state('open', style({'top':'0'})),
+            transition('* => hide', animate('0.5s ease-out', keyframes([
+                style({'top':'0', offset: 0}), style({'top':'100%', offset: 1.0})
+            ]))),
+            transition('* => show', animate('0.5s ease-in', keyframes([
+                style({'top':'100%', offset: 0}), style({'top':'0', offset: 1.0})
+            ])))
+        ])
+    ]
 })
 export class TimePicker {
     @Input() display: string;
@@ -14,6 +28,7 @@ export class TimePicker {
     @Input() color1: string = '#666';
     @Input() color2: string = '#FFF';
     @Input() text: string = '';
+    @Input() open: string = 'open';
     @Output() timeChange = new EventEmitter();
 
     display_hour: number = 11;
