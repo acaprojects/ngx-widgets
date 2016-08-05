@@ -73,6 +73,9 @@ export class Calendar {
             	this.setDate(changes.date.currentValue);
             }
         }
+    	if(changes.time) {
+    		this.setDisplayTime();
+    	}
     }
 
     setDate(date: Date) {

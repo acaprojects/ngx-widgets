@@ -38,6 +38,11 @@ export class TimePicker {
     constructor() {
     }
 
+    ngOnChanges(changes: any) {
+    	if(changes.time) {
+    		this.setDisplayTime();
+    	}
+    }
 
     initTime() {
     	let now = new Date();
