@@ -9,6 +9,7 @@ import { InteractiveMap } from './components/interactive-map';
 import { Calendar } from './components/calendar';
 import { ModalDirective } from './components/modal';
 import { NotificationDirective } from './components/notification';
+import { TimePicker } from './components/time-picker';
 
 // Export all directives
 export * from './components/btn-group';
@@ -21,6 +22,7 @@ export * from './components/interactive-map';
 export * from './components/calendar';
 export * from './components/modal';
 export * from './components/notification';
+export * from './components/time-picker';
 
 // Export convenience property
 export const ACA_WIDGET_COMPONENTS: any[] = [
@@ -33,5 +35,6 @@ export const ACA_WIDGET_COMPONENTS: any[] = [
     ModalDirective,
     NotificationDirective,
     InteractiveMap,
-    Spinner
+    Spinner,
+    TimePicker
 ];

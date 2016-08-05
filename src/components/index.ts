@@ -8,3 +8,4 @@ export * from './notification';
 export * from './slider';
 export * from './spinner';
 export * from './tab-group';
+export * from './time-picker';

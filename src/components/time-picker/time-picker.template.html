@@ -1,0 +1,31 @@
+<div class="calendar">
+	<div class="time-picker">
+		<div class="time-space">
+			<div class="header">Pick {{text ? text + ' ': ''}}time</div>
+			<div class="picker">
+				<div class="pick">
+					<div class='change' [style.color]="color1" (click)="addHour()">&#x27E8;</div>
+					<div class='set'>
+						{{display_hour}}
+					</div>
+					<div class='change' [style.color]="color1" (click)="minusHour()">&#x27E9;</div>
+				</div>
+				<div class="pick">
+					<div class='change' [style.color]="color1" (click)="addMinute()">&#x27E8;</div>
+					<div class='set'>
+						{{display_minutes < 10 ? '0' + display_minutes : display_minutes }}
+					</div>
+					<div class='change' [style.color]="color1" (click)="minusMinute()">&#x27E9;</div>
+				</div>
+				<div class="pick btn">
+					<div class="btn" (click)="changePeriod()" [style.background-color]="color1"  [style.color]="color2">
+						<buttton class="am-pm">{{display_period}}</buttton>
+					</div>
+				</div>
+			</div>
+			<div class="finish-btn" >
+				<div class="btn" [style.background-color]="color1"  [style.color]="color2" (click)="timeSet()"> Done </div>
+			</div>
+		</div>
+	</div>
+</div>
