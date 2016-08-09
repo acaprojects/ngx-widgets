@@ -1,9 +1,42 @@
 import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { trigger, transition, animate, style, state, group, keyframes } from '@angular/core';
+
 import { ACA_Animate } from '../../services/animate.service';
 import { MapService } from './map.service';
 import { Spinner } from '../spinner';
 
 declare let Hammer: any;
+
+const ZOOM_LIMIT = 1000;
+
+const zoom_anim = (function() {
+	let base = 50;
+	let space = 1;
+	let max = ZOOM_LIMIT;
+	let time = '200ms ease-in-out';
+	let animation = [];
+    	// Create States
+	for(let i = base; i < max; i += space) {
+			//Width
+		let pos = i + '%';
+		animation.push(state(i.toString() + 'w',   style({'width': pos})));
+			// Add transition
+		let t = '* => ' + i.toString() + 'w';
+		let start = style({'width':'*', offset: 0 });
+		let end = style({'width':pos, offset: 1 });
+		animation.push(transition(t, animate(time, end) ));
+			//Height
+		pos = i + '%';
+		animation.push(state(i.toString() + 'h',   style({'height': pos})));
+			// Add transition
+		t = '* => ' + i.toString() + 'h';
+		start = style({'height':'*', offset: 0 });
+		end = style({'height':pos, offset: 1 });
+		animation.push(transition(t, animate(time, end)));
+	}
+	return animation;
+})();
+
 
 @Component({
     selector: 'interactive-map',
@@ -12,6 +45,14 @@ declare let Hammer: any;
     templateUrl: './map.html',
     styles: [
         require('./map.scss')
+    ],
+    animations: [
+        trigger('zoom', zoom_anim),
+        trigger('pin', [
+        	state('hide', style({opacity: 0})),
+        	state('show', style({opacity: 1})),
+        	transition('* => show', [ style({top: '-100px', opacity: 0}), animate('700ms ease-out', style({top: '*', opacity: 1})) ])
+        ])
     ]
 })
 export class InteractiveMap {
@@ -39,7 +80,7 @@ export class InteractiveMap {
     map_data: any;
     map_item: any;
     touchmap: any;
-    private _zoom: number = 50; // As Percentage
+    private _zoom: number = 0; // As Percentage
     rotate: number = 0; // In degrees
     left: number = 0;
     top: number = 0;
@@ -58,6 +99,9 @@ export class InteractiveMap {
    	loading = true;
    	private _top: number = 0;
    	private _left: number = 0;
+   	zoom_state: string = '100w';
+   	top_state: string = '0px';
+   	left_state: string = '0px';
 
    	pin_html = `
 <?xml version="1.0" encoding="utf-8"?>
@@ -85,6 +129,8 @@ export class InteractiveMap {
    		}
    	}
 
+   	pin_cnt: number = 0;
+
 
     constructor(private a: ACA_Animate, private service: MapService){
     }
@@ -101,6 +147,9 @@ export class InteractiveMap {
         	this.render();
         });
     	this.checkStatus(null, 0);
+    	setInterval(() => {
+    		if(this.pin_cnt !== this.pins.length) this.setupPins();
+    	}, 200)
     }
 
     update() {
@@ -111,7 +160,7 @@ export class InteractiveMap {
         else if(this.left > 0) this.left = 0;
         if(this.top < -this.maxTop) this.top = -this.maxTop;
         else if(this.top > 0) this.top = 0;
-        if(this._zoom > this.zoomMax) this._zoom = this.zoomMax;
+        if(this._zoom > this.zoomMax || this._zoom > ZOOM_LIMIT) this._zoom = this.zoomMax;
         else if (this._zoom < -50) this._zoom = -50;
         this.zoom = this._zoom;
         this.zoomChange.emit(this._zoom);
@@ -121,14 +170,16 @@ export class InteractiveMap {
 
     render() {
         	// Update map
-        if(this.map_display) {
+        if(this.map_display && this.active) {
             let z = this.map_display.nativeElement.style[this.map_orientation];
-	        this.map_display.nativeElement.style[this.map_orientation] = Math.round(100 + this._zoom) + '%';
-	        this.map_display.nativeElement.style.top = this.top + 'px';
-	        this.map_display.nativeElement.style.left = this.left + 'px';
+	        this.zoom_state = Math.round(100 + this._zoom) + this.map_orientation[0].toLowerCase();
+
+	        this.map_display.nativeElement.style.top = Math.round(this.top) + 'px';
+	        this.map_display.nativeElement.style.left = Math.round(this.left) + 'px';
 	        if(z !== (Math.round(100 + this._zoom) + '%')) this.updateBoxes(); 
 	        this.setupPins();
         	if(this.isFocus) this.finishFocus();
+        	console.log(this.top_state, this.left_state);
 	    }
     }
 
@@ -155,6 +206,7 @@ export class InteractiveMap {
     }
 
     setupPins() {
+    	this.pin_cnt = this.pins.length;
         for(let i = 0; i < this.pins.length; i++) {
         	let pin = this.pins[i];
         	if(typeof pin !== 'object') {
@@ -199,6 +251,7 @@ export class InteractiveMap {
 	        	el.innerHTML = html;
 	        	if(text) el.appendChild(text);
         	}
+        	this.pins[i].status = 'show';
         }
     }
 
@@ -355,6 +408,7 @@ export class InteractiveMap {
         	this.setupDisabled();
         }
         if(changes.pins) {
+        	this.pin_cnt = this.pins.length;
         	this.setupPins();
         }
         if(changes.focus) {

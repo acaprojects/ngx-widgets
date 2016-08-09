@@ -10,6 +10,7 @@
     -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
+    color: #000;
     & .map-contents{
         position: relative;
         width:100%;
@@ -47,10 +48,12 @@
         & .map-area{
             position: absolute;
             margin:auto;
-            min-width:50%;
-            top:0;
-            left:0;
+            width:100%;
+            height:100%;
+            top:0px;
+            left:0px;
             z-index: 10;
+            padding: 2.0em;
 
             & > svg {
                 transform-origin: 0 0 0;
@@ -71,6 +74,7 @@
 		z-index: 2000;
 		background-color: #FFF;
 		border-radius: 5px;
+		color: #000;
 		@include transform( translate(-50%, -50%));
     }
 
