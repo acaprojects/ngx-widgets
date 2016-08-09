@@ -34,6 +34,7 @@ const zoom_anim = (function() {
 		end = style({'height':pos, offset: 1 });
 		animation.push(transition(t, animate(time, end)));
 	}
+	animation.push(transition('void => *', []));
 	return animation;
 })();
 

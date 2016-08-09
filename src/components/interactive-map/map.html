@@ -2,7 +2,6 @@
     <div #mapArea class="map-contents" [style.display]="(loading || !map_data)?'none':'inherit'">
 		<div class="pins"> 
 			<div class="pin" *ngFor="let pin of pins;let i = index;">
-				{{pin.status}}
 				<div class="pin" @pin="pin.status ? pin.status : 'hide'" [id]="'aca-map-pin' + i ">
 					<div *ngIf="pin.text" class="text">{{pin.text}}</div>
 				</div>
