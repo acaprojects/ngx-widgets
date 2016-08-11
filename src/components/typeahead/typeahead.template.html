@@ -1,0 +1,21 @@
+<div #main class="typeahead">
+	<ng-content></ng-content>
+	<div #contents class="contents">
+		<div #list class="options" *ngIf="show&&filtered_list.length > 0">
+			<ul>
+				<li class="option" 
+					*ngFor="let item of filtered_list; let i = index" 
+					[class.first]="i==0" 
+					[class.last]="i==filtered_list.length - 1"  
+					[class.other]="i > 0" 
+					[class.odd]="i%2===1" 
+					[class.even]="i%2===0" 
+					(click)="select(i)">
+
+					{{item.name}}<br>
+					<span class="desc">{{item.description}}</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

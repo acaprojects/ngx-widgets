@@ -10,10 +10,13 @@ import { Calendar } from './components/calendar';
 import { ModalDirective } from './components/modal';
 import { NotificationDirective } from './components/notification';
 import { TimePicker } from './components/time-picker';
+import { Dropdown } from './components/dropdown';
+import { Typeahead } from './components/typeahead';
 
 // Export all directives
 export * from './components/btn-group';
 export * from './components/btn-toggle';
+export * from './components/typeahead';
 export * from './components/fancy-toggle';
 export * from './components/slider';
 export * from './components/spinner';
@@ -23,6 +26,7 @@ export * from './components/calendar';
 export * from './components/modal';
 export * from './components/notification';
 export * from './components/time-picker';
+export * from './components/dropdown';
 
 // Export convenience property
 export const ACA_WIDGET_COMPONENTS: any[] = [
@@ -36,5 +40,7 @@ export const ACA_WIDGET_COMPONENTS: any[] = [
     NotificationDirective,
     InteractiveMap,
     Spinner,
-    TimePicker
+    TimePicker,
+    Dropdown,
+    Typeahead
 ];

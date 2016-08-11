@@ -12,6 +12,7 @@ export class ModalService {
   		fg: '#FFF',
   		bg: '#123456'
   	};
+  	bindings : any[] = [];
   	modal_data: any = {};
   	modal_inputs: any = {};
   	last_modal_id: string = '';
@@ -42,7 +43,7 @@ export class ModalService {
 				if(this.modal[id]) this.cleanModal(id);
 				this.modal_data[id] = info;
 					// Create Modal
-				let bindings = ReflectiveInjector.resolve([]);
+				let bindings = ReflectiveInjector.resolve(this.modal_inputs[id].bindings);
 				let model = this.render(id, Modal, this.vc ? this.vc : this.defaultVC, bindings);
 				this.last_modal_id = id;
 				return id;
@@ -70,11 +71,13 @@ export class ModalService {
 			styles: input.styles ? input.styles : this.modal_data[id].styles,
 			options: input.options ? input.options : this.modal_data[id].options,
 			close: input.close ? input.close : this.modal_data[id].close,
-			colors : input.colors ? input.colors : (this.modal_data[id].colors ? this.modal_data[id].colors : this.colors)
+			colors : input.colors ? input.colors : (this.modal_data[id].colors ? this.modal_data[id].colors : this.colors),
+			bindings : input.bindings ? input.bindings : (this.modal_data[id].bindings ? this.modal_data[id].bindings : this.bindings),
+			directives : input.directives ? input.directives : (this.modal_data[id].directives ? this.modal_data[id].directives : [])
 		}
 		this.modal_inputs[id] = this.modal_data[id];
 			// Create Modal
-		let bindings = ReflectiveInjector.resolve([]);
+		let bindings = ReflectiveInjector.resolve(this.modal_inputs[id].bindings);
 		let model = this.render(id, Modal, this.vc ? this.vc : this.defaultVC, bindings);
 		this.last_modal_id = id;
 		return id;

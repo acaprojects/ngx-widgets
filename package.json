@@ -1,6 +1,6 @@
 {
   "name": "@aca-1/a2-widgets",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "scripts": {
     "lint": "tslint src/**/*.ts",
     "test": "tsc && karma start",

@@ -173,14 +173,14 @@ export class InteractiveMap {
         	// Update map
         if(this.map_display && this.active) {
             let z = this.map_display.nativeElement.style[this.map_orientation];
-	        this.zoom_state = Math.round(100 + this._zoom) + this.map_orientation[0].toLowerCase();
+            let d = this.map_orientation ? this.map_orientation[0].toLowerCase() : 'w';
+	        this.zoom_state = Math.round(100 + this._zoom) + d;
 
 	        this.map_display.nativeElement.style.top = Math.round(this.top) + 'px';
 	        this.map_display.nativeElement.style.left = Math.round(this.left) + 'px';
 	        if(z !== (Math.round(100 + this._zoom) + '%')) this.updateBoxes(); 
 	        this.setupPins();
         	if(this.isFocus) this.finishFocus();
-        	console.log(this.top_state, this.left_state);
 	    }
     }
 
@@ -454,10 +454,15 @@ export class InteractiveMap {
     }
 
     loadMapData() {
-    	this.service.getMap(this.map).then((data) => {
-    		this.map_data = data;
-    		this.setupMap();
-    	});
+    	if(this.map && this.map.indexOf('.svg') >= 0) {
+	    	this.service.getMap(this.map).then((data) => {
+	    		this.map_data = data;
+	    		this.setupMap();
+	    	});
+	    } else {
+	    	this.map_data = null;
+            this.map_display.nativeElement.innerHTML = '';
+	    }
     }
 
     setupMap(){

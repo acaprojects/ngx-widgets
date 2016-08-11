@@ -1,0 +1,72 @@
+
+@import '~bourbon/app/assets/stylesheets/bourbon';
+
+.dropdown {
+	position: relative;
+	width: 100%;
+	height:100%;
+	border-radius: 4px;
+	padding: 0.5em 1.0em;
+	margin: 0.4em;
+
+	&.default {
+		color: #000;
+		border: 3px solid rgba(251, 136,   0, 0.7);
+		&:hover, & .active{
+			background-color: rgba(0, 0, 0, 0.2);
+			color: #FFF;
+		}
+	}
+	& .contents {
+		position: fixed;
+		width: 1px;
+		height: 1px;
+		z-index: 99999;
+
+		& .options {
+			position: absolute;
+			@include transform(translateX(-50%));
+
+			& ul {
+				list-style: none;
+				padding: 0;
+				margin: 0.2em 0;
+				background-color: #FFF;
+				border: 1px solid #EFEFEF;
+				border-radius: 5px;
+				box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.2);
+				-webkit-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.2);
+				-moz-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.2);
+				-o-box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.2);
+				max-height: 35vh;
+				overflow: auto;
+				white-space: nowrap;
+			}
+
+			& .option {
+				padding: 0.5em 1.5em;
+				white-space: nowrap;
+				&.default {
+					background-color: #FFF;
+					color: #000;
+					&:hover{
+						background-color: rgb(251, 136,   0);
+						color: #FFF;
+					}
+				}
+				&.other {
+					border-top: 1px solid #AAA;
+				}
+
+				&.first {
+					border-radius: 4px 4px 0 0;
+				}
+
+				&.last {
+					border-radius: 0 0 4px 4px;
+				}
+
+			}
+		}
+	}
+}

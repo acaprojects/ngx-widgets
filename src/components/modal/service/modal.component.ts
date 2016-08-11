@@ -66,7 +66,8 @@ export class Modal implements OnInit {
     cb_fn: Function = null;
     error: boolean = false;
     err_msg: string = '';
-    bindings: any;
+    bindings: any[] = [];
+    directives: any[] = [];
     content_instance: any = null;
     contentRef: ComponentRef<any> = null;
     clean_fn: Function = null;
@@ -120,12 +121,13 @@ export class Modal implements OnInit {
         finish();
     }
 
-    createContentWithTemplate(templateUrl, styles?) {
+    createContentWithTemplate(templateUrl, styles?, bindings?) {
+    	let directives = [ FORM_DIRECTIVES, ...(this.directives) ];
         @Component({
             selector: 'modal-content',
             templateUrl: templateUrl,
             styles : (styles? styles : []),
-            directives: [ FORM_DIRECTIVES ],
+            directives: directives,
         })
         class ModalContent {
             data:any = {};
@@ -136,12 +138,13 @@ export class Modal implements OnInit {
         return ModalContent;
     }
 
-    createContentWithHTML(html, styles?) {
+    createContentWithHTML(html, styles?, bindings?) {
+    	let directives = [ FORM_DIRECTIVES, ...(this.directives) ];
         @Component({
             selector: 'modal-content',
             template: html,
             styles : (styles? styles : []),
-            directives: [ FORM_DIRECTIVES ],
+            directives: directives,
         })
         class ModalContent {
             data:any = {};
@@ -205,6 +208,8 @@ export class Modal implements OnInit {
             if(data.options) this.options = data.options;
             if(data.styles) this.styles = data.styles;
             if(data.close !== undefined && data.close !== null) this.close = data.close;
+            if(data.bindings !== undefined && data.bindings !== null) this.bindings = data.bindings;
+            if(data.directives !== undefined && data.directives !== null) this.directives = data.directives;
             if(data.data) {
                 this.data = data.data;
                 if(this.content_instance) this.content_instance.setData(this.data);

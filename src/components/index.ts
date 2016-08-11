@@ -1,6 +1,7 @@
 export * from './btn-group';
 export * from './btn-toggle';
 export * from './calendar';
+export * from './dropdown';
 export * from './fancy-toggle';
 export * from './interactive-map';
 export * from './modal';
@@ -9,3 +10,4 @@ export * from './slider';
 export * from './spinner';
 export * from './tab-group';
 export * from './time-picker';
+export * from './typeahead';
