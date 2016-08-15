@@ -10,7 +10,7 @@
         <div #mapDisplay class="map-area" @zoom="zoom_state"></div>
     </div>
 	<div *ngIf="loading" class="loading-space">
-		<spinner type="dot-circle" [color]="color"></spinner>
+		<spinner type="double-bounce" [color]="color"></spinner>
 	</div>
 	<div *ngIf="!loading && !map_data" class="loading-space" [style.font-size]="'1.5em'">
 		Map not found!

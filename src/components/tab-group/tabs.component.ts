@@ -32,6 +32,7 @@ export class TabGroup implements AfterContentInit  {
     @Input() state: string = '0';
     @Input() routable: string = ''; // Search, Query, Hash, Route
     @Input() routeParam: string = 'tab'; //
+    @Input() cssClass: string = 'default';
     @Output() stateChange = new EventEmitter();
 
     //*

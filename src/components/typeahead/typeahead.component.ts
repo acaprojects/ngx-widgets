@@ -53,7 +53,7 @@ export class Typeahead {
   		}
   		if(changes.list) {
   			this.filterList();
-  			this.open();
+  			if(this.active) this.open();
   		}
   		if(changes.active) {
   			if(this.active) {

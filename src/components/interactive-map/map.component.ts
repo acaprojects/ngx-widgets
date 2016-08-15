@@ -396,7 +396,6 @@ export class InteractiveMap {
 
     ngOnChanges(changes: any){
         if(changes.map){
-        	this.loading = true;
             this.loadMapData();
         }
         if(changes.zoom) {
@@ -454,14 +453,23 @@ export class InteractiveMap {
     }
 
     loadMapData() {
-    	if(this.map && this.map.indexOf('.svg') >= 0) {
+        this.loading = true;
+    	this.map_data = null;
+        this.map_display.nativeElement.innerHTML = '';
+    	if(this.map && this.map.indexOf('.svg') >= 0 && this.map.length > 4) {
 	    	this.service.getMap(this.map).then((data) => {
 	    		this.map_data = data;
 	    		this.setupMap();
+	    	}, (err) => {
+	    		console.error('ACA_WIDGETS: Error loading map "' + this.map + '".');
+	    		console.error(err);
 	    	});
 	    } else {
-	    	this.map_data = null;
-            this.map_display.nativeElement.innerHTML = '';
+	    	if(!this.map) console.error('ACA_WIDGETS: Path to map is not valid.');
+	    	else if(this.map.indexOf('.svg') < 0) console.error('ACA_WIDGETS: Path to map is not an SVG.');
+	    	else if(this.map.length > 4) console.error('ACA_WIDGETS: Path to map is not long enough. It needs to be longer than 4 characters'); 
+	    	else console.error('ACA_WIDGETS: Unknown error loading map with map path "' + this.map + '".');
+	    	this.loading = false;
 	    }
     }
 
@@ -473,8 +481,8 @@ export class InteractiveMap {
             this.zoomed = true;
             setTimeout(() => { this.resize(); this.updateBoxes(); }, 200);
         	this.setupDisabled();
-        	this.loading = false;
         }
+        this.loading = false;
     }
 
     move = {

@@ -1,7 +1,8 @@
 <div class="tab-group" >
     <div #header class="tab-header">
-        <ul>
+        <ul [class]="cssClass">
             <li *ngFor="let tab of tabHeaders" [innerHTML]="tab.contents | safe" (click)="setActiveTab(tab.id)" [class.active]="tab.activeTab"></li>
+            <li [class]="cssClass" style="position:relative; width: 1px; padding: 0.5em; opacity:1; bottom: -1px; border-top: none; border-left: none; border-right: none; background: none;"></li>
         </ul>
     </div>
     <div #body class="tab-contents">

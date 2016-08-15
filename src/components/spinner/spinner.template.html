@@ -1,68 +1,59 @@
 <div [class]="cssClass + ' spinner ' + type">
 	<div class="spin">
-		<div *ngIf="type=='plane'" @plane="state" class="plane" [style.background-color]="color"></div>
-		<div *ngIf="type=='bounce'" class="bounce">
-			<div class="circle" @bounce="state" [style.background-color]="color"></div>
+		<div *ngIf="type=='plane'" class="plane">
+			<div class="box" [style.background-color]="color"></div>
 		</div>
-		<div *ngIf="type=='double-bounce'" class="bounce 2x">
-			<div class="circle" @dbounce1="state" [style.background-color]="color"></div>
-			<div class="circle" @dbounce2="state" [style.background-color]="color"></div>
+		<div *ngIf="type=='bounce'" class="bounce">
+			<div class="circle" [style.background-color]="color"></div>
+		</div>
+		<div *ngIf="type=='double-bounce'" class="double-bounce">
+			<div class="circle one" [style.background-color]="color"></div>
+			<div class="circle two" [style.background-color]="color"></div>
 		</div>
 		<div *ngIf="type=='bars'" class="bars">
-			<div class="bar" @bars="states[0]" [style.background-color]="color"></div>
-			<div class="gap"></div>
-			<div class="bar" @bars="states[1]" [style.background-color]="color"></div>
-
-			<div class="gap"></div>
-			<div class="bar" @bars="states[2]" [style.background-color]="color"></div>
-			<div class="gap"></div>
-			<div class="bar" @bars="states[3]" [style.background-color]="color"></div>
-
-			<div class="gap"></div>
-			<div class="bar" @bars="states[4]" [style.background-color]="color"></div>
-			<div class="gap"></div>
-			<div class="bar" @bars="states[5]" [style.background-color]="color"></div>
+			<div class="rect one" [style.background-color]="color"></div>
+			<div class="rect two" [style.background-color]="color"></div>
+			<div class="rect three" [style.background-color]="color"></div>
+			<div class="rect four" [style.background-color]="color"></div>
+			<div class="rect five" [style.background-color]="color"></div>
+			<div class="rect six" [style.background-color]="color"></div>
 		</div>
 		<div *ngIf="type=='cubemove'" class="cubemove">
-			<div class="cube" @cubemove="states[0]" [style.background-color]="color"></div>
-			<div class="cube" @cubemove="states[1]" [style.background-color]="color"></div>
-			<div class="cube" @cubemove="states[2]" [style.background-color]="color"></div>
-			<div class="cube" @cubemove="states[3]" [style.background-color]="color"></div>
+			<div class="cube one" [style.background-color]="color"></div>
+			<div class="cube two" [style.background-color]="color"></div>
 		</div>
-		<div *ngIf="type=='dot-bounce'" class="bounce-grp">
-			<div class="circle" @scale="states[0]" [style.background-color]="color"></div>
-			<div class="gap"></div>
-			<div class="circle" @scale="states[1]" [style.background-color]="color"></div>
-			<div class="gap"></div>
-			<div class="circle" @scale="states[2]" [style.background-color]="color"></div>
+		<div *ngIf="type=='dot-bounce'" class="dot-bounce">
+			<div class="circle one" [style.background-color]="color"></div>
+			<div class="circle two" [style.background-color]="color"></div>
+			<div class="circle three" [style.background-color]="color"></div>
 		</div>
-		<div *ngIf="type=='dot-circle'" class="dot-circle">
-			<div class="dot s1" @fade="states[0]"><div class="inner" [style.background-color]="color"></div></div>
-			<div class="dot s2" @fade="states[1]"><div class="inner" [style.background-color]="color"></div></div>
-			<div class="dot s3" @fade="states[2]"><div class="inner" [style.background-color]="color"></div></div>
-			<div class="dot s4" @fade="states[3]"><div class="inner" [style.background-color]="color"></div></div>
-			<div class="dot s5" @fade="states[4]"><div class="inner" [style.background-color]="color"></div></div>
-			<div class="dot s6" @fade="states[5]"><div class="inner" [style.background-color]="color"></div></div>
-			<div class="dot s7" @fade="states[6]"><div class="inner" [style.background-color]="color"></div></div>
-			<div class="dot s8" @fade="states[7]"><div class="inner" [style.background-color]="color"></div></div>
-			<div class="dot s9" @fade="states[8]"><div class="inner" [style.background-color]="color"></div></div>
-			<div class="dot s10" @fade="states[9]"><div class="inner" [style.background-color]="color"></div></div>
-			<div class="dot s11" @fade="states[10]"><div class="inner" [style.background-color]="color"></div></div>
-			<div class="dot s12" @fade="states[11]"><div class="inner" [style.background-color]="color"></div></div>
+		<div *ngIf="type=='dot-circle'" class="dot-circle-fade">
+			<div class="dot one"   ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot two"   ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot three" ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot four"  ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot five"  ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot six"   ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot seven" ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot eight" ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot nine"  ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot ten"   ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot eleven"><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot twelve"><div class="inner" [style.background-color]="color"></div></div>
 		</div>
 		<div *ngIf="type=='dot-circle-scale'" class="dot-circle">
-			<div class="dot s1"><div class="inner" @scale="states[0]" [style.background-color]="color"></div></div>
-			<div class="dot s2"><div class="inner" @scale="states[1]" [style.background-color]="color"></div></div>
-			<div class="dot s3"><div class="inner" @scale="states[2]" [style.background-color]="color"></div></div>
-			<div class="dot s4"><div class="inner" @scale="states[3]" [style.background-color]="color"></div></div>
-			<div class="dot s5"><div class="inner" @scale="states[4]" [style.background-color]="color"></div></div>
-			<div class="dot s6"><div class="inner" @scale="states[5]" [style.background-color]="color"></div></div>
-			<div class="dot s7"><div class="inner" @scale="states[6]" [style.background-color]="color"></div></div>
-			<div class="dot s8"><div class="inner" @scale="states[7]" [style.background-color]="color"></div></div>
-			<div class="dot s9"><div class="inner" @scale="states[8]" [style.background-color]="color"></div></div>
-			<div class="dot s10"><div class="inner" @scale="states[9]" [style.background-color]="color"></div></div>
-			<div class="dot s11"><div class="inner" @scale="states[10]" [style.background-color]="color"></div></div>
-			<div class="dot s12"><div class="inner" @scale="states[11]" [style.background-color]="color"></div></div>
+			<div class="dot one"   ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot two"   ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot three" ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot four"  ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot five"  ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot six"   ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot seven" ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot eight" ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot nine"  ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot ten"   ><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot eleven"><div class="inner" [style.background-color]="color"></div></div>
+			<div class="dot twelve"><div class="inner" [style.background-color]="color"></div></div>
 		</div>
 	</div>
 </div>
