@@ -2,18 +2,20 @@
 @import '~bourbon/app/assets/stylesheets/bourbon';
 
 .calendar {
-	font-size: 20px;
 	text-align: center;
 	position: relative;
 	max-width: 100%;
 	height: 25.6em;
-	overflow: hidden;
-	display: flex;
+	overflow-x: auto;
+	overflow-y: hidden;
+
 	& .time-picker {
 		position: absolute;
 		width: 100%;
 		height: 100%;
+		top: 100%;
 		left: 0;
+		text-align: center;
 		background-color: #FFF;
 		font-size: 2.0em;
 		& .time-space {
@@ -41,9 +43,15 @@
 					padding: 0.2em;
 					width: 3.0em;
 					& .change {
-						padding: 0.2em;
-						font-weight: bold;
-						@include transform( rotate(90deg));
+						position: relative;
+						font-weight: bolder;
+						text-align: center;
+						width: 100%;
+						font-size: 1.4em;
+						& .arrow-time {
+							display: inline-block;
+							@include transform( rotate(90deg));
+						}
 					}
 
 					& .set {
@@ -90,7 +98,6 @@
 
 @media only screen and (max-device-width: 720px){
 	.calendar {
-		font-size:10px;
 
 		& .time-picker {
 			font-size: 2.5em;

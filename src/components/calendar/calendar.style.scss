@@ -2,20 +2,20 @@
 @import '~bourbon/app/assets/stylesheets/bourbon';
 
 .calendar {
-	font-size: 20px;
 	text-align: center;
 	position: relative;
 	max-width: 100%;
 	height: 25.6em;
-	overflow: hidden;
-	display: flex;
+	overflow-x: auto;
+	overflow-y: hidden;
 	& .calendar-space {
-		flex-grow: 0;
+		display: inline-block;
 		height: 25.6em;
 		width: 25.6em;
 		border: 2px solid #EEE;
 		background-color: #FFF;
 		& .header {
+			position: relative;
 			width: 100%;
 			height: 11.111111%;
 			border-bottom: 1px solid #EEE;
@@ -23,6 +23,20 @@
 			color: #FFF;
 			font-size: 1.2em;
 			padding: 0.5em;
+			& .arrow {
+				position: absolute;
+				font-weight: bold;
+				font-size: 1.6em;
+				&.left {
+					top: 0.1em;
+					left: 0.5em;
+				}
+
+				&.right {
+					top: 0.1em;
+					right: 0.5em;
+				}
+			}
 		} 
 		& .week-days {
 			display: flex;
@@ -120,27 +134,13 @@
 		} 
 	}
 
-	& .arrow {
-		align-self: center;
-		flex-grow: 1;
-		padding: 0.2em;
-		font-size: 4.0em;
-		font-weight: bold;
-		&.left {
-			text-align: right;
-		}
-
-		&.right {
-			text-align: left;
-		}
-	}
-
 	& .time-picker {
 		position: absolute;
 		width: 100%;
 		height: 100%;
 		top: 100%;
 		left: 0;
+		text-align: center;
 		background-color: #FFF;
 		font-size: 2.0em;
 		& .time-space {
@@ -168,9 +168,15 @@
 					padding: 0.2em;
 					width: 3.0em;
 					& .change {
-						padding: 0.2em;
-						font-weight: bold;
-						@include transform( rotate(90deg));
+						position: relative;
+						font-weight: bolder;
+						text-align: center;
+						width: 100%;
+						font-size: 1.4em;
+						& .arrow-time {
+							display: inline-block;
+							@include transform( rotate(90deg));
+						}
 					}
 
 					& .set {
@@ -217,7 +223,6 @@
 
 @media only screen and (max-device-width: 720px){
 	.calendar {
-		font-size:10px;
 
 		& .time-picker {
 			font-size: 2.5em;
