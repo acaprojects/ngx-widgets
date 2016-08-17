@@ -65,14 +65,12 @@ export class TimePicker {
     }
 
     setDisplayTime() {
-    	console.log(this.time);
     		// Setup display hours
     	this.display_hour = (this.time.h % 12).toString();
     	if(parseInt(this.display_hour) === 0) this.display_hour = '12';
     		// Setup display minutes
     	this.display_minutes = (this.time.m % 60).toString();
     		// Setup display period
-    	console.log(this.time.h / 12 >= 1);
     	this.display_period = ((this.time.h / 12 >= 1) ? 'PM' : 'AM');
     	this.checkHour();
     	this.checkMinute();
@@ -81,7 +79,6 @@ export class TimePicker {
     addHour() {
     	this.time.h++;
     	this.time.h %= 24;
-    	console.log(this.time);
     	this.setDisplayTime();
     }
 
@@ -110,7 +107,6 @@ export class TimePicker {
     	this.setDisplayTime();
     }
     checkNumber(str: string) {
-    	console.log('Checking string contains only numbers: ' + str);
     	let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     	for(let i = 0; i < str.length; i++) { 
     		if(numbers.indexOf(str[i]) < 0) {
@@ -150,7 +146,6 @@ export class TimePicker {
     }
 
     checkHour() {
-    	console.log('Checking Hour');
     		// Check for value
     	if(!this.display_hour) this.display_hour = '12';
     		// Check length
@@ -165,7 +160,6 @@ export class TimePicker {
     }
 
     checkMinute() {
-    	console.log('Checking Minutes');
     		// Check for value
     	if(!this.display_minutes) this.display_minutes = '00';
     		// Check length

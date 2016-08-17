@@ -30,6 +30,8 @@ export class Calendar {
     @Input() minuteStep: number = 5;
     @Input() color1: string = '#666';
     @Input() color2: string = '#FFF';
+    @Input() viewTime: boolean = false;
+    @Output() viewTimeChange = new EventEmitter();
     @Output() dateChange = new EventEmitter();
     @Output() timeChange = new EventEmitter();
 
@@ -79,6 +81,9 @@ export class Calendar {
     	if(changes.time) {
     		this.setDisplayTime();
     	}
+    	if(changes.viewTime && this.viewTime) {
+    		this.pick_time = 'show';
+    	}
     }
 
     setDate(date: Date) {
@@ -97,7 +102,7 @@ export class Calendar {
     	}
     		// Clean up minutes to represent the set minute step
     	let minMod = this.time.m % this.minuteStep;
-    	this.time.m = this.minuteStep * (Math.round(this.time.m / this.minuteStep));
+    	this.time.m = this.minuteStep * (Math.ceil(this.time.m / this.minuteStep));
     	if(this.time.m >= 60) {
     		this.time.h++;
     		this.time.m %= 60;
@@ -107,14 +112,12 @@ export class Calendar {
     }
 
     setDisplayTime() {
-    	console.log(this.time);
     		// Setup display hours
     	this.display_hour = (this.time.h % 12).toString();
     	if(parseInt(this.display_hour) === 0) this.display_hour = '12';
     		// Setup display minutes
     	this.display_minutes = (this.time.m % 60).toString();
     		// Setup display period
-    	console.log(this.time.h / 12 >= 1);
     	this.display_period = ((this.time.h / 12 >= 1) ? 'PM' : 'AM');
     	this.checkHour();
     	this.checkMinute();
@@ -123,7 +126,6 @@ export class Calendar {
     addHour() {
     	this.time.h++;
     	this.time.h %= 24;
-    	console.log(this.time);
     	this.setDisplayTime();
     }
 
@@ -153,11 +155,8 @@ export class Calendar {
     }
 
     changePeriod() {
-    	console.log('Change Period');
     	this.time.h += 11;
-    	console.log(this.time);
     	this.addHour();
-    	console.log(this.time);
     }
 
     isPast(week, day) {
@@ -237,15 +236,16 @@ export class Calendar {
         if(this.isBeforeMinDate(week, day)) return false;
         this.setDate(date);
         this.initTime();
-        console.log(this.selectTime, this.pick_time);
-        if(this.selectTime) this.pick_time = 'show';
-        console.log(this.selectTime, this.pick_time);
+        if(this.selectTime) {
+        	this.pick_time = 'show';
+        	this.viewTime = true;
+        	this.viewTimeChange.emit(true);
+        }
         this.dateChange.emit(date);
         return true;
     }
 
     checkNumber(str: string) {
-    	console.log('Checking string contains only numbers: ' + str);
     	let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
     	for(let i = 0; i < str.length; i++) { 
     		if(numbers.indexOf(str[i]) < 0) {
@@ -285,7 +285,6 @@ export class Calendar {
     }
 
     checkHour() {
-    	console.log('Checking Hour');
     		// Check for value
     	if(!this.display_hour) this.display_hour = '12';
     		// Check length
@@ -300,7 +299,6 @@ export class Calendar {
     }
 
     checkMinute() {
-    	console.log('Checking Minutes');
     		// Check for value
     	if(!this.display_minutes) this.display_minutes = '00';
     		// Check length
@@ -326,6 +324,8 @@ export class Calendar {
     	this.checkHour();
     	this.checkMinute();
     	this.pick_time = 'hide';
+    	this.viewTime = false;
+    	this.viewTimeChange.emit(false);
     		// Update Date with hours and minutes
     	this.date.setHours(this.time.h);
     	this.date.setMinutes(this.time.m);

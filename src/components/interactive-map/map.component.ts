@@ -61,8 +61,6 @@ export class InteractiveMap {
     @Input() zoomMax: number = 200;
     @Input() zoom: number = 0;
     @Input() controls: boolean = true;
-    @Output() tap = new EventEmitter();
-    @Output() zoomChange = new EventEmitter();
     @Input() disable: string[] = [];
     @Input() pins: any[] = []; 
     @Input() mapSize: any = { x: 100, y: 100 };
@@ -70,6 +68,9 @@ export class InteractiveMap {
     @Input() focusScroll: boolean = false;
     @Input() focusZoom: number = 60;
     @Input() color: string = '#000';
+    @Input() mapStyles: { id: string, color: string, fill: string, opacity: string }[] = [];
+    @Output() tap = new EventEmitter();
+    @Output() zoomChange = new EventEmitter();
 
     //*
         //Toggle Knob
@@ -186,7 +187,7 @@ export class InteractiveMap {
 
     clearDisabled(strs:string[]) {
         for(let i = 0; i < strs.length; i++) {
-        	let el = this.map_display.nativeElement.querySelector('#' + strs[i]);
+        	let el = this.map_display.nativeElement.querySelector('#' + this.escape(strs[i]));
         	if(el !== null) {
         		el.style.display = 'inherit';
         	}
@@ -195,11 +196,24 @@ export class InteractiveMap {
 
     setupDisabled() {
         for(let i = 0; i < this.disable.length; i++) {
-        	let el = this.map_display.nativeElement.querySelector('#' + this.disable[i]);
+        	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.disable[i]));
         	if(el !== null) {
         		el.style.display = 'none';
         	}
         }
+    }
+
+    setupStyles() {
+    	if(!this.mapStyles) return;
+    	for(let i = 0; i < this.mapStyles.length; i++){
+    		let style = this.mapStyles[i];
+        	let el = this.map_area.nativeElement.querySelector('#' + this.escape(style.id));
+        	if(el) {
+        		if(style.color) el.style.color = style.color;
+        		if(style.opacity) el.style.opacity = style.opacity;
+        		if(style.fill) el.style.fill = style.fill;
+        	}
+    	}
     }
 
     clearPins() {
@@ -411,6 +425,9 @@ export class InteractiveMap {
         	this.pin_cnt = this.pins.length;
         	this.setupPins();
         }
+        if(changes.mapStyles) {
+        	this.setupStyles();
+        }
         if(changes.focus) {
         	this.updateFocus();
         }
@@ -481,6 +498,8 @@ export class InteractiveMap {
             this.zoomed = true;
             setTimeout(() => { this.resize(); this.updateBoxes(); }, 200);
         	this.setupDisabled();
+        	this.setupPins();
+        	this.setupStyles();
         }
         this.loading = false;
     }
