@@ -61,7 +61,7 @@
 							maxlength="2"
 							[(ngModel)]="display_hour" 
 							(blur)="checkHour()"  
-							(keyup)="keyupHour($event)"
+							(keyup)="keyupHour($event, display_hour)"
 							(keyup.enter)="changeFocus()">
 					</div>
 					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="minusHour()">&#x27E9;</div></div>
@@ -74,7 +74,8 @@
 							#minutePick
 							maxlength="2"
 							[(ngModel)]="display_minutes" 
-							(keyup)="keyupMinutes($event)"
+							(blur)="checkMinute()"  
+							(keyup)="keyupMinutes($event, display_minutes)"
 							(keyup.enter)="timeSet()">
 					</div>
 					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="minusMinute()">&#x27E9;</div></div>

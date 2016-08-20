@@ -5,7 +5,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDe
     selector: 'typeahead-list',
     template: `
 		<div #contents class="contents">
-			<div #list class="options" *ngIf="filtered_list.length > 0">
+			<div #list class="options" [style.display]="filtered_list.length > 0 ? 'inherit' : 'none'">
 				<ul #listView>
 					<li [class]="'option ' + cssClass" 
 						*ngFor="let item of filtered_list; let i = index" 
@@ -56,6 +56,14 @@ class TypeaheadList {
           			this.scrolled = false;
     			}, 1000);
     		}
+    		this.list.nativeElement.onmousedown = () => {
+    			this.parent.clicked = true;
+    		}
+    		document.onmouseup = (event) => {
+    			setTimeout(() => {
+    				this.parent.clicked = false;
+    			}, 200)
+    		}
 	      	this.disableScroll();
 	    }, 100);
   	}
@@ -77,35 +85,44 @@ class TypeaheadList {
 
   	filterList() {
   		let added = 0;
-  		this.filtered_list = [];
-  		if(this.filter === '') {
-  			this.filtered_list = this.items.length > this.results ? this.items.splice(0, this.results) : this.items;
+  		if(!this.filter || this.filter === '') {
+  			this.filtered_list = JSON.parse(JSON.stringify(this.items.length > this.results ? this.items.slice(0, this.results) : this.items));
   			return;
   		}
+  		this.filtered_list = [];
+  		let filter = this.filter.toLowerCase();
   		for(let i = 0; i < this.items.length; i++) {
   			let item = this.items[i];
   			if(typeof item !== 'object') continue;
   			if(this.filterFields.length > 0) {
   				for(let k = 0; k < this.filterFields.length; k++) {
   					let f = this.filterFields[k];
-  					if(item[f] && typeof item[f] === 'string' && item[f].toLowerCase().indexOf(this.filter.toLowerCase()) >= 0) {
-  						this.filtered_list.push(item);
-  						added++;
-  						break;
+  					if(item[f] && typeof item[f] === 'string') {
+  						let data = item[f].toLowerCase();
+  						if(data.indexOf(filter) >= 0) {
+	  						this.filtered_list.push(JSON.parse(JSON.stringify(item)));
+	  						added++;
+	  						break;
+	  					}
   					}
   				}
   			} else {
   				let keys = Object.keys(item);
   				for(let k = 0; k < keys.length; k++) {
   					let f = keys[k];
-  					if(item[f] && typeof item[f] === 'string' && item[f].toLowerCase().indexOf(this.filter.toLowerCase()) >= 0) {
-  						this.filtered_list.push(item);
-  						added++;
-  						break;
+  					console.log(k, typeof item[f]);
+  					if(item[f] && typeof item[f] === 'string') {
+  						let data = item[f].toLowerCase();
+  						console.log(filter, '|', data, '|', data.indexOf(filter));
+  						if(data.indexOf(filter) >= 0) {
+	  						this.filtered_list.push(JSON.parse(JSON.stringify(item)));
+	  						added++;
+	  						break;
+	  					}
   					}
   				}
   			}
-  			if(added > this.results) break;
+  			if(added >= this.results) break;
   		}
   	}
 
@@ -174,19 +191,19 @@ class TypeaheadList {
   		}
   	}
 
+  	clicked() {
+  		this.parent.clicked = true;
+  	}
+
   	setItem(i: number){
   		if(this.scrolled) return;
     	this.parent.setItem(this.filtered_list[i]);
+    	this.parent.clicked = false;
   	}
 
   	ngOnDestroy() {
-	    if(this.app) {
-	      	this.app.onclick = null;
-	      	this.app.ontouchend = null;
-	    } else {
-	    	document.onclick = null;
-	    	document.ontouchend = null;
-	    }
+    	document.onclick = null;
+    	document.ontouchend = null;
   		this.enableScroll();
   	}
 
@@ -230,6 +247,7 @@ export class Typeahead {
   	container: any;
   	id: number = 12345678;
   	closing: boolean = false;
+  	clicked: boolean = false;
 
 	constructor(private _cr: ComponentResolver, private view: ViewContainerRef) {
 
@@ -239,10 +257,14 @@ export class Typeahead {
 		if(changes.filter) {
 			if(this.list_view) this.list_view.updateFilter(this.filter);
 		}
-		if(changes.active) {
+		if(changes.active && !this.clicked) {
 			setTimeout(() => {
 				if(!this.active) this.close();
 				else this.open();
+			}, 200);
+		} else if(changes.active) {
+			setTimeout(() => {
+				this.ngOnChanges(changes);
 			}, 200);
 		}
 	}
@@ -270,6 +292,7 @@ export class Typeahead {
 		    this.list_ref.destroy();
 		    this.list_ref = null;
 		}
+		this.clicked = false;
   	}
 
   	setItem(item: any){

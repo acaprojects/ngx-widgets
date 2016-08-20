@@ -66,7 +66,7 @@ export class InteractiveMap {
     @Input() mapSize: any = { x: 100, y: 100 };
     @Input() focus: string;
     @Input() focusScroll: boolean = false;
-    @Input() focusZoom: number = 60;
+    @Input() focusZoom: number = 80;
     @Input() color: string = '#000';
     @Input() mapStyles: { id: string, color: string, fill: string, opacity: string }[] = [];
     @Output() tap = new EventEmitter();
@@ -151,19 +151,21 @@ export class InteractiveMap {
     	this.checkStatus(null, 0);
     	setInterval(() => {
     		if(this.pin_cnt !== this.pins.length) this.setupPins();
-    	}, 200)
+    	}, 200);
     }
 
     update() {
     	this.left = this._left;
     	this.top = this._top;
         	// Clean up any dimension changes
-        if(this.left < -this.maxLeft) this.left = -this.maxLeft;
-        else if(this.left > 0) this.left = 0;
-        if(this.top < -this.maxTop) this.top = -this.maxTop;
-        else if(this.top > 0) this.top = 0;
-        if(this._zoom > this.zoomMax || this._zoom > ZOOM_LIMIT) this._zoom = this.zoomMax;
-        else if (this._zoom < -50) this._zoom = -50;
+        if(!this.isFocus) {
+	        if(this.left < -this.maxLeft) this.left = -this.maxLeft;
+	        else if(this.left > 0) this.left = 0;
+	        if(this.top < -this.maxTop) this.top = -this.maxTop;
+	        else if(this.top > 0) this.top = 0;
+	        if(this._zoom > this.zoomMax || this._zoom > ZOOM_LIMIT) this._zoom = this.zoomMax;
+	        else if (this._zoom < -50) this._zoom = -50;
+	    }
         this.zoom = this._zoom;
         this.zoomChange.emit(this._zoom);
         this.rotate = this.rotate % 360;
@@ -180,8 +182,8 @@ export class InteractiveMap {
 	        this.map_display.nativeElement.style.top = Math.round(this.top) + 'px';
 	        this.map_display.nativeElement.style.left = Math.round(this.left) + 'px';
 	        if(z !== (Math.round(100 + this._zoom) + '%')) this.updateBoxes(); 
+	        else if(this.isFocus) this.finishFocus();
 	        this.setupPins();
-        	if(this.isFocus) this.finishFocus();
 	    }
     }
 
@@ -379,6 +381,7 @@ export class InteractiveMap {
                 //*/
         }
         this.setupPins();
+        if(this.focus) this.updateFocus();
     }
 
    	checkStatus(e, i) {
@@ -438,13 +441,15 @@ export class InteractiveMap {
     	this.zoomMax = 100000;
     	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.focus));
     	if(el !== null) {
-    		let cbb = this.content_box;
+    		let cbb = this.map_display.nativeElement.getBoundingClientRect();
     		let mbb = this.map_area.nativeElement.getBoundingClientRect();
     		if(cbb && mbb) {
 	    		let bb = el.getBoundingClientRect();
-	    		let wZoom = mbb.width / bb.width   * 0.35 * (this.focusZoom/100);
-	    		let hZoom = mbb.height / bb.height * 0.35 * (this.focusZoom/100);
-	    		this._zoom = Math.min(wZoom, hZoom) * 100;
+	    		let wZoom = mbb.width  / bb.width  * (cbb[this.map_orientation] / mbb[this.map_orientation] ) / 3;
+	    		let hZoom = mbb.height / bb.height * (cbb[this.map_orientation] / mbb[this.map_orientation] ) / 3;
+	    		this._top = 0;
+	    		this._left = 0;
+	    		this._zoom = (wZoom > hZoom ? hZoom : wZoom) * this.focusZoom;
 	    		this.isFocus = true;
 	    		this.redraw()
 	    		this.updateBoxes();
@@ -453,18 +458,22 @@ export class InteractiveMap {
     				this.updateFocus();
     			}, 100)
     		}
-    	}
+    	} else {
+			setTimeout(() => {
+				this.updateFocus();
+			}, 100)
+		}
     }
 
     finishFocus() {
     	this.isFocus = false;
     	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.focus));
     	if(el !== null) {
-    		let cbb = this.content_box;
+    		let cbb = this.map_display.nativeElement.getBoundingClientRect();
     		let mbb = this.map_area.nativeElement.getBoundingClientRect();
     		let bb = el.getBoundingClientRect();
-    		this._top = -(bb.top - mbb.top) + (mbb.height/2 - bb.height/2);
-    		this._left = -(bb.left - mbb.left) + (mbb.width/2 - bb.width/2);
+    		this._top = -(bb.top - cbb.top) + (mbb.height - bb.height)/2;
+    		this._left = -(bb.left - cbb.left) + (mbb.width - bb.width)/2;
     		this.redraw();
     	}
     }
@@ -599,7 +608,7 @@ export class InteractiveMap {
             this.map_orientation = rect.width > rect.height ? 'width' : 'height';
         }
         this.updateBoxes();
-        this.updateFocus();
+	    this.updateFocus();
      	this.loading = false;
     }
 

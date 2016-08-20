@@ -55,7 +55,7 @@ export class TimePicker {
     	}
     		// Clean up minutes to represent the set minute step
     	let minMod = this.time.m % this.minuteStep;
-    	this.time.m = this.minuteStep * (Math.round(this.time.m / this.minuteStep));
+    	this.time.m = this.minuteStep * (Math.ceil(this.time.m / this.minuteStep));
     	if(this.time.m >= 60) {
     		this.time.h++;
     		this.time.m %= 60;
@@ -106,11 +106,12 @@ export class TimePicker {
     	}
     	this.setDisplayTime();
     }
+
     checkNumber(str: string) {
-    	let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    	let numbers = '1234567890';
     	for(let i = 0; i < str.length; i++) { 
     		if(numbers.indexOf(str[i]) < 0) {
-    			str = str.substr(0, i) + str.substr(i+1, str.length); 
+    			str = str.substr(0, i-1) + str.substr(i+1, str.length); 
     			i--;
     		}
     	}
@@ -119,61 +120,72 @@ export class TimePicker {
 
     validateHour() {
     	this.display_hour = this.checkNumber(this.display_hour);
+    	if(this.display_hour === '') return;
+    	let hour = parseInt(this.display_hour);
+    	if(hour < 0 || hour > 60) this.display_hour = '12';
+    	else if(hour === NaN) this.display_hour = '';
     }
 
     validateMinute() {
+    	console.log(this.display_minutes);
     	this.display_minutes = this.checkNumber(this.display_minutes);
+    	let minutes = parseInt(this.display_minutes);
+    	if(minutes < 0 || minutes > 60) this.display_minutes = '00';
+    	else if(minutes === NaN) this.display_minutes = '';
     }
 
-    keyupHour(e: any) {
+    keyupHour(e: any, hour: string) {
     	if(e) {
     		if(e.keyCode == '38') { // Up Arrow
     			this.addHour();
     		} else if(e.keyCode == '40') { // Up Arrow
     			this.minusHour();
-    		} 
+    		} else this.validateHour();
     	} else this.validateHour();
     }
 
-    keyupMinutes(e: any) {
+    keyupMinutes(e: any, mins: string) {
     	if(e) {
     		if(e.keyCode == '38') { // Up Arrow
     			this.addMinute();
     		} else if(e.keyCode == '40') { // Up Arrow
     			this.minusMinute();
-    		} 
+    		} else this.validateMinute();
     	} else this.validateMinute();
     }
 
     checkHour() {
-    		// Check for value
-    	if(!this.display_hour) this.display_hour = '12';
-    		// Check length
-    	if(this.display_hour.length > 2) this.display_hour = this.display_hour.slice(0, 2);
-    		// Check for valid characters
-    	this.validateHour();
-    		// Check number is valid
-    	if(parseInt(this.display_hour) === NaN || parseInt(this.display_hour) > 12 || parseInt(this.display_hour) < 0) 
-    		this.display_hour = '12';
-    		// Update hours
-    	this.time.h = (parseInt(this.display_hour)%12) + (this.display_period === 'AM' ? 0 : 12);
+    	setTimeout(() => {
+	    		// Check for value
+	    	if(!this.display_hour) this.display_hour = '12';
+	    		// Check length
+	    	if(this.display_hour.length > 2) this.display_hour = this.display_hour.slice(0, 2);
+	    		// Check for valid characters
+	    	this.validateHour();
+	    		// Check number is valid
+	    	if(parseInt(this.display_hour) === NaN || parseInt(this.display_hour) > 12 || parseInt(this.display_hour) < 0 || this.display_hour === '') 
+	    		this.display_hour = '12';
+	    		// Update hours
+	    	this.time.h = (parseInt(this.display_hour)%12) + (this.display_period === 'AM' ? 0 : 12);
+    	}, 20);
     }
 
     checkMinute() {
-    		// Check for value
-    	if(!this.display_minutes) this.display_minutes = '00';
-    		// Check length
-    	if(this.display_minutes.length > 2) this.display_minutes = this.display_minutes.slice(0, 2);
-    		// Check for valid characters
-    	this.validateMinute();
-    		// Check number is valid
-    	if(parseInt(this.display_minutes) === NaN || parseInt(this.display_minutes) > 59 || parseInt(this.display_minutes) < 0) 
-    		this.display_minutes = '00';
-    	if(parseInt(this.display_minutes) < 10)  this.display_minutes = '0' + parseInt(this.display_minutes);
-    		// Update minutes
-    	this.time.m = parseInt(this.display_minutes);
+    	setTimeout(() => {
+	    		// Check for value
+	    	if(!this.display_minutes) this.display_minutes = '00';
+	    		// Check length
+	    	if(this.display_minutes.length > 2) this.display_minutes = this.display_minutes.slice(0, 2);
+	    		// Check for valid characters
+	    	this.validateMinute();
+	    		// Check number is valid
+	    	if(parseInt(this.display_minutes) === NaN || parseInt(this.display_minutes) > 59 || parseInt(this.display_minutes) < 0 || this.display_minutes === '') 
+	    		this.display_minutes = '00';
+	    	if(parseInt(this.display_minutes) < 10)  this.display_minutes = '0' + parseInt(this.display_minutes);
+	    		// Update minutes
+	    	this.time.m = parseInt(this.display_minutes);
+    	}, 20);
     }
-
     changeFocus() {
     	if(this.hour_input) this.hour_input.nativeElement.blur();
     	this.checkHour();

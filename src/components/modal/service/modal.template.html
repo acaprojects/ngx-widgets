@@ -3,22 +3,24 @@
 			@space="state"
 			[class.sm]="size==='small'" 
 			[class.lg]="size==='large'">
-		<div class="modal-header"
-			[style.background-color]="color1" 
-			[style.color]="color2" >
-			{{title}}
-			<div *ngIf="close" class="close-btn" (click)="close_fn()">
-				&#x2613;
+		<form class="modal-form">
+			<div class="modal-header"
+				[style.background-color]="color1" 
+				[style.color]="color2" >
+				{{title}}
+				<div *ngIf="close" class="close-btn" (click)="close_fn()">
+					&#x2613;
+				</div>
 			</div>
-		</div>
-		<div class="modal-body">
-			<div #content class="content">
+			<div class="modal-body">
+				<div #content class="content">
+				</div>
 			</div>
-		</div>
-		<div class="modal-footer">
-			<div class="modal-btns" *ngFor="let btn of options">
-				<button [style.background-color]="color1" [style.color]="color2" class="modal-btn"(click)="select(btn)">{{btn.text}}</button>
+			<div class="modal-footer">
+				<div class="modal-btns" *ngFor="let btn of options">
+					<button type="submit" [style.background-color]="color1" [style.color]="color2" class="modal-btn"(click)="select(btn)">{{btn.text}}</button>
+				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 </div>

@@ -24,7 +24,8 @@
 							type="text" 
 							#minutePick
 							maxlength="2"
-							[(ngModel)]="display_minutes" 
+							[(ngModel)]="display_minutes"  
+							(blur)="checkMinute()"  
 							(keyup)="keyupMinutes($event)"
 							(keyup.enter)="timeSet()">
 					</div>
