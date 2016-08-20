@@ -9,6 +9,7 @@ export class Spinner {
 	@Input() type: string = 'plane';
 	@Input() color: string = '#FFF';
 
+	id : string = '';
 	state: string = 'one';
 	timeout = {
 		plane: 1200,
@@ -32,6 +33,7 @@ export class Spinner {
 	bar_count = 6;
 
 	constructor() {
+		this.id = this.generateID('abcdefghijklmnopqrstuvwxyz1234567890', 16);
 	}
 
 	ngOnInit() {
@@ -40,6 +42,15 @@ export class Spinner {
 
 	ngOnChanges() {
 		if(this.type === null || this.type === undefined) this.type = 'plane';
+	}
+
+	generateID(chars: string, length: number = 16){
+		let id = '';
+		for(let i = 0; i < length; i++){
+			let num = Math.floor(Math.random() * chars.length * 10) % chars.length;
+			id += chars[num];
+		}
+		return id;
 	}
 
 	updateState() {

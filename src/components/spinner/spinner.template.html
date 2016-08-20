@@ -1,10 +1,17 @@
 <div [class]="cssClass + ' spinner ' + type">
-	<div class="spin">
+	<div [class]="'spin' + id">
 		<div *ngIf="type=='plane'" class="plane">
 			<div class="box" [style.background-color]="color"></div>
 		</div>
 		<div *ngIf="type=='bounce'" class="bounce">
 			<div class="circle" [style.background-color]="color"></div>
+		</div>
+		<div *ngIf="type=='ring-bounce'" class="ring-bounce">
+			<div class="circle" [style.border-color]="color"></div>
+		</div>
+		<div *ngIf="type=='ring-bounce-in'" class="ring-bounce-in">
+			<div class="circle one" [style.border-color]="color"></div>
+			<div class="circle two" [style.border-color]="color"></div>
 		</div>
 		<div *ngIf="type=='double-bounce'" class="double-bounce">
 			<div class="circle one" [style.background-color]="color"></div>
@@ -22,12 +29,23 @@
 			<div class="cube one" [style.background-color]="color"></div>
 			<div class="cube two" [style.background-color]="color"></div>
 		</div>
+		<div *ngIf="type=='cube-grid'" class="cube-grid">
+			<div class="cube one" [style.background-color]="color"></div>
+			<div class="cube two" [style.background-color]="color"></div>
+			<div class="cube three" [style.background-color]="color"></div>
+			<div class="cube four" [style.background-color]="color"></div>
+			<div class="cube five" [style.background-color]="color"></div>
+			<div class="cube six" [style.background-color]="color"></div>
+			<div class="cube seven" [style.background-color]="color"></div>
+			<div class="cube eight" [style.background-color]="color"></div>
+			<div class="cube nine" [style.background-color]="color"></div>
+		</div>
 		<div *ngIf="type=='dot-bounce'" class="dot-bounce">
 			<div class="circle one" [style.background-color]="color"></div>
 			<div class="circle two" [style.background-color]="color"></div>
 			<div class="circle three" [style.background-color]="color"></div>
 		</div>
-		<div *ngIf="type=='dot-circle'" class="dot-circle-fade">
+		<div *ngIf="type=='dot-circle'" class="dot-circle">
 			<div class="dot one"   ><div class="inner" [style.background-color]="color"></div></div>
 			<div class="dot two"   ><div class="inner" [style.background-color]="color"></div></div>
 			<div class="dot three" ><div class="inner" [style.background-color]="color"></div></div>

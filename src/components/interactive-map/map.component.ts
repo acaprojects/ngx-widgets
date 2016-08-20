@@ -150,8 +150,11 @@ export class InteractiveMap {
         });
     	this.checkStatus(null, 0);
     	setInterval(() => {
-    		if(this.pin_cnt !== this.pins.length) this.setupPins();
+    		if(this.active && this.pins && this.pin_cnt !== this.pins.length) this.setupPins();
     	}, 200);
+    	setInterval(() => {
+    		this.checkStatus(null, 0);
+    	}, 1000);
     }
 
     update() {
@@ -197,12 +200,14 @@ export class InteractiveMap {
     }
 
     setupDisabled() {
-        for(let i = 0; i < this.disable.length; i++) {
-        	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.disable[i]));
-        	if(el !== null) {
-        		el.style.display = 'none';
-        	}
-        }
+    	if(this.active) {
+	        for(let i = 0; i < this.disable.length; i++) {
+	        	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.disable[i]));
+	        	if(el !== null) {
+	        		el.style.display = 'none';
+	        	}
+	        }
+	    }
     }
 
     setupStyles() {
@@ -222,54 +227,69 @@ export class InteractiveMap {
     	this.pins = [];
     }
 
-    setupPins() {
-    	this.pin_cnt = this.pins.length;
-        for(let i = 0; i < this.pins.length; i++) {
-        	let pin = this.pins[i];
-        	if(typeof pin !== 'object') {
-        		pin = this.pin_defaults;
-        	} else {
-        		if(!pin.x) pin.x = this.pin_defaults.x;
-        		if(!pin.y) pin.x = this.pin_defaults.y;
-        		if(!pin.colors) pin.x = this.pin_defaults.colors;
-        		else { 
-        			if(!pin.colors.one   || pin.colors.one.length > 25) pin.colors.one = this.pin_defaults.colors.one;
-        			if(!pin.colors.two   || pin.colors.one.length > 25) pin.colors.two = this.pin_defaults.colors.two;
-        		}
-        	}
-        	let el = this.map_area.nativeElement.querySelector('#aca-map-pin' + i);
-        	if(el !== null) {
-        		if(pin.id) {
-        			let elc = this.map_display.nativeElement.querySelector('#' + this.escape(pin.id));
-        			if(elc !== null) {
-        				let bb = elc.getBoundingClientRect();
-		        		let ebb = el.getBoundingClientRect();
-    					let cbb = this.map_area.nativeElement.getBoundingClientRect();
-        				el.style.top = (bb.top - (ebb.height) + bb.height/2 - cbb.top) + 'px';
-        				el.style.left = (bb.left) + 'px';
-        			}
-        		} else {
-	        		let percentY = Math.min(this.mapSize.y, pin.y) / this.mapSize.y;
-	        		let percentX = Math.min(this.mapSize.x, pin.x) / this.mapSize.x;
-	        		let w = 0; let h = 0; let aw = 0; let ah = 0;
-	        		if(this.content_box) {
-		        		w = parseInt(this.map_display.nativeElement.style[this.map_orientation])/100 * this.content_box.width;
-		        		h = parseInt(this.map_display.nativeElement.style[this.map_orientation])/100 * this.content_box.height;
-		        		aw = this.content_box.width;
-		        		ah = this.content_box.height;
-		        	}
-		        	let bb = el.getBoundingClientRect();
+    isVisible() {
+    	if(this.self) {
+    			//Check if the map area is visiable
+    		let bb = this.self.nativeElement.getBoundingClientRect();
+    		if(bb.left + bb.width < 0) return false;
+    		else if(bb.top + bb.height < 0) return false;
+    		else if(bb.top > window.innerHeight) return false;
+    		else if(bb.left > window.innerWidth) return false;
+    		return true;
+    	}
+    	return false;
+    }
 
-	        		el.style.top = ((Math.round(percentY * h) + this.top) - bb.height) + 'px';
-	        		el.style.left = (Math.round(percentX * w) + this.left ) + 'px';
+    setupPins() {
+    	if(this.active) {
+	    	this.pin_cnt = this.pins.length;
+	        for(let i = 0; i < this.pins.length; i++) {
+	        	let pin = this.pins[i];
+	        	if(typeof pin !== 'object') {
+	        		pin = this.pin_defaults;
+	        	} else {
+	        		if(!pin.x) pin.x = this.pin_defaults.x;
+	        		if(!pin.y) pin.x = this.pin_defaults.y;
+	        		if(!pin.colors) pin.x = this.pin_defaults.colors;
+	        		else { 
+	        			if(!pin.colors.one   || pin.colors.one.length > 25) pin.colors.one = this.pin_defaults.colors.one;
+	        			if(!pin.colors.two   || pin.colors.one.length > 25) pin.colors.two = this.pin_defaults.colors.two;
+	        		}
 	        	}
-	        	let html = this.getPin(pin, i);
-	        	let text = el.children[el.children.length-1];
-	        	el.innerHTML = html;
-	        	if(text) el.appendChild(text);
-        	}
-        	this.pins[i].status = 'show';
-        }
+	        	let el = this.map_area.nativeElement.querySelector('#aca-map-pin' + i);
+	        	if(el !== null) {
+	        		if(pin.id) {
+	        			let elc = this.map_display.nativeElement.querySelector('#' + this.escape(pin.id));
+	        			if(elc !== null) {
+	        				let bb = elc.getBoundingClientRect();
+			        		let ebb = el.getBoundingClientRect();
+	    					let cbb = this.map_area.nativeElement.getBoundingClientRect();
+	        				el.style.top = (bb.top - (ebb.height) + bb.height/2 - cbb.top) + 'px';
+	        				el.style.left = (bb.left) + 'px';
+	        			}
+	        		} else {
+		        		let percentY = Math.min(this.mapSize.y, pin.y) / this.mapSize.y;
+		        		let percentX = Math.min(this.mapSize.x, pin.x) / this.mapSize.x;
+		        		let w = 0; let h = 0; let aw = 0; let ah = 0;
+		        		if(this.content_box) {
+			        		w = parseInt(this.map_display.nativeElement.style[this.map_orientation])/100 * this.content_box.width;
+			        		h = parseInt(this.map_display.nativeElement.style[this.map_orientation])/100 * this.content_box.height;
+			        		aw = this.content_box.width;
+			        		ah = this.content_box.height;
+			        	}
+			        	let bb = el.getBoundingClientRect();
+
+		        		el.style.top = ((Math.round(percentY * h) + this.top) - bb.height) + 'px';
+		        		el.style.left = (Math.round(percentX * w) + this.left ) + 'px';
+		        	}
+		        	let html = this.getPin(pin, i);
+		        	let text = el.children[el.children.length-1];
+		        	el.innerHTML = html;
+		        	if(text) el.appendChild(text);
+	        	}
+	        	this.pins[i].status = 'show';
+	        }
+	    }
     }
 
     escape (value) {
@@ -385,9 +405,10 @@ export class InteractiveMap {
     }
 
    	checkStatus(e, i) {
-   		if(i > 3 || !this.map_area) return;
+   		if(i > 2) return;
+   		//console.log('Check Status ' + i);
    		let visible = false;
-   		let el = this.map_area.nativeElement;
+   		let el = this.self.nativeElement;
    		while(el) {
    			if(el.nodeName === 'BODY') {
    				visible = true;
@@ -395,14 +416,17 @@ export class InteractiveMap {
    			}
    			el = el.parentNode;
    		}
+   		if(visible) visible = this.isVisible();
    		if(!visible) {
    			this.active = false;
    			this.loading = true;
-   			setTimeout(() => { this.checkStatus(e, i+1); }, 100);
+   			//setTimeout(() => { this.checkStatus(e, i+1); }, 50);
    		} else {
    			if(this.active !== visible)  {
    				this.active = true;
-   				setTimeout(() => { this.resize() }, 100);
+   				setTimeout(() => {
+   					this.loadMapData();
+   				}, 100);
    			}
    		}
    	}
@@ -424,7 +448,7 @@ export class InteractiveMap {
         	if(pv !== null && pv !== undefined) this.clearDisabled(pv);
         	this.setupDisabled();
         }
-        if(changes.pins) {
+        if(changes.pins && this.pins) {
         	this.pin_cnt = this.pins.length;
         	this.setupPins();
         }
@@ -481,22 +505,28 @@ export class InteractiveMap {
     loadMapData() {
         this.loading = true;
     	this.map_data = null;
-        this.map_display.nativeElement.innerHTML = '';
-    	if(this.map && this.map.indexOf('.svg') >= 0 && this.map.length > 4) {
-	    	this.service.getMap(this.map).then((data) => {
-	    		this.map_data = data;
-	    		this.setupMap();
-	    	}, (err) => {
-	    		console.error('ACA_WIDGETS: Error loading map "' + this.map + '".');
-	    		console.error(err);
-	    	});
-	    } else {
-	    	if(!this.map) console.error('ACA_WIDGETS: Path to map is not valid.');
-	    	else if(this.map.indexOf('.svg') < 0) console.error('ACA_WIDGETS: Path to map is not an SVG.');
-	    	else if(this.map.length > 4) console.error('ACA_WIDGETS: Path to map is not long enough. It needs to be longer than 4 characters'); 
-	    	else console.error('ACA_WIDGETS: Unknown error loading map with map path "' + this.map + '".');
-	    	this.loading = false;
-	    }
+    	if(this.active) {
+	        this.map_display.nativeElement.innerHTML = '';
+	    	if(this.map && this.map.indexOf('.svg') >= 0 && this.map.length > 4) {
+		    	this.service.getMap(this.map).then((data) => {
+		    		this.map_data = data;
+		    		this.setupMap();
+		    	}, (err) => {
+		    		console.error('ACA_WIDGETS: Error loading map "' + this.map + '".');
+		    		console.error(err);
+		    	});
+		    } else {
+		    	if(!this.map) console.error('ACA_WIDGETS: Path to map is not valid.');
+		    	else if(this.map.indexOf('.svg') < 0) console.error('ACA_WIDGETS: Path to map is not an SVG.');
+		    	else if(this.map.length > 4) console.error('ACA_WIDGETS: Path to map is not long enough. It needs to be longer than 4 characters'); 
+		    	else console.error('ACA_WIDGETS: Unknown error loading map with map path "' + this.map + '".');
+		    	this.loading = false;
+		    }
+		} else {
+			setTimeout(() => {
+				this.loadMapData();
+			}, 200);
+		}
     }
 
     setupMap(){
