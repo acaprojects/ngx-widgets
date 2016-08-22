@@ -107,7 +107,7 @@ export class Notification implements OnInit {
 
     createContentWithHTML(html, styles?) {
     	let template = `
-    		<div @notification="state" @position="pos" [class]="'notification ' + cssClass">
+    		<div [@notification]="state" [@position]="pos" [class]="'notification ' + cssClass">
     			${html} ${(this.close ? '<div class="close-btn" *ngIf="canClose" (click)="close()">☓</div>' : '')} 
 			</div>`;
     	let styleList = this.coreStyles.concat(styles? styles : []);

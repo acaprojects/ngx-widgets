@@ -12,7 +12,7 @@ import { ButtonToggle } from '../btn-toggle';
 export class ButtonGroup {
     @Input() items;
     @Input() selected: number = 0;
-    @Input() stylePrefix: string = '';
+    @Input() cssClass: string = 'default';
     @Output() selectedChange = new EventEmitter();
 
     constructor(){

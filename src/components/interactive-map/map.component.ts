@@ -461,6 +461,7 @@ export class InteractiveMap {
     }
 
     updateFocus() {
+    	if(!this.map_display) return;
     	if(this.focus === null || this.focus === undefined || this.focus === '') return;
     	this.zoomMax = 100000;
     	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.focus));
