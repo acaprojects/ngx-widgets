@@ -3,7 +3,6 @@ import { trigger, transition, animate, style, state, group, keyframes } from '@a
 
 import { ACA_Animate } from '../../services/animate.service';
 import { MapService } from './map.service';
-import { Spinner } from '../spinner';
 
 declare let Hammer: any;
 
@@ -41,8 +40,6 @@ const zoom_anim = (function() {
 
 @Component({
     selector: 'interactive-map',
-    directives: [ Spinner ],
-    providers: [ ACA_Animate ], 
     templateUrl: './map.html',
     styles: [
         require('./map.scss')
@@ -211,7 +208,7 @@ export class InteractiveMap {
     }
 
     setupStyles() {
-    	if(!this.mapStyles) return;
+    	if(!this.mapStyles || !this.map_area) return;
     	for(let i = 0; i < this.mapStyles.length; i++){
     		let style = this.mapStyles[i];
         	let el = this.map_area.nativeElement.querySelector('#' + this.escape(style.id));

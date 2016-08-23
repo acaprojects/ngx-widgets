@@ -32,7 +32,7 @@ export * from './components/dropdown';
 export const ACA_WIDGET_COMPONENTS: any[] = [
     ButtonGroup,
     ButtonToggle,
-    TABS_DIRECTIVES,
+    ...TABS_DIRECTIVES,
     Slider,
     FancyToggle,
     Calendar,

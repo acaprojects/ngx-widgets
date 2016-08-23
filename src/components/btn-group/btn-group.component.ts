@@ -1,9 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { ButtonToggle } from '../btn-toggle';
 
 @Component({
     selector: 'btn-group',
-    directives: [ ButtonToggle ],
     templateUrl: './btn-group.html',
     styles: [
         require('./btn-group.scss')

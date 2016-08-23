@@ -6,7 +6,6 @@ declare let Hammer: any;
 @Component({
     selector: '[slider]',
     directives: [ ],
-    providers: [ ACA_Animate ],
     templateUrl: './slider.html',
     styles: [
         require('./slider.scss')

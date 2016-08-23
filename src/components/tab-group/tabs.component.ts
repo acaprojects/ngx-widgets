@@ -20,7 +20,6 @@ export class Safe {
 
 @Component({
     selector: 'tab-group',
-    directives: [ TabBody, TabHead ],
     pipes: [ Safe ],
     templateUrl: './tabs.html',
     styles: [

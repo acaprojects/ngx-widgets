@@ -3,7 +3,6 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 
 @Component({
     selector: 'fancy-toggle',
-    directives: [ ],
     templateUrl: './toggle.html',
     styles: [
         require('./toggle.scss')
