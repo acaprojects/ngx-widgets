@@ -8,10 +8,10 @@
 	border-radius: 4px;
 	padding: 0.5em 1.0em;
 	margin: 0.4em;
+	border: 0.2em solid rgba(0, 0, 0, 0.7);
 
 	&.default {
 		color: #000;
-		border: 3px solid rgba(251, 136,   0, 0.7);
 		&:hover, & .active{
 			background-color: rgba(0, 0, 0, 0.2);
 			color: #FFF;

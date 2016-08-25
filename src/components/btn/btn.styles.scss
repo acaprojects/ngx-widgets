@@ -1,0 +1,84 @@
+
+@import '~bourbon/app/assets/stylesheets/bourbon';
+
+.aca {
+	&.default {
+		font-family: Roboto;
+	}
+	&.btn {
+		position: relative;
+		display: inline-block;
+		padding: 0.25em 0.5em;
+		text-align: center;
+		@include user-select(none);
+		cursor: pointer;
+		& .action-btn {
+			padding: 0;
+			& button {
+				height: 4.0em;
+				width: 4.0em;
+				padding: 0;
+				border-radius: 100%;
+				&.hover {
+					
+				}
+			}
+		}
+		& .mini-action-btn {
+			padding: 0;
+			& button {
+				height: 3.0em;
+				width: 3.0em;
+				padding: 0;
+				border-radius: 100%;
+				&.hover {
+					
+				}
+			}
+		}
+		& .raised-btn {
+			& button {
+				min-width: 6.0em;
+				&.disabled {
+					background-color: rgba(0,0,0, 0.5);
+					color: #000;
+				}
+			}
+		}
+		& .flat-btn {
+			& button {
+				background: none;
+				min-width: 6.0em;
+				&.hover {
+					background: #CCC;
+				}
+				&.active {
+					background: #999;
+				}
+			}
+		}
+		& button {
+			font-size: 1.0em;
+			padding: 0.5em 0.75em;
+			position: relative;
+			outline: none;
+			border-radius: 0.1em;
+			border: none;
+			cursor: pointer;
+			&.disabled {
+				opacity: 0.25;
+			}
+		}
+		& .circle{
+			position: absolute;
+			width: 4.0em;
+			height: 4.0em;
+			top: 50%;
+			left: 50%;
+			@include transform( translate(-50%, -50%) scale(0));
+			background-color: #000;
+			opacity: 0;
+			border-radius: 100%;
+		}
+	}
+}

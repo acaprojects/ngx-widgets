@@ -1,5 +1,5 @@
 import { Directive, Input, Output, EventEmitter } from '@angular/core';
-import { ModalService } from './service';
+import { ModalService } from './modal.service';
 
 @Directive({
 	selector: '[modal]'

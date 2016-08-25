@@ -1,4 +1,4 @@
-<div #displayArea class="interactive-map" (window:resize)="resize()">
+<div #displayArea class="aca interactive-map" (window:resize)="resize()">
     <div #mapArea *ngIf="active" class="map-contents" [style.display]="(loading || !map_data)?'none':'inherit'">
 		<div class="pins"> 
 			<div class="pin" *ngFor="let pin of pins;let i = index;">

@@ -1,4 +1,4 @@
-<div [class]="'btn-group ' + cssClass">
+<div [class]="'aca btn-group ' + cssClass">
     <div class="btn-obj" *ngFor="let item of items; let i = index">
         <btn-toggle [cssClass]="cssClass" [active]="item" [inactive]="item" [value]="selected==i" (valueChange)="clickEvent(i)">
         </btn-toggle>

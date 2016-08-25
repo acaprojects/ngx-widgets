@@ -1,4 +1,4 @@
-<div class="tab-group" >
+<div class="aca tab-group" >
     <div #header class="tab-header">
         <ul [class]="cssClass">
             <li *ngFor="let tab of tabHeaders" [innerHTML]="tab.contents | safe" (click)="setActiveTab(tab.id)" [class.active]="tab.activeTab"></li>

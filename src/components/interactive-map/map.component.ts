@@ -628,7 +628,7 @@ export class InteractiveMap {
 
     resize() {
         this.content_box = this.self.nativeElement.getBoundingClientRect();
-        if(this.map_item) {
+        if(this.map_item && this.map_display) {
             let rect = this.map_item.getBoundingClientRect();
             let md = this.map_display.nativeElement;
             if(this.map_orientation.length > 0 && md.style[this.map_orientation])
@@ -644,13 +644,17 @@ export class InteractiveMap {
 
     setupUpdate() {
     	this.updateAnimation = this.a.animation(() => {}, () => {
-	        this.map_box = this.map_display.nativeElement.getBoundingClientRect();
-	        this.maxTop  = this.map_box.height - this.content_box.height;
-	        this.maxLeft = this.map_box.width - this.content_box.width;
-	        if(this.maxTop < 0) this.maxTop = 0;
-	        if(this.maxLeft < 0) this.maxLeft = 0;
-	        this.zoomChange.emit(this.zoom);
-	        this.redraw();
+    		if(!this.content_box && this.self) 
+        		this.content_box = this.self.nativeElement.getBoundingClientRect();
+    		if(this.map_display && this.content_box) {
+		        this.map_box = this.map_display.nativeElement.getBoundingClientRect();
+		        this.maxTop  = this.map_box.height - this.content_box.height;
+		        this.maxLeft = this.map_box.width - this.content_box.width;
+		        if(this.maxTop < 0) this.maxTop = 0;
+		        if(this.maxLeft < 0) this.maxLeft = 0;
+		        this.zoomChange.emit(this.zoom);
+		        this.redraw();
+		    }
 	    });
     }
 

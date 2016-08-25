@@ -1,0 +1,109 @@
+
+@import '~bourbon/app/assets/stylesheets/bourbon';
+
+$lg-height: 50.0em;
+$sm-height: 20.0em;
+$space: 3.0em;
+
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.3);
+	font-size: 20px;
+	z-index: 9999999;
+
+	& .modal-space {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+		@include transform(translate(-50%, -50%));
+		width: $lg-height;
+		min-height: $lg-height / 2;
+		max-height: 90%;
+		background-color: #FFF;
+		border-radius: 10px;
+		max-height: 90%;
+		max-width: 90%;
+		/*border: 1px solid #DDD;*/
+		& .modal-header {
+			position: absolute;
+			font-size: 1.5em;
+			padding: 0.5em;
+			top: 0; 
+			left: 0;
+			height: $space / 3 * 2;
+			right: 0;
+			/*border-bottom: 1px solid #DDD;*/
+			background-color: #273043;
+			border-radius: 9px 9px 0 0;
+			color: #FFF;
+			text-align: center;
+			& .close-btn {
+				position: absolute;
+				top: 0.25em;
+				right: 0.5em;
+				color: #FFF;
+				&:hover {
+					color: #CCC;
+				}
+			}
+		}
+		& .modal-body {
+			position: absolute;
+			padding: 0.5em 1.0em;
+			top: $space;
+			left:0;
+			right: 0;
+			bottom: $space;
+			overflow: auto;
+			color: #000;
+			& .content {
+				font-size: 0.75em;
+			}
+		}
+
+		& .modal-footer {
+			position: absolute;
+			font-size: 1.2em;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			height: $space - 0.5em;
+			text-align: right;
+			border-top: 1px solid #DDD;
+			border-radius: 0 0 9px 9px;
+			padding: 0.25em;
+			& .modal-btns {
+				display: inline-block;
+				text-align: center;
+				padding: 0.2em;
+				& .modal-btn {
+					outline: none;
+					border: none;
+					padding: 0.5em 2.0em;
+					border-radius: 5px;
+					background-color: #273043;
+					color: #FFF;
+					font-size: 0.75em;
+					&:hover {
+
+					}
+				}
+			}
+		}
+		&.sm {
+			width: $sm-height;
+			min-height: $sm-height / 3 * 2;
+		}
+	}
+}
+
+
+@media only screen and (max-device-width: 720px){
+	.modal {
+		font-size:20px;
+	}
+}

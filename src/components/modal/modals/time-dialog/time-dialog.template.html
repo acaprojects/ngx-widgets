@@ -1,0 +1,12 @@
+<div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (click)="onPointer($event)" (touchend)="onPointer($event)">
+	<div #modal class="modal-space" [@space]="state">
+		<div class="dialog">
+			<div class="dialog-title">{{data.title}}</div>
+			<div class="dialog-content">{{data.content}}</div>
+			<div class="dialog-buttons">
+				<div class="cancel">Cancel</div>
+				<div class="confirm">{{confirm}}</div>
+			</div>
+		</div>
+	</div>
+</div>

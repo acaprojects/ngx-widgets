@@ -1,2 +1,2 @@
 export * from './modal.directive';
-export * from './service';
+export * from './modal.service';

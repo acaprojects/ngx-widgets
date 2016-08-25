@@ -1,6 +1,15 @@
 import { Injectable, ComponentResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
 import { Modal } from './modal.component';
+import { AlertDialog, ConfirmDialog, DateDialog, TimeDialog } from './modals';
+
+const Modals = {
+	default: Modal,
+	alert: AlertDialog,
+	confirm: ConfirmDialog,
+	date: DateDialog,
+	time: TimeDialog
+}
 
 @Injectable()
 export class ModalService {
@@ -43,8 +52,8 @@ export class ModalService {
 				if(this.modal[id]) this.cleanModal(id);
 				this.modal_data[id] = info;
 					// Create Modal
-				let bindings = ReflectiveInjector.resolve(this.modal_inputs[id].bindings);
-				let model = this.render(id, Modal, this.vc ? this.vc : this.defaultVC, bindings);
+				let bindings = ReflectiveInjector.resolve(this.modal_data[id].bindings);
+				let model = this.render(id, this.modal_data[id].type, this.vc ? this.vc : this.defaultVC, bindings);
 				this.last_modal_id = id;
 				return id;
 			} else  {
@@ -64,6 +73,7 @@ export class ModalService {
 			//Update parameters
 		this.modal_data[id] = {
 			src : input.src ? input.src : this.modal_data[id].src,
+			type: Modals[input.type] ? Modals[input.type] : (this.modal_data[id].type ? this.modal_data[id].type : Modals.default),
 			title: input.title ? input.title : this.modal_data[id].title, 
 			data: input.data ? input.data : this.modal_data[id].data,
 			html: input.html ? input.html : this.modal_data[id].html,
@@ -78,7 +88,7 @@ export class ModalService {
 		this.modal_inputs[id] = this.modal_data[id];
 			// Create Modal
 		let bindings = ReflectiveInjector.resolve(this.modal_inputs[id].bindings);
-		let model = this.render(id, Modal, this.vc ? this.vc : this.defaultVC, bindings);
+		let model = this.render(id, this.modal_inputs[id].type, this.vc ? this.vc : this.defaultVC, bindings);
 		this.last_modal_id = id;
 		return id;
 	}

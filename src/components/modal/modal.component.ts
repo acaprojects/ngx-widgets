@@ -8,7 +8,7 @@ const PLACEHOLDER = '-';
 
 @Component({
     selector: '[modal]', 
-    styles: [ require('./modal.style.scss') ],
+    styles: [ require('./modal.style.scss'), require('../global-styles/global-styles.scss') ],
     templateUrl: './modal.template.html',
     directives: [ NgTemplateOutlet ],
     animations: [

@@ -6,7 +6,7 @@ import { DomSanitizationService } from '@angular/platform-browser';
 @Component({
     selector: 'dropdown-list',
     template: `
-		<div #contents class="contents">
+		<div #contents class="aca dropdown contents">
 			<div #list class="options">
 				<ul #listView>
 					<li [class]="'option ' + cssClass" 
