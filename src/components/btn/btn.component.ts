@@ -16,7 +16,9 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
     ]
 })
 export class Button {
-	@Input() primary: string = 'blue';
+	@Input() color: string = 'blue';
+	@Input() primary: string = 'C500';
+	@Input() secondary: string = 'C600';
 	@Input() type: string = '';
 	@Input() btnType: string = 'flat';
 	@Input() disabled: boolean = false;
@@ -40,19 +42,19 @@ export class Button {
 	loadClasses() {
 		if(!this.disabled) this.classes = (this.btnType === 'raised' ? 'step one ' : (this.btnType.indexOf('action') >= 0 ? 'step two ' : ''));
 		else this.classes = '';
-		if(this.btnType !== 'flat') this.classes += 'color bg-' + this.primary + '-C500 font-white';
+		if(this.btnType !== 'flat') this.classes += 'color bg-' + this.color + '-' + this.primary + ' font-white';
 	}
 
 	addHover() {
 		if(this.disabled) return;
 		this.classes += ' hover';
-		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace('C500', 'C600');
+		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace(this.primary, this.secondary);
 	}
 
 	removeHover() {
 		if(this.disabled) return;
 		this.classes = this.classes.replace(' hover', '');
-		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace('C600', 'C500');
+		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace(this.secondary, this.primary);
 	}
 
 	addActive() {
