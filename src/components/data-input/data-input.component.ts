@@ -181,6 +181,9 @@ export class DataInput {
 			// Check validity of input
 		let valid = true;
 		switch(this.type.toLowerCase()){
+			case 'email': // Date
+				this.clean_text = this.validateEmail();
+				break;
 			case 'password': // Date
 				this.clean_text = this.validatePassword();
 				break;
@@ -228,12 +231,24 @@ export class DataInput {
 		return this.display_text;
 	}
 
+	validateEmail() {
+		if(!this.display_text || this.display_text === '' || this.display_text.length < 5) return '';
+		let email = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+		if(!email.test(this.display_text)) {
+			this.error = true;
+			this.info_display = 'Invalid e-mail address';
+			this.errorChange.emit(true);
+		}
+		return this.display_text;
+	}
+
 	validatePassword() {
 		if(!this.display_text || this.display_text === '' || this.display_text.length < 8) return '';
 		let passCheck = this.regex ? this.regex : /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,24}$/;
 		if(!passCheck.test(this.display_text)) {
 			this.error = true;
 			this.info_display = 'Invalid password';
+			this.errorChange.emit(true);
 		} else {
 			this.success = true;
 			this.info_display = 'Password valid';

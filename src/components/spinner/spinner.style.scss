@@ -258,6 +258,82 @@ $space: 0.5em;
 		}
 	}
 
+	&.ring-rotate {
+		height: 4.0em;
+		width: 4.0em;
+		& .ring-rotate {
+			position: relative;
+	    	height: 4.0em;
+	    	width: 4.0em;
+			& .circle {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+		    	height: 4.0em;
+		    	width: 4.0em;
+		    	border-bottom: 0.2em solid #FFF;
+		    	border-left: 0.2em solid #FFF;
+	    		border-color: #FFF;
+				border-radius: 100%;  
+
+				&.one {
+		    		height: 4.0em;
+		    		width: 4.0em;
+					-webkit-animation: sk-rotate 1.0s infinite ease-in-out;
+					animation: sk-rotate 1.0s infinite ease-in-out;
+				}
+				&.two {
+		    		height: 3.0em;
+		    		width: 3.0em;
+  					-webkit-animation-delay: -0.75s;
+  					animation-delay: -0.75s;
+					-webkit-animation: sk-rotate-i 1.0s infinite ease-in-out;
+					animation: sk-rotate-i 1.0s infinite ease-in-out;
+				}
+				&.three {
+		    		height: 2.0em;
+		    		width: 2.0em;
+  					-webkit-animation-delay: -0.5s;
+  					animation-delay: -0.5s;
+					-webkit-animation: sk-rotate 1.0s infinite ease-in-out;
+					animation: sk-rotate 1.0s infinite ease-in-out;
+				}
+				&.four {
+		    		height: 1.0em;
+		    		width: 1.0em;
+  					-webkit-animation-delay: -0.25s;
+  					animation-delay: -0.25s;
+					-webkit-animation: sk-rotate-i 1.0s infinite ease-in-out;
+					animation: sk-rotate-i 1.0s infinite ease-in-out;
+				}
+			}
+		}
+
+		@-webkit-keyframes sk-rotate {
+  			0% { -webkit-transform: translate(-50%, -50%) rotate(0deg) }
+  			50% { -webkit-transform: translate(-50%, -50%) rotate(179deg) }
+  			100% { -webkit-transform: translate(-50%, -50%) rotate(357deg); }
+		}
+
+		@keyframes sk-rotate {
+  			0%   { -webkit-transform: translate(-50%, -50%) rotate(  0deg); transform: translate(-50%, -50%) rotate(  0deg) }
+  			50%  { -webkit-transform: translate(-50%, -50%) rotate(179deg); transform: translate(-50%, -50%) rotate(179deg) }
+  			100% { -webkit-transform: translate(-50%, -50%) rotate(357deg); transform: translate(-50%, -50%) rotate(357deg) }
+		}
+
+		@-webkit-keyframes sk-rotate-i {
+  			0% { -webkit-transform: translate(-50%, -50%) rotate(-0deg) }
+  			50% { -webkit-transform: translate(-50%, -50%) rotate(-179deg) }
+  			100% { -webkit-transform: translate(-50%, -50%) rotate(-357deg); }
+		}
+
+		@keyframes sk-rotate-i {
+  			0%   { -webkit-transform: translate(-50%, -50%) rotate(  -0deg); transform: translate(-50%, -50%) rotate(  -0deg) }
+  			50%  { -webkit-transform: translate(-50%, -50%) rotate(-179deg); transform: translate(-50%, -50%) rotate(-179deg) }
+  			100% { -webkit-transform: translate(-50%, -50%) rotate(-357deg); transform: translate(-50%, -50%) rotate(-357deg) }
+		}
+	}
+
 	&.ring-bounce-in {
 		height: 4.0em;
 		width: 4.0em;

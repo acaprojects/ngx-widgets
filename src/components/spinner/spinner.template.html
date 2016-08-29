@@ -9,6 +9,12 @@
 		<div *ngIf="type=='ring-bounce'" class="ring-bounce">
 			<div class="circle" [style.border-color]="color"></div>
 		</div>
+		<div *ngIf="type=='ring-rotate'" class="ring-rotate">
+			<div class="circle one" [style.border-color]="color"></div>
+			<div class="circle two" [style.border-color]="color"></div>
+			<div class="circle three" [style.border-color]="color"></div>
+			<div class="circle four" [style.border-color]="color"></div>
+		</div>
 		<div *ngIf="type=='ring-bounce-in'" class="ring-bounce-in">
 			<div class="circle one" [style.border-color]="color"></div>
 			<div class="circle two" [style.border-color]="color"></div>
