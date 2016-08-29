@@ -2,36 +2,36 @@
 .aca {
 	&.layer {
 		&.modal {
-			&.one   { z-index: 1000; }
-			&.two   { z-index: 1010; }
-			&.three { z-index: 1020; }
-			&.four  { z-index: 1030; }
+			&-one   { z-index: 1000; }
+			&-two   { z-index: 1010; }
+			&-three { z-index: 1020; }
+			&-four  { z-index: 1030; }
 		}
 		&.top {
-			&.one   { z-index: 200; }
-			&.two   { z-index: 210; }
-			&.three { z-index: 220; }
-			&.four  { z-index: 230; }
+			&-one   { z-index: 200; }
+			&-two   { z-index: 210; }
+			&-three { z-index: 220; }
+			&-four  { z-index: 230; }
 		}
 		&.middle {
-			&.one   { z-index: 100; }
-			&.two   { z-index: 110; }
-			&.three { z-index: 120; }
-			&.four  { z-index: 130; }
+			&-one   { z-index: 100; }
+			&-two   { z-index: 110; }
+			&-three { z-index: 120; }
+			&-four  { z-index: 130; }
 		}
 		&.bottom {
-			&.one   { z-index:  1; }
-			&.two   { z-index: 10; }
-			&.three { z-index: 20; }
-			&.four  { z-index: 30; }
+			&-one   { z-index:  1; }
+			&-two   { z-index: 10; }
+			&-three { z-index: 20; }
+			&-four  { z-index: 30; }
 		}
 	}
-	&.step {
-		&.zero  { box-shadow: 0 0 0 1px rgba(0,0,0,0.2); }
-		&.one   { box-shadow: 0 0.1em 0.1em 0 rgba(0,0,0,0.2); }
-		&.two   { box-shadow: 0 0.2em 0.2em 0 rgba(0,0,0,0.2); }
-		&.three { box-shadow: 0 0.3em 0.3em 0 rgba(0,0,0,0.2); }
-		&.four  { box-shadow: 0 0.4em 0.4em 0 rgba(0,0,0,0.2); }
+	&.step, &-step {
+		&-zero  { box-shadow: 0 0 0 1px rgba(0,0,0,0.2); }
+		&-one   { box-shadow: 0 0.1em 0.1em 1px rgba(0,0,0,0.2); }
+		&-two   { box-shadow: 0 0.2em 0.2em 1px rgba(0,0,0,0.2); }
+		&-three { box-shadow: 0 0.3em 0.3em 1px rgba(0,0,0,0.2); }
+		&-four  { box-shadow: 0 0.4em 0.4em 1px rgba(0,0,0,0.2); }
 	}
 	&.color {
 		$colors: (
@@ -40,12 +40,12 @@
 				'C500': #F44336, 'C600': #E53935, 'C700': #D32F2F, 'C800': #C62828, 'C900': #B71C1C,
 				'A100': #FF8A80, 'A200': #FF5252, 'A400': #FF1744, 'A700': #D50000),
 			'pink': (
-				'C050': #F3E5F5, 'C100': #E1BEE7, 'C200': #CE93D8, 'C300': #BA68C8, 'C400': #AB47BC, 
-				'C500': #E91E63, 'C600': #8E24AA, 'C700': #C2185B, 'C800': #AD1457, 'C900': #880E4F,
+				'C050': #FCE4EC, 'C100': #F8BBD0, 'C200': #F48FB1, 'C300': #F06292, 'C400': #EC407A, 
+				'C500': #E91E63, 'C600': #D81B60, 'C700': #C2185B, 'C800': #AD1457, 'C900': #880E4F,
 				'A100': #FF80AB, 'A200': #FF4081, 'A400': #F50057, 'A700': #C51162),
 			'purple':  (
-				'C050': #9C27B0, 'C100': #FFCDD2, 'C200': #EF9A9A, 'C300': #E57373, 'C400': #EF5350, 
-				'C500': #F44336, 'C600': #E53935, 'C700': #7B1FA2, 'C800': #6A1B9A, 'C900': #4A148C,
+				'C050': #F3E5F5, 'C100': #E1BEE7, 'C200': #CE93D8, 'C300': #BA68C8, 'C400': #AB47BC, 
+				'C500': #9C27B0, 'C600': #8E24AA, 'C700': #7B1FA2, 'C800': #6A1B9A, 'C900': #4A148C,
 				'A100': #EA80FC, 'A200': #E040FB, 'A400': #D500F9, 'A700': #AA00FF),
 			'deep-purple':  (
 				'C050': #EDE7F6, 'C100': #D1C4E9, 'C200': #B39DDB, 'C300': #9575CD, 'C400': #7E57C2, 
@@ -111,9 +111,9 @@
 			);
 		@each $name, $list in $colors {
 			@each $sel, $color in $list {
-				&.bg-#{$name}-#{$sel} { background-color: $color; }
-				&.font-#{$name}-#{$sel} { color: $color; }
-				&.border-#{$name}-#{$sel} { border-color: $color; }
+				&.bg-#{$name}-#{$sel} { background-color: $color !important; }
+				&.font-#{$name}-#{$sel} { color: $color !important; }
+				&.border-#{$name}-#{$sel} { border-color: $color !important; }
 			}
 		}
 		&.bg{

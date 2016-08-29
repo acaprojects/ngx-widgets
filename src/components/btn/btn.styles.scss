@@ -5,13 +5,19 @@
 	&.default {
 		font-family: Roboto;
 	}
+
+	& .center {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		@include transform( translate(-50%, -50%));
+	}
 	&.btn {
 		position: relative;
 		display: inline-block;
 		padding: 0.25em 0.5em;
 		text-align: center;
 		@include user-select(none);
-		cursor: pointer;
 		& .action-btn {
 			padding: 0;
 			& button {
@@ -67,6 +73,7 @@
 			cursor: pointer;
 			&.disabled {
 				opacity: 0.25;
+				cursor: not-allowed;
 			}
 		}
 		& .circle{

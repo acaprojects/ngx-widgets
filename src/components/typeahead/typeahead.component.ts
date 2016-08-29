@@ -110,10 +110,8 @@ class TypeaheadList {
   				let keys = Object.keys(item);
   				for(let k = 0; k < keys.length; k++) {
   					let f = keys[k];
-  					console.log(k, typeof item[f]);
   					if(item[f] && typeof item[f] === 'string') {
   						let data = item[f].toLowerCase();
-  						console.log(filter, '|', data, '|', data.indexOf(filter));
   						if(data.indexOf(filter) >= 0) {
 	  						this.filtered_list.push(JSON.parse(JSON.stringify(item)));
 	  						added++;

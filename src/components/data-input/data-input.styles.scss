@@ -1,0 +1,80 @@
+
+@import '~bourbon/app/assets/stylesheets/bourbon';
+
+$green: #23CE6B;
+$red: #F64740;
+
+.aca {
+	&.input {
+		position: relative;
+		display: inline-block;
+		padding: 0.5em;
+		font-size: 1.5em;
+		color: rgba(0,0,0,0.4);
+		& .error { color: $red; border-color: $red; }
+		& .valid { color: $green; border-color: $green; }
+		& .input-space {
+			position: relative;
+			display: inline-block;
+			padding: 1.0em 0 0.1em 0;
+			border-bottom: 0.1em solid rgba(0,0,0,0.4);
+			cursor: text;
+			&.disabled {
+				border-bottom: 0.1em dotted rgba(0,0,0,0.4);
+				cursor: not-allowed;
+			}
+			& .placeholder {
+				position: absolute;
+				top: 0.5em;
+				left: 0;
+				font-size: 1.0em;
+				&.left {
+					left: 1.5em;
+				}
+			}
+
+			& input.text {
+				font-size: 1.0em;
+				color: rgba(0,0,0,0.8);
+				outline: none;
+				border: none;
+				margin: 0;
+				padding: 0;
+				&.left {
+					padding-left: 1.5em; 
+				}
+				&.right {
+					padding-right: 1.5em; 
+				}
+			}
+
+			& .icon {
+				position: absolute;
+				top: 0.5em;
+				padding: 0.5em 0;
+				&.left {
+					left: 0;
+				}
+				&.right {
+					right: 0;
+				}
+			}
+		}
+		& .info-space {
+			padding: 0.5em 0;
+			font-size: 0.6em;
+			& .message {
+				display: inline-block;
+				float: left;
+				width: 69%;
+			}
+
+			& .counter {
+				display: inline-block;
+				float: right;
+				text-align: right;
+				width: 30%;
+			}
+		}
+	}
+}

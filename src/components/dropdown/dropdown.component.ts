@@ -2,219 +2,124 @@ import { Injectable, ComponentResolver, ComponentRef, ReflectiveInjector, ViewCo
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
 
-
 @Component({
-    selector: 'dropdown-list',
-    template: `
-		<div #contents class="aca dropdown contents">
-			<div #list class="options">
-				<ul #listView>
-					<li [class]="'option ' + cssClass" 
-						*ngFor="let item of options; let i = index" 
-						[class.first]="i==0" 
-						[class.last]="i==options.length-1"  
-						[class.other]="i > 0" 
-						[class.odd]="i%2===1" 
-						[class.even]="i%2===0" 
-						(click)="setOption(i)"
-						(touchend)="setOption(i)">
-							<div class="check">{{selected === i ? '&#x2713;' : ''}}</div>{{item}} 
-					</li>
-				</ul>
-			</div>
-		</div>
-    `,
-    styles : [ require('./dropdown-list.styles.scss') ]
-})
-class DropdownList {
-	app : any = null;
-	dropdown: any = null;
-	options: string[] = ['----']; 
-	selected: number = 0;
-	cssClass: string = 'default';
-  	contents_box: any = null;
-  	last_change: number = 0;
-  	scrolled: boolean = false;
-  	timer: any = null;
-
-	@ViewChild('list') list : ElementRef;
-	@ViewChild('contents') contents : ElementRef;
-	@ViewChild('listView') list_contents : ElementRef;
-
-  	keys = {37: 1, 38: 1, 39: 1, 40: 1};
-
-  	ngOnInit() {
-  		setTimeout(() => {
-	    	this.app = document.getElementById('app');
-	      	let clk_fn = (event) => {
-	      		if(!this.scrolled){
-		         	let center = {
-		              	x: event.clientX,
-		              	y: event.clientY
-		          	}
-		          	if(this.checkClick(center)) setTimeout(() => { this.dropdown.close(); }, 10);
-	      		}
-	      		this.scrolled = false;
-	      	};
-		    if(this.app) {
-		      	this.app.onclick = clk_fn;
-		      	document.ontouchend = clk_fn;
-		    } else {
-		    	document.onclick = clk_fn;
-		      	document.ontouchend = clk_fn;
-		    }
-		    this.list_contents.nativeElement.onscroll = () => { 
-		    	this.scrolled = true;
-    			if(this.timer !== null) clearTimeout(this.timer);
-    			this.timer = setTimeout(() => {
-          			this.scrolled = false;
-    			}, 1000);
-    		}
-	      	this.disableScroll();
-	    }, 100);
-  	}
-
-  	setupList(dd: any, options: string[], selected: number) {
-  		this.dropdown = dd;
-  		this.options = options;
-  		this.selected = selected;
-  	}
-
-  	checkClick(c) {
-      	if(c.x < this.contents_box.left || c.y < this.contents_box.top || 
-         	c.x > this.contents_box.left + this.contents_box.width || 
-          	c.y > this.contents_box.top + this.contents_box.height) {
-          	return true;
-      	}
-      	return false;
-  	}
-
-	preventDefault(e) {
-  		e = e || window.event;
-  		if (e.preventDefault)
-      		e.preventDefault();
-  		e.returnValue = false;  
-	}
-
-	preventDefaultForScrollKeys(e) {
-    	if (this.keys[e.keyCode]) {
-        	this.preventDefault(e);
-        	return false;
-    	}
-	}
-
-	disableScroll() {
-		if(!this.app) return;
-  		if (this.app.addEventListener) // older FF
-      		this.app.addEventListener('DOMMouseScroll', this.preventDefault, false);
-  		this.app.onwheel = this.preventDefault; // modern standard
-  		this.app.onmousewheel = this.app.onmousewheel = this.preventDefault; // older browsers, IE
-  		this.app.ontouchmove  = this.preventDefault; // mobile
-  		this.app.onkeydown  = this.preventDefaultForScrollKeys;
-	}
-
-	enableScroll() {
-		if(!this.app) return;
-    	if (this.app.removeEventListener)
-        	this.app.removeEventListener('DOMMouseScroll', this.preventDefault, false);
-    	this.app.onmousewheel = this.app.onmousewheel = null; 
-    	this.app.onwheel = null; 
-    	this.app.ontouchmove = null;  
-    	this.app.onkeydown = null;  
-	}
-
-  	moveList(main: any, event?: any) {
-  		if(!main || !this.contents) return;
-  		let main_box = main.nativeElement.getBoundingClientRect();
-  		this.contents.nativeElement.style.width = '1px';
-  		this.contents.nativeElement.style.top = Math.round(main_box.top) + 'px';
-  		this.contents.nativeElement.style.left = Math.round(main_box.left + main_box.width/2) + 'px';
-  		this.contents.nativeElement.style.height = Math.round(main_box.height) + 'px';
-  		this.contents.nativeElement.style.display = '';
-  		if(this.list) {
-	  		let h = document.documentElement.clientHeight;
-	      	let content_box = this.contents.nativeElement.getBoundingClientRect();
-	      	if(Math.round(content_box.top) > Math.round(h/2 + 10)) {
-	      		this.list.nativeElement.style.top = '';
-	      		this.list.nativeElement.style.bottom = '100%';
-	      	} else {
-	      		this.list.nativeElement.style.top = '100%';
-	      		this.list.nativeElement.style.bottom = '';
-	      	}
-	      	this.contents_box = this.contents.nativeElement.getBoundingClientRect();
-  		}
-  	}
-
-  	setOption(i: number){
-  		if(this.scrolled) return;
-    	this.last_change = (new Date()).getTime();
-    	this.selected = i;
-    	this.dropdown.setOption(i);
-  	}
-
-  	ngOnDestroy() {
-	    if(this.app) {
-	      	this.app.onclick = null;
-	      	this.app.ontouchend = null;
-	    } else {
-	    	document.onclick = null;
-	    	document.ontouchend = null;
-	    }
-  		this.enableScroll();
-  	}
-
-}
-
-
-@Component({
-  selector: '[dropdown]', 
-  styles: [ require('./dropdown.style.scss') ],
+  selector: 'dropdown', 
+  styles: [ require('./dropdown.style.scss'), require('../global-styles/global-styles.scss') ],
   templateUrl: './dropdown.template.html'
 })
 export class Dropdown {
+	@Input() type: string = 'generic';
   	@Input() options: string[] = ['Select an Option'];
-  	@Input() selected: number = 0;
-  	@Input() cssClass: string = 'default';
-  	@Input() selectClass: string = 'default';
+  	@Input() selected: string = '0';
+  	@Input() disabled: boolean = false;
+  	@Input() color: string = 'grey';
+  	@Input() primary: string = 'C500';
+  	@Input() secondary: string = 'C600';
   	@Output() selectedChange = new EventEmitter();
 
   	@ViewChild('main') main: ElementRef;
+  	@ViewChild('content') content: ElementRef;
 
+  	prev_sel: string = '0'
+  	value: string = '0';
   	show: boolean = false;
   	list: any = null;
   	list_ref: any = null;
   	last_change: number = null;
   	container: any;
   	id: number = 12345678;
+  	classes: string = '';
+  	top: boolean = false;
+  	parseInt = parseInt;
 
-	constructor(private _cr: ComponentResolver, private view: ViewContainerRef) {
-
+	constructor() {
 	}
 
-  	open() {
+	ngOnInit() {
+		this.loadClasses();
+    	this.value = this.options[parseInt(this.selected) === NaN ? 0 : parseInt(this.selected)];
+    	this.prev_sel = this.selected;
+	}
+
+	loadClasses() {
+		this.classes = this.type + ' ' + (this.top ? 'top' : 'bottom');
+		//this.classes += ' color bg-' + this.color + '-' + this.primary + ' font-white';
+	}
+
+	addHover() {
+		if(this.disabled) return;
+		if(this.classes.indexOf(' hover') < 0 && this.classes.indexOf(' active') < 0)
+			this.classes += ' hover';
+	}
+
+	removeHover() {
+		if(this.disabled) return;
+		this.classes = this.classes.replace(' hover', '');
+	}
+
+	addActive() {
+		if(this.disabled) return;
+		console.log('Add Active');
+		if(this.classes.indexOf(' active aca-step-one') < 0)
+			this.classes += ' active aca-step-one';
+	}
+
+	removeActive() {
+		if(this.disabled) return;
+		this.classes = this.classes.replace(' active aca-step-one', '');
+		document.onclick = null;
+	}
+
+  	open(force: boolean = false) {
+  		if(this.type === 'segmented' && !force) {
+  			this.close();
+  			return;
+  		}
       	let now = (new Date()).getTime();
       	if(now - this.last_change < 100) return;
       	if(!this.show) {
-      		this.render(DropdownList);
+      		//this.classes += ''
   			this.show = true;
+			setTimeout(() => {
+				document.onclick = () => { 
+					setTimeout(() => {
+						this.close();
+					}, 10);
+				};
+			}, 100);
 	    } else this.close();
   	}
 
 
   	close() {
+		this.removeHover(); 
+		this.removeActive(); 
     	this.show = false;
-    	if(this.list_ref) {
-    		if(this.list_ref.location.nativeElement.parent)
-		    	this.list_ref.location.nativeElement.parent.removeChild(this.list_ref.location.nativeElement);
-		    this.list_ref.destroy();
-		}
+  	}
+
+  	updateInput() {
+    	this.last_change = (new Date()).getTime();
+    	this.selectedChange.emit(this.value);
+  	}
+
+  	finishedInput() {
+  		if(!this.value || this.value === '') {
+  			this.setOption(parseInt(this.prev_sel) === NaN ? 0 : parseInt(this.prev_sel) );
+  		} else this.selectedChange.emit(this.value);
+  		setTimeout(() => {
+  			this.close();
+  		}, 100);
   	}
 
   	setOption(i: number){
-    	this.last_change = (new Date()).getTime();
-    	this.selected = i;
-    	this.selectedChange.emit(i);
-    	this.close();
+  		setTimeout(() => {
+	    	this.last_change = (new Date()).getTime();
+	    	this.selected = i.toString();
+	    	this.prev_sel = this.selected;
+	    	this.value = this.options[i];
+	    	this.selectedChange.emit(i.toString());
+	    	this.close();
+  		}, 100)
   	}
 
   	get option(){
@@ -224,24 +129,4 @@ export class Dropdown {
   	ngOnDestroy() {
   		this.close();
   	}
-
-    private render(type: Type, bindings: ResolvedReflectiveProvider[] = []){
-    	if(this.view) {
-	        return this._cr.resolveComponent(type)
-	            .then(cmpFactory => {
-	                const ctxInjector = this.view.parentInjector;
-	                const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
-	                    ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
-	                return this.view.createComponent(cmpFactory, this.view.length, childInjector);
-	            })
-	            .then((cmpRef: ComponentRef<any>) => {
-	                document.body.appendChild(cmpRef.location.nativeElement);
-	            	this.list = cmpRef.instance;
-	            	this.list_ref = cmpRef;
-	            	this.list.setupList(this, this.options, this.selected)
-	            	this.list.moveList(this.main);
-	            	return this.list;
-	            });
-        }
-    }
 }

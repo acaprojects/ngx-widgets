@@ -40,7 +40,7 @@ export class Button {
 	}
 
 	loadClasses() {
-		if(!this.disabled) this.classes = (this.btnType === 'raised' ? 'step one ' : (this.btnType.indexOf('action') >= 0 ? 'step two ' : ''));
+		if(!this.disabled) this.classes = (this.btnType === 'raised' ? 'step-one ' : (this.btnType.indexOf('action') >= 0 ? 'step-two ' : ''));
 		else this.classes = '';
 		if(this.btnType !== 'flat') this.classes += 'color bg-' + this.color + '-' + this.primary + ' font-white';
 	}
@@ -60,7 +60,7 @@ export class Button {
 	addActive() {
 		if(this.disabled) return;
 		this.classes += ' active';
-		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace('one', 'two');
+		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace('step-one', 'step-two');
 		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace('C600', 'C500');
 	}
 

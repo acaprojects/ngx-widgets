@@ -1,3 +1,42 @@
-<div #main [class]="'aca dropdown ' + cssClass" (click)="open()">
-	<div class="text">{{options[selected] ? options[selected] : '-----'}}</div>
+<div #main [class]="'aca dropdown '" >
+	<div [class]="'box ' + classes"
+		 (mouseover)="addHover()" 
+		 (mouseout)="removeHover()" 
+		 (mousedown)="addActive()">
+		<div class="text"
+			[class.hover]="text_hover" 
+			(mouseover)="text_hover=true" 
+			(mouseout)="text_hover=false"
+			(mouseup)="type==='segmented' ? removeActive() : ''"
+			(click)="open()">
+			<span  *ngIf="type!=='editable'">
+				{{ parseInt(selected) !== NaN && options.length > parseInt(selected) ? options[parseInt(selected)] : '-----'}}
+			</span>
+			<input *ngIf="type==='editable'" type="text" [(ngModel)]="value" (blur)="finishedInput()" (keyup)="updateInput()" />
+		</div>
+		<div class="caret" 
+			[class.hover]="caret_hover" 
+			(mouseover)="caret_hover=true" 
+			(mouseout)="caret_hover=false" 
+			(click)="open(true)">
+			{{show ? '&#9650;' : '&#9660;'}}
+		</div>
+		<div #contents *ngIf="show" class="contents aca layer modal-one" [class.top]="top===true" [class.bottom]="top===false">
+			<div #list class="options">
+				<ul #listView [class]="classes">
+					<li [class]="'option ' + cssClass" 
+						*ngFor="let item of options; let i = index" 
+						[class.first]="i==0" 
+						[class.last]="i==options.length-1"  
+						[class.other]="i > 0" 
+						[class.odd]="i%2===1" 
+						[class.even]="i%2===0" 
+						(click)="setOption(i)"
+						(touchend)="setOption(i)">
+							<div class="check">{{selected === i.toString() ? '&#x2713;' : ''}}</div>{{item}} 
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 </div>

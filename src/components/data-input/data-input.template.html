@@ -1,0 +1,34 @@
+<div class="aca input" >
+	<div (click)="focusInput()"
+		[class]="'input-space' + 
+			(error ? ' aca color border-red-C500' : 
+				(success ? ' aca color border-green-C500' : 
+					(focus ? ' aca color border-' + color + '-' + primary : '')) ) + (disabled?' disabled': '')">
+		<div 
+			[class]="'placeholder ' + (focus ? '' : (icon ? iconSide + ' ' : '' )) + 
+			(error ? 'aca color font-red-C500' : 
+				(success ? 'aca color font-green-C500' : 
+					(focus ? 'aca color font-' + color + '-' + primary : '')) )" 
+			[@fieldText]="focus || display_text?.length > 0 ? 'focus': 'blur'">
+			{{placeholder}}{{required?'*':''}}
+		</div>
+		<input 
+			#input 
+			class="text" 
+			[type]="type==='password' && !view ? type : 'text'" 
+			[class.right]="icon&&iconSide==='right'"
+			[class.left]="icon&&iconSide==='left'"
+			[style.width]="width + 'em'"
+			[(ngModel)]="display_text" 
+			(blur)="blurInput(); validateInput()"
+			(keyup)="keypress($event);" 
+			[disabled]="disabled"/>
+		<div [class]="'icon ' + iconSide + (focus ? ' aca color font-' + color + '-' + primary : '')" >
+			<ng-content></ng-content>
+		</div>
+	</div>
+	<div class="info-space">
+		<div [class]="'message ' + (error ? 'aca color font-red-C500' : (success ? 'aca color font-green-C500' : ''))">{{info_display}}</div>
+		<div [class]="'counter ' + (error ? 'aca color font-red-C500' : '')" *ngIf="type==='text' && max && max > 0">{{clean_text ? clean_text.length : '0'}}/{{max}}</div>
+	</div>
+</div>

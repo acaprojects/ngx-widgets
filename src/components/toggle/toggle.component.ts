@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 
 @Component({
-    selector: 'fancy-toggle',
+    selector: 'toggle',
     templateUrl: './toggle.html',
     styles: [
         require('./toggle.scss')
@@ -40,13 +40,17 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
         ])
     ]
 })
-export class FancyToggle {
+export class Toggle {
     @Input() type;
     @Input() state: boolean = true;
     @Input() active: string;
     @Input() inactive: string;
-    @Input() shape: string;
-    @Input() colors: { active: string, inactive: string, bg: string };
+    @Input() view: string;
+    @Input() size: string = '1.0em';
+    @Input() colorYes: string = 'green';
+    @Input() primaryYes: string = 'C500';
+    @Input() colorNo: string = 'red';
+    @Input() primaryNo: string = 'C500';
     @Output() stateChange = new EventEmitter();
     //*
         //Toggle Knob
