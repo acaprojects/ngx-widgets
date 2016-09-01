@@ -64,6 +64,7 @@ export class InteractiveMap {
     @Input() focus: string;
     @Input() focusScroll: boolean = false;
     @Input() focusZoom: number = 80;
+    @Input() padding: string = '2.0em';
     @Input() color: string = '#000';
     @Input() mapStyles: { id: string, color: string, fill: string, opacity: string }[] = [];
     @Output() tap = new EventEmitter();
@@ -496,7 +497,7 @@ export class InteractiveMap {
     		let bb = el.getBoundingClientRect();
     		this._top = -(bb.top - cbb.top) + (mbb.height - bb.height)/2;
     		this._left = -(bb.left - cbb.left) + (mbb.width - bb.width)/2;
-    		this.redraw();
+    		this.updateBoxes();
     	}
     }
 
@@ -518,7 +519,6 @@ export class InteractiveMap {
 		    	else if(this.map.indexOf('.svg') < 0) console.error('ACA_WIDGETS: Path to map is not an SVG.');
 		    	else if(this.map.length > 4) console.error('ACA_WIDGETS: Path to map is not long enough. It needs to be longer than 4 characters'); 
 		    	else console.error('ACA_WIDGETS: Unknown error loading map with map path "' + this.map + '".');
-		    	this.loading = false;
 		    }
 		} else {
 			setTimeout(() => {
@@ -537,8 +537,10 @@ export class InteractiveMap {
         	this.setupDisabled();
         	this.setupPins();
         	this.setupStyles();
+        	setTimeout(() => {
+		    	this.loading = false;
+        	}, 100);
         }
-        this.loading = false;
     }
 
     move = {

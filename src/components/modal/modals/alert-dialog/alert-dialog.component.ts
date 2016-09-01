@@ -36,5 +36,33 @@ const PLACEHOLDER = '-';
     ]
 })
 export class AlertDialog extends Modal {
+	confirm: any = { text: 'OK', fn: null };
+	cancel:  any = { text: 'CANCEL', fn: null };
 
+    @ViewChild('content') content: ElementRef;
+
+	constructor(private cr: ComponentResolver, private vc: ViewContainerRef) {
+		super(cr, vc);
+	}
+/*
+	render(type: Type, viewContainer: ViewContainerRef, bindings: ResolvedReflectiveProvider[]): any{
+		return new Promise((resolve, reject) => {
+			resolve();
+		});
+	}
+*/
+    setParams(data: any) {
+    	super.setParams(data);
+    	this.close = true;
+    	if(data && data.options){
+    		for(let i = 0; i < data.options; i++) {
+    			let option = data.options[i];
+    			if(option.type === 'confirm') {
+    				this.confirm = option;
+    			} else if(option.type === 'cancel') {
+    				this.cancel = option;
+    			}
+    		}
+    	}
+    }
 }

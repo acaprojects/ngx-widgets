@@ -3,6 +3,7 @@ import { ModalService } from './components/modal';
 import { NotificationService } from './components/notification';
 import { ACA_Animate } from './services/animate.service';
 import { MapService } from './components/interactive-map';
+import { DropService } from './components/file-drop';
 
 // Export all services
 export * from './components/modal';
@@ -14,5 +15,6 @@ export const ACA_WIDGET_PROVIDERS: any[] = [
 	ModalService, 
 	NotificationService,
 	ACA_Animate,
-	MapService
+	MapService,
+	DropService
 ];

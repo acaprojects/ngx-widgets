@@ -14,8 +14,8 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDe
 						[class.other]="i > 0" 
 						[class.odd]="i%2===1" 
 						[class.even]="i%2===0" 
-						(click)="setItem(i)"
-						(touchend)="setItem(i)">
+						(click)="setItem($event, i)"
+						(touchend)="setItem($event, i)">
 
 						<div class="name">{{item.name}}</div>
 						<div class="desc">{{item.description}}</div>
@@ -39,6 +39,9 @@ class TypeaheadList {
   	timer: any = null;
   	filter: string = '';
   	filterFields: string[] = [];
+  	scroll: any = null;
+  	mousedown: any = null;
+  	mouseup: any = null;
 
 	@ViewChild('list') list : ElementRef;
 	@ViewChild('contents') contents : ElementRef;
@@ -46,35 +49,49 @@ class TypeaheadList {
 
   	keys = {37: 1, 38: 1, 39: 1, 40: 1};
 
+  	constructor() {
+  		this.scroll = (event) => { 
+	  		if (event.stopPropagation) event.stopPropagation();
+			else event.cancelBubble = true;
+	    	this.scrolled = true;
+			if(this.timer !== null) clearTimeout(this.timer);
+			this.timer = setTimeout(() => {
+      			this.scrolled = false;
+			}, 1000);
+		};
+		this.mousedown = (event) => {
+	  		if (event.stopPropagation) event.stopPropagation();
+			else event.cancelBubble = true;
+			this.parent.clicked = true;
+		};
+		this.mouseup = (event) => {
+	  		if (event.stopPropagation) event.stopPropagation();
+			else event.cancelBubble = true;
+			setTimeout(() => {
+				this.parent.clicked = false;
+			}, 200)
+		}
+  	}
+
   	ngOnInit() {
   		setTimeout(() => {
 	    	this.app = document.getElementById('app');
-		    this.list_contents.nativeElement.onscroll = () => { 
-		    	this.scrolled = true;
-    			if(this.timer !== null) clearTimeout(this.timer);
-    			this.timer = setTimeout(() => {
-          			this.scrolled = false;
-    			}, 1000);
-    		}
-    		this.list.nativeElement.onmousedown = () => {
-    			this.parent.clicked = true;
-    		}
-    		document.onmouseup = (event) => {
-    			setTimeout(() => {
-    				this.parent.clicked = false;
-    			}, 200)
-    		}
+		    this.list_contents.nativeElement.addEventListener('scroll', this.scroll, true);
+    		this.list.nativeElement.addEventListener('mousedown', this.mousedown, true);
+    		window.addEventListener('mouseup', this.mouseup, true);
 	      	this.disableScroll();
 	    }, 100);
   	}
 
-  	setupList(ta: any, items: any[], filterFields: string[], filter: string, num_results: number = 5, cssClass: string = 'default') {
+  	setupList(ta: any, items: any[], filterFields: string[], filter: string, num_results: number, cssClass: string) {
   		this.parent = ta;
   		this.items = items;
   		this.filter = filter;
   		this.filterFields = filterFields;
-  		this.results = num_results;
-  		this.cssClass = cssClass;
+  		this.results = num_results ? num_results : 5;
+  		this.cssClass = cssClass ? cssClass : 'default';
+  		console.log(cssClass);
+  		console.log(this.cssClass);
   		this.filterList();
   	}
 
@@ -193,16 +210,20 @@ class TypeaheadList {
   		this.parent.clicked = true;
   	}
 
-  	setItem(i: number){
+  	setItem(event: any, i: number){
   		if(this.scrolled) return;
+		event.preventDefault();
     	this.parent.setItem(this.filtered_list[i]);
     	this.parent.clicked = false;
+    	setTimeout(() => {
+		    this.list_contents.nativeElement.removeEventListener('scroll', this.scroll, true);
+			this.list.nativeElement.removeEventListener('mousedown', this.mousedown, true);
+			window.removeEventListener('mouseup', this.mouseup, true);
+	  		this.enableScroll();
+	  	}, 50);
   	}
 
   	ngOnDestroy() {
-    	document.onclick = null;
-    	document.ontouchend = null;
-  		this.enableScroll();
   	}
 
 }
@@ -301,7 +322,8 @@ export class Typeahead {
 	                document.body.appendChild(cmpRef.location.nativeElement);
 	            	this.list_view = cmpRef.instance;
 	            	this.list_ref = cmpRef;
-	            	this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass)
+	            	console.log(this.cssClass);
+	            	this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass);
 	            	this.list_view.moveList(this.main);
 	            	return this.list;
 	            });

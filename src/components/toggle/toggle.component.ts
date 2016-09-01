@@ -84,6 +84,8 @@ export class Toggle {
     }
 
     changeState(event){
+  		if (event.stopPropagation) event.stopPropagation();
+		else event.cancelBubble = true;
         this.state = !this.state;
         this.stateChange.emit(this.state);
     }

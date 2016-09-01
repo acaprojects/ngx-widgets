@@ -72,8 +72,10 @@ export class Modal implements OnInit {
     contentRef: ComponentRef<any> = null;
     clean_fn: Function = null;
     cmp: any;
+    width: number = 20;
+    unit: string = 'em';
 
-    constructor(private _cr: ComponentResolver) {
+    constructor(private _cr: ComponentResolver, private _vc: ViewContainerRef) {
         this.id = (Math.round(Math.random() * 899999999 + 100000000)).toString();
         this.bindings = ReflectiveInjector.resolve([
         ]);
@@ -91,7 +93,8 @@ export class Modal implements OnInit {
         }
     }
 
-    render(type: Type, viewContainer: ViewContainerRef, bindings: ResolvedReflectiveProvider[]){
+    render(type: Type, viewContainer: ViewContainerRef, bindings: ResolvedReflectiveProvider[]): any{
+    	if(!viewContainer) viewContainer = this._vc;
         if(this.content_instance) {
             this.cleanContents(() => {
                 this.render(type, viewContainer, bindings);
@@ -122,7 +125,8 @@ export class Modal implements OnInit {
     }
 
     createContentWithTemplate(templateUrl, styles?, bindings?) {
-    	let directives = [ FORM_DIRECTIVES, ...(this.directives) ];
+    	let directives = this.directives;
+    	if(!directives) directives = [];
         @Component({
             selector: 'modal-content',
             templateUrl: templateUrl,
@@ -139,7 +143,8 @@ export class Modal implements OnInit {
     }
 
     createContentWithHTML(html, styles?, bindings?) {
-    	let directives = [ FORM_DIRECTIVES, ...(this.directives) ];
+    	let directives = this.directives;
+    	if(!directives) directives = [];
         @Component({
             selector: 'modal-content',
             template: html,
@@ -162,7 +167,9 @@ export class Modal implements OnInit {
     }
 
     onPointer(event) {
-        if(!this.close) return;
+  		if (event.stopPropagation) event.stopPropagation();
+		else event.cancelBubble = true;
+        if(!this.close || !this.modal) return;
         let c = {
             x: event.clientX,
             y: event.clientY
@@ -210,6 +217,8 @@ export class Modal implements OnInit {
             if(data.close !== undefined && data.close !== null) this.close = data.close;
             if(data.bindings !== undefined && data.bindings !== null) this.bindings = data.bindings;
             if(data.directives !== undefined && data.directives !== null) this.directives = data.directives;
+            if(data.width !== undefined && data.width !== null) this.width = data.width;
+            if(data.unit !== undefined && data.unit !== null) this.unit = data.unit;
             if(data.data) {
                 this.data = data.data;
                 if(this.content_instance) this.content_instance.setData(this.data);

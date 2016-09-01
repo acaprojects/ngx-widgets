@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import {ACA_WIDGET_COMPONENTS, InteractiveMap} from './components';
+import {ACA_WIDGET_COMPONENTS, ACA_WIDGET_MODALS} from './components';
 import {ACA_WIDGET_DIRECTIVES} from './directives';
 import {ACA_WIDGET_PIPES} from './pipes';
 import {ACA_WIDGET_PROVIDERS} from './services';

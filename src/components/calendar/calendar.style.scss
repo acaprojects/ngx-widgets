@@ -15,6 +15,7 @@
 		border: 2px solid #EEE;
 		background-color: #FFF;
 		@include user-select(none);
+		cursor: default;
 		& .header {
 			position: relative;
 			width: 100%;
@@ -26,8 +27,8 @@
 			padding: 0.5em;
 			& .arrow {
 				position: absolute;
-				font-weight: bold;
-				font-size: 1.6em;
+				font-size: 1.3em;
+				cursor: pointer;
 				&.left {
 					top: 0.1em;
 					left: 0.5em;
@@ -73,12 +74,14 @@
 					flex-grow: 0;
 
 					&.valid {
+						cursor: pointer;
 						&:hover {
 							background-color: #ddd;
 						}
 
 						&.today {
 							color: #0EAD69;
+							font-weight: bold;
 						}
 
 						&.past {
@@ -91,6 +94,7 @@
 
 						&.disabled {
 							color: rgba(0,0,0,0.1);
+							cursor: not-allowed;
 						}
 
 					}
@@ -140,6 +144,7 @@
 						font-size: 1.4em;
 						& .arrow-time {
 							display: inline-block;
+							cursor: pointer;
 							@include transform( rotate(90deg));
 						}
 					}
@@ -158,6 +163,7 @@
 							padding: 0.2em;
 							border: none;
 							text-align: center;
+							cursor: text;
 						}
 					}
 					&.btn {

@@ -1,9 +1,8 @@
 
 @import '~bourbon/app/assets/stylesheets/bourbon';
 
-$lg-height: 50.0em;
-$sm-height: 20.0em;
-$space: 3.0em;
+$sm-height: 15.0em;
+$space: 2.5em;
 
 .modal {
 	position: fixed;
@@ -12,7 +11,7 @@ $space: 3.0em;
 	bottom: 0;
 	right: 0;
 	background-color: rgba(0,0,0,0.3);
-	font-size: 20px;
+	font-size: 4mm;
 	z-index: 9999999;
 
 	& .modal-space {
@@ -20,83 +19,108 @@ $space: 3.0em;
 	    top: 50%;
 	    left: 50%;
 		@include transform(translate(-50%, -50%));
-		width: $lg-height;
-		min-height: $lg-height / 2;
-		max-height: 90%;
+		width: $sm-height;
+		min-height: $sm-height / 2;
 		background-color: #FFF;
-		border-radius: 10px;
-		max-height: 90%;
-		max-width: 90%;
-		/*border: 1px solid #DDD;*/
-		& .modal-header {
-			position: absolute;
-			font-size: 1.5em;
-			padding: 0.5em;
-			top: 0; 
-			left: 0;
-			height: $space / 3 * 2;
-			right: 0;
-			/*border-bottom: 1px solid #DDD;*/
-			background-color: #273043;
-			border-radius: 9px 9px 0 0;
-			color: #FFF;
-			text-align: center;
-			& .close-btn {
+		border-radius: 0.1em;
+		max-height: 95vh;
+		max-width: 95vw;
+		& .dialog {
+			&-header {
 				position: absolute;
-				top: 0.25em;
-				right: 0.5em;
-				color: #FFF;
-				&:hover {
-					color: #CCC;
-				}
+				top: 0; left: 0;
+				right: 0; height: $space;
+				padding: 0.5em;
+				font-size: 1.5em;
 			}
-		}
-		& .modal-body {
-			position: absolute;
-			padding: 0.5em 1.0em;
-			top: $space;
-			left:0;
-			right: 0;
-			bottom: $space;
-			overflow: auto;
-			color: #000;
-			& .content {
-				font-size: 0.75em;
-			}
-		}
+			&-body {
+				max-height: 90vh;
+				max-width: 90vw;
+				overflow: auto;
+				font-size: 1.0em;
+				& .calendar {
+					@include user-select(none);
+					cursor: default;
+					& .header {
+						position: relative;
+						width: 100%;
+						height: 11.111111%;
+						border-bottom: 1px solid #EEE;
+						background-color: #666;
+						color: #FFF;
+						font-size: 1.2em;
+						padding: 0.5em;
+						& .arrow {
+							position: absolute;
+							font-size: 1.3em;
+							cursor: pointer;
+							&.left {
+								top: 0.1em;
+								left: 0.5em;
+							}
+							&.right {
+								top: 0.1em;
+								right: 0.5em;
+							}
+						}
+					} 
+					& .week-days {
+						display: flex;
+						height: 11.111111%;
+						padding: 1.0em 0;
+						& .weekday {
+							width: 3.65em;
+							&.even{ font-weight: bold; }
+						}
+					}
 
-		& .modal-footer {
-			position: absolute;
-			font-size: 1.2em;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			height: $space - 0.5em;
-			text-align: right;
-			border-top: 1px solid #DDD;
-			border-radius: 0 0 9px 9px;
-			padding: 0.25em;
-			& .modal-btns {
-				display: inline-block;
-				text-align: center;
-				padding: 0.2em;
-				& .modal-btn {
-					outline: none;
-					border: none;
-					padding: 0.5em 2.0em;
-					border-radius: 5px;
-					background-color: #273043;
-					color: #FFF;
-					font-size: 0.75em;
-					&:hover {
+					& .divider {
+						height: 1px;
+						width: 100%;
+						padding: 0 0.5em 0.2em 0.5em;
+						& .inner { 
+							height: 1px;
+							width: 100%;
+							background-color: #eee;
+						}
+					}
+					& .month-days {
+						& .week {
+							display: flex;
+							height: 11.111111%;
+							& .day {
+								height: 2.7em;
+								width: 3.55em;
+								margin: 0.1em;
+								padding: 1.0em 0.5em;
+								flex-grow: 0;
+								&.valid {
+									cursor: pointer;
+									&:hover { background-color: #ddd; }
+									&.today { color: #0EAD69; font-weight: bold; }
+									&.past { background-color: #eee; }
+									&.active { color: rgba(255, 255, 255, 0.8); }
+									&.disabled { color: rgba(0,0,0,0.1); cursor: not-allowed; }
+								}
 
+								&.active {
+									& .overlay {
+										
+									}
+								}
+							}
+						}
 					}
 				}
 			}
-		}
-		&.sm {
-			width: $sm-height;
-			min-height: $sm-height / 3 * 2;
+			&-footer {
+				position: absolute;
+				height: $space + 1.0em; left: 0;
+				right: 0; bottom: 0;
+				padding: 0.5em;
+				text-align: right;
+				white-space: nowrap;
+			}
 		}
 	}
 }

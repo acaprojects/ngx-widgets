@@ -19,14 +19,25 @@ $bg-color: #FFFFFF;
                 position: relative;
                 bottom: -1px;
                 padding: 0.5em 1.5em;
+                margin-right: 0.15em; 
                 border-radius: 5px 5px 0 0;
                 &.active {
                     border-bottom: none;
                 }
                 &:nth-child(n+2) {
-                	border-left: none;
+                	//border-left: none;
                 }
-
+                &.empty {
+                	position:relative; 
+                	width: 1px; 
+                	padding: 0.5em; 
+                	opacity:1; 
+                	bottom: -1px; 
+                	border-top: none; 
+                	border-left: none; 
+                	border-right: none; 
+                	background: none;
+                }
             }
 			&.default {
         		border-bottom: 1px solid #ddd;

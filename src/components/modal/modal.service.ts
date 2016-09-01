@@ -28,7 +28,6 @@ export class ModalService {
   	private vc: ViewContainerRef = null;
 
 	constructor(private _cr: ComponentResolver, private app:ApplicationRef) {
-
 	}
 
 	ngOnInit() {
@@ -72,11 +71,12 @@ export class ModalService {
 		else this.modal_data[id] = {};
 			//Update parameters
 		this.modal_data[id] = {
-			src : input.src ? input.src : this.modal_data[id].src,
+			src : input.src ? input.src : this.modal_data[id].src, // Template location
 			type: Modals[input.type] ? Modals[input.type] : (this.modal_data[id].type ? this.modal_data[id].type : Modals.default),
 			title: input.title ? input.title : this.modal_data[id].title, 
 			data: input.data ? input.data : this.modal_data[id].data,
 			html: input.html ? input.html : this.modal_data[id].html,
+			text: input.text ? input.text : this.modal_data[id].text,
 			size: input.size ? input.size : this.modal_data[id].size,
 			styles: input.styles ? input.styles : this.modal_data[id].styles,
 			options: input.options ? input.options : this.modal_data[id].options,
@@ -121,7 +121,6 @@ export class ModalService {
 
 	private cleanModal(id:string) {
 		if(this.modalRef[id]) {
-			console.log('Modal Closed');
 				// Remove Modal from DOM
 			document.body.removeChild(this.modalRef[id].location.nativeElement);
 				// Destory Modal

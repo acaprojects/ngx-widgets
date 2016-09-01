@@ -33,6 +33,11 @@ export class Dropdown {
   	parseInt = parseInt;
 
 	constructor() {
+		this.click = () => { 
+			setTimeout(() => {
+				this.close();
+			}, 10);
+		};
 	}
 
 	ngOnInit() {
@@ -67,7 +72,6 @@ export class Dropdown {
 	removeActive() {
 		if(this.disabled) return;
 		this.classes = this.classes.replace(' active aca-step-one', '');
-		document.onclick = null;
 	}
 
   	open(force: boolean = false) {
@@ -81,11 +85,7 @@ export class Dropdown {
       		//this.classes += ''
   			this.show = true;
 			setTimeout(() => {
-				document.onclick = () => { 
-					setTimeout(() => {
-						this.close();
-					}, 10);
-				};
+				document.addEventListener("click", this.click, true);
 			}, 100);
 	    } else this.close();
   	}
@@ -95,6 +95,7 @@ export class Dropdown {
 		this.removeHover(); 
 		this.removeActive(); 
     	this.show = false;
+		document.removeEventListener("click", this.click, true);
   	}
 
   	updateInput() {
@@ -111,7 +112,10 @@ export class Dropdown {
   		}, 100);
   	}
 
-  	setOption(i: number){
+  	setOption(event: any, i: number){
+  		if (event.stopPropagation) event.stopPropagation();
+		else event.cancelBubble = true;
+		event.preventDefault();
   		setTimeout(() => {
 	    	this.last_change = (new Date()).getTime();
 	    	this.selected = i.toString();

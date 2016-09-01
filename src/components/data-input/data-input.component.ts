@@ -56,6 +56,8 @@ export class DataInput {
 	caret: number = 0;
 	no_validate: boolean = false;
 	focus_timer: any = null;
+	validate_timer: any = null;
+	backspace: boolean = false;
 
 	numbers: string = '1234567890';
 	alphabet: string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -147,9 +149,18 @@ export class DataInput {
     			this.display_text = (number < 0 ? '-' : '')+ number.toString();
     		} else if(e.keyCode == '37' || e.keyCode == '39') { // Left & Right Arrow
     			this.no_validate = true;
-    		} 
+    		} else if(e.keyCode == '8') {
+    			this.backspace = true;
+    		}
     	} 
-    	this.validateInput();
+    	if(this.validate_timer) {
+    		clearTimeout(this.validate_timer);
+    		this.validate_timer = null;
+    	} 
+		this.validate_timer = setTimeout(() => {
+			this.validateInput();
+			this.validate_timer = null;
+		}, 100);
 	}
 
 	setCaretPosition(caretPos) {
@@ -262,6 +273,7 @@ export class DataInput {
 
 	validateNumber() {
 		if(!this.display_text || this.display_text === '') return '';
+		let valid_numbers = this.numbers + '.';
 		this.display_text = (this.display_text[0] === '-' ? '-' : '') + this.removeInvalidChars(this.display_text, this.numbers);
 		let num: number = parseInt(this.display_text);
 		if(isNaN(num)) {
@@ -286,7 +298,7 @@ export class DataInput {
 	validateCard() {
 		if(!this.display_text || this.display_text === '') return '';
 		this.caret = this.input.nativeElement.selectionStart;
-		let len = this.display_text.slice(0, this.caret).split('-').length - 1;
+		let len = this.display_text.length;
 		let number = this.removeInvalidChars(this.display_text, this.numbers);
 		if(!number || number === '') {
 			this.display_text = '';
@@ -300,7 +312,7 @@ export class DataInput {
 				this.info_display = 'Valid ' + this.card_type;
 				this.success = true;
 			}
-		} else {
+		} else if(number.length > 10){
 			this.error = true;
 			this.info_display = 'Invalid Card Number';
 			this.errorChange.emit(true);
@@ -308,10 +320,18 @@ export class DataInput {
 			// Add seperator
 		this.display_text = number.match(/.{1,4}/g).join('-');
 		setTimeout(() => {
-			let len_new = this.display_text.slice(0, this.caret).split('-').length - 1;
-			let diff = this.caret - len;
-			let res = diff + Math.floor(diff/4);
-			this.setCaretPosition(res);
+			let len_new = this.display_text.length;
+			let diff = len_new - len;
+			let caretDiff = len_new - this.caret;
+			let sep_cnt = this.display_text.split('-').length - 1;
+			console.log(this.backspace);
+			if(caretDiff > 1 && diff != 0) {
+				diff = (((this.caret - sep_cnt) / 4) < sep_cnt) ? 0 : diff;
+			} else if(diff === 0 && caretDiff > 1 && (this.caret % 5) === 0 && !this.backspace) {
+				diff = 1;
+			}
+			this.setCaretPosition(this.caret + diff);
+			this.backspace = false;
 		}, 50);
 		return number;
 	}

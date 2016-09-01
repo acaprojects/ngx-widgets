@@ -16,6 +16,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
     ]
 })
 export class Button {
+	@Input() cssClass: string = '';
 	@Input() color: string = 'blue';
 	@Input() primary: string = 'C500';
 	@Input() secondary: string = 'C600';
@@ -42,7 +43,9 @@ export class Button {
 	loadClasses() {
 		if(!this.disabled) this.classes = (this.btnType === 'raised' ? 'step-one ' : (this.btnType.indexOf('action') >= 0 ? 'step-two ' : ''));
 		else this.classes = '';
-		if(this.btnType !== 'flat') this.classes += 'color bg-' + this.color + '-' + this.primary + ' font-white';
+		if(this.btnType !== 'flat' && this.cssClass === '') this.classes += 'color bg-' + this.color + '-' + this.primary + ' font-white';
+		else if(this.btnType !== 'flat') this.classes += ' ' + this.cssClass;
+		else if(this.btnType === 'flat') this.classes += ' color font-' + this.color + '-' + this.primary;
 	}
 
 	addHover() {

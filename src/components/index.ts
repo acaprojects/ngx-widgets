@@ -4,6 +4,7 @@ export * from './btn-toggle';
 export * from './calendar';
 export * from './dropdown';
 export * from './data-input';
+export * from './file-drop';
 export * from './toggle';
 export * from './global-styles';
 export * from './interactive-map';
