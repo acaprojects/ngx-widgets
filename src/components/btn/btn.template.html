@@ -1,7 +1,9 @@
-<div class="aca btn" (mouseover)="addHover()" (mouseout)="removeHover()" (mousedown)="addActive()" (mouseup)="removeActive()" (click)="clicked()">
-	<div [class]="btnType + '-btn'">
-		<button [type]="type" [class]="'aca ' + classes" [class.disabled]="disabled">
-			<div [class.center]="btnType.indexOf('action')>=0"><ng-content></ng-content></div>
+<div class="aca btn">
+	<div #btnContainer>
+		<button #btn [type]="type" class="aca" [class.disabled]="disabled">
+			<div [class.center]="btnType.indexOf('action') >= 0">
+				<ng-content></ng-content>
+			</div>
 		</button>
 	</div>
 	<div [@clickResp]="click_state" class="circle"></div>

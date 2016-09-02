@@ -1,6 +1,7 @@
 import { Injectable, ComponentResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'dropdown', 
@@ -17,8 +18,24 @@ export class Dropdown {
   	@Input() secondary: string = 'C600';
   	@Output() selectedChange = new EventEmitter();
 
-  	@ViewChild('main') main: ElementRef;
-  	@ViewChild('content') content: ElementRef;
+  	@ViewChild('main') 	  main: 	ElementRef;
+  	@ViewChild('box') 	  box: 		ElementRef;
+  	@ViewChild('text') 	  text: 	ElementRef;
+  	@ViewChild('caret')   caret: 	ElementRef;
+  	@ViewChild('content') content: 	ElementRef;
+  	@ViewChild('listView') list_view: 	ElementRef;
+
+  	private _text_mouseout = null;
+  	private _text_mouseover = null;
+  	private _text_mouseup = null;
+  	private _text_mousedown = null;
+  	private _text_click = null;
+
+  	private _caret_mouseout = null;
+  	private _caret_mouseover = null;
+  	private _caret_mouseup = null;
+  	private _caret_mousedown = null;
+  	private _caret_click = null;
 
   	prev_sel: string = '0'
   	value: string = '0';
@@ -31,6 +48,8 @@ export class Dropdown {
   	classes: string = '';
   	top: boolean = false;
   	parseInt = parseInt;
+  	click = null;
+  	text_hover = false;
 
 	constructor() {
 		this.click = () => { 
@@ -41,20 +60,60 @@ export class Dropdown {
 	}
 
 	ngOnInit() {
-		this.loadClasses();
     	this.value = this.options[parseInt(this.selected) === NaN ? 0 : parseInt(this.selected)];
     	this.prev_sel = this.selected;
 	}
 
-	loadClasses() {
-		this.classes = this.type + ' ' + (this.top ? 'top' : 'bottom');
-		//this.classes += ' color bg-' + this.color + '-' + this.primary + ' font-white';
+	ngAfterViewChecked() {
+		this.loadClasses();
+		let txt = this.text.nativeElement;
+		this._text_click = Observable.fromEvent(txt, 'click')
+			.subscribe((event: Event) => {
+				this.open();
+			})
+		this._text_mouseover = Observable.fromEvent(txt, 'mouseover')
+			.subscribe((event: Event) => {
+				this.removeClass(txt, 'hover');
+			})
+		this._text_mouseout = Observable.fromEvent(txt, 'mouseout')
+			.subscribe((event: Event) => {
+				this.removeClass(txt, 'hover');
+			})
+		this._text_mousedown = Observable.fromEvent(txt, 'mousedown')
+			.subscribe((event: Event) => {
+				this.addClass(txt, 'active');
+				this.addClass(txt, 'aca-step-one');
+			})
+		this._text_mouseup = Observable.fromEvent(txt, 'mouseup')
+			.subscribe((event: Event) => {
+				this.removeClass(txt, 'active');
+				this.removeClass(txt, 'aca-step-one');
+			})
 	}
 
-	addHover() {
-		if(this.disabled) return;
-		if(this.classes.indexOf(' hover') < 0 && this.classes.indexOf(' active') < 0)
-			this.classes += ' hover';
+        // Function to add css classes to the button
+	addClass(el, name: string) {
+		el.classList.add(name);
+	} 
+
+	removeClass(el, name: string) {
+		el.classList.remove(name);
+	}
+
+	swapClass(el, first: string, second: string) {
+		if(el.classList.contains(first)) {
+			this.removeClass(el, first);
+			this.addClass(el, second);
+		}
+	}
+
+	loadClasses() {
+		if(!this.list_view || !this.box) return;
+		let list = this.list_view.nativeElement;
+		let box = this.box.nativeElement;
+		this.addClass(list, this.type + ' ' + (this.top ? 'top' : 'bottom'));
+		this.addClass(box,  this.type + ' ' + (this.top ? 'top' : 'bottom'));
+		//this.classes += ' color bg-' + this.color + '-' + this.primary + ' font-white';
 	}
 
 	removeHover() {
@@ -105,7 +164,7 @@ export class Dropdown {
 
   	finishedInput() {
   		if(!this.value || this.value === '') {
-  			this.setOption(parseInt(this.prev_sel) === NaN ? 0 : parseInt(this.prev_sel) );
+  			this.setOption({}, parseInt(this.prev_sel) === NaN ? 0 : parseInt(this.prev_sel) );
   		} else this.selectedChange.emit(this.value);
   		setTimeout(() => {
   			this.close();

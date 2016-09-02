@@ -1,0 +1,1 @@
+export * from './img-crop.component';

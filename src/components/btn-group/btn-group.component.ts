@@ -21,6 +21,10 @@ export class ButtonGroup {
         this.selectedChange.emit(this.selected);
     }
 
+    ngAfterViewChecked() {
+
+    }
+
     clickEvent(event){
         this.selected = event;
         this.selectedChange.emit(this.selected);

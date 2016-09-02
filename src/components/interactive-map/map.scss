@@ -17,6 +17,8 @@
         height:100%;
         overflow: hidden;
         touch-action: pan;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
         & .pins {
         	position: absolute;
         	top: 0; left: 0;
@@ -54,10 +56,7 @@
             left:0px;
             z-index: 10;
             padding: 2.0em;
-
-            & > svg {
-                transform-origin: 0 0 0;
-            }
+            will-change: width, height, top, left;
         }
     }
 

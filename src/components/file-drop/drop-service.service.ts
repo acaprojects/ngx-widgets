@@ -1,6 +1,6 @@
 // Require what we need from rxjs
 import { Injectable } from '@angular/core' 
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 import { DropFiles } from './drop-files';
 
 @Injectable()
@@ -32,7 +32,7 @@ export class DropService {
         // Define the event streams
         this._drop = Observable.fromEvent(window, 'drop')
             .map(this._preventDefault)
-            .filter(this._checkTarget.bind(self));
+            .filter(this._checkTarget.bind(this));
 
         // Prevent default on all dragover events
         this._dragover = Observable.fromEvent(window, 'dragover').subscribe((event: Event) => {
@@ -41,7 +41,7 @@ export class DropService {
 
         this._dragenter = Observable.fromEvent(window, 'dragenter')
             .map(this._preventDefault)
-            .filter(this._checkTarget.bind(self));
+            .filter(this._checkTarget.bind(this));
 
         this._dragleave = Observable.fromEvent(window, 'dragleave')
             .map(this._preventDefault)

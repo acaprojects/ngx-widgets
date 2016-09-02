@@ -38,7 +38,7 @@
 			</div>
 			<div class="picker">
 				<div class="pick">
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="addHour()">&#x27E8;</div></div>
+					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="changeHour()">&#x27E8;</div></div>
 					<div class='set'>
 						<input 
 							type="text" 
@@ -49,10 +49,10 @@
 							(keyup)="keyupHour($event, display_hour)"
 							(keyup.enter)="changeFocus()">
 					</div>
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="minusHour()">&#x27E9;</div></div>
+					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="changeHour(-1)">&#x27E9;</div></div>
 				</div>
 				<div class="pick">
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="addMinute()">&#x27E8;</div></div>
+					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="changeMinutes()">&#x27E8;</div></div>
 					<div class='set'>
 						<input 
 							type="text" 
@@ -63,7 +63,7 @@
 							(keyup)="keyupMinutes($event, display_minutes)"
 							(keyup.enter)="timeSet()">
 					</div>
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="minusMinute()">&#x27E9;</div></div>
+					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="changeMinutes(-minuteStep)">&#x27E9;</div></div>
 				</div>
 				<div class="pick btn">
 					<div class="btn" (click)="changePeriod()" [style.background-color]="color1"  [style.color]="color2">
@@ -72,7 +72,7 @@
 				</div>
 			</div>
 			<div class="finish-btn" >
-				<div class="btn" [style.background-color]="color1"  [style.color]="color2" (click)="timeSet()"> Done </div>
+				<div class="btn" [style.background-color]="color1"  [style.color]="color2" (click)="timeSet()"> Ok </div>
 			</div>
 		</div>
 	</div>

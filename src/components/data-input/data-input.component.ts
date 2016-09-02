@@ -43,7 +43,7 @@ export class DataInput {
 	@Output() cardType = new EventEmitter();
 	@Output() onBlur = new EventEmitter();
 	@Output() onFocus = new EventEmitter();
-
+		// Input Field
 	@ViewChild('input') input: ElementRef;
 
 	display_text: string = '';

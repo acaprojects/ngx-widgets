@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 
 @Component({
 	selector: 'btn',
@@ -8,6 +9,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 	animations : [
         trigger('clickResp', [
             //state('hide',   style({'transform':'translate(-50%, -50%) scale(0)', opacity: 0})),
+            transition('void => *', animate('50ms ease-out')),
             transition('* => *', animate('0.5s ease-out', keyframes([
             	style({'transform':'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0}),
                 style({'transform':'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0})
@@ -16,6 +18,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
     ]
 })
 export class Button {
+		// Component Inputs
 	@Input() cssClass: string = '';
 	@Input() color: string = 'blue';
 	@Input() primary: string = 'C500';
@@ -23,54 +26,95 @@ export class Button {
 	@Input() type: string = '';
 	@Input() btnType: string = 'flat';
 	@Input() disabled: boolean = false;
+		// Output emitters
 	@Output() onClick = new EventEmitter();
+		// Template Elements
+	@ViewChild('btnContainer') container: ElementRef; 
+	@ViewChild('btn') button: ElementRef; 
 
 	click_state: string = 'show';
-	classes: string = '';
-	timeout: any = null;
+
+		//Private event observers
+	private _click = null;
+	private _mouseover = null;
+	private _mouseout = null;
+	private _mouseup = null;
+	private _mousedown = null;
 
 	constructor() {
 	}
 
-	ngOnInit() {
+	ngAfterViewChecked() {
 		this.loadClasses();
+		let btn = this.button.nativeElement;
+        this._click = Observable.fromEvent(btn, 'click')
+        	.subscribe((event: Event) => {
+        		this.clicked();
+        	});
+        this._mouseover = Observable.fromEvent(btn, 'mouseover')
+        	.subscribe((event: Event) => {
+				this.swapClass(btn, 'step-one', 'step-two');
+				this.swapClass(btn, 'step-two', 'step-three');
+        		this.addClass(btn, 'hover');
+        	});
+        this._mouseout = Observable.fromEvent(btn, 'mouseout')
+        	.subscribe((event: Event) => {
+				this.swapClass(btn, 'step-three', 'step-two');
+				this.swapClass(btn, 'step-two', 'step-one');
+        		this.removeClass(btn, 'hover')
+        	});
+        this._mouseup = Observable.fromEvent(btn, 'mouseup')
+        	.subscribe((event: Event) => {
+        		let simple = 'font-' + this.color + '-';
+        		this.removeClass(btn, 'active');
+        		this.swapClass(btn, simple + this.secondary, simple + this.primary);
+        	});
+        this._mousedown = Observable.fromEvent(btn, 'mouseout')
+        	.subscribe((event: Event) => {
+        		let simple = 'color font-' + this.color + '-';
+        		this.addClass(btn, 'active');
+        		this.swapClass(btn, simple + this.primary, simple + this.secondary);
+        	});
 	}
 
 	ngOnChanges() {
 		this.loadClasses();
 	}
 
+        // Function to add css classes to the button
+	addClass(el, name: string) {
+		el.classList.add(name);
+	} 
+
+	removeClass(el, name: string) {
+		el.classList.remove(name);
+	}
+
+	swapClass(el, first: string, second: string) {
+		if(el.classList.contains(first)) {
+			this.removeClass(el, first);
+			this.addClass(el, second);
+		}
+	}
+
 	loadClasses() {
-		if(!this.disabled) this.classes = (this.btnType === 'raised' ? 'step-one ' : (this.btnType.indexOf('action') >= 0 ? 'step-two ' : ''));
-		else this.classes = '';
-		if(this.btnType !== 'flat' && this.cssClass === '') this.classes += 'color bg-' + this.color + '-' + this.primary + ' font-white';
-		else if(this.btnType !== 'flat') this.classes += ' ' + this.cssClass;
-		else if(this.btnType === 'flat') this.classes += ' color font-' + this.color + '-' + this.primary;
-	}
-
-	addHover() {
-		if(this.disabled) return;
-		this.classes += ' hover';
-		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace(this.primary, this.secondary);
-	}
-
-	removeHover() {
-		if(this.disabled) return;
-		this.classes = this.classes.replace(' hover', '');
-		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace(this.secondary, this.primary);
-	}
-
-	addActive() {
-		if(this.disabled) return;
-		this.classes += ' active';
-		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace('step-one', 'step-two');
-		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace('C600', 'C500');
-	}
-
-	removeActive() {
-		if(this.disabled) return;
-		this.classes = this.classes.replace(' active', '');
-		if(this.btnType === 'raised' || this.btnType.indexOf('action') >= 0) this.classes = this.classes.replace('two', 'one');
+		let btn = this.button.nativeElement;
+		if(!this.disabled && this.btnType !== 'flat') {
+			let step = (this.btnType === 'raised' ? 'one' : 'two');
+			this.addClass(btn, 'step-' + step);
+		} else if(this.disabled) {
+			return;
+		}
+		if(this.btnType !== 'flat' && this.cssClass === '') {
+			this.addClass(btn, 'color');
+			this.addClass(btn, 'bg-' + this.color + '-' + this.primary);
+			this.addClass(btn, 'font-white');
+		} else if(this.btnType !== 'flat') { 
+			this.addClass(btn, this.cssClass); 
+		} else if(this.btnType === 'flat') {
+			this.addClass(btn, 'color');
+			this.addClass(btn, 'font-' + this.color + '-' + this.primary);
+		}
 	}
 
 	clicked() {

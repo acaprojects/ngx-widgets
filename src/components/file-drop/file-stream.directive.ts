@@ -1,6 +1,6 @@
 import { Input, ElementRef } from '@angular/core';
 import { Directive, OnInit } from '@angular/core';
-import { DropService } from './drop-service';
+import { DropService } from './drop-service.service';
 
 
 @Directive({
@@ -11,9 +11,7 @@ import { DropService } from './drop-service';
 })
 export class FileStream implements OnInit {
 	@Input() fileStream: string = ''; // name of the stream the files should be sent to
-    fileStream: string;
     private _element: any;
-
 
     constructor(elementRef: ElementRef, private _dropService: DropService) {
         this._element = elementRef.nativeElement;

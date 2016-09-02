@@ -1,20 +1,13 @@
 <div #main [class]="'aca dropdown '" >
-	<div [class]="'box ' + classes"
-		 (mouseover)="addHover()" 
-		 (mouseout)="removeHover()" 
-		 (mousedown)="addActive()">
-		<div class="text"
-			[class.hover]="text_hover" 
-			(mouseover)="text_hover=true" 
-			(mouseout)="text_hover=false"
-			(mouseup)="type==='segmented' ? removeActive() : ''"
-			(click)="open()">
+	<div #box class="box">
+		<div #text class="text"
+			(mouseup)="type==='segmented' ? removeActive() : ''">
 			<span  *ngIf="type!=='editable'">
 				{{ parseInt(selected) !== NaN && options.length > parseInt(selected) ? options[parseInt(selected)] : '-----'}}
 			</span>
 			<input *ngIf="type==='editable'" type="text" [(ngModel)]="value" (blur)="finishedInput()" (keyup)="updateInput()" />
 		</div>
-		<div class="caret" 
+		<div #caret class="caret" 
 			[class.hover]="caret_hover" 
 			(mouseover)="caret_hover=true" 
 			(mouseout)="caret_hover=false" 

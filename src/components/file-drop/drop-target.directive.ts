@@ -1,6 +1,6 @@
-import { ElementRef} from '@angular/core';
+import { ElementRef, Input } from '@angular/core';
 import { Directive, OnInit, OnDestroy } from '@angular/core';
-import { DropService } from './drop-service';
+import { DropService } from './drop-service.service';
 
 @Directive({
     selector: '[dropTarget]',
@@ -10,12 +10,9 @@ import { DropService } from './drop-service';
     //providers: [DropService],
 })
 export class DropTarget implements OnInit, OnDestroy {
-	@Input() dropTarget: string = null; 		// defaults to self, otherwise you can define a valid querySelector
-	@Input() dropIndicate: string = 'hover'; 	// defines the hover class to apply, defaults to: drop-indicate
-	@Input() dropStream: string = '/'; 			// name of the stream the files should be sent to
-    dropStream: string;
-    dropIndicate: string = 'drop-indicate';
-    dropTarget: string;
+	@Input() dropTarget: 	string; 					// defaults to self, otherwise you can define a valid querySelector
+	@Input() dropIndicate: 	string = 'drop-indicate'; 	// defines the hover class to apply, defaults to: drop-indicate
+	@Input() dropStream: 	string; 					// name of the stream the files should be sent to
 
     private _element: any;
     private _unreg: () => void;
