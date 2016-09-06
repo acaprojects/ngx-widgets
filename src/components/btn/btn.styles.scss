@@ -18,7 +18,7 @@
 		padding: 0.25em 0.5em;
 		text-align: center;
 		@include user-select(none);
-		& .action-btn {
+		& .action {
 			padding: 0;
 			& button {
 				height: 4.0em;
@@ -30,7 +30,7 @@
 				}
 			}
 		}
-		& .mini-action-btn {
+		& .mini-action {
 			padding: 0;
 			& button {
 				height: 3.0em;
@@ -42,7 +42,7 @@
 				}
 			}
 		}
-		& .raised-btn {
+		& .raised {
 			& button {
 				min-width: 6.0em;
 				&.disabled {
@@ -51,7 +51,30 @@
 				}
 			}
 		}
-		& .flat-btn {
+		& .raised-3d {
+			position: relative;
+			& button {
+				min-width: 6.0em;
+				box-shadow: 0px 0.15em 0px 0px rgba(0,0,0,0.75);
+				&.disabled {
+					background-color: rgba(0,0,0, 0.5);
+					color: #000;
+					margin-top: 0.15em;
+					box-shadow: none;
+				}
+				&.hover{
+					margin-top: 0.05em; 
+					box-shadow: 0px 0.1em 0px 0px rgba(0,0,0,0.75);
+				}
+				&.active {
+					color: rgba(0,0,0,0.54);
+					margin-top: 0.15em;
+					box-shadow: none;
+				}
+			}
+		}
+
+		& .flat {
 			& button {
 				background: none;
 				min-width: 6.0em;

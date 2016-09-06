@@ -38,6 +38,7 @@
     "@angular/platform-browser-dynamic": "2.0.0-rc.5",
     "@angular/router": "3.0.0-rc.1",
     "moment": "2.14.1",
+    "ng2-img-cropper": "0.6.4",
     "rxjs": "5.0.0-beta.6",
     "typescript": "^1.8.10",
     "typings": "^1.0.4",

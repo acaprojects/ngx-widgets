@@ -85,7 +85,6 @@ export class DropService {
         });
         this._drop.subscribe((obj) => {
             let observer = this._removeClass(obj);
-
             // Stream the files
             if (observer) {
                 observer.next({

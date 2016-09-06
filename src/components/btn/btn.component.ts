@@ -46,35 +46,34 @@ export class Button {
 
 	ngAfterViewChecked() {
 		this.loadClasses();
+	}
+
+	addHover() {
 		let btn = this.button.nativeElement;
-        this._click = Observable.fromEvent(btn, 'click')
-        	.subscribe((event: Event) => {
-        		this.clicked();
-        	});
-        this._mouseover = Observable.fromEvent(btn, 'mouseover')
-        	.subscribe((event: Event) => {
-				this.swapClass(btn, 'step-one', 'step-two');
-				this.swapClass(btn, 'step-two', 'step-three');
-        		this.addClass(btn, 'hover');
-        	});
-        this._mouseout = Observable.fromEvent(btn, 'mouseout')
-        	.subscribe((event: Event) => {
-				this.swapClass(btn, 'step-three', 'step-two');
-				this.swapClass(btn, 'step-two', 'step-one');
-        		this.removeClass(btn, 'hover')
-        	});
-        this._mouseup = Observable.fromEvent(btn, 'mouseup')
-        	.subscribe((event: Event) => {
-        		let simple = 'font-' + this.color + '-';
-        		this.removeClass(btn, 'active');
-        		this.swapClass(btn, simple + this.secondary, simple + this.primary);
-        	});
-        this._mousedown = Observable.fromEvent(btn, 'mouseout')
-        	.subscribe((event: Event) => {
-        		let simple = 'color font-' + this.color + '-';
-        		this.addClass(btn, 'active');
-        		this.swapClass(btn, simple + this.primary, simple + this.secondary);
-        	});
+		this.swapClass(btn, 'step-one', 'step-two');
+		this.swapClass(btn, 'step-two', 'step-three');
+		this.addClass(btn, 'hover');
+	}
+
+	removeHover() {
+		let btn = this.button.nativeElement;
+		this.swapClass(btn, 'step-three', 'step-two');
+		this.swapClass(btn, 'step-two', 'step-one');
+		this.removeClass(btn, 'hover')
+	}
+
+	addActive() {
+		let btn = this.button.nativeElement;
+		let simple = 'font-' + this.color + '-';
+		this.addClass(btn, 'active');
+		this.swapClass(btn, simple + this.primary, simple + this.secondary);
+	}
+
+	removeActive() {
+		let btn = this.button.nativeElement;
+		let simple = 'font-' + this.color + '-';
+		this.removeClass(btn, 'active');
+		this.swapClass(btn, simple + this.secondary, simple + this.primary);
 	}
 
 	ngOnChanges() {
@@ -100,7 +99,7 @@ export class Button {
 	loadClasses() {
 		let btn = this.button.nativeElement;
 		if(!this.disabled && this.btnType !== 'flat') {
-			let step = (this.btnType === 'raised' ? 'one' : 'two');
+			let step = (this.btnType.indexOf('raised') >= 0 ? 'one' : 'two');
 			this.addClass(btn, 'step-' + step);
 		} else if(this.disabled) {
 			return;

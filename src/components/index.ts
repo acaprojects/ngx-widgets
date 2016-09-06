@@ -7,6 +7,7 @@ export * from './data-input';
 export * from './file-drop';
 export * from './toggle';
 export * from './global-styles';
+export * from './img-crop';
 export * from './interactive-map';
 export * from './modal';
 export * from './notification';

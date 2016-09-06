@@ -99,9 +99,12 @@ export class InteractiveMap {
    	loading = true;
    	private _top: number = 0;
    	private _left: number = 0;
+   	private final_top: number = 0;
+   	private final_left: number = 0;
    	zoom_state: string = '100w';
    	top_state: string = '0px';
    	left_state: string = '0px';
+   	center : { x: number, y: number };
 
    	pin_html = `
 <?xml version="1.0" encoding="utf-8"?>
@@ -153,6 +156,7 @@ export class InteractiveMap {
     	setInterval(() => {
     		this.checkStatus(null, 0);
     	}, 1000);
+    	this.zoom = this._zoom;
     }
 
     update() {
@@ -160,17 +164,47 @@ export class InteractiveMap {
     	this.top = this._top;
         	// Clean up any dimension changes
         if(!this.isFocus) {
+	        if(this._zoom > this.zoomMax || this._zoom > ZOOM_LIMIT) this._zoom = this.zoomMax;
+	        else if (this._zoom < -50) this._zoom = -50;
+		    if(this._zoom !== this.zoom && this.zoom) { // Update pos
+		    	let zoom_change = this._zoom / (this.zoom);
+		    	console.log(zoom_change);
+		    		// Update left pos
+		    	this.final_left = this._left * zoom_change;
+		    		// Update right pos
+		    	this.final_top = this._top * zoom_change;
+		    	setTimeout(() => {
+		    		this.updatePos();
+		    	}, 20);
+		    }
 	        if(this.left < -this.maxLeft) this.left = -this.maxLeft;
 	        else if(this.left > 0) this.left = 0;
 	        if(this.top < -this.maxTop) this.top = -this.maxTop;
 	        else if(this.top > 0) this.top = 0;
-	        if(this._zoom > this.zoomMax || this._zoom > ZOOM_LIMIT) this._zoom = this.zoomMax;
-	        else if (this._zoom < -50) this._zoom = -50;
 	    }
         this.zoom = this._zoom;
         this.zoomChange.emit(this._zoom);
         this.rotate = this.rotate % 360;
         return true;
+    }
+
+    updatePos() {		
+	    if(this.final_left !== this._left) {
+	    	let dir_left = this.final_left - this._left;
+	    	if(dir_left < 2) this._left = this.final_left;
+	    	else this._left += (dir_left < 0 ? -1 : 1) * Math.max(Math.abs(this.final_left - this._left)/10, 2);
+	    }
+	    if(this.final_top !== this._top) {
+	    	let dir_top = this.final_top - this._top;
+	    	if(dir_top < 2) this._top = this.final_top;
+	    	else this._top += (dir_top < 0 ? -1 : 1) * Math.max(Math.abs(this.final_top - this._top)/10, 2);
+	    }
+	    this.redraw();
+	    if(this.final_left !== this._left || this.final_top !== this._top) {
+	    	setTimeout(() => {
+	    		this.updatePos();
+	    	}, 20);
+	    }
     }
 
     render() {
@@ -495,8 +529,9 @@ export class InteractiveMap {
     		let cbb = this.map_display.nativeElement.getBoundingClientRect();
     		let mbb = this.map_area.nativeElement.getBoundingClientRect();
     		let bb = el.getBoundingClientRect();
-    		this._top = -(bb.top - cbb.top) + (mbb.height - bb.height)/2;
-    		this._left = -(bb.left - cbb.left) + (mbb.width - bb.width)/2;
+    		this.final_top = this._top = -(bb.top - cbb.top) + (mbb.height - bb.height)/2;
+    		this.final_left = this._left = -(bb.left - cbb.left) + (mbb.width - bb.width)/2;
+
     		this.updateBoxes();
     	}
     }
@@ -579,6 +614,8 @@ export class InteractiveMap {
         else if(this._left > 0) this._left = 0;
         if(this._top < -this.maxTop) this._top = -this.maxTop;
         else if(this._top > 0) this._top = 0;
+        this.final_top = this._top
+        this.final_left = this._left
         	// Update the display of the map
         this.redraw();
         this.move.x = event.deltaX;
@@ -646,8 +683,9 @@ export class InteractiveMap {
 
     setupUpdate() {
     	this.updateAnimation = this.a.animation(() => {}, () => {
-    		if(!this.content_box && this.self) 
+    		if(!this.content_box && this.self) {
         		this.content_box = this.self.nativeElement.getBoundingClientRect();
+    		}
     		if(this.map_display && this.content_box) {
 		        this.map_box = this.map_display.nativeElement.getBoundingClientRect();
 		        this.maxTop  = this.map_box.height - this.content_box.height;

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { ImageCropperComponent } from 'ng2-img-cropper';
 
 import {ACA_WIDGET_COMPONENTS, ACA_WIDGET_MODALS} from './components';
 import {ACA_WIDGET_DIRECTIVES} from './directives';
@@ -17,7 +18,8 @@ export * from './components';
   declarations: [
   	...ACA_WIDGET_COMPONENTS,
     ...ACA_WIDGET_DIRECTIVES,
-    ...ACA_WIDGET_PIPES
+    ...ACA_WIDGET_PIPES,
+    ImageCropperComponent
   ],
   imports: [ CommonModule, FormsModule ],
   exports: [ 
