@@ -1,6 +1,4 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core'; 
-import { ComponentResolver, ComponentRef, ReflectiveInjector, ResolvedReflectiveProvider, ViewContainerRef, OnInit, Type } from '@angular/core';
-import { NgTemplateOutlet, FORM_DIRECTIVES } from '@angular/common';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 import { ModalService } from '../../modal.service';
 import { Modal } from '../../modal.component';
@@ -11,7 +9,6 @@ const PLACEHOLDER = '-';
     selector: '[time-dialog]', 
     styles: [ require('./time-dialog.styles.scss'), require('../../../global-styles/global-styles.scss') ],
     templateUrl: './time-dialog.template.html',
-    directives: [ NgTemplateOutlet ],
     animations: [
         trigger('backdrop', [
             state('hide',   style({'opacity' : '0'})),

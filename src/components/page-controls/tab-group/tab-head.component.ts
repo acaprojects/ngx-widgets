@@ -8,7 +8,6 @@ import { ContentChildren, QueryList, AfterContentInit, ViewEncapsulation } from 
         <ng-content></ng-content>
     </div>
     `,
-    styles: [],
     encapsulation: ViewEncapsulation.None
 })
 export class TabHead {

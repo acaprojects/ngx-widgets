@@ -1,4 +1,4 @@
-import { Injectable, ComponentResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
 import { Notification } from './notification.component';
 
@@ -10,11 +10,11 @@ export class NotificationService {
   		fg: '#FFF',
   		bg: '#123456'
   	};
-  	cmp: Notification = null;
-  	cmpRef: ComponentRef<Notification> = null;
+  	cmp: any = null;
+  	cmpRef: ComponentRef<any> = null;
   	private vc: ViewContainerRef = null;
 
-	constructor(private _cr: ComponentResolver, private app: ApplicationRef) {
+	constructor(private _cr: ComponentFactoryResolver, private app: ApplicationRef) {
 
 	}
 
@@ -52,21 +52,17 @@ export class NotificationService {
     	if(this.cmp) this.cmp.setClose(state, timeout);
     }
 
-    private render(type: Type, viewContainer: ViewContainerRef, bindings: ResolvedReflectiveProvider[]){
+    private render(type: Type<any>, viewContainer: ViewContainerRef, bindings: ResolvedReflectiveProvider[]){
     	if(viewContainer) {
-	        return this._cr.resolveComponent(type)
-	            .then(cmpFactory => {
-	                const ctxInjector = viewContainer.parentInjector;
-	                const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
-	                    ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
-	                return viewContainer.createComponent(cmpFactory, viewContainer.length, childInjector);
-	            })
-	            .then((cmpRef: ComponentRef<any>) => {
-	                document.body.appendChild(cmpRef.location.nativeElement);
-	            	this.cmp = cmpRef.instance;
-	            	this.cmpRef = cmpRef;
-	            	return this.cmp;
-	            });
+	        let cmpFactory = this._cr.resolveComponentFactory(type);
+            const ctxInjector = viewContainer.parentInjector;
+            const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
+                ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
+            let cmpRef = viewContainer.createComponent(cmpFactory, viewContainer.length, childInjector);
+            document.body.appendChild(cmpRef.location.nativeElement);
+        	this.cmp = cmpRef.instance;
+        	this.cmpRef = cmpRef;
+        	return this.cmp;
         }
     }
 

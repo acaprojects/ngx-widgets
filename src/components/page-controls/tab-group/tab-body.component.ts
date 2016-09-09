@@ -3,7 +3,6 @@ import { ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 
 @Component({
     selector: 'tab-body',
-    directives: [ ],
     template: `
         <div class="tab-body" *ngIf="visible">
             <ng-content></ng-content>

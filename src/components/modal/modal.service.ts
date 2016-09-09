@@ -1,4 +1,4 @@
-import { Injectable, ComponentResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
 import { Modal } from './modal.component';
 import { AlertDialog, ConfirmDialog, DateDialog, TimeDialog } from './modals';
@@ -27,7 +27,7 @@ export class ModalService {
   	last_modal_id: string = '';
   	private vc: ViewContainerRef = null;
 
-	constructor(private _cr: ComponentResolver, private app:ApplicationRef) {
+	constructor(private _cr: ComponentFactoryResolver, private app:ApplicationRef) {
 	}
 
 	ngOnInit() {
@@ -131,23 +131,19 @@ export class ModalService {
 		this.modal_data[id] = null;
 	}
 
-    private render(id:string, type: Type, viewContainer: ViewContainerRef, bindings: ResolvedReflectiveProvider[]){
+    private render(id:string, type: Type<any>, viewContainer: ViewContainerRef, bindings: ResolvedReflectiveProvider[]){
     	if(viewContainer) {
-	        return this._cr.resolveComponent(type)
-	            .then(cmpFactory => {
-	                const ctxInjector = viewContainer.parentInjector;
-	                const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
-	                    ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
-	                return viewContainer.createComponent(cmpFactory, viewContainer.length, childInjector);
-	            })
-	            .then((cmpRef: ComponentRef<any>) => {
-	                document.body.appendChild(cmpRef.location.nativeElement);
-	            	this.modal[id] = cmpRef.instance;
-	            	this.modalRef[id] = cmpRef;
-	            	this.modal[id].setParams(this.modal_data[id]);
-	            	this.modal[id].cleanup = () => { this.cleanModal(id); };
-	            	return this.modal[id];
-	            });
+	        let cmpFactory = this._cr.resolveComponentFactory(type)
+            const ctxInjector = viewContainer.parentInjector;
+            const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
+                ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
+            let cmpRef = viewContainer.createComponent(cmpFactory, viewContainer.length, childInjector);
+            document.body.appendChild(cmpRef.location.nativeElement);
+        	this.modal[id] = cmpRef.instance;
+        	this.modalRef[id] = cmpRef;
+        	this.modal[id].setParams(this.modal_data[id]);
+        	this.modal[id].cleanup = () => { this.cleanModal(id); };
+        	return this.modal[id];
         }
     }
 

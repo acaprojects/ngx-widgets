@@ -1,16 +1,18 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core'; 
-import { ComponentResolver, ComponentRef, ReflectiveInjector, ResolvedReflectiveProvider, ViewContainerRef, OnInit, Type } from '@angular/core';
-import { NgTemplateOutlet, FORM_DIRECTIVES } from '@angular/common';
-import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
-import { NotificationService } from './notification.service';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
+import { ComponentRef, ViewContainerRef, ComponentFactoryResolver }  from '@angular/core';
+import { AfterViewInit, OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
+import { trigger, transition, animate, style, state, keyframes } 	 from '@angular/core';
+import { RuntimeCompiler }                                       	 from "@angular/compiler";
+import * as _ from 'lodash';
+
+import { IHaveDynamicData, DynamicTypeBuilder } from '../../dynamic/type.builder';
 
 const PLACEHOLDER = '-';
 
 @Component({
     selector: 'notification', 
     styles: [ require('./notification.style.scss') ],
-    templateUrl: './notification.template.html',
-    directives: [ NgTemplateOutlet ]
+    templateUrl: './notification.template.html'
 })
 export class Notification implements OnInit {
     @Input() timeout: number = 2000;
@@ -27,44 +29,62 @@ export class Notification implements OnInit {
     @ViewChild('content', { read: ViewContainerRef }) protected _content: ViewContainerRef;
 
     id: string;
-    bindings: any;
-    contents: any[] = [];
+    content_instance: any[] = [];
     contentRef: ComponentRef<any>[] = [];
-    coreStyles: string[] = [
-    	require('./notification.style.scss')
-    ];
+    coreStyles: string[] = [ require('./notification.style.scss') ];
+    data: any = null;
     last_closed: string = '';
     animate_time = 1000;
     animations = [];
+    html: string = '';
+    component: any = null;
 
-    constructor(private _cr: ComponentResolver) {
+    constructor(
+    	private _cfr: ComponentFactoryResolver,
+        protected typeBuilder: DynamicTypeBuilder,
+        protected compiler: RuntimeCompiler
+    ) {
         this.id = (Math.round(Math.random() * 899999999 + 100000000)).toString();
-        this.bindings = ReflectiveInjector.resolve([]);
     }
 
     ngOnInit() {
     	this.animations = this.createAnimations();
     }
 
-    render(type: Type, viewContainer: ViewContainerRef, bindings: ResolvedReflectiveProvider[]){
-        return this._cr.resolveComponent(type)
-            .then(cmpFactory => {
-                const ctxInjector = viewContainer.parentInjector;
-                const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
-                    ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
-                return viewContainer.createComponent(cmpFactory, viewContainer.length, childInjector);
-            })
-            .then((cmpRef: ComponentRef<any>) => {
-                this.content.nativeElement.appendChild(cmpRef.location.nativeElement);
-                let id = Math.floor(Math.random() * 89999999 + 10000000).toString();
-                cmpRef.instance.id = id;
-                let fn = () => { cmpRef.instance.state = 'hide'; setTimeout(() => { this.close(id); }, this.animate_time); };
-               	cmpRef.instance.close = fn;
-                this.contents.push(cmpRef.instance);
-                this.contentRef.push(cmpRef);
-                this.updatePositions();
-                return cmpRef.instance;
-            });
+    protected addContents(html: string, cmp?: any) {
+    	if(html && html !== '') {
+    		let template = this.typeBuilder.createComponentAndModule(html);
+    		return this.renderTemplate(template);
+    	} else if(cmp){
+    		let factory = this._cfr.resolveComponentFactory(cmp);
+    		return new Promise((resolve, reject) => {
+    			resolve(this.render(factory));
+    		});
+    	}
+    }
+
+    protected renderTemplate(result: { type: any, module: any }) {
+      	let componentType = result.type;
+      	let runtimeModule = result.module
+
+      	// Compile module
+      	return this.compiler
+        	.compileModuleAndAllComponentsAsync(runtimeModule)
+        	.then((moduleWithFactories) => {
+            	let factory = _.find(moduleWithFactories.componentFactories, { componentType: componentType });
+            	// Target will instantiate and inject component (we'll keep reference to it)
+            	return this.render(factory);
+        	});
+    }
+
+    protected render(factory: any) {
+    	let cmpRef = this._content.createComponent(factory);
+    	this.contentRef.push(cmpRef);
+
+        // let's inject @Inputs to component instance
+        this.content_instance.push(cmpRef.instance); 
+        this.content_instance[this.content_instance.length-1].entity = this.data;
+        return cmpRef;
     }
 
     setClose(state: boolean, timeout: number = 2000) {
@@ -105,98 +125,41 @@ export class Notification implements OnInit {
     	return animates;
     }
 
-    createContentWithHTML(html, styles?) {
-    	let template = `
-    		<div [@notification]="state" [@position]="pos" [class]="'notification ' + cssClass">
-    			${html} ${(this.close ? '<div class="close-btn" *ngIf="canClose" (click)="close()">☓</div>' : '')} 
-			</div>`;
-    	let styleList = this.coreStyles.concat(styles? styles : []);
-    	let time = this.animate_time + 'ms ease-out';
-    	let anims = this.animations;
-        @Component({
-            selector: 'modal-content',
-            template: template,
-            styles : styleList,
-            directives: [ FORM_DIRECTIVES ],
-		    animations: [
-		        trigger('notification', [
-		            state('hide',   style({'right':'-20.0em', 'opacity' : '0'})),
-		            state('show', style({'right':'0.5em', 'opacity' : '1' })),
-		            transition('* => hide', animate(time, keyframes([
-		                style({'right':'0.5em', 'opacity' : '1', offset: 0}), style({'right':'-20.0em', 'opacity' : '0', offset: 1.0})
-		            ]))),
-		            transition('* => show', animate(time, keyframes([
-		                style({'right':'-20.0em', 'opacity' : '0', offset: 0}), style({'right':'0.5em', 'opacity' : '1', offset: 1.0})
-		            ])))
-		        ]),
-		        trigger('position', anims)
-		    ]
-        })
-        class ModalContent {
-            data:any = {};
-            cssClass:string = 'defaultClass';
-            close:Function = () => {};
-            canClose: boolean = true;
-            state: string = 'show';
-            pos: string = '1';
-            setData(data: any){
-                this.data = data;
-            }
-            setClass(cssClass: string){
-            	console.log(cssClass);
-            	if(cssClass && cssClass != '') this.cssClass = cssClass;
-            	else this.cssClass = 'defaultClass';
-            }
-            setClose(canClose: boolean){
-            	this.canClose = canClose;
-            }
-            setPosition(n: string) {
-            	this.pos = n;
-            }
-        }
-        return ModalContent;
-    }
-
     updatePositions() {
-    	let len = this.contents.length;
+    	let len = this.content_instance.length;
     	for(let i = 0; i < len; i++) {
-    		if(i < 16) this.contents[(len -1) - i].setPosition((i).toString());
-    		else this.contents[(len -1) - i].setPosition('hidden');
+    		if(i < 16) this.content_instance[(len -1) - i].setPosition((i).toString());
+    		else this.content_instance[(len -1) - i].setPosition('hidden');
     	}
     }
 
     setOptions(options: any) {
-    	if(options.timeout) this.timeout = options.timeout;
-    	if(options.cssClass) this.cssClass = options.cssClass;
-    	if(options.canClose) this.canClose = options.canClose;
-    	if(options.styles) this.styles = options.styles;
+    	this.data = options;
     }
 
     add(msg: string, cssClass: string, options: any) {
     	if(options) this.setOptions(options);
-        let cmp = this.createContentWithHTML(msg, this.styles);
-        let res = this.render(cmp, this._content, this.bindings);
-        if(res) res.then(notify => { 
-        	notify.setClass(cssClass);
-        	notify.setClose(this.canClose);
-	        if(!this.canClose) {
-	        	setTimeout(() => {
-	        		notify.close();
-	        	}, this.timeout + 1000);
-	        }
-	    });
+    	let ref = this.addContents(msg);
+    	if(ref) {
+    		ref.then(cmpRef => {
+    			let inst: any = cmpRef.instance;
+    			if(inst.el) {
+	    			inst.el.nativeElement.classList.add(cssClass);
+	    		}
+    		})
+    	}
     }
 
     close(id: string) {
     	if(this.last_closed === id) return;
     	this.last_closed = id;
-    	for(let i = 0; i < this.contents.length; i++) {
-    		if(this.contents[i] && this.contents[i].id === id) {
-    			if(this.contents[i].id) {
+    	for(let i = 0; i < this.content_instance.length; i++) {
+    		if(this.content_instance[i] && this.content_instance[i].id === id) {
+    			if(this.content_instance[i].id) {
     					// Remove notification from variables and DOM
-    				this.contents.splice(i, 1);
-                	this.content.nativeElement.removeChild(this.contentRef[i].location.nativeElement);
-    				this.contentRef.splice(i, 1);
+    				this.content_instance.splice(i, 1);
+    				let ref = this.contentRef.splice(i, 1)[0];
+    				ref.destroy();
     				this.updatePositions();
     				break;
 				}
@@ -205,9 +168,9 @@ export class Notification implements OnInit {
     }
 
     clear() {
-    	for(let i = 0; i < this.contents.length; i++) {
+    	for(let i = 0; i < this.content_instance.length; i++) {
 				// Remove notification from variables and DOM
-			this.contents[i].close();
+			this.close(this.content_instance[i].id);
     	}
     }
 

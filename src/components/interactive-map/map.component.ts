@@ -40,9 +40,9 @@ const zoom_anim = (function() {
 
 @Component({
     selector: 'interactive-map',
-    templateUrl: './map.html',
+    templateUrl: './map.template.html',
     styles: [
-        require('./map.scss')
+        require('./map.styles.scss')
     ],
     animations: [
         trigger('zoom', zoom_anim),
@@ -273,7 +273,7 @@ export class InteractiveMap {
     }
 
     setupPins() {
-    	if(this.active) {
+    	if(this.active && this.pins) {
 	    	this.pin_cnt = this.pins.length;
 	        for(let i = 0; i < this.pins.length; i++) {
 	        	let pin = this.pins[i];

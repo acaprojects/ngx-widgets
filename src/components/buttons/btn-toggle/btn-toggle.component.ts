@@ -2,10 +2,8 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angu
 
 @Component({
     selector: 'btn-toggle',
-    templateUrl: './btn-toggle.html',
-    styles: [
-        require('./btn-toggle.scss')
-    ]
+    templateUrl: './btn-toggle.template.html',
+    styles: [ require('./btn-toggle.styles.scss') ]
 })
 export class ButtonToggle {
     @Input() active;

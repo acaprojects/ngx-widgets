@@ -1,6 +1,6 @@
 import { Component, Pipe, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 import { ViewChild, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
-import { DomSanitizationService } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,7 +9,7 @@ import { TabHead } from './tab-head.component';
 
 @Pipe({name: 'safe'})
 export class Safe {
-  constructor(private sanitizer:DomSanitizationService){
+  constructor(private sanitizer:DomSanitizer){
     this.sanitizer = sanitizer;
   }
 
@@ -20,11 +20,8 @@ export class Safe {
 
 @Component({
     selector: 'tab-group',
-    pipes: [ Safe ],
-    templateUrl: './tabs.html',
-    styles: [
-        require('./tabs.scss')
-    ]
+    templateUrl: './tabs.template.html',
+    styles: [ require('./tabs.styles.scss') ]
 })
 export class TabGroup implements AfterContentInit  {
 

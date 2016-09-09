@@ -1,15 +1,12 @@
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
-import { ACA_Animate } from '../../services/animate.service';
+import { ACA_Animate } from '../../../services/animate.service';
 
 declare let Hammer: any;
 
 @Component({
-    selector: '[slider]',
-    directives: [ ],
-    templateUrl: './slider.html',
-    styles: [
-        require('./slider.scss')
-    ]
+    selector: 'slider',
+    templateUrl: './slider.template.html',
+    styles: [ require('./slider.styles.scss') ]
 })
 export class Slider {
     @Input() align;

@@ -13,6 +13,7 @@ $space: 2.5em;
 	background-color: rgba(0,0,0,0.3);
 	font-size: 5mm;
 	z-index: 9999999;
+	opacity: 0;
 
 	& .modal-space {
 	    position: absolute;
@@ -23,6 +24,7 @@ $space: 2.5em;
 		border-radius: 0.1em;
 		max-height: 95vh;
 		max-width: 95vw;
+		opacity: 0;
 		& .modal {
 			&-header {
 				position: absolute;

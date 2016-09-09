@@ -3,7 +3,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 
 @Component({
 	selector: 'data-input',
-	styles: [ require('./data-input.styles.scss'), require('../global-styles/global-styles.scss') ],
+	styles: [ require('./data-input.styles.scss'), require('../../global-styles/global-styles.scss') ],
 	templateUrl: './data-input.template.html',
 	animations : [
         trigger('fieldText', [

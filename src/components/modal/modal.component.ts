@@ -1,8 +1,11 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core'; 
-import { ComponentResolver, ComponentRef, ReflectiveInjector, ResolvedReflectiveProvider, ViewContainerRef, OnInit, Type } from '@angular/core';
-import { NgTemplateOutlet, FORM_DIRECTIVES } from '@angular/common';
-import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
-import { ModalService } from './modal.service';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
+import { ComponentRef, ViewContainerRef, ComponentFactoryResolver }  from '@angular/core';
+import { AfterViewInit, OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
+import { trigger, transition, animate, style, state, keyframes } 	 from '@angular/core';
+import { RuntimeCompiler }                                       	 from "@angular/compiler";
+import * as _ from 'lodash';
+
+import { IHaveDynamicData, DynamicTypeBuilder } from '../dynamic/type.builder';
 
 const PLACEHOLDER = '-';
 
@@ -10,27 +13,18 @@ const PLACEHOLDER = '-';
     selector: '[modal]', 
     styles: [ require('./modal.style.scss'), require('../global-styles/global-styles.scss') ],
     templateUrl: './modal.template.html',
-    directives: [ NgTemplateOutlet ],
     animations: [
         trigger('backdrop', [
             state('hide',   style({'opacity' : '0'})),
             state('show', style({'opacity' : '1' })),
-            transition('* => hide', animate('0.5s ease-out', keyframes([
-                style({'bac' : '1', offset: 0}), style({'opacity' : '0', offset: 1.0})
-            ]))),
-            transition('* => show', animate('0.5s ease-in', keyframes([
-                style({'opacity' : '0', offset: 0}), style({'opacity' : '1', offset: 1.0})
-            ])))
+            transition('* => hide', animate('0.5s ease-out')),
+            transition('* => show', animate('0.5s ease-in'))
         ]),
         trigger('space', [
             state('hide',   style({ 'left': '100%', 'opacity' : '0'})),
             state('show', style({ 'left':   '50%', 'opacity' : '1' })),
-            transition('* => hide', animate('0.5s ease-out', keyframes([
-                style({'left': '50%', 'opacity' : '1', offset: 0}), style({'left': '100%', 'opacity' : '0', offset: 1.0})
-            ]))),
-            transition('* => show', animate('0.5s ease-in', keyframes([
-                style({'left': '100%', 'opacity' : '0', offset: 0}), style({'left': '50%', 'opacity' : '1', offset: 1.0})
-            ])))
+            transition('* => hide', animate('0.5s ease-out')),
+            transition('* => show', animate('0.5s ease-in'))
         ])
     ]
 })
@@ -53,11 +47,7 @@ export class Modal implements OnInit {
     @Output() dataChange = new EventEmitter();
     @Output('open') openEvent = new EventEmitter();
     @Output('close') closeEvent = new EventEmitter();
-
-    @ViewChild('modal') modal: ElementRef;
-    @ViewChild('content') content: ElementRef;
-
-    @ViewChild('modal', { read: ViewContainerRef }) _modal: ViewContainerRef;
+    @ViewChild('modal') protected modal: ElementRef;
     @ViewChild('content', { read: ViewContainerRef }) protected _content: ViewContainerRef;
 
     id: string;
@@ -66,107 +56,76 @@ export class Modal implements OnInit {
     cb_fn: Function = null;
     error: boolean = false;
     err_msg: string = '';
-    bindings: any[] = [];
-    directives: any[] = [];
     content_instance: any = null;
     contentRef: ComponentRef<any> = null;
     clean_fn: Function = null;
     cmp: any;
     width: number = 20;
     unit: string = 'em';
+    html: string = '';
+    component: any = null;
 
-    constructor(private _cr: ComponentResolver, private _vc: ViewContainerRef) {
+    constructor(
+    	private _cfr: ComponentFactoryResolver,
+        protected typeBuilder: DynamicTypeBuilder,
+        protected compiler: RuntimeCompiler
+    ) {
         this.id = (Math.round(Math.random() * 899999999 + 100000000)).toString();
-        this.bindings = ReflectiveInjector.resolve([
-        ]);
     }
 
     ngOnInit() {
-        if(this.src) {
-            let dynamicComponent = this.createContentWithTemplate(this.src, this.styles);
-            this.render(dynamicComponent, this._modal, this.bindings);
-        } else if(this.htmlContent) {
-            let dynamicComponent = this.createContentWithHTML(this.htmlContent, this.styles);
-            this.render(dynamicComponent, this._modal, this.bindings);
-        } else if(this.cmp) {
-            this.render(this.cmp, this._modal, this.bindings);
-        }
+    	this.buildContents();
     }
 
-    render(type: Type, viewContainer: ViewContainerRef, bindings: ResolvedReflectiveProvider[]): any{
-    	if(!viewContainer) viewContainer = this._vc;
-        if(this.content_instance) {
-            this.cleanContents(() => {
-                this.render(type, viewContainer, bindings);
-            });
-            return null;
-        }
-        return this._cr.resolveComponent(type)
-            .then(cmpFactory => {
-                const ctxInjector = viewContainer.parentInjector;
-                const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
-                    ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
-                return viewContainer.createComponent(cmpFactory, viewContainer.length, childInjector);
-            })
-            .then((cmpRef: ComponentRef<any>) => {
-                this.content.nativeElement.appendChild(cmpRef.location.nativeElement);
-                this.content_instance = cmpRef.instance;
-                this.contentRef = cmpRef;
-                cmpRef.instance.data = this.data;
-            });
-    }
-
-    cleanContents(finish: Function) {
-        this.content.nativeElement.removeChild(this.contentRef.location.nativeElement);
-        this.content_instance = null;
-        //if(this.contentRef.destory) this.contentRef.destory();
-        this.contentRef = null;
-        finish();
-    }
-
-    createContentWithTemplate(templateUrl, styles?, bindings?) {
-    	let directives = this.directives;
-    	if(!directives) directives = [];
-        @Component({
-            selector: 'modal-content',
-            templateUrl: templateUrl,
-            styles : (styles? styles : []),
-            directives: directives,
-        })
-        class ModalContent {
-            data:any = {};
-            setData(data:any){
-                this.data = data;
-            }
-        }
-        return ModalContent;
-    }
-
-    createContentWithHTML(html, styles?, bindings?) {
-    	let directives = this.directives;
-    	if(!directives) directives = [];
-        @Component({
-            selector: 'modal-content',
-            template: html,
-            styles : (styles? styles : []),
-            directives: directives,
-        })
-        class ModalContent {
-            data:any = {};
-            setData(data:any){
-                this.data = data;
-            }
-        }
-        return ModalContent;
-    }
-
-    ngOnViewInit(){
+    ngAfterViewInit(){
         if(this.modal) {
             this.modal_box = this.modal.nativeElement.getBoundingClientRect();
         }
     }
 
-    onPointer(event) {
+    ngOnDestroy(){
+      if (this.contentRef) {
+          this.contentRef.destroy();
+          this.contentRef = null;
+      }
+    }
+
+    protected buildContents() {
+    	if(this.html && this.html !== '') {
+    		let template = this.typeBuilder.createComponentAndModule(this.html);
+    		this.renderTemplate(template);
+    	} else if(this.component){
+    		let factory = this._cfr.resolveComponentFactory(this.component);
+    		this.render(factory);
+    	}
+    }
+
+    protected renderTemplate(result: { type: any, module: any }) {
+      	let componentType = result.type;
+      	let runtimeModule = result.module
+
+      	// Compile module
+      	this.compiler
+        	.compileModuleAndAllComponentsAsync(runtimeModule)
+        	.then((moduleWithFactories) => {
+            	let factory = _.find(moduleWithFactories.componentFactories, { componentType: componentType });
+            	// Target will instantiate and inject component (we'll keep reference to it)
+            	this.render(factory);
+        	});
+    }
+
+    protected render(factory: any) {
+    	if(this.contentRef) {
+    		this.contentRef.destroy();
+    	}
+    	this.contentRef = this._content.createComponent(factory);
+
+        // let's inject @Inputs to component instance
+        this.content_instance = this.contentRef.instance; 
+        this.content_instance.entity = this.data;
+    }
+
+    protected onPointer(event) {
   		if (event.stopPropagation) event.stopPropagation();
 		else event.cancelBubble = true;
         if(!this.close || !this.modal) return;
@@ -185,58 +144,38 @@ export class Modal implements OnInit {
         }
     }
 
-    set template(templateUrl) {
-        this.src = templateUrl;
-        let dynamicComponent = this.createContentWithTemplate(this.src);
-        this.render(dynamicComponent, this._modal, this.bindings);
-    }
-
-    set component(cmp) {
-        this.cmp = cmp;
-        this.render(cmp, this._modal, this.bindings);
-    }
-
-    set html(html) {
-        this.htmlContent = html;
-        let dynamicComponent = this.createContentWithHTML(this.htmlContent);
-        this.render(dynamicComponent, this._modal, this.bindings);
-    }
-
-    setData(data: any) {
+    protected setData(data: any) {
         this.data = data;
     }
 
-    setParams(data: any) {
+    protected setParams(data: any) {
         if(data) {
-            if(data.src) this.template = data.src;
+	    	this.data = data;
+	    	if(this.content_instance) this.content_instance.entity = this.data;
             if(data.title) this.title = data.title;
             if(data.html) this.html = data.html;
+            if(data.component) this.component = data.component;
             if(data.size) this.size = data.size;
             if(data.options) this.options = data.options;
             if(data.styles) this.styles = data.styles;
             if(data.close !== undefined && data.close !== null) this.close = data.close;
-            if(data.bindings !== undefined && data.bindings !== null) this.bindings = data.bindings;
-            if(data.directives !== undefined && data.directives !== null) this.directives = data.directives;
             if(data.width !== undefined && data.width !== null) this.width = data.width;
             if(data.unit !== undefined && data.unit !== null) this.unit = data.unit;
-            if(data.data) {
-                this.data = data.data;
-                if(this.content_instance) this.content_instance.setData(this.data);
-            }
             if(data.colors) {
                 this.color1 = data.colors.bg;
                 this.color2 = data.colors.fg;
             }
+        	this.buildContents();
         }
     }
 
-    setCallback(cb_fn: Function) {
+    protected setCallback(cb_fn: Function) {
         if(cb_fn) {
             this.cb_fn = cb_fn;
         }
     }
 
-    close_fn(cb_fn?: Function) {
+    protected close_fn(cb_fn?: Function) {
         console.log('Closing Modal.');
         this.state = 'hide';
         setTimeout(() => { 
@@ -246,7 +185,7 @@ export class Modal implements OnInit {
         }, 500);
     }
 
-    open() {
+    protected open() {
         this.state = 'show';
         setTimeout(() => { this.openEvent.emit(null); }, 500);
     }
@@ -255,7 +194,7 @@ export class Modal implements OnInit {
         this.clean_fn = clean;
     }
 
-    select(btn: {text:string, fn:Function}) {
+    public select(btn: {text:string, fn:Function}) {
         if(this.content_instance) this.data = this.content_instance.data;
         this.dataChange.emit(this.data);
         let fn = (ok, err) => { 

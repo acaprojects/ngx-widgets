@@ -2,10 +2,8 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angu
 
 @Component({
     selector: 'btn-group',
-    templateUrl: './btn-group.html',
-    styles: [
-        require('./btn-group.scss')
-    ]
+    templateUrl: './btn-group.template.html',
+    styles: [ require('./btn-group.styles.scss') ]
 })
 export class ButtonGroup {
     @Input() items;

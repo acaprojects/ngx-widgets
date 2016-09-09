@@ -1,5 +1,5 @@
 // Import all pipes
-//import {SamplePipe} from './pipes/sample.pipe';
+import { Safe } from './components';
 
 // Export all pipes
 //export * from './pipes/sample.pipe';

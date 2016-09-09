@@ -1,4 +1,4 @@
-import { Injectable, ComponentResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -254,7 +254,7 @@ export class Typeahead {
   	closing: boolean = false;
   	clicked: boolean = false;
 
-	constructor(private _cr: ComponentResolver, private view: ViewContainerRef) {
+	constructor(private _cr: ComponentFactoryResolver, private view: ViewContainerRef) {
 
 	}
 
@@ -309,24 +309,19 @@ export class Typeahead {
   		this.close();
   	}
 
-    private render(type: Type, bindings: ResolvedReflectiveProvider[] = []){
+    private render(type: Type<any>, bindings: ResolvedReflectiveProvider[] = []){
     	if(this.view) {
-	        return this._cr.resolveComponent(type)
-	            .then(cmpFactory => {
-	                const ctxInjector = this.view.parentInjector;
-	                const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
-	                    ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
-	                return this.view.createComponent(cmpFactory, this.view.length, childInjector);
-	            })
-	            .then((cmpRef: ComponentRef<any>) => {
-	                document.body.appendChild(cmpRef.location.nativeElement);
-	            	this.list_view = cmpRef.instance;
-	            	this.list_ref = cmpRef;
-	            	console.log(this.cssClass);
-	            	this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass);
-	            	this.list_view.moveList(this.main);
-	            	return this.list;
-	            });
+	        let cmpFactory = this._cr.resolveComponentFactory(type);
+            const ctxInjector = this.view.parentInjector;
+            const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
+                ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
+	        let cmpRef = this.view.createComponent(cmpFactory, this.view.length, childInjector);
+            document.body.appendChild(cmpRef.location.nativeElement);
+        	this.list_view = cmpRef.instance;
+        	this.list_ref = cmpRef;
+        	this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass);
+        	this.list_view.moveList(this.main);
+        	return this.list;
         }
     }
 }

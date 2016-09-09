@@ -1,11 +1,10 @@
-import { Injectable, ComponentResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { DomSanitizationService } from '@angular/platform-browser';
+import { Injectable } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 @Component({
   selector: 'dropdown', 
-  styles: [ require('./dropdown.style.scss'), require('../global-styles/global-styles.scss') ],
+  styles: [ require('./dropdown.style.scss'), require('../../global-styles/global-styles.scss') ],
   templateUrl: './dropdown.template.html'
 })
 export class Dropdown {

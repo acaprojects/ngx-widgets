@@ -3,9 +3,9 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 
 @Component({
     selector: 'toggle',
-    templateUrl: './toggle.html',
+    templateUrl: './toggle.template.html',
     styles: [
-        require('./toggle.scss')
+        require('./toggle.styles.scss')
     ],
     animations: [
         trigger('toggleBg', [

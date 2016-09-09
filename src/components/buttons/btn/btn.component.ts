@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 @Component({
 	selector: 'btn',
-	styles: [ require('./btn.styles.scss'), require('../global-styles/global-styles.scss') ],
+	styles: [ require('./btn.styles.scss'), require('../../global-styles/global-styles.scss') ],
 	templateUrl: './btn.template.html',
 	animations : [
         trigger('clickResp', [
