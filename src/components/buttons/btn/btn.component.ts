@@ -46,6 +46,13 @@ export class Button {
 
 	ngAfterViewChecked() {
 		this.loadClasses();
+		if(this.cssClass) {
+			let classes = this.cssClass.split(' ');
+			let btn = this.button.nativeElement;
+			for(let i = 0; i < classes.length; i++) {
+				this.addClass(btn, classes[i]);
+			}
+		}
 	}
 
 	addHover() {
@@ -109,7 +116,6 @@ export class Button {
 			this.addClass(btn, 'bg-' + this.color + '-' + this.primary);
 			this.addClass(btn, 'font-white');
 		} else if(this.btnType !== 'flat') { 
-			this.addClass(btn, this.cssClass); 
 		} else if(this.btnType === 'flat') {
 			this.addClass(btn, 'color');
 			this.addClass(btn, 'font-' + this.color + '-' + this.primary);

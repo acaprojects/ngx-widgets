@@ -8,7 +8,7 @@ import { TabBody } from './tab-body.component';
 import { TabHead } from './tab-head.component';
 
 @Pipe({name: 'safe'})
-export class Safe {
+export class SafePipe {
   constructor(private sanitizer:DomSanitizer){
     this.sanitizer = sanitizer;
   }
@@ -33,7 +33,6 @@ export class TabGroup implements AfterContentInit  {
 
     //*
         //Toggle Knob
-    @ViewChild('header') header : ElementRef;
     @ContentChildren(TabHead) tabHeaders: QueryList<TabHead>;
     @ContentChildren(TabBody) tabBodies: QueryList<TabBody>;
 

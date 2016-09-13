@@ -5,7 +5,8 @@ $angle: 30deg;
 $space: 0.5em;
 
 .spinner {
-    position: relative;
+    position: relative;    
+    margin: auto;
     &.plane {
     	height: 4.0em;
     	width: 4.0em;

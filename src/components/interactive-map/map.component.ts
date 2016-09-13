@@ -41,9 +41,7 @@ const zoom_anim = (function() {
 @Component({
     selector: 'interactive-map',
     templateUrl: './map.template.html',
-    styles: [
-        require('./map.styles.scss')
-    ],
+    styles: [ require('./map.styles.scss') ],
     animations: [
         trigger('zoom', zoom_anim),
         trigger('pin', [
@@ -72,9 +70,9 @@ export class InteractiveMap {
 
     //*
         //Toggle Knob
-    @ViewChild('displayArea')  self: ElementRef;
-    @ViewChild('mapArea')  map_area: ElementRef;
-    @ViewChild('mapDisplay')  map_display: ElementRef;
+    @ViewChild('displayarea')  self: ElementRef;
+    @ViewChild('maparea')  map_area: ElementRef;
+    @ViewChild('mapdisplay')  map_display: ElementRef;
     content_box: any;
     map_box: any;
     map_data: any;

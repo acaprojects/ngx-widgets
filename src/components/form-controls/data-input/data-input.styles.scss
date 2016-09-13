@@ -8,24 +8,40 @@ $red: #F64740;
 	&.input {
 		position: relative;
 		display: inline-block;
-		padding: 0.5em;
-		font-size: 1.5em;
-		color: rgba(0,0,0,0.4);
+		padding: 0.1em;
+		font-size: 1.2em;
 		& .error { color: $red; border-color: $red; }
 		& .valid { color: $green; border-color: $green; }
 		& .input-space {
 			position: relative;
 			display: inline-block;
-			padding: 1.0em 0 0.1em 0;
-			border-bottom: 0.1em solid rgba(0,0,0,0.4);
+			padding: 0.2em 0 0.1em 0;
+			&.light {
+				color: rgba(0,0,0,0.4);
+				border-bottom: 0.1em solid rgba(0,0,0,0.4);
+				& .disabled {
+					border-bottom: 0.1em dotted rgba(0,0,0,0.4);
+				}
+
+				& input.text {
+					color: rgba(0,0,0,0.8);
+				}
+			}
+			&.dark {
+				color: rgba(255,255,255,0.4);
+				border-bottom: 0.1em solid rgba(255,255,255,0.4);
+				& .disabled {
+					border-bottom: 0.1em dotted rgba(255,255,255,0.4);
+				}
+				& input.text { color: rgba(255,255,255,0.8); }
+			}
 			cursor: text;
 			&.disabled {
-				border-bottom: 0.1em dotted rgba(0,0,0,0.4);
 				cursor: not-allowed;
 			}
 			& .placeholder {
 				position: absolute;
-				top: 0.5em;
+				top: 0.2em;
 				left: 0;
 				font-size: 1.0em;
 				&.left {
@@ -35,11 +51,11 @@ $red: #F64740;
 
 			& input.text {
 				font-size: 1.0em;
-				color: rgba(0,0,0,0.8);
 				outline: none;
 				border: none;
 				margin: 0;
 				padding: 0;
+				background: none;
 				&.left {
 					padding-left: 1.5em; 
 				}
@@ -61,12 +77,13 @@ $red: #F64740;
 			}
 		}
 		& .info-space {
-			padding: 0.5em 0;
+			padding: 0.2em 0;
 			font-size: 0.6em;
 			& .message {
 				display: inline-block;
 				float: left;
 				width: 69%;
+				text-align: left;
 			}
 
 			& .counter {

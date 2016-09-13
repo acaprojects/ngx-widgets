@@ -38,36 +38,46 @@
 			</div>
 			<div class="picker">
 				<div class="pick">
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="changeHour()">&#x27E8;</div></div>
+					<div class='change' [style.color]="color1">
+						<div class="arrow-time" (click)="changeHour()">&#x27E8;</div>
+					</div>
 					<div class='set'>
 						<input 
+							name="hour"
 							type="text" 
-							#hourPick
 							maxlength="2"
+							#hourpick
 							[(ngModel)]="display_hour" 
 							(blur)="checkHour()"  
 							(keyup)="keyupHour($event, display_hour)"
-							(keyup.enter)="changeFocus()">
+							(keyup.enter)="changeFocus()" />
 					</div>
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="changeHour(-1)">&#x27E9;</div></div>
+					<div class='change' [style.color]="color1">
+						<div class="arrow-time" (click)="changeHour(-1)">&#x27E9;</div>
+					</div>
 				</div>
 				<div class="pick">
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="changeMinutes()">&#x27E8;</div></div>
+					<div class='change' [style.color]="color1">
+						<div class="arrow-time" (click)="changeMinutes()">&#x27E8;</div>
+					</div>
 					<div class='set'>
 						<input 
+							name="minutes"
 							type="text" 
-							#minutePick
+							#minutepick
 							maxlength="2"
 							[(ngModel)]="display_minutes" 
 							(blur)="checkMinute()"  
 							(keyup)="keyupMinutes($event, display_minutes)"
-							(keyup.enter)="timeSet()">
+							(keyup.enter)="timeSet()" />
 					</div>
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="changeMinutes(-minuteStep)">&#x27E9;</div></div>
+					<div class='change' [style.color]="color1">
+						<div class="arrow-time" (click)="changeMinutes(-minuteStep)">&#x27E9;</div>
+					</div>
 				</div>
 				<div class="pick btn">
 					<div class="btn" (click)="changePeriod()" [style.background-color]="color1"  [style.color]="color2">
-						<buttton class="am-pm">{{display_period}}</buttton>
+						<button class="am-pm">{{display_period}}</button>
 					</div>
 				</div>
 			</div>

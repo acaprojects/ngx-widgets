@@ -7,8 +7,8 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 	templateUrl: './data-input.template.html',
 	animations : [
         trigger('fieldText', [
-            state('focus',  style({'font-size': '0.6em', top: '0.5em'})),
-            state('blur',   style({'font-size': '1.0em', top: '1.0em'})),
+            state('focus',  style({'font-size': '0.6em', top: '-0.4em'})),
+            state('blur',   style({'font-size': '1.0em', top: '0.4em'})),
             transition('blur <=> focus', animate('150ms ease-out'))
         ])
     ]
@@ -16,6 +16,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 export class DataInput {
 		// Input Variables
 	@Input() type: string = 'text';
+	@Input() name: string = '';
 	@Input() model: string = '';
 	@Input() placeholder: string = '';
 	@Input() format: string = '';
@@ -31,10 +32,11 @@ export class DataInput {
 	@Input() view: boolean = false;
 	@Input() regex: any = null;
 	@Input() errorMsg: string = 'Input not valid';
-	@Input() infoMsg: string = '_';
+	@Input() infoMsg: string = '';
 	@Input() disabled: boolean = false;
 	@Input() required: boolean = false;
 	@Input() validation: boolean = true;
+	@Input() theme: string = 'light';
 
 		// Output Variables
 	@Output() modelChange = new EventEmitter();
@@ -74,7 +76,7 @@ export class DataInput {
 	ngOnChanges(changes: any) {
 		if(changes.model) {
 			this.display_text = this.model;
-			this.updateInput();
+			this.validateInput();
 		}
 		if(changes.type) {
 			switch(this.type.toLowerCase()) {
@@ -97,19 +99,6 @@ export class DataInput {
 		if(changes.infoMsg) {
 			this.info_display = this.infoMsg;
 		}
-	}
-
-	updateInput() {
-		this.cleanInput();
-		if(this.validateInput()) {
-			this.modelChange.emit(this.clean_text);
-		} else {
-			this.errorChange.emit(true);
-		}
-	}
-
-	cleanInput() {
-
 	}
 
 	focusInput() {
@@ -161,6 +150,10 @@ export class DataInput {
 			this.validateInput();
 			this.validate_timer = null;
 		}, 100);
+	}
+
+	checkFocus() {
+		return (this.focus || (this.display_text && this.display_text !== '') ? 'focus': 'blur');
 	}
 
 	setCaretPosition(caretPos) {
@@ -227,6 +220,7 @@ export class DataInput {
 			this.info_display = this.infoMsg;
 		}
 		this.validate.emit(data);
+		this.modelChange.emit(this.clean_text);
 	}
 
 	validateText() {
@@ -324,7 +318,6 @@ export class DataInput {
 			let diff = len_new - len;
 			let caretDiff = len_new - this.caret;
 			let sep_cnt = this.display_text.split('-').length - 1;
-			console.log(this.backspace);
 			if(caretDiff > 1 && diff != 0) {
 				diff = (((this.caret - sep_cnt) / 4) < sep_cnt) ? 0 : diff;
 			} else if(diff === 0 && caretDiff > 1 && (this.caret % 5) === 0 && !this.backspace) {

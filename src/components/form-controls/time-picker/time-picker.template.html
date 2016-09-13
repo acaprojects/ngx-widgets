@@ -8,7 +8,7 @@
 					<div class='set'>
 						<input 
 							type="text" 
-							#hourPick
+							#hourpick
 							maxlength="2"
 							[(ngModel)]="display_hour" 
 							(blur)="checkHour()"  
@@ -22,7 +22,7 @@
 					<div class='set'>
 						<input 
 							type="text" 
-							#minutePick
+							#minutepick
 							maxlength="2"
 							[(ngModel)]="display_minutes"  
 							(blur)="checkMinute()"  
@@ -33,7 +33,7 @@
 				</div>
 				<div class="pick btn">
 					<div class="btn" (click)="changePeriod()" [style.background-color]="color1"  [style.color]="color2">
-						<buttton class="am-pm">{{display_period}}</buttton>
+						<button class="am-pm">{{display_period}}</button>
 					</div>
 				</div>
 			</div>

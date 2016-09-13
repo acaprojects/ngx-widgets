@@ -15,8 +15,9 @@
 	&.btn {
 		position: relative;
 		display: inline-block;
-		padding: 0.25em 0.5em;
+		padding: 0.25em 0.5em 0.1em 0.5em;
 		text-align: center;
+		overflow: hidden;
 		@include user-select(none);
 		& .action {
 			padding: 0;
@@ -94,6 +95,7 @@
 			border-radius: 0.1em;
 			border: none;
 			cursor: pointer;
+			overflow: hidden;
 			&.disabled {
 				opacity: 0.25;
 				cursor: not-allowed;

@@ -31,8 +31,8 @@ export class TimePicker {
     @Input() open: string = 'open';
     @Output() timeChange = new EventEmitter();
 
-    @ViewChild('hourPick') hour_input: ElementRef;
-    @ViewChild('minutePick') minute_input: ElementRef;
+    @ViewChild('hourpick') hour_input: ElementRef;
+    @ViewChild('minutepick') minute_input: ElementRef;
 
     display_hour: string = '11';
     display_minutes: string = '59';

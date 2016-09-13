@@ -1,11 +1,15 @@
 <div class="aca tab-group" >
-    <div #header class="tab-header">
+    <div class="tab-header">
         <ul [class]="cssClass">
-            <li *ngFor="let tab of tabHeaders" [innerHTML]="tab.contents | safe" (click)="setActiveTab(tab.id)" (touchup)="setActiveTab(tab.id)" [class.active]="tab.activeTab"></li>
+            <li *ngFor="let tab of tabHeaders" 
+            	[innerHTML]="tab.contents | safe"  
+            	[class.active]="tab.activeTab"
+            	(click)="setActiveTab(tab.id)" 
+            	(touchup)="setActiveTab(tab.id)"></li>
             <li [class]="'empty ' + cssClass"></li>
         </ul>
     </div>
-    <div #body class="tab-contents">
+    <div class="tab-contents">
         <ng-content></ng-content>
     </div>
 </div>

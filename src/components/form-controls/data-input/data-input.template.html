@@ -1,6 +1,6 @@
 <div class="aca input" >
 	<div (click)="focusInput()"
-		[class]="'input-space' + 
+		[class]="'input-space ' + theme + ' ' +
 			(error ? ' aca color border-red-C500' : 
 				(success ? ' aca color border-green-C500' : 
 					(focus ? ' aca color border-' + color + '-' + primary : '')) ) + (disabled?' disabled': '')">
@@ -9,13 +9,14 @@
 			(error ? 'aca color font-red-C500' : 
 				(success ? 'aca color font-green-C500' : 
 					(focus ? 'aca color font-' + color + '-' + primary : '')) )" 
-			[@fieldText]="focus || display_text?.length > 0 ? 'focus': 'blur'">
+			[@fieldText]="checkFocus()">
 			{{placeholder}}{{required?'*':''}}
 		</div>
 		<input 
 			#input 
-			class="text" 
-			[type]="type==='password' && !view ? type : 'text'" 
+			class="text"
+			[name]="name" 
+			[type]="type.indexOf('password') >= 0 && !view ? 'password' : 'text'" 
 			[class.right]="icon&&iconSide==='right'"
 			[class.left]="icon&&iconSide==='left'"
 			[style.width]="width + 'em'"

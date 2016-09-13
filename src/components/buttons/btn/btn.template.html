@@ -8,7 +8,7 @@
 			<div [class.center]="btnType.indexOf('action') >= 0">
 				<ng-content></ng-content>
 			</div>
+			<div [@clickResp]="click_state" class="circle"></div>
 		</button>
 	</div>
-	<div [@clickResp]="click_state" class="circle"></div>
 </div>

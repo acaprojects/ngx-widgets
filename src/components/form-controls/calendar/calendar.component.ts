@@ -35,8 +35,8 @@ export class Calendar {
     @Output() dateChange = new EventEmitter();
     @Output() timeChange = new EventEmitter();
 
-    @ViewChild('hourPick') hour_input: ElementRef;
-    @ViewChild('minutePick') minute_input: ElementRef;
+    @ViewChild('hourpick') hour_input: ElementRef;
+    @ViewChild('minutepick') minute_input: ElementRef;
 
     static months_list = ['Janurary', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     static days_list   = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

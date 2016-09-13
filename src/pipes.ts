@@ -1,5 +1,5 @@
 // Import all pipes
-import { Safe } from './components';
+import { SafePipe } from './components';
 
 // Export all pipes
 //export * from './pipes/sample.pipe';
@@ -7,4 +7,5 @@ import { Safe } from './components';
 // Export convenience property
 export const ACA_WIDGET_PIPES: any[] = [
     //SamplePipe
+    SafePipe
 ];
