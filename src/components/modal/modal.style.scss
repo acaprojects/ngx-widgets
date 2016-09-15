@@ -2,7 +2,7 @@
 @import '~bourbon/app/assets/stylesheets/bourbon';
 
 $sm-height: 15.0em;
-$space: 2.5em;
+$space: 2.2em;
 
 .modal {
 	position: fixed;
@@ -12,7 +12,7 @@ $space: 2.5em;
 	right: 0;
 	background-color: rgba(0,0,0,0.3);
 	font-size: 5mm;
-	z-index: 9999999;
+	z-index: 2000;
 	opacity: 0;
 
 	& .modal-space {
@@ -30,9 +30,10 @@ $space: 2.5em;
 				position: absolute;
 				top: 0; left: 0;
 				right: 0; height: $space;
-				padding: 0.5em;
+				padding: 0.5em 1.5em;
 				font-size: 1.5em;
 				border-radius: 0.1em 0.1em 0 0;
+				//text-align: center;
 				& .close-btn {
 					position: absolute;
 					top: 0.25em;

@@ -18,6 +18,7 @@
 		padding: 0.25em 0.5em 0.1em 0.5em;
 		text-align: center;
 		overflow: hidden;
+		cursor: pointer;
 		@include user-select(none);
 		& .action {
 			padding: 0;
@@ -26,8 +27,9 @@
 				width: 4.0em;
 				padding: 0;
 				border-radius: 100%;
+				min-width: 4.0em;
 				&.hover {
-					
+
 				}
 			}
 		}
@@ -36,10 +38,11 @@
 			& button {
 				height: 3.0em;
 				width: 3.0em;
+				min-width: 3.0em;
 				padding: 0;
 				border-radius: 100%;
 				&.hover {
-					
+
 				}
 			}
 		}
@@ -64,7 +67,7 @@
 					box-shadow: none;
 				}
 				&.hover{
-					margin-top: 0.05em; 
+					margin-top: 0.05em;
 					box-shadow: 0px 0.1em 0px 0px rgba(0,0,0,0.75);
 				}
 				&.active {
@@ -96,6 +99,7 @@
 			border: none;
 			cursor: pointer;
 			overflow: hidden;
+			min-width: 6.0em;
 			&.disabled {
 				opacity: 0.25;
 				cursor: not-allowed;

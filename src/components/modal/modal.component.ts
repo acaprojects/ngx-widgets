@@ -10,7 +10,7 @@ import { IHaveDynamicData, DynamicTypeBuilder } from '../dynamic/type.builder';
 const PLACEHOLDER = '-';
 
 @Component({
-    selector: '[modal]', 
+    selector: '[modal]',
     styles: [ require('./modal.style.scss'), require('../global-styles/global-styles.scss') ],
     templateUrl: './modal.template.html',
     animations: [
@@ -29,7 +29,9 @@ const PLACEHOLDER = '-';
     ]
 })
 export class Modal implements OnInit {
-    @Input() private src: string;
+    @Input() id: string = '';
+    @Input() service: any = null;
+    @Input() private component: any = null;
     @Input() private htmlContent: string;
     @Input() title: string = 'Modal Title';
     @Input() size: string;
@@ -50,7 +52,6 @@ export class Modal implements OnInit {
     @ViewChild('modal') protected modal: ElementRef;
     @ViewChild('content', { read: ViewContainerRef }) protected _content: ViewContainerRef;
 
-    id: string;
     modal_box: any;
     state: string = 'show';
     cb_fn: Function = null;
@@ -63,7 +64,7 @@ export class Modal implements OnInit {
     width: number = 20;
     unit: string = 'em';
     html: string = '';
-    component: any = null;
+    large: boolean = false;
 
     constructor(
     	private _cfr: ComponentFactoryResolver,
@@ -74,11 +75,11 @@ export class Modal implements OnInit {
     }
 
     ngOnInit() {
-    	this.buildContents();
     }
 
-    ngAfterViewInit(){
+    ngAfterContentInit(){
         if(this.modal) {
+        	this.buildContents();
             this.modal_box = this.modal.nativeElement.getBoundingClientRect();
         }
     }
@@ -95,6 +96,7 @@ export class Modal implements OnInit {
     		let template = this.typeBuilder.createComponentAndModule(this.html);
     		this.renderTemplate(template);
     	} else if(this.component){
+            console.log('Building Modal with component');
     		let factory = this._cfr.resolveComponentFactory(this.component);
     		this.render(factory);
     	}
@@ -121,8 +123,9 @@ export class Modal implements OnInit {
     	this.contentRef = this._content.createComponent(factory);
 
         // let's inject @Inputs to component instance
-        this.content_instance = this.contentRef.instance; 
-        this.content_instance.entity = this.data;
+        this.content_instance = this.contentRef.instance;
+        this.content_instance.entity = this.data.data;
+
     }
 
     protected onPointer(event) {
@@ -155,7 +158,7 @@ export class Modal implements OnInit {
             if(data.title) this.title = data.title;
             if(data.html) this.html = data.html;
             if(data.component) this.component = data.component;
-            if(data.size) this.size = data.size;
+            if(data.size) this.large = data.size === 'large';
             if(data.options) this.options = data.options;
             if(data.styles) this.styles = data.styles;
             if(data.close !== undefined && data.close !== null) this.close = data.close;
@@ -178,10 +181,11 @@ export class Modal implements OnInit {
     protected close_fn(cb_fn?: Function) {
         console.log('Closing Modal.');
         this.state = 'hide';
-        setTimeout(() => { 
+        setTimeout(() => {
             if(cb_fn) cb_fn();
             if(this.clean_fn) this.clean_fn();
-            this.closeEvent.emit(null); 
+            if(this.service) this.service.cleanModal(this.id);
+            this.closeEvent.emit(null);
         }, 500);
     }
 
@@ -195,10 +199,10 @@ export class Modal implements OnInit {
     }
 
     public select(btn: {text:string, fn:Function}) {
-        if(this.content_instance) this.data = this.content_instance.data;
+        if(this.content_instance) this.data = this.content_instance.entity;
         this.dataChange.emit(this.data);
-        let fn = (ok, err) => { 
-            if(!err) this.close_fn(); 
+        let fn = (ok, err) => {
+            if(!err) this.close_fn();
             else {
                 this.error = true;
                 this.err_msg = err;

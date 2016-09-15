@@ -7,13 +7,13 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDe
 		<div #contents class="contents">
 			<div #list class="options" [style.display]="filtered_list.length > 0 ? 'inherit' : 'none'">
 				<ul #listView>
-					<li [class]="'option ' + cssClass" 
-						*ngFor="let item of filtered_list; let i = index" 
-						[class.first]="i==0" 
-						[class.last]="i==filtered_list.length - 1"  
-						[class.other]="i > 0" 
-						[class.odd]="i%2===1" 
-						[class.even]="i%2===0" 
+					<li [class]="'option ' + cssClass"
+						*ngFor="let item of filtered_list; let i = index"
+						[class.first]="i==0"
+						[class.last]="i==filtered_list.length - 1"
+						[class.other]="i > 0"
+						[class.odd]="i%2===1"
+						[class.even]="i%2===0"
 						(click)="setItem($event, i)"
 						(touchend)="setItem($event, i)">
 
@@ -26,10 +26,10 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDe
     `,
     styles : [ require('./typeahead-list.styles.scss') ]
 })
-class TypeaheadList {
+export class TypeaheadList {
 	app : any = null;
 	parent: any = null;
-	items: any[] = []; 
+	items: any[] = [];
 	filtered_list: any[] = [];
 	results: number = 5;
 	cssClass: string = 'default';
@@ -50,7 +50,7 @@ class TypeaheadList {
   	keys = {37: 1, 38: 1, 39: 1, 40: 1};
 
   	constructor() {
-  		this.scroll = (event) => { 
+  		this.scroll = (event) => {
 	  		if (event.stopPropagation) event.stopPropagation();
 			else event.cancelBubble = true;
 	    	this.scrolled = true;
@@ -145,7 +145,7 @@ class TypeaheadList {
   		e = e || window.event;
   		if (e.preventDefault)
       		e.preventDefault();
-  		e.returnValue = false;  
+  		e.returnValue = false;
 	}
 
 	preventDefaultForScrollKeys(e) {
@@ -170,10 +170,10 @@ class TypeaheadList {
 		if(!this.app) return;
     	if (this.app.removeEventListener)
         	this.app.removeEventListener('DOMMouseScroll', this.preventDefault, false);
-    	this.app.onmousewheel = this.app.onmousewheel = null; 
-    	this.app.onwheel = null; 
-    	this.app.ontouchmove = null;  
-    	this.app.onkeydown = null;  
+    	this.app.onmousewheel = this.app.onmousewheel = null;
+    	this.app.onwheel = null;
+    	this.app.ontouchmove = null;
+    	this.app.onkeydown = null;
 	}
 
   	moveList(main: any, event?: any) {
@@ -230,7 +230,7 @@ class TypeaheadList {
 
 
 @Component({
-  selector: '[typeahead]',  
+  selector: '[typeahead]',
   styles: [ require('./typeahead.style.scss') ],
   templateUrl: './typeahead.template.html'
 })
@@ -281,7 +281,7 @@ export class Typeahead {
       	if(!this.show) {
       		this.render(TypeaheadList);
   			this.show = true;
-	    } else { 
+	    } else {
 	    	this.close();
 	    }
   	}

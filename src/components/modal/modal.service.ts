@@ -1,4 +1,4 @@
-import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
 import { Modal } from './modal.component';
 import { AlertDialog, ConfirmDialog, DateDialog, TimeDialog } from './modals';
@@ -21,7 +21,6 @@ export class ModalService {
   		fg: '#FFF',
   		bg: '#123456'
   	};
-  	bindings : any[] = [];
   	modal_data: any = {};
   	modal_inputs: any = {};
   	last_modal_id: string = '';
@@ -47,20 +46,19 @@ export class ModalService {
 		if(!input) {
 				// Check if previous modal data exists
 			let info = this.modal_inputs[id];
-			if(info && (info.src || info.html)) {
+			if(info && (info.component || info.html)) {
 				if(this.modal[id]) this.cleanModal(id);
 				this.modal_data[id] = info;
 					// Create Modal
-				let bindings = ReflectiveInjector.resolve(this.modal_data[id].bindings);
-				let model = this.render(id, this.modal_data[id].type, this.vc ? this.vc : this.defaultVC, bindings);
+				let modal = this.render(id, this.modal_data[id].type, this.vc ? this.vc : this.defaultVC);
 				this.last_modal_id = id;
 				return id;
 			} else  {
 				console.error('No inputs for modal.');
 				return id;
 			}
-		} else if(!input.src && !input.html) {
-			if(!this.modal_inputs[id] || (!this.modal_inputs[id].src && !this.modal_inputs[id].html)) {
+		} else if(!input.component && !input.html) {
+			if(!this.modal_inputs[id] || (!this.modal_inputs[id].component && !this.modal_inputs[id].html)) {
 				console.error('No contents for modal.');
 				return id;
 			}
@@ -71,24 +69,21 @@ export class ModalService {
 		else this.modal_data[id] = {};
 			//Update parameters
 		this.modal_data[id] = {
-			src : input.src ? input.src : this.modal_data[id].src, // Template location
 			type: Modals[input.type] ? Modals[input.type] : (this.modal_data[id].type ? this.modal_data[id].type : Modals.default),
-			title: input.title ? input.title : this.modal_data[id].title, 
+			title: input.title ? input.title : this.modal_data[id].title,
 			data: input.data ? input.data : this.modal_data[id].data,
 			html: input.html ? input.html : this.modal_data[id].html,
+			component: input.component ? input.component : ( input.cmp ? input.cmp : this.modal_data[id].component),
 			text: input.text ? input.text : this.modal_data[id].text,
 			size: input.size ? input.size : this.modal_data[id].size,
 			styles: input.styles ? input.styles : this.modal_data[id].styles,
 			options: input.options ? input.options : this.modal_data[id].options,
 			close: input.close ? input.close : this.modal_data[id].close,
 			colors : input.colors ? input.colors : (this.modal_data[id].colors ? this.modal_data[id].colors : this.colors),
-			bindings : input.bindings ? input.bindings : (this.modal_data[id].bindings ? this.modal_data[id].bindings : this.bindings),
-			directives : input.directives ? input.directives : (this.modal_data[id].directives ? this.modal_data[id].directives : [])
 		}
 		this.modal_inputs[id] = this.modal_data[id];
 			// Create Modal
-		let bindings = ReflectiveInjector.resolve(this.modal_inputs[id].bindings);
-		let model = this.render(id, this.modal_inputs[id].type, this.vc ? this.vc : this.defaultVC, bindings);
+		let modal = this.render(id, this.modal_inputs[id].type, this.vc ? this.vc : this.defaultVC);
 		this.last_modal_id = id;
 		return id;
 	}
@@ -100,6 +95,7 @@ export class ModalService {
 			for(let i = 0; i < keys.length; i++) {
 				if(this.modal[keys[i]]) {
 					this.modal[id].close_fn();
+					this.cleanModal(id);
 				}
 			}
 		} else if(id === '' && this.last_modal_id !== '') {
@@ -109,6 +105,7 @@ export class ModalService {
 		} else if(id && this.modal[id]) {
 				//Close selected modal
 			this.modal[id].close_fn();
+			this.cleanModal(id);
 		}
 	}
 
@@ -116,6 +113,7 @@ export class ModalService {
 		let keys = Object.keys(this.modal);
 		for(let i = 0; i < keys.length; i++) {
 			this.modal[keys[i]].close_fn();
+			this.cleanModal(keys[i]);
 		}
 	}
 
@@ -131,18 +129,19 @@ export class ModalService {
 		this.modal_data[id] = null;
 	}
 
-    private render(id:string, type: Type<any>, viewContainer: ViewContainerRef, bindings: ResolvedReflectiveProvider[]){
-    	if(viewContainer) {
-	        let cmpFactory = this._cr.resolveComponentFactory(type)
-            const ctxInjector = viewContainer.parentInjector;
-            const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
-                ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
-            let cmpRef = viewContainer.createComponent(cmpFactory, viewContainer.length, childInjector);
-            document.body.appendChild(cmpRef.location.nativeElement);
-        	this.modal[id] = cmpRef.instance;
-        	this.modalRef[id] = cmpRef;
-        	this.modal[id].setParams(this.modal_data[id]);
-        	this.modal[id].cleanup = () => { this.cleanModal(id); };
+    private render(id:string, type: Type<any>, vc: ViewContainerRef){
+    	if(vc) {
+	        let factory = this._cr.resolveComponentFactory(type)
+			if(this.modalRef[id]) {
+				this.modalRef[id].destroy();
+			}
+	    	this.modalRef[id] = this.vc.createComponent(factory);
+
+	        // let's inject @Inputs to component instance
+	        this.modal[id] = this.modalRef[id].instance;
+			this.modal[id].service = this;
+			this.modal[id].id = id;
+	        this.modal[id].setParams(this.modal_data[id]);
         	return this.modal[id];
         }
     }

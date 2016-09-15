@@ -6,12 +6,12 @@
 				<div class="pick">
 					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="addHour()">&#x27E8;</div></div>
 					<div class='set'>
-						<input 
-							type="text" 
-							#hourpick
+						<input
+							type="text"
+							#hourPick
 							maxlength="2"
-							[(ngModel)]="display_hour" 
-							(blur)="checkHour()"  
+							[(ngModel)]="display_hour"
+							(blur)="checkHour()"
 							(keyup)="keyupHour($event)"
 							(keyup.enter)="changeFocus()">
 					</div>
@@ -20,12 +20,12 @@
 				<div class="pick">
 					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="addMinute()">&#x27E8;</div></div>
 					<div class='set'>
-						<input 
-							type="text" 
-							#minutepick
+						<input
+							type="text"
+							#minutePick
 							maxlength="2"
-							[(ngModel)]="display_minutes"  
-							(blur)="checkMinute()"  
+							[(ngModel)]="display_minutes"
+							(blur)="checkMinute()"
 							(keyup)="keyupMinutes($event)"
 							(keyup.enter)="timeSet()">
 					</div>
@@ -37,8 +37,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="finish-btn" >
-				<div class="btn" [style.background-color]="color1"  [style.color]="color2" (click)="timeSet()"> Done </div>
+			<div class="finish-btn" *ngIf="false">
+				<div class="btn" [style.background-color]="color1"  [style.color]="color2" (click)="timeSet()"> Accept </div>
 			</div>
 		</div>
 	</div>

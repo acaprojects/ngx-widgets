@@ -1,8 +1,8 @@
 // Import all directives
-import { Button, 
-		 ButtonGroup, 
-		 ButtonToggle, 
-		 Calendar, 
+import { Button,
+		 ButtonGroup,
+		 ButtonToggle,
+		 Calendar,
 		 DataInput,
 		 Dropdown,
 		 DropTarget,
@@ -10,24 +10,28 @@ import { Button,
 		 GlobalStyles,
 		 ImageCrop,
 		 InteractiveMap,
-		 ModalDirective, 
+		 Modal,
+		 ModalDirective,
+		 Notification,
 		 NotificationDirective,
-		 Slider, 
-		 Spinner, 
+		 OldDropdown,
+		 Slider,
+		 Spinner,
 		 TABS_DIRECTIVES,
-		 TimePicker,  
-		 Toggle,    
-		 Typeahead } from './components/index';
+		 TimePicker,
+		 Toggle,
+		 Typeahead,
+	 	 TypeaheadList } from './components/index';
 
 // Export all directives
 export * from './components/index';
 
 // Export convenience property
 export const ACA_WIDGET_COMPONENTS: any[] = [
-	Button, 
-	ButtonGroup, 
-	ButtonToggle, 
-	Calendar, 
+	Button,
+	ButtonGroup,
+	ButtonToggle,
+	Calendar,
 	DataInput,
 	Dropdown,
  	DropTarget,
@@ -35,12 +39,19 @@ export const ACA_WIDGET_COMPONENTS: any[] = [
 	GlobalStyles,
 	ImageCrop,
 	InteractiveMap,
-	ModalDirective, 
+	ModalDirective,
 	NotificationDirective,
-	Slider, 
-	Spinner, 
+	OldDropdown,
+	Slider,
+	Spinner,
 	...TABS_DIRECTIVES,
-	TimePicker,  
-	Toggle,    
+	TimePicker,
+	Toggle,
 	Typeahead
 ];
+
+export const ACA_ENTRY_COMPONENTS: any[] = [
+	Modal,
+	Notification,
+	TypeaheadList
+]

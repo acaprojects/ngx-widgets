@@ -29,8 +29,8 @@ export class Button {
 		// Output emitters
 	@Output() onClick = new EventEmitter();
 		// Template Elements
-	@ViewChild('btnContainer') container: ElementRef; 
-	@ViewChild('btn') button: ElementRef; 
+	@ViewChild('btnContainer') container: ElementRef;
+	@ViewChild('btn') button: ElementRef;
 
 	click_state: string = 'show';
 
@@ -90,7 +90,7 @@ export class Button {
         // Function to add css classes to the button
 	addClass(el, name: string) {
 		el.classList.add(name);
-	} 
+	}
 
 	removeClass(el, name: string) {
 		el.classList.remove(name);
@@ -115,7 +115,7 @@ export class Button {
 			this.addClass(btn, 'color');
 			this.addClass(btn, 'bg-' + this.color + '-' + this.primary);
 			this.addClass(btn, 'font-white');
-		} else if(this.btnType !== 'flat') { 
+		} else if(this.btnType !== 'flat') {
 		} else if(this.btnType === 'flat') {
 			this.addClass(btn, 'color');
 			this.addClass(btn, 'font-' + this.color + '-' + this.primary);

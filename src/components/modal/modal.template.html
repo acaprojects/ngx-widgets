@@ -2,14 +2,14 @@
 	<div #modal class="modal-space" [@space]="state"
 			[style.width]="(large ? 2.5 * width : width) + unit"
 			[style.min-height]="(large ? 2.5 * width / 3 * 2 : width / 3 * 2) + unit">
-		<div class="modal-header" [style.background-color]="color1" [style.color]="color2" >
+		<div class="modal-header title" [style.background-color]="color1" [style.color]="color2" >
 			{{title}}
 			<div *ngIf="close" class="close-btn" (click)="close_fn()">
 				&#x2613;
 			</div>
 		</div>
 		<div class="modal-body">
-			<div #content class="content"></div>
+			<div class="content"><div #content></div></div>
 		</div>
 		<div class="modal-footer">
 			<div class="modal-btns" *ngFor="let btn of options">

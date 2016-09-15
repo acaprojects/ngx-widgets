@@ -30,6 +30,8 @@
 
 			& .finish-btn {
 				text-align: center;
+				cursor: pointer;
+				@include user-select(none);
 				& .btn {
 					display: inline-block;
 					padding: 0.2em 1.5em;
@@ -48,6 +50,7 @@
 						text-align: center;
 						width: 100%;
 						font-size: 1.4em;
+						cursor: pointer;
 						& .arrow-time {
 							display: inline-block;
 							@include transform( rotate(90deg));
@@ -71,22 +74,31 @@
 						}
 					}
 					&.btn {
+						position: relative;
 						padding: 1.85em 0.2em;
 					}
 					& .btn {
-						display: inline-block;
+						position: absolute;
+						top: 50%;
+						@include transform( translateY(-50%));
+						@include user-select(none);
 						vertical-align: middle;
-						border-radius: 4px;
+						border-radius: 0.2em;
 						outline: none;
-						font-size: 0.75em;
+						font-size: 0.8em;
 						padding: 0.2em 1.0em;
+						color: #FFFFFF;
+						cursor: pointer;
 						& button {
 							height: 100%;
 							width: 100%;
 							font-size: 0.8em;
 							padding: 0.2em;
 							border: none;
+							background: none;
+							outline: none;
 							text-align: center;
+							color: #FFFFFF;
 						}
 					}
 				}

@@ -87,6 +87,7 @@ export class Calendar {
     }
 
     setDate(date: Date) {
+        if(!(date instanceof Date)) date = new Date();
         this.date = date;
         this.initTime();
         this.display_year = this.date.getFullYear();

@@ -1,4 +1,4 @@
-import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
 import { Notification } from './notification.component';
 
@@ -24,8 +24,7 @@ export class NotificationService {
 
 	set view(view: ViewContainerRef) {
 		this.vc = view;
-		let bindings = ReflectiveInjector.resolve([]);
-		this.render(Notification, this.vc, bindings);
+		this.render(Notification, this.vc);
 	}
 
 
@@ -52,17 +51,16 @@ export class NotificationService {
     	if(this.cmp) this.cmp.setClose(state, timeout);
     }
 
-    private render(type: Type<any>, viewContainer: ViewContainerRef, bindings: ResolvedReflectiveProvider[]){
-    	if(viewContainer) {
-	        let cmpFactory = this._cr.resolveComponentFactory(type);
-            const ctxInjector = viewContainer.parentInjector;
-            const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
-                ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
-            let cmpRef = viewContainer.createComponent(cmpFactory, viewContainer.length, childInjector);
-            document.body.appendChild(cmpRef.location.nativeElement);
-        	this.cmp = cmpRef.instance;
-        	this.cmpRef = cmpRef;
-        	return this.cmp;
+    private render(type: Type<any>, vc: ViewContainerRef){
+    	if(vc) {
+	        let factory = this._cr.resolveComponentFactory(type)
+			if(this.cmpRef) {
+				this.cmpRef.destroy();
+			}
+	    	this.cmpRef = this.vc.createComponent(factory);
+
+	        // let's inject @Inputs to component instance
+	        this.cmp = this.cmpRef.instance;
         }
     }
 
