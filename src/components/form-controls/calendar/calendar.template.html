@@ -15,17 +15,17 @@
 		<div class="divider"><div class="inner"></div></div>
 		<div class="month-days">
 			<div class="week" *ngFor="let week of [0, 1, 2, 3, 4, 5]">
-				<div class="day" *ngFor="let day of [0, 1, 2, 3, 4, 5, 6]"
-					[style.background-color]="isActive(week, day)?color1:''"
-					[style.color]="isActive(week, day)?color2:''"
-					[class.valid]="isValid(week, day)"
-					[class.today]="isToday(week, day)"
-					[class.past]="isPast(week, day)"
-					[class.active]="isActive(week, day)"
-					[class.disabled]="isBeforeMinDate(week, day)"
+				<div class="day" *ngFor="let day of [0, 1, 2, 3, 4, 5, 6];"
+					[style.background-color]="month_node[week * 7 + day].active?color1:''"
+					[style.color]="month_node[week * 7 + day].active?color2:''"
+					[class.valid]="month_node[week * 7 + day].valid"
+					[class.today]="month_node[week * 7 + day].today"
+					[class.past]="month_node[week * 7 + day].past"
+					[class.active]="month_node[week * 7 + day].active"
+					[class.disabled]="month_node[week * 7 + day].disabled"
 					(click)="selectDate(week, day)">
 
-					{{month_node[week * 7 + day]}}
+					{{month_node[week * 7 + day].day}}
 				</div>
 			</div>
 		</div>

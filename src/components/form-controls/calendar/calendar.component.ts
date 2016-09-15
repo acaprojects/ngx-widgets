@@ -165,24 +165,18 @@ export class Calendar {
         }, 20);
     }
 
-    isPast(week, day) {
-        if(!this.isValid(week, day)) return false;
+    isPast(day: number) {
         let c_date = new Date();
         c_date.setDate(c_date.getDate()-1);
-        let date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day]);
+        let date = new Date(this.display_year, this.display_month, +day);
         return this.compareDates(c_date, date);
     }
 
-    isValid(week, day) {
-        return (this.month_node[week * 7 + day] !== PLACEHOLDER);
-    }
-
-    isBeforeMinDate(week, day) {
+    isBeforeMinDate(day: number) {
         if(this.minDate === null) return false;
-        if(!this.isValid(week, day)) return false;
         let c_date = new Date(this.minDate.getTime());
         c_date.setDate(c_date.getDate()-1);
-        let date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day]);
+        let date = new Date(this.display_year, this.display_month, +day);
         return this.compareDates(c_date, date);
     }
 
@@ -192,19 +186,17 @@ export class Calendar {
         return (date1.getTime() > date2.getTime());
     }
 
-    isToday(week, day) {
-        if(!this.isValid(week, day)) return false;
+    isToday(day: number) {
         let now = new Date();
         return (now.getFullYear() === this.display_year &&
                 now.getMonth() === this.display_month &&
-                now.getDate() === +this.month_node[week * 7 + day]);
+                now.getDate() === +day);
     }
-    isActive(week, day) {
-        if(!this.isValid(week, day)) return false;
+    isActive(day: number) {
         let now = this.date;
         return (now.getFullYear() === this.display_year &&
                 now.getMonth() === this.display_month &&
-                now.getDate() === +this.month_node[week * 7 + day]);
+                now.getDate() === +day);
     }
 
     generateMonth() {
@@ -212,11 +204,25 @@ export class Calendar {
         let monthDays = (new Date(this.display_year, this.display_month+1, 0)).getDate();
         let day = firstDay.getDay();
         this.month_node = [];
+        let ph = { day : PLACEHOLDER, valid: false, past: false, today: false, active: false, disabled: false };
         let i;
-        for(i = 0; i < day; i++) this.month_node.push(PLACEHOLDER);
-        for(i = 0; i < monthDays; i++) this.month_node.push((i+1).toString());
+            // Fill in blank days at beginning of the month
+        for(i = 0; i < day; i++) this.month_node.push(ph);
+            // Fill in days of the month
+        for(i = 0; i < monthDays; i++) {
+            let day = {
+                day : (i+1).toString(),
+                valid: true,
+                past: this.isPast(i+1),
+                today: this.isToday(i+1),
+                active: this.isActive(i+1),
+                disabled: this.isBeforeMinDate(i+1)
+            };
+            this.month_node.push(day);
+        }
+            // Fill in blank days at end of the month
         let cnt = 7 * 6 - this.month_node.length;
-        for(i = 0; i < cnt; i++) this.month_node.push(PLACEHOLDER);
+        for(i = 0; i < cnt; i++) this.month_node.push(ph);
     }
 
     nextMonth(){
@@ -237,9 +243,9 @@ export class Calendar {
     }
 
     selectDate(week, day) {
-        if(!this.isValid(week, day)) return false;
-        let date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day]);
-        if(this.isBeforeMinDate(week, day)) return false;
+        if(!+this.month_node[week * 7 + day].valid) return false;
+        let date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day].day);
+        if(this.isBeforeMinDate(+this.month_node[week * 7 + day].day)) return false;
         date.setHours(this.date.getHours());
         date.setMinutes(this.date.getMinutes());
         this.setDate(date);
