@@ -4,7 +4,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 const PLACEHOLDER = '-';
 
 @Component({
-    selector: 'time-picker', 
+    selector: 'time-picker',
     styles: [ require('./time-picker.style.scss') ],
     templateUrl: './time-picker.template.html',
     animations: [
@@ -31,13 +31,13 @@ export class TimePicker {
     @Input() open: string = 'open';
     @Output() timeChange = new EventEmitter();
 
-    @ViewChild('hourpick') hour_input: ElementRef;
-    @ViewChild('minutepick') minute_input: ElementRef;
+    @ViewChild('hourPick') hour_input: ElementRef;
+    @ViewChild('minutePick') minute_input: ElementRef;
 
     display_hour: string = '11';
     display_minutes: string = '59';
     display_period: string = 'PM';
-  
+
     constructor() {
     }
 
@@ -107,11 +107,18 @@ export class TimePicker {
     	this.setDisplayTime();
     }
 
+    changePeriod() {
+        setTimeout(() => {
+        	this.time.h += 11;
+        	this.addHour();
+        }, 20);
+    }
+
     checkNumber(str: string) {
     	let numbers = '1234567890';
-    	for(let i = 0; i < str.length; i++) { 
+    	for(let i = 0; i < str.length; i++) {
     		if(numbers.indexOf(str[i]) < 0) {
-    			str = str.substr(0, i-1) + str.substr(i+1, str.length); 
+    			str = str.substr(0, i-1) + str.substr(i+1, str.length);
     			i--;
     		}
     	}
@@ -163,7 +170,7 @@ export class TimePicker {
 	    		// Check for valid characters
 	    	this.validateHour();
 	    		// Check number is valid
-	    	if(parseInt(this.display_hour) === NaN || parseInt(this.display_hour) > 12 || parseInt(this.display_hour) < 0 || this.display_hour === '') 
+	    	if(parseInt(this.display_hour) === NaN || parseInt(this.display_hour) > 12 || parseInt(this.display_hour) < 0 || this.display_hour === '')
 	    		this.display_hour = '12';
 	    		// Update hours
 	    	this.time.h = (parseInt(this.display_hour)%12) + (this.display_period === 'AM' ? 0 : 12);
@@ -179,7 +186,7 @@ export class TimePicker {
 	    		// Check for valid characters
 	    	this.validateMinute();
 	    		// Check number is valid
-	    	if(parseInt(this.display_minutes) === NaN || parseInt(this.display_minutes) > 59 || parseInt(this.display_minutes) < 0 || this.display_minutes === '') 
+	    	if(parseInt(this.display_minutes) === NaN || parseInt(this.display_minutes) > 59 || parseInt(this.display_minutes) < 0 || this.display_minutes === '')
 	    		this.display_minutes = '00';
 	    	if(parseInt(this.display_minutes) < 10)  this.display_minutes = '0' + parseInt(this.display_minutes);
 	    		// Update minutes

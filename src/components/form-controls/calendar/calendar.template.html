@@ -1,6 +1,6 @@
 <div class="aca calendar">
 	<div class="calendar-space">
-		<div class="header" [style.color]="color2" [style.background-color]="color1"> 
+		<div class="header" [style.color]="color2" [style.background-color]="color1">
 			<div class="arrow left" [style.color]="color2" (click)="prevMonth()">
 				<
 			</div>
@@ -16,15 +16,15 @@
 		<div class="month-days">
 			<div class="week" *ngFor="let week of [0, 1, 2, 3, 4, 5]">
 				<div class="day" *ngFor="let day of [0, 1, 2, 3, 4, 5, 6]"
-					[style.background-color]="isActive(week, day)?color1:''" 
-					[style.color]="isActive(week, day)?color2:''" 
-					[class.valid]="isValid(week, day)" 
-					[class.today]="isToday(week, day)" 
-					[class.past]="isPast(week, day)" 
+					[style.background-color]="isActive(week, day)?color1:''"
+					[style.color]="isActive(week, day)?color2:''"
+					[class.valid]="isValid(week, day)"
+					[class.today]="isToday(week, day)"
+					[class.past]="isPast(week, day)"
 					[class.active]="isActive(week, day)"
-					[class.disabled]="isBeforeMinDate(week, day)" 
+					[class.disabled]="isBeforeMinDate(week, day)"
 					(click)="selectDate(week, day)">
-					
+
 					{{month_node[week * 7 + day]}}
 				</div>
 			</div>
@@ -39,40 +39,40 @@
 			<div class="picker">
 				<div class="pick">
 					<div class='change' [style.color]="color1">
-						<div class="arrow-time" (click)="changeHour()">&#x27E8;</div>
+						<div class="arrow-time" (click)="addHour()">&#x27E8;</div>
 					</div>
 					<div class='set'>
-						<input 
+						<input
 							name="hour"
-							type="text" 
+							type="text"
 							maxlength="2"
 							#hourpick
-							[(ngModel)]="display_hour" 
-							(blur)="checkHour()"  
+							[(ngModel)]="display_hour"
+							(blur)="checkHour()"
 							(keyup)="keyupHour($event, display_hour)"
 							(keyup.enter)="changeFocus()" />
 					</div>
 					<div class='change' [style.color]="color1">
-						<div class="arrow-time" (click)="changeHour(-1)">&#x27E9;</div>
+						<div class="arrow-time" (click)="minusHour()">&#x27E9;</div>
 					</div>
 				</div>
 				<div class="pick">
 					<div class='change' [style.color]="color1">
-						<div class="arrow-time" (click)="changeMinutes()">&#x27E8;</div>
+						<div class="arrow-time" (click)="addMinute()">&#x27E8;</div>
 					</div>
 					<div class='set'>
-						<input 
+						<input
 							name="minutes"
-							type="text" 
+							type="text"
 							#minutepick
 							maxlength="2"
-							[(ngModel)]="display_minutes" 
-							(blur)="checkMinute()"  
+							[(ngModel)]="display_minutes"
+							(blur)="checkMinute()"
 							(keyup)="keyupMinutes($event, display_minutes)"
 							(keyup.enter)="timeSet()" />
 					</div>
 					<div class='change' [style.color]="color1">
-						<div class="arrow-time" (click)="changeMinutes(-minuteStep)">&#x27E9;</div>
+						<div class="arrow-time" (click)="minusMinute()">&#x27E9;</div>
 					</div>
 				</div>
 				<div class="pick btn">
@@ -82,7 +82,7 @@
 				</div>
 			</div>
 			<div class="finish-btn" >
-				<div class="btn" [style.background-color]="color1"  [style.color]="color2" (click)="timeSet()"> Ok </div>
+				<div class="btn" [style.background-color]="color1"  [style.color]="color2" (click)="timeSet()"> Next </div>
 			</div>
 		</div>
 	</div>

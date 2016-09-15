@@ -4,7 +4,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 const PLACEHOLDER = '-';
 
 @Component({
-    selector: 'calendar', 
+    selector: 'calendar',
     styles: [ require('./calendar.style.scss') ],
     templateUrl: './calendar.template.html',
     animations: [
@@ -21,8 +21,8 @@ const PLACEHOLDER = '-';
     ]
 })
 export class Calendar {
-    @Input() date: Date;
-    @Input() minDate: Date;
+    @Input() date: Date = new Date();
+    @Input() minDate: Date = null;
     @Input() futureOnly: boolean = false;
     @Input() selectTime: boolean = false;
     @Input() display: string;
@@ -34,12 +34,15 @@ export class Calendar {
     @Output() viewTimeChange = new EventEmitter();
     @Output() dateChange = new EventEmitter();
     @Output() timeChange = new EventEmitter();
+    @Output() finished = new EventEmitter();
 
-    @ViewChild('hourpick') hour_input: ElementRef;
-    @ViewChild('minutepick') minute_input: ElementRef;
+    @ViewChild('hourPick') hour_input: ElementRef;
+    @ViewChild('minutePick') minute_input: ElementRef;
 
-    static months_list = ['Janurary', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    static days_list   = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    months_long = ['Janurary', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    months_short = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    days_long = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    days_short = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
     month_node = [];
     display_year: number = 2016;
@@ -50,49 +53,25 @@ export class Calendar {
     pick_time: string = 'hide';
     days = [];
     months = [];
-  
+
     constructor() {
+        this.initTime();
     }
 
     ngOnInit() {
-        let now = new Date();
-        if(this.futureOnly && (!this.minDate)) {
-        	this.minDate = now;
-        }
-        if(this.date === null || this.date === undefined) {
-        	this.setDate(now);
-        }
-        	// Load months to display in calendar
-        if(this.display && this.display.indexOf('short-months') >= 0) {
-        	for(let m = 0; m < Calendar.months_list.length; m++) {
-        		this.months.push(Calendar.months_list[m].slice(0, 3));
-        	}	
+        if(this.futureOnly && (this.minDate === null || this.minDate === undefined)) this.minDate = new Date();
+        if(this.display == 'short') {
+            this.months = this.months_short;
+            this.days = this.days_short;
+        } else if(this.display == 'long') {
+            this.months = this.months_long;
+            this.days = this.days_long;
         } else {
-        	for(let m = 0; m < Calendar.months_list.length; m++) {
-        		this.months.push(Calendar.months_list[m]);
-        	}
-        }	
-        	// Load days to display in calendar
-        if(this.display && this.display.indexOf('short-days') >= 0) {
-        	for(let d = 0; d < Calendar.days_list.length; d++) {
-        		this.days.push(Calendar.days_list[d].slice(0, 3));
-        	}
-        } else {
-        	for(let d = 0; d < Calendar.days_list.length; d++) {
-        		this.days.push(Calendar.days_list[d].slice(0, 3));
-        	}		
-        }
-        	// Update display values for months and days to be capitolised.
-        if(this.display && this.display.indexOf('no-caps') < 0) {
-        	for(let d = 0; d < this.days.length; d++) {
-        		this.days[d] = this.days[d].toUpperCase();
-        	}
-        	for(let m = 0; m < this.months.length; m++) {
-        		this.months[m] = this.months[m].toUpperCase();
-        	}
+            this.months = this.months_long;
+            this.days = this.days_short;
         }
     }
-    	// Check if variables are changed externally
+
     ngOnChanges(changes:any) {
         if(changes.date) {
             if(changes.date.currentValue) {
@@ -108,15 +87,15 @@ export class Calendar {
     }
 
     setDate(date: Date) {
-    	this.initTime();
         this.date = date;
+        this.initTime();
         this.display_year = this.date.getFullYear();
         this.display_month = this.date.getMonth();
         this.generateMonth();
     }
 
     initTime() {
-    	let now = new Date();
+        let now = this.date;
     	this.time = {
     		h : now.getHours(),
     		m : now.getMinutes()
@@ -142,27 +121,47 @@ export class Calendar {
     	this.display_period = ((this.time.h / 12 >= 1) ? 'PM' : 'AM');
     	this.checkHour();
     	this.checkMinute();
+        setTimeout(() => {
+            this.timeChange.emit(this.time);
+        }, 20);
     }
 
-    changeHour(num: number = 1) {
-    	this.time.h += num;
-    	if(this.time.h < 0) this.time.h = 23;
+    addHour() {
+    	this.time.h++;
     	this.time.h %= 24;
     	this.setDisplayTime();
     }
 
-    changeMinutes(num?: number) {
-    	if(!num) num = this.minuteStep;
+    minusHour() {
+    	this.time.h--;
+    	if(this.time.h < 0) this.time.h = 23;
+    	this.setDisplayTime();
+    }
+
+    addMinute() {
     	this.time.m += this.minuteStep;
     	if(this.time.m >= 60) {
     		this.time.h++;
     		this.time.m %= 60;
     	}
+    	this.time.h %= 24;
+    	this.setDisplayTime();
+    }
+
+    minusMinute() {
+    	this.time.m -= this.minuteStep;
     	if(this.time.m < 0) {
     		this.time.m = 60 + this.time.m;
-    		this.changeHour();
+    		this.minusHour();
     	}
     	this.setDisplayTime();
+    }
+
+    changePeriod() {
+        setTimeout(() => {
+        	this.time.h += 11;
+        	this.addHour();
+        }, 20);
     }
 
     isPast(week, day) {
@@ -195,19 +194,19 @@ export class Calendar {
     isToday(week, day) {
         if(!this.isValid(week, day)) return false;
         let now = new Date();
-        return (now.getFullYear() === this.display_year && 
-                now.getMonth() === this.display_month && 
+        return (now.getFullYear() === this.display_year &&
+                now.getMonth() === this.display_month &&
                 now.getDate() === +this.month_node[week * 7 + day]);
     }
     isActive(week, day) {
         if(!this.isValid(week, day)) return false;
         let now = this.date;
-        return (now.getFullYear() === this.display_year && 
-                now.getMonth() === this.display_month && 
+        return (now.getFullYear() === this.display_year &&
+                now.getMonth() === this.display_month &&
                 now.getDate() === +this.month_node[week * 7 + day]);
     }
 
-    private generateMonth() {
+    generateMonth() {
         let firstDay = new Date(this.display_year, this.display_month, 1);
         let monthDays = (new Date(this.display_year, this.display_month+1, 0)).getDate();
         let day = firstDay.getDay();
@@ -240,6 +239,8 @@ export class Calendar {
         if(!this.isValid(week, day)) return false;
         let date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day]);
         if(this.isBeforeMinDate(week, day)) return false;
+        date.setHours(this.date.getHours());
+        date.setMinutes(this.date.getMinutes());
         this.setDate(date);
         this.initTime();
         if(this.selectTime) {
@@ -253,9 +254,9 @@ export class Calendar {
 
     checkNumber(str: string) {
     	let numbers = '1234567890';
-    	for(let i = 0; i < str.length; i++) { 
+    	for(let i = 0; i < str.length; i++) {
     		if(numbers.indexOf(str[i]) < 0) {
-    			str = str.substr(0, i-1) + str.substr(i+1, str.length); 
+    			str = str.substr(0, i-1) + str.substr(i+1, str.length);
     			i--;
     		}
     	}
@@ -280,9 +281,9 @@ export class Calendar {
     keyupHour(e: any, hour: string) {
     	if(e) {
     		if(e.keyCode == '38') { // Up Arrow
-    			this.changeHour();
+    			this.addHour();
     		} else if(e.keyCode == '40') { // Up Arrow
-    			this.changeHour(-1);
+    			this.minusHour();
     		} else this.validateHour();
     	} else this.validateHour();
     }
@@ -290,9 +291,9 @@ export class Calendar {
     keyupMinutes(e: any, mins: string) {
     	if(e) {
     		if(e.keyCode == '38') { // Up Arrow
-    			this.changeMinutes();
+    			this.addMinute();
     		} else if(e.keyCode == '40') { // Up Arrow
-    			this.changeMinutes(-this.minuteStep);
+    			this.minusMinute();
     		} else this.validateMinute();
     	} else this.validateMinute();
     }
@@ -306,7 +307,7 @@ export class Calendar {
 	    		// Check for valid characters
 	    	this.validateHour();
 	    		// Check number is valid
-	    	if(parseInt(this.display_hour) === NaN || parseInt(this.display_hour) > 12 || parseInt(this.display_hour) < 0 || this.display_hour === '') 
+	    	if(parseInt(this.display_hour) === NaN || parseInt(this.display_hour) > 12 || parseInt(this.display_hour) < 0 || this.display_hour === '')
 	    		this.display_hour = '12';
 	    		// Update hours
 	    	this.time.h = (parseInt(this.display_hour)%12) + (this.display_period === 'AM' ? 0 : 12);
@@ -322,7 +323,7 @@ export class Calendar {
 	    		// Check for valid characters
 	    	this.validateMinute();
 	    		// Check number is valid
-	    	if(parseInt(this.display_minutes) === NaN || parseInt(this.display_minutes) > 59 || parseInt(this.display_minutes) < 0 || this.display_minutes === '') 
+	    	if(parseInt(this.display_minutes) === NaN || parseInt(this.display_minutes) > 59 || parseInt(this.display_minutes) < 0 || this.display_minutes === '')
 	    		this.display_minutes = '00';
 	    	if(parseInt(this.display_minutes) < 10)  this.display_minutes = '0' + parseInt(this.display_minutes);
 	    		// Update minutes
@@ -348,6 +349,7 @@ export class Calendar {
     	this.date.setMinutes(this.time.m);
         this.dateChange.emit(this.date);
         	// Update time value
+        this.finished.emit(true);
     	this.timeChange.emit(this.time);
     }
 
