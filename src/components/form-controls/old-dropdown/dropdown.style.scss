@@ -18,6 +18,7 @@
 			position: absolute;
 			left: 50%;
 			top: 0;
+			z-index: 99999;
 			@include transform(translateX(-50%));
 
 			& ul {
@@ -32,6 +33,7 @@
 				max-height: 35vh;
 				overflow: auto;
 				white-space: nowrap;
+				z-index: 99999;
 				& li {
 					position: relative;
 					& .check {

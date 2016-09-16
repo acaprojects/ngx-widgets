@@ -14,7 +14,8 @@ export class OldDropdown {
   	@Input() selectClass: string = 'default';
   	@Output() selectedChange = new EventEmitter();
 
-  	@ViewChild('main') main: ElementRef;
+    @ViewChild('main') main: ElementRef;
+    @ViewChild('contents') contents: ElementRef;
 
   	show: boolean = false;
   	list: any = null;
@@ -23,13 +24,38 @@ export class OldDropdown {
   	container: any;
   	id: number = 12345678;
     click: any = null;
+    moved: any = null;
+    released: any = null;
+    move: boolean = false;
+    down: boolean = false;
+
 
 	constructor() {
-        this.click = () => {
+        this.click = (e) => {
+            this.down = true;
             setTimeout(() => {
-                this.close();
+                if(this.contents) {
+                    console.log(e);
+                    let bb = this.contents.nativeElement.getBoundingClientRect();
+                    let pos = {
+                        x: (e instanceof TouchEvent ? e.changedTouches.clientX : e.clientX),
+                        y: (e instanceof TouchEvent ? e.changedTouches.clientY : e.clientY)
+                    }
+                    if(pos.x < bb.left || pos.x > bb.left + bb.width || pos.y < bb.top || pos.y > bb.top + bb.height) {
+                        this.close();
+                    }
+                } else this.close();
             }, 20);
         };
+        this.moved = () => {
+            this.move = true;
+        }
+        this.released = (e) => {
+            setTimeout(() => {
+                this.down = false;
+                this.move = false;
+            }, 20);
+        }
 	}
 
   	open() {
@@ -37,21 +63,35 @@ export class OldDropdown {
       	if(now - this.last_change < 100) return;
       	if(!this.show) {
   			this.show = true;
-            window.addEventListener('click', this.click, true);
-            window.addEventListener('touchend', this.click, true);
+            window.addEventListener('mousedown', this.click, true);
+            window.addEventListener('touchstart', this.click, true);
+            window.addEventListener('mousemove', this.moved, true);
+            window.addEventListener('touchmove', this.moved, true);
+            window.addEventListener('mouseup', this.released, true);
+            window.addEventListener('touchend', this.released, true);
 	    } else this.close();
   	}
 
 
   	close() {
     	this.show = false;
-        window.removeEventListener('click', this.click, true);
-        window.removeEventListener('touchend', this.click, true);
+        window.removeEventListener('mousedown', this.click, true);
+        window.removeEventListener('touchstart', this.click, true);
+        window.removeEventListener('mousemove', this.moved, true);
+        window.removeEventListener('touchmove', this.moved, true);
+        window.removeEventListener('mouseup', this.released, true);
+        window.removeEventListener('touchend', this.released, true);
   	}
 
   	setOption(i: number, e?){
-        e.preventDefault();
-        e.stopPropagation();
+        if(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        if(this.move) {
+            this.move = false;
+            return;
+        }
     	this.last_change = (new Date()).getTime();
     	this.selected = i;
     	this.selectedChange.emit(i);
