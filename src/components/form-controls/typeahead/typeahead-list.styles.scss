@@ -18,9 +18,8 @@
 			padding: 0;
 			margin: 0.2em 0;
 			background-color: #FFF;
-			border: 0.05em solid #EFEFEF;
 			border-radius: 0.1em;
-			box-shadow: 0 0 0.2em 0.1em rgba(0,0,0,0.2);
+			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
 			max-height: 35vh;
 			max-width: 90vw;
 			min-width: 100%;
@@ -45,12 +44,12 @@
 					background-color: rgb(251, 136,   0);
 					color: #FFF;
 					& .desc {
-						color: #BBB;
+						color: rgba(0,0,0,0.54);
 					}
 				}
 
 				& .desc{
-					color: #888;
+					color: rgba(0,0,0,0.2);
 				}
 			}
 
@@ -70,7 +69,7 @@
 				color: #FFF;
 			}
 			&.other {
-				border-top: 0.05em solid #AAA;
+				border-top: 0.05em solid rgba(0,0,0,0.05);
 			}
 
 			&.first {

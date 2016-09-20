@@ -15,7 +15,7 @@ export class OldDropdown {
   	@Output() selectedChange = new EventEmitter();
 
     @ViewChild('main') main: ElementRef;
-    @ViewChild('contents') contents: ElementRef;
+    @ViewChild('listview') contents: ElementRef;
 
   	show: boolean = false;
   	list: any = null;
@@ -28,30 +28,37 @@ export class OldDropdown {
     released: any = null;
     move: boolean = false;
     down: boolean = false;
-
+    last_pos: any = null;
 
 	constructor() {
         this.click = (e) => {
             this.down = true;
-            setTimeout(() => {
-                if(this.contents) {
-                    console.log(e);
-                    let bb = this.contents.nativeElement.getBoundingClientRect();
-                    let pos = {
-                        x: (e instanceof TouchEvent ? e.changedTouches.clientX : e.clientX),
-                        y: (e instanceof TouchEvent ? e.changedTouches.clientY : e.clientY)
-                    }
-                    if(pos.x < bb.left || pos.x > bb.left + bb.width || pos.y < bb.top || pos.y > bb.top + bb.height) {
-                        this.close();
-                    }
-                } else this.close();
-            }, 20);
         };
-        this.moved = () => {
-            this.move = true;
+        this.moved = (e) => {
+            let pos = {
+                x: (e instanceof TouchEvent ? e.changedTouches[0].clientX : e.clientX),
+                y: (e instanceof TouchEvent ? e.changedTouches[0].clientY : e.clientY)
+            }
+            if(this.last_pos && (Math.abs(this.last_pos.x - pos.x) > 5 || Math.abs(this.last_pos.y - pos.y) > 5) ) {
+                this.move = true;
+            }
+            this.last_pos = pos;
         }
         this.released = (e) => {
             setTimeout(() => {
+                if(!this.move) {
+                    if(this.contents) {
+                        let bb = this.contents.nativeElement.getBoundingClientRect();
+                        let pos = {
+                            x: (e instanceof TouchEvent ? e.changedTouches[0].clientX : e.clientX),
+                            y: (e instanceof TouchEvent ? e.changedTouches[0].clientY : e.clientY)
+                        }
+                        if(pos.x < bb.left || pos.x > bb.left + bb.width || pos.y < bb.top || pos.y > bb.top + bb.height) {
+                            this.close();
+                        }
+                    } else this.close();
+                }
+                this.last_pos = null;
                 this.down = false;
                 this.move = false;
             }, 20);
@@ -63,24 +70,26 @@ export class OldDropdown {
       	if(now - this.last_change < 100) return;
       	if(!this.show) {
   			this.show = true;
-            window.addEventListener('mousedown', this.click, true);
-            window.addEventListener('touchstart', this.click, true);
-            window.addEventListener('mousemove', this.moved, true);
-            window.addEventListener('touchmove', this.moved, true);
-            window.addEventListener('mouseup', this.released, true);
-            window.addEventListener('touchend', this.released, true);
+            document.addEventListener('mousedown', this.click, true);
+            document.addEventListener('touchstart', this.click, true);
+            document.addEventListener('mousemove', this.moved, true);
+            document.addEventListener('touchmove', this.moved, true);
+            document.addEventListener('mouseup', this.released, true);
+            document.addEventListener('touchend', this.released, true);
 	    } else this.close();
   	}
 
 
   	close() {
-    	this.show = false;
-        window.removeEventListener('mousedown', this.click, true);
-        window.removeEventListener('touchstart', this.click, true);
-        window.removeEventListener('mousemove', this.moved, true);
-        window.removeEventListener('touchmove', this.moved, true);
-        window.removeEventListener('mouseup', this.released, true);
-        window.removeEventListener('touchend', this.released, true);
+        setTimeout(() => {
+        	this.show = false;
+            document.removeEventListener('mousedown', this.click, true);
+            document.removeEventListener('touchstart', this.click, true);
+            document.removeEventListener('mousemove', this.moved, true);
+            document.removeEventListener('touchmove', this.moved, true);
+            document.removeEventListener('mouseup', this.released, true);
+            document.removeEventListener('touchend', this.released, true);
+        }, 20)
   	}
 
   	setOption(i: number, e?){
@@ -89,7 +98,9 @@ export class OldDropdown {
             e.stopPropagation();
         }
         if(this.move) {
-            this.move = false;
+            setTimeout(() => {
+                this.move = false;
+            }, 20)
             return;
         }
     	this.last_change = (new Date()).getTime();
