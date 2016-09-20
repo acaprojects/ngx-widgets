@@ -4,7 +4,7 @@
 .contents {
 	position: fixed;
 	width: 10vw;
-	height: 1px;
+	height: 0.1em;
 	z-index: 99999;
 	@include user-select(none);
 	& .options {
@@ -18,9 +18,9 @@
 			padding: 0;
 			margin: 0.2em 0;
 			background-color: #FFF;
-			border: 1px solid #EFEFEF;
+			border: 0.05em solid #EFEFEF;
 			border-radius: 0.1em;
-			box-shadow: 0px 0px 10px 4px rgba(0,0,0,0.2);
+			box-shadow: 0 0 0.2em 0.1em rgba(0,0,0,0.2);
 			max-height: 35vh;
 			max-width: 90vw;
 			min-width: 100%;
@@ -70,7 +70,7 @@
 				color: #FFF;
 			}
 			&.other {
-				border-top: 1px solid #AAA;
+				border-top: 0.05em solid #AAA;
 			}
 
 			&.first {

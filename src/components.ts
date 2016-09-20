@@ -1,5 +1,6 @@
 // Import all directives
-import { Button,
+import { ACA_WIDGET_MODALS,
+		 Button,
 		 ButtonGroup,
 		 ButtonToggle,
 		 Calendar,
@@ -51,6 +52,7 @@ export const ACA_WIDGET_COMPONENTS: any[] = [
 ];
 
 export const ACA_ENTRY_COMPONENTS: any[] = [
+	...ACA_WIDGET_MODALS,
 	Modal,
 	Notification,
 	TypeaheadList

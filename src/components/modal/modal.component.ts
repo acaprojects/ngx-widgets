@@ -4,13 +4,14 @@ import { AfterViewInit, OnInit, OnDestroy, OnChanges, SimpleChange } from '@angu
 import { trigger, transition, animate, style, state, keyframes } 	 from '@angular/core';
 import { RuntimeCompiler }                                       	 from "@angular/compiler";
 import * as _ from 'lodash';
+import { ModalService } from './modal.service';
 
 import { IHaveDynamicData, DynamicTypeBuilder } from '../dynamic/type.builder';
 
 const PLACEHOLDER = '-';
 
 @Component({
-    selector: '[modal]',
+    selector: 'modal',
     styles: [ require('./modal.style.scss'), require('../global-styles/global-styles.scss') ],
     templateUrl: './modal.template.html',
     animations: [
@@ -28,7 +29,7 @@ const PLACEHOLDER = '-';
         ])
     ]
 })
-export class Modal implements OnInit {
+export class Modal implements OnInit, OnDestroy {
     @Input() id: string = '';
     @Input() service: any = null;
     @Input() private component: any = null;
@@ -39,10 +40,7 @@ export class Modal implements OnInit {
     @Input() cssClass: any;
     @Input() close: boolean = true;
     @Input() styles: string[] = [];
-    @Input() options: Object[] = [
-        { text: 'Ok', fn: null },
-        { text: 'Cancel', fn: null }
-    ];
+    @Input() options: any[] = [];
     @Input() color1: string = ''; // Background Color
     @Input() color2: string = ''; // Foreground Color
 
@@ -67,10 +65,12 @@ export class Modal implements OnInit {
     large: boolean = false;
 
     constructor(
-    	private _cfr: ComponentFactoryResolver,
+    	protected _cfr: ComponentFactoryResolver,
         protected typeBuilder: DynamicTypeBuilder,
         protected compiler: RuntimeCompiler
     ) {
+        this.options.push({ 'text': 'Ok', 'fn': null });
+        this.options.push({ 'text': 'Cancel', 'fn': null });
         this.id = (Math.round(Math.random() * 899999999 + 100000000)).toString();
     }
 
@@ -85,10 +85,10 @@ export class Modal implements OnInit {
     }
 
     ngOnDestroy(){
-      if (this.contentRef) {
-          this.contentRef.destroy();
-          this.contentRef = null;
-      }
+        if (this.contentRef) {
+            this.contentRef.destroy();
+            this.contentRef = null;
+        }
     }
 
     protected buildContents() {
@@ -96,7 +96,6 @@ export class Modal implements OnInit {
     		let template = this.typeBuilder.createComponentAndModule(this.html);
     		this.renderTemplate(template);
     	} else if(this.component){
-            console.log('Building Modal with component');
     		let factory = this._cfr.resolveComponentFactory(this.component);
     		this.render(factory);
     	}
@@ -125,6 +124,7 @@ export class Modal implements OnInit {
         // let's inject @Inputs to component instance
         this.content_instance = this.contentRef.instance;
         this.content_instance.entity = this.data.data;
+        this.content_instance.entity.close = (cb) => { this.close_fn(cb) };
 
     }
 
@@ -136,13 +136,10 @@ export class Modal implements OnInit {
             x: event.clientX,
             y: event.clientY
         }
-        if(!this.modal_box) {
-            this.modal_box = this.modal.nativeElement.getBoundingClientRect();
-        }
+        this.modal_box = this.modal.nativeElement.getBoundingClientRect();
         let box = this.modal_box;
         if(c.x < 10 && c.y < 10) this.open();
         if(c.x < box.left || c.y < box.top || c.x > box.left + box.width || c.y > box.top + box.height) {
-            console.log('Click outside modal.');
             this.close_fn();
         }
     }
@@ -179,13 +176,12 @@ export class Modal implements OnInit {
     }
 
     protected close_fn(cb_fn?: Function) {
-        console.log('Closing Modal.');
         this.state = 'hide';
         setTimeout(() => {
             if(cb_fn) cb_fn();
             if(this.clean_fn) this.clean_fn();
             if(this.service) this.service.cleanModal(this.id);
-            this.closeEvent.emit(null);
+            if(this.closeEvent) this.closeEvent.emit(null);
         }, 500);
     }
 

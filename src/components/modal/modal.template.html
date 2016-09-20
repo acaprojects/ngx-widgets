@@ -1,20 +1,13 @@
-<div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (click)="onPointer($event)" (touchend)="onPointer($event)">
+<div [id]="id ? id : 'modal'"
+	[@backdrop]="state"
+	[class]="'aca modal' + (cssClass ? ' ' + cssClass : '')"
+	(click)="onPointer($event)"
+	(touchend)="onPointer($event)">
 	<div #modal class="modal-space" [@space]="state"
 			[style.width]="(large ? 2.5 * width : width) + unit"
 			[style.min-height]="(large ? 2.5 * width / 3 * 2 : width / 3 * 2) + unit">
-		<div class="modal-header title" [style.background-color]="color1" [style.color]="color2" >
-			{{title}}
-			<div *ngIf="close" class="close-btn" (click)="close_fn()">
-				&#x2613;
-			</div>
-		</div>
 		<div class="modal-body">
 			<div class="content"><div #content></div></div>
-		</div>
-		<div class="modal-footer">
-			<div class="modal-btns" *ngFor="let btn of options">
-				<button type="submit" [style.background-color]="color1" [style.color]="color2" class="modal-btn"(click)="select(btn)">{{btn.text}}</button>
-			</div>
 		</div>
 	</div>
 </div>

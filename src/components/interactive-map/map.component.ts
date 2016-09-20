@@ -12,27 +12,16 @@ const zoom_anim = (function() {
 	let base = 50;
 	let space = 1;
 	let max = ZOOM_LIMIT;
-	let time = '200ms ease-in-out';
+	let time = '50ms ease-in-out';
 	let animation = [];
     	// Create States
 	for(let i = base; i < max; i += space) {
 			//Width
-		let pos = i + '%';
-		animation.push(state(i.toString() + 'w',   style({'width': pos})));
-			// Add transition
-		let t = '* => ' + i.toString() + 'w';
-		let start = style({'width':'*', offset: 0 });
-		let end = style({'width':pos, offset: 1 });
-		animation.push(transition(t, animate(time, end) ));
-			//Height
-		pos = i + '%';
-		animation.push(state(i.toString() + 'h',   style({'height': pos})));
-			// Add transition
-		t = '* => ' + i.toString() + 'h';
-		start = style({'height':'*', offset: 0 });
-		end = style({'height':pos, offset: 1 });
-		animation.push(transition(t, animate(time, end)));
+		let pos = i;
+		animation.push(state(i.toString(),   style({'transform': 'scale(' + pos/100 + ')'})));
 	}
+		// Add transition
+	animation.push(transition('* <=> *', animate(time) ));
 	animation.push(transition('void => *', []));
 	return animation;
 })();
@@ -57,7 +46,7 @@ export class InteractiveMap {
     @Input() zoom: number = 0;
     @Input() controls: boolean = true;
     @Input() disable: string[] = [];
-    @Input() pins: any[] = []; 
+    @Input() pins: any[] = [];
     @Input() mapSize: any = { x: 100, y: 100 };
     @Input() focus: string;
     @Input() focusScroll: boolean = false;
@@ -131,13 +120,12 @@ export class InteractiveMap {
    	}
 
    	pin_cnt: number = 0;
-
+	box_update: any = null;
+    draw: any = null;
+    drawing: any = null;
 
     constructor(private a: ACA_Animate, private service: MapService){
     }
-
-    draw: any = null;
-    drawing: any = null;
 
     ngOnInit(){
     	this.setupUpdate();
@@ -165,8 +153,10 @@ export class InteractiveMap {
 	        if(this._zoom > this.zoomMax || this._zoom > ZOOM_LIMIT) this._zoom = this.zoomMax;
 	        else if (this._zoom < -50) this._zoom = -50;
 		    if(this._zoom !== this.zoom && this.zoom) { // Update pos
+				if(isNaN(this._zoom)) this._zoom = this.zoom;
+				if(isNaN(this.zoom)) this.zoom = this._zoom;
 		    	let zoom_change = this._zoom / (this.zoom);
-		    	console.log(zoom_change);
+				if(isNaN(zoom_change)) zoom_change = 1;
 		    		// Update left pos
 		    	this.final_left = this._left * zoom_change;
 		    		// Update right pos
@@ -186,7 +176,7 @@ export class InteractiveMap {
         return true;
     }
 
-    updatePos() {		
+    updatePos() {
 	    if(this.final_left !== this._left) {
 	    	let dir_left = this.final_left - this._left;
 	    	if(dir_left < 2) this._left = this.final_left;
@@ -208,14 +198,16 @@ export class InteractiveMap {
     render() {
         	// Update map
         if(this.map_display && this.active) {
-            let z = this.map_display.nativeElement.style[this.map_orientation];
-            let d = this.map_orientation ? this.map_orientation[0].toLowerCase() : 'w';
-	        this.zoom_state = Math.round(100 + this._zoom) + d;
-
+			/*
+			if(this.map_item) this.map_item.style.transform = `translate(${Math.round(this.left)}px, ${Math.round(this.top)}px)`;
+			//*/
+			//*
 	        this.map_display.nativeElement.style.top = Math.round(this.top) + 'px';
 	        this.map_display.nativeElement.style.left = Math.round(this.left) + 'px';
-	        if(z !== (Math.round(100 + this._zoom) + '%')) this.updateBoxes(); 
-	        else if(this.isFocus) this.finishFocus();
+			//*/
+	        //this.updateBoxes();
+	        this.zoom_state = Math.round(100 + this._zoom).toString();
+	        if(this.isFocus) this.finishFocus();
 	        this.setupPins();
 	    }
     }
@@ -281,7 +273,7 @@ export class InteractiveMap {
 	        		if(!pin.x) pin.x = this.pin_defaults.x;
 	        		if(!pin.y) pin.x = this.pin_defaults.y;
 	        		if(!pin.colors) pin.x = this.pin_defaults.colors;
-	        		else { 
+	        		else {
 	        			if(!pin.colors.one   || pin.colors.one.length > 25) pin.colors.one = this.pin_defaults.colors.one;
 	        			if(!pin.colors.two   || pin.colors.one.length > 25) pin.colors.two = this.pin_defaults.colors.two;
 	        		}
@@ -427,7 +419,7 @@ export class InteractiveMap {
             this.touchmap.get('pinch').set({ enable: true });
         } else if(this.map_area){
                 //Setup Normal Events
-             
+
                 //*/
         }
         this.setupPins();
@@ -436,7 +428,6 @@ export class InteractiveMap {
 
    	checkStatus(e, i) {
    		if(i > 2) return;
-   		//console.log('Check Status ' + i);
    		let visible = false;
    		let el = this.self.nativeElement;
    		while(el) {
@@ -470,7 +461,7 @@ export class InteractiveMap {
             this.loadMapData();
         }
         if(changes.zoom) {
-        	this._zoom = this.zoom;
+        	this._zoom = isNaN(this.zoom) ? 0 : this.zoom;
         	if(this.draw !== null) this.updateBoxes();
         }
         if(changes.disable) {
@@ -496,15 +487,15 @@ export class InteractiveMap {
     	this.zoomMax = 100000;
     	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.focus));
     	if(el !== null) {
-    		let cbb = this.map_display.nativeElement.getBoundingClientRect();
+    		let cbb = this.map_item.getBoundingClientRect();
     		let mbb = this.map_area.nativeElement.getBoundingClientRect();
     		if(cbb && mbb) {
 	    		let bb = el.getBoundingClientRect();
-	    		let wZoom = mbb.width  / bb.width  * (cbb[this.map_orientation] / mbb[this.map_orientation] ) / 3;
-	    		let hZoom = mbb.height / bb.height * (cbb[this.map_orientation] / mbb[this.map_orientation] ) / 3;
+	    		let wZoom = mbb.width  / bb.width  * (cbb.width / mbb.width ) / 4;
 	    		this._top = 0;
 	    		this._left = 0;
-	    		this._zoom = (wZoom > hZoom ? hZoom : wZoom) * this.focusZoom;
+				let z = wZoom;
+	    		this._zoom = (isNaN(z) ? 1 : z) * this.focusZoom;
 	    		this.isFocus = true;
 	    		this.redraw()
 	    		this.updateBoxes();
@@ -524,7 +515,7 @@ export class InteractiveMap {
     	this.isFocus = false;
     	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.focus));
     	if(el !== null) {
-    		let cbb = this.map_display.nativeElement.getBoundingClientRect();
+    		let cbb = this.map_item.getBoundingClientRect();
     		let mbb = this.map_area.nativeElement.getBoundingClientRect();
     		let bb = el.getBoundingClientRect();
     		this.final_top = this._top = -(bb.top - cbb.top) + (mbb.height - bb.height)/2;
@@ -550,7 +541,7 @@ export class InteractiveMap {
 		    } else {
 		    	if(!this.map) console.error('ACA_WIDGETS: Path to map is not valid.');
 		    	else if(this.map.indexOf('.svg') < 0) console.error('ACA_WIDGETS: Path to map is not an SVG.');
-		    	else if(this.map.length > 4) console.error('ACA_WIDGETS: Path to map is not long enough. It needs to be longer than 4 characters'); 
+		    	else if(this.map.length > 4) console.error('ACA_WIDGETS: Path to map is not long enough. It needs to be longer than 4 characters');
 		    	else console.error('ACA_WIDGETS: Unknown error loading map with map path "' + this.map + '".');
 		    }
 		} else {
@@ -631,10 +622,14 @@ export class InteractiveMap {
     dZoom = 1;
 
     scaleMap(event) {
-        this._zoom = (100 + this._zoom) * (1 + (event.scale - this.dZoom) / 10 ) - 100;
+		let scale = event.scale - this.dZoom;
+		let dir = scale / Math.abs(scale);
+		let c_zoom = 100 + this._zoom;
+
+        this._zoom = (isNaN(c_zoom) ? 1 : c_zoom) * (1 + dir * Math.max(Math.abs(scale), 0.05) / 4 ) - 100;
         this.redraw();
 	    this.updateBoxes();
-        this.dZoom = event.scale;
+        this.dZoom += scale;
     }
 
     scaleEnd(event) {
@@ -655,6 +650,8 @@ export class InteractiveMap {
 
     resetZoom() {
         this._zoom = 0;
+		this._top = 0;
+		this._left = 0;
         this.redraw();
 	    this.updateBoxes();
     }
@@ -668,9 +665,6 @@ export class InteractiveMap {
         if(this.map_item && this.map_display) {
             let rect = this.map_item.getBoundingClientRect();
             let md = this.map_display.nativeElement;
-            if(this.map_orientation.length > 0 && md.style[this.map_orientation])
-                md.style[this.map_orientation] = '';
-            this.map_orientation = rect.width > rect.height ? 'width' : 'height';
         }
         this.updateBoxes();
 	    this.updateFocus();
@@ -685,20 +679,27 @@ export class InteractiveMap {
         		this.content_box = this.self.nativeElement.getBoundingClientRect();
     		}
     		if(this.map_display && this.content_box) {
-		        this.map_box = this.map_display.nativeElement.getBoundingClientRect();
-		        this.maxTop  = this.map_box.height - this.content_box.height;
-		        this.maxLeft = this.map_box.width - this.content_box.width;
+		        //this.map_box = this.map_display.nativeElement.getBoundingClientRect();
+			    this.map_box = this.map_item.getBoundingClientRect();
+		        this.maxTop  = this.map_box.height*1.1 - this.content_box.height;
+		        this.maxLeft = this.map_box.width*1.1 - this.content_box.width;
 		        if(this.maxTop < 0) this.maxTop = 0;
 		        if(this.maxLeft < 0) this.maxLeft = 0;
 		        this.zoomChange.emit(this.zoom);
 		        this.redraw();
+				if(this.box_update) clearTimeout(this.box_update);
+				this.box_update = setTimeout(() => {
+					this.updateBoxes();
+				}, 2000);
 		    }
 	    });
     }
 
     updateBoxes() {
-    	this.updateAnimation.animate();
+		if(this.box_update) clearTimeout(this.box_update);
+		this.box_update = setTimeout(() => {
+	    	this.updateAnimation.animate();
+		}, 100);
     }
 
 }
-

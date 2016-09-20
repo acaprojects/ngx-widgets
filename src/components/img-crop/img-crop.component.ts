@@ -8,15 +8,18 @@ import { DropService } from '../file-drop';
 	styles: [ require('./img-crop.styles.scss') ]
 })
 export class ImageCrop {
-	@Input() id: string  = '';
+	@Input() id: string  = 'zero';
 	@Input() circle: boolean = false;
+	@Input() file: any = null;
+	@Input() select: boolean = true;
+	@Input() ratio: string = '4:3';
+	@Input() width: number = 400;
 
 	@Output() completed = new EventEmitter();
 
 	@ViewChild('cropper') image_cropper : ImageCropperComponent;
 	@ViewChild('image') canvas : ElementRef;
 
-	file: any = null;
 	data: any = {};
 	image: any = null;
 	loading: boolean = false;
@@ -31,8 +34,18 @@ export class ImageCrop {
 	    this.cropperSettings = new CropperSettings();
 	    this.cropperSettings.noFileInput = true;
 	    this.cropperSettings.responsive = true;
-	    this.cropperSettings.cropperDrawSettings.strokeColor = 'rgba(0,0,0,0.87)';
+	    this.cropperSettings.cropperDrawSettings.strokeColor = 'rgba(255,255,255,0.87)';
+		this.setupSize();
 	    this.data = {};
+	}
+
+	ngOnChanges(changes: any) {
+		if(changes.file) {
+			this.loadImage(this.file);
+		}
+		if(changes.width || changes.ratio) {
+			this.setupSize();
+		}
 	}
 
 	ngAfterViewInit() {
@@ -57,7 +70,16 @@ export class ImageCrop {
 		this.cropperSettings.rounded = this.circle;
 	}
 
+	setupSize() {
+		let ratio: { x:any, y:any } = { x: this.ratio.split(':')[0], y: this.ratio.split(':')[1] };
+		this.cropperSettings.width = this.width;
+		this.cropperSettings.height = this.width * ratio.y/ratio.x;
+		this.cropperSettings.croppedWidth = this.width;
+		this.cropperSettings.croppedHeight = this.width * ratio.y/ratio.x;
+	}
+
 	loadImage(file: File) {
+		if(!file) return;
 		this.loading = true;
 	    this.image = new Image();
 	    //let file:File = $event.target.files[0];
@@ -82,6 +104,6 @@ export class ImageCrop {
 	}
 
 	ngOnDestroy() {
-		this.sub.unsubscribe();
+		if(this.sub) this.sub.unsubscribe();
 	}
 }

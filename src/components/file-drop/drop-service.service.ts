@@ -1,5 +1,5 @@
 // Require what we need from rxjs
-import { Injectable } from '@angular/core' 
+import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs/Observable';
 import { DropFiles } from './drop-files';
 

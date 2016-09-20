@@ -53,7 +53,7 @@ $space: 2.2em;
 				font-size: 1.0em;
 				z-index: 2010;
 				& .content {
-					padding: 1.0em;
+					padding: ($space + 1.0em) 1.0em;
 				}
 			}
 			&-footer {

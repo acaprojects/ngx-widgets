@@ -1,10 +1,11 @@
 import { Injectable, ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
 import { Modal } from './modal.component';
-import { AlertDialog, ConfirmDialog, DateDialog, TimeDialog } from './modals';
+import { AlertDialog, ConfirmDialog, DateDialog, TimeDialog, SimpleModal } from './modals';
 
 const Modals = {
 	default: Modal,
+	simple: SimpleModal,
 	alert: AlertDialog,
 	confirm: ConfirmDialog,
 	date: DateDialog,
@@ -79,7 +80,10 @@ export class ModalService {
 			styles: input.styles ? input.styles : this.modal_data[id].styles,
 			options: input.options ? input.options : this.modal_data[id].options,
 			close: input.close ? input.close : this.modal_data[id].close,
-			colors : input.colors ? input.colors : (this.modal_data[id].colors ? this.modal_data[id].colors : this.colors),
+			colors : input.colors ? input.colors : (this.modal_data[id].colors ? this.modal_data[id].colors : this.colors)
+		};
+		if(typeof this.modal_data[id].type === 'string') {
+			this.modal_data[id].type = Modals[this.modal_data[id].type] || Modals.default;
 		}
 		this.modal_inputs[id] = this.modal_data[id];
 			// Create Modal
@@ -117,10 +121,9 @@ export class ModalService {
 		}
 	}
 
-	private cleanModal(id:string) {
+	cleanModal(id:string) {
 		if(this.modalRef[id]) {
-				// Remove Modal from DOM
-			document.body.removeChild(this.modalRef[id].location.nativeElement);
+
 				// Destory Modal
 			this.modalRef[id].destroy();
 		}
@@ -139,8 +142,8 @@ export class ModalService {
 
 	        // let's inject @Inputs to component instance
 	        this.modal[id] = this.modalRef[id].instance;
-			this.modal[id].service = this;
 			this.modal[id].id = id;
+			this.modal[id].service = this;
 	        this.modal[id].setParams(this.modal_data[id]);
         	return this.modal[id];
         }

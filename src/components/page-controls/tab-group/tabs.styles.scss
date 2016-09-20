@@ -1,3 +1,6 @@
+
+@import '~bourbon/app/assets/stylesheets/bourbon';
+
 $dim: 2.0em;
 $border-color: #ABABAB;
 $green: #23CE6B;
@@ -9,6 +12,7 @@ $bg-color: #FFFFFF;
     & .tab-header {
         overflow-x: auto;
         overflow-y: visible;
+        @include user-select(none);
         & ul {
             padding: 0 1.0em;
             margin-bottom: 0;
@@ -19,8 +23,8 @@ $bg-color: #FFFFFF;
                 position: relative;
                 bottom: -1px;
                 padding: 0.5em 1.5em;
-                margin-right: 0.15em; 
-                border-radius: 5px 5px 0 0;
+                margin-right: 0.15em;
+                border-radius: 0.15em 0.15em 0 0;
                 &.active {
                     border-bottom: none;
                 }
@@ -28,21 +32,21 @@ $bg-color: #FFFFFF;
                 	//border-left: none;
                 }
                 &.empty {
-                	position:relative; 
-                	width: 1px; 
-                	padding: 0.5em; 
-                	opacity:1; 
-                	bottom: -1px; 
-                	border-top: none; 
-                	border-left: none; 
-                	border-right: none; 
+                	position:relative;
+                	width: 1px;
+                	padding: 0.5em;
+                	opacity:1;
+                	bottom: -1px;
+                	border-top: none;
+                	border-left: none;
+                	border-right: none;
                 	background: none;
                 }
             }
 			&.default {
-        		border-bottom: 1px solid #ddd;
+        		border-bottom: 0.1em solid rgba(0,0,0,0.5);
             	& > li {
-                	border: 1px solid #ddd;
+            		border-bottom: 0.1em solid rgba(0,0,0,0.5);
 	                &.active {
 	                    &:hover {
 	                        background-color: $bg-color;
