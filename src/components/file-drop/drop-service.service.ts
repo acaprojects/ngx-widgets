@@ -10,10 +10,10 @@ export class DropService {
     private _currentTarget:HTMLScriptElement;
 
     // These track the relationship between elements, callbacks and file streams
-    private _streams       = {}; // stream name => shared observable
-    private _observers     = {}; // stream name => observer
-    private _streamMapping = {}; // stream name => element array
-    private _callbacks     = {}; // stream name => callback array
+    private static _streams       = {}; // stream name => shared observable
+    private static _observers     = {}; // stream name => observer
+    private static _streamMapping = {}; // stream name => element array
+    private static _callbacks     = {}; // stream name => callback array
 
     // This are our event observables
     private _drop:     any;
@@ -95,14 +95,16 @@ export class DropService {
         });
     }
 
+    ngOnDestroy() {
+        
+    }
 
     // Configures an element to become a drop target
     register(name: string, element: HTMLScriptElement, callback: (state: boolean) => void) {
-
         // Register the drop-target
         this._ensureStream(name);
-        this._streamMapping[name].push(element);
-        this._callbacks[name].push(callback);
+        DropService._streamMapping[name].push(element);
+        DropService._callbacks[name].push(callback);
         this._dropTargets.push(element);
 
         // Return the unregister/cleanup callback
@@ -112,15 +114,15 @@ export class DropService {
                 this._dropTargets.splice(index, 1);
 
                 // If it is in the drop targets then it will be here
-                index = this._streamMapping[name].indexOf(element);
-                this._streamMapping[name].splice(index, 1);
-                this._callbacks[name].splice(index, 1);
+                index = DropService._streamMapping[name].indexOf(element);
+                DropService._streamMapping[name].splice(index, 1);
+                DropService._callbacks[name].splice(index, 1);
             }
         };
     }
 
     pushFiles(stream:string, files) {
-        let observer = this._observers[stream];
+        let observer = DropService._observers[stream];
         if (observer) {
             observer.next({
                 event: 'drop',
@@ -137,23 +139,23 @@ export class DropService {
     // 3 events: 'over', 'left', 'drop'
     getStream(name: string) {
         this._ensureStream(name);
-        return this._streams[name];
+        return DropService._streams[name];
     }
 
 
     // Initialises a new file stream if it did not exist
     private _ensureStream(name: string) {
-        if (!this._streams[name]) {
-            this._streams[name] = new Observable<{ event: string, data?: DropFiles }>((observer) => {
-                this._observers[name] = observer;
+        if (!DropService._streams[name]) {
+            DropService._observers[name] = null;
+            DropService._streamMapping[name] = [];
+            DropService._callbacks[name] = [];
+            DropService._streams[name] = new Observable<{ event: string, data?: DropFiles }>((observer) => {
+                DropService._observers[name] = observer;
 
                 return () => {
-                    this._observers[name] = null;
+                    DropService._observers[name] = null;
                 };
             }).share();
-            this._observers[name] = null;
-            this._streamMapping[name] = [];
-            this._callbacks[name] = [];
         }
     }
 
@@ -198,7 +200,7 @@ export class DropService {
 
     // Returns the stream name for an element
     private _findStream(element: HTMLScriptElement) {
-        let mapping = this._streamMapping,
+        let mapping = DropService._streamMapping,
             prop;
 
         for (prop in mapping) {
@@ -214,7 +216,7 @@ export class DropService {
     private _performCallback(target: HTMLScriptElement, state: boolean, stream: string = null) {
         stream = stream || this._findStream(target);
 
-        this._callbacks[stream].forEach((cb) => {
+        DropService._callbacks[stream].forEach((cb) => {
             cb(state);
         });
 
@@ -258,7 +260,8 @@ export class DropService {
     }
 
     private _notifyObservers(stream:string, object: {event:string, data?:DropFiles}) {
-        let observer = this._observers[stream];
+        let observer = DropService._observers[stream];
+
         if (observer) {
             observer.next(object);
         }
