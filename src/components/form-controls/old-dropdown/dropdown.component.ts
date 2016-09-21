@@ -35,14 +35,16 @@ export class OldDropdown {
             this.down = true;
         };
         this.moved = (e) => {
-            let pos = {
-                x: (e instanceof TouchEvent ? e.changedTouches[0].clientX : e.clientX),
-                y: (e instanceof TouchEvent ? e.changedTouches[0].clientY : e.clientY)
+            if(this.down){
+                let pos = {
+                    x: (e instanceof TouchEvent ? e.changedTouches[0].clientX : e.clientX),
+                    y: (e instanceof TouchEvent ? e.changedTouches[0].clientY : e.clientY)
+                }
+                if(this.last_pos && (Math.abs(this.last_pos.x - pos.x) > 5 || Math.abs(this.last_pos.y - pos.y) > 5) ) {
+                    this.move = true;
+                }
+                this.last_pos = pos;
             }
-            if(this.last_pos && (Math.abs(this.last_pos.x - pos.x) > 5 || Math.abs(this.last_pos.y - pos.y) > 5) ) {
-                this.move = true;
-            }
-            this.last_pos = pos;
         }
         this.released = (e) => {
             setTimeout(() => {

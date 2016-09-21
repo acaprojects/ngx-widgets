@@ -90,8 +90,6 @@ export class TypeaheadList {
   		this.filterFields = filterFields;
   		this.results = num_results ? num_results : 5;
   		this.cssClass = cssClass ? cssClass : 'default';
-  		console.log(cssClass);
-  		console.log(this.cssClass);
   		this.filterList();
   	}
 
