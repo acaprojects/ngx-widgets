@@ -17,7 +17,6 @@
 		display: inline-block;
 		padding: 0.25em 0.5em 0.1em 0.5em;
 		text-align: center;
-		overflow: hidden;
 		cursor: pointer;
 		@include user-select(none);
 		& .action {

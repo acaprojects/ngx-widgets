@@ -7,6 +7,7 @@ import { MapService } from './map.service';
 declare let Hammer: any;
 
 const ZOOM_LIMIT = 1000;
+const PADDING = 50;
 
 const zoom_anim = (function() {
 	let base = 50;
@@ -47,8 +48,8 @@ export class InteractiveMap {
     @Input() controls: boolean = true;
     @Input() disable: string[] = [];
     @Input() pins: any[] = [];
-    @Input() mapSize: any = { x: 100, y: 100 };
-    @Input() focus: string;
+    @Input() mapSize: any = 100;
+    @Input() focus: any;
     @Input() focusScroll: boolean = false;
     @Input() focusZoom: number = 80;
     @Input() padding: string = '2.0em';
@@ -123,6 +124,9 @@ export class InteractiveMap {
 	box_update: any = null;
     draw: any = null;
     drawing: any = null;
+	status_check: any = null;
+	zoom_bb: any = null;
+	move_timer: any = null;
 
     constructor(private a: ACA_Animate, private service: MapService){
     }
@@ -131,19 +135,28 @@ export class InteractiveMap {
     	this.setupUpdate();
 
     	this.draw = this.a.animation(() => {
+			setTimeout(() => {
+				this.updatePins();
+			}, 20);
     		return this.update();
         }, () => {
         	this.render();
+			setTimeout(() => {
+				this.updatePins();
+			}, 20);
         });
     	this.checkStatus(null, 0);
-    	setInterval(() => {
-    		if(this.active && this.pins && this.pin_cnt !== this.pins.length) this.setupPins();
-    	}, 200);
-    	setInterval(() => {
+    	this.status_check = setInterval(() => {
     		this.checkStatus(null, 0);
     	}, 1000);
     	this.zoom = this._zoom;
     }
+
+	ngOnDestroy() {
+		if(this.status_check) {
+			clearInterval(this.status_check);
+		}
+	}
 
     update() {
     	this.left = this._left;
@@ -165,10 +178,10 @@ export class InteractiveMap {
 		    		this.updatePos();
 		    	}, 20);
 		    }
-	        if(this.left < -this.maxLeft) this.left = -this.maxLeft;
-	        else if(this.left > 0) this.left = 0;
-	        if(this.top < -this.maxTop) this.top = -this.maxTop;
-	        else if(this.top > 0) this.top = 0;
+	        if(this.left < -(this.maxLeft + PADDING)) this.left = -this.maxLeft;
+	        else if(this.left > PADDING) this.left = 0;
+	        if(this.top < -(this.maxTop + PADDING)) this.top = -this.maxTop;
+	        else if(this.top > PADDING) this.top = 0;
 	    }
         this.zoom = this._zoom;
         this.zoomChange.emit(this._zoom);
@@ -207,8 +220,10 @@ export class InteractiveMap {
 			//*/
 	        //this.updateBoxes();
 	        this.zoom_state = Math.round(100 + this._zoom).toString();
+			setTimeout(() => {
+				this.updatePins();
+			}, 60);
 	        if(this.isFocus) this.finishFocus();
-	        this.setupPins();
 	    }
     }
 
@@ -265,54 +280,68 @@ export class InteractiveMap {
     setupPins() {
     	if(this.active && this.pins) {
 	    	this.pin_cnt = this.pins.length;
-	        for(let i = 0; i < this.pins.length; i++) {
-	        	let pin = this.pins[i];
-	        	if(typeof pin !== 'object') {
-	        		pin = this.pin_defaults;
-	        	} else {
-	        		if(!pin.x) pin.x = this.pin_defaults.x;
-	        		if(!pin.y) pin.x = this.pin_defaults.y;
-	        		if(!pin.colors) pin.x = this.pin_defaults.colors;
-	        		else {
-	        			if(!pin.colors.one   || pin.colors.one.length > 25) pin.colors.one = this.pin_defaults.colors.one;
-	        			if(!pin.colors.two   || pin.colors.one.length > 25) pin.colors.two = this.pin_defaults.colors.two;
-	        		}
-	        	}
-	        	let el = this.map_area.nativeElement.querySelector('#aca-map-pin' + i);
-	        	if(el !== null) {
-	        		if(pin.id) {
-	        			let elc = this.map_display.nativeElement.querySelector('#' + this.escape(pin.id));
-	        			if(elc !== null) {
-	        				let bb = elc.getBoundingClientRect();
-			        		let ebb = el.getBoundingClientRect();
-	    					let cbb = this.map_area.nativeElement.getBoundingClientRect();
-	        				el.style.top = (bb.top - (ebb.height) + bb.height/2 - cbb.top) + 'px';
-	        				el.style.left = (bb.left) + 'px';
-	        			}
-	        		} else {
-		        		let percentY = Math.min(this.mapSize.y, pin.y) / this.mapSize.y;
-		        		let percentX = Math.min(this.mapSize.x, pin.x) / this.mapSize.x;
-		        		let w = 0; let h = 0; let aw = 0; let ah = 0;
-		        		if(this.content_box) {
-			        		w = parseInt(this.map_display.nativeElement.style[this.map_orientation])/100 * this.content_box.width;
-			        		h = parseInt(this.map_display.nativeElement.style[this.map_orientation])/100 * this.content_box.height;
-			        		aw = this.content_box.width;
-			        		ah = this.content_box.height;
-			        	}
-			        	let bb = el.getBoundingClientRect();
-
-		        		el.style.top = ((Math.round(percentY * h) + this.top) - bb.height) + 'px';
-		        		el.style.left = (Math.round(percentX * w) + this.left ) + 'px';
+			setTimeout(() => {
+		        for(let i = 0; i < this.pins.length; i++) {
+		        	let pin = this.pins[i];
+		        	if(typeof pin !== 'object') {
+		        		pin = this.pin_defaults;
+		        	} else {
+		        		if(!pin.x) pin.x = this.pin_defaults.x;
+		        		if(!pin.y) pin.x = this.pin_defaults.y;
+		        		if(!pin.colors) pin.x = this.pin_defaults.colors;
+		        		else {
+		        			if(!pin.colors.one   || pin.colors.one.length > 25) pin.colors.one = this.pin_defaults.colors.one;
+		        			if(!pin.colors.two   || pin.colors.one.length > 25) pin.colors.two = this.pin_defaults.colors.two;
+		        		}
 		        	}
-		        	let html = this.getPin(pin, i);
-		        	let text = el.children[el.children.length-1];
-		        	el.innerHTML = html;
-		        	if(text) el.appendChild(text);
-	        	}
-	        	this.pins[i].status = 'show';
-	        }
+		        	let el = this.map_area.nativeElement.querySelector('#aca-map-pin' + i);
+		        	if(el !== null) {
+			        	let html = this.getPin(pin, i);
+			        	let text = el.children[el.children.length-1];
+			        	el.innerHTML = html;
+			        	if(text) el.appendChild(text);
+		        	}
+		        	this.pins[i].status = 'show';
+		        }
+				this.updatePins();
+			}, 20);
 	    }
     }
+
+	updatePins() {
+		if(!this.map_item) return;
+		for(let i = 0; i < this.pins.length; i++) {
+			let pin = this.pins[i];
+			let el = this.map_area.nativeElement.querySelector('#aca-map-pin' + i);
+			if(el) {
+					// Get bounding rectangles
+				let ebb = el.getBoundingClientRect();
+				let cbb = this.map_area.nativeElement.getBoundingClientRect();
+				let mb = this.map_item.getBoundingClientRect();
+				let elc = this.map_display.nativeElement.querySelector('#' + this.escape(pin.id));
+					// Get map scale
+				let dir = this.map_box ? (mb.width > mb.height) : true;
+				let map_x = Math.ceil(dir ? this.mapSize : (this.mapSize * (mb.width / mb.height)));
+				let map_y = Math.ceil(!dir ? this.mapSize : (this.mapSize * (mb.height / mb.width)));
+
+				let p_y = Math.round((pin.y ? Math.min(map_y, pin.y) / map_y : mb.width / mb.height) * mb.height);
+				let p_x = Math.round((pin.x ? Math.min(map_x, pin.x) / map_x : 1) * mb.width);
+					// Get bounding rectangle of pin location
+				let ccbb = {
+					width: 2, height: 2,
+					left: p_x + (mb.left - cbb.left) + cbb.left,
+					top: p_y + (mb.top - cbb.top) + cbb.top
+				}
+				let bb = pin.id && pin.id !== '' && elc ? elc.getBoundingClientRect() : ccbb;
+					// Get pin location
+				let y = (bb.top + bb.height/2) - el.clientHeight - cbb.top;
+				let x = (bb.left + bb.width/2) - el.clientWidth/2 - cbb.left;
+					// Update pin display location.
+				el.style.top = Math.round(y) + 'px';
+				el.style.left = Math.round(x) + 'px';
+			}
+		}
+	}
 
     escape (value) {
 		var string = String(value);
@@ -476,53 +505,103 @@ export class InteractiveMap {
         if(changes.mapStyles) {
         	this.setupStyles();
         }
-        if(changes.focus) {
+        if(changes.focus ) {
         	this.updateFocus();
         }
     }
 
     updateFocus() {
-    	if(!this.map_display) return;
+    	if(!this.map_display || !this.map_data) return;
     	if(this.focus === null || this.focus === undefined || this.focus === '') return;
-    	this.zoomMax = 100000;
-    	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.focus));
-    	if(el !== null) {
-    		let cbb = this.map_item.getBoundingClientRect();
-    		let mbb = this.map_area.nativeElement.getBoundingClientRect();
-    		if(cbb && mbb) {
-	    		let bb = el.getBoundingClientRect();
-	    		let wZoom = mbb.width  / bb.width  * (cbb.width / mbb.width ) / 4;
-	    		this._top = 0;
-	    		this._left = 0;
-				let z = wZoom;
-	    		this._zoom = (isNaN(z) ? 1 : z) * this.focusZoom;
-	    		this.isFocus = true;
-	    		this.redraw()
-	    		this.updateBoxes();
-    		} else {
-    			setTimeout(() => {
-    				this.updateFocus();
-    			}, 100)
-    		}
-    	} else {
-			setTimeout(() => {
-				this.updateFocus();
-			}, 100)
-		}
+    	this.zoomMax = 2000;
+		if(this.map_item && this.map_area) {
+			let bb = this.getFocusBB();
+			if(bb) this.zoomFocus(bb);
+			else this.retryFocus();
+		} else this.retryFocus();
     }
 
-    finishFocus() {
-    	this.isFocus = false;
-    	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.focus));
-    	if(el !== null) {
-    		let cbb = this.map_item.getBoundingClientRect();
-    		let mbb = this.map_area.nativeElement.getBoundingClientRect();
-    		let bb = el.getBoundingClientRect();
-    		this.final_top = this._top = -(bb.top - cbb.top) + (mbb.height - bb.height)/2;
-    		this.final_left = this._left = -(bb.left - cbb.left) + (mbb.width - bb.width)/2;
+	zoomFocus(bb: any) {
+		console.log('Zoom focus', bb);
+		let cbb = this.map_item.getBoundingClientRect();
+		let mbb = this.map_area.nativeElement.getBoundingClientRect();
+		if(cbb && mbb && bb) {
+			this.zoom_bb = bb;
+			setTimeout(() => {
+				let w_ratio = mbb.width  / bb.width  * (cbb.width / mbb.width );
+				let h_ratio = mbb.height  / bb.height  * (cbb.height / mbb.height );
+				this._top = 0;
+				this._left = 0;
+				let r = (w_ratio < h_ratio ? w_ratio : h_ratio) * ( typeof this.focus === 'string' ? 0.5 : 1.5);
+				this._zoom = Math.round((isNaN(r) ? 1 : r) * this.focusZoom);
+				this.isFocus = true;
+				this.redraw()
+				this.updateBoxes();
 
-    		this.updateBoxes();
-    	}
+			}, 20);
+		}
+	}
+
+	retryFocus() {
+		setTimeout(() => {
+			this.updateFocus();
+		}, 100)
+	}
+
+	getFocusBB() {
+		if(this.focus && typeof this.focus === 'string' && this.focus !== '') {
+			let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.focus));
+			if(el !== null) {
+				this.zoom_bb = el.getBoundingClientRect();
+			}
+		} else if(this.focus && typeof this.focus === 'object') {
+			if(this.focus.x > 0 && this.focus.y > 0) {
+					// Get content bounding boxes
+				let cbb = this.map_area.nativeElement.getBoundingClientRect();
+				let mb = this.map_item.getBoundingClientRect();
+					// Get point position
+				let dir = this.map_box ? (mb.width > mb.height) : true;
+				let map_x = Math.ceil(dir ? this.mapSize : (this.mapSize * (mb.width / mb.height)));
+				let map_y = Math.ceil(!dir ? this.mapSize : (this.mapSize * (mb.height / mb.width)));
+
+				let p_y = Math.round((this.focus.y ? Math.min(map_y, this.focus.y) / map_y : mb.width / mb.height) * mb.height);
+				let p_x = Math.round((this.focus.x ? Math.min(map_x, this.focus.x) / map_x : 1) * mb.width);
+					// Get bounding rectangle of pin location
+				let ccbb = {
+					width: 128, height: 128,
+					left: p_x + (mb.left - cbb.left) + cbb.left,
+					top: p_y + (mb.top - cbb.top) + cbb.top
+				}
+				this.zoom_bb = ccbb;
+			}
+		}
+		return this.zoom_bb;
+	}
+
+    finishFocus() {
+		this.isFocus = false;
+		let cnt = 0;
+		let interval = setInterval(() => {
+				// Get content bounding boxes
+			let cbb = this.map_area.nativeElement.getBoundingClientRect();
+			let mbb = this.map_item.getBoundingClientRect();
+			let coord = typeof this.focus === 'object' && this.focus.x && this.focus.y;
+			this.getFocusBB();
+			let bb = this.zoom_bb;
+			console.log(bb, cbb, mbb);
+			let x = bb.left + bb.width/2 - mbb.left;
+			let y = bb.top + bb.height/2 - mbb.top;
+			console.log(this._zoom);
+			console.log(x, y);
+			this.final_top  = this._top  = -(y - cbb.height/2);
+			this.final_left = this._left = -(x - cbb.width/2);
+			this.zoom_bb = null;
+			this.updateBoxes();
+			cnt++;
+			if(cnt > 5) {
+				clearInterval(interval);
+			}
+		}, 50);
     }
 
     loadMapData() {
@@ -576,6 +655,10 @@ export class InteractiveMap {
             //Traverse map and return array of clicked elements
         let elems = [];
         let el = this.map_item;
+		if(event && this.map_item) {
+			let mbb = this.map_item.getBoundingClientRect();
+			console.debug((event.center.x - mbb.left).toString(), (event.center.y - mbb.top).toString());
+		}
         elems = this.getItems(event.center, el);
         this.tap.emit(elems);
     }
@@ -595,6 +678,12 @@ export class InteractiveMap {
     }
 
     moveMap(event) {
+		if(this.move_timer) {
+        	this.move.x = event.deltaX;
+        	this.move.y = event.deltaY;
+			clearTimeout(this.move_timer);
+			this.move_timer = null;
+		}
     	let dX = +event.deltaX - +this.move.x;
     	let dY = +event.deltaY - +this.move.y
         this._top += Math.min(this.min, +Math.abs(dY)) * (dY < 0 ? -1 : 1);
@@ -613,9 +702,15 @@ export class InteractiveMap {
     }
 
     moveEnd(event) {
-        this.move.x = this.move.y = 0;
-        this.activate = false;
-        this.min = 1;
+		if(this.move_timer) {
+			clearTimeout(this.move_timer);
+			this.move_timer = null;
+		}
+		this.move_timer = setTimeout(() => {
+	        this.move.x = this.move.y = 0;
+	        this.activate = false;
+	        this.min = 1;
+		}, 20);
     }
 
 

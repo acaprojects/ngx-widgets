@@ -14,6 +14,7 @@ import { ACA_WIDGET_MODALS,
 		 Modal,
 		 ModalDirective,
 		 Notification,
+		 NotifyBlock,
 		 NotificationDirective,
 		 OldDropdown,
 		 Slider,
@@ -55,5 +56,6 @@ export const ACA_ENTRY_COMPONENTS: any[] = [
 	...ACA_WIDGET_MODALS,
 	Modal,
 	Notification,
+	NotifyBlock,
 	TypeaheadList
 ]

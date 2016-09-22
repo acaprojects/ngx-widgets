@@ -30,8 +30,7 @@ export class NotificationService {
 
 	add(msg:string, cssClass?:string, opts?:any) {
 		if(!this.cmp) return null;
-		console.log('Add notification');
-		return this.cmp.add(msg, cssClass, opts);
+		return this.cmp.add(msg, cssClass ? cssClass : 'default', opts);
 	}
 
 	close(id:string) {
