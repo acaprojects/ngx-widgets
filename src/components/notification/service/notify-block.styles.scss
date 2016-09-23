@@ -9,6 +9,11 @@ $width: 25.0em;
 	&.defaultClass {
 		background-color: #FFF;
 		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+		word-wrap: normal;
+		& div {
+			flex-grow: 1;
+			flex-shrink: 1;
+		}
 		& .close-btn {
 			color: #444;
 			&:hover {
@@ -27,6 +32,11 @@ $width: 25.0em;
 	bottom: 0.5em;
 	right: 0.5em;
 	opacity: 1;
+	overflow: hidden;
+	& .contents {
+		display: flex;
+		align-items: center;
+	}
 	& .close-btn {
 		position: absolute;
 		right: 0.2em;

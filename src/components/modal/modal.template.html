@@ -4,8 +4,8 @@
 	(click)="onPointer($event)"
 	(touchend)="onPointer($event)">
 	<div #modal class="modal-space" [@space]="state"
-			[style.width]="(large ? 2.5 * width : width) + unit"
-			[style.min-height]="(large ? 2.5 * width / 3 * 2 : width / 3 * 2) + unit">
+			[style.width]="display_width + unit"
+			[style.min-height]="display_height + unit">
 		<div class="modal-body">
 			<div class="content"><div #content></div></div>
 		</div>

@@ -431,11 +431,14 @@ export class InteractiveMap {
 	}
 
     ngAfterViewInit() {
-        if(Hammer && this.map_area && (!this.focus || this.focus === '' || this.focusScroll)){
+    }
+
+	setupEvents() {
+        if(Hammer && this.map_item && (!this.focus || this.focus === '' || this.focusScroll)){
                 // Setup events via Hammer.js if it is included
             this.de = new Hammer(document, {});
             this.de.on('tap', (event) => { this.checkStatus(event, 0); })
-            this.touchmap = new Hammer(this.map_area.nativeElement, {});
+            this.touchmap = new Hammer(this.map_item, {});
                 //Tap Map
             this.touchmap.on('tap', (event) => {this.tapMap(event);});
                 //Moving Map
@@ -446,14 +449,14 @@ export class InteractiveMap {
             this.touchmap.on('pinch', (event) => {this.scaleMap(event);});
             this.touchmap.on('pinchend', (event) => {this.scaleEnd(event);});
             this.touchmap.get('pinch').set({ enable: true });
-        } else if(this.map_area){
+        } else if(this.map_item){
                 //Setup Normal Events
 
                 //*/
         }
         this.setupPins();
         if(this.focus) this.updateFocus();
-    }
+	}
 
    	checkStatus(e, i) {
    		if(i > 2) return;
@@ -522,7 +525,6 @@ export class InteractiveMap {
     }
 
 	zoomFocus(bb: any) {
-		console.log('Zoom focus', bb);
 		let cbb = this.map_item.getBoundingClientRect();
 		let mbb = this.map_area.nativeElement.getBoundingClientRect();
 		if(cbb && mbb && bb) {
@@ -588,11 +590,8 @@ export class InteractiveMap {
 			let coord = typeof this.focus === 'object' && this.focus.x && this.focus.y;
 			this.getFocusBB();
 			let bb = this.zoom_bb;
-			console.log(bb, cbb, mbb);
 			let x = bb.left + bb.width/2 - mbb.left;
 			let y = bb.top + bb.height/2 - mbb.top;
-			console.log(this._zoom);
-			console.log(x, y);
 			this.final_top  = this._top  = -(y - cbb.height/2);
 			this.final_left = this._left = -(x - cbb.width/2);
 			this.zoom_bb = null;
@@ -640,6 +639,7 @@ export class InteractiveMap {
         	this.setupDisabled();
         	this.setupPins();
         	this.setupStyles();
+			this.setupEvents();
         	setTimeout(() => {
 		    	this.loading = false;
         	}, 100);

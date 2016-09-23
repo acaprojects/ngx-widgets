@@ -121,6 +121,7 @@ export class Notification implements OnInit {
     		if(this.content_instance[i] && this.content_instance[i].id === id) {
     			if(this.content_instance[i].id) {
                     setTimeout(() => {
+                        this.content_instance[i].remove = true;
         					// Remove notification from variables and DOM
         				this.content_instance.splice(i, 1);
         				let ref = this.contentRef.splice(i, 1)[0];

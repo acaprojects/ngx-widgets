@@ -22,7 +22,7 @@ $space: 2.2em;
 		@include transform(translate(-50%, -50%));
 		background-color: #FFF;
 		border-radius: 0.1em;
-		max-height: 95vh;
+		max-height: 90vh;
 		max-width: 95vw;
 		opacity: 0;
 		& .modal {
@@ -47,8 +47,8 @@ $space: 2.2em;
 				z-index: 2020;
 			}
 			&-body {
-				max-height: 90vh;
-				max-width: 90vw;
+				max-height: 85vh;
+				max-width: 85vw;
 				overflow: auto;
 				font-size: 1.0em;
 				z-index: 2010;
@@ -64,7 +64,7 @@ $space: 2.2em;
 				text-align: right;
 				background-color: #FFF;
 				white-space: nowrap;
-				border-top: 1px solid rgba(0,0,0,0.3);
+				border-top: 0.1em solid rgba(0,0,0,0.1);
 				border-radius: 0 0 0.1em 0.1em;
 				z-index: 2020;
 				& .modal-btns {

@@ -39,10 +39,19 @@ export class NotifyBlock {
     @Input() id: string = '';
     @Input() cssClass: string = 'default';
     @Input() position: string = '0';
+    @Input() remove: boolean = false;
+    remove_check: any = null;
+
     constructor() {
         this.id = Math.floor(Math.random() * 899999 + 100000).toString();
+        this.remove_check = setInterval(() => {
+            if(this.remove) {
+                this.position = 'close';
+            }
+        }, 200);
     }
 
     ngOnDestroy() {
+        if(this.remove_check) clearInterval(this.remove_check);
     }
 }

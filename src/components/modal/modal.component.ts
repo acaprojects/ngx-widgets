@@ -29,7 +29,7 @@ const PLACEHOLDER = '-';
         ])
     ]
 })
-export class Modal implements OnInit, OnDestroy {
+export class Modal implements OnInit, OnChanges, OnDestroy {
     @Input() id: string = '';
     @Input() service: any = null;
     @Input() private component: any = null;
@@ -63,6 +63,8 @@ export class Modal implements OnInit, OnDestroy {
     unit: string = 'em';
     html: string = '';
     large: boolean = false;
+    display_width: number = 20;
+    display_height: number = 12;
 
     constructor(
     	protected _cfr: ComponentFactoryResolver,
@@ -81,6 +83,14 @@ export class Modal implements OnInit, OnDestroy {
         if(this.modal) {
         	this.buildContents();
             this.modal_box = this.modal.nativeElement.getBoundingClientRect();
+        }
+    }
+
+    ngOnChanges(changes: any) {
+        if(changes.width) {
+            this.display_width = 2.5 * this.width;
+            this.display_height = this.display_width / 3 * 2 - 5;
+            console.log(this.display_width, this.display_height);
         }
     }
 
@@ -112,7 +122,7 @@ export class Modal implements OnInit, OnDestroy {
             	let factory = _.find(moduleWithFactories.componentFactories, { componentType: componentType });
             	// Target will instantiate and inject component (we'll keep reference to it)
             	this.render(factory);
-        	});
+        	}, (err) => {});
     }
 
     protected render(factory: any) {
