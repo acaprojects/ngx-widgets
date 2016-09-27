@@ -217,7 +217,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 ### Interactive Map
 
-![Image of Interactive Maps](https://cloud.githubusercontent.com/assets/20103948/17200831/e6176fb2-54cb-11e6-99c5-9348a5b1991b.png)
+![Image of Interactive Maps](http://www.roomsketcher.com/wp-content/uploads/2015/12/RoomSketcher-2D-Floor-Plans.jpg)
 
 An interactive map which renders a svg xml which is scalable and pannable.
 
