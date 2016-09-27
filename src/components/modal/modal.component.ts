@@ -101,6 +101,11 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         }
     }
 
+    protected blockScroll(e) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
     protected buildContents() {
     	if(this.html && this.html !== '') {
     		let template = this.typeBuilder.createComponentAndModule(this.html);

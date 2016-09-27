@@ -1,7 +1,6 @@
-<div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (click)="onPointer($event)" (touchend)="onPointer($event)">
+<div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (click)="onPointer($event)" (scroll)="blockScroll($event)" (touchend)="onPointer($event)">
 	<div #modal class="modal-space" [@space]="state"
-			[style.width]="(large ? 2.5 * width : width) + unit"
-			[style.min-height]="(large ? 2.5 * width / 3 * 2 : width / 3 * 2) + unit">
+			[style.width]="(large ? 2.5 * width : width) + unit">
 		<div class="modal-header title" [style.background-color]="color1" [style.color]="color2" >
 			{{title}}
 			<div *ngIf="close" class="close-btn" (click)="close_fn()">

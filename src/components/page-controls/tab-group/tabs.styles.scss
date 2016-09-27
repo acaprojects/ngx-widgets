@@ -19,9 +19,11 @@ $bg-color: #FFFFFF;
             list-style: none;
             white-space: nowrap;
             display:flex;
+            text-align: center;
             & > li {
                 position: relative;
-                bottom: -1px;
+                bottom: 0;
+                margin-bottom: -1px;
                 padding: 0.5em 1.5em;
                 margin-right: 0.15em;
                 border-radius: 0.15em 0.15em 0 0;
@@ -33,27 +35,35 @@ $bg-color: #FFFFFF;
                 }
                 &.empty {
                 	position:relative;
-                	width: 1px;
-                	padding: 0.5em;
+                	width: 1px !important;
+                	padding: 0.5em !important;
                 	opacity:1;
-                	bottom: -1px;
-                	border-top: none;
-                	border-left: none;
-                	border-right: none;
-                	background: none;
+                	bottom: -1px !important;
+                	border-top: none !important;
+                	border-left: none !important;
+                	border-right: none !important;
+                	background: none !important;
                 }
             }
 			&.default {
-        		border-bottom: 0.1em solid rgba(0,0,0,0.5);
+        		border-bottom: 0.1em solid rgba(0,0,0,0.1);
             	& > li {
-            		border-bottom: 0.1em solid rgba(0,0,0,0.5);
+                    background-color: rgba(0,0,0,0.1);
+                    border: 0.1em solid rgba(0,0,0,0.1);
+                    border-bottom: none;
+                    min-width: 4.0em;
+                    cursor: pointer;
 	                &.active {
-	                    &:hover {
-	                        background-color: $bg-color;
-	                    }
+                        background-color: #FFFFFF;
+                        border: 0.1em solid rgba(0,0,0,0.1);
+                    	border-bottom: 0.1em solid #FFFFFF;
+                        &:hover {
+                            background-color: #FFFFFF;
+                            color: rgba(0,0,0,0.87);
+                        }
 	                }
 	                &:hover{
-	                    background-color: $bg-color - #222222;
+                        color: rgba(0,0,0,0.54);
 	                }
                 }
             }

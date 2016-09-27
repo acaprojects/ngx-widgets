@@ -43,7 +43,8 @@
 			}
 		}
 		& .week-days {
-			display: flex;
+			@include display(flex);
+			@include flex-direction(row);
 			height: 11.111111%;
 			padding: 1.0em 0;
 			& .weekday {
@@ -66,7 +67,8 @@
 		}
 		& .month-days {
 			& .week {
-				display: flex;
+				@include display(flex);
+				@include flex-direction(row);
 				height: 11.111111%;
 				& .day {
 					height: 2.7em;
@@ -136,7 +138,8 @@
 			}
 
 			& .picker {
-				display: flex;
+				@include display(flex);
+				@include flex-direction(row);
 				& .pick {
 					padding: 0.2em;
 					width: 3.0em;

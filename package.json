@@ -1,6 +1,6 @@
 {
   "name": "@aca-1/a2-widgets",
-  "version": "0.5.0-dev-22",
+  "version": "0.5.0-dev-23",
   "scripts": {
     "lint": "tslint src/**/*.ts",
     "test": "tsc && karma start",
@@ -45,7 +45,7 @@
     "rxjs": "5.0.0-beta.12",
     "typescript": "^1.8.10",
     "typings": "^1.0.4",
-    "zone.js": "~0.6.17"
+    "zone.js": "~0.6.21"
   },
   "devDependencies": {
     "angular2-template-loader": "latest",

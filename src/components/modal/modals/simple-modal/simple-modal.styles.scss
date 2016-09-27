@@ -14,6 +14,8 @@ $space: 2.2em;
 	font-size: 20px;
 	z-index: 2000;
 	opacity: 0;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
 
 	& .modal-space {
 	    position: absolute;
@@ -22,6 +24,7 @@ $space: 2.2em;
 		@include transform(translate(-50%, -50%));
 		background-color: #FFF;
 		border-radius: 0.1em;
+		min-height: 12.0em;
 		max-height: 95vh;
 		max-width: 95vw;
 		opacity: 0;
@@ -50,6 +53,7 @@ $space: 2.2em;
 				max-height: 90vh;
 				max-width: 90vw;
 				overflow: auto;
+				-webkit-overflow-scrolling: touch;
 				font-size: 1.0em;
 				z-index: 2010;
 				& .content {
