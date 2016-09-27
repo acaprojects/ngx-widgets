@@ -1,6 +1,4 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 div.img-crop {
 	position: relative;
 	font-size: 16px;
@@ -12,7 +10,7 @@ div.img-crop {
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		@include transform( translate(-50%, -50%));
+		transform: translate(-50%, -50%);
 		font-size: 1.0em;
 		&.save {
 			top: 15%;
@@ -70,7 +68,7 @@ div.img-crop {
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			@include transform( translate(-50%, -50%));
+			transform: translate(-50%, -50%);
 			text-align: center;
 			max-width: 75%;
 		}

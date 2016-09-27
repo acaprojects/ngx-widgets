@@ -1,11 +1,9 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 $height: 4.0em;
 $width: 25.0em;
 
 .notification {
-	@include user-select(none);
+	user-select: none;
 	&.defaultClass {
 		background-color: #FFF;
 		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);

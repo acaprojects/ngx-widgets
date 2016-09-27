@@ -1,5 +1,4 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
 
 .aca {
 	&.default {
@@ -10,7 +9,7 @@
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		@include transform( translate(-50%, -50%));
+		transform: translate(-50%, -50%);
 	}
 	&.btn {
 		position: relative;
@@ -18,7 +17,7 @@
 		padding: 0.25em 0.5em 0.1em 0.5em;
 		text-align: center;
 		cursor: pointer;
-		@include user-select(none);
+		user-select: none;
 		& .action {
 			padding: 0;
 			& button {
@@ -110,7 +109,7 @@
 			height: 4.0em;
 			top: 50%;
 			left: 50%;
-			@include transform( translate(-50%, -50%) scale(0));
+			transform: translate(-50%, -50%) scale(0);
 			background-color: #000;
 			opacity: 0;
 			border-radius: 100%;

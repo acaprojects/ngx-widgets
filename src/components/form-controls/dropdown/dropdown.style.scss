@@ -1,25 +1,23 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 .dropdown {
 	position: relative;
 	display: inline-block;
 	padding: 0.5em;
 	height: 2.0em;
-	@include user-select(none);
+	user-select: none;
 	cursor: pointer;
 	& .box {
 		position: relative;
 		&.generic {
 			border-top: 0.1em solid rgba(0,0,0,0.2);
-			border-bottom: 0.1em solid rgba(0,0,0,0.2); 
+			border-bottom: 0.1em solid rgba(0,0,0,0.2);
 			&.hover {
 				background-color: rgba(0,0,0,0.1);
 			}
 		}
 		&.segmented {
 			border-top: 1px solid rgba(0,0,0,0.2);
-			border-bottom: 1px solid rgba(0,0,0,0.2); 
+			border-bottom: 1px solid rgba(0,0,0,0.2);
 			& .hover {
 				background-color: rgba(0,0,0,0.1);
 			}
@@ -29,7 +27,7 @@
 		}
 		&.editable {
 			border-top: 1px solid rgba(0,0,0,0.2);
-			border-bottom: 1px solid rgba(0,0,0,0.2); 
+			border-bottom: 1px solid rgba(0,0,0,0.2);
 			& .hover {
 				background-color: rgba(0,0,0,0.1);
 			}
@@ -73,14 +71,14 @@
 		&.top {
 			border-radius: 0;
 			&.active {
-				border-radius: 0 0 0.1em 0.1em; 
+				border-radius: 0 0 0.1em 0.1em;
 				border: none !important;
 			}
 		}
 
 		&.bottom {
 			&.active {
-				border-radius: 0.1em 0.1em 0 0; 
+				border-radius: 0.1em 0.1em 0 0;
 				border: none !important;
 			}
 		}
@@ -91,13 +89,13 @@
 			background-color: #FFF !important;
 			&.top {
 				bottom: 100%;
-				border-radius: 0.1em 0.1em 0 0; 
+				border-radius: 0.1em 0.1em 0 0;
 				border-bottom: 0.1em solid rgba(0,0,0,0.2);
 			}
 
 			&.bottom {
 				top: 100%;
-				border-radius: 0 0 0.1em 0.1em; 
+				border-radius: 0 0 0.1em 0.1em;
 				border-top: 0.1em solid rgba(0,0,0,0.2);
 			}
 			& ul {

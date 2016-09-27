@@ -1,6 +1,4 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 $sm-height: 15.0em;
 $space: 2.5em;
 
@@ -18,7 +16,7 @@ $space: 2.5em;
 	    position: absolute;
 	    top: 50%;
 	    left: 50%;
-		@include transform(translate(-50%, -50%));
+		transform: translate(-50%, -50%);
 		width: $sm-height;
 		min-height: $sm-height / 2;
 		background-color: #FFF;

@@ -1,6 +1,4 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 $sm-height: 15.0em;
 $space: 2.2em;
 
@@ -21,7 +19,7 @@ $space: 2.2em;
 	    position: absolute;
 	    top: 50%;
 	    left: 50%;
-		@include transform(translate(-50%, -50%));
+		transform: translate(-50%, -50%);
 		background-color: #FFF;
 		border-radius: 0.1em;
 		min-height: 12.0em;
@@ -68,7 +66,7 @@ $space: 2.2em;
 				text-align: right;
 				background-color: #FFF;
 				white-space: nowrap;
-				border-top: 1px solid rgba(0,0,0,0.3);
+				border-top: 0.05em solid rgba(0,0,0,0.1);
 				border-radius: 0 0 0.1em 0.1em;
 				z-index: 2020;
 				& .modal-btns {

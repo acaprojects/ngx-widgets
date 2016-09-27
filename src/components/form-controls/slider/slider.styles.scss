@@ -1,6 +1,4 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 $dim: 4.0em;
 $base-color: #343434;
 
@@ -15,7 +13,7 @@ $base-color: #343434;
     display: inline-block;
     padding: 0.5em;
     box-sizing: border-box;
-    @include user-select(none);
+    user-select: none;
     overflow: visible;
     &.horizon {
         width:100%;

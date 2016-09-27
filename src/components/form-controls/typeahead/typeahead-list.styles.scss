@@ -1,15 +1,13 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 .contents {
 	position: fixed;
 	width: 10vw;
 	height: 0.1em;
 	z-index: 99999;
-	@include user-select(none);
+	user-select: none;
 	& .options {
 		position: absolute;
-		@include transform(translateX(-50%));
+		transform: translateX(-50%);
 		text-align: left;
 		min-width: 100%;
 

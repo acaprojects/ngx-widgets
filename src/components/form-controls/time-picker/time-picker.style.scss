@@ -1,6 +1,4 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 .calendar {
 	text-align: center;
 	position: relative;
@@ -23,7 +21,7 @@
 			margin: auto;
 			top: 50%;
 			left: 50%;
-			@include transform( translate(-50%, -50%));
+			transform: translate(-50%, -50%);
 			& .header, & .finish-btn {
 				font-size: 0.7em;
 			}
@@ -31,7 +29,7 @@
 			& .finish-btn {
 				text-align: center;
 				cursor: pointer;
-				@include user-select(none);
+				user-select: none;
 				& .btn {
 					display: inline-block;
 					padding: 0.2em 1.5em;
@@ -53,7 +51,7 @@
 						cursor: pointer;
 						& .arrow-time {
 							display: inline-block;
-							@include transform( rotate(90deg));
+							transform: rotate(90deg);
 						}
 					}
 
@@ -80,8 +78,8 @@
 					& .btn {
 						position: absolute;
 						top: 50%;
-						@include transform( translateY(-50%));
-						@include user-select(none);
+						transform: translateY(-50%);
+						user-select: none;
 						vertical-align: middle;
 						border-radius: 0.2em;
 						outline: none;

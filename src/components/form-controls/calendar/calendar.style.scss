@@ -1,6 +1,4 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 .calendar {
 	text-align: center;
 	position: relative;
@@ -14,7 +12,7 @@
 		width: 25.6em;
 		border: 0.1em solid rgba(0,0,0,0.2);
 		background-color: #FFF;
-		@include user-select(none);
+		user-select: none;
 		cursor: default;
 		& .header {
 			position: relative;
@@ -43,8 +41,8 @@
 			}
 		}
 		& .week-days {
-			@include display(flex);
-			@include flex-direction(row);
+			display: flex;
+			flex-direction: row;
 			height: 11.111111%;
 			padding: 1.0em 0;
 			& .weekday {
@@ -67,8 +65,8 @@
 		}
 		& .month-days {
 			& .week {
-				@include display(flex);
-				@include flex-direction(row);
+				display: flex;
+				flex-direction: row;
 				height: 11.111111%;
 				& .day {
 					height: 2.7em;
@@ -122,7 +120,7 @@
 			margin: auto;
 			top: 50%;
 			left: 50%;
-			@include transform( translate(-50%, -50%));
+			transform: translate(-50%, -50%);
 			& .header, & .finish-btn {
 				font-size: 0.7em;
 			}
@@ -138,8 +136,8 @@
 			}
 
 			& .picker {
-				@include display(flex);
-				@include flex-direction(row);
+				display: flex;
+				flex-direction: row;
 				& .pick {
 					padding: 0.2em;
 					width: 3.0em;
@@ -152,7 +150,7 @@
 						cursor: pointer;
 						& .arrow-time {
 							display: inline-block;
-							@include transform( rotate(90deg));
+							transform: rotate(90deg);
 						}
 					}
 
@@ -180,7 +178,7 @@
 					& .btn {
 						position: absolute;
 						top: 50%;
-						@include transform( translateY(-50%));
+						transform: translateY(-50%);
 						vertical-align: middle;
 						border-radius: 0.2em;
 						outline: none;

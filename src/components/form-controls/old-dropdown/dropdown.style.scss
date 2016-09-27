@@ -1,6 +1,4 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 .dropdown {
 	position: relative;
 	width: 100%;
@@ -9,17 +7,17 @@
 	padding: 0.5em 1.0em;
 	margin: 0.4em;
 	border: 0.2em solid rgba(0, 0, 0, 0.7);
-	@include user-select(none);
+	user-select: none;
 	.contents {
 		z-index: 99999;
-		@include user-select(none);
+		user-select: none;
 
 		& .options {
 			position: absolute;
 			left: 50%;
 			top: 0;
 			z-index: 99999;
-			@include transform(translateX(-50%));
+			transform: translateX(-50%);
 
 			& ul {
 				position: relative;

@@ -1,6 +1,4 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 $sm-height: 15.0em;
 $space: 2.5em;
 
@@ -18,7 +16,7 @@ $space: 2.5em;
 	    position: absolute;
 	    top: 50%;
 	    left: 50%;
-		@include transform(translate(-50%, -50%));
+		transform: translate(-50%, -50%);
 		width: $sm-height;
 		min-height: $sm-height / 2;
 		background-color: #FFF;
@@ -39,7 +37,7 @@ $space: 2.5em;
 				overflow: auto;
 				font-size: 1.0em;
 				& .calendar {
-					@include user-select(none);
+					user-select: none;
 					cursor: default;
 					& .header {
 						position: relative;
@@ -63,7 +61,7 @@ $space: 2.5em;
 								right: 0.5em;
 							}
 						}
-					} 
+					}
 					& .week-days {
 						display: flex;
 						height: 11.111111%;
@@ -78,7 +76,7 @@ $space: 2.5em;
 						height: 1px;
 						width: 100%;
 						padding: 0 0.5em 0.2em 0.5em;
-						& .inner { 
+						& .inner {
 							height: 1px;
 							width: 100%;
 							background-color: #eee;
@@ -105,7 +103,7 @@ $space: 2.5em;
 
 								&.active {
 									& .overlay {
-										
+
 									}
 								}
 							}

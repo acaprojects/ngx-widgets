@@ -4,19 +4,17 @@ $green: #23CE6B;
 $red: #F64740;
 $bg-color: #FFFFFF;
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 .toggle {
 	position: relative;
     box-sizing: content-box;
     padding: 0.5em;
     display: inline-block;
-	@include user-select(none);
+	user-select: none;
     & .center {
     	position: absolute;
     	top: 50%;
     	left: 50%;
-    	@include transform(translate(-50%, -50%));
+    	transform: translate(-50%, -50%);
     }
 
     & .text-toggle{
@@ -53,7 +51,7 @@ $bg-color: #FFFFFF;
             width:50%;
             height:100%;
             top: 50%;
-            @include transform(translateY(-50%));
+            transform: translateY(-50%);
             border: 0.05em solid $border-color;
             border-radius: 0.1em;
             background-color: $bg-color;
@@ -105,7 +103,7 @@ $bg-color: #FFFFFF;
             position: absolute;
             top: 50%;
 			left: 50%;
-			@include transform( translate(-50%, -40%));
+			transform: translate(-50%, -40%);
             margin: auto;
             text-align: center;
             font-size: 150%;
@@ -127,7 +125,7 @@ $bg-color: #FFFFFF;
         & .toggle-knob {
             position:absolute;
             top: 50%;
-            @include transform(translateY(-50%));
+            transform: translateY(-50%);
             height: 90%;
             width: 60%;
             left: 2.5%;
