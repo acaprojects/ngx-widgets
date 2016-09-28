@@ -70,12 +70,6 @@ export class InteractiveMap {
     touchmap: any;
     private _zoom: number = 0; // As Percentage
     rotate: number = 0; // In degrees
-    left: number = 0;
-    top: number = 0;
-    useTop: number = 0;
-    useLeft: number = 0;
-    maxTop: number = 100;
-    maxLeft: number = 100;
     zoomed: boolean = false;
     debug: string[] = [];
     map_orientation: string = '';
@@ -85,30 +79,22 @@ export class InteractiveMap {
    	min = 20;
    	isFocus = false;
    	loading = true;
-   	private _top: number = 0;
-   	private _left: number = 0;
-   	private final_top: number = 0;
-   	private final_left: number = 0;
    	zoom_state: string = '100w';
-   	top_state: string = '0px';
-   	left_state: string = '0px';
-   	center : { x: number, y: number };
+	center: any = { x: 0.5, y: 0.5 };
+	min_center: any = { x: 0.5, y: 0.5 };
+	max_center: any = { x: 0.5, y: 0.5 };
 
    	pin_html = `
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 20.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="flat_x5F_Pin" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
-	 y="0px" viewBox="0 0 53 65.7" style="enable-background:new 0 0 53 65.7;" xml:space="preserve">
-<style type="text/css">
-	.aca-st0{fill:#FFFFFF;}
-	.aca-st1{fill:#DC6900;stroke:#FFFFFF;stroke-width:2.5;stroke-miterlimit:10;}
-</style>
-<g>
-	<circle class="aca-st0" cx="27.6" cy="21.8" r="13.1"/>
-	<path class="aca-st1" d="M27.6,4c9.9,0,18,8.1,18,18s-17.1,38.2-18,39.6c-0.9-1.5-18-29.7-18-39.6S17.7,4,27.6,4z M27.6,32.8
-		c6,0,10.8-4.8,10.8-10.8s-4.8-10.8-10.8-10.8S16.8,16,16.8,22S21.6,32.8,27.6,32.8"/>
-</g>
-</svg>
+		<?xml version="1.0" encoding="utf-8"?>
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 53 65.7" style="enable-background:new 0 0 53 65.7;" xml:space="preserve">
+			<style type="text/css">
+				.aca-st0{fill:#FFFFFF;} .aca-st1{fill:#DC6900;stroke:#FFFFFF;stroke-width:2.5;stroke-miterlimit:10;}
+			</style>
+			<g>
+				<circle class="aca-st0" cx="27.6" cy="21.8" r="13.1"/>
+				<path class="aca-st1" d="M27.6,4c9.9,0,18,8.1,18,18s-17.1,38.2-18,39.6c-0.9-1.5-18-29.7-18-39.6S17.7,4,27.6,4z M27.6,32.8 c6,0,10.8-4.8,10.8-10.8s-4.8-10.8-10.8-10.8S16.8,16,16.8,22S21.6,32.8,27.6,32.8"/>
+			</g>
+		</svg>
    	`
 
    	pin_defaults = {
@@ -143,7 +129,7 @@ export class InteractiveMap {
         	this.render();
 			setTimeout(() => {
 				this.updatePins();
-			}, 20);
+			}, 60);
         });
     	this.checkStatus(null, 0);
     	this.status_check = setInterval(() => {
@@ -159,8 +145,6 @@ export class InteractiveMap {
 	}
 
     update() {
-    	this.left = this._left;
-    	this.top = this._top;
         	// Clean up any dimension changes
         if(!this.isFocus) {
 	        if(this._zoom > this.zoomMax || this._zoom > ZOOM_LIMIT) this._zoom = this.zoomMax;
@@ -170,59 +154,35 @@ export class InteractiveMap {
 				if(isNaN(this.zoom)) this.zoom = this._zoom;
 		    	let zoom_change = this._zoom / (this.zoom);
 				if(isNaN(zoom_change)) zoom_change = 1;
-		    		// Update left pos
-		    	this.final_left = this._left * zoom_change;
-		    		// Update right pos
-		    	this.final_top = this._top * zoom_change;
-		    	setTimeout(() => {
-		    		this.updatePos();
-		    	}, 20);
 		    }
-	        if(this.left < -(this.maxLeft + PADDING)) this.left = -this.maxLeft;
-	        else if(this.left > PADDING) this.left = 0;
-	        if(this.top < -(this.maxTop + PADDING)) this.top = -this.maxTop;
-	        else if(this.top > PADDING) this.top = 0;
+
 	    }
         this.zoom = this._zoom;
         this.zoomChange.emit(this._zoom);
         this.rotate = this.rotate % 360;
+		let p_z_state = this.zoom_state;
+		this.zoom_state = Math.round(100 + this._zoom).toString();
+		if(this.zoom_state !== p_z_state) {
+			setTimeout(() => {
+				this.updateBoxes();
+			}, 60);
+		}
         return true;
-    }
-
-    updatePos() {
-	    if(this.final_left !== this._left) {
-	    	let dir_left = this.final_left - this._left;
-	    	if(dir_left < 2) this._left = this.final_left;
-	    	else this._left += (dir_left < 0 ? -1 : 1) * Math.max(Math.abs(this.final_left - this._left)/10, 2);
-	    }
-	    if(this.final_top !== this._top) {
-	    	let dir_top = this.final_top - this._top;
-	    	if(dir_top < 2) this._top = this.final_top;
-	    	else this._top += (dir_top < 0 ? -1 : 1) * Math.max(Math.abs(this.final_top - this._top)/10, 2);
-	    }
-	    this.redraw();
-	    if(this.final_left !== this._left || this.final_top !== this._top) {
-	    	setTimeout(() => {
-	    		this.updatePos();
-	    	}, 20);
-	    }
     }
 
     render() {
         	// Update map
         if(this.map_display && this.active) {
-			/*
-			if(this.map_item) this.map_item.style.transform = `translate(${Math.round(this.left)}px, ${Math.round(this.top)}px)`;
-			//*/
-			//*
-	        this.map_display.nativeElement.style.top = Math.round(this.top) + 'px';
-	        this.map_display.nativeElement.style.left = Math.round(this.left) + 'px';
-			//*/
 	        //this.updateBoxes();
-	        this.zoom_state = Math.round(100 + this._zoom).toString();
-			setTimeout(() => {
-				this.updatePins();
-			}, 60);
+			if(this.content_box) {
+				let mbb = this.map_item.getBoundingClientRect();
+				if(mbb){
+					let top = Math.round(-mbb.height * this.center.y + this.content_box.height/2);
+					let left = Math.round(-mbb.width * this.center.x + this.content_box.width/2);
+			        this.map_display.nativeElement.style.top = top + 'px';
+			        this.map_display.nativeElement.style.left = left + 'px';
+				}
+			}
 	        if(this.isFocus) this.finishFocus();
 	    }
     }
@@ -532,8 +492,6 @@ export class InteractiveMap {
 			setTimeout(() => {
 				let w_ratio = mbb.width  / bb.width  * (cbb.width / mbb.width );
 				let h_ratio = mbb.height  / bb.height  * (cbb.height / mbb.height );
-				this._top = 0;
-				this._left = 0;
 				let r = (w_ratio < h_ratio ? w_ratio : h_ratio) * ( typeof this.focus === 'string' ? 0.5 : 1.5);
 				this._zoom = Math.round((isNaN(r) ? 1 : r) * this.focusZoom);
 				this.isFocus = true;
@@ -592,8 +550,8 @@ export class InteractiveMap {
 			let bb = this.zoom_bb;
 			let x = bb.left + bb.width/2 - mbb.left;
 			let y = bb.top + bb.height/2 - mbb.top;
-			this.final_top  = this._top  = -(y - cbb.height/2);
-			this.final_left = this._left = -(x - cbb.width/2);
+			this.focusOnPoint(x, y);
+
 			this.zoom_bb = null;
 			this.updateBoxes();
 			cnt++;
@@ -602,6 +560,14 @@ export class InteractiveMap {
 			}
 		}, 50);
     }
+
+	focusOnPoint(x: number, y: number) {
+		let mbb = this.map_item.getBoundingClientRect();
+		let r_x = x / mbb.width;
+		let r_y = y / mbb.height;
+		this.center = { x: r_x, y: r_y };
+		this.redraw();
+	}
 
     loadMapData() {
         this.loading = true;
@@ -685,15 +651,19 @@ export class InteractiveMap {
 			this.move_timer = null;
 		}
     	let dX = +event.deltaX - +this.move.x;
-    	let dY = +event.deltaY - +this.move.y
-        this._top += Math.min(this.min, +Math.abs(dY)) * (dY < 0 ? -1 : 1);
-        this._left += Math.min(this.min, +Math.abs(dX)) * (dX < 0 ? -1 : 1);
-        if(this._left < -this.maxLeft) this._left = -this.maxLeft;
-        else if(this._left > 0) this._left = 0;
-        if(this._top < -this.maxTop) this._top = -this.maxTop;
-        else if(this._top > 0) this._top = 0;
-        this.final_top = this._top
-        this.final_left = this._left
+		dX = (Math.min(this.min, +Math.abs(dX)) * (dX < 0 ? -1 : 1));
+    	let dY = +event.deltaY - +this.move.y;
+		dY = (Math.min(this.min, +Math.abs(dY)) * (dY < 0 ? -1 : 1));
+
+        this.center.y -= (dY/this.map_box.height);
+        this.center.x -= (dX/this.map_box.width);
+
+		if(this.center.x < this.min_center.x) this.center.x = this.min_center.x;
+		else if(this.center.x > this.max_center.x) this.center.x = this.max_center.x;
+
+		if(this.center.y < this.min_center.y) this.center.y = this.min_center.y;
+		else if(this.center.y > this.max_center.y) this.center.y = this.max_center.y;
+
         	// Update the display of the map
         this.redraw();
         this.move.x = event.deltaX;
@@ -706,6 +676,7 @@ export class InteractiveMap {
 			clearTimeout(this.move_timer);
 			this.move_timer = null;
 		}
+		console.log(this.center);
 		this.move_timer = setTimeout(() => {
 	        this.move.x = this.move.y = 0;
 	        this.activate = false;
@@ -732,23 +703,31 @@ export class InteractiveMap {
     }
 
     zoomIn() {
-        this._zoom += 10;
+        this._zoom += Math.max(Math.abs(Math.round((100 + this._zoom)/100)) * 10, 10);
         this.redraw();
 	    this.updateBoxes();
+		setTimeout(() => {
+			this.redraw();
+		}, 100);
     }
 
     zoomOut() {
-        this._zoom -= 10;
+        this._zoom -= Math.max(Math.abs(Math.round((100 + this._zoom)/100)) * 10, 10);
         this.redraw();
 	    this.updateBoxes();
+		setTimeout(() => {
+			this.redraw();
+		}, 100);
     }
 
     resetZoom() {
         this._zoom = 0;
-		this._top = 0;
-		this._left = 0;
+		this.center = { x: 0.5, y: 0.5 };
         this.redraw();
 	    this.updateBoxes();
+		setTimeout(() => {
+			this.redraw();
+		}, 100);
     }
 
     private redraw(){
@@ -776,11 +755,15 @@ export class InteractiveMap {
     		if(this.map_display && this.content_box) {
 		        //this.map_box = this.map_display.nativeElement.getBoundingClientRect();
 			    this.map_box = this.map_item.getBoundingClientRect();
-		        this.maxTop  = this.map_box.height*1.1 - this.content_box.height;
-		        this.maxLeft = this.map_box.width*1.1 - this.content_box.width;
-		        if(this.maxTop < 0) this.maxTop = 0;
-		        if(this.maxLeft < 0) this.maxLeft = 0;
 		        this.zoomChange.emit(this.zoom);
+				this.min_center = {
+					x: -((this.map_box.width-this.content_box.width)/this.map_box.width) + 0.5,
+					y: -((this.map_box.height-this.content_box.height)/this.map_box.height) + 0.5
+				};
+				this.max_center = {
+					x: ((this.map_box.width-this.content_box.width)/this.map_box.width) + 0.5,
+					y: ((this.map_box.height-this.content_box.height)/this.map_box.height) + 0.5
+				};
 		        this.redraw();
 				if(this.box_update) clearTimeout(this.box_update);
 				this.box_update = setTimeout(() => {
