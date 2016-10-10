@@ -1,2 +1,2 @@
-export * from './notification.directive';
-export * from './service';
+export * from './notification.component';
+export * from './notify-block.component';

@@ -4,9 +4,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 @Component({
     selector: 'toggle',
     templateUrl: './toggle.template.html',
-    styles: [
-        require('./toggle.styles.scss')
-    ],
+    styleUrls: [ './toggle.styles.css' ],
     animations: [
         trigger('toggleBg', [
             state('on', style({ 'background-color': '#23CE6B' })),
@@ -41,7 +39,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
     ]
 })
 export class Toggle {
-    @Input() type;
+    @Input() type: string;
     @Input() state: boolean = true;
     @Input() active: string;
     @Input() inactive: string;
@@ -83,7 +81,7 @@ export class Toggle {
         //*
     }
 
-    changeState(event){
+    changeState(event: any){
   		if (event.stopPropagation) event.stopPropagation();
 		else event.cancelBubble = true;
         this.state = !this.state;

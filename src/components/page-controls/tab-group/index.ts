@@ -4,6 +4,6 @@ import { TabGroup } from './tabs.component';
 import { TabHead } from './tab-head.component';
 import { TabBody } from './tab-body.component';
 
-export let TABS_DIRECTIVES = [
+export let TABS_COMPONENTS = [
     TabGroup, TabHead, TabBody
 ]

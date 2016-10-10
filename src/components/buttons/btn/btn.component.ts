@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 @Component({
 	selector: 'btn',
-	styles: [ require('./btn.styles.scss'), require('../../global-styles/global-styles.scss') ],
+	styleUrls: [ './btn.styles.css', '../../material-styles/material-styles.css' ],
 	templateUrl: './btn.template.html',
 	animations : [
         trigger('clickResp', [
@@ -35,11 +35,11 @@ export class Button {
 	click_state: string = 'show';
 
 		//Private event observers
-	private _click = null;
-	private _mouseover = null;
-	private _mouseout = null;
-	private _mouseup = null;
-	private _mousedown = null;
+	private _click: any = null;
+	private _mouseover: any = null;
+	private _mouseout: any = null;
+	private _mouseup: any = null;
+	private _mousedown: any = null;
 
 	constructor() {
 	}
@@ -83,20 +83,20 @@ export class Button {
 		this.swapClass(btn, simple + this.secondary, simple + this.primary);
 	}
 
-	ngOnChanges() {
+	ngOnChanges(changes: any) {
 		this.loadClasses();
 	}
 
         // Function to add css classes to the button
-	addClass(el, name: string) {
+	addClass(el: any, name: string) {
 		el.classList.add(name);
 	}
 
-	removeClass(el, name: string) {
+	removeClass(el: any, name: string) {
 		el.classList.remove(name);
 	}
 
-	swapClass(el, first: string, second: string) {
+	swapClass(el: any, first: string, second: string) {
 		if(el.classList.contains(first)) {
 			this.removeClass(el, first);
 			this.addClass(el, second);

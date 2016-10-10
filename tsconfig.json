@@ -1,21 +1,28 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "noImplicitAny": false,
-    "module": "commonjs",
-    "target": "ES5",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "declaration": false,
-    "outDir": "./dist"
-  },
-  "files": [
-    "typings/index.d.ts",
-    "src/index.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+    "compilerOptions": {
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "removeComments": false,
+        "sourceMap": true,
+        "target": "es5",
+        "outDir": "./dist"
+    },
+    "files": [
+        "dist/index.ts",
+        "typings/index.d.ts"
+    ],
+    "exclude": [
+      "node_modules",
+      ".build",
+      "src",
+      "dist",
+      "index.ts"
+    ],
+    "compileOnSave": false,
+    "buildOnSave": false,
+    "atom": { "rewriteTsconfig": false }
 }

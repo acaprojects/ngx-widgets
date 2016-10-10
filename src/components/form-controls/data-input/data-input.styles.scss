@@ -1,6 +1,4 @@
 
-@import '~bourbon/app/assets/stylesheets/bourbon';
-
 $green: #23CE6B;
 $red: #F64740;
 
@@ -57,10 +55,10 @@ $red: #F64740;
 				padding: 0;
 				background: none;
 				&.left {
-					padding-left: 1.5em; 
+					padding-left: 1.5em;
 				}
 				&.right {
-					padding-right: 1.5em; 
+					padding-right: 1.5em;
 				}
 			}
 

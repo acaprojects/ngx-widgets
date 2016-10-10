@@ -1,13 +1,13 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core'; 
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
-import { ModalService } from '../../modal.service';
+import { ModalService } from '../../../../services';
 import { Modal } from '../../modal.component';
 
 const PLACEHOLDER = '-';
 
 @Component({
-    selector: '[confirm-dialog]', 
-    styles: [ require('./confirm-dialog.styles.scss'), require('../../../global-styles/global-styles.scss') ],
+    selector: '[confirm-dialog]',
+    styleUrls: [ './confirm-dialog.styles.css', '../../../material-styles/material-styles.css' ],
     templateUrl: './confirm-dialog.template.html',
     animations: [
         trigger('backdrop', [
@@ -35,7 +35,7 @@ const PLACEHOLDER = '-';
 export class ConfirmDialog extends Modal {
 	confirm: any = { text: 'OK', fn: null };
 	cancel:  any = { text: 'CANCEL', fn: null };
-	
+
     @ViewChild('content') content: ElementRef;
 
     setParams(data: any) {

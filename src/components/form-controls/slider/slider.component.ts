@@ -6,10 +6,10 @@ declare let Hammer: any;
 @Component({
     selector: 'slider',
     templateUrl: './slider.template.html',
-    styles: [ require('./slider.styles.scss') ]
+    styleUrls: [ './slider.styles.css' ]
 })
 export class Slider {
-    @Input() align;
+    @Input() align: string;
     @Input() min: number = 0;
     @Input() max: number = 100;
     @Input() value: number = 0;
@@ -74,8 +74,8 @@ export class Slider {
         //*
         if(Hammer && this.bar && this.knob){
                 // Setup events via Hammer.js if it is included
-            let fn = (event) => {
-                let data;
+            let fn = (event: any) => {
+                let data: any;
                 data = {};
                 if(event.pointerType === 'mouse'){
                     data = event.srcEvent;
@@ -103,7 +103,7 @@ export class Slider {
         } else if(this.bar && this.knob){
                 //Setup Normal Events
                 //*
-            let fn = (event) => {
+            let fn = (event: any) => {
                 this.clickSlider(event);
             }
             this.bar.nativeElement.onmousedown = fn;
@@ -129,14 +129,14 @@ export class Slider {
 
     }
 
-    slideEnd(event) {
+    slideEnd(event: any) {
         document.onmousemove = null;
         document.onmouseup = null;
         document.ontouchmove = null;
         document.ontouchend = null;
     }
 
-    slideUpdate(event) {
+    slideUpdate(event: any) {
         if(this.align === 'vertical') {
             this.value = this.max - Math.round((event.relativePercentVertical/100 * (this.max - this.min)) + this.min);
         } else {
@@ -168,8 +168,8 @@ export class Slider {
         this.valueChange.emit(this.value);
     }
 
-    calcValue(event) {
-        let pos, percent;
+    calcValue(event: any) {
+        let pos: number, percent: number;
         if (this.align === 'horizontal') {
             pos = event.clientX - this.getBarOffset().x;
             percent = pos / this.bar.nativeElement.offsetWidth;
@@ -191,7 +191,7 @@ export class Slider {
         return Math.min(+this.max, Math.max(+this.min, (rounded + +this.min)));
     }
 
-   	checkStatus(e, i) {
+   	checkStatus(e: any, i: number) {
    		if(i > 3 || !this.space) return;
    		let visible = false;
    		let el = this.space.nativeElement;
@@ -207,7 +207,7 @@ export class Slider {
    	}
 
 
-    clickSlider(event) {
+    clickSlider(event: any) {
         if(document.onmousemove !== null) return;
         this.value = this.calcValue(event);
         this.updateValue();
@@ -219,13 +219,13 @@ export class Slider {
         };
     }
 
-    moveSlider(event){
+    moveSlider(event: any){
         let prev = this.value;
         this.value = this.calcValue(event);
         this.refresh();
     }
 
-    sliderStop(event){
+    sliderStop(event: any){
         this.slideEnd(event);
         this.refresh();
     }

@@ -2,17 +2,14 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef} from '@a
 import { ComponentRef, ViewContainerRef, ComponentFactoryResolver }  from '@angular/core';
 import { AfterViewInit, OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } 	 from '@angular/core';
-import { RuntimeCompiler }                                       	 from "@angular/compiler";
-import * as _ from 'lodash';
-import { ModalService } from './modal.service';
 
-import { IHaveDynamicData, DynamicTypeBuilder } from '../dynamic/type.builder';
+import { ModalService, IHaveDynamicData, DynamicTypeBuilder } from '../../services';
 
 const PLACEHOLDER = '-';
 
 @Component({
     selector: 'modal',
-    styles: [ require('./modal.style.scss'), require('../global-styles/global-styles.scss') ],
+    styleUrls: [ './modal.style.css', '../material-styles/material-styles.css' ],
     templateUrl: './modal.template.html',
     animations: [
         trigger('backdrop', [
@@ -37,7 +34,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     @Input() title: string = 'Modal Title';
     @Input() size: string;
     @Input() data: any;
-    @Input() cssClass: any;
+    @Input() cssClass: string = 'default';
     @Input() close: boolean = true;
     @Input() styles: string[] = [];
     @Input() options: any[] = [];
@@ -47,8 +44,8 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     @Output() dataChange = new EventEmitter();
     @Output('open') openEvent = new EventEmitter();
     @Output('close') closeEvent = new EventEmitter();
-    @ViewChild('modal') protected modal: ElementRef;
-    @ViewChild('content', { read: ViewContainerRef }) protected _content: ViewContainerRef;
+    @ViewChild('modal') public modal: ElementRef;
+    @ViewChild('content', { read: ViewContainerRef }) public _content: ViewContainerRef;
 
     modal_box: any;
     state: string = 'show';
@@ -67,9 +64,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     display_height: number = 12;
 
     constructor(
-    	protected _cfr: ComponentFactoryResolver,
-        protected typeBuilder: DynamicTypeBuilder,
-        protected compiler: RuntimeCompiler
+    	public _cfr: ComponentFactoryResolver
     ) {
         this.options.push({ 'text': 'Ok', 'fn': null });
         this.options.push({ 'text': 'Cancel', 'fn': null });
@@ -101,36 +96,35 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    protected blockScroll(e) {
+    public blockScroll(e: Event) {
         e.stopPropagation();
         e.preventDefault();
     }
 
-    protected buildContents() {
-    	if(this.html && this.html !== '') {
-    		let template = this.typeBuilder.createComponentAndModule(this.html);
-    		this.renderTemplate(template);
-    	} else if(this.component){
+    public buildContents() {
+        if(this.component !== undefined && this.component !== null){
     		let factory = this._cfr.resolveComponentFactory(this.component);
-    		this.render(factory);
+            if(factory) this.render(factory);
+            else console.log('Unable to find factory for: ', this.component);
     	}
     }
 
-    protected renderTemplate(result: { type: any, module: any }) {
+    public renderTemplate(result: { type: any, module: any }) {
       	let componentType = result.type;
       	let runtimeModule = result.module
-
+        /*
       	// Compile module
       	this.compiler
         	.compileModuleAndAllComponentsAsync(runtimeModule)
         	.then((moduleWithFactories) => {
-            	let factory = _.find(moduleWithFactories.componentFactories, { componentType: componentType });
+            	//let factory = _.find(moduleWithFactories.componentFactories, { componentType: componentType });
             	// Target will instantiate and inject component (we'll keep reference to it)
-            	this.render(factory);
+            	//this.render(factory);
         	}, (err) => {});
+            //*/
     }
 
-    protected render(factory: any) {
+    public render(factory: any) {
     	if(this.contentRef) {
     		this.contentRef.destroy();
     	}
@@ -139,11 +133,11 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         // let's inject @Inputs to component instance
         this.content_instance = this.contentRef.instance;
         this.content_instance.entity = this.data.data;
-        this.content_instance.entity.close = (cb) => { this.close_fn(cb) };
+        this.content_instance.entity.close = (cb: Function) => { this.close_fn(cb) };
 
     }
 
-    protected onPointer(event) {
+    public onPointer(event: any) {
   		if (event.stopPropagation) event.stopPropagation();
 		else event.cancelBubble = true;
         if(!this.close || !this.modal) return;
@@ -159,12 +153,13 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    protected setData(data: any) {
+    public setData(data: any) {
         this.data = data;
     }
 
-    protected setParams(data: any) {
+    public setParams(data: any) {
         if(data) {
+            console.log(data);
 	    	this.data = data;
 	    	if(this.content_instance) this.content_instance.entity = this.data;
             if(data.title) this.title = data.title;
@@ -184,13 +179,13 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    protected setCallback(cb_fn: Function) {
+    public setCallback(cb_fn: Function) {
         if(cb_fn) {
             this.cb_fn = cb_fn;
         }
     }
 
-    protected close_fn(cb_fn?: Function) {
+    public close_fn(cb_fn?: Function) {
         this.state = 'hide';
         setTimeout(() => {
             if(cb_fn) cb_fn();
@@ -200,7 +195,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         }, 500);
     }
 
-    protected open() {
+    public open() {
         this.state = 'show';
         setTimeout(() => { this.openEvent.emit(null); }, 500);
     }
@@ -212,7 +207,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     public select(btn: {text:string, fn:Function}) {
         if(this.content_instance) this.data = this.content_instance.entity;
         this.dataChange.emit(this.data);
-        let fn = (ok, err) => {
+        let fn = (ok: any, err: any) => {
             if(!err) this.close_fn();
             else {
                 this.error = true;

@@ -2,38 +2,39 @@ import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } f
 import { trigger, transition, animate, style, state, group, keyframes } from '@angular/core';
 
 import { ACA_Animate } from '../../services/animate.service';
-import { MapService } from './map.service';
+import { MapService } from '../../services';
 
 declare let Hammer: any;
 
 const ZOOM_LIMIT = 1000;
 const PADDING = 50;
-
+/*
 const zoom_anim = (function() {
 	let base = 50;
 	let space = 1;
 	let max = ZOOM_LIMIT;
 	let time = '50ms ease-in-out';
-	let animation = [];
+	let animation: any[] = [];
     	// Create States
 	for(let i = base; i < max; i += space) {
 			//Width
 		let pos = i;
-		animation.push(state(i.toString(),   style({'transform': 'scale(' + pos/100 + ')'})));
+		animation.push(`state('${i.toString()}',   style({'transform': 'scale(${pos/100})'}))`);
 	}
 		// Add transition
-	animation.push(transition('* <=> *', animate(time) ));
-	animation.push(transition('void => *', []));
-	return animation;
 })();
-
+//*/
 
 @Component({
     selector: 'interactive-map',
     templateUrl: './map.template.html',
-    styles: [ require('./map.styles.scss') ],
+    styleUrls: [ './map.styles.css' ],
     animations: [
-        trigger('zoom', zoom_anim),
+        trigger('zoom', [
+			state('50',   style({'transform': 'scale(0.5)'})),state('51',   style({'transform': 'scale(0.51)'})),state('52',   style({'transform': 'scale(0.52)'})),state('53',   style({'transform': 'scale(0.53)'})),state('54',   style({'transform': 'scale(0.54)'})),state('55',   style({'transform': 'scale(0.55)'})),state('56',   style({'transform': 'scale(0.56)'})),state('57',   style({'transform': 'scale(0.57)'})),state('58',   style({'transform': 'scale(0.58)'})),state('59',   style({'transform': 'scale(0.59)'})),state('60',   style({'transform': 'scale(0.6)'})),state('61',   style({'transform': 'scale(0.61)'})),state('62',   style({'transform': 'scale(0.62)'})),state('63',   style({'transform': 'scale(0.63)'})),state('64',   style({'transform': 'scale(0.64)'})),state('65',   style({'transform': 'scale(0.65)'})),state('66',   style({'transform': 'scale(0.66)'})),state('67',   style({'transform': 'scale(0.67)'})),state('68',   style({'transform': 'scale(0.68)'})),state('69',   style({'transform': 'scale(0.69)'})),state('70',   style({'transform': 'scale(0.7)'})),state('71',   style({'transform': 'scale(0.71)'})),state('72',   style({'transform': 'scale(0.72)'})),state('73',   style({'transform': 'scale(0.73)'})),state('74',   style({'transform': 'scale(0.74)'})),state('75',   style({'transform': 'scale(0.75)'})),state('76',   style({'transform': 'scale(0.76)'})),state('77',   style({'transform': 'scale(0.77)'})),state('78',   style({'transform': 'scale(0.78)'})),state('79',   style({'transform': 'scale(0.79)'})),state('80',   style({'transform': 'scale(0.8)'})),state('81',   style({'transform': 'scale(0.81)'})),state('82',   style({'transform': 'scale(0.82)'})),state('83',   style({'transform': 'scale(0.83)'})),state('84',   style({'transform': 'scale(0.84)'})),state('85',   style({'transform': 'scale(0.85)'})),state('86',   style({'transform': 'scale(0.86)'})),state('87',   style({'transform': 'scale(0.87)'})),state('88',   style({'transform': 'scale(0.88)'})),state('89',   style({'transform': 'scale(0.89)'})),state('90',   style({'transform': 'scale(0.9)'})),state('91',   style({'transform': 'scale(0.91)'})),state('92',   style({'transform': 'scale(0.92)'})),state('93',   style({'transform': 'scale(0.93)'})),state('94',   style({'transform': 'scale(0.94)'})),state('95',   style({'transform': 'scale(0.95)'})),state('96',   style({'transform': 'scale(0.96)'})),state('97',   style({'transform': 'scale(0.97)'})),state('98',   style({'transform': 'scale(0.98)'})),state('99',   style({'transform': 'scale(0.99)'})),state('100',   style({'transform': 'scale(1)'})),state('101',   style({'transform': 'scale(1.01)'})),state('102',   style({'transform': 'scale(1.02)'})),state('103',   style({'transform': 'scale(1.03)'})),state('104',   style({'transform': 'scale(1.04)'})),state('105',   style({'transform': 'scale(1.05)'})),state('106',   style({'transform': 'scale(1.06)'})),state('107',   style({'transform': 'scale(1.07)'})),state('108',   style({'transform': 'scale(1.08)'})),state('109',   style({'transform': 'scale(1.09)'})),state('110',   style({'transform': 'scale(1.1)'})),state('111',   style({'transform': 'scale(1.11)'})),state('112',   style({'transform': 'scale(1.12)'})),state('113',   style({'transform': 'scale(1.13)'})),state('114',   style({'transform': 'scale(1.14)'})),state('115',   style({'transform': 'scale(1.15)'})),state('116',   style({'transform': 'scale(1.16)'})),state('117',   style({'transform': 'scale(1.17)'})),state('118',   style({'transform': 'scale(1.18)'})),state('119',   style({'transform': 'scale(1.19)'})),state('120',   style({'transform': 'scale(1.2)'})),state('121',   style({'transform': 'scale(1.21)'})),state('122',   style({'transform': 'scale(1.22)'})),state('123',   style({'transform': 'scale(1.23)'})),state('124',   style({'transform': 'scale(1.24)'})),state('125',   style({'transform': 'scale(1.25)'})),state('126',   style({'transform': 'scale(1.26)'})),state('127',   style({'transform': 'scale(1.27)'})),state('128',   style({'transform': 'scale(1.28)'})),state('129',   style({'transform': 'scale(1.29)'})),state('130',   style({'transform': 'scale(1.3)'})),state('131',   style({'transform': 'scale(1.31)'})),state('132',   style({'transform': 'scale(1.32)'})),state('133',   style({'transform': 'scale(1.33)'})),state('134',   style({'transform': 'scale(1.34)'})),state('135',   style({'transform': 'scale(1.35)'})),state('136',   style({'transform': 'scale(1.36)'})),state('137',   style({'transform': 'scale(1.37)'})),state('138',   style({'transform': 'scale(1.38)'})),state('139',   style({'transform': 'scale(1.39)'})),state('140',   style({'transform': 'scale(1.4)'})),state('141',   style({'transform': 'scale(1.41)'})),state('142',   style({'transform': 'scale(1.42)'})),state('143',   style({'transform': 'scale(1.43)'})),state('144',   style({'transform': 'scale(1.44)'})),state('145',   style({'transform': 'scale(1.45)'})),state('146',   style({'transform': 'scale(1.46)'})),state('147',   style({'transform': 'scale(1.47)'})),state('148',   style({'transform': 'scale(1.48)'})),state('149',   style({'transform': 'scale(1.49)'})),state('150',   style({'transform': 'scale(1.5)'})),state('151',   style({'transform': 'scale(1.51)'})),state('152',   style({'transform': 'scale(1.52)'})),state('153',   style({'transform': 'scale(1.53)'})),state('154',   style({'transform': 'scale(1.54)'})),state('155',   style({'transform': 'scale(1.55)'})),state('156',   style({'transform': 'scale(1.56)'})),state('157',   style({'transform': 'scale(1.57)'})),state('158',   style({'transform': 'scale(1.58)'})),state('159',   style({'transform': 'scale(1.59)'})),state('160',   style({'transform': 'scale(1.6)'})),state('161',   style({'transform': 'scale(1.61)'})),state('162',   style({'transform': 'scale(1.62)'})),state('163',   style({'transform': 'scale(1.63)'})),state('164',   style({'transform': 'scale(1.64)'})),state('165',   style({'transform': 'scale(1.65)'})),state('166',   style({'transform': 'scale(1.66)'})),state('167',   style({'transform': 'scale(1.67)'})),state('168',   style({'transform': 'scale(1.68)'})),state('169',   style({'transform': 'scale(1.69)'})),state('170',   style({'transform': 'scale(1.7)'})),state('171',   style({'transform': 'scale(1.71)'})),state('172',   style({'transform': 'scale(1.72)'})),state('173',   style({'transform': 'scale(1.73)'})),state('174',   style({'transform': 'scale(1.74)'})),state('175',   style({'transform': 'scale(1.75)'})),state('176',   style({'transform': 'scale(1.76)'})),state('177',   style({'transform': 'scale(1.77)'})),state('178',   style({'transform': 'scale(1.78)'})),state('179',   style({'transform': 'scale(1.79)'})),state('180',   style({'transform': 'scale(1.8)'})),state('181',   style({'transform': 'scale(1.81)'})),state('182',   style({'transform': 'scale(1.82)'})),state('183',   style({'transform': 'scale(1.83)'})),state('184',   style({'transform': 'scale(1.84)'})),state('185',   style({'transform': 'scale(1.85)'})),state('186',   style({'transform': 'scale(1.86)'})),state('187',   style({'transform': 'scale(1.87)'})),state('188',   style({'transform': 'scale(1.88)'})),state('189',   style({'transform': 'scale(1.89)'})),state('190',   style({'transform': 'scale(1.9)'})),state('191',   style({'transform': 'scale(1.91)'})),state('192',   style({'transform': 'scale(1.92)'})),state('193',   style({'transform': 'scale(1.93)'})),state('194',   style({'transform': 'scale(1.94)'})),state('195',   style({'transform': 'scale(1.95)'})),state('196',   style({'transform': 'scale(1.96)'})),state('197',   style({'transform': 'scale(1.97)'})),state('198',   style({'transform': 'scale(1.98)'})),state('199',   style({'transform': 'scale(1.99)'})),state('200',   style({'transform': 'scale(2)'})),state('201',   style({'transform': 'scale(2.01)'})),state('202',   style({'transform': 'scale(2.02)'})),state('203',   style({'transform': 'scale(2.03)'})),state('204',   style({'transform': 'scale(2.04)'})),state('205',   style({'transform': 'scale(2.05)'})),state('206',   style({'transform': 'scale(2.06)'})),state('207',   style({'transform': 'scale(2.07)'})),state('208',   style({'transform': 'scale(2.08)'})),state('209',   style({'transform': 'scale(2.09)'})),state('210',   style({'transform': 'scale(2.1)'})),state('211',   style({'transform': 'scale(2.11)'})),state('212',   style({'transform': 'scale(2.12)'})),state('213',   style({'transform': 'scale(2.13)'})),state('214',   style({'transform': 'scale(2.14)'})),state('215',   style({'transform': 'scale(2.15)'})),state('216',   style({'transform': 'scale(2.16)'})),state('217',   style({'transform': 'scale(2.17)'})),state('218',   style({'transform': 'scale(2.18)'})),state('219',   style({'transform': 'scale(2.19)'})),state('220',   style({'transform': 'scale(2.2)'})),state('221',   style({'transform': 'scale(2.21)'})),state('222',   style({'transform': 'scale(2.22)'})),state('223',   style({'transform': 'scale(2.23)'})),state('224',   style({'transform': 'scale(2.24)'})),state('225',   style({'transform': 'scale(2.25)'})),state('226',   style({'transform': 'scale(2.26)'})),state('227',   style({'transform': 'scale(2.27)'})),state('228',   style({'transform': 'scale(2.28)'})),state('229',   style({'transform': 'scale(2.29)'})),state('230',   style({'transform': 'scale(2.3)'})),state('231',   style({'transform': 'scale(2.31)'})),state('232',   style({'transform': 'scale(2.32)'})),state('233',   style({'transform': 'scale(2.33)'})),state('234',   style({'transform': 'scale(2.34)'})),state('235',   style({'transform': 'scale(2.35)'})),state('236',   style({'transform': 'scale(2.36)'})),state('237',   style({'transform': 'scale(2.37)'})),state('238',   style({'transform': 'scale(2.38)'})),state('239',   style({'transform': 'scale(2.39)'})),state('240',   style({'transform': 'scale(2.4)'})),state('241',   style({'transform': 'scale(2.41)'})),state('242',   style({'transform': 'scale(2.42)'})),state('243',   style({'transform': 'scale(2.43)'})),state('244',   style({'transform': 'scale(2.44)'})),state('245',   style({'transform': 'scale(2.45)'})),state('246',   style({'transform': 'scale(2.46)'})),state('247',   style({'transform': 'scale(2.47)'})),state('248',   style({'transform': 'scale(2.48)'})),state('249',   style({'transform': 'scale(2.49)'})),state('250',   style({'transform': 'scale(2.5)'})),state('251',   style({'transform': 'scale(2.51)'})),state('252',   style({'transform': 'scale(2.52)'})),state('253',   style({'transform': 'scale(2.53)'})),state('254',   style({'transform': 'scale(2.54)'})),state('255',   style({'transform': 'scale(2.55)'})),state('256',   style({'transform': 'scale(2.56)'})),state('257',   style({'transform': 'scale(2.57)'})),state('258',   style({'transform': 'scale(2.58)'})),state('259',   style({'transform': 'scale(2.59)'})),state('260',   style({'transform': 'scale(2.6)'})),state('261',   style({'transform': 'scale(2.61)'})),state('262',   style({'transform': 'scale(2.62)'})),state('263',   style({'transform': 'scale(2.63)'})),state('264',   style({'transform': 'scale(2.64)'})),state('265',   style({'transform': 'scale(2.65)'})),state('266',   style({'transform': 'scale(2.66)'})),state('267',   style({'transform': 'scale(2.67)'})),state('268',   style({'transform': 'scale(2.68)'})),state('269',   style({'transform': 'scale(2.69)'})),state('270',   style({'transform': 'scale(2.7)'})),state('271',   style({'transform': 'scale(2.71)'})),state('272',   style({'transform': 'scale(2.72)'})),state('273',   style({'transform': 'scale(2.73)'})),state('274',   style({'transform': 'scale(2.74)'})),state('275',   style({'transform': 'scale(2.75)'})),state('276',   style({'transform': 'scale(2.76)'})),state('277',   style({'transform': 'scale(2.77)'})),state('278',   style({'transform': 'scale(2.78)'})),state('279',   style({'transform': 'scale(2.79)'})),state('280',   style({'transform': 'scale(2.8)'})),state('281',   style({'transform': 'scale(2.81)'})),state('282',   style({'transform': 'scale(2.82)'})),state('283',   style({'transform': 'scale(2.83)'})),state('284',   style({'transform': 'scale(2.84)'})),state('285',   style({'transform': 'scale(2.85)'})),state('286',   style({'transform': 'scale(2.86)'})),state('287',   style({'transform': 'scale(2.87)'})),state('288',   style({'transform': 'scale(2.88)'})),state('289',   style({'transform': 'scale(2.89)'})),state('290',   style({'transform': 'scale(2.9)'})),state('291',   style({'transform': 'scale(2.91)'})),state('292',   style({'transform': 'scale(2.92)'})),state('293',   style({'transform': 'scale(2.93)'})),state('294',   style({'transform': 'scale(2.94)'})),state('295',   style({'transform': 'scale(2.95)'})),state('296',   style({'transform': 'scale(2.96)'})),state('297',   style({'transform': 'scale(2.97)'})),state('298',   style({'transform': 'scale(2.98)'})),state('299',   style({'transform': 'scale(2.99)'})),state('300',   style({'transform': 'scale(3)'})),state('301',   style({'transform': 'scale(3.01)'})),state('302',   style({'transform': 'scale(3.02)'})),state('303',   style({'transform': 'scale(3.03)'})),state('304',   style({'transform': 'scale(3.04)'})),state('305',   style({'transform': 'scale(3.05)'})),state('306',   style({'transform': 'scale(3.06)'})),state('307',   style({'transform': 'scale(3.07)'})),state('308',   style({'transform': 'scale(3.08)'})),state('309',   style({'transform': 'scale(3.09)'})),state('310',   style({'transform': 'scale(3.1)'})),state('311',   style({'transform': 'scale(3.11)'})),state('312',   style({'transform': 'scale(3.12)'})),state('313',   style({'transform': 'scale(3.13)'})),state('314',   style({'transform': 'scale(3.14)'})),state('315',   style({'transform': 'scale(3.15)'})),state('316',   style({'transform': 'scale(3.16)'})),state('317',   style({'transform': 'scale(3.17)'})),state('318',   style({'transform': 'scale(3.18)'})),state('319',   style({'transform': 'scale(3.19)'})),state('320',   style({'transform': 'scale(3.2)'})),state('321',   style({'transform': 'scale(3.21)'})),state('322',   style({'transform': 'scale(3.22)'})),state('323',   style({'transform': 'scale(3.23)'})),state('324',   style({'transform': 'scale(3.24)'})),state('325',   style({'transform': 'scale(3.25)'})),state('326',   style({'transform': 'scale(3.26)'})),state('327',   style({'transform': 'scale(3.27)'})),state('328',   style({'transform': 'scale(3.28)'})),state('329',   style({'transform': 'scale(3.29)'})),state('330',   style({'transform': 'scale(3.3)'})),state('331',   style({'transform': 'scale(3.31)'})),state('332',   style({'transform': 'scale(3.32)'})),state('333',   style({'transform': 'scale(3.33)'})),state('334',   style({'transform': 'scale(3.34)'})),state('335',   style({'transform': 'scale(3.35)'})),state('336',   style({'transform': 'scale(3.36)'})),state('337',   style({'transform': 'scale(3.37)'})),state('338',   style({'transform': 'scale(3.38)'})),state('339',   style({'transform': 'scale(3.39)'})),state('340',   style({'transform': 'scale(3.4)'})),state('341',   style({'transform': 'scale(3.41)'})),state('342',   style({'transform': 'scale(3.42)'})),state('343',   style({'transform': 'scale(3.43)'})),state('344',   style({'transform': 'scale(3.44)'})),state('345',   style({'transform': 'scale(3.45)'})),state('346',   style({'transform': 'scale(3.46)'})),state('347',   style({'transform': 'scale(3.47)'})),state('348',   style({'transform': 'scale(3.48)'})),state('349',   style({'transform': 'scale(3.49)'})),state('350',   style({'transform': 'scale(3.5)'})),state('351',   style({'transform': 'scale(3.51)'})),state('352',   style({'transform': 'scale(3.52)'})),state('353',   style({'transform': 'scale(3.53)'})),state('354',   style({'transform': 'scale(3.54)'})),state('355',   style({'transform': 'scale(3.55)'})),state('356',   style({'transform': 'scale(3.56)'})),state('357',   style({'transform': 'scale(3.57)'})),state('358',   style({'transform': 'scale(3.58)'})),state('359',   style({'transform': 'scale(3.59)'})),state('360',   style({'transform': 'scale(3.6)'})),state('361',   style({'transform': 'scale(3.61)'})),state('362',   style({'transform': 'scale(3.62)'})),state('363',   style({'transform': 'scale(3.63)'})),state('364',   style({'transform': 'scale(3.64)'})),state('365',   style({'transform': 'scale(3.65)'})),state('366',   style({'transform': 'scale(3.66)'})),state('367',   style({'transform': 'scale(3.67)'})),state('368',   style({'transform': 'scale(3.68)'})),state('369',   style({'transform': 'scale(3.69)'})),state('370',   style({'transform': 'scale(3.7)'})),state('371',   style({'transform': 'scale(3.71)'})),state('372',   style({'transform': 'scale(3.72)'})),state('373',   style({'transform': 'scale(3.73)'})),state('374',   style({'transform': 'scale(3.74)'})),state('375',   style({'transform': 'scale(3.75)'})),state('376',   style({'transform': 'scale(3.76)'})),state('377',   style({'transform': 'scale(3.77)'})),state('378',   style({'transform': 'scale(3.78)'})),state('379',   style({'transform': 'scale(3.79)'})),state('380',   style({'transform': 'scale(3.8)'})),state('381',   style({'transform': 'scale(3.81)'})),state('382',   style({'transform': 'scale(3.82)'})),state('383',   style({'transform': 'scale(3.83)'})),state('384',   style({'transform': 'scale(3.84)'})),state('385',   style({'transform': 'scale(3.85)'})),state('386',   style({'transform': 'scale(3.86)'})),state('387',   style({'transform': 'scale(3.87)'})),state('388',   style({'transform': 'scale(3.88)'})),state('389',   style({'transform': 'scale(3.89)'})),state('390',   style({'transform': 'scale(3.9)'})),state('391',   style({'transform': 'scale(3.91)'})),state('392',   style({'transform': 'scale(3.92)'})),state('393',   style({'transform': 'scale(3.93)'})),state('394',   style({'transform': 'scale(3.94)'})),state('395',   style({'transform': 'scale(3.95)'})),state('396',   style({'transform': 'scale(3.96)'})),state('397',   style({'transform': 'scale(3.97)'})),state('398',   style({'transform': 'scale(3.98)'})),state('399',   style({'transform': 'scale(3.99)'})),state('400',   style({'transform': 'scale(4)'})),state('401',   style({'transform': 'scale(4.01)'})),state('402',   style({'transform': 'scale(4.02)'})),state('403',   style({'transform': 'scale(4.03)'})),state('404',   style({'transform': 'scale(4.04)'})),state('405',   style({'transform': 'scale(4.05)'})),state('406',   style({'transform': 'scale(4.06)'})),state('407',   style({'transform': 'scale(4.07)'})),state('408',   style({'transform': 'scale(4.08)'})),state('409',   style({'transform': 'scale(4.09)'})),state('410',   style({'transform': 'scale(4.1)'})),state('411',   style({'transform': 'scale(4.11)'})),state('412',   style({'transform': 'scale(4.12)'})),state('413',   style({'transform': 'scale(4.13)'})),state('414',   style({'transform': 'scale(4.14)'})),state('415',   style({'transform': 'scale(4.15)'})),state('416',   style({'transform': 'scale(4.16)'})),state('417',   style({'transform': 'scale(4.17)'})),state('418',   style({'transform': 'scale(4.18)'})),state('419',   style({'transform': 'scale(4.19)'})),state('420',   style({'transform': 'scale(4.2)'})),state('421',   style({'transform': 'scale(4.21)'})),state('422',   style({'transform': 'scale(4.22)'})),state('423',   style({'transform': 'scale(4.23)'})),state('424',   style({'transform': 'scale(4.24)'})),state('425',   style({'transform': 'scale(4.25)'})),state('426',   style({'transform': 'scale(4.26)'})),state('427',   style({'transform': 'scale(4.27)'})),state('428',   style({'transform': 'scale(4.28)'})),state('429',   style({'transform': 'scale(4.29)'})),state('430',   style({'transform': 'scale(4.3)'})),state('431',   style({'transform': 'scale(4.31)'})),state('432',   style({'transform': 'scale(4.32)'})),state('433',   style({'transform': 'scale(4.33)'})),state('434',   style({'transform': 'scale(4.34)'})),state('435',   style({'transform': 'scale(4.35)'})),state('436',   style({'transform': 'scale(4.36)'})),state('437',   style({'transform': 'scale(4.37)'})),state('438',   style({'transform': 'scale(4.38)'})),state('439',   style({'transform': 'scale(4.39)'})),state('440',   style({'transform': 'scale(4.4)'})),state('441',   style({'transform': 'scale(4.41)'})),state('442',   style({'transform': 'scale(4.42)'})),state('443',   style({'transform': 'scale(4.43)'})),state('444',   style({'transform': 'scale(4.44)'})),state('445',   style({'transform': 'scale(4.45)'})),state('446',   style({'transform': 'scale(4.46)'})),state('447',   style({'transform': 'scale(4.47)'})),state('448',   style({'transform': 'scale(4.48)'})),state('449',   style({'transform': 'scale(4.49)'})),state('450',   style({'transform': 'scale(4.5)'})),state('451',   style({'transform': 'scale(4.51)'})),state('452',   style({'transform': 'scale(4.52)'})),state('453',   style({'transform': 'scale(4.53)'})),state('454',   style({'transform': 'scale(4.54)'})),state('455',   style({'transform': 'scale(4.55)'})),state('456',   style({'transform': 'scale(4.56)'})),state('457',   style({'transform': 'scale(4.57)'})),state('458',   style({'transform': 'scale(4.58)'})),state('459',   style({'transform': 'scale(4.59)'})),state('460',   style({'transform': 'scale(4.6)'})),state('461',   style({'transform': 'scale(4.61)'})),state('462',   style({'transform': 'scale(4.62)'})),state('463',   style({'transform': 'scale(4.63)'})),state('464',   style({'transform': 'scale(4.64)'})),state('465',   style({'transform': 'scale(4.65)'})),state('466',   style({'transform': 'scale(4.66)'})),state('467',   style({'transform': 'scale(4.67)'})),state('468',   style({'transform': 'scale(4.68)'})),state('469',   style({'transform': 'scale(4.69)'})),state('470',   style({'transform': 'scale(4.7)'})),state('471',   style({'transform': 'scale(4.71)'})),state('472',   style({'transform': 'scale(4.72)'})),state('473',   style({'transform': 'scale(4.73)'})),state('474',   style({'transform': 'scale(4.74)'})),state('475',   style({'transform': 'scale(4.75)'})),state('476',   style({'transform': 'scale(4.76)'})),state('477',   style({'transform': 'scale(4.77)'})),state('478',   style({'transform': 'scale(4.78)'})),state('479',   style({'transform': 'scale(4.79)'})),state('480',   style({'transform': 'scale(4.8)'})),state('481',   style({'transform': 'scale(4.81)'})),state('482',   style({'transform': 'scale(4.82)'})),state('483',   style({'transform': 'scale(4.83)'})),state('484',   style({'transform': 'scale(4.84)'})),state('485',   style({'transform': 'scale(4.85)'})),state('486',   style({'transform': 'scale(4.86)'})),state('487',   style({'transform': 'scale(4.87)'})),state('488',   style({'transform': 'scale(4.88)'})),state('489',   style({'transform': 'scale(4.89)'})),state('490',   style({'transform': 'scale(4.9)'})),state('491',   style({'transform': 'scale(4.91)'})),state('492',   style({'transform': 'scale(4.92)'})),state('493',   style({'transform': 'scale(4.93)'})),state('494',   style({'transform': 'scale(4.94)'})),state('495',   style({'transform': 'scale(4.95)'})),state('496',   style({'transform': 'scale(4.96)'})),state('497',   style({'transform': 'scale(4.97)'})),state('498',   style({'transform': 'scale(4.98)'})),state('499',   style({'transform': 'scale(4.99)'})),state('500',   style({'transform': 'scale(5)'})),state('501',   style({'transform': 'scale(5.01)'})),state('502',   style({'transform': 'scale(5.02)'})),state('503',   style({'transform': 'scale(5.03)'})),state('504',   style({'transform': 'scale(5.04)'})),state('505',   style({'transform': 'scale(5.05)'})),state('506',   style({'transform': 'scale(5.06)'})),state('507',   style({'transform': 'scale(5.07)'})),state('508',   style({'transform': 'scale(5.08)'})),state('509',   style({'transform': 'scale(5.09)'})),state('510',   style({'transform': 'scale(5.1)'})),state('511',   style({'transform': 'scale(5.11)'})),state('512',   style({'transform': 'scale(5.12)'})),state('513',   style({'transform': 'scale(5.13)'})),state('514',   style({'transform': 'scale(5.14)'})),state('515',   style({'transform': 'scale(5.15)'})),state('516',   style({'transform': 'scale(5.16)'})),state('517',   style({'transform': 'scale(5.17)'})),state('518',   style({'transform': 'scale(5.18)'})),state('519',   style({'transform': 'scale(5.19)'})),state('520',   style({'transform': 'scale(5.2)'})),state('521',   style({'transform': 'scale(5.21)'})),state('522',   style({'transform': 'scale(5.22)'})),state('523',   style({'transform': 'scale(5.23)'})),state('524',   style({'transform': 'scale(5.24)'})),state('525',   style({'transform': 'scale(5.25)'})),state('526',   style({'transform': 'scale(5.26)'})),state('527',   style({'transform': 'scale(5.27)'})),state('528',   style({'transform': 'scale(5.28)'})),state('529',   style({'transform': 'scale(5.29)'})),state('530',   style({'transform': 'scale(5.3)'})),state('531',   style({'transform': 'scale(5.31)'})),state('532',   style({'transform': 'scale(5.32)'})),state('533',   style({'transform': 'scale(5.33)'})),state('534',   style({'transform': 'scale(5.34)'})),state('535',   style({'transform': 'scale(5.35)'})),state('536',   style({'transform': 'scale(5.36)'})),state('537',   style({'transform': 'scale(5.37)'})),state('538',   style({'transform': 'scale(5.38)'})),state('539',   style({'transform': 'scale(5.39)'})),state('540',   style({'transform': 'scale(5.4)'})),state('541',   style({'transform': 'scale(5.41)'})),state('542',   style({'transform': 'scale(5.42)'})),state('543',   style({'transform': 'scale(5.43)'})),state('544',   style({'transform': 'scale(5.44)'})),state('545',   style({'transform': 'scale(5.45)'})),state('546',   style({'transform': 'scale(5.46)'})),state('547',   style({'transform': 'scale(5.47)'})),state('548',   style({'transform': 'scale(5.48)'})),state('549',   style({'transform': 'scale(5.49)'})),state('550',   style({'transform': 'scale(5.5)'})),state('551',   style({'transform': 'scale(5.51)'})),state('552',   style({'transform': 'scale(5.52)'})),state('553',   style({'transform': 'scale(5.53)'})),state('554',   style({'transform': 'scale(5.54)'})),state('555',   style({'transform': 'scale(5.55)'})),state('556',   style({'transform': 'scale(5.56)'})),state('557',   style({'transform': 'scale(5.57)'})),state('558',   style({'transform': 'scale(5.58)'})),state('559',   style({'transform': 'scale(5.59)'})),state('560',   style({'transform': 'scale(5.6)'})),state('561',   style({'transform': 'scale(5.61)'})),state('562',   style({'transform': 'scale(5.62)'})),state('563',   style({'transform': 'scale(5.63)'})),state('564',   style({'transform': 'scale(5.64)'})),state('565',   style({'transform': 'scale(5.65)'})),state('566',   style({'transform': 'scale(5.66)'})),state('567',   style({'transform': 'scale(5.67)'})),state('568',   style({'transform': 'scale(5.68)'})),state('569',   style({'transform': 'scale(5.69)'})),state('570',   style({'transform': 'scale(5.7)'})),state('571',   style({'transform': 'scale(5.71)'})),state('572',   style({'transform': 'scale(5.72)'})),state('573',   style({'transform': 'scale(5.73)'})),state('574',   style({'transform': 'scale(5.74)'})),state('575',   style({'transform': 'scale(5.75)'})),state('576',   style({'transform': 'scale(5.76)'})),state('577',   style({'transform': 'scale(5.77)'})),state('578',   style({'transform': 'scale(5.78)'})),state('579',   style({'transform': 'scale(5.79)'})),state('580',   style({'transform': 'scale(5.8)'})),state('581',   style({'transform': 'scale(5.81)'})),state('582',   style({'transform': 'scale(5.82)'})),state('583',   style({'transform': 'scale(5.83)'})),state('584',   style({'transform': 'scale(5.84)'})),state('585',   style({'transform': 'scale(5.85)'})),state('586',   style({'transform': 'scale(5.86)'})),state('587',   style({'transform': 'scale(5.87)'})),state('588',   style({'transform': 'scale(5.88)'})),state('589',   style({'transform': 'scale(5.89)'})),state('590',   style({'transform': 'scale(5.9)'})),state('591',   style({'transform': 'scale(5.91)'})),state('592',   style({'transform': 'scale(5.92)'})),state('593',   style({'transform': 'scale(5.93)'})),state('594',   style({'transform': 'scale(5.94)'})),state('595',   style({'transform': 'scale(5.95)'})),state('596',   style({'transform': 'scale(5.96)'})),state('597',   style({'transform': 'scale(5.97)'})),state('598',   style({'transform': 'scale(5.98)'})),state('599',   style({'transform': 'scale(5.99)'})),state('600',   style({'transform': 'scale(6)'})),state('601',   style({'transform': 'scale(6.01)'})),state('602',   style({'transform': 'scale(6.02)'})),state('603',   style({'transform': 'scale(6.03)'})),state('604',   style({'transform': 'scale(6.04)'})),state('605',   style({'transform': 'scale(6.05)'})),state('606',   style({'transform': 'scale(6.06)'})),state('607',   style({'transform': 'scale(6.07)'})),state('608',   style({'transform': 'scale(6.08)'})),state('609',   style({'transform': 'scale(6.09)'})),state('610',   style({'transform': 'scale(6.1)'})),state('611',   style({'transform': 'scale(6.11)'})),state('612',   style({'transform': 'scale(6.12)'})),state('613',   style({'transform': 'scale(6.13)'})),state('614',   style({'transform': 'scale(6.14)'})),state('615',   style({'transform': 'scale(6.15)'})),state('616',   style({'transform': 'scale(6.16)'})),state('617',   style({'transform': 'scale(6.17)'})),state('618',   style({'transform': 'scale(6.18)'})),state('619',   style({'transform': 'scale(6.19)'})),state('620',   style({'transform': 'scale(6.2)'})),state('621',   style({'transform': 'scale(6.21)'})),state('622',   style({'transform': 'scale(6.22)'})),state('623',   style({'transform': 'scale(6.23)'})),state('624',   style({'transform': 'scale(6.24)'})),state('625',   style({'transform': 'scale(6.25)'})),state('626',   style({'transform': 'scale(6.26)'})),state('627',   style({'transform': 'scale(6.27)'})),state('628',   style({'transform': 'scale(6.28)'})),state('629',   style({'transform': 'scale(6.29)'})),state('630',   style({'transform': 'scale(6.3)'})),state('631',   style({'transform': 'scale(6.31)'})),state('632',   style({'transform': 'scale(6.32)'})),state('633',   style({'transform': 'scale(6.33)'})),state('634',   style({'transform': 'scale(6.34)'})),state('635',   style({'transform': 'scale(6.35)'})),state('636',   style({'transform': 'scale(6.36)'})),state('637',   style({'transform': 'scale(6.37)'})),state('638',   style({'transform': 'scale(6.38)'})),state('639',   style({'transform': 'scale(6.39)'})),state('640',   style({'transform': 'scale(6.4)'})),state('641',   style({'transform': 'scale(6.41)'})),state('642',   style({'transform': 'scale(6.42)'})),state('643',   style({'transform': 'scale(6.43)'})),state('644',   style({'transform': 'scale(6.44)'})),state('645',   style({'transform': 'scale(6.45)'})),state('646',   style({'transform': 'scale(6.46)'})),state('647',   style({'transform': 'scale(6.47)'})),state('648',   style({'transform': 'scale(6.48)'})),state('649',   style({'transform': 'scale(6.49)'})),state('650',   style({'transform': 'scale(6.5)'})),state('651',   style({'transform': 'scale(6.51)'})),state('652',   style({'transform': 'scale(6.52)'})),state('653',   style({'transform': 'scale(6.53)'})),state('654',   style({'transform': 'scale(6.54)'})),state('655',   style({'transform': 'scale(6.55)'})),state('656',   style({'transform': 'scale(6.56)'})),state('657',   style({'transform': 'scale(6.57)'})),state('658',   style({'transform': 'scale(6.58)'})),state('659',   style({'transform': 'scale(6.59)'})),state('660',   style({'transform': 'scale(6.6)'})),state('661',   style({'transform': 'scale(6.61)'})),state('662',   style({'transform': 'scale(6.62)'})),state('663',   style({'transform': 'scale(6.63)'})),state('664',   style({'transform': 'scale(6.64)'})),state('665',   style({'transform': 'scale(6.65)'})),state('666',   style({'transform': 'scale(6.66)'})),state('667',   style({'transform': 'scale(6.67)'})),state('668',   style({'transform': 'scale(6.68)'})),state('669',   style({'transform': 'scale(6.69)'})),state('670',   style({'transform': 'scale(6.7)'})),state('671',   style({'transform': 'scale(6.71)'})),state('672',   style({'transform': 'scale(6.72)'})),state('673',   style({'transform': 'scale(6.73)'})),state('674',   style({'transform': 'scale(6.74)'})),state('675',   style({'transform': 'scale(6.75)'})),state('676',   style({'transform': 'scale(6.76)'})),state('677',   style({'transform': 'scale(6.77)'})),state('678',   style({'transform': 'scale(6.78)'})),state('679',   style({'transform': 'scale(6.79)'})),state('680',   style({'transform': 'scale(6.8)'})),state('681',   style({'transform': 'scale(6.81)'})),state('682',   style({'transform': 'scale(6.82)'})),state('683',   style({'transform': 'scale(6.83)'})),state('684',   style({'transform': 'scale(6.84)'})),state('685',   style({'transform': 'scale(6.85)'})),state('686',   style({'transform': 'scale(6.86)'})),state('687',   style({'transform': 'scale(6.87)'})),state('688',   style({'transform': 'scale(6.88)'})),state('689',   style({'transform': 'scale(6.89)'})),state('690',   style({'transform': 'scale(6.9)'})),state('691',   style({'transform': 'scale(6.91)'})),state('692',   style({'transform': 'scale(6.92)'})),state('693',   style({'transform': 'scale(6.93)'})),state('694',   style({'transform': 'scale(6.94)'})),state('695',   style({'transform': 'scale(6.95)'})),state('696',   style({'transform': 'scale(6.96)'})),state('697',   style({'transform': 'scale(6.97)'})),state('698',   style({'transform': 'scale(6.98)'})),state('699',   style({'transform': 'scale(6.99)'})),state('700',   style({'transform': 'scale(7)'})),state('701',   style({'transform': 'scale(7.01)'})),state('702',   style({'transform': 'scale(7.02)'})),state('703',   style({'transform': 'scale(7.03)'})),state('704',   style({'transform': 'scale(7.04)'})),state('705',   style({'transform': 'scale(7.05)'})),state('706',   style({'transform': 'scale(7.06)'})),state('707',   style({'transform': 'scale(7.07)'})),state('708',   style({'transform': 'scale(7.08)'})),state('709',   style({'transform': 'scale(7.09)'})),state('710',   style({'transform': 'scale(7.1)'})),state('711',   style({'transform': 'scale(7.11)'})),state('712',   style({'transform': 'scale(7.12)'})),state('713',   style({'transform': 'scale(7.13)'})),state('714',   style({'transform': 'scale(7.14)'})),state('715',   style({'transform': 'scale(7.15)'})),state('716',   style({'transform': 'scale(7.16)'})),state('717',   style({'transform': 'scale(7.17)'})),state('718',   style({'transform': 'scale(7.18)'})),state('719',   style({'transform': 'scale(7.19)'})),state('720',   style({'transform': 'scale(7.2)'})),state('721',   style({'transform': 'scale(7.21)'})),state('722',   style({'transform': 'scale(7.22)'})),state('723',   style({'transform': 'scale(7.23)'})),state('724',   style({'transform': 'scale(7.24)'})),state('725',   style({'transform': 'scale(7.25)'})),state('726',   style({'transform': 'scale(7.26)'})),state('727',   style({'transform': 'scale(7.27)'})),state('728',   style({'transform': 'scale(7.28)'})),state('729',   style({'transform': 'scale(7.29)'})),state('730',   style({'transform': 'scale(7.3)'})),state('731',   style({'transform': 'scale(7.31)'})),state('732',   style({'transform': 'scale(7.32)'})),state('733',   style({'transform': 'scale(7.33)'})),state('734',   style({'transform': 'scale(7.34)'})),state('735',   style({'transform': 'scale(7.35)'})),state('736',   style({'transform': 'scale(7.36)'})),state('737',   style({'transform': 'scale(7.37)'})),state('738',   style({'transform': 'scale(7.38)'})),state('739',   style({'transform': 'scale(7.39)'})),state('740',   style({'transform': 'scale(7.4)'})),state('741',   style({'transform': 'scale(7.41)'})),state('742',   style({'transform': 'scale(7.42)'})),state('743',   style({'transform': 'scale(7.43)'})),state('744',   style({'transform': 'scale(7.44)'})),state('745',   style({'transform': 'scale(7.45)'})),state('746',   style({'transform': 'scale(7.46)'})),state('747',   style({'transform': 'scale(7.47)'})),state('748',   style({'transform': 'scale(7.48)'})),state('749',   style({'transform': 'scale(7.49)'})),state('750',   style({'transform': 'scale(7.5)'})),state('751',   style({'transform': 'scale(7.51)'})),state('752',   style({'transform': 'scale(7.52)'})),state('753',   style({'transform': 'scale(7.53)'})),state('754',   style({'transform': 'scale(7.54)'})),state('755',   style({'transform': 'scale(7.55)'})),state('756',   style({'transform': 'scale(7.56)'})),state('757',   style({'transform': 'scale(7.57)'})),state('758',   style({'transform': 'scale(7.58)'})),state('759',   style({'transform': 'scale(7.59)'})),state('760',   style({'transform': 'scale(7.6)'})),state('761',   style({'transform': 'scale(7.61)'})),state('762',   style({'transform': 'scale(7.62)'})),state('763',   style({'transform': 'scale(7.63)'})),state('764',   style({'transform': 'scale(7.64)'})),state('765',   style({'transform': 'scale(7.65)'})),state('766',   style({'transform': 'scale(7.66)'})),state('767',   style({'transform': 'scale(7.67)'})),state('768',   style({'transform': 'scale(7.68)'})),state('769',   style({'transform': 'scale(7.69)'})),state('770',   style({'transform': 'scale(7.7)'})),state('771',   style({'transform': 'scale(7.71)'})),state('772',   style({'transform': 'scale(7.72)'})),state('773',   style({'transform': 'scale(7.73)'})),state('774',   style({'transform': 'scale(7.74)'})),state('775',   style({'transform': 'scale(7.75)'})),state('776',   style({'transform': 'scale(7.76)'})),state('777',   style({'transform': 'scale(7.77)'})),state('778',   style({'transform': 'scale(7.78)'})),state('779',   style({'transform': 'scale(7.79)'})),state('780',   style({'transform': 'scale(7.8)'})),state('781',   style({'transform': 'scale(7.81)'})),state('782',   style({'transform': 'scale(7.82)'})),state('783',   style({'transform': 'scale(7.83)'})),state('784',   style({'transform': 'scale(7.84)'})),state('785',   style({'transform': 'scale(7.85)'})),state('786',   style({'transform': 'scale(7.86)'})),state('787',   style({'transform': 'scale(7.87)'})),state('788',   style({'transform': 'scale(7.88)'})),state('789',   style({'transform': 'scale(7.89)'})),state('790',   style({'transform': 'scale(7.9)'})),state('791',   style({'transform': 'scale(7.91)'})),state('792',   style({'transform': 'scale(7.92)'})),state('793',   style({'transform': 'scale(7.93)'})),state('794',   style({'transform': 'scale(7.94)'})),state('795',   style({'transform': 'scale(7.95)'})),state('796',   style({'transform': 'scale(7.96)'})),state('797',   style({'transform': 'scale(7.97)'})),state('798',   style({'transform': 'scale(7.98)'})),state('799',   style({'transform': 'scale(7.99)'})),state('800',   style({'transform': 'scale(8)'})),state('801',   style({'transform': 'scale(8.01)'})),state('802',   style({'transform': 'scale(8.02)'})),state('803',   style({'transform': 'scale(8.03)'})),state('804',   style({'transform': 'scale(8.04)'})),state('805',   style({'transform': 'scale(8.05)'})),state('806',   style({'transform': 'scale(8.06)'})),state('807',   style({'transform': 'scale(8.07)'})),state('808',   style({'transform': 'scale(8.08)'})),state('809',   style({'transform': 'scale(8.09)'})),state('810',   style({'transform': 'scale(8.1)'})),state('811',   style({'transform': 'scale(8.11)'})),state('812',   style({'transform': 'scale(8.12)'})),state('813',   style({'transform': 'scale(8.13)'})),state('814',   style({'transform': 'scale(8.14)'})),state('815',   style({'transform': 'scale(8.15)'})),state('816',   style({'transform': 'scale(8.16)'})),state('817',   style({'transform': 'scale(8.17)'})),state('818',   style({'transform': 'scale(8.18)'})),state('819',   style({'transform': 'scale(8.19)'})),state('820',   style({'transform': 'scale(8.2)'})),state('821',   style({'transform': 'scale(8.21)'})),state('822',   style({'transform': 'scale(8.22)'})),state('823',   style({'transform': 'scale(8.23)'})),state('824',   style({'transform': 'scale(8.24)'})),state('825',   style({'transform': 'scale(8.25)'})),state('826',   style({'transform': 'scale(8.26)'})),state('827',   style({'transform': 'scale(8.27)'})),state('828',   style({'transform': 'scale(8.28)'})),state('829',   style({'transform': 'scale(8.29)'})),state('830',   style({'transform': 'scale(8.3)'})),state('831',   style({'transform': 'scale(8.31)'})),state('832',   style({'transform': 'scale(8.32)'})),state('833',   style({'transform': 'scale(8.33)'})),state('834',   style({'transform': 'scale(8.34)'})),state('835',   style({'transform': 'scale(8.35)'})),state('836',   style({'transform': 'scale(8.36)'})),state('837',   style({'transform': 'scale(8.37)'})),state('838',   style({'transform': 'scale(8.38)'})),state('839',   style({'transform': 'scale(8.39)'})),state('840',   style({'transform': 'scale(8.4)'})),state('841',   style({'transform': 'scale(8.41)'})),state('842',   style({'transform': 'scale(8.42)'})),state('843',   style({'transform': 'scale(8.43)'})),state('844',   style({'transform': 'scale(8.44)'})),state('845',   style({'transform': 'scale(8.45)'})),state('846',   style({'transform': 'scale(8.46)'})),state('847',   style({'transform': 'scale(8.47)'})),state('848',   style({'transform': 'scale(8.48)'})),state('849',   style({'transform': 'scale(8.49)'})),state('850',   style({'transform': 'scale(8.5)'})),state('851',   style({'transform': 'scale(8.51)'})),state('852',   style({'transform': 'scale(8.52)'})),state('853',   style({'transform': 'scale(8.53)'})),state('854',   style({'transform': 'scale(8.54)'})),state('855',   style({'transform': 'scale(8.55)'})),state('856',   style({'transform': 'scale(8.56)'})),state('857',   style({'transform': 'scale(8.57)'})),state('858',   style({'transform': 'scale(8.58)'})),state('859',   style({'transform': 'scale(8.59)'})),state('860',   style({'transform': 'scale(8.6)'})),state('861',   style({'transform': 'scale(8.61)'})),state('862',   style({'transform': 'scale(8.62)'})),state('863',   style({'transform': 'scale(8.63)'})),state('864',   style({'transform': 'scale(8.64)'})),state('865',   style({'transform': 'scale(8.65)'})),state('866',   style({'transform': 'scale(8.66)'})),state('867',   style({'transform': 'scale(8.67)'})),state('868',   style({'transform': 'scale(8.68)'})),state('869',   style({'transform': 'scale(8.69)'})),state('870',   style({'transform': 'scale(8.7)'})),state('871',   style({'transform': 'scale(8.71)'})),state('872',   style({'transform': 'scale(8.72)'})),state('873',   style({'transform': 'scale(8.73)'})),state('874',   style({'transform': 'scale(8.74)'})),state('875',   style({'transform': 'scale(8.75)'})),state('876',   style({'transform': 'scale(8.76)'})),state('877',   style({'transform': 'scale(8.77)'})),state('878',   style({'transform': 'scale(8.78)'})),state('879',   style({'transform': 'scale(8.79)'})),state('880',   style({'transform': 'scale(8.8)'})),state('881',   style({'transform': 'scale(8.81)'})),state('882',   style({'transform': 'scale(8.82)'})),state('883',   style({'transform': 'scale(8.83)'})),state('884',   style({'transform': 'scale(8.84)'})),state('885',   style({'transform': 'scale(8.85)'})),state('886',   style({'transform': 'scale(8.86)'})),state('887',   style({'transform': 'scale(8.87)'})),state('888',   style({'transform': 'scale(8.88)'})),state('889',   style({'transform': 'scale(8.89)'})),state('890',   style({'transform': 'scale(8.9)'})),state('891',   style({'transform': 'scale(8.91)'})),state('892',   style({'transform': 'scale(8.92)'})),state('893',   style({'transform': 'scale(8.93)'})),state('894',   style({'transform': 'scale(8.94)'})),state('895',   style({'transform': 'scale(8.95)'})),state('896',   style({'transform': 'scale(8.96)'})),state('897',   style({'transform': 'scale(8.97)'})),state('898',   style({'transform': 'scale(8.98)'})),state('899',   style({'transform': 'scale(8.99)'})),state('900',   style({'transform': 'scale(9)'})),state('901',   style({'transform': 'scale(9.01)'})),state('902',   style({'transform': 'scale(9.02)'})),state('903',   style({'transform': 'scale(9.03)'})),state('904',   style({'transform': 'scale(9.04)'})),state('905',   style({'transform': 'scale(9.05)'})),state('906',   style({'transform': 'scale(9.06)'})),state('907',   style({'transform': 'scale(9.07)'})),state('908',   style({'transform': 'scale(9.08)'})),state('909',   style({'transform': 'scale(9.09)'})),state('910',   style({'transform': 'scale(9.1)'})),state('911',   style({'transform': 'scale(9.11)'})),state('912',   style({'transform': 'scale(9.12)'})),state('913',   style({'transform': 'scale(9.13)'})),state('914',   style({'transform': 'scale(9.14)'})),state('915',   style({'transform': 'scale(9.15)'})),state('916',   style({'transform': 'scale(9.16)'})),state('917',   style({'transform': 'scale(9.17)'})),state('918',   style({'transform': 'scale(9.18)'})),state('919',   style({'transform': 'scale(9.19)'})),state('920',   style({'transform': 'scale(9.2)'})),state('921',   style({'transform': 'scale(9.21)'})),state('922',   style({'transform': 'scale(9.22)'})),state('923',   style({'transform': 'scale(9.23)'})),state('924',   style({'transform': 'scale(9.24)'})),state('925',   style({'transform': 'scale(9.25)'})),state('926',   style({'transform': 'scale(9.26)'})),state('927',   style({'transform': 'scale(9.27)'})),state('928',   style({'transform': 'scale(9.28)'})),state('929',   style({'transform': 'scale(9.29)'})),state('930',   style({'transform': 'scale(9.3)'})),state('931',   style({'transform': 'scale(9.31)'})),state('932',   style({'transform': 'scale(9.32)'})),state('933',   style({'transform': 'scale(9.33)'})),state('934',   style({'transform': 'scale(9.34)'})),state('935',   style({'transform': 'scale(9.35)'})),state('936',   style({'transform': 'scale(9.36)'})),state('937',   style({'transform': 'scale(9.37)'})),state('938',   style({'transform': 'scale(9.38)'})),state('939',   style({'transform': 'scale(9.39)'})),state('940',   style({'transform': 'scale(9.4)'})),state('941',   style({'transform': 'scale(9.41)'})),state('942',   style({'transform': 'scale(9.42)'})),state('943',   style({'transform': 'scale(9.43)'})),state('944',   style({'transform': 'scale(9.44)'})),state('945',   style({'transform': 'scale(9.45)'})),state('946',   style({'transform': 'scale(9.46)'})),state('947',   style({'transform': 'scale(9.47)'})),state('948',   style({'transform': 'scale(9.48)'})),state('949',   style({'transform': 'scale(9.49)'})),state('950',   style({'transform': 'scale(9.5)'})),state('951',   style({'transform': 'scale(9.51)'})),state('952',   style({'transform': 'scale(9.52)'})),state('953',   style({'transform': 'scale(9.53)'})),state('954',   style({'transform': 'scale(9.54)'})),state('955',   style({'transform': 'scale(9.55)'})),state('956',   style({'transform': 'scale(9.56)'})),state('957',   style({'transform': 'scale(9.57)'})),state('958',   style({'transform': 'scale(9.58)'})),state('959',   style({'transform': 'scale(9.59)'})),state('960',   style({'transform': 'scale(9.6)'})),state('961',   style({'transform': 'scale(9.61)'})),state('962',   style({'transform': 'scale(9.62)'})),state('963',   style({'transform': 'scale(9.63)'})),state('964',   style({'transform': 'scale(9.64)'})),state('965',   style({'transform': 'scale(9.65)'})),state('966',   style({'transform': 'scale(9.66)'})),state('967',   style({'transform': 'scale(9.67)'})),state('968',   style({'transform': 'scale(9.68)'})),state('969',   style({'transform': 'scale(9.69)'})),state('970',   style({'transform': 'scale(9.7)'})),state('971',   style({'transform': 'scale(9.71)'})),state('972',   style({'transform': 'scale(9.72)'})),state('973',   style({'transform': 'scale(9.73)'})),state('974',   style({'transform': 'scale(9.74)'})),state('975',   style({'transform': 'scale(9.75)'})),state('976',   style({'transform': 'scale(9.76)'})),state('977',   style({'transform': 'scale(9.77)'})),state('978',   style({'transform': 'scale(9.78)'})),state('979',   style({'transform': 'scale(9.79)'})),state('980',   style({'transform': 'scale(9.8)'})),state('981',   style({'transform': 'scale(9.81)'})),state('982',   style({'transform': 'scale(9.82)'})),state('983',   style({'transform': 'scale(9.83)'})),state('984',   style({'transform': 'scale(9.84)'})),state('985',   style({'transform': 'scale(9.85)'})),state('986',   style({'transform': 'scale(9.86)'})),state('987',   style({'transform': 'scale(9.87)'})),state('988',   style({'transform': 'scale(9.88)'})),state('989',   style({'transform': 'scale(9.89)'})),state('990',   style({'transform': 'scale(9.9)'})),state('991',   style({'transform': 'scale(9.91)'})),state('992',   style({'transform': 'scale(9.92)'})),state('993',   style({'transform': 'scale(9.93)'})),state('994',   style({'transform': 'scale(9.94)'})),state('995',   style({'transform': 'scale(9.95)'})),state('996',   style({'transform': 'scale(9.96)'})),state('997',   style({'transform': 'scale(9.97)'})),state('998',   style({'transform': 'scale(9.98)'})),state('999',   style({'transform': 'scale(9.99)'})),
+			transition('* <=> *', animate('50ms ease-in-out') ),
+			transition('void => *', [])
+		]),
         trigger('pin', [
         	state('hide', style({opacity: 0})),
         	state('show', style({opacity: 1})),
@@ -174,7 +175,7 @@ export class InteractiveMap {
         	// Update map
         if(this.map_display && this.active) {
 	        //this.updateBoxes();
-			if(this.content_box) {
+			if(this.content_box && this.map_item) {
 				let mbb = this.map_item.getBoundingClientRect();
 				if(mbb){
 					let top = Math.round(-mbb.height * this.center.y + this.content_box.height/2);
@@ -269,7 +270,7 @@ export class InteractiveMap {
     }
 
 	updatePins() {
-		if(!this.map_item) return;
+		if(!this.map_item || !this.map_area) return;
 		for(let i = 0; i < this.pins.length; i++) {
 			let pin = this.pins[i];
 			let el = this.map_area.nativeElement.querySelector('#aca-map-pin' + i);
@@ -279,35 +280,40 @@ export class InteractiveMap {
 				let cbb = this.map_area.nativeElement.getBoundingClientRect();
 				let mb = this.map_item.getBoundingClientRect();
 				let elc = this.map_display.nativeElement.querySelector('#' + this.escape(pin.id));
-					// Get map scale
-				let dir = this.map_box ? (mb.width > mb.height) : true;
-				let map_x = Math.ceil(dir ? this.mapSize : (this.mapSize * (mb.width / mb.height)));
-				let map_y = Math.ceil(!dir ? this.mapSize : (this.mapSize * (mb.height / mb.width)));
+                if(elc) {
+                    el.style.display = '';
+    					// Get map scale
+    				let dir = this.map_box ? (mb.width > mb.height) : true;
+    				let map_x = Math.ceil(dir ? this.mapSize : (this.mapSize * (mb.width / mb.height)));
+    				let map_y = Math.ceil(!dir ? this.mapSize : (this.mapSize * (mb.height / mb.width)));
 
-				let p_y = Math.round((pin.y ? Math.min(map_y, pin.y) / map_y : mb.width / mb.height) * mb.height);
-				let p_x = Math.round((pin.x ? Math.min(map_x, pin.x) / map_x : 1) * mb.width);
-					// Get bounding rectangle of pin location
-				let ccbb = {
-					width: 2, height: 2,
-					left: p_x + (mb.left - cbb.left) + cbb.left,
-					top: p_y + (mb.top - cbb.top) + cbb.top
-				}
-				let bb = pin.id && pin.id !== '' && elc ? elc.getBoundingClientRect() : ccbb;
-					// Get pin location
-				let y = (bb.top + bb.height/2) - el.clientHeight - cbb.top;
-				let x = (bb.left + bb.width/2) - el.clientWidth/2 - cbb.left;
-					// Update pin display location.
-				el.style.top = Math.round(y) + 'px';
-				el.style.left = Math.round(x) + 'px';
+    				let p_y = Math.round((pin.y ? Math.min(map_y, pin.y) / map_y : mb.width / mb.height) * mb.height);
+    				let p_x = Math.round((pin.x ? Math.min(map_x, pin.x) / map_x : 1) * mb.width);
+    					// Get bounding rectangle of pin location
+    				let ccbb = {
+    					width: 2, height: 2,
+    					left: p_x + (mb.left - cbb.left) + cbb.left,
+    					top: p_y + (mb.top - cbb.top) + cbb.top
+    				}
+    				let bb = pin.id && pin.id !== '' && elc ? elc.getBoundingClientRect() : ccbb;
+    					// Get pin location
+    				let y = (bb.top + bb.height/2) - el.clientHeight - cbb.top;
+    				let x = (bb.left + bb.width/2) - el.clientWidth/2 - cbb.left;
+    					// Update pin display location.
+    				el.style.top = Math.round(y) + 'px';
+    				el.style.left = Math.round(x) + 'px';
+                } else {
+                    el.style.display = 'none';
+                }
 			}
 		}
 	}
 
-    escape (value) {
+    escape (value: string) {
 		var string = String(value);
 		var length = string.length;
 		var index = -1;
-		var codeUnit;
+		var codeUnit: any;
 		var result = '';
 		var firstCodeUnit = string.charCodeAt(0);
 		while (++index < length) {
@@ -386,7 +392,7 @@ export class InteractiveMap {
     	return pin;
     }
 
-    private replaceAll(str, find, replace) {
+    private replaceAll(str: string, find: string, replace: string) {
   		return str.replace(new RegExp(find, 'g'), replace);
 	}
 
@@ -397,17 +403,17 @@ export class InteractiveMap {
         if(Hammer && this.map_item && (!this.focus || this.focus === '' || this.focusScroll)){
                 // Setup events via Hammer.js if it is included
             this.de = new Hammer(document, {});
-            this.de.on('tap', (event) => { this.checkStatus(event, 0); })
+            this.de.on('tap', (event:Event) => { this.checkStatus(event, 0); })
             this.touchmap = new Hammer(this.map_item, {});
                 //Tap Map
-            this.touchmap.on('tap', (event) => {this.tapMap(event);});
+            this.touchmap.on('tap', (event:Event) => {this.tapMap(event);});
                 //Moving Map
-            this.touchmap.on('pan', (event) => {this.moveMap(event);});
-            this.touchmap.on('panend', (event) => {this.moveEnd(event);});
+            this.touchmap.on('pan', (event:Event) => {this.moveMap(event);});
+            this.touchmap.on('panend', (event:Event) => {this.moveEnd(event);});
             this.touchmap.get('pan').set({ directive: Hammer.DIRECTION_ALL, threshold: 5 });
                 // Scaling map
-            this.touchmap.on('pinch', (event) => {this.scaleMap(event);});
-            this.touchmap.on('pinchend', (event) => {this.scaleEnd(event);});
+            this.touchmap.on('pinch', (event:Event) => {this.scaleMap(event);});
+            this.touchmap.on('pinchend', (event:Event) => {this.scaleEnd(event);});
             this.touchmap.get('pinch').set({ enable: true });
         } else if(this.map_item){
                 //Setup Normal Events
@@ -418,7 +424,7 @@ export class InteractiveMap {
         if(this.focus) this.updateFocus();
 	}
 
-   	checkStatus(e, i) {
+   	checkStatus(e: any, i: number) {
    		if(i > 2) return;
    		let visible = false;
    		let el = this.self.nativeElement;
@@ -485,6 +491,7 @@ export class InteractiveMap {
     }
 
 	zoomFocus(bb: any) {
+        if(!this.map_item || !this.map_area) return;
 		let cbb = this.map_item.getBoundingClientRect();
 		let mbb = this.map_area.nativeElement.getBoundingClientRect();
 		if(cbb && mbb && bb) {
@@ -515,6 +522,7 @@ export class InteractiveMap {
 				this.zoom_bb = el.getBoundingClientRect();
 			}
 		} else if(this.focus && typeof this.focus === 'object') {
+            if(!this.map_item || !this.map_area) return;
 			if(this.focus.x > 0 && this.focus.y > 0) {
 					// Get content bounding boxes
 				let cbb = this.map_area.nativeElement.getBoundingClientRect();
@@ -542,6 +550,7 @@ export class InteractiveMap {
 		this.isFocus = false;
 		let cnt = 0;
 		let interval = setInterval(() => {
+            if(!this.map_item || !this.map_area) return;
 				// Get content bounding boxes
 			let cbb = this.map_area.nativeElement.getBoundingClientRect();
 			let mbb = this.map_item.getBoundingClientRect();
@@ -554,6 +563,7 @@ export class InteractiveMap {
 
 			this.zoom_bb = null;
 			this.updateBoxes();
+            this.zoomChange.emit(this._zoom);
 			cnt++;
 			if(cnt > 5) {
 				clearInterval(interval);
@@ -562,6 +572,7 @@ export class InteractiveMap {
     }
 
 	focusOnPoint(x: number, y: number) {
+        if(!this.map_item) return;
 		let mbb = this.map_item.getBoundingClientRect();
 		let r_x = x / mbb.width;
 		let r_y = y / mbb.height;
@@ -575,10 +586,10 @@ export class InteractiveMap {
     	if(this.active) {
 	        this.map_display.nativeElement.innerHTML = '';
 	    	if(this.map && this.map.indexOf('.svg') >= 0 && this.map.length > 4) {
-		    	this.service.getMap(this.map).then((data) => {
+		    	this.service.getMap(this.map).then((data: any) => {
 		    		this.map_data = data;
 		    		this.setupMap();
-		    	}, (err) => {
+		    	}, (err: any) => {
 		    		console.error('ACA_WIDGETS: Error loading map "' + this.map + '".');
 		    		console.error(err);
 		    	});
@@ -617,9 +628,9 @@ export class InteractiveMap {
         y : 0
     }
 
-    tapMap(event) {
+    tapMap(event: any) {
             //Traverse map and return array of clicked elements
-        let elems = [];
+        let elems: any[] = [];
         let el = this.map_item;
 		if(event && this.map_item) {
 			let mbb = this.map_item.getBoundingClientRect();
@@ -629,8 +640,8 @@ export class InteractiveMap {
         this.tap.emit(elems);
     }
 
-    getItems(pos, el) {
-        let elems = []
+    getItems(pos: any, el: any) {
+        let elems: any[] = []
         for(var i = 0; i < el.children.length; i++){
             let rect = el.children[i].getBoundingClientRect();
             if(pos.y >= rect.top && pos.y <= rect.top + rect.height &&
@@ -643,7 +654,7 @@ export class InteractiveMap {
         return elems;
     }
 
-    moveMap(event) {
+    moveMap(event: any) {
 		if(this.move_timer) {
         	this.move.x = event.deltaX;
         	this.move.y = event.deltaY;
@@ -671,12 +682,11 @@ export class InteractiveMap {
         if(this.min < 100) this.min += 10;
     }
 
-    moveEnd(event) {
+    moveEnd(event: any) {
 		if(this.move_timer) {
 			clearTimeout(this.move_timer);
 			this.move_timer = null;
 		}
-		console.log(this.center);
 		this.move_timer = setTimeout(() => {
 	        this.move.x = this.move.y = 0;
 	        this.activate = false;
@@ -687,7 +697,7 @@ export class InteractiveMap {
 
     dZoom = 1;
 
-    scaleMap(event) {
+    scaleMap(event: any) {
 		let scale = event.scale - this.dZoom;
 		let dir = scale / Math.abs(scale);
 		let c_zoom = 100 + this._zoom;
@@ -698,7 +708,7 @@ export class InteractiveMap {
         this.dZoom += scale;
     }
 
-    scaleEnd(event) {
+    scaleEnd(event: any) {
     	this.dZoom = 1
     }
 
@@ -735,6 +745,7 @@ export class InteractiveMap {
     }
 
     resize() {
+        if(!this.self) return;
         this.content_box = this.self.nativeElement.getBoundingClientRect();
         if(this.map_item && this.map_display) {
             let rect = this.map_item.getBoundingClientRect();
@@ -756,13 +767,15 @@ export class InteractiveMap {
 		        //this.map_box = this.map_display.nativeElement.getBoundingClientRect();
 			    this.map_box = this.map_item.getBoundingClientRect();
 		        this.zoomChange.emit(this.zoom);
+				let x = (this.map_box.width-this.content_box.width)/this.map_box.width;
+				let y = (this.map_box.height-this.content_box.height)/this.map_box.height;
 				this.min_center = {
-					x: -((this.map_box.width-this.content_box.width)/this.map_box.width) + 0.5,
-					y: -((this.map_box.height-this.content_box.height)/this.map_box.height) + 0.5
+					x: (-x + 0.5 < -0.05 ? -0.05 : (-x + 0.5 > 0.5 ? 0.5 : -x + 0.5)),
+					y: (-y + 0.5 < -0.05 ? -0.05 : (-y + 0.5 > 0.5 ? 0.5 : -y + 0.5))
 				};
 				this.max_center = {
-					x: ((this.map_box.width-this.content_box.width)/this.map_box.width) + 0.5,
-					y: ((this.map_box.height-this.content_box.height)/this.map_box.height) + 0.5
+					x: (x + 0.5 > 1.05 ? 1.05 : (x + 0.5 < 0.5 ? 0.5 : x + 0.5)),
+					y: (y + 0.5 > 1.05 ? 1.05 : (y + 0.5 < 0.5 ? 0.5 : y + 0.5)),
 				};
 		        this.redraw();
 				if(this.box_update) clearTimeout(this.box_update);

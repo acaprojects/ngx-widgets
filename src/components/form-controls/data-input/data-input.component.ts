@@ -3,7 +3,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 
 @Component({
 	selector: 'data-input',
-	styles: [ require('./data-input.styles.scss'), require('../../global-styles/global-styles.scss') ],
+	styleUrls: [ './data-input.styles.css', '../../material-styles/material-styles.css' ],
 	templateUrl: './data-input.template.html',
 	animations : [
         trigger('fieldText', [
@@ -122,7 +122,7 @@ export class DataInput {
 		}
 	}
 
-	keypress(e) {
+	keypress(e: any) {
     	if(e) {
     		if(e.keyCode == '38' && this.type === 'number') { // Up Arrow
     			let number = parseInt(this.display_text);
@@ -141,11 +141,11 @@ export class DataInput {
     		} else if(e.keyCode == '8') {
     			this.backspace = true;
     		}
-    	} 
+    	}
     	if(this.validate_timer) {
     		clearTimeout(this.validate_timer);
     		this.validate_timer = null;
-    	} 
+    	}
 		this.validate_timer = setTimeout(() => {
 			this.validateInput();
 			this.validate_timer = null;
@@ -156,7 +156,7 @@ export class DataInput {
 		return (this.focus || (this.display_text && this.display_text !== '') ? 'focus': 'blur');
 	}
 
-	setCaretPosition(caretPos) {
+	setCaretPosition(caretPos: number) {
 		if(!this.input) return;
 		let elem = this.input.nativeElement;
 	    if(elem != null) {
@@ -293,26 +293,26 @@ export class DataInput {
 		if(!this.display_text || this.display_text === '') return '';
 		this.caret = this.input.nativeElement.selectionStart;
 		let len = this.display_text.length;
-		let number = this.removeInvalidChars(this.display_text, this.numbers);
-		if(!number || number === '') {
+		let num = this.removeInvalidChars(this.display_text, this.numbers);
+		if(!num || num === '') {
 			this.display_text = '';
 			return '';
 		}
-		if(number.length > 16) number = number.slice(0, 16);
-		if(this.checkLuhn(number)) {
-			this.card_type = this.getCardType(number);
+		if(num.length > 16) num = num.slice(0, 16);
+		if(this.checkLuhn(num)) {
+			this.card_type = this.getCardType(num);
 			this.cardType.emit(this.card_type);
-			if(this.card_type !== 'None' && number.length > 12) {
+			if(this.card_type !== 'None' && num.length > 12) {
 				this.info_display = 'Valid ' + this.card_type;
 				this.success = true;
 			}
-		} else if(number.length > 10){
+		} else if(num.length > 10){
 			this.error = true;
 			this.info_display = 'Invalid Card Number';
 			this.errorChange.emit(true);
 		}
 			// Add seperator
-		this.display_text = number.match(/.{1,4}/g).join('-');
+		this.display_text = num.match(/.{1,4}/g).join('-');
 		setTimeout(() => {
 			let len_new = this.display_text.length;
 			let diff = len_new - len;
@@ -326,26 +326,26 @@ export class DataInput {
 			this.setCaretPosition(this.caret + diff);
 			this.backspace = false;
 		}, 50);
-		return number;
+		return num;
 	}
 
-    getCardType(number){
+    getCardType(num: string){
             //Visa
-        if(/^4[0-9]{6,}$/.test(number)) return 'Visa';
+        if(/^4[0-9]{6,}$/.test(num)) return 'Visa';
             //Mastercard
-        else if(/^5[1-5][0-9]{5,}$/.test(number)) return 'MasterCard';
+        else if(/^5[1-5][0-9]{5,}$/.test(num)) return 'MasterCard';
             //American Express
-        else if(/^3[47][0-9]{5,}$/.test(number)) return 'American Express';
+        else if(/^3[47][0-9]{5,}$/.test(num)) return 'American Express';
             //Diners Club
-        else if(/^3(?:0[0-5]|[68][0-9])[0-9]{4,}$/.test(number)) return 'Diners Club';
+        else if(/^3(?:0[0-5]|[68][0-9])[0-9]{4,}$/.test(num)) return 'Diners Club';
             //Discover
-        else if(/^6(?:011|5[0-9]{2})[0-9]{3,}$/.test(number)) return 'Discover';
+        else if(/^6(?:011|5[0-9]{2})[0-9]{3,}$/.test(num)) return 'Discover';
             //JCB
-        else if(/^(?:2131|1800|35[0-9]{3})[0-9]{3,}$/.test(number)) return 'JBC';
+        else if(/^(?:2131|1800|35[0-9]{3})[0-9]{3,}$/.test(num)) return 'JBC';
         return 'None';
     };
-        
-    checkLuhn(input){
+
+    checkLuhn(input: string){
         var sum = 0;
         var numdigits = input.length;
         var parity = numdigits % 2;

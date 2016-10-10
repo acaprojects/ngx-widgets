@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 
-@Injectable() 
+@Injectable()
 export class ACA_NextFrame {
 	animating: any = null;
 
@@ -8,11 +8,11 @@ export class ACA_NextFrame {
 		this.setupPolyfill(window);
 	}
 
-	setupPolyfill(window) {
+	setupPolyfill(window: any) {
 
 	    let lastTime: any = 0;
 	    let vendors = ['moz', 'webkit', 'o', 'ms'];
-	    let x;
+	    let x: number;
 
 	    // Remove vendor prefixing if prefixed and break early if not
 	    for (x = 0; x < vendors.length && !window.requestAnimationFrame; x += 1) {
@@ -26,7 +26,7 @@ export class ACA_NextFrame {
 	        // Check if standard partially supported
 	        if (window.requestAnimationFrame === undefined) {
 	            // No support, emulate standard
-	            window.requestAnimationFrame = function (callback) {
+	            window.requestAnimationFrame = function (callback: any) {
 	                let now = new Date().getTime(),
 	                    // +16 ~ 60fps, +32 ~ 31fps
 	                    // Went with 30fps for older slower browsers / devcie support
@@ -42,15 +42,15 @@ export class ACA_NextFrame {
 	            let vendor = window.requestAnimationFrame;
 	            lastTime = {};
 
-	            window.requestAnimationFrame = (callback) => {
+	            window.requestAnimationFrame = (callback: any) => {
 	                let id = x; // Generate the id (x is initialized in the for loop above)
 	                x += 1;
 	                lastTime[id] = callback;
 
 	                // Call the vendors requestAnimationFrame implementation
-	                vendor((timestamp) => {
+	                vendor((timestamp:number) => {
 	                    if (lastTime.hasOwnProperty(id)) {
-	                        let error;
+	                        let error: any;
 	                        try {
 	                            lastTime[id](timestamp);
 	                        } catch (e) {
@@ -66,7 +66,7 @@ export class ACA_NextFrame {
 	                return id;
 	            };
 
-	            window.cancelAnimationFrame = (id) => {
+	            window.cancelAnimationFrame = (id: any) => {
 	                delete lastTime[id];
 	            };
 	        }
@@ -87,14 +87,14 @@ export class ACA_NextFrame {
 
 }
 
-@Injectable() 
+@Injectable()
 export class ACA_Animate {
 	nf: ACA_NextFrame = null;
 	constructor() {
 		this.nf = new ACA_NextFrame();
 	}
 
-	animation(apply, compute) {
+	animation(apply: any, compute: any): any {
 		class Animate {
 			scratch = {};
 			idle = true;

@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "pretty": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noImplicitUseStrict": false,
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "./.build/compiled"
+  },
+  "files": [
+      "index.ts",
+      "typings/index.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src",
+    ".build/main.aot.browser.ts",
+    ".build/polyfills.aot.browser.ts"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "./.build/compiled",
+    "debug": true
+ }
+}

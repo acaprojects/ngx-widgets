@@ -1,16 +1,15 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 import { ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
-import { RuntimeCompiler } from "@angular/compiler";
 import { Modal } from '../../modal.component';
 
-import { IHaveDynamicData, DynamicTypeBuilder } from '../../../dynamic/type.builder';
+import { IHaveDynamicData, DynamicTypeBuilder } from '../../../../services';
 
 const PLACEHOLDER = '-';
 
 @Component({
-    selector: '[simple-modal]',
-    styles: [ require('./simple-modal.styles.scss'), require('../../../global-styles/global-styles.scss') ],
+    selector: 'simple-modal',
+    styleUrls: [ './simple-modal.styles.css', '../../../material-styles/material-styles.css' ],
     templateUrl: './simple-modal.template.html',
     animations: [
         trigger('backdrop', [
@@ -29,14 +28,12 @@ const PLACEHOLDER = '-';
 })
 export class SimpleModal extends Modal {
 
-    @ViewChild('modal') protected modal: ElementRef;
-    @ViewChild('content', { read: ViewContainerRef }) protected _content: ViewContainerRef;
+    @ViewChild('modal') public modal: ElementRef;
+    @ViewChild('content', { read: ViewContainerRef }) public _content: ViewContainerRef;
 
     constructor(
-    	protected _cfr: ComponentFactoryResolver,
-        protected typeBuilder: DynamicTypeBuilder,
-        protected compiler: RuntimeCompiler
+    	public _cfr: ComponentFactoryResolver
     ) {
-        super(_cfr, typeBuilder, compiler);
+        super(_cfr);
     }
 }

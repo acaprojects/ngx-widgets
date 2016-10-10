@@ -3,11 +3,11 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angu
 @Component({
     selector: 'btn-toggle',
     templateUrl: './btn-toggle.template.html',
-    styles: [ require('./btn-toggle.styles.scss') ]
+    styleUrls: [ './btn-toggle.styles.css' ]
 })
 export class ButtonToggle {
-    @Input() active;
-    @Input() inactive;
+    @Input() active: string;
+    @Input() inactive: string;
     @Input() cssClass: string = '';
     @Input() value: boolean = false;
     @Output() valueChange = new EventEmitter();
@@ -22,10 +22,10 @@ export class ButtonToggle {
     }
 
     ngOnChanges(changes: any){
-        
+
     }
 
-    clickEvent(event){
+    clickEvent(event: Event){
         this.value = !this.value;
         this.valueChange.emit(this.value);
     }

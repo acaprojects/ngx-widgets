@@ -1,13 +1,13 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core'; 
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
-import { ModalService } from '../../modal.service';
+import { ModalService } from '../../../../services';
 import { Modal } from '../../modal.component';
 
 const PLACEHOLDER = '-';
 
 @Component({
-    selector: '[time-dialog]', 
-    styles: [ require('./time-dialog.styles.scss'), require('../../../global-styles/global-styles.scss') ],
+    selector: '[time-dialog]',
+    styles: [ './time-dialog.styles.css', '../../../global-styles/global-styles.css' ],
     templateUrl: './time-dialog.template.html',
     animations: [
         trigger('backdrop', [

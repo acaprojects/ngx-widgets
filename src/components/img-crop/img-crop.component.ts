@@ -1,11 +1,11 @@
 import { Component, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
-import { DropService } from '../file-drop';
+import { DropService } from '../../services';
 
 @Component({
 	selector: 'img-crop',
 	templateUrl: './img-crop.template.html',
-	styles: [ require('./img-crop.styles.scss') ]
+	styleUrls: [ './img-crop.styles.css' ]
 })
 export class ImageCrop {
 	@Input() id: string  = 'zero';
@@ -51,12 +51,12 @@ export class ImageCrop {
 	ngAfterViewInit() {
 		if(this.id === '') this.id = 'zero';
 	    if(!this.stream) this.stream = this.drop_service.getStream('img-crop' + (this.id !== '' ? '-' + this.id: ''));
-		this.sub = this.stream.subscribe((obj) => {
+		this.sub = this.stream.subscribe((obj: any) => {
 		    if (obj.data && obj.event === 'drop') {
-		        obj.data.promise.then((data) => {
+		        obj.data.promise.then((data: any) => {
 		            // At this point all file data has been collected
 		            this.loadImage(data.files[0]);
-		        }, (err) => {
+		        }, (err: any) => {
 		        	console.error(err);
 		        });
 		    }

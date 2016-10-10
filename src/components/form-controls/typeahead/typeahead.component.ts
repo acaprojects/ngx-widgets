@@ -24,7 +24,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDe
 			</div>
 		</div>
     `,
-    styles : [ require('./typeahead-list.styles.scss') ]
+    styleUrls : [ './typeahead-list.styles.css' ]
 })
 export class TypeaheadList {
 	app : any = null;
@@ -50,7 +50,7 @@ export class TypeaheadList {
   	keys = {37: 1, 38: 1, 39: 1, 40: 1};
 
   	constructor() {
-  		this.scroll = (event) => {
+  		this.scroll = (event: any) => {
 	  		if (event.stopPropagation) event.stopPropagation();
 			else event.cancelBubble = true;
 	    	this.scrolled = true;
@@ -59,12 +59,12 @@ export class TypeaheadList {
       			this.scrolled = false;
 			}, 1000);
 		};
-		this.mousedown = (event) => {
+		this.mousedown = (event: any) => {
 	  		if (event.stopPropagation) event.stopPropagation();
 			else event.cancelBubble = true;
 			this.parent.clicked = true;
 		};
-		this.mouseup = (event) => {
+		this.mouseup = (event: any) => {
 	  		if (event.stopPropagation) event.stopPropagation();
 			else event.cancelBubble = true;
 			setTimeout(() => {
@@ -139,14 +139,14 @@ export class TypeaheadList {
   		}
   	}
 
-	preventDefault(e) {
+	preventDefault(e: any) {
   		e = e || window.event;
   		if (e.preventDefault)
       		e.preventDefault();
   		e.returnValue = false;
 	}
 
-	preventDefaultForScrollKeys(e) {
+	preventDefaultForScrollKeys(e: any) {
 		if(!this.keys) return;
     	if (this.keys[e.keyCode]) {
         	this.preventDefault(e);
@@ -186,7 +186,7 @@ export class TypeaheadList {
   	}
 
   	positionList() {
-  		if(this.list) {
+  		if(this.list && this.contents) {
 	  		let h = document.documentElement.clientHeight;
 	      	let content_box = this.contents.nativeElement.getBoundingClientRect();
 	      	if(Math.round(content_box.top) > Math.round(h/2 + 10)) {
@@ -229,7 +229,7 @@ export class TypeaheadList {
 
 @Component({
   selector: '[typeahead]',
-  styles: [ require('./typeahead.style.scss') ],
+  styleUrls: [ './typeahead.style.css' ],
   templateUrl: './typeahead.template.html'
 })
 export class Typeahead {

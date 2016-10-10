@@ -3,8 +3,8 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@
 import { Observable } from 'rxjs/Rx';
 
 @Component({
-  selector: 'dropdown', 
-  styles: [ require('./dropdown.style.scss'), require('../../global-styles/global-styles.scss') ],
+  selector: 'dropdown',
+  styleUrls: [ './dropdown.style.css', '../../material-styles/material-styles.css' ],
   templateUrl: './dropdown.template.html'
 })
 export class Dropdown {
@@ -24,17 +24,17 @@ export class Dropdown {
   	@ViewChild('content') content: 	ElementRef;
   	@ViewChild('listView') list_view: 	ElementRef;
 
-  	private _text_mouseout = null;
-  	private _text_mouseover = null;
-  	private _text_mouseup = null;
-  	private _text_mousedown = null;
-  	private _text_click = null;
+  	private _text_mouseout: any = null;
+  	private _text_mouseover: any = null;
+  	private _text_mouseup: any = null;
+  	private _text_mousedown: any = null;
+  	private _text_click: any = null;
 
-  	private _caret_mouseout = null;
-  	private _caret_mouseover = null;
-  	private _caret_mouseup = null;
-  	private _caret_mousedown = null;
-  	private _caret_click = null;
+  	private _caret_mouseout: any = null;
+  	private _caret_mouseover: any = null;
+  	private _caret_mouseup: any = null;
+  	private _caret_mousedown: any = null;
+  	private _caret_click: any = null;
 
   	prev_sel: string = '0'
   	value: string = '0';
@@ -47,11 +47,11 @@ export class Dropdown {
   	classes: string = '';
   	top: boolean = false;
   	parseInt = parseInt;
-  	click = null;
-  	text_hover = false;
+  	click: any = null;
+  	text_hover: boolean = false;
 
 	constructor() {
-		this.click = () => { 
+		this.click = () => {
 			setTimeout(() => {
 				this.close();
 			}, 10);
@@ -91,15 +91,15 @@ export class Dropdown {
 	}
 
         // Function to add css classes to the button
-	addClass(el, name: string) {
+	addClass(el: any, name: string) {
 		el.classList.add(name);
-	} 
+	}
 
-	removeClass(el, name: string) {
+	removeClass(el: any, name: string) {
 		el.classList.remove(name);
 	}
 
-	swapClass(el, first: string, second: string) {
+	swapClass(el: any, first: string, second: string) {
 		if(el.classList.contains(first)) {
 			this.removeClass(el, first);
 			this.addClass(el, second);
@@ -150,8 +150,8 @@ export class Dropdown {
 
 
   	close() {
-		this.removeHover(); 
-		this.removeActive(); 
+		this.removeHover();
+		this.removeActive();
     	this.show = false;
 		document.removeEventListener("click", this.click, true);
   	}

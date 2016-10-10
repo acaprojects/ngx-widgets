@@ -5,7 +5,7 @@ const PLACEHOLDER = '-';
 
 @Component({
     selector: 'time-picker',
-    styles: [ require('./time-picker.style.scss') ],
+    styleUrls: [ './time-picker.style.css' ],
     templateUrl: './time-picker.template.html',
     animations: [
         trigger('dateTime', [
@@ -141,7 +141,7 @@ export class TimePicker {
     	else if(minutes === NaN) this.display_minutes = '';
     }
 
-    keyupHour(e: any, hour: string) {
+    keyupHour(e: any) {
     	if(e) {
     		if(e.keyCode == '38') { // Up Arrow
     			this.addHour();
@@ -151,7 +151,7 @@ export class TimePicker {
     	} else this.validateHour();
     }
 
-    keyupMinutes(e: any, mins: string) {
+    keyupMinutes(e: any) {
     	if(e) {
     		if(e.keyCode == '38') { // Up Arrow
     			this.addMinute();

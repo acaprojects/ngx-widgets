@@ -3,10 +3,10 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angu
 @Component({
     selector: 'btn-group',
     templateUrl: './btn-group.template.html',
-    styles: [ require('./btn-group.styles.scss') ]
+    styleUrls: [ './btn-group.styles.css' ]
 })
 export class ButtonGroup {
-    @Input() items;
+    @Input() items: any;
     @Input() selected: number = 0;
     @Input() cssClass: string = 'default';
     @Output() selectedChange = new EventEmitter();
@@ -23,7 +23,7 @@ export class ButtonGroup {
 
     }
 
-    clickEvent(event){
+    clickEvent(event: any){
         this.selected = event;
         this.selectedChange.emit(this.selected);
     }

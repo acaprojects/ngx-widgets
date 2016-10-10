@@ -5,7 +5,7 @@ const PLACEHOLDER = '-';
 
 @Component({
     selector: 'calendar',
-    styles: [ require('./calendar.style.scss') ],
+    styleUrls: [ './calendar.style.css' ],
     templateUrl: './calendar.template.html',
     animations: [
         trigger('dateTime', [
@@ -44,15 +44,15 @@ export class Calendar {
     days_long = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     days_short = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-    month_node = [];
+    month_node: any[] = [];
     display_year: number = 2016;
     display_month: number = 0;
     display_hour: string = '11';
     display_minutes: string = '59';
     display_period: string = 'PM';
     pick_time: string = 'hide';
-    days = [];
-    months = [];
+    days: any[] = [];
+    months: any[] = [];
 
     constructor() {
         this.initTime();
@@ -205,7 +205,7 @@ export class Calendar {
         let day = firstDay.getDay();
         this.month_node = [];
         let ph = { day : PLACEHOLDER, valid: false, past: false, today: false, active: false, disabled: false };
-        let i;
+        let i: number;
             // Fill in blank days at beginning of the month
         for(i = 0; i < day; i++) this.month_node.push(ph);
             // Fill in days of the month
@@ -242,7 +242,7 @@ export class Calendar {
         this.generateMonth();
     }
 
-    selectDate(week, day) {
+    selectDate(week: number, day: number) {
         if(!+this.month_node[week * 7 + day].valid) return false;
         let date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day].day);
         if(this.isBeforeMinDate(+this.month_node[week * 7 + day].day)) return false;

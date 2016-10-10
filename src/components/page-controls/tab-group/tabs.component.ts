@@ -1,27 +1,15 @@
-import { Component, Pipe, Input, Output, EventEmitter, ElementRef} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 import { ViewChild, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { TabBody } from './tab-body.component';
 import { TabHead } from './tab-head.component';
 
-@Pipe({name: 'safe'})
-export class SafePipe {
-  constructor(private sanitizer:DomSanitizer){
-    this.sanitizer = sanitizer;
-  }
-
-  transform(style) {
-    return this.sanitizer.bypassSecurityTrustHtml(style);
-  }
-}
-
 @Component({
     selector: 'tab-group',
     templateUrl: './tabs.template.html',
-    styles: [ require('./tabs.styles.scss') ]
+    styleUrls: [ './tabs.styles.css' ]
 })
 export class TabGroup implements AfterContentInit  {
 
@@ -119,7 +107,7 @@ export class TabGroup implements AfterContentInit  {
         this.setActiveTab(this.state, true);
     }
 
-    setActiveTab(id, init:boolean = false) {
+    setActiveTab(id: string, init:boolean = false) {
         this.state = id;
 
         let tabs = this.tabHeaders.toArray();

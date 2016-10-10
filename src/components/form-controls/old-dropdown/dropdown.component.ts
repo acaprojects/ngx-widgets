@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: '[old-dropdown]',
-  styles: [ require('./dropdown.style.scss') ],
+  styleUrls: [ './dropdown.style.css' ],
   templateUrl: './dropdown.template.html'
 })
 export class OldDropdown {
@@ -31,10 +31,10 @@ export class OldDropdown {
     last_pos: any = null;
 
 	constructor() {
-        this.click = (e) => {
+        this.click = (e: any) => {
             this.down = true;
         };
-        this.moved = (e) => {
+        this.moved = (e: any) => {
             if(this.down){
                 let pos = {
                     x: (e instanceof TouchEvent ? e.changedTouches[0].clientX : e.clientX),
@@ -46,7 +46,7 @@ export class OldDropdown {
                 this.last_pos = pos;
             }
         }
-        this.released = (e) => {
+        this.released = (e: any) => {
             setTimeout(() => {
                 if(!this.move) {
                     if(this.contents) {
@@ -94,7 +94,7 @@ export class OldDropdown {
         }, 20)
   	}
 
-  	setOption(i: number, e?){
+  	setOption(i: number, e?: any){
         if(e) {
             e.preventDefault();
             e.stopPropagation();

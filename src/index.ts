@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { COMPILER_PROVIDERS } from '@angular/compiler';
-import { ImageCropperComponent } from 'ng2-img-cropper';
 
-import {ACA_WIDGET_COMPONENTS, ACA_ENTRY_COMPONENTS} from './components';
-import {ACA_WIDGET_DIRECTIVES} from './directives';
-import {ACA_WIDGET_PIPES} from './pipes';
-import {ACA_WIDGET_PROVIDERS} from './services';
+import { COMPONENTS, ENTRY_COMPONENTS } from './components';
+import { DIRECTIVES } from './directives';
+import { PIPES } from './pipes';
+import { SERVICES } from './services';
+import { ImageCropperComponent } from 'ng2-img-cropper';
 
 export * from './directives';
 export * from './pipes';
@@ -17,26 +17,48 @@ export * from './components';
 
 @NgModule({
     declarations: [
-        ...ACA_WIDGET_COMPONENTS,
-        ...ACA_WIDGET_DIRECTIVES,
-        ...ACA_WIDGET_PIPES,
-        ...ACA_ENTRY_COMPONENTS,
+        COMPONENTS,
+        DIRECTIVES,
+        PIPES,
+        ENTRY_COMPONENTS,
         ImageCropperComponent
     ],
     imports: [ CommonModule, FormsModule ],
     exports: [
-        ...ACA_WIDGET_COMPONENTS,
-        ...ACA_WIDGET_DIRECTIVES,
-        ...ACA_WIDGET_PIPES
+        COMPONENTS,
+        DIRECTIVES,
+        PIPES
     ],
     entryComponents: [
-        ...ACA_ENTRY_COMPONENTS
+        ENTRY_COMPONENTS
     ],
     providers: [
-        ...ACA_WIDGET_PROVIDERS,
-        COMPILER_PROVIDERS
+        SERVICES,
+        //COMPILER_PROVIDERS
     ]
 })
-export class ACA_WIDGET_MODULE {
+export class ACA_WIDGETS_MODULE { }
+/*
+@NgModule({
+  bootstrap: [ App ],
+  declarations: [
+    App,
+    Home,
+    NoContent
+  ],
+  imports: [ // import Angular's modules
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    RouterModule.forRoot(ROUTES, { useHash: false }),
+    ACA_WIDGET_MODULE
+  ],
+  providers: [ // expose our Services and Providers into Angular's dependency injection
+    ENV_PROVIDERS,
+    APP_PROVIDERS,
+  ]
+})
+export class AppModule {
 
 }
+//*/
