@@ -105,6 +105,7 @@ export class Button {
 
 	loadClasses() {
 		let btn = this.button.nativeElement;
+		btn.className = 'aca';
 		if(!this.disabled && this.btnType !== 'flat') {
 			let step = (this.btnType.indexOf('raised') >= 0 ? 'one' : 'two');
 			this.addClass(btn, 'step-' + step);

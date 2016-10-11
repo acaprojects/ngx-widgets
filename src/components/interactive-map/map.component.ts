@@ -64,6 +64,8 @@ export class InteractiveMap {
     @ViewChild('displayarea')  self: ElementRef;
     @ViewChild('maparea')  map_area: ElementRef;
     @ViewChild('mapdisplay')  map_display: ElementRef;
+    prev_map_styles: { id: string, color: string, fill: string, opacity: string }[] = [];
+    map_style_ids: string[] = [];
     content_box: any;
     map_box: any;
     map_data: any;
@@ -209,14 +211,40 @@ export class InteractiveMap {
     }
 
     setupStyles() {
-    	if(!this.mapStyles || !this.map_area) return;
+            // Clear previous color changes
+        if(this.prev_map_styles && this.prev_map_styles.length > 0) {
+            for(let i = 0; i < this.prev_map_styles.length; i++) {
+        		let style = this.prev_map_styles[i];
+            	let el = this.map_area.nativeElement.querySelector('#' + this.escape(style.id));
+            	if(el) {
+            		if(style.color !== undefined && style.color !== null) el.style.color = style.color;
+            		if(style.opacity !== undefined && style.opacity !== null) el.style.opacity = style.opacity;
+            		if(style.fill !== undefined && style.fill !== null) el.style.fill = style.fill;
+            	}
+            }
+        }
+    	if(!this.mapStyles || !this.map_item) return;
     	for(let i = 0; i < this.mapStyles.length; i++){
     		let style = this.mapStyles[i];
         	let el = this.map_area.nativeElement.querySelector('#' + this.escape(style.id));
-        	if(el) {
-        		if(style.color) el.style.color = style.color;
-        		if(style.opacity) el.style.opacity = style.opacity;
-        		if(style.fill) el.style.fill = style.fill;
+        	if(el && style.id !== '') {
+                let old_style = JSON.parse(JSON.stringify(style));
+        		if(style.color) {
+                    old_style.color = el.style.color;
+                    el.style.color = style.color;
+                }
+        		if(style.opacity) {
+                    old_style.opacity = el.style.opacity;
+                    el.style.opacity = style.opacity;
+                }
+        		if(style.fill) {
+                    old_style.fill = el.style.fill;
+                    el.style.fill = style.fill;
+                }
+                if(this.map_style_ids.indexOf(style.id) < 0) {
+                    this.prev_map_styles.push(old_style);
+                    this.map_style_ids.push(style.id);
+                }
         	}
     	}
     }
@@ -280,7 +308,7 @@ export class InteractiveMap {
 				let cbb = this.map_area.nativeElement.getBoundingClientRect();
 				let mb = this.map_item.getBoundingClientRect();
 				let elc = this.map_display.nativeElement.querySelector('#' + this.escape(pin.id));
-                if(elc) {
+                if(elc || (pin.x && pin.y)) {
                     el.style.display = '';
     					// Get map scale
     				let dir = this.map_box ? (mb.width > mb.height) : true;
@@ -615,6 +643,8 @@ export class InteractiveMap {
             setTimeout(() => { this.resize(); this.updateBoxes(); }, 200);
         	this.setupDisabled();
         	this.setupPins();
+            this.prev_map_styles = [];
+            this.map_style_ids = [];
         	this.setupStyles();
 			this.setupEvents();
         	setTimeout(() => {
