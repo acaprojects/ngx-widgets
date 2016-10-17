@@ -9,22 +9,13 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
         trigger('toggleBg', [
             state('on', style({ 'background-color': '#23CE6B' })),
             state('off', style({ 'background-color': '#F64740' })),
-            transition('* => off', animate('100ms ease-out', keyframes([
-                style({'background-color': '#23CE6B', offset: 0}), style({'background-color': '#F64740', offset: 1.0})
-            ]))),
-            transition('* => on', animate('100ms ease-out', keyframes([
-                style({'background-color': '#F64740', offset: 0}), style({'background-color': '#23CE6B', offset: 1.0})
-            ])))
+            state('disabled', style({ 'background-color': '#DCDCDC' })),
+            transition('* => *', animate('100ms ease-out'))
         ]),
         trigger('textToggle', [
             state('on', style({left: '50%'})),
             state('off', style({left: '0%'})),
-            transition("* => off", animate('100ms ease-out', keyframes([
-                style({left: '50%', offset: 0}), style({left: '0%', offset: 1.0})
-            ]))),
-            transition("* => on", animate('100ms ease-out', keyframes([
-                style({left: '0%', offset: 0}), style({left: '50%', offset: 1.0})
-            ])))
+            transition("on <=> off", animate('100ms ease-out'))
         ]),
         trigger('iosToggle', [
             state('on', style({left: '33%'})),
@@ -43,7 +34,8 @@ export class Toggle {
     @Input() state: boolean = true;
     @Input() active: string;
     @Input() inactive: string;
-    @Input() view: string;
+    @Input() view: string = 'square';
+    @Input() disabled: boolean = false;
     @Input() size: string = '1.0em';
     @Input() colorYes: string = 'green';
     @Input() primaryYes: string = 'C500';
@@ -73,6 +65,7 @@ export class Toggle {
     ngOnChanges(changes: any){
         this.initElements();
         if(changes.state) this.tstate = this.state ? 'on' : 'off';
+        if(changes.disabled) this.tstate = this.disabled ? 'disabled' : (this.state ? 'on' : 'off');
     }
 
     initElements(){
@@ -82,6 +75,7 @@ export class Toggle {
     }
 
     changeState(event: any){
+        if(this.disabled) return;
   		if (event.stopPropagation) event.stopPropagation();
 		else event.cancelBubble = true;
         this.state = !this.state;

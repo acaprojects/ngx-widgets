@@ -1,9 +1,9 @@
 <div [id]="id ? id : 'modal'"
-	[@backdrop]="state"
+	[@backdrop]="state ? 'show' : 'hide'"
 	[class]="'aca modal' + (cssClass ? ' ' + cssClass : '')"
 	(click)="onPointer($event)"
 	(touchend)="onPointer($event)">
-	<div #modal class="modal-space" [@space]="state"
+	<div #modal class="modal-space" [@space]="state_inner ? 'show' : 'hide'"
 			[style.width]="display_width + unit">
 		<div class="modal-body">
 			<div class="content"><div #content></div></div>

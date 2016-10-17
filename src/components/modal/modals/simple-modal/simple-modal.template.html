@@ -1,5 +1,5 @@
-<div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (click)="onPointer($event)" (scroll)="blockScroll($event)" (touchend)="onPointer($event)">
-	<div #modal class="modal-space" [@space]="state"
+<div  [@backdrop]="state ? 'show' : 'hide'" [class]="'aca modal ' + cssClass" (click)="onPointer($event)" (scroll)="blockScroll($event)" (touchend)="onPointer($event)">
+	<div #modal class="modal-space" [@space]="state_inner ? 'show' : 'hide'"
 			[style.width]="(large ? 2.5 * width : width) + unit">
 		<div class="modal-header title" [style.background-color]="color1" [style.color]="color2" >
 			{{title}}

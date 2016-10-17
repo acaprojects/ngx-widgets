@@ -191,16 +191,18 @@ export class InteractiveMap {
     }
 
     clearDisabled(strs:string[]) {
-        for(let i = 0; i < strs.length; i++) {
-        	let el = this.map_display.nativeElement.querySelector('#' + this.escape(strs[i]));
-        	if(el !== null) {
-        		el.style.display = 'inherit';
-        	}
+        if(this.map_display) {
+            for(let i = 0; i < strs.length; i++) {
+            	let el = this.map_display.nativeElement.querySelector('#' + this.escape(strs[i]));
+            	if(el !== null) {
+            		el.style.display = 'inherit';
+            	}
+            }
         }
     }
 
     setupDisabled() {
-    	if(this.active) {
+    	if(this.active && this.map_display) {
 	        for(let i = 0; i < this.disable.length; i++) {
 	        	let el = this.map_display.nativeElement.querySelector('#' + this.escape(this.disable[i]));
 	        	if(el !== null) {
@@ -484,6 +486,9 @@ export class InteractiveMap {
 
     ngOnChanges(changes: any){
         if(changes.map){
+            this.zoom = 0;
+            this._zoom = 0;
+            this.center = { x: 0.5, y: 0.5 };
             this.loadMapData();
         }
         if(changes.zoom) {
@@ -503,6 +508,8 @@ export class InteractiveMap {
         	this.setupStyles();
         }
         if(changes.focus ) {
+            this.zoom = 0;
+            this._zoom = 0;
         	this.updateFocus();
         }
     }

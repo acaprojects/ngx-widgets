@@ -137,6 +137,8 @@ export class Slider {
     }
 
     slideUpdate(event: any) {
+        event.preventDefault();
+        event.stopPropagation();
         if(this.align === 'vertical') {
             this.value = this.max - Math.round((event.relativePercentVertical/100 * (this.max - this.min)) + this.min);
         } else {
@@ -169,6 +171,8 @@ export class Slider {
     }
 
     calcValue(event: any) {
+        event.preventDefault();
+        event.stopPropagation();
         let pos: number, percent: number;
         if (this.align === 'horizontal') {
             pos = event.clientX - this.getBarOffset().x;
@@ -192,6 +196,8 @@ export class Slider {
     }
 
    	checkStatus(e: any, i: number) {
+        e.preventDefault();
+        e.stopPropagation();
    		if(i > 3 || !this.space) return;
    		let visible = false;
    		let el = this.space.nativeElement;
@@ -208,6 +214,8 @@ export class Slider {
 
 
     clickSlider(event: any) {
+        event.preventDefault();
+        event.stopPropagation();
         if(document.onmousemove !== null) return;
         this.value = this.calcValue(event);
         this.updateValue();
@@ -220,12 +228,16 @@ export class Slider {
     }
 
     moveSlider(event: any){
+        event.preventDefault();
+        event.stopPropagation();
         let prev = this.value;
         this.value = this.calcValue(event);
         this.refresh();
     }
 
     sliderStop(event: any){
+        event.preventDefault();
+        event.stopPropagation();
         this.slideEnd(event);
         this.refresh();
     }

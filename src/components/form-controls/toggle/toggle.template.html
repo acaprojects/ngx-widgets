@@ -1,4 +1,4 @@
-<div class="aca toggle" (click)="changeState($event)" [style.font-size]="size">
+<div class="aca toggle" [class.disabled]="disabled" (click)="changeState($event)" [style.font-size]="size" override>
     <div *ngIf="type==='text'" [@toggleBg]="tstate" class="text-toggle">
         <div *ngIf="state" class="text active">{{active ? active : 'On'}}</div>
         <div *ngIf="!state" class="text inactive">{{inactive ? inactive : 'Off'}}</div>

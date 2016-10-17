@@ -21,8 +21,8 @@ const PLACEHOLDER = '-';
         trigger('space', [
             state('hide',   style({ 'left': '100%', 'opacity' : '0'})),
             state('show', style({ 'left':   '50%', 'opacity' : '1' })),
-            transition('* => hide', animate('0.5s ease-out')),
-            transition('* => show', animate('0.5s ease-in'))
+            transition('* => hide', animate('0.2s ease-out')),
+            transition('* => show', animate('0.2s ease-in'))
         ])
     ]
 })
@@ -48,7 +48,8 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     @ViewChild('content', { read: ViewContainerRef }) public _content: ViewContainerRef;
 
     modal_box: any;
-    state: string = 'show';
+    state: boolean = false;
+    state_inner: boolean = false;
     cb_fn: Function = null;
     error: boolean = false;
     err_msg: string = '';
@@ -69,6 +70,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         this.options.push({ 'text': 'Ok', 'fn': null });
         this.options.push({ 'text': 'Cancel', 'fn': null });
         this.id = (Math.round(Math.random() * 899999999 + 100000000)).toString();
+        this.open();
     }
 
     ngOnInit() {
@@ -186,7 +188,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     }
 
     public close_fn(cb_fn?: Function) {
-        this.state = 'hide';
+        this.state = this.state_inner = false;
         setTimeout(() => {
             if(cb_fn) cb_fn();
             if(this.clean_fn) this.clean_fn();
@@ -196,7 +198,9 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     }
 
     public open() {
-        this.state = 'show';
+        console.log('Open');
+        this.state = true;
+        setTimeout(() => { this.state_inner = true; }, 100);
         setTimeout(() => { this.openEvent.emit(null); }, 500);
     }
 

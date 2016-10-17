@@ -21,8 +21,8 @@ const PLACEHOLDER = '-';
         trigger('space', [
             state('hide',   style({ 'left': '100%', 'opacity' : '0'})),
             state('show', style({ 'left':   '50%', 'opacity' : '1' })),
-            transition('* => hide', animate('0.5s ease-out')),
-            transition('* => show', animate('0.5s ease-in'))
+            transition('* => hide', animate('0.2s ease-out')),
+            transition('* => show', animate('0.2s ease-in'))
         ])
     ]
 })
