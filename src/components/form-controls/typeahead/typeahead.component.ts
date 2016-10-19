@@ -5,7 +5,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDe
     selector: 'typeahead-list',
     template: `
 		<div #contents class="contents">
-			<div #list class="options" [style.display]="filtered_list.length > 0 ? 'inherit' : 'none'">
+			<div #list class="options">
 				<ul #listView>
 					<li [class]="'option ' + cssClass"
 						*ngFor="let item of filtered_list; let i = index"
@@ -20,6 +20,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDe
 						<div class="name">{{item.name}}</div>
 						<div class="desc">{{item.description}}</div>
 					</li>
+                    <li class="option" *ngIf="filtered_list.length <= 0">{{ none_msg && none_msg !== '' ? none_msg : 'No results'}}</li>
 				</ul>
 			</div>
 		</div>
@@ -42,6 +43,7 @@ export class TypeaheadList {
   	scroll: any = null;
   	mousedown: any = null;
   	mouseup: any = null;
+    none_msg: string = '';
 
 	@ViewChild('list') list : ElementRef;
 	@ViewChild('contents') contents : ElementRef;
@@ -239,6 +241,7 @@ export class Typeahead {
   	@Input() results: number = 5;
   	@Input() active: boolean = false;
   	@Input() cssClass: string = 'default';
+  	@Input() msg: string = '';
   	@Output() onSelect = new EventEmitter();
 
   	@ViewChild('main') main: ElementRef;
@@ -319,6 +322,7 @@ export class Typeahead {
         	this.list_ref = cmpRef;
         	this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass);
         	this.list_view.moveList(this.main);
+            this.list_view.none_msg = this.msg;
         	return this.list;
         }
     }

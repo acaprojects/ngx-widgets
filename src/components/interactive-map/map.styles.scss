@@ -44,10 +44,9 @@
             margin:auto;
             min-width:100%;
             min-height:100%;
-            transform-origin: 0 0;
+            top: 50%;
+            left: 50%;
             transform: scale(1);
-            top:0px;
-            left:0px;
             z-index: 10;
             will-change: width, height, top, left;
         }
