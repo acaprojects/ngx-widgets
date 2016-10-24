@@ -1,90 +1,75 @@
 
-$dim: 4.0em;
+$dim: 1.5em;
 $base-color: #343434;
 
-.slider {
+div.slider {
     width:100%;
-    height:100%;
+    height: 100%;
     box-sizing: border-box;
-}
-
-.slider-block {
-    position: relative;
-    display: inline-block;
-    padding: 0.5em;
-    box-sizing: border-box;
-    user-select: none;
-    overflow: visible;
-    &.horizon {
-        width:100%;
-        height: $dim;
+    & * {
         box-sizing: border-box;
-        touch-action: pan-y;
-        & .slider-bar{
-            width: 100%;
-            height: 50%;
-            touch-action: pan-y;
-        }
-
-        & .slider-knob {
-            top:-45%;
-            transform: translateX(-50%);
-            touch-action: pan-y;
-        }
-
-        & .slider-progress{
-            height:100%;
-            touch-action: pan-y;
-        }
+        cursor: pointer;
     }
-
-    &.vertical {
-        height: 100%;
-        width: $dim;
-        box-sizing: border-box;
-        touch-action: pan-x;
+    & .slider-block {
+        width:100%;
+        touch-action: pan-y;
+        cursor: default;
+        padding: 1.0em 1.5em;
         & .slider-bar{
-            width: 50%;
+            position: relative;
+            width: 100%;
+            min-width: $dim;
+            height: $dim;
+            touch-action: pan-y;
+            background-color: #898989;
+            border-radius: $dim/2;
+            cursor: pointer;
+            & .slider-knob {
+                position: absolute;
+                width: $dim*2;
+                height: $dim*2;
+                top:-50%;
+                left: 0;
+                transform: translateX(-50%);
+                touch-action: pan-y;
+                border-radius: $dim;
+                background-color: #FFFFFF;
+                box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+            }
+
+            & .slider-progress{
+                position: absolute;
+                top:0;
+                left:0;
+                height:100%;
+                touch-action: pan-y;
+                background-color: #53B3CB;
+                border-radius: $dim;
+            }
+        }
+
+        &.vertical {
+            width: auto;
             height: 100%;
             touch-action: pan-x;
-        }
+            padding: 1.5em 1.0em;
+            & .slider-bar{
+                width: $dim;
+                min-height: $dim;
+                height: 100%;
+                touch-action: pan-x;
+                & .slider-knob {
+                    left:-50%;
+                    top: 100%;
+                    transform: translateY(-50%);
+                    touch-action: pan-x;
+                }
 
-        & .slider-knob {
-            left:-40%;
-            transform: translateY(-50%);
-            touch-action: pan-x;
-        }
-
-        & .slider-progress{
-            width:100%;
-            touch-action: pan-x;
+                & .slider-progress{
+                    width:100%;
+                    touch-action: pan-x;
+                }
+            }
         }
     }
-}
-
-.slider-bar {
-    position: relative;
-    box-sizing: border-box;
-    background-color: #898989;
-    border-radius: $dim/2;
-    cursor: pointer;
-}
-
-.slider-progress {
-    position: absolute;
-    background-color: #53B3CB;
-    border-radius: $dim;
-    top:0;
-    left:0;
-    cursor: pointer;
-}
-
-.slider-knob{
-    position: absolute;
-    width: $dim/3*2;
-    height: $dim/3*2;
-    border-radius: $dim;
-    background-color: #FFFFFF;
-    box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-    cursor: pointer;
 }

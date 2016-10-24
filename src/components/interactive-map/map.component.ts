@@ -71,6 +71,7 @@ export class InteractiveMap {
     map_data: any;
     map_item: any;
     touchmap: any;
+    private o_zoom: number = 0;
     private _zoom: number = 0; // As Percentage
     rotate: number = 0; // In degrees
     zoomed: boolean = false;
@@ -147,7 +148,7 @@ export class InteractiveMap {
 			}, 60);
         });
     	this.checkStatus(null, 0);
-    	this.zoom = this._zoom;
+    	this.o_zoom = this._zoom;
     }
 
 	ngOnDestroy() {
@@ -165,7 +166,7 @@ export class InteractiveMap {
         	// Clean up any dimension changes
         this.rotate = this.rotate % 360;
 		let p_z_state = this.zoom_state;
-		this.zoom_state = Math.round(100 + this.zoom).toString();
+		this.zoom_state = Math.round(100 + this.o_zoom).toString();
 		if(this.zoom_state !== p_z_state) {
 			setTimeout(() => {
 				this.updateBoxes();
@@ -176,23 +177,18 @@ export class InteractiveMap {
 
     updateValues() {
             // Update zoom
-        this.zoom += this.moveTo(this.zoom, this._zoom);
-        //this.zoom = (this._zoom);
-        this.zoomChange.emit(this.zoom);
+        this.o_zoom += this.moveTo(this.o_zoom, this._zoom);
+        //this.o_zoom = (this._zoom);
             // Update Position
     }
 
-    checkValues() {
+    checkValues(force: boolean = false) {
             // Check zoom is valid
-        if(!this.isFocus) {
+        if(!this.isFocus || force) {
             if(this._zoom > this.zoomMax || this._zoom > ZOOM_LIMIT) this._zoom = this.zoomMax;
             else if (this._zoom < -50) this._zoom = -50;
-            if(this._zoom !== this.zoom && this.zoom) { // Update pos
-                if(isNaN(this._zoom)) this._zoom = this.zoom;
-                if(isNaN(this.zoom)) this.zoom = this._zoom;
-                let zoom_change = this._zoom / (this.zoom);
-                if(isNaN(zoom_change)) zoom_change = 1;
-            }
+            else if(!this._zoom) this._zoom = 0;
+            this.zoomChange.emit(this._zoom);
                 // Check position is valid
             if(!this.focus) {
         		if(this.center.x < this.min_center.x) this.center.x = this.min_center.x;
@@ -229,8 +225,8 @@ export class InteractiveMap {
     }
 
     moveTo(from: number, to: number, max: number = 50) {
-        let dir = from - to < 0;
-        return Math.min(Math.abs(from - to), max);
+        let dir = from - to < 0 ? 1 : -1;
+        return dir * Math.min(Math.abs(from - to), max);
     }
 
     clearDisabled(strs:string[]) {
@@ -473,26 +469,6 @@ export class InteractiveMap {
     }
 
 	setupEvents() {
-        if(Hammer && this.map_item && (!this.focus || this.focus === '' || this.focusScroll)){
-                // Setup events via Hammer.js if it is included
-            this.de = new Hammer(document, {});
-            this.de.on('tap', (event:Event) => { this.checkStatus(event, 0); })
-            this.touchmap = new Hammer(this.map_item, {});
-                //Tap Map
-            this.touchmap.on('tap', (event:Event) => {this.tapMap(event);});
-                //Moving Map
-            this.touchmap.on('pan', (event:Event) => {this.moveMap(event);});
-            this.touchmap.on('panend', (event:Event) => {this.moveEnd(event);});
-            this.touchmap.get('pan').set({ directive: Hammer.DIRECTION_ALL, threshold: 5 });
-                // Scaling map
-            this.touchmap.on('pinch', (event:Event) => {this.scaleMap(event);});
-            this.touchmap.on('pinchend', (event:Event) => {this.scaleEnd(event);});
-            this.touchmap.get('pinch').set({ enable: true });
-        } else if(this.map_item){
-                //Setup Normal Events
-
-                //*/
-        }
         this.setupPins();
         if(this.focus) this.updateFocus();
 	}
@@ -523,19 +499,16 @@ export class InteractiveMap {
    		}
    	}
 
-    ngAfterContentInit() {
-
-    }
-
-    ngOnChanges(changes: any){
+    ngOnChanges(changes: any) {
         if(changes.map){
-            this.zoom = 0;
+            this.o_zoom = 0;
             this._zoom = 0;
             this.center = { x: 0.5, y: 0.5 };
             this.loadMapData();
         }
-        if(changes.zoom) {
-        	this._zoom = isNaN(this.zoom) ? 0 : this.zoom;
+        if(changes.zoom && this.zoom !== this._zoom) {
+        	this._zoom = this.zoom;
+            this.checkValues(true);
         	if(this.draw !== null) this.updateBoxes();
         }
         if(changes.disable) {
@@ -550,8 +523,8 @@ export class InteractiveMap {
         if(changes.mapStyles) {
         	this.setupStyles();
         }
-        if(changes.focus ) {
-            this.zoom = 0;
+        if(changes.focus) {
+            this.o_zoom = 0;
             this._zoom = 0;
         	this.updateFocus();
         }
@@ -778,22 +751,40 @@ export class InteractiveMap {
 
     dZoom = 1;
 
-    updateZoom(zp: number) {
-        this._zoom = (this._zoom + 100) * zp - 100;
-        this.checkValues();
+    can_change_zoom: boolean = true;
+    zoom_timer: any = null;
+
+    updateZoom(zp: number, add: number = 0) {
+        this.can_change_zoom = false;
+        this._zoom = Math.round((this._zoom + 100) * zp - 100 + add);
+        this.checkValues(true);
         this.redraw();
 	    this.updateBoxes();
+        if(this.zoom_timer) {
+            clearTimeout(this.zoom_timer);
+            this.zoom_timer = null;
+        }
+        this.zoom_timer = setTimeout(() => {
+            this.can_change_zoom = true;
+            this.zoom_timer = null;
+        });
+    }
+
+    startScale(event: any) {
+        this.dZoom = event.scale;
     }
 
     scaleMap(event: any) {
 		let scale = event.scale - this.dZoom;
-		let dir = scale / Math.abs(scale);
-        this.updateZoom(1 + dir * Math.max(Math.abs(scale), 0.05) / 4 );
+		let dir = scale > 0 ? 1 : -1;
+        let value = 1 + dir * Math.max(Math.abs(scale), 0.01) / 2;
+        console.log(scale, value);
+        this.updateZoom(value);
         this.dZoom += scale;
     }
 
-    scaleEnd(event: any) {
-    	this.dZoom = 1
+    finishScale() {
+        this.dZoom = 0;
     }
 
     zoomIn() {
@@ -805,9 +796,8 @@ export class InteractiveMap {
     }
 
     resetZoom() {
-        this._zoom = 0;
 		this.center = { x: 0.5, y: 0.5 };
-        this.updateZoom(1);
+        this.updateZoom(0, -100);
     }
 
     private redraw(){
@@ -833,10 +823,10 @@ export class InteractiveMap {
     		if(!this.content_box && this.self) {
         		this.content_box = this.self.nativeElement.getBoundingClientRect();
     		}
-    		if(this.map_display && this.content_box) {
+    		if(this.map_display && this.content_box && this.map_item) {
 		        //this.map_box = this.map_display.nativeElement.getBoundingClientRect();
 			    this.map_box = this.map_item.getBoundingClientRect();
-		        this.zoomChange.emit(this.zoom);
+		        this.zoomChange.emit(this._zoom);
 				let x = (this.map_box.width-this.content_box.width)/this.map_box.width;
 				let y = (this.map_box.height-this.content_box.height)/this.map_box.height;
 				this.min_center = {

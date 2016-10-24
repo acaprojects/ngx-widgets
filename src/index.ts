@@ -37,28 +37,10 @@ export * from './components';
         //COMPILER_PROVIDERS
     ]
 })
-export class ACA_WIDGETS_MODULE { }
-/*
-@NgModule({
-  bootstrap: [ App ],
-  declarations: [
-    App,
-    Home,
-    NoContent
-  ],
-  imports: [ // import Angular's modules
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: false }),
-    ACA_WIDGET_MODULE
-  ],
-  providers: [ // expose our Services and Providers into Angular's dependency injection
-    ENV_PROVIDERS,
-    APP_PROVIDERS,
-  ]
-})
-export class AppModule {
-
+export class ACA_WIDGETS_MODULE {
+    version: string = '0.5.1';
+    build: string = 'dev-2016-10-24_5';
+    constructor() {
+        console.debug(`ACA Angular 2 Widget Library - Version: ${this.version} | Build: ${this.build}`);
+    }
 }
-//*/

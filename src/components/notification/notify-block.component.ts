@@ -26,8 +26,8 @@ import { trigger, transition, animate, style, state, keyframes } 	 from '@angula
             state('11', style({ bottom: '50em' })),
             state('12', style({ bottom: '54.5em' })),
             state('13', style({ bottom: '59em' })),
-            state('hidden', style({ opacity: 0 })),
-            state('close', style({ opacity: 0 })),
+            state('hidden', style({ opacity: 0, display: 'none' })),
+            state('close', style({ opacity: 0, display: 'none' })),
         	transition('void => *', [ style({ right: '10.0em',  opacity: 0}), animate('400ms ease-out', style({ right: '0.5em', opacity: 1})) ]),
         	transition('* => close', [ style({ right: '0.5em',  opacity: 1}), animate('400ms ease-out', style({ right: '-10.0em', opacity: 0})) ]),
     	    transition('* <=> *', animate('400ms ease-out') )

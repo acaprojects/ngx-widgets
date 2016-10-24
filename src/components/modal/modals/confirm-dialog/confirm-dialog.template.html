@@ -1,4 +1,4 @@
-<div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (click)="onPointer($event)" (touchend)="onPointer($event)">
+<div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (tap)="onPointer($event)">
 	<div #modal class="modal-space" [@space]="state">
 		<div class="dialog-header">{{title}}</div>
 		<div class="dialog-body">

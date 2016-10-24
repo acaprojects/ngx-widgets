@@ -87,7 +87,6 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         if(changes.width) {
             this.display_width = 2.5 * this.width;
             this.display_height = this.display_width / 3 * 2 - 5;
-            console.log(this.display_width, this.display_height);
         }
     }
 
@@ -107,7 +106,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         if(this.component !== undefined && this.component !== null){
     		let factory = this._cfr.resolveComponentFactory(this.component);
             if(factory) this.render(factory);
-            else console.log('Unable to find factory for: ', this.component);
+            else console.error('WIDGETS | Modal: Unable to find factory for: ', this.component);
     	}
     }
 
@@ -143,10 +142,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
   		if (event.stopPropagation) event.stopPropagation();
 		else event.cancelBubble = true;
         if(!this.close || !this.modal) return;
-        let c = {
-            x: event.clientX,
-            y: event.clientY
-        }
+        let c: { x: number, y: number } = event.center ? event.center : { x: event.clientX, y: event.clientY };
         this.modal_box = this.modal.nativeElement.getBoundingClientRect();
         let box = this.modal_box;
         if(c.x < 10 && c.y < 10) this.open();
@@ -161,7 +157,6 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
 
     public setParams(data: any) {
         if(data) {
-            console.log(data);
 	    	this.data = data;
 	    	if(this.content_instance) this.content_instance.entity = this.data;
             if(data.title) this.title = data.title;
@@ -198,7 +193,6 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     }
 
     public open() {
-        console.log('Open');
         this.state = true;
         setTimeout(() => { this.state_inner = true; }, 100);
         setTimeout(() => { this.openEvent.emit(null); }, 500);

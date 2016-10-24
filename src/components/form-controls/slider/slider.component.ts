@@ -9,7 +9,7 @@ declare let Hammer: any;
     styleUrls: [ './slider.styles.css' ]
 })
 export class Slider {
-    @Input() align: string;
+    @Input() align: string = 'horizontal';
     @Input() min: number = 0;
     @Input() max: number = 100;
     @Input() value: number = 0;
@@ -18,27 +18,13 @@ export class Slider {
     @Input() cssClass: string = '';
     @Output() valueChange = new EventEmitter();
     //*
-    @ViewChild('vspace') vspace:any;
-    @ViewChild('hspace') hspace:any;
-        //Slider Bar
-    @ViewChild('barVert') vslider:any;
-    @ViewChild('barHorz') hslider:any;
-        //Slider Knob
-    @ViewChild('knobVert') vknob:any;
-    @ViewChild('knobHorz') hknob:any;
-        //Slider Progress Strip
-    @ViewChild('progressVert') vprog:any;
-    @ViewChild('progressHorz') hprog:any;
+    @ViewChild('space') space: any;
+    @ViewChild('bar')   bar: any;
+    @ViewChild('knob')  knob: any;
+    @ViewChild('prog')  prog: any;
 
     available: boolean = false;
     position: number = 0;
-    knob: ElementRef;
-    bar: ElementRef;
-    prog: ElementRef;
-    space: ElementRef;
-    de: any;
-    touchbar: any;
-    touchknob: any;
     bb : any;
 
     constructor(private a: ACA_Animate){
@@ -46,7 +32,6 @@ export class Slider {
 
     ngAfterViewInit(){
         this.available = true;
-        this.initElements();
     }
 
     ngOnChanges(changes: any){
@@ -59,58 +44,9 @@ export class Slider {
         if(!this.min) this.min = 0;
         if(!this.max) this.max = 100;
         if(!this.knob) {
-            this.initElements();
             this.refresh();
         }
         if(changes.value) this.refresh();
-    }
-
-    initElements(){
-        this.space = this.align === 'horizontal' ? this.hspace : this.vspace;
-        this.bar = this.align === 'horizontal' ? this.hslider : this.vslider;
-        this.knob = this.align === 'horizontal' ? this.hknob : this.vknob;
-        this.prog = this.align === 'horizontal' ? this.hprog : this.vprog;
-            //Setup Interactive Events
-        //*
-        if(Hammer && this.bar && this.knob){
-                // Setup events via Hammer.js if it is included
-            let fn = (event: any) => {
-                let data: any;
-                data = {};
-                if(event.pointerType === 'mouse'){
-                    data = event.srcEvent;
-                    this.moveSlider(data);
-                } else if(event.pointerType === 'touch') {
-                    if(event.srcEvent.changedTouches.length > 0){
-                        data = event.srcEvent.changedTouches[event.srcEvent.changedTouches.length -1];
-                        data.srcElement = event.srcEvent.srcElement;
-                        data.offsetX = data.pageX - this.getBarOffset().x;
-                        data.offsetY = data.pageY - this.getBarOffset().y;
-                        this.moveSlider(data);
-                    }
-                }
-            };
-            this.de = new Hammer(document, {});
-            this.de.on('tap', () => { this.checkStatus(null, 0); });
-            this.touchbar = new Hammer(this.space.nativeElement, {});
-            this.touchbar.on('tap', fn);
-            this.touchbar.on('pan', fn);
-            if(this.align === 'vertical'){
-                this.touchbar.get('pan').set({ directive: Hammer.DIRECTION_VERTICAL, threshold: 5 });
-            } else {
-                this.touchbar.get('pan').set({ directive: Hammer.DIRECTION_HORIZONTAL, threshold: 5 });
-            }
-        } else if(this.bar && this.knob){
-                //Setup Normal Events
-                //*
-            let fn = (event: any) => {
-                this.clickSlider(event);
-            }
-            this.bar.nativeElement.onmousedown = fn;
-            this.bar.nativeElement.ontouchdown = fn;
-                //*/
-        }
-        //*/
     }
 
     getBarOffset(){
@@ -118,6 +54,7 @@ export class Slider {
             x : 0,
             y : 0
         };
+        if(!this.bar) return dim;
         if(!this.bb) this.bb = this.bar.nativeElement.getBoundingClientRect();
         let el = this.bb;
         dim.x = el.left;
@@ -125,20 +62,11 @@ export class Slider {
         return dim;
     }
 
-    slideStart(){
-
-    }
-
-    slideEnd(event: any) {
-        document.onmousemove = null;
-        document.onmouseup = null;
-        document.ontouchmove = null;
-        document.ontouchend = null;
-    }
-
     slideUpdate(event: any) {
-        event.preventDefault();
-        event.stopPropagation();
+        if(event) {
+            if(event.preventDefault) event.preventDefault();
+            if(event.stopPropagation) event.stopPropagation();
+        }
         if(this.align === 'vertical') {
             this.value = this.max - Math.round((event.relativePercentVertical/100 * (this.max - this.min)) + this.min);
         } else {
@@ -150,8 +78,7 @@ export class Slider {
     }
 
     updateValue(update:boolean = false) {
-        if(!this.knob) {
-            this.initElements();
+        if(!this.knob || !this.bar || !this.prog) {
             setTimeout(() => { this.updateValue(update); }, 20);
         } else if(update) {
         	this.a.animation(() => {}, () => {
@@ -171,15 +98,25 @@ export class Slider {
     }
 
     calcValue(event: any) {
-        event.preventDefault();
-        event.stopPropagation();
-        let pos: number, percent: number;
-        if (this.align === 'horizontal') {
-            pos = event.clientX - this.getBarOffset().x;
-            percent = pos / this.bar.nativeElement.offsetWidth;
+        console.log(event);
+        if(event) {
+            if(event.preventDefault) event.preventDefault();
+            if(event.stopPropagation) event.stopPropagation();
         } else {
-            pos = event.clientY - this.getBarOffset().y;
-            percent = 1 - (pos / this.bar.nativeElement.offsetHeight);
+            return this.value;
+        }
+        let align = this.align ? this.align.toLowerCase() : '';
+        let isVertical = align.indexOf('vert') >= 0;
+        let pos: number, percent: number = 0;
+        let center: { x: number, y: number } = event.center ? event.center : { x: event.clientX, y: event.clientY };
+        if(this.bar) {
+            if (!isVertical) {
+                pos = center.x - this.getBarOffset().x;
+                percent = pos / this.bar.nativeElement.offsetWidth;
+            } else {
+                pos = center.y - this.getBarOffset().y;
+                percent = 1 - (pos / this.bar.nativeElement.offsetHeight);
+            }
         }
 
         // Normalise the range
@@ -191,13 +128,16 @@ export class Slider {
 
         // round the stepped value to a precision level
         var rounded = Math.round(stepped * +this.precision) / +this.precision;
+        console.log(center, percent, range, stepped, rounded);
         // constraint min..X..max
         return Math.min(+this.max, Math.max(+this.min, (rounded + +this.min)));
     }
 
    	checkStatus(e: any, i: number) {
-        e.preventDefault();
-        e.stopPropagation();
+        if(event) {
+            if(event.preventDefault) event.preventDefault();
+            if(event.stopPropagation) event.stopPropagation();
+        }
    		if(i > 3 || !this.space) return;
    		let visible = false;
    		let el = this.space.nativeElement;
@@ -214,31 +154,29 @@ export class Slider {
 
 
     clickSlider(event: any) {
-        event.preventDefault();
-        event.stopPropagation();
-        if(document.onmousemove !== null) return;
+        if(event) {
+            if(event.preventDefault) event.preventDefault();
+            if(event.stopPropagation) event.stopPropagation();
+        }
         this.value = this.calcValue(event);
         this.updateValue();
-        document.onmouseup = (event) => {
-            this.sliderStop(event);
-        };
-        document.onmousemove = (event) => {
-            this.moveSlider(event);
-        };
     }
 
     moveSlider(event: any){
-        event.preventDefault();
-        event.stopPropagation();
+        if(event) {
+            if(event.preventDefault) event.preventDefault();
+            if(event.stopPropagation) event.stopPropagation();
+        }
         let prev = this.value;
         this.value = this.calcValue(event);
         this.refresh();
     }
 
     sliderStop(event: any){
-        event.preventDefault();
-        event.stopPropagation();
-        this.slideEnd(event);
+        if(event) {
+            if(event.preventDefault) event.preventDefault();
+            if(event.stopPropagation) event.stopPropagation();
+        }
         this.refresh();
     }
 
