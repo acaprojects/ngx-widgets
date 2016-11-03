@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ComponentFactoryResolver } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 import { ModalService } from '../../../../services';
 import { Modal } from '../../modal.component';
@@ -35,6 +35,10 @@ const PLACEHOLDER = '-';
 export class AlertDialog extends Modal {
 	confirm: any = { text: 'OK', fn: null };
 	cancel:  any = { text: 'CANCEL', fn: null };
+
+    constructor(public _cfr: ComponentFactoryResolver) {
+        super(_cfr);
+    }
 
     setParams(data: any) {
     	super.setParams(data);

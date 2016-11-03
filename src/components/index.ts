@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, ButtonToggle } from './buttons';
-import { Calendar, DataInput, Dropdown, OldDropdown, Slider, TimePicker, Toggle, Typeahead, TypeaheadList } from './form-controls';
+import { Calendar, DataInput, Dropdown, OldDropdown, Slider, TimePicker, Toggle, Typeahead, TypeaheadList, VirtualKeyboard } from './form-controls';
 import { ImageCrop } from './img-crop';
 import { InteractiveMap } from './interactive-map';
 import { MaterialStyles } from './material-styles';
@@ -43,5 +43,6 @@ export let ENTRY_COMPONENTS: any[] = [
     ACA_WIDGET_MODALS,
     Notification,
     NotifyBlock,
-    TypeaheadList
+    TypeaheadList,
+    VirtualKeyboard
 ];

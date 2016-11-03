@@ -1,45 +1,43 @@
 <div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (tap)="onPointer($event)">
 	<div #modal class="modal-space" [@space]="state">
 		<div class="dialog-header">
-			<div class="year">{{data.date.getFullYear()}}</div>
-			<div class="date">{{formatDate()}}</div>
+			<div class="year">{{date | date:'y'}}</div>
+			<div class="date">{{date | date:'EEE, d MMM'}}</div>
 		</div>
 		<div class="dialog-body">
-			<div class="calendar">
-				<div class="header" [style.color]="color2" [style.background-color]="color1">
-					<div class="arrow left" [style.color]="color2" (click)="prevMonth()">
-						<
-					</div>
-					{{months[display_month]}} {{display_year}}
-					<div class="arrow right" [style.color]="color2" (click)="nextMonth()">
-						>
-					</div>
+			<div class="header">
+				<div class="arrow left" (click)="prevMonth()">
+					&#9668;
 				</div>
-				<div class="week-days">
-					<div class="weekday" *ngFor="let day of days;let i = index" [class.even]="i%2==0">{{day}}</div>
+				{{months[display_month]}} {{display_year}}
+				<div class="arrow right" (click)="nextMonth()">
+					&#9658;
 				</div>
-				<div class="divider"><div class="inner"></div></div>
-				<div class="month-days">
-					<div class="week" *ngFor="let week of [0, 1, 2, 3, 4, 5]">
-						<div class="day" *ngFor="let day of [0, 1, 2, 3, 4, 5, 6]"
-							[style.background-color]="isActive(week, day)?color1:''"
-							[style.color]="isActive(week, day)?color2:''"
-							[class.valid]="isValid(week, day)"
-							[class.today]="isToday(week, day)"
-							[class.past]="isPast(week, day)"
-							[class.active]="isActive(week, day)"
-							[class.disabled]="isBeforeMinDate(week, day)"
-							(click)="selectDate(week, day)">
+			</div>
+			<div class="week-days">
+				<div class="weekday" *ngFor="let day of days;let i = index" [class.even]="i%2==0">{{day}}</div>
+			</div>
+			<div class="divider"><div class="inner"></div></div>
+			<div class="month-days">
+				<div class="week" *ngFor="let week of [0, 1, 2, 3, 4, 5]">
+					<div class="day" *ngFor="let day of [0, 1, 2, 3, 4, 5, 6];"
+						[style.background-color]="month_node[week * 7 + day].active?color1:''"
+						[style.color]="month_node[week * 7 + day].active?color2:''"
+						[class.valid]="month_node[week * 7 + day].valid"
+						[class.today]="month_node[week * 7 + day].today"
+						[class.past]="month_node[week * 7 + day].past"
+						[class.active]="month_node[week * 7 + day].active"
+						[class.disabled]="month_node[week * 7 + day].disabled"
+						(click)="selectDate(week, day)">
 
-							{{month_node[week * 7 + day]}}
-						</div>
+						{{month_node[week * 7 + day].day}}
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="dialog-footer">
-			<btn btnType="flat" (click)="select(cancel)">Cancel</btn>
-			<btn btnType="flat" (click)="select(confirm)">{{confirm?.text}}</btn>
+			<btn btnType="flat" color="orange" (onClick)="select(cancel)">Cancel</btn>
+			<btn btnType="flat" color="orange" (onClick)="select(confirm)">{{confirm?.text}}</btn>
 		</div>
 	</div>
 </div>

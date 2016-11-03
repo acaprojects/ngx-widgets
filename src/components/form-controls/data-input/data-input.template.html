@@ -1,28 +1,28 @@
 <div class="aca input" >
 	<div (click)="focusInput()"
 		[class]="'input-space ' + theme + ' ' +
-			(error ? ' aca color border-red-C500' : 
-				(success ? ' aca color border-green-C500' : 
+			(error ? ' aca color border-red-C500' :
+				(success ? ' aca color border-green-C500' :
 					(focus ? ' aca color border-' + color + '-' + primary : '')) ) + (disabled?' disabled': '')">
-		<div 
-			[class]="'placeholder ' + (focus ? '' : (icon ? iconSide + ' ' : '' )) + 
-			(error ? 'aca color font-red-C500' : 
-				(success ? 'aca color font-green-C500' : 
-					(focus ? 'aca color font-' + color + '-' + primary : '')) )" 
+		<div
+			[class]="'placeholder ' + (focus ? '' : (icon ? iconSide + ' ' : '' )) +
+			(error ? 'aca color font-red-C500' :
+				(success ? 'aca color font-green-C500' :
+					(focus ? 'aca color font-' + color + '-' + primary : '')) )"
 			[@fieldText]="checkFocus()">
 			{{placeholder}}{{required?'*':''}}
 		</div>
-		<input 
-			#input 
+		<input
+			#input
 			class="text"
-			[name]="name" 
-			[type]="type.indexOf('password') >= 0 && !view ? 'password' : 'text'" 
+			[name]="name"
+			[type]="type.indexOf('password') >= 0 && !view ? 'password' : 'text'"
 			[class.right]="icon&&iconSide==='right'"
 			[class.left]="icon&&iconSide==='left'"
-			[style.width]="width + 'em'"
-			[(ngModel)]="display_text" 
+			[style.width]="_width + 'em'"
+			[(ngModel)]="display_text"
 			(blur)="blurInput(); validateInput()"
-			(keyup)="keypress($event);" 
+			(keyup)="keypress($event);"
 			[disabled]="disabled"/>
 		<div [class]="'icon ' + iconSide + (focus ? ' aca color font-' + color + '-' + primary : '')" >
 			<ng-content></ng-content>

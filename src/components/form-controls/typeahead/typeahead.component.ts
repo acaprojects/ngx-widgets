@@ -273,6 +273,13 @@ export class Typeahead {
 				this.ngOnChanges(changes);
 			}, 200);
 		}
+        if(changes.list) {
+			setTimeout(() => {
+                if(this.list_view){
+        	        this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass);
+                }
+			}, 200);
+		}
 	}
 
   	open() {

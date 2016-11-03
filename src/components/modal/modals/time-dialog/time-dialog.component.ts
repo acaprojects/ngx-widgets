@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ComponentFactoryResolver } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 import { ModalService } from '../../../../services';
 import { Modal } from '../../modal.component';
@@ -6,8 +6,8 @@ import { Modal } from '../../modal.component';
 const PLACEHOLDER = '-';
 
 @Component({
-    selector: '[time-dialog]',
-    styles: [ './time-dialog.styles.css', '../../../global-styles/global-styles.css' ],
+    selector: 'time-dialog',
+    styleUrls: [ './time-dialog.styles.css', '../../../material-styles/material-styles.css' ],
     templateUrl: './time-dialog.template.html',
     animations: [
         trigger('backdrop', [
@@ -33,5 +33,40 @@ const PLACEHOLDER = '-';
     ]
 })
 export class TimeDialog extends Modal {
+    @Input() time: { h: number, m: number } = { h: 12, m: 15 };
 
+    confirm: any = { text: 'OK', fn: null };
+    cancel:  any = { text: 'CANCEL', fn: null };
+
+    hours: number[] = [];
+    minutes: number[] = [];
+
+    constructor(public _cfr: ComponentFactoryResolver) {
+        super(_cfr);
+    }
+
+    ngOnInit() {
+        this.hours = [];
+        this.minutes = [];
+        for(let i = 0; i < 12; i++) {
+            this.hours.push(i+1);
+            this.minutes.push((i+1 * 5)%60);
+        }
+    }
+
+    setParams(data: any) {
+        super.setParams(data);
+        if(data && data.data && data.data.time) this.time = data.data.time;
+        this.close = true;
+        if(data && data.options){
+            for(let i = 0; i < data.options.length; i++) {
+                let option = data.options[i];
+                if(option.type === 'confirm') {
+                    this.confirm = option;
+                } else if(option.type === 'cancel') {
+                    this.cancel = option;
+                }
+            }
+        }
+    }
 }

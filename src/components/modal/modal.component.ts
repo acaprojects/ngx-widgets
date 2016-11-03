@@ -135,6 +135,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         this.content_instance = this.contentRef.instance;
         this.content_instance.entity = this.data.data;
         this.content_instance.entity.close = (cb: Function) => { this.close_fn(cb) };
+        this.content_instance.entity.select = (option: any) => { this.select(option) };
 
     }
 

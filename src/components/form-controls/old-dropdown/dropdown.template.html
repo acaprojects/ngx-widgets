@@ -10,8 +10,7 @@
 					[class.other]="i > 0"
 					[class.odd]="i%2===1"
 					[class.even]="i%2===0"
-					(click)="setOption(i, $event)"
-					(touchend)="setOption(i, $event)">
+					(click)="setOption(i, $event)">
 						<div class="check">{{selected === i ? '&#x2713;' : ''}}</div>{{item}}
 				</li>
 			</ul>

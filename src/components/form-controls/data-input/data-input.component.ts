@@ -37,6 +37,7 @@ export class DataInput {
 	@Input() required: boolean = false;
 	@Input() validation: boolean = true;
 	@Input() theme: string = 'light';
+	@Input() width: number = 12;
 
 		// Output Variables
 	@Output() modelChange = new EventEmitter();
@@ -54,12 +55,12 @@ export class DataInput {
 	focus: boolean = false;
 	card_type: string = 'None';
 	success: boolean = false;
-	width: number = 12;
 	caret: number = 0;
 	no_validate: boolean = false;
 	focus_timer: any = null;
 	validate_timer: any = null;
 	backspace: boolean = false;
+	_width: number = 12;
 
 	numbers: string = '1234567890';
 	alphabet: string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -74,31 +75,33 @@ export class DataInput {
 	}
 
 	ngOnChanges(changes: any) {
-		if(changes.model) {
-			this.display_text = this.model;
-			this.validateInput();
-		}
-		if(changes.type) {
-			switch(this.type.toLowerCase()) {
-				case 'date':
-					this.width = (this.format ? this.format.length / 2 + 2 : 12) + (this.icon ? 2 : 0);
-					break;
-				case 'number':
-					this.width = (this.max && this.max > 0 ? this.max.toString().length / 2 + 1.5 : 12) + (this.icon ? 2 : 0);
-					break;
-				case 'ccard':
-					this.width = 11.5 + (this.icon ? 2 : 0);
-					break;
-				default:
-					this.width = 12 + (this.icon ? 2 : 0);
-					break;
+		setTimeout(() => {
+			if(changes.model) {
+				this.display_text = this.model;
+				this.validateInput();
 			}
-			if(this.width > 30) this.width = 30;
-			else if(this.width < 3) this.width = 3;
-		}
-		if(changes.infoMsg) {
-			this.info_display = this.infoMsg;
-		}
+			if(changes.type) {
+				switch(this.type.toLowerCase()) {
+					case 'date':
+						this._width = (this.format ? this.format.length / 2 + 2 : 12) + (this.icon ? 2 : 0);
+						break;
+					case 'number':
+						this._width = (this.max && this.max > 0 ? this.max.toString().length / 2 + 1.5 : 12) + (this.icon ? 2 : 0);
+						break;
+					case 'ccard':
+						this._width = 11.5 + (this.icon ? 2 : 0);
+						break;
+					default:
+						this._width = this.width + (this.icon ? 2 : 0);
+						break;
+				}
+				if(this._width > 30) this._width = 30;
+				else if(this._width < 3) this._width = 3;
+			}
+			if(changes.infoMsg) {
+				this.info_display = this.infoMsg;
+			}
+		})
 	}
 
 	focusInput() {

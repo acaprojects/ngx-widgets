@@ -778,7 +778,6 @@ export class InteractiveMap {
 		let scale = event.scale - this.dZoom;
 		let dir = scale > 0 ? 1 : -1;
         let value = 1 + dir * Math.max(Math.abs(scale), 0.01) / 2;
-        console.log(scale, value);
         this.updateZoom(value);
         this.dZoom += scale;
     }
