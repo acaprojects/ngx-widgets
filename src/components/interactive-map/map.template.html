@@ -2,12 +2,12 @@
     <div #maparea *ngIf="active" class="map-contents" [style.display]="(loading || !map_data)?'none':'inherit'">
 		<div class="pins">
 			<div class="pin" *ngFor="let pin of pins;let i = index;">
-				<div class="pin" [@pin]="pin.status ? pin.status : 'hide'" [id]="'aca-map-pin' + i ">
-					<div *ngIf="pin.text" class="text">{{pin.text}}</div>
+				<div class="pin" [@pin]="pin.status === 'show' ? 'show' : 'hide'" [id]="'aca-map-pin' + i ">
+					<div *ngIf="pin.text&&pin.text!==''" class="text">{{pin.text}}</div>
 				</div>
 			</div>
 		</div>
-        <div #mapdisplay class="map-area" [@zoom]="zoom_state" (tap)="tapMap($event)" (pinchstart)="startScale($event)" (pinch)="scaleMap($event)" (pinchend)="finishScale()" (pan)="moveMap($event)"></div>
+        <div #mapdisplay class="map-area" [@zoom]="zoom_state" (tap)="tapMap($event)" (pinchstart)="startScale($event)" (pinch)="scaleMap($event)" (pinchend)="finishScale()" (panmove)="moveMap($event)" (panend)="moveEnd($event)"></div>
     </div>
 	<div *ngIf="loading" class="map-loading-space">
 		<spinner type="dot-circle" color="#000"></spinner>

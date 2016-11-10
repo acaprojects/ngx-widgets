@@ -98,7 +98,6 @@ export class Slider {
     }
 
     calcValue(event: any) {
-        console.log(event);
         if(event) {
             if(event.preventDefault) event.preventDefault();
             if(event.stopPropagation) event.stopPropagation();
@@ -128,7 +127,6 @@ export class Slider {
 
         // round the stepped value to a precision level
         var rounded = Math.round(stepped * +this.precision) / +this.precision;
-        console.log(center, percent, range, stepped, rounded);
         // constraint min..X..max
         return Math.min(+this.max, Math.max(+this.min, (rounded + +this.min)));
     }

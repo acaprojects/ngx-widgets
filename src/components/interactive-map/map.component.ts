@@ -316,8 +316,8 @@ export class InteractiveMap {
 		        	if(typeof pin !== 'object') {
 		        		pin = this.pin_defaults;
 		        	} else {
-		        		if(!pin.x) pin.x = this.pin_defaults.x;
-		        		if(!pin.y) pin.x = this.pin_defaults.y;
+		        		if(!pin.x&&!pin.map_id) pin.x = this.pin_defaults.x;
+		        		if(!pin.y&&!pin.map_id) pin.x = this.pin_defaults.y;
 		        		if(!pin.colors) pin.x = this.pin_defaults.colors;
 		        		else {
 		        			if(!pin.colors.one   || pin.colors.one.length > 25) pin.colors.one = this.pin_defaults.colors.one;
@@ -723,6 +723,8 @@ export class InteractiveMap {
 			clearTimeout(this.move_timer);
 			this.move_timer = null;
 		}
+        if(this.move.x === 0) this.move.x = +event.deltaX;
+        if(this.move.y === 0) this.move.y = +event.deltaY;
     	let dX = +event.deltaX - +this.move.x;
 		dX = (Math.min(this.min, +Math.abs(dX)) * (dX < 0 ? -1 : 1));
     	let dY = +event.deltaY - +this.move.y;

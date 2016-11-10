@@ -37,7 +37,8 @@ export class DataInput {
 	@Input() required: boolean = false;
 	@Input() validation: boolean = true;
 	@Input() theme: string = 'light';
-	@Input() width: number = 12;
+	@Input() width: number = null;
+	@Input() readonly: boolean = false;
 
 		// Output Variables
 	@Output() modelChange = new EventEmitter();

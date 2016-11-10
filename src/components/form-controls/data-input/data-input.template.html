@@ -1,4 +1,4 @@
-<div class="aca input" >
+<div class="aca input" [style.width]="width?_width+'em':''">
 	<div (click)="focusInput()"
 		[class]="'input-space ' + theme + ' ' +
 			(error ? ' aca color border-red-C500' :
@@ -19,11 +19,11 @@
 			[type]="type.indexOf('password') >= 0 && !view ? 'password' : 'text'"
 			[class.right]="icon&&iconSide==='right'"
 			[class.left]="icon&&iconSide==='left'"
-			[style.width]="_width + 'em'"
 			[(ngModel)]="display_text"
 			(blur)="blurInput(); validateInput()"
 			(keyup)="keypress($event);"
-			[disabled]="disabled"/>
+			[disabled]="disabled"
+			[readonly]="readonly"/>
 		<div [class]="'icon ' + iconSide + (focus ? ' aca color font-' + color + '-' + primary : '')" >
 			<ng-content></ng-content>
 		</div>
