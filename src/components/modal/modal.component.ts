@@ -29,8 +29,7 @@ const PLACEHOLDER = '-';
 export class Modal implements OnInit, OnChanges, OnDestroy {
     @Input() id: string = '';
     @Input() service: any = null;
-    @Input() private component: any = null;
-    @Input() private htmlContent: string;
+    @Input() component: any = null;
     @Input() title: string = 'Modal Title';
     @Input() size: string;
     @Input() data: any;
@@ -106,7 +105,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         if(this.component !== undefined && this.component !== null){
     		let factory = this._cfr.resolveComponentFactory(this.component);
             if(factory) this.render(factory);
-            else console.error('WIDGETS | Modal: Unable to find factory for: ', this.component);
+            else console.error('[WIDGETS] [Modal] Unable to find factory for: ', this.component);
     	}
     }
 

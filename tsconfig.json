@@ -9,11 +9,24 @@
         "removeComments": false,
         "sourceMap": true,
         "target": "es5",
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "lib": [
+            "dom",
+            "es6"
+        ],
+        "types": [
+            "hammerjs",
+            "jasmine",
+            "node",
+            "protractor",
+            "selenium-webdriver",
+            "source-map",
+            "uglify-js",
+            "webpack"
+        ]
     },
     "files": [
-        "dist/index.ts",
-        "typings/index.d.ts"
+        "dist/index.ts"
     ],
     "exclude": [
       "node_modules",

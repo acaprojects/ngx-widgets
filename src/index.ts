@@ -8,7 +8,7 @@ import { COMPONENTS, ENTRY_COMPONENTS } from './components';
 import { DIRECTIVES } from './directives';
 import { PIPES } from './pipes';
 import { SERVICES } from './services';
-import { ImageCropperComponent } from 'ng2-img-cropper';
+import { ImageCropperModule } from 'ng2-img-cropper';
 
 export * from './directives';
 export * from './pipes';
@@ -20,10 +20,9 @@ export * from './components';
         COMPONENTS,
         DIRECTIVES,
         PIPES,
-        ENTRY_COMPONENTS,
-        ImageCropperComponent
+        ENTRY_COMPONENTS
     ],
-    imports: [ CommonModule, FormsModule ],
+    imports: [ CommonModule, FormsModule, ImageCropperModule ],
     exports: [
         COMPONENTS,
         DIRECTIVES,

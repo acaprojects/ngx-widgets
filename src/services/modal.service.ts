@@ -18,7 +18,6 @@ const Modals = {
 @Injectable()
 export class ModalService {
 
-  	public defaultVC: ViewContainerRef = null;
   	modal: any = {};
   	modalRef: any = {};
   	colors: { fg: string, bg: string } = {
@@ -28,24 +27,39 @@ export class ModalService {
   	modal_data: any = {};
   	modal_inputs: any = {};
   	last_modal_id: string = '';
+	private default_vc: ViewContainerRef = null;
   	private _view: ViewContainerRef = null;
+	private tries: number = 0;
 
 	constructor(private _cr: ComponentFactoryResolver, private injector: Injector) {
 		this.loadView();
 	}
 
+
 	ngOnInit() {
 
+	}
+
+	set view(view: ViewContainerRef) {
+		if(view){
+			this._view = view;
+		} else {
+
+		}
 	}
 
 	loadView() {
         let app_ref = <ApplicationRef>this.injector.get(ApplicationRef);
 		if(app_ref && app_ref['_rootComponents'] && app_ref['_rootComponents'][0] && app_ref['_rootComponents'][0]['_hostElement']){
-			this._view = app_ref['_rootComponents'][0]['_hostElement'].vcRef;
-		} else {
+			this.default_vc = app_ref['_rootComponents'][0]['_hostElement'].vcRef;
+            if(this.default_vc) {
+                this._view = this.default_vc;
+			}
+		} else if(this.tries < 10) {
+            this.tries++;
 			setTimeout(() => {
 				this.loadView();
-			}, 200);
+			}, 500);
 		}
 	}
 
@@ -146,7 +160,6 @@ export class ModalService {
 	}
 
     private render(id:string, type: Type<any>){
-        console.log(this._view);
     	if(this._view && type && typeof type !== 'string') {
 	        let factory = this._cr.resolveComponentFactory(type)
 			if(this.modalRef[id]) {
@@ -160,7 +173,12 @@ export class ModalService {
 			this.modal[id].service = this;
 	        this.modal[id].setParams(this.modal_data[id]);
         	return this.modal[id];
-        }
+        } else if(!this._view) {
+			this._view = this.default_vc;
+			if(this.default_vc) {
+				this.render(id, type);
+			}
+		}
     }
 
 }

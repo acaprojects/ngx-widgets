@@ -641,14 +641,19 @@ export class InteractiveMap {
 		    		this.map_data = data;
 		    		this.setupMap();
 		    	}, (err: any) => {
-		    		console.error('ACA_WIDGETS: Error loading map "' + this.map + '".');
+                    if(window['debug']) console.error(`[WIDGETS] [Map] Error loading map "${this.map}".`);
 		    		console.error(err);
 		    	});
 		    } else {
-		    	if(!this.map) console.error('ACA_WIDGETS: Path to map is not valid.');
-		    	else if(this.map.indexOf('.svg') < 0) console.error('ACA_WIDGETS: Path to map is not an SVG.');
-		    	else if(this.map.length > 4) console.error('ACA_WIDGETS: Path to map is not long enough. It needs to be longer than 4 characters');
-		    	else console.error('ACA_WIDGETS: Unknown error loading map with map path "' + this.map + '".');
+		    	if(!this.map){
+                    if(window['debug']) console.error('[WIDGETS] [Map] Path to map is not valid.');
+                } else if(this.map.indexOf('.svg') < 0) {
+                    if(window['debug']) console.error('[WIDGETS] [Map] Path to map is not an SVG.');
+                } else if(this.map.length > 4) {
+                    if(window['debug']) console.error('[WIDGETS] [Map] Path to map is not long enough. It needs to be longer than 4 characters');
+                } else {
+                    if(window['debug']) console.error(`[WIDGETS] [Map] Unknown error loading map with map path "${this.map}".`);
+                }
 		    }
 		} else {
 			setTimeout(() => {

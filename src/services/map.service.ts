@@ -18,8 +18,10 @@ export class MapService {
 				} else {
 			        this.http.get(map_url).map(res => res.text()).subscribe(
 			            data => this.maps[map_url] = data,
-			            err => reject(err),
-			            () => {
+			            err => {
+							if(window['debug']) console.error(`[WIDGETS] [Map Service] Unable to load map with url '${map_url}'`);
+							reject(err);
+						}, () => {
 			            	resolve(this.maps[map_url]);
 			            	this.map_promise[map_url] = null;
 			            }

@@ -15,11 +15,24 @@
     "noImplicitReturns": false,
     "noImplicitUseStrict": false,
     "noFallthroughCasesInSwitch": true,
-    "outDir": "./.build/compiled"
+    "outDir": "./.build/compiled",
+    "lib": [
+        "dom",
+        "es6"
+    ],
+    "types": [
+        "hammerjs",
+        "jasmine",
+        "node",
+        "protractor",
+        "selenium-webdriver",
+        "source-map",
+        "uglify-js",
+        "webpack"
+    ]
   },
   "files": [
-      "index.ts",
-      "typings/index.d.ts"
+      "index.ts"
   ],
   "exclude": [
     "node_modules",
