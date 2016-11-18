@@ -115,6 +115,22 @@
 		text-align: center;
 		background-color: #FFF;
 		font-size: 2.0em;
+
+		& .arrow {
+			&.down {
+				background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDcuODRMMTIgMTIuNDJsNC41OS00LjU4TDE4IDkuMjVsLTYgNi02LTZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNzVoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
+			}
+			&.up {
+				background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDE1LjQxTDEyIDEwLjgzbDQuNTkgNC41OEwxOCAxNGwtNi02LTYgNnoiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
+			}
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: contain;
+			height: 0.8em;
+			width: 1.0em;
+			margin: auto;
+		}
+
 		& .time-space {
 			position: absolute;
 			margin: auto;
@@ -141,19 +157,14 @@
 				& .pick {
 					padding: 0.2em;
 					width: 3.0em;
-					& .change {
+					& .display-arrow {
 						position: relative;
 						font-weight: bolder;
 						text-align: center;
 						width: 100%;
-						font-size: 1.4em;
+						font-size: 1.7em;
 						cursor: pointer;
-						& .arrow-time {
-							display: inline-block;
-							transform: rotate(90deg);
-						}
 					}
-
 					& .set {
 						border: 0.1em solid #DDD;
 						border-radius: 0.1em;

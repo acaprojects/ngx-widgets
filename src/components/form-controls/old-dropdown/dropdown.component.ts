@@ -49,16 +49,7 @@ export class OldDropdown {
         this.released = (e: any) => {
             setTimeout(() => {
                 if(!this.move) {
-                    if(this.contents) {
-                        let bb = this.contents.nativeElement.getBoundingClientRect();
-                        let pos = {
-                            x: (e instanceof TouchEvent ? e.changedTouches[0].clientX : e.clientX),
-                            y: (e instanceof TouchEvent ? e.changedTouches[0].clientY : e.clientY)
-                        }
-                        if(pos.x < bb.left || pos.x > bb.left + bb.width || pos.y < bb.top || pos.y > bb.top + bb.height) {
-                            this.close();
-                        }
-                    } else this.close();
+                    this.checkClick(e)
                 }
                 this.last_pos = null;
                 this.down = false;
@@ -66,6 +57,19 @@ export class OldDropdown {
             }, 20);
         }
 	}
+
+    checkClick(e: any) {
+        if(this.contents) {
+            let bb = this.contents.nativeElement.getBoundingClientRect();
+            let pos = {
+                x: (e instanceof TouchEvent ? e.changedTouches[0].clientX : e.clientX),
+                y: (e instanceof TouchEvent ? e.changedTouches[0].clientY : e.clientY)
+            }
+            if(pos.x < bb.left || pos.x > bb.left + bb.width || pos.y < bb.top || pos.y > bb.top + bb.height) {
+                this.close();
+            }
+        } else this.close();
+    }
 
   	open() {
       	let now = (new Date()).getTime();

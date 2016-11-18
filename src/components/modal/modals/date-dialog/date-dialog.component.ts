@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, Componen
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 import { ModalService } from '../../../../services';
 import { Modal } from '../../modal.component';
+import * as moment from 'moment';
 
 const PLACEHOLDER = '-';
 
@@ -50,9 +51,14 @@ export class DateDialog extends Modal {
 
     @ViewChild('content') content: ElementRef;
 
+    _date: any = moment();
+    _min_date: any = moment();
+
     month_node: any[] = [];
     display_year: number = 2016;
     display_month: number = 0;
+    date_year: string = '2016';
+    date_display: string = 'Today';
     days: any[] = [];
     months: any[] = [];
 
@@ -84,10 +90,12 @@ export class DateDialog extends Modal {
     }
 
     setDate(date: Date) {
-        if(!(date instanceof Date)) date = new Date();
-        this.date = date;
-        this.display_year = this.date.getFullYear();
-        this.display_month = this.date.getMonth();
+        if(!(date instanceof Date)) this._date = moment(new Date());
+        else this._date = moment(date);
+        this.display_year = this._date.year();
+        this.display_month = this._date.month();
+        this.date_year = this._date.format('Y');
+        this.date_display = this._date.format('ddd, Do MMMM');
         this.generateMonth();
     }
 
@@ -107,22 +115,22 @@ export class DateDialog extends Modal {
     }
 
     private compareDates(date1: Date, date2: Date) {
-        date1.setHours(23); date1.setMinutes(59); date1.setSeconds(59); date1.setMilliseconds(0);
-        date2.setHours(23); date2.setMinutes(58); date2.setSeconds(59); date2.setMilliseconds(0);
+        date1.setHours(23, 59, 59, 0);
+        date2.setHours(23, 58, 59, 0);
         return (date1.getTime() > date2.getTime());
     }
 
     isToday(day: number) {
-        let now = new Date();
-        return (now.getFullYear() === this.display_year &&
-        now.getMonth() === this.display_month &&
-        now.getDate() === +day);
+        let now = moment();
+        return (now.year() === this.display_year &&
+        now.month() === this.display_month &&
+        now.date() === +day);
     }
     isActive(day: number) {
-        let now = this.date;
-        return (now.getFullYear() === this.display_year &&
-        now.getMonth() === this.display_month &&
-        now.getDate() === +day);
+        let now = this._date;
+        return (now.year() === this.display_year &&
+        now.month() === this.display_month &&
+        now.date() === +day);
     }
 
     generateMonth() {
@@ -172,11 +180,10 @@ export class DateDialog extends Modal {
         if(!+this.month_node[week * 7 + day].valid) return false;
         let date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day].day);
         if(this.isBeforeMinDate(+this.month_node[week * 7 + day].day)) return false;
-        date.setHours(this.date.getHours());
-        date.setMinutes(this.date.getMinutes());
+        date.setHours(this._date.hours(), this._date.minutes());
         this.setDate(date);
         this.dateChange.emit(date);
-        this.data.data.date = this.date;
+        this.data.data.date = this._date.toDate();
         return true;
     }
 
@@ -192,23 +199,13 @@ export class DateDialog extends Modal {
     }
 
     formatDate() {
-        let str = this.date.getTime().toString();
-        if(str === undefined || (typeof str != 'string' && typeof str != 'number')) return 'No Date';
-        if(parseInt(str) != NaN){
-            var date = new Date(+str);
-            return (date.getDate() + '/' +  ('0' + (+date.getMonth()+1)).slice(-2) + '/' + date.getFullYear());
-        } else if(str.split("/").length == 3) {
-            return str;
-        } else if(str.split("-").length == 3) {
-            var res = str.split("-");
-            return ((res[2]) + '/' + res[1] + '/' + res[0]);;
-        }
-        return 'No Date';
+        return this._date.format('D/MM/Y');
     }
 
     setParams(data: any) {
         super.setParams(data);
-        if(data && data.data && data.data.date) this.date = data.data.date;
+        console.log(data);
+        if(data && data.data && data.data.date && data.data.date instanceof Date) this.setDate(data.data.date);
         this.close = true;
         if(data && data.options){
             for(let i = 0; i < data.options.length; i++) {

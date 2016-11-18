@@ -698,7 +698,11 @@ export class InteractiveMap {
 			console.debug((event.center.x - mbb.left).toString(), (event.center.y - mbb.top).toString());
 		}
         elems = this.getItems(event.center, el);
-        this.tap.emit(elems);
+        let e = {
+            items: elems,
+            event: event
+        }
+        this.tap.emit(e);
     }
 
     getItems(pos: any, el: any) {

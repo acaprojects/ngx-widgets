@@ -7,7 +7,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 	templateUrl: './data-input.template.html',
 	animations : [
         trigger('fieldText', [
-            state('focus',  style({'font-size': '0.6em', top: '-0.4em'})),
+            state('focus',  style({'font-size': '0.6em', top: '-0.5em'})),
             state('blur',   style({'font-size': '1.0em', top: '0.4em'})),
             transition('blur <=> focus', animate('150ms ease-out'))
         ])
@@ -36,6 +36,7 @@ export class DataInput {
 	@Input() disabled: boolean = false;
 	@Input() required: boolean = false;
 	@Input() validation: boolean = true;
+	@Input() decimals: boolean = true;
 	@Input() theme: string = 'light';
 	@Input() width: number = null;
 	@Input() readonly: boolean = false;
@@ -61,6 +62,7 @@ export class DataInput {
 	focus_timer: any = null;
 	validate_timer: any = null;
 	backspace: boolean = false;
+	fresh: boolean = true;
 	_width: number = 12;
 
 	numbers: string = '1234567890';
@@ -72,7 +74,7 @@ export class DataInput {
 	}
 
 	ngOnInit() {
-
+		this.fresh = true;
 	}
 
 	ngOnChanges(changes: any) {
@@ -106,7 +108,7 @@ export class DataInput {
 	}
 
 	focusInput() {
-		if(this.input && !this.disabled) {
+		if(this.input && !this.disabled && !this.readonly) {
 			this.input.nativeElement.focus();
 			if(this.focus_timer) {
 				clearTimeout(this.focus_timer);
@@ -114,6 +116,8 @@ export class DataInput {
 			}
 			this.focus = true;
 			this.onFocus.emit();
+		} else {
+			this.input.nativeElement.blur();
 		}
 	}
 
@@ -223,6 +227,7 @@ export class DataInput {
 			this.error = false;
 			this.info_display = this.infoMsg;
 		}
+		if(this.clean_text && this.clean_text.length > 1) this.fresh = false;
 		this.validate.emit(data);
 		this.modelChange.emit(this.clean_text);
 	}
@@ -272,8 +277,9 @@ export class DataInput {
 	validateNumber() {
 		if(!this.display_text || this.display_text === '') return '';
 		let valid_numbers = this.numbers + '.';
-		this.display_text = (this.display_text[0] === '-' ? '-' : '') + this.removeInvalidChars(this.display_text, this.numbers);
-		let num: number = parseInt(this.display_text);
+		this.display_text = (this.display_text[0] === '-' ? '-' : '') + this.removeInvalidChars(this.display_text, this.decimals ? valid_numbers : this.numbers);
+		let decimal = this.display_text[this.display_text.length-1]==='.';
+		let num: number = +(this.display_text);
 		if(isNaN(num)) {
 			this.error = true;
 			this.info_display = 'Not a valid number';
@@ -289,7 +295,7 @@ export class DataInput {
 			this.errorChange.emit(true);
 			if(this.lockValue) num = this.max;
 		}
-		this.display_text = isNaN(num) ? '' : num.toString();
+		this.display_text = (isNaN(num) ? '' : num.toString()) + (decimal?'.':'');
 		return this.display_text;
 	}
 

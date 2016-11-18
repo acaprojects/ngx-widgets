@@ -1,8 +1,8 @@
 <div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (tap)="onPointer($event)">
 	<div #modal class="modal-space" [@space]="state">
 		<div class="dialog-header">
-			<div class="year">{{date | date:'y'}}</div>
-			<div class="date">{{date | date:'EEE, d MMM'}}</div>
+			<div class="year">{{date_year}}</div>
+			<div class="date">{{date_display}}</div>
 		</div>
 		<div class="dialog-body">
 			<div class="header">

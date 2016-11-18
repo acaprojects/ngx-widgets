@@ -9,15 +9,10 @@ const PLACEHOLDER = '-';
     templateUrl: './time-picker.template.html',
     animations: [
         trigger('dateTime', [
-            state('hide',   style({'top':'100%'})),
-            state('show', style({'top':'0'})),
-            state('open', style({'top':'0'})),
-            transition('* => hide', animate('0.5s ease-out', keyframes([
-                style({'top':'0', offset: 0}), style({'top':'100%', offset: 1.0})
-            ]))),
-            transition('* => show', animate('0.5s ease-in', keyframes([
-                style({'top':'100%', offset: 0}), style({'top':'0', offset: 1.0})
-            ])))
+            state('hide', style({'top':'100%'})),
+            state('show', style({'top':  '0'})),
+            state('open', style({'top':  '0'})),
+            transition('show <=> hide', animate('0.5s ease-out'))
         ])
     ]
 })
@@ -29,7 +24,9 @@ export class TimePicker {
     @Input() color2: string = '#FFF';
     @Input() text: string = '';
     @Input() open: string = 'open';
+    @Input() select: boolean = false;
     @Output() timeChange = new EventEmitter();
+    @Output() selected = new EventEmitter();
 
     @ViewChild('hourPick') hour_input: ElementRef;
     @ViewChild('minutePick') minute_input: ElementRef;
@@ -65,6 +62,7 @@ export class TimePicker {
     }
 
     setDisplayTime() {
+        let time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
     		// Setup display hours
     	this.display_hour = (this.time.h % 12).toString();
     	if(parseInt(this.display_hour) === 0) this.display_hour = '12';
@@ -74,6 +72,10 @@ export class TimePicker {
     	this.display_period = ((this.time.h / 12 >= 1) ? 'PM' : 'AM');
     	this.checkHour();
     	this.checkMinute();
+        let new_time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
+        if(time !== new_time) {
+            this.timeChange.emit(this.time);
+        }
     }
 
     addHour() {
@@ -193,6 +195,7 @@ export class TimePicker {
 	    	this.time.m = parseInt(this.display_minutes);
     	}, 20);
     }
+
     changeFocus() {
     	if(this.hour_input) this.hour_input.nativeElement.blur();
     	this.checkHour();
@@ -205,6 +208,7 @@ export class TimePicker {
     	this.checkMinute();
         	// Update time value
     	this.timeChange.emit(this.time);
+        this.selected.emit(this.time);
     }
-
+    //*/
 }

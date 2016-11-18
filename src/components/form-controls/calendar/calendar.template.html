@@ -30,7 +30,7 @@
 			</div>
 		</div>
 	</div>
-	<div [@dateTime]="pick_time" class="time-picker">
+	<!--div [@dateTime]="pick_time" class="time-picker">
 		<div class="time-space">
 			<div class="header">
 				Date selected: {{ formatDate() }}<br>
@@ -38,42 +38,32 @@
 			</div>
 			<div class="picker">
 				<div class="pick">
-					<div class='change' [style.color]="color1">
-						<div class="arrow-time" (click)="addHour()">&#x27E8;</div>
-					</div>
+					<div class='display-arrow' [style.color]="color1"><div class="arrow up" (click)="addHour()"></div></div>
 					<div class='set'>
 						<input
-							name="hour"
 							type="text"
+							#hourPick
 							maxlength="2"
-							#hourpick
 							[(ngModel)]="display_hour"
 							(blur)="checkHour()"
-							(keyup)="keyupHour($event, display_hour)"
-							(keyup.enter)="changeFocus()" />
+							(keyup)="keyupHour($event)"
+							(keyup.enter)="changeFocus()">
 					</div>
-					<div class='change' [style.color]="color1">
-						<div class="arrow-time" (click)="minusHour()">&#x27E9;</div>
-					</div>
+					<div class='display-arrow' [style.color]="color1"><div class="arrow down" (click)="minusHour()"></div></div>
 				</div>
 				<div class="pick">
-					<div class='change' [style.color]="color1">
-						<div class="arrow-time" (click)="addMinute()">&#x27E8;</div>
-					</div>
+					<div class='display-arrow' [style.color]="color1"><div class="arrow up" (click)="addMinute()"></div></div>
 					<div class='set'>
 						<input
-							name="minutes"
 							type="text"
-							#minutepick
+							#minutePick
 							maxlength="2"
 							[(ngModel)]="display_minutes"
 							(blur)="checkMinute()"
-							(keyup)="keyupMinutes($event, display_minutes)"
-							(keyup.enter)="timeSet()" />
+							(keyup)="keyupMinutes($event)"
+							(keyup.enter)="timeSet()">
 					</div>
-					<div class='change' [style.color]="color1">
-						<div class="arrow-time" (click)="minusMinute()">&#x27E9;</div>
-					</div>
+					<div class='display-arrow' [style.color]="color1"><div class="arrow down" (click)="minusMinute()"></div></div>
 				</div>
 				<div class="pick btn">
 					<div class="btn" (click)="changePeriod()" [style.background-color]="color1"  [style.color]="color2">
@@ -85,5 +75,5 @@
 				<div class="btn" [style.background-color]="color1"  [style.color]="color2" (click)="timeSet()"> Next </div>
 			</div>
 		</div>
-	</div>
+	</div-->
 </div>

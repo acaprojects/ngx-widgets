@@ -14,8 +14,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDe
 						[class.other]="i > 0"
 						[class.odd]="i%2===1"
 						[class.even]="i%2===0"
-						(click)="setItem($event, i)"
-						(touchend)="setItem($event, i)">
+						(click)="setItem($event, i)">
 
 						<div class="name">{{item.name}}</div>
 						<div class="desc">{{item.description}}</div>
@@ -44,6 +43,7 @@ export class TypeaheadList {
   	mousedown: any = null;
   	mouseup: any = null;
     none_msg: string = '';
+    auto: boolean = false;
 
 	@ViewChild('list') list : ElementRef;
 	@ViewChild('contents') contents : ElementRef;
@@ -52,46 +52,21 @@ export class TypeaheadList {
   	keys = {37: 1, 38: 1, 39: 1, 40: 1};
 
   	constructor() {
-  		this.scroll = (event: any) => {
-	  		if (event.stopPropagation) event.stopPropagation();
-			else event.cancelBubble = true;
-	    	this.scrolled = true;
-			if(this.timer !== null) clearTimeout(this.timer);
-			this.timer = setTimeout(() => {
-      			this.scrolled = false;
-			}, 1000);
-		};
-		this.mousedown = (event: any) => {
-	  		if (event.stopPropagation) event.stopPropagation();
-			else event.cancelBubble = true;
-			this.parent.clicked = true;
-		};
-		this.mouseup = (event: any) => {
-	  		if (event.stopPropagation) event.stopPropagation();
-			else event.cancelBubble = true;
-			setTimeout(() => {
-				this.parent.clicked = false;
-			}, 200)
-		}
   	}
 
   	ngOnInit() {
   		setTimeout(() => {
-	    	this.app = document.getElementById('app');
-		    this.list_contents.nativeElement.addEventListener('scroll', this.scroll, true);
-    		this.list.nativeElement.addEventListener('mousedown', this.mousedown, true);
-    		window.addEventListener('mouseup', this.mouseup, true);
-	      	this.disableScroll();
 	    }, 100);
   	}
 
-  	setupList(ta: any, items: any[], filterFields: string[], filter: string, num_results: number, cssClass: string) {
+  	setupList(ta: any, items: any[], filterFields: string[], filter: string, num_results: number, cssClass: string, auto: boolean = false) {
   		this.parent = ta;
   		this.items = items;
   		this.filter = filter;
   		this.filterFields = filterFields;
   		this.results = num_results ? num_results : 5;
   		this.cssClass = cssClass ? cssClass : 'default';
+        this.auto = auto;
   		this.filterList();
   	}
 
@@ -141,46 +116,11 @@ export class TypeaheadList {
   		}
   	}
 
-	preventDefault(e: any) {
-  		e = e || window.event;
-  		if (e.preventDefault)
-      		e.preventDefault();
-  		e.returnValue = false;
-	}
-
-	preventDefaultForScrollKeys(e: any) {
-		if(!this.keys) return;
-    	if (this.keys[e.keyCode]) {
-        	this.preventDefault(e);
-        	return false;
-    	}
-	}
-
-	disableScroll() {
-		if(!this.app) return;
-  		if (this.app.addEventListener) // older FF
-      		this.app.addEventListener('DOMMouseScroll', this.preventDefault, false);
-  		this.app.onwheel = this.preventDefault; // modern standard
-  		this.app.onmousewheel = this.app.onmousewheel = this.preventDefault; // older browsers, IE
-  		this.app.ontouchmove  = this.preventDefault; // mobile
-  		this.app.onkeydown  = this.preventDefaultForScrollKeys;
-	}
-
-	enableScroll() {
-		if(!this.app) return;
-    	if (this.app.removeEventListener)
-        	this.app.removeEventListener('DOMMouseScroll', this.preventDefault, false);
-    	this.app.onmousewheel = this.app.onmousewheel = null;
-    	this.app.onwheel = null;
-    	this.app.ontouchmove = null;
-    	this.app.onkeydown = null;
-	}
-
   	moveList(main: any, event?: any) {
   		if(!main || !this.contents) return;
   		let main_box = main.nativeElement.getBoundingClientRect();
   		this.contents.nativeElement.style.width = '1px';
-  		this.contents.nativeElement.style.top = Math.round(main_box.top) + 'px';
+  		this.contents.nativeElement.style.top = Math.round(main_box.top + window.pageYOffset) + 'px';
   		this.contents.nativeElement.style.left = Math.round(main_box.left + main_box.width/2) + 'px';
   		this.contents.nativeElement.style.height = Math.round(main_box.height) + 'px';
   		this.contents.nativeElement.style.display = '';
@@ -191,18 +131,20 @@ export class TypeaheadList {
   		if(this.list && this.contents) {
 	  		let h = document.documentElement.clientHeight;
 	      	let content_box = this.contents.nativeElement.getBoundingClientRect();
-	      	if(Math.round(content_box.top) > Math.round(h/2 + 10)) {
-	      		this.list.nativeElement.style.top = '';
-	      		this.list.nativeElement.style.bottom = '100%';
-	      	} else {
-	      		this.list.nativeElement.style.top = '100%';
-	      		this.list.nativeElement.style.bottom = '';
-	      	}
+            if(this.auto){
+    	      	if(Math.round(content_box.top) > Math.round(h/2 + 10)) {
+    	      		this.list.nativeElement.style.top = '';
+    	      		this.list.nativeElement.style.bottom = '100%';
+    	      	} else {
+    	      		this.list.nativeElement.style.top = '100%';
+    	      		this.list.nativeElement.style.bottom = '';
+    	      	}
+            }
 	      	this.contents_box = this.contents.nativeElement.getBoundingClientRect();
   		} else {
   			setTimeout(() => {
   				this.positionList();
-  			})
+  			}, 200);
   		}
   	}
 
@@ -215,12 +157,6 @@ export class TypeaheadList {
 		event.preventDefault();
     	this.parent.setItem(this.filtered_list[i]);
     	this.parent.clicked = false;
-    	setTimeout(() => {
-		    this.list_contents.nativeElement.removeEventListener('scroll', this.scroll, true);
-			this.list.nativeElement.removeEventListener('mousedown', this.mousedown, true);
-			window.removeEventListener('mouseup', this.mouseup, true);
-	  		this.enableScroll();
-	  	}, 50);
   	}
 
   	ngOnDestroy() {
@@ -240,6 +176,7 @@ export class Typeahead {
   	@Input() list: any[] = [];
   	@Input() results: number = 5;
   	@Input() active: boolean = false;
+  	@Input() auto: boolean = false;
   	@Input() cssClass: string = 'default';
   	@Input() msg: string = '';
   	@Output() onSelect = new EventEmitter();
@@ -254,6 +191,7 @@ export class Typeahead {
   	id: number = 12345678;
   	closing: boolean = false;
   	clicked: boolean = false;
+    update_timer: any = null;
 
 	constructor(private _cr: ComponentFactoryResolver, private view: ViewContainerRef) {
 
@@ -276,7 +214,7 @@ export class Typeahead {
         if(changes.list) {
 			setTimeout(() => {
                 if(this.list_view){
-        	        this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass);
+        	        this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass, this.auto);
                 }
 			}, 200);
 		}
@@ -306,6 +244,10 @@ export class Typeahead {
 		    this.list_ref = null;
 		}
 		this.clicked = false;
+        if(this.update_timer) {
+            clearInterval(this.update_timer);
+            this.update_timer = null;
+        }
   	}
 
   	setItem(item: any){
@@ -329,6 +271,12 @@ export class Typeahead {
         	this.list_ref = cmpRef;
         	this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass);
         	this.list_view.moveList(this.main);
+
+            console.log(this.main);
+            console.log(window);
+            this.update_timer = setInterval(() => {
+        	       this.list_view.moveList(this.main);
+            }, 50);
             this.list_view.none_msg = this.msg;
         	return this.list;
         }

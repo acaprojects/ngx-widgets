@@ -54,6 +54,7 @@ $space: 2.2em;
 				-webkit-overflow-scrolling: touch;
 				font-size: 1.0em;
 				z-index: 2010;
+    			margin: auto;
 				& .content {
 					padding: ($space + 1.0em) 1.0em;
 				}

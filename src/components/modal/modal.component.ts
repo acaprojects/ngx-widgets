@@ -212,7 +212,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
                 this.err_msg = err;
             }
         }
-        if(btn.fn) {
+        if(btn && btn.fn) {
             btn.fn(this.data, fn);
         } else if(this.cb_fn !== null) {
             this.cb_fn(this.data, fn);

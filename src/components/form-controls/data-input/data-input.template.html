@@ -1,12 +1,12 @@
 <div class="aca input" [style.width]="width?_width+'em':''">
 	<div (click)="focusInput()"
 		[class]="'input-space ' + theme + ' ' +
-			(error ? ' aca color border-red-C500' :
+			(error&&!fresh ? ' aca color border-red-C500' :
 				(success ? ' aca color border-green-C500' :
-					(focus ? ' aca color border-' + color + '-' + primary : '')) ) + (disabled?' disabled': '')">
+					(focus ? ' aca color border-' + color + '-' + primary : '')) ) + (disabled?' disabled': '') + (readonly?' readonly': '')">
 		<div
 			[class]="'placeholder ' + (focus ? '' : (icon ? iconSide + ' ' : '' )) +
-			(error ? 'aca color font-red-C500' :
+			(error&&!fresh ? 'aca color font-red-C500' :
 				(success ? 'aca color font-green-C500' :
 					(focus ? 'aca color font-' + color + '-' + primary : '')) )"
 			[@fieldText]="checkFocus()">
@@ -17,19 +17,19 @@
 			class="text"
 			[name]="name"
 			[type]="type.indexOf('password') >= 0 && !view ? 'password' : 'text'"
-			[class.right]="icon&&iconSide==='right'"
-			[class.left]="icon&&iconSide==='left'"
+			[class.right]="icon && iconSide==='right'"
+			[class.left]="icon && iconSide==='left'"
 			[(ngModel)]="display_text"
 			(blur)="blurInput(); validateInput()"
 			(keyup)="keypress($event);"
 			[disabled]="disabled"
-			[readonly]="readonly"/>
+			[style.width]="width?_width+'em':''"/>
 		<div [class]="'icon ' + iconSide + (focus ? ' aca color font-' + color + '-' + primary : '')" >
 			<ng-content></ng-content>
 		</div>
 	</div>
 	<div class="info-space">
-		<div [class]="'message ' + (error ? 'aca color font-red-C500' : (success ? 'aca color font-green-C500' : ''))">{{info_display}}</div>
+		<div *ngIf="!error||!fresh" [class]="'message ' + (error ? 'aca color font-red-C500' : (success ? 'aca color font-green-C500' : ''))">{{info_display}}</div>
 		<div [class]="'counter ' + (error ? 'aca color font-red-C500' : '')" *ngIf="type==='text' && max && max > 0">{{clean_text ? clean_text.length : '0'}}/{{max}}</div>
 	</div>
 </div>

@@ -4,7 +4,7 @@
 			<div class="header">Pick {{text ? text + ' ': ''}}time</div>
 			<div class="picker">
 				<div class="pick">
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="addHour()">&#x27E8;</div></div>
+					<div class='display-arrow' [style.color]="color1"><div class="arrow up" (click)="addHour()"></div></div>
 					<div class='set'>
 						<input
 							type="text"
@@ -15,10 +15,10 @@
 							(keyup)="keyupHour($event)"
 							(keyup.enter)="changeFocus()">
 					</div>
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="minusHour()">&#x27E9;</div></div>
+					<div class='display-arrow' [style.color]="color1"><div class="arrow down" (click)="minusHour()"></div></div>
 				</div>
 				<div class="pick">
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="addMinute()">&#x27E8;</div></div>
+					<div class='display-arrow' [style.color]="color1"><div class="arrow up" (click)="addMinute()"></div></div>
 					<div class='set'>
 						<input
 							type="text"
@@ -29,7 +29,7 @@
 							(keyup)="keyupMinutes($event)"
 							(keyup.enter)="timeSet()">
 					</div>
-					<div class='change' [style.color]="color1"><div class="arrow-time" (click)="minusMinute()">&#x27E9;</div></div>
+					<div class='display-arrow' [style.color]="color1"><div class="arrow down" (click)="minusMinute()"></div></div>
 				</div>
 				<div class="pick btn">
 					<div class="btn" (click)="changePeriod()" [style.background-color]="color1"  [style.color]="color2">
@@ -37,7 +37,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="finish-btn" *ngIf="false">
+			<div class="finish-btn" *ngIf="select">
 				<div class="btn" [style.background-color]="color1"  [style.color]="color2" (click)="timeSet()"> Accept </div>
 			</div>
 		</div>

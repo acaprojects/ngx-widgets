@@ -19,6 +19,9 @@ $space: 1.5em;
 		transform: translate(-50%, -50%);
 		width: $sm-height;
 		min-height: $sm-height / 2 * 3;
+		@media screen and (max-width: 720px) {
+			min-height: $sm-height / 5 * 6;
+		}
 		background-color: #FFF;
 		border-radius: 0.1em;
 		max-height: 95vh;
@@ -118,7 +121,7 @@ $space: 1.5em;
 				height: $space * 2; left: 0;
 				right: 0; bottom: 0;
 				padding: 0.5em;
-				text-align: right;
+				text-align: center;
 				white-space: nowrap;
 			}
 		}

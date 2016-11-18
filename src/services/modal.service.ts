@@ -1,18 +1,11 @@
 import { Injectable, ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type } from '@angular/core';
-import { ApplicationRef, Injector } from '@angular/core';
+import { ApplicationRef } from '@angular/core';
 import { Modal } from '../components/modal';
-//import { AlertDialog, ConfirmDialog, DateDialog, TimeDialog, SimpleModal } from '../components';
+import { AlertDialog, ConfirmDialog, DateDialog, TimeDialog } from '../components';
 import { SimpleModal } from '../components/modal/modals';
 
-const Modals = {
-	default: Modal,
-	simple: SimpleModal
-	/*,
-	alert: AlertDialog,
-	confirm: ConfirmDialog,
-	date: DateDialog,
-	time: TimeDialog
-	//*/
+let Modals: any = {
+
 }
 
 @Injectable()
@@ -33,8 +26,17 @@ export class ModalService {
 
 	constructor(private _cr: ComponentFactoryResolver, private injector: Injector) {
 		this.loadView();
+		console.log('DateDialog');
+		Modals = {
+			default: Modal,
+			simple: SimpleModal,
+			alert: AlertDialog,
+			confirm: ConfirmDialog,
+			date: DateDialog,
+			time: TimeDialog
+			//*/
+		}
 	}
-
 
 	ngOnInit() {
 
@@ -83,18 +85,12 @@ export class ModalService {
 				console.error('No inputs for modal.');
 				return id;
 			}
-		} else if(!input.component && !input.html) {
-			if(!this.modal_inputs[id] || (!this.modal_inputs[id].component && !this.modal_inputs[id].html)) {
-				console.error('No contents for modal.');
-				return id;
-			}
 		}
 		if(this.modal[id]) this.cleanModal(id);
 			// Get any previously set properties
 		if(this.modal_inputs[id]) this.modal_data[id] = this.modal_inputs[id];
 		else this.modal_data[id] = {};
 			//Update parameters
-		console.log(this.modal_data[id]);
 		this.modal_data[id] = {
 			type: Modals[input.type] ? Modals[input.type] : (this.modal_data[id].type ? this.modal_data[id].type : Modals.default),
 			title: input.title ? input.title : this.modal_data[id].title,
@@ -109,7 +105,6 @@ export class ModalService {
 			colors : input.colors ? input.colors : (this.modal_data[id].colors ? this.modal_data[id].colors : this.colors)
 		};
 		if(typeof this.modal_data[id].type === 'string') {
-			console.log(this.modal_data[id].type, Modals);
 			this.modal_data[id].type = Modals[this.modal_data[id].type] || Modals.default;
 		}
 		this.modal_inputs[id] = this.modal_data[id];

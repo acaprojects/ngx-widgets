@@ -17,8 +17,11 @@ $red: #F64740;
 			&.light {
 				color: rgba(0,0,0,0.4);
 				border-bottom: 0.1em solid rgba(0,0,0,0.4);
-				& .disabled {
+				&.disabled {
 					border-bottom: 0.1em dotted rgba(0,0,0,0.4);
+				}
+				&.readonly {
+					border-bottom: 0.1em dashed rgba(0,0,0,0.4);
 				}
 
 				& input.text {
@@ -29,8 +32,11 @@ $red: #F64740;
 			&.dark {
 				color: rgba(255,255,255,0.4);
 				border-bottom: 0.1em solid rgba(255,255,255,0.4);
-				& .disabled {
+				&.disabled {
 					border-bottom: 0.1em dotted rgba(255,255,255,0.4);
+				}
+				&.readonly {
+					border-bottom: 0.1em dashed rgba(255,255,255,0.4) !important;
 				}
 				& input.text { color: rgba(255,255,255,0.8); }
 			}
@@ -65,8 +71,7 @@ $red: #F64740;
 
 			& .icon {
 				position: absolute;
-				top: 0.5em;
-				padding: 0.5em 0;
+				top: 0.2em;
 				&.left {
 					left: 0;
 				}
