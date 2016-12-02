@@ -5,7 +5,7 @@ import { InteractiveMap } from './interactive-map';
 import { MaterialStyles } from './material-styles';
 import { Modal, ACA_WIDGET_MODALS } from './modal';
 import { Notification, NotifyBlock } from './notification';
-import { TABS_COMPONENTS } from './page-controls';
+import { TABS_COMPONENTS, STEPPER_COMPONENTS } from './page-controls';
 import { Spinner } from './spinner';
 import { VirtualKeyboard } from './virtual-keyboard';
 
@@ -37,6 +37,7 @@ export let COMPONENTS: any[] = [
     MaterialStyles,
     NotifyBlock,
     ...TABS_COMPONENTS,
+    ...STEPPER_COMPONENTS,
     Spinner
 ];
 

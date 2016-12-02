@@ -35,7 +35,7 @@ const PLACEHOLDER = '-';
 })
 export class DateDialog extends Modal {
     @Input() date: Date = new Date();
-    @Input() minDate: Date = null;
+    @Input() minDate: Date = new Date();
     @Input() futureOnly: boolean = false;
     @Input() display: string;
     @Input() color: string = 'teal';
@@ -48,6 +48,7 @@ export class DateDialog extends Modal {
     months_short = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
     days_long = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     days_short = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    ready: boolean = false;
 
     @ViewChild('content') content: ElementRef;
 
@@ -79,6 +80,9 @@ export class DateDialog extends Modal {
             this.months = this.months_long;
             this.days = this.days_short;
         }
+        setTimeout(() => {
+            this.ready = true;
+        }, 500);
     }
 
     ngOnChanges(changes:any) {
@@ -177,6 +181,7 @@ export class DateDialog extends Modal {
     }
 
     selectDate(week: number, day: number) {
+        if(!this.ready) return false;
         if(!+this.month_node[week * 7 + day].valid) return false;
         let date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day].day);
         if(this.isBeforeMinDate(+this.month_node[week * 7 + day].day)) return false;

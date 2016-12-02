@@ -1,11 +1,10 @@
-<div  [@backdrop]="state ? 'show' : 'hide'" [class]="'aca modal ' + cssClass" (tap)="onPointer($event)" (scroll)="blockScroll($event)">
+<div  [@backdrop]="state ? 'show' : 'hide'" [class]="'aca modal ' + cssClass">
+	<div class="tap-space" (tap)="onPointer($event)"></div>
 	<div #modal class="modal-space" [@space]="state_inner ? 'show' : 'hide'"
 			[style.width]="(large ? 2.5 * width : width) + unit">
 		<div class="modal-header title" [style.background-color]="color1" [style.color]="color2" >
 			{{title}}
-			<div *ngIf="close" class="close-btn" (click)="close_fn()">
-				&#x2573;
-			</div>
+			<div *ngIf="close" class="close-btn" (click)="close_fn()"></div>
 		</div>
 		<div class="modal-body">
 			<div class="content"><div #content></div></div>

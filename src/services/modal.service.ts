@@ -1,4 +1,4 @@
-import { Injectable, ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type, Injector } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
 import { Modal } from '../components/modal';
 import { AlertDialog, ConfirmDialog, DateDialog, TimeDialog } from '../components';

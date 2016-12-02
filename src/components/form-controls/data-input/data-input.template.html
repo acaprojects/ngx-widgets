@@ -1,35 +1,43 @@
-<div class="aca input" [style.width]="width?_width+'em':''">
+<div class="aca input" [style.width]="width?_width+'em':''" [class.editable]="!disabled&&!readonly">
 	<div (click)="focusInput()"
-		[class]="'input-space ' + theme + ' ' +
-			(error&&!fresh ? ' aca color border-red-C500' :
-				(success ? ' aca color border-green-C500' :
-					(focus ? ' aca color border-' + color + '-' + primary : '')) ) + (disabled?' disabled': '') + (readonly?' readonly': '')">
+		[class]="'input-space ' + theme + ' aca color ' + (focus ? 'border-' + color + '-' + primary : '')"
+		[class.disabled]="disabled"
+		[class.readonly]="readonly"
+		[class.border-red-C500]="error"
+		[class.border-green-C500]="success">
 		<div
 			[class]="'placeholder ' + (focus ? '' : (icon ? iconSide + ' ' : '' )) +
-			(error&&!fresh ? 'aca color font-red-C500' :
+			(error ? 'aca color font-red-C500' :
 				(success ? 'aca color font-green-C500' :
 					(focus ? 'aca color font-' + color + '-' + primary : '')) )"
-			[@fieldText]="checkFocus()">
+			[@fieldText]="checkFocus()"
+			[class.editable]="!disabled&&!readonly">
 			{{placeholder}}{{required?'*':''}}
 		</div>
-		<input
-			#input
-			class="text"
-			[name]="name"
-			[type]="type.indexOf('password') >= 0 && !view ? 'password' : 'text'"
-			[class.right]="icon && iconSide==='right'"
-			[class.left]="icon && iconSide==='left'"
-			[(ngModel)]="display_text"
-			(blur)="blurInput(); validateInput()"
-			(keyup)="keypress($event);"
-			[disabled]="disabled"
-			[style.width]="width?_width+'em':''"/>
-		<div [class]="'icon ' + iconSide + (focus ? ' aca color font-' + color + '-' + primary : '')" >
+		<div [class]="'icon ' + (focus ? ' aca color font-' + color + '-' + primary : '')" *ngIf="icon && iconSide!=='right'" >
+			<ng-content></ng-content>
+		</div>
+		<div class="input" [class.icon]="icon" [style.width]="width?(_width - (icon?1.2:0))+'em':''">
+			<input
+				#input
+				class="text"
+				[name]="name"
+				[type]="is_password && !view ? 'password' : (is_number?'tel':'text')"
+				[class.right]="icon && iconSide==='right'"
+				[class.left]="icon && iconSide==='left'"
+				[class.editable]="!disabled&&!readonly"
+				[(ngModel)]="display_text"
+				(blur)="blurInput(); validateInput()"
+				(keyup)="keypress($event);"
+				[disabled]="disabled"
+				[style.width]="width?_width+'em':''"/>
+		</div>
+		<div [class]="'icon aca color ' + (focus ? ' font-' + color + '-' + primary : '')" *ngIf="icon && iconSide==='right'" >
 			<ng-content></ng-content>
 		</div>
 	</div>
 	<div class="info-space">
-		<div *ngIf="!error||!fresh" [class]="'message ' + (error ? 'aca color font-red-C500' : (success ? 'aca color font-green-C500' : ''))">{{info_display}}</div>
+		<div [class]="'message aca color ' + (error ? 'font-red-C500' : (success ? 'font-green-C500' : ''))">{{info_display}}</div>
 		<div [class]="'counter ' + (error ? 'aca color font-red-C500' : '')" *ngIf="type==='text' && max && max > 0">{{clean_text ? clean_text.length : '0'}}/{{max}}</div>
 	</div>
 </div>

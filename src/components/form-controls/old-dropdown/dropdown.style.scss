@@ -5,9 +5,9 @@
 	height:100%;
 	border-radius: 0.1em;
 	padding: 0.5em 1.0em;
-	margin: 0.4em;
 	border: 0.2em solid rgba(0, 0, 0, 0.7);
 	user-select: none;
+	display: inline-block;
 	.contents {
 		z-index: 99999;
 		user-select: none;

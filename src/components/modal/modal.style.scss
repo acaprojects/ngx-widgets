@@ -12,6 +12,13 @@ $space: 2.2em;
 	font-size: 20px;
 	z-index: 2000;
 	opacity: 0;
+	& .tap-space {
+	    position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+	}
 
 	& .modal-space {
 	    position: absolute;

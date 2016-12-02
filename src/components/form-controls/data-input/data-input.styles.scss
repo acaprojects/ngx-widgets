@@ -8,12 +8,15 @@ $red: #F64740;
 		display: inline-block;
 		padding: 0.1em;
 		font-size: 1.2em;
+		user-select: none;
 		& .error { color: $red; border-color: $red; }
 		& .valid { color: $green; border-color: $green; }
 		& .input-space {
 			position: relative;
-			display: inline-block;
+			display: flex;
+			align-items: center;
 			padding: 0.2em 0 0.1em 0;
+			user-select: none;
 			&.light {
 				color: rgba(0,0,0,0.4);
 				border-bottom: 0.1em solid rgba(0,0,0,0.4);
@@ -53,31 +56,25 @@ $red: #F64740;
 					left: 1.5em;
 				}
 			}
-
-			& input.text {
-				font-size: 1.0em;
-				outline: none;
-				border: none;
-				margin: 0;
-				padding: 0;
-				background: none;
-				&.left {
-					padding-left: 1.5em;
-				}
-				&.right {
-					padding-right: 1.5em;
+			& .input {
+				flex-grow: 1;
+				display: flex;
+				width: 12.0em;
+				max-width: 100%;
+				& input.text {
+					font-size: 1.0em;
+					flex-grow: 1;
+					outline: none;
+					border: none;
+					margin: 0;
+					padding: 0;
+					background: none;
 				}
 			}
-
 			& .icon {
-				position: absolute;
-				top: 0.2em;
-				&.left {
-					left: 0;
-				}
-				&.right {
-					right: 0;
-				}
+				flex-grow: 0;
+				height: 1.2em;
+				width: 1.2em;
 			}
 		}
 		& .info-space {

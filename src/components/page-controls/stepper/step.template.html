@@ -1,0 +1,12 @@
+<div class="step">
+    <div class="step-number" [class.active]="active||open" [class.error]="error" (tap)="toggle()">
+        <i class="material-icons">{{ordered ? index : (!error ? ( active || open ? 'done':'add') : 'close')}}</i>
+    </div>
+    <div class="step-desc"><strong (tap)="toggle()">{{title}}</strong></div>
+</div>
+<div class="step content">
+    <div class="step-bar"><div class="bar"></div></div>
+    <div class="step-content" [@showstep]="open?'show':'hide'">
+        <ng-content></ng-content>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 <div [id]="id ? id : 'modal'"
 	[@backdrop]="state ? 'show' : 'hide'"
-	[class]="'aca modal' + (cssClass ? ' ' + cssClass : '')"
-	(tap)="onPointer($event)">
+	[class]="'aca modal' + (cssClass ? ' ' + cssClass : '')">
+	<div class="tap-space" (tap)="onPointer($event)"></div>
 	<div #modal class="modal-space" [@space]="state_inner ? 'show' : 'hide'"
 			[style.width]="display_width + unit">
 		<div class="modal-body">

@@ -64,6 +64,8 @@ export class DataInput {
 	backspace: boolean = false;
 	fresh: boolean = true;
 	_width: number = 12;
+	is_password: boolean = false;
+	is_number: boolean = false;
 
 	numbers: string = '1234567890';
 	alphabet: string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -81,21 +83,28 @@ export class DataInput {
 		setTimeout(() => {
 			if(changes.model) {
 				this.display_text = this.model;
-				this.validateInput();
+				//this.validateInput();
 			}
 			if(changes.type) {
+				this.is_password = false;
+				this.is_number = false;
+				this._width = this.width + (this.icon ? 2 : 0);
 				switch(this.type.toLowerCase()) {
 					case 'date':
 						this._width = (this.format ? this.format.length / 2 + 2 : 12) + (this.icon ? 2 : 0);
 						break;
 					case 'number':
 						this._width = (this.max && this.max > 0 ? this.max.toString().length / 2 + 1.5 : 12) + (this.icon ? 2 : 0);
+						this.is_number = true;
 						break;
 					case 'ccard':
 						this._width = 11.5 + (this.icon ? 2 : 0);
 						break;
-					default:
-						this._width = this.width + (this.icon ? 2 : 0);
+					case 'tel':
+						this.is_number = true;
+						break;
+					case 'password':
+						this.is_password = true;
 						break;
 				}
 				if(this._width > 30) this._width = 30;
@@ -103,6 +112,13 @@ export class DataInput {
 			}
 			if(changes.infoMsg) {
 				this.info_display = this.infoMsg;
+			}
+			if(changes.error) {
+				if(this.error) {
+					this.info_display = this.errorMsg;
+				} else {
+					this.info_display = this.infoMsg;
+				}
 			}
 		})
 	}
