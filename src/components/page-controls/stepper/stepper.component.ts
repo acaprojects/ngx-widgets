@@ -39,7 +39,7 @@ export class Stepper implements AfterContentInit, DoCheck, OnChanges  {
 
     ngDoCheck() {
         if(this.steps && this.steps.change !== this.last_change && this.stepList) {
-            console.log(this.steps);
+            console.log(this.steps.states);
             this.last_change = this.steps.change;
             this.updateStates();
         }
@@ -76,6 +76,7 @@ export class Stepper implements AfterContentInit, DoCheck, OnChanges  {
 
     open(index: number) {
         let step_list = this.stepList.toArray();
+        this.steps.states[index].open = true;
         for(let i = 0; i < step_list.length; i++) {
             if(this.direction === 'ordered') {
                 if(i === index) {
