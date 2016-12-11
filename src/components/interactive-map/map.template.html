@@ -1,5 +1,5 @@
 <div #displayarea class="aca interactive-map" (window:resize)="resize()">
-    <div #maparea *ngIf="active" class="map-contents" [style.display]="(loading || !map_data)?'none':'inherit'">
+    <div #maparea [@showmap]="(!loading && map_data)?'show':'hide'" *ngIf="active" class="map-contents">
 		<div class="pins">
 			<div class="pin" *ngFor="let pin of pins;let i = index;">
 				<div class="pin" [@pin]="pin.status === 'show' ? 'show' : 'hide'" [id]="'aca-map-pin' + i ">

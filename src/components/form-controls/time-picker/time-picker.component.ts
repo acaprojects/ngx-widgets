@@ -136,7 +136,6 @@ export class TimePicker {
     }
 
     validateMinute() {
-    	console.log(this.display_minutes);
     	this.display_minutes = this.checkNumber(this.display_minutes);
     	let minutes = parseInt(this.display_minutes);
     	if(minutes < 0 || minutes > 60) this.display_minutes = '00';

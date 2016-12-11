@@ -1,5 +1,5 @@
 import { Component, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
-import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
+import { ImageCropperComponent, CropperSettings } from '../../lib';
 import { DropService } from '../../services';
 
 @Component({
