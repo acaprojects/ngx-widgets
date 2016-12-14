@@ -94,7 +94,11 @@ export class DataInput {
 						this._width = (this.format ? this.format.length / 2 + 2 : 12) + (this.icon ? 2 : 0);
 						break;
 					case 'number':
-						this._width = (this.max && this.max > 0 ? this.max.toString().length / 2 + 1.5 : 12) + (this.icon ? 2 : 0);
+						if(this.width) {
+							this._width = this.width + (this.icon ? 2 : 0);
+						} else {
+							this._width = (this.max && this.max > 0 ? this.max.toString().length / 2 + 1.5 : 12) + (this.icon ? 2 : 0);
+						}
 						this.is_number = true;
 						break;
 					case 'ccard':

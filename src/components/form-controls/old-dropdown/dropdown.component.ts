@@ -1,11 +1,68 @@
-import { Injectable, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, ViewContainerRef, Type } from '@angular/core';
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
-  selector: '[old-dropdown]',
+    selector: 'old-dropdown-list',
+    styleUrls: [ './dropdown-list.style.css' ],
+    templateUrl: './dropdown.template.html'
+})
+export class OldDropdownList {
+    @Input() options: string[] = ['Select an Option'];
+    @Input() selected: number = 0;
+    @Input() cssClass: string = 'default';
+
+    parent: any = null;
+
+    @ViewChild('contents') contents: ElementRef;
+
+    setup(params: any) {
+        let keys = Object.keys(params);
+        for(let i = 0; i < keys.length; i++){
+            if(keys[i] in this) {
+                this[keys[i]] = params[keys[i]];
+            }
+        }
+    }
+
+    checkClick(e:any) {
+        console.log('Close dropdown');
+        if(e) {
+            let bb = this.contents.nativeElement.getBoundingClientRect();
+            let c = e.center;
+            if(c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y  > bb.top + bb.height) {
+                console.log('Closing dropdown');
+                this.parent.close();
+            }
+        }
+    }
+
+    select(i: number) {
+        this.selected = i;
+        this.parent.setOption(i);
+    }
+
+    moveList(main: any, event?: any) {
+        if(!main || !this.contents) return;
+        let main_box = main.nativeElement.getBoundingClientRect();
+        this.contents.nativeElement.style.width = '1px';
+        this.contents.nativeElement.style.top = Math.round(main_box.top + window.pageYOffset) + 'px';
+        this.contents.nativeElement.style.left = Math.round(main_box.left + main_box.width/2) + 'px';
+        this.contents.nativeElement.style.height = Math.round(main_box.height) + 'px';
+        this.contents.nativeElement.style.display = '';
+    }
+
+}
+
+@Component({
+  selector: 'old-dropdown',
   styleUrls: [ './dropdown.style.css' ],
-  templateUrl: './dropdown.template.html'
+  template: `
+    <div #main [class]="'aca dropdown ' + cssClass" (click)="open()">
+        <div class="text">{{options[selected] ? options[selected] : '-----'}}</div>
+        <div class="text placeholder" *ngFor="let o of options">{{o}}</div>
+    </div>
+  `
 })
 export class OldDropdown {
   	@Input() options: string[] = ['Select an Option'];
@@ -15,100 +72,34 @@ export class OldDropdown {
   	@Output() selectedChange = new EventEmitter();
 
     @ViewChild('main') main: ElementRef;
-    @ViewChild('listview') contents: ElementRef;
 
   	show: boolean = false;
   	list: any = null;
   	list_ref: any = null;
-  	last_change: number = null;
-  	container: any;
-  	id: number = 12345678;
-    click: any = null;
-    moved: any = null;
-    released: any = null;
-    move: boolean = false;
-    down: boolean = false;
-    last_pos: any = null;
+    update_timer: any = null;
+    last_change: number = (new Date()).getTime();
 
-	constructor() {
-        this.click = (e: any) => {
-            this.down = true;
-        };
-        this.moved = (e: any) => {
-            if(this.down){
-                let pos = {
-                    x: (e instanceof TouchEvent ? e.changedTouches[0].clientX : e.clientX),
-                    y: (e instanceof TouchEvent ? e.changedTouches[0].clientY : e.clientY)
-                }
-                if(this.last_pos && (Math.abs(this.last_pos.x - pos.x) > 5 || Math.abs(this.last_pos.y - pos.y) > 5) ) {
-                    this.move = true;
-                }
-                this.last_pos = pos;
-            }
-        }
-        this.released = (e: any) => {
-            setTimeout(() => {
-                if(!this.move) {
-                    this.checkClick(e)
-                }
-                this.last_pos = null;
-                this.down = false;
-                this.move = false;
-            }, 20);
-        }
+	constructor(private view: ViewContainerRef, private _cfr: ComponentFactoryResolver) {
 	}
 
-    checkClick(e: any) {
-        if(this.contents) {
-            let bb = this.contents.nativeElement.getBoundingClientRect();
-            let pos = {
-                x: (e instanceof TouchEvent ? e.changedTouches[0].clientX : e.clientX),
-                y: (e instanceof TouchEvent ? e.changedTouches[0].clientY : e.clientY)
-            }
-            if(pos.x < bb.left || pos.x > bb.left + bb.width || pos.y < bb.top || pos.y > bb.top + bb.height) {
-                this.close();
-            }
-        } else this.close();
-    }
-
   	open() {
-      	let now = (new Date()).getTime();
-      	if(now - this.last_change < 100) return;
-      	if(!this.show) {
-  			this.show = true;
-            document.addEventListener('mousedown', this.click, true);
-            document.addEventListener('touchstart', this.click, true);
-            document.addEventListener('mousemove', this.moved, true);
-            document.addEventListener('touchmove', this.moved, true);
-            document.addEventListener('mouseup', this.released, true);
-            document.addEventListener('touchend', this.released, true);
-	    } else this.close();
+        let now = (new Date()).getTime();
+        if(now - 1000 > this.last_change){
+            this.render(OldDropdownList);
+        }
   	}
 
 
   	close() {
-        setTimeout(() => {
-        	this.show = false;
-            document.removeEventListener('mousedown', this.click, true);
-            document.removeEventListener('touchstart', this.click, true);
-            document.removeEventListener('mousemove', this.moved, true);
-            document.removeEventListener('touchmove', this.moved, true);
-            document.removeEventListener('mouseup', this.released, true);
-            document.removeEventListener('touchend', this.released, true);
-        }, 20)
+        if(this.list_ref) {
+            if(this.update_timer) {
+                clearInterval(this.update_timer);
+            }
+            this.list_ref.destroy();
+        }
   	}
 
-  	setOption(i: number, e?: any){
-        if(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-        if(this.move) {
-            setTimeout(() => {
-                this.move = false;
-            }, 20)
-            return;
-        }
+  	setOption(i: number){
     	this.last_change = (new Date()).getTime();
     	this.selected = i;
     	this.selectedChange.emit(i);
@@ -122,5 +113,30 @@ export class OldDropdown {
   	ngOnDestroy() {
   		this.close();
   	}
+
+    private render(type: Type<any>){
+        if(this.view) {
+        	if(this.list_ref) {
+        		this.list_ref.destroy();
+        	}
+        	let factory = this._cfr.resolveComponentFactory(type);
+        	let cmpRef = this.view.createComponent(factory);
+            document.body.appendChild(cmpRef.location.nativeElement);
+            this.list = cmpRef.instance;
+            this.list_ref = cmpRef;
+
+            this.list.setup({
+                parent: this,
+                options: this.options,
+                selected: this.selected,
+                cssClass: this.selectClass
+            });
+            this.list.moveList(this.main);
+            this.update_timer = setInterval(() => {
+                this.list.moveList(this.main);
+            }, 50);
+            return this.list;
+        }
+    }
 
 }
