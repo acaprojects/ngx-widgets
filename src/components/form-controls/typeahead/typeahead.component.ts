@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   20/09/2016 1:44 PM
+* @Email:  alex@yuion.net
+* @Filename: typeahead.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:30 AM
+*/
+
 import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 

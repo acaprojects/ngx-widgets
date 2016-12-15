@@ -1,3 +1,12 @@
+<!--
+@Author: Alex Sorafumo <Yuion>
+@Date:   15/09/2016 6:41 PM
+@Email:  alex@yuion.net
+@Filename: toggle.template.html
+@Last modified by:   Yuion
+@Last modified time: 15/12/2016 11:29 AM
+-->
+
 <div class="aca toggle" [class.disabled]="disabled" (click)="changeState($event)" [style.font-size]="size" override>
     <div *ngIf="type==='text'" [@toggleBg]="tstate" class="text-toggle">
         <div *ngIf="state" class="text active">{{active ? active : 'On'}}</div>

@@ -1,10 +1,19 @@
+<!--
+@Author: Alex Sorafumo <Yuion>
+@Date:   13/09/2016 2:55 PM
+@Email:  alex@yuion.net
+@Filename: tabs.template.html
+@Last modified by:   Yuion
+@Last modified time: 15/12/2016 11:32 AM
+-->
+
 <div class="aca tab-group" >
     <div class="tab-header">
         <ul [class]="cssClass">
-            <li *ngFor="let tab of tabHeaders" 
-            	[innerHTML]="tab.contents | safe"  
+            <li *ngFor="let tab of tabHeaders"
+            	[innerHTML]="tab.contents | safe"
             	[class.active]="tab.activeTab"
-            	(click)="setActiveTab(tab.id)" 
+            	(click)="setActiveTab(tab.id)"
             	(touchup)="setActiveTab(tab.id)"></li>
             <li [class]="'empty ' + cssClass"></li>
         </ul>

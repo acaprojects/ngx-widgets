@@ -1,3 +1,11 @@
+/**
+* @Author: Stephen von Takack
+* @Date:   13/09/2016 2:55 PM
+* @Email:  steve@acaprojects.com
+* @Filename: drop-files.spec.ts
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 15/12/2016 11:37 AM
+*/
 
 export class DropFiles {
     promise: Promise<DropFiles>;

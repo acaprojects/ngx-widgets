@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   24/11/2016 3:43 PM
+* @Email:  alex@yuion.net
+* @Filename: step.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:31 AM
+*/
+
 import { Component, Input, Output, EventEmitter, ElementRef} from '@angular/core';
 import { ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';

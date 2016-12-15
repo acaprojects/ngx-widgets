@@ -1,3 +1,12 @@
+/**
+* @Author: Stephen von Takack
+* @Date:   21/09/2016 9:26 AM
+* @Email:  steve@acaprojects.com
+* @Filename: drop-target.directive.ts
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 15/12/2016 11:35 AM
+*/
+
 import { ElementRef, Input } from '@angular/core';
 import { Directive, OnInit, OnDestroy } from '@angular/core';
 import { DropService } from '../services';

@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   18/11/2016 4:31 PM
+* @Email:  alex@yuion.net
+* @Filename: map.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:30 AM
+*/
+
 import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { trigger, transition, animate, style, state, group, keyframes } from '@angular/core';
 

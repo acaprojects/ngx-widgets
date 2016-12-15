@@ -1,3 +1,12 @@
+<!--
+@Author: Alex Sorafumo <Yuion>
+@Date:   28/10/2016 11:24 AM
+@Email:  alex@yuion.net
+@Filename: virtual-keyboard.template.html
+@Last modified by:   Yuion
+@Last modified time: 15/12/2016 11:32 AM
+-->
+
 <div #main [class]="'virtual-keyboard ' + layout" [style.top]="top" [style.left]="left">
 	<div class="keyboard standard" [@keyboard]="active?'show':'hide'" *ngIf="layout==='standard'">
 		<div class="topbar" (panmove)="moveKeyboard($event);"><div class="close" (tap)="close()">&#x2573;</div></div>

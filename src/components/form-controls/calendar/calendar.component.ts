@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   15/09/2016 6:40 PM
+* @Email:  alex@yuion.net
+* @Filename: calendar.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:28 AM
+*/
+
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 

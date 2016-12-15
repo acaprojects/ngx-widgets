@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   12/12/2016 10:41 AM
+* @Email:  alex@yuion.net
+* @Filename: stepper.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:32 AM
+*/
+
 import { Component, Input, Output, EventEmitter, ElementRef, DoCheck, OnChanges} from '@angular/core';
 import { ViewChild, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 import { Location } from '@angular/common';

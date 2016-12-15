@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   20/09/2016 1:54 PM
+* @Email:  alex@yuion.net
+* @Filename: dropdown.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:29 AM
+*/
+
 import { Injectable, ComponentFactoryResolver, ViewContainerRef, Type } from '@angular/core';
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';

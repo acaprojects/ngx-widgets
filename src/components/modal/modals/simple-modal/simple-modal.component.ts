@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   20/09/2016 12:24 PM
+* @Email:  alex@yuion.net
+* @Filename: simple-modal.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:31 AM
+*/
+
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 import { ComponentFactoryResolver, ViewContainerRef } from '@angular/core';

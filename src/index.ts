@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo
+* @Date:   18/11/2016 4:15 PM
+* @Email:  alex@yuion.net
+* @Filename: index.ts
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 15/12/2016 11:38 AM
+*/
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -37,8 +46,8 @@ export * from './components';
     ]
 })
 export class ACA_WIDGETS_MODULE {
-    version: string = '0.5.1';
-    build: string = 'dev-2016-11-10.v1';
+    version: string = '0.5.3';
+    build: string = 'dev-2016-12-15.v1';
     constructor() {
         console.debug(`ACA Angular 2 Widget Library - Version: ${this.version} | Build: ${this.build}`);
     }

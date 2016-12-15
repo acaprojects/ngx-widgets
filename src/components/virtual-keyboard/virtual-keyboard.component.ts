@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   28/10/2016 11:24 AM
+* @Email:  alex@yuion.net
+* @Filename: virtual-keyboard.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:32 AM
+*/
+
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } 	 from '@angular/core';
 import { Observable } from 'rxjs/Rx';

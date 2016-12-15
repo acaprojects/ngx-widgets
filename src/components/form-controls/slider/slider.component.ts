@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   18/11/2016 4:31 PM
+* @Email:  alex@yuion.net
+* @Filename: slider.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:29 AM
+*/
+
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { ACA_Animate } from '../../../services/animate.service';
 

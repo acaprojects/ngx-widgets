@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo
+* @Date:   18/11/2016 4:31 PM
+* @Email:  alex@yuion.net
+* @Filename: notification.service.ts
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 15/12/2016 11:37 AM
+*/
+
 import { Injectable, ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type } from '@angular/core';
 import { ApplicationRef, Injector } from '@angular/core';
 import { Notification } from '../components';

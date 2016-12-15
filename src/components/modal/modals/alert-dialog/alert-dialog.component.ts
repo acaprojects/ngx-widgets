@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   13/09/2016 2:55 PM
+* @Email:  alex@yuion.net
+* @Filename: alert-dialog.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:31 AM
+*/
+
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ComponentFactoryResolver } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 import { ModalService } from '../../../../services';

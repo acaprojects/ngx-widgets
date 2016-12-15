@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo
+* @Date:   13/09/2016 2:55 PM
+* @Email:  alex@yuion.net
+* @Filename: animate.service.ts
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 15/12/2016 11:37 AM
+*/
+
 import { Injectable, Inject } from '@angular/core';
 
 @Injectable()

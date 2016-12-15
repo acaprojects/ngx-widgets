@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   03/11/2016 3:15 PM
+* @Email:  alex@yuion.net
+* @Filename: notify-block.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:31 AM
+*/
+
 import { Component, Input, Output } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } 	 from '@angular/core';
 

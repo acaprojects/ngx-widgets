@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo
+* @Date:   04/10/2016 11:54 AM
+* @Email:  alex@yuion.net
+* @Filename: index.ts
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 15/12/2016 11:37 AM
+*/
+
 import { ACA_Animate, ACA_NextFrame } from './animate.service';
 import { NotificationService } from './notification.service';
 import { ModalService } from './modal.service';

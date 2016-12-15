@@ -1,5 +1,14 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   04/10/2016 11:53 AM
+* @Email:  alex@yuion.net
+* @Filename: index.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:32 AM
+*/
+
 import { Button, ButtonGroup, ButtonToggle } from './buttons';
-import { Calendar, DataInput, Dropdown, OldDropdown, Slider, TimePicker, Toggle, Typeahead, TypeaheadList } from './form-controls';
+import { Calendar, DataInput, Dropdown, OldDropdown, OldDropdownList, Slider, TimePicker, Toggle, Typeahead, TypeaheadList } from './form-controls';
 import { ImageCrop } from './img-crop';
 import { InteractiveMap } from './interactive-map';
 import { MaterialStyles } from './material-styles';
@@ -46,6 +55,7 @@ export let ENTRY_COMPONENTS: any[] = [
     ACA_WIDGET_MODALS,
     Notification,
     NotifyBlock,
+    OldDropdownList,
     TypeaheadList,
     VirtualKeyboard
 ];

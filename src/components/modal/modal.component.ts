@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   18/11/2016 4:31 PM
+* @Email:  alex@yuion.net
+* @Filename: modal.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:30 AM
+*/
+
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
 import { ComponentRef, ViewContainerRef, ComponentFactoryResolver }  from '@angular/core';
 import { AfterViewInit, OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';

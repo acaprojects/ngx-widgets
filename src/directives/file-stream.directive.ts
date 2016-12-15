@@ -1,3 +1,12 @@
+/**
+* @Author: Stephen von Takack
+* @Date:   13/09/2016 2:55 PM
+* @Email:  steve@acaprojects.com
+* @Filename: file-stream.directive.ts
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 15/12/2016 11:35 AM
+*/
+
 import { Input, ElementRef } from '@angular/core';
 import { Directive, OnInit } from '@angular/core';
 import { DropService } from '../services';

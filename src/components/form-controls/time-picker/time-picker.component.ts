@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   18/11/2016 4:31 PM
+* @Email:  alex@yuion.net
+* @Filename: time-picker.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:29 AM
+*/
+
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 

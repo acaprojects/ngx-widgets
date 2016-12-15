@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   19/09/2016 1:51 PM
+* @Email:  alex@yuion.net
+* @Filename: img-crop.component.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:30 AM
+*/
+
 import { Component, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { ImageCropperComponent, CropperSettings } from '../../lib';
 import { DropService } from '../../services';

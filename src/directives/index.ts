@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   04/10/2016 11:54 AM
+* @Email:  alex@yuion.net
+* @Filename: index.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:33 AM
+*/
+
 import { ModalDirective } from './modal.directive';
 import { NotificationDirective } from './notification.directive';
 import { DropTarget } from './drop-target.directive';

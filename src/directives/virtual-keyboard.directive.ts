@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <Yuion>
+* @Date:   28/10/2016 11:24 AM
+* @Email:  alex@yuion.net
+* @Filename: virtual-keyboard.directive.ts
+* @Last modified by:   Yuion
+* @Last modified time: 15/12/2016 11:33 AM
+*/
+
 import { Directive, Input, Output, EventEmitter } from '@angular/core';
 import { ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type } from '@angular/core';
 import { ApplicationRef } from '@angular/core';
