@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: modal.service.ts
 * @Last modified by:   Alex Sorafumo
-* @Last modified time: 15/12/2016 11:37 AM
+* @Last modified time: 19/12/2016 4:33 PM
 */
 
 import { Injectable, ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type, Injector } from '@angular/core';
@@ -110,6 +110,8 @@ export class ModalService {
 			size: input.size ? input.size : this.modal_data[id].size,
 			styles: input.styles ? input.styles : this.modal_data[id].styles,
 			options: input.options ? input.options : this.modal_data[id].options,
+			width: input.width ? input.width : this.modal_data[id].width,
+			top: input.top ? input.top : this.modal_data[id].top,
 			close: input.close ? input.close : this.modal_data[id].close,
 			colors : input.colors ? input.colors : (this.modal_data[id].colors ? this.modal_data[id].colors : this.colors)
 		};
@@ -120,7 +122,7 @@ export class ModalService {
 			// Create Modal
 		let modal = this.render(id, this.modal_inputs[id].type);
 		this.last_modal_id = id;
-		return id;
+		return modal.status;
 	}
 
 	close(id:string) {

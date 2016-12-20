@@ -1,10 +1,10 @@
 <!--
-@Author: Alex Sorafumo <Yuion>
+@Author: Alex Sorafumo
 @Date:   13/09/2016 2:55 PM
 @Email:  alex@yuion.net
 @Filename: date-dialog.template.html
-@Last modified by:   Yuion
-@Last modified time: 15/12/2016 11:31 AM
+@Last modified by:   Alex Sorafumo
+@Last modified time: 20/12/2016 10:29 AM
 -->
 
 <div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (tap)="onPointer($event)">
@@ -45,8 +45,8 @@
 			</div>
 		</div>
 		<div class="dialog-footer">
-			<btn btnType="flat" color="orange" (onClick)="select(cancel)">Cancel</btn>
-			<btn btnType="flat" color="orange" (onClick)="select(confirm)">{{confirm?.text}}</btn>
+			<btn btnType="flat" color="orange" (onClick)="select('Cancel')">Cancel</btn>
+			<btn btnType="flat" color="orange" (onClick)="select('Ok')">{{confirm?.text}}</btn>
 		</div>
 	</div>
 </div>

@@ -1,9 +1,9 @@
-// @Author: Alex Sorafumo <Yuion>
+// @Author: Alex Sorafumo
 // @Date:   14/12/2016 10:07 AM
 // @Email:  alex@yuion.net
 // @Filename: dropdown-list.style.scss
-// @Last modified by:   Yuion
-// @Last modified time: 15/12/2016 11:29 AM
+// @Last modified by:   Alex Sorafumo
+// @Last modified time: 19/12/2016 12:44 PM
 
 .click-space {
     position: absolute;
@@ -41,6 +41,7 @@
             z-index: 99999;
             & li {
                 position: relative;
+                cursor: pointer;
                 & .check {
                     position: absolute;
                     left: 0.5em;

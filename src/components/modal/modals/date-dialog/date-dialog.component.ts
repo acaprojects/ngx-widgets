@@ -1,10 +1,10 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
+* @Author: Alex Sorafumo
 * @Date:   13/09/2016 2:55 PM
 * @Email:  alex@yuion.net
 * @Filename: date-dialog.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:31 AM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 19/12/2016 4:39 PM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ComponentFactoryResolver } from '@angular/core';
@@ -220,7 +220,7 @@ export class DateDialog extends Modal {
         super.setParams(data);
         console.log(data);
         if(data && data.data && data.data.date && data.data.date instanceof Date) this.setDate(data.data.date);
-        this.close = true;
+        this.canClose = true;
         if(data && data.options){
             for(let i = 0; i < data.options.length; i++) {
                 let option = data.options[i];

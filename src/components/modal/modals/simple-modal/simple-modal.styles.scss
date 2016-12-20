@@ -1,9 +1,9 @@
-// @Author: Alex Sorafumo <Yuion>
+// @Author: Alex Sorafumo
 // @Date:   26/09/2016 5:09 PM
 // @Email:  alex@yuion.net
 // @Filename: simple-modal.styles.scss
-// @Last modified by:   Yuion
-// @Last modified time: 15/12/2016 11:31 AM
+// @Last modified by:   Alex Sorafumo
+// @Last modified time: 20/12/2016 10:12 AM
 
 $sm-height: 15.0em;
 $space: 2.2em;
@@ -15,7 +15,7 @@ $space: 2.2em;
 	bottom: 0;
 	right: 0;
 	background-color: rgba(0,0,0,0.3);
-	font-size: 20px;
+	font-size: 1.0em;
 	z-index: 2000;
 	opacity: 0;
 	overflow: auto;
@@ -47,11 +47,13 @@ $space: 2.2em;
 				padding: 0.5em 1.0em;
 				font-size: 1.5em;
 				border-radius: 0.1em 0.1em 0 0;
+				display: flex;
+				align-items: center;
+				& .text {
+					flex-grow: 1;
+				}
 				//text-align: center;
 				& .close-btn {
-					position: absolute;
-				    top: 0.2em;
-				    right: 0.2em;
 				    height: 1.2em;
 				    width: 1.2em;
 					background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xOSA2LjQxTDE3LjU5IDUgMTIgMTAuNTkgNi40MSA1IDUgNi40MSAxMC41OSAxMiA1IDE3LjU5IDYuNDEgMTkgMTIgMTMuNDEgMTcuNTkgMTkgMTkgMTcuNTkgMTMuNDEgMTJ6Ii8+CiAgICA8cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==);
@@ -79,9 +81,9 @@ $space: 2.2em;
 			}
 			&-footer {
 				position: absolute;
-				height: $space + 0.5em; left: 0;
+				height: $space + 0.8em; left: 0;
 				right: 0; bottom: 0;
-				padding: 0.5em;
+				padding: 0.2em;
 				text-align: right;
 				background-color: #FFF;
 				white-space: nowrap;
@@ -91,7 +93,7 @@ $space: 2.2em;
 				& .modal-btns {
 					display: inline-block;
 					text-align: center;
-					padding: 0.2em;
+					font-size: 0.8em;
 					& .modal-btn {
 						outline: none;
 						border: none;

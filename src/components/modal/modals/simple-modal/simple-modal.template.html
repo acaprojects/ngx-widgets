@@ -1,26 +1,26 @@
 <!--
-@Author: Alex Sorafumo <Yuion>
+@Author: Alex Sorafumo
 @Date:   19/09/2016 12:43 PM
 @Email:  alex@yuion.net
 @Filename: simple-modal.template.html
-@Last modified by:   Yuion
-@Last modified time: 15/12/2016 11:31 AM
+@Last modified by:   Alex Sorafumo
+@Last modified time: 20/12/2016 10:05 AM
 -->
 
 <div  [@backdrop]="state ? 'show' : 'hide'" [class]="'aca modal ' + cssClass">
 	<div class="tap-space" (tap)="onPointer($event)"></div>
 	<div #modal class="modal-space" [@space]="state_inner ? 'show' : 'hide'"
 			[style.width]="(large ? 2.5 * width : width) + unit">
-		<div class="modal-header title" [style.background-color]="color1" [style.color]="color2" >
-			{{title}}
-			<div *ngIf="close" class="close-btn" (click)="close_fn()"></div>
+		<div class="modal-header title" [style.background-color]="colors.bg" [style.color]="colors.fg" >
+			<div class="text title">{{title}}</div>
+			<!--div *ngIf="close||false" class="close-btn" (click)="close_fn()"></div-->
 		</div>
 		<div class="modal-body">
 			<div class="content"><div #content></div></div>
 		</div>
 		<div class="modal-footer">
 			<div class="modal-btns" *ngFor="let btn of options">
-				<button type="submit" [style.background-color]="color1" [style.color]="color2" class="modal-btn"(click)="select(btn)">{{btn.text}}</button>
+				<btn type="submit" btnType="raised" [cssClass]="btn.class" (onClick)="select(btn.text)">{{btn.text}}</btn>
 			</div>
 		</div>
 	</div>

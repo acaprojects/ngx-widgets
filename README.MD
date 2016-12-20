@@ -1,4 +1,7 @@
+
 # Angular 2 - Widgets
+
+This documentation is out of date.
 
 ## Usage
 
@@ -18,7 +21,7 @@ To use a Button Toggle in your component for import the ButtonToggle directive i
 
 Then you can use insert a btn-toggle tag into you html when you want the element to appear.
 
-e.g. 
+e.g.
 ```html
 <btn-toggle active="Active" inactive="Inactive" [(value)]="value"></btn-toggle>
 ```
@@ -43,7 +46,7 @@ To use a button group in your component for import the ButtonGroup directive int
 
 Then you can use insert a btn-group tag into you html when you want the element to appear.
 
-e.g. 
+e.g.
 ```html
 <btn-group [items]="['One', 'Two', 'Three', 'Four']" [(selected)]="value"></btn-group>
 ```
@@ -79,7 +82,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 Creates a toggle switch that display text inside the toggle space.
 
-e.g. 
+e.g.
 ```html
 <fancy-toggle type="text" [(state)]="value" inactive="Off" active="On"></fancy-toggle>
 ```
@@ -97,7 +100,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 Creates a toggle switch that displays an image based off of the state of the toggle
 
-e.g. 
+e.g.
 ```html
 <fancy-toggle type="image" [(state)]="value" inactive="/img/off_img.png" active="/img/on_img.png"></fancy-toggle>
 ```
@@ -115,7 +118,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 Creates a toggle switch that displays an icon based off of the state of the toggle.
 
-e.g. 
+e.g.
 ```html
 <fancy-toggle type="image" [(state)]="value" inactive="fa fa-times" active="fa fa-tick"></fancy-toggle>
 ```
@@ -134,7 +137,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 Creates a simple toggle switch that looks like the toggles used in iOS.
 
-e.g. 
+e.g.
 ```html
 <fancy-toggle type="ios" [(state)]="value" inactive="Off" active="On"></fancy-toggle>
 ```
@@ -153,9 +156,9 @@ Import `import { Slider } from '@aca-1/a2-widgets';`
 
 To use a slider in your component for import the Slider directive into your component.
 
-Then you can use insert a slider attribute into you html when you want the element to 
+Then you can use insert a slider attribute into you html when you want the element to
 
-e.g. 
+e.g.
 ```html
 <div slider align="horizontal" [min]="-65535" max="65535" [(value)]="slider2"></div>
 ```
@@ -179,7 +182,7 @@ To use a tab group in your component for import the TABS_DIRECTIVES into your co
 
 Then you can use insert a tab-group tag into you html when you want the element to appear.
 
-e.g. 
+e.g.
 ```html
 <tab-group [(state)]="tab_value" routable="route" routeParam="tab">
     <tab-head id="0">Title of Tab</tab-head>
@@ -229,7 +232,7 @@ Then you can use insert a interactive-map tag into you html when you want the el
 
 The interactive map will fill the parent container so make sure you size the parent to reflect how you want your map to be displayed.
 
-e.g. 
+e.g.
 ```html
 <interactive-map map="/assets/img/map.svg" [active]="true" [controls]="true" [zoomMax]="400" (tap)="doSomething($event)"></interactive-map>
 ```
@@ -254,7 +257,7 @@ To use a Calendar in your component for import the Calendar directive into your 
 
 Then you can use insert a calendar tag into you html when you want the element to appear.
 
-e.g. 
+e.g.
 ```html
 <calendar [(date)]="start_date" [(time)]="start_time" selectTime="true" futureOnly="true"></calendar>
 ```
@@ -308,7 +311,7 @@ To use a Modal in your component for import the ModalDirective directive into yo
 
 Then you can use insert a modal attribute into you html when you want the element to appear.
 
-e.g. 
+e.g.
 ```html
 <div modal [title]="'ModalTest'" [id]="'a modal'" [close]="true" [html]="html" [data]="data" [size]="'small'" (ok)="done($event)"  (cancel)="failed($event)" [active]="true"></div>
 ```
@@ -406,7 +409,7 @@ To use a Notification Directive in your component for import the NotificationDir
 
 Then you can use insert a notification attribute into you html on the page you want the notification to be displayed.
 
-e.g. 
+e.g.
 ```html
 <div notification message="The world is ending... now!" [(value)]="value"></btn-toggle>
 ```
@@ -465,7 +468,7 @@ Button Toggles and Button Groups share the same CSS.
 The styles of buttons can be changes using the css class `aca-btn-c1`
 When a button is active the css class `active` is also applied the active element
 
-e.g. 
+e.g.
 ```css
   .aca-btn-c1 {
       /*background-color: #123456;*/
@@ -493,7 +496,7 @@ The styles of sliders can be changes using the css classes `aca-slider-c1, aca-s
 * `aca-slider-c2` is applied on the progress strip of the bar.
 * `aca-slider-c3` is applied on the knob of the slider.
 
-e.g. 
+e.g.
 ```css
   .aca-slider-c1 {
       background-color:  #123456;

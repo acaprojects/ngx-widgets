@@ -1,10 +1,10 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
+* @Author: Alex Sorafumo
 * @Date:   13/09/2016 2:55 PM
 * @Email:  alex@yuion.net
 * @Filename: confirm-dialog.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:31 AM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 19/12/2016 4:52 PM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ComponentFactoryResolver } from '@angular/core';
@@ -42,8 +42,8 @@ const PLACEHOLDER = '-';
     ]
 })
 export class ConfirmDialog extends Modal {
-	confirm: any = { text: 'OK', fn: null };
-	cancel:  any = { text: 'CANCEL', fn: null };
+    msg: string = 'Are you sure?';
+    confirm: string = 'Ok';
 
     @ViewChild('content') content: ElementRef;
 
@@ -53,16 +53,6 @@ export class ConfirmDialog extends Modal {
 
     setParams(data: any) {
     	super.setParams(data);
-    	this.close = true;
-    	if(data && data.options){
-    		for(let i = 0; i < data.options; i++) {
-    			let option = data.options[i];
-    			if(option.type === 'confirm') {
-    				this.confirm = option;
-    			} else if(option.type === 'cancel') {
-    				this.cancel = option;
-    			}
-    		}
-    	}
+    	this.canClose = true;
     }
 }

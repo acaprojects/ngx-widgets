@@ -1,10 +1,10 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
+* @Author: Alex Sorafumo
 * @Date:   13/09/2016 2:55 PM
 * @Email:  alex@yuion.net
 * @Filename: time-dialog.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:31 AM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 19/12/2016 4:40 PM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ComponentFactoryResolver } from '@angular/core';
@@ -66,7 +66,7 @@ export class TimeDialog extends Modal {
     setParams(data: any) {
         super.setParams(data);
         if(data && data.data && data.data.time) this.time = data.data.time;
-        this.close = true;
+        this.canClose = true;
         if(data && data.options){
             for(let i = 0; i < data.options.length; i++) {
                 let option = data.options[i];

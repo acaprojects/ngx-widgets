@@ -1,10 +1,10 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
+* @Author: Alex Sorafumo
 * @Date:   18/11/2016 4:31 PM
 * @Email:  alex@yuion.net
 * @Filename: modal.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:30 AM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 20/12/2016 10:25 AM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
@@ -12,9 +12,12 @@ import { ComponentRef, ViewContainerRef, ComponentFactoryResolver }  from '@angu
 import { AfterViewInit, OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } 	 from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
+
 import { ModalService, IHaveDynamicData, DynamicTypeBuilder } from '../../services';
 
 const PLACEHOLDER = '-';
+const PRIVATE_PARAMS = ['id', 'type', 'service', 'data', 'dataChange', 'openEvent', 'closeEvent', 'modal', '_content', 'ContentRef', 'content_instance', 'render', 'open', 'close']
 
 @Component({
     selector: 'modal',
@@ -43,11 +46,10 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     @Input() size: string;
     @Input() data: any;
     @Input() cssClass: string = 'default';
-    @Input() close: boolean = true;
+    @Input() canClose: boolean = true;
     @Input() styles: string[] = [];
     @Input() options: any[] = [];
-    @Input() color1: string = ''; // Background Color
-    @Input() color2: string = ''; // Foreground Color
+    @Input() colors: { fg: string, bg: string } = {fg:'#FFFFFF', bg:'#123456'}; // Colors
 
     @Output() dataChange = new EventEmitter();
     @Output('open') openEvent = new EventEmitter();
@@ -58,26 +60,28 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     modal_box: any;
     state: boolean = false;
     state_inner: boolean = false;
-    cb_fn: Function = null;
     error: boolean = false;
     err_msg: string = '';
-    content_instance: any = null;
-    contentRef: ComponentRef<any> = null;
-    clean_fn: Function = null;
-    cmp: any;
     width: number = 20;
+    top: number = 0;
     unit: string = 'em';
     html: string = '';
     large: boolean = false;
+    display_top: string = '50%';
     display_width: number = 20;
     display_height: number = 12;
+    protected clean_fn: Function = null;
+    protected content_instance: any = null;
+    protected contentRef: ComponentRef<any> = null;
+    protected state_obs: any = null;
+    protected obs: any = null;
 
-    constructor(
-    	public _cfr: ComponentFactoryResolver
-    ) {
-        this.options.push({ 'text': 'Ok', 'fn': null });
-        this.options.push({ 'text': 'Cancel', 'fn': null });
+
+    constructor(public _cfr: ComponentFactoryResolver) {
         this.id = (Math.round(Math.random() * 899999999 + 100000000)).toString();
+        this.state_obs = new Observable((observer: any) => {
+            this.obs = observer;
+        });
         this.open();
     }
 
@@ -96,6 +100,9 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
             this.display_width = 2.5 * this.width;
             this.display_height = this.display_width / 3 * 2 - 5;
         }
+        if(changes.top) {
+            this.display_top = (this.top && this.top > 0 ? this.top : '') + this.unit;
+        }
     }
 
     ngOnDestroy(){
@@ -103,11 +110,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
             this.contentRef.destroy();
             this.contentRef = null;
         }
-    }
-
-    public blockScroll(e: Event) {
-        e.stopPropagation();
-        e.preventDefault();
+        if(this.obs) this.obs.complete();
     }
 
     public buildContents() {
@@ -116,21 +119,6 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
             if(factory) this.render(factory);
             else console.error('[WIDGETS] [Modal] Unable to find factory for: ', this.component);
     	}
-    }
-
-    public renderTemplate(result: { type: any, module: any }) {
-      	let componentType = result.type;
-      	let runtimeModule = result.module
-        /*
-      	// Compile module
-      	this.compiler
-        	.compileModuleAndAllComponentsAsync(runtimeModule)
-        	.then((moduleWithFactories) => {
-            	//let factory = _.find(moduleWithFactories.componentFactories, { componentType: componentType });
-            	// Target will instantiate and inject component (we'll keep reference to it)
-            	//this.render(factory);
-        	}, (err) => {});
-            //*/
     }
 
     public render(factory: any) {
@@ -142,8 +130,8 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         // let's inject @Inputs to component instance
         this.content_instance = this.contentRef.instance;
         this.content_instance.entity = this.data.data;
-        this.content_instance.entity.close = (cb: Function) => { this.close_fn(cb) };
-        this.content_instance.entity.select = (option: any) => { this.select(option) };
+        this.content_instance.entity.close = (cb: Function) => { this.select('close', 'Component') };
+        this.content_instance.entity.select = (option: string) => { this.select(option) };
         if(this.content_instance.init) this.content_instance.init();
 
     }
@@ -157,7 +145,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         let box = this.modal_box;
         if(c.x < 10 && c.y < 10) this.open();
         if(c.x < box.left || c.y < box.top || c.x > box.left + box.width || c.y > box.top + box.height) {
-            this.close_fn();
+            this.select('close', 'External Click');
         }
     }
 
@@ -167,39 +155,23 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
 
     public setParams(data: any) {
         if(data) {
-	    	this.data = data;
+            let keys = Object.keys(data);
+            for(let i = 0; i < keys.length; i++) {
+                if(PRIVATE_PARAMS.indexOf(keys[i]) < 0 && keys[i] in this && data[keys[i]] !== undefined && data[keys[i]] !== null) {
+                    this[keys[i]] = data[keys[i]];
+                }
+            }
+            if(!this.data) this.data = {};
+    	    this.data = (<any>Object).assign(this.data, data);
 	    	if(this.content_instance) this.content_instance.entity = this.data;
-            if(data.title) this.title = data.title;
-            if(data.html) this.html = data.html;
-            if(data.component) this.component = data.component;
-            if(data.size) this.large = data.size === 'large';
-            if(data.options) this.options = data.options;
-            if(data.styles) this.styles = data.styles;
-            if(data.close !== undefined && data.close !== null) this.close = data.close;
-            if(data.width !== undefined && data.width !== null) this.width = data.width;
-            if(data.unit !== undefined && data.unit !== null) this.unit = data.unit;
-            if(data.colors) {
-                this.color1 = data.colors.bg;
-                this.color2 = data.colors.fg;
+            if(data.top !== undefined && data.top !== null) {
+                setTimeout(() => {
+                    this.display_top = (this.top && this.top > 0 ? this.top : '') + this.unit;
+                    this.modal.nativeElement.style.top = this.display_top;
+                }, 100);
             }
         	this.buildContents();
         }
-    }
-
-    public setCallback(cb_fn: Function) {
-        if(cb_fn) {
-            this.cb_fn = cb_fn;
-        }
-    }
-
-    public close_fn(cb_fn?: Function) {
-        this.state = this.state_inner = false;
-        setTimeout(() => {
-            if(cb_fn) cb_fn();
-            if(this.clean_fn) this.clean_fn();
-            if(this.service) this.service.cleanModal(this.id);
-            if(this.closeEvent) this.closeEvent.emit(null);
-        }, 500);
     }
 
     public open() {
@@ -208,26 +180,36 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         setTimeout(() => { this.openEvent.emit(null); }, 500);
     }
 
+    public close() {
+        this.state = this.state_inner = false;
+        setTimeout(() => {
+            if(this.clean_fn) this.clean_fn();
+            if(this.service) this.service.cleanModal(this.id);
+            if(this.closeEvent) this.closeEvent.emit(null);
+        }, 500);
+    }
+
     set cleanup(clean: Function) {
         this.clean_fn = clean;
     }
 
-    public select(btn: {text:string, fn:Function}) {
+    get status() {
+        return this.state_obs;
+    }
+
+    public select(type: string, location:string = 'Button') {
         if(this.content_instance) this.data = this.content_instance.entity;
         this.dataChange.emit(this.data);
-        let fn = (ok: any, err: any) => {
-            if(!err) this.close_fn();
-            else {
-                this.error = true;
-                this.err_msg = err;
-            }
-        }
-        if(btn && btn.fn) {
-            btn.fn(this.data, fn);
-        } else if(this.cb_fn !== null) {
-            this.cb_fn(this.data, fn);
+        if(this.obs){
+            this.obs.next({
+                type: type,
+                location: location,
+                data: this.data,
+                update: (form: any) => { this.setParams({ form: form }) },
+                close: () => { this.close() }
+            });
         } else {
-            this.close_fn();
+            this.close();
         }
     }
 }

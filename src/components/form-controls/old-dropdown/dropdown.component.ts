@@ -1,10 +1,10 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
+* @Author: Alex Sorafumo
 * @Date:   20/09/2016 1:54 PM
 * @Email:  alex@yuion.net
 * @Filename: dropdown.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:29 AM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 20/12/2016 9:37 AM
 */
 
 import { Injectable, ComponentFactoryResolver, ViewContainerRef, Type } from '@angular/core';
@@ -35,12 +35,10 @@ export class OldDropdownList {
     }
 
     checkClick(e:any) {
-        console.log('Close dropdown');
         if(e) {
             let bb = this.contents.nativeElement.getBoundingClientRect();
             let c = e.center;
             if(c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y  > bb.top + bb.height) {
-                console.log('Closing dropdown');
                 this.parent.close();
             }
         }

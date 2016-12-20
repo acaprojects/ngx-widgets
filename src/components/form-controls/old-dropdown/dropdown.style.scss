@@ -1,9 +1,9 @@
-// @Author: Alex Sorafumo <Yuion>
+// @Author: Alex Sorafumo
 // @Date:   16/09/2016 10:29 AM
 // @Email:  alex@yuion.net
 // @Filename: dropdown.style.scss
-// @Last modified by:   Yuion
-// @Last modified time: 15/12/2016 11:29 AM
+// @Last modified by:   Alex Sorafumo
+// @Last modified time: 19/12/2016 12:44 PM
 
 .dropdown {
 	position: relative;
@@ -15,6 +15,7 @@
 	user-select: none;
 	display: inline-block;
 	overflow: hidden;
+	cursor: pointer;
 	& .text {
 		&.placeholder {
 			position: absolute;
