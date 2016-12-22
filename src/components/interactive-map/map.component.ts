@@ -1,10 +1,10 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
+* @Author: Alex Sorafumo
 * @Date:   18/11/2016 4:31 PM
 * @Email:  alex@yuion.net
 * @Filename: map.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:30 AM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 15/12/2016 1:54 PM
 */
 
 import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
@@ -80,6 +80,7 @@ export class InteractiveMap {
     @Input() mapStyles: { id: string, color: string, fill: string, opacity: string }[] = [];
     @Output() tap = new EventEmitter();
     @Output() zoomChange = new EventEmitter();
+    @Output() mapUpdated = new EventEmitter();
 
     //*
     //Toggle Knob
@@ -707,6 +708,7 @@ setupMap(){
         this.updateBoxes();
         setTimeout(() => {
             this.loading = false;
+            this.mapUpdated.emit();
         }, 500);
     }
 }
@@ -725,6 +727,7 @@ tapMap(event: any) {
         console.debug((event.center.x - mbb.left).toString(), (event.center.y - mbb.top).toString());
     }
     elems = this.getItems(event.center, el);
+    console.log(elems);
     let e = {
         items: elems,
         event: event

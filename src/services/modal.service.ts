@@ -131,17 +131,17 @@ export class ModalService {
 			let keys = Object.keys(this.modal);
 			for(let i = 0; i < keys.length; i++) {
 				if(this.modal[keys[i]]) {
-					this.modal[id].close_fn();
+					this.modal[id].close();
 					this.cleanModal(id);
 				}
 			}
 		} else if(id === '' && this.last_modal_id !== '') {
 				//Close last modals
-			this.modal[id].close_fn();
+			this.modal[id].close();
 			this.last_modal_id = '';
 		} else if(id && this.modal[id]) {
 				//Close selected modal
-			this.modal[id].close_fn();
+			this.modal[id].close();
 			this.cleanModal(id);
 		}
 	}
@@ -149,7 +149,7 @@ export class ModalService {
 	clear() {
 		let keys = Object.keys(this.modal);
 		for(let i = 0; i < keys.length; i++) {
-			this.modal[keys[i]].close_fn();
+			this.modal[keys[i]].close();
 			this.cleanModal(keys[i]);
 		}
 	}

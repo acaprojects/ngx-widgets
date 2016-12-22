@@ -161,14 +161,18 @@ export class TypeaheadList {
         this.parent.clicked = true;
     }
 
-    setItem(event: any, i: number){
+    setItem(e: any, i: number){
         if(this.scrolled) return;
-        event.preventDefault();
-        this.parent.setItem(this.filtered_list[i]);
+        if(e) {
+            console.log(e);
+            if(e.preventDefault) e.preventDefault();
+            if(e.stopPropagation) e.stopPropagation();
+        }
         this.clicked();
         setTimeout(() => {
+            this.parent.setItem(this.filtered_list[i]);
             this.parent.clicked = false;
-        }, 300);
+        }, 30);
     }
 
     ngOnDestroy() {

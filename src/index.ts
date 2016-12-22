@@ -46,8 +46,8 @@ export * from './components';
     ]
 })
 export class ACA_WIDGETS_MODULE {
-    version: string = '0.5.3';
-    build: string = 'dev-2016-12-15.v1';
+    version: string = '0.5.1';
+    build: string = 'dev-2016-12-22.v1';
     constructor() {
         console.debug(`ACA Angular 2 Widget Library - Version: ${this.version} | Build: ${this.build}`);
     }

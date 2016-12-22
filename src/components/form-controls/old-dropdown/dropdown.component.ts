@@ -36,17 +36,27 @@ export class OldDropdownList {
 
     checkClick(e:any) {
         if(e) {
-            let bb = this.contents.nativeElement.getBoundingClientRect();
-            let c = e.center;
-            if(c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y  > bb.top + bb.height) {
-                this.parent.close();
-            }
+            if(e.stopPropagation) e.stopPropagation();
+            if(e.preventDefault) e.preventDefault();
+            setTimeout(() => {
+                let bb = this.contents.nativeElement.getBoundingClientRect();
+                let c = e.center;
+                if(c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y  > bb.top + bb.height) {
+                    this.parent.close();
+                }
+            }, 50);
         }
     }
 
-    select(i: number) {
-        this.selected = i;
-        this.parent.setOption(i);
+    select(i: number, e?:any) {
+        if(e) {
+            if(e.stopPropagation) e.stopPropagation();
+            if(e.preventDefault) e.preventDefault();
+        }
+        setTimeout(() => {
+            this.selected = i;
+            this.parent.setOption(i);
+        }, 50);
     }
 
     moveList(main: any, event?: any) {
