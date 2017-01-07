@@ -2,8 +2,8 @@
 // @Date:   21/09/2016 1:10 PM
 // @Email:  alex@yuion.net
 // @Filename: btn.styles.scss
-// @Last modified by:   Alex Sorafumo
-// @Last modified time: 20/12/2016 10:12 AM
+// @Last modified by:   alex.sorafumo
+// @Last modified time: 06/01/2017 4:43 PM
 
 .aca {
 	&.default {
@@ -15,6 +15,13 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
+	}
+	&.disabled {
+		& button {
+			cursor: not-allowed !important;
+			background-color: rgba(255,255,255,0.2) !important;
+			color: rgba(0,0,0,0.54) !important;
+		}
 	}
 	&.btn {
 		position: relative;
@@ -105,7 +112,6 @@
 			min-width: 6.0em;
 			&.disabled {
 				opacity: 0.25;
-				cursor: not-allowed;
 			}
 		}
 		& .circle{

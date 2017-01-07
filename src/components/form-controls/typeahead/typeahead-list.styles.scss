@@ -2,8 +2,8 @@
 // @Date:   20/09/2016 12:50 PM
 // @Email:  alex@yuion.net
 // @Filename: typeahead-list.styles.scss
-// @Last modified by:   Alex Sorafumo
-// @Last modified time: 16/12/2016 11:17 AM
+// @Last modified by:   alex.sorafumo
+// @Last modified time: 07/01/2017 10:55 AM
 
 .contents {
 	position: fixed;
@@ -23,6 +23,8 @@
 		top: 100%;
 
 		& ul {
+			position: absolute;
+    		transform: translateX(-50%);
 			list-style: none;
 			padding: 0;
 			margin: 0.2em 0;

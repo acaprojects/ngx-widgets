@@ -3,16 +3,16 @@
 @Date:   13/09/2016 3:46 PM
 @Email:  alex@yuion.net
 @Filename: btn.template.html
-@Last modified by:   Yuion
-@Last modified time: 15/12/2016 11:28 AM
+@Last modified by:   alex.sorafumo
+@Last modified time: 06/01/2017 4:38 PM
 -->
 
-<div class="aca btn">
+<div class="aca btn" [class.disabled]="disabled">
 	<div #btnContainer
 		(mouseover)="addHover()"
 		(mouseout)="removeHover()"
 		(mousedown)="addActive()"
-		(mouseup)="removeActive()" [class]="btnType">
+		(mouseup)="removeActive()" [class]="btnType" >
 		<button #btn [type]="type" class="aca" [class.disabled]="disabled" (click)="clicked()">
 			<div [class.center]="btnType.indexOf('action') >= 0">
 				<ng-content></ng-content>

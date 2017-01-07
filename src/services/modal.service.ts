@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: modal.service.ts
 * @Last modified by:   Alex Sorafumo
-* @Last modified time: 19/12/2016 4:33 PM
+* @Last modified time: 05/01/2017 1:49 PM
 */
 
 import { Injectable, ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type, Injector } from '@angular/core';
@@ -149,8 +149,10 @@ export class ModalService {
 	clear() {
 		let keys = Object.keys(this.modal);
 		for(let i = 0; i < keys.length; i++) {
-			this.modal[keys[i]].close();
-			this.cleanModal(keys[i]);
+            if(this.modal[keys[i]]){
+    			this.modal[keys[i]].close();
+    			this.cleanModal(keys[i]);
+            }
 		}
 	}
 

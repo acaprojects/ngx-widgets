@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: map.component.ts
 * @Last modified by:   Alex Sorafumo
-* @Last modified time: 15/12/2016 1:54 PM
+* @Last modified time: 05/01/2017 1:59 PM
 */
 
 import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
@@ -638,9 +638,11 @@ finishFocus() {
 
         this.zoom_bb = null;
         this.updateBoxes();
-        this.zoomChange.emit(this._zoom);
         cnt++;
         if(cnt > 5) {
+            setTimeout(() => {
+                this.zoomChange.emit(this._zoom);
+            }, 100);
             clearInterval(interval);
         }
     }, 50);

@@ -3,8 +3,8 @@
 * @Date:   20/09/2016 1:44 PM
 * @Email:  alex@yuion.net
 * @Filename: typeahead.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:30 AM
+* @Last modified by:   alex.sorafumo
+* @Last modified time: 07/01/2017 11:00 AM
 */
 
 import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
@@ -136,23 +136,26 @@ export class TypeaheadList {
         this.positionList();
     }
 
-    positionList() {
+    positionList(c?: number) {
+        if(!c) c = 0;
         if(this.list && this.contents) {
             let h = document.documentElement.clientHeight;
             let content_box = this.contents.nativeElement.getBoundingClientRect();
-            if(this.auto){
+            if(this.auto && c % 4 === 0){
                 if(Math.round(content_box.top) > Math.round(h/2 + 10)) {
-                    this.list.nativeElement.style.top = '';
-                    this.list.nativeElement.style.bottom = '100%';
+                    console.log('Auto Top');
+                    this.list_contents.nativeElement.style.top = '';
+                    this.list_contents.nativeElement.style.bottom = '2.0em';
                 } else {
-                    this.list.nativeElement.style.top = '100%';
-                    this.list.nativeElement.style.bottom = '';
+                    console.log('Auto Bottom');
+                    this.list_contents.nativeElement.style.top = '0';
+                    this.list_contents.nativeElement.style.bottom = '';
                 }
             }
             this.contents_box = this.contents.nativeElement.getBoundingClientRect();
         } else {
             setTimeout(() => {
-                this.positionList();
+                this.positionList(c+1);
             }, 200);
         }
     }
