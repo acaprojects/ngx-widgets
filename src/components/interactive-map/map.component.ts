@@ -3,8 +3,8 @@
 * @Date:   18/11/2016 4:31 PM
 * @Email:  alex@yuion.net
 * @Filename: map.component.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 05/01/2017 1:59 PM
+* @Last modified by:   alex.sorafumo
+* @Last modified time: 08/01/2017 8:04 PM
 */
 
 import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
@@ -349,11 +349,12 @@ setupPins() {
                     }
                 }
                 let el = this.map_area.nativeElement.querySelector('#aca-map-pin' + i);
+                let html = this.getPin(pin, i);
+                pin.html = html;
                 if(el !== null) {
-                    let html = this.getPin(pin, i);
                     let text = el.children[el.children.length-1];
-                    el.innerHTML = html;
-                    if(text) el.appendChild(text);
+                    //el.innerHTML = html;
+                    //if(text) el.appendChild(text);
                 }
                 this.pins[i].status = 'show';
             }
@@ -366,6 +367,10 @@ updatePins() {
     if(!this.map_item || !this.map_area) return;
     for(let i = 0; i < this.pins.length; i++) {
         let pin = this.pins[i];
+        if(!pin.html || pin.html === ''){
+            let html = this.getPin(pin, i);
+            pin.html = html;
+        }
         let el = this.map_area.nativeElement.querySelector('#aca-map-pin' + i);
         if(el) {
             // Get bounding rectangles
@@ -374,6 +379,7 @@ updatePins() {
             let mb = this.map_item.getBoundingClientRect();
             let elc = this.map_display.nativeElement.querySelector('#' + this.escape(pin.id));
             if(elc || (pin.x && pin.y)) {
+                pin.status = 'show';
                 el.style.display = '';
                 // Get map scale
                 let dir = this.map_box ? (mb.width > mb.height) : true;
@@ -479,8 +485,10 @@ escape (value: string) {
 
 getPin(data: any, i: number) {
     let pin = this.pin_html;
-    pin = this.replaceAll(pin, '#DC6900', data.colors.one);
-    pin = this.replaceAll(pin, '#FFFFFF', data.colors.two);
+    if(data.colours){
+        if(data.colours.one) pin = this.replaceAll(pin, '#DC6900', data.colors.one);
+        if(data.colours.two) pin = this.replaceAll(pin, '#FFFFFF', data.colors.two);
+    }
     pin = this.replaceAll(pin, 'aca-', ('aca-' + i + '-'));
     return pin;
 }
@@ -550,7 +558,13 @@ ngOnChanges(changes: any) {
     if(changes.focus) {
         this.o_zoom = 0;
         this._zoom = 0;
-        this.updateFocus();
+        this.zoom = 0;
+        setTimeout(() => {
+            this.zoomChange.emit(0);
+            if(this.focus && this.focus !== ''){
+                this.updateFocus();
+            }
+        }, 100);
     }
 }
 

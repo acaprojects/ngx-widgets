@@ -3,8 +3,8 @@
 @Date:   18/11/2016 4:31 PM
 @Email:  alex@yuion.net
 @Filename: map.template.html
-@Last modified by:   Alex Sorafumo
-@Last modified time: 17/12/2016 1:42 PM
+@Last modified by:   alex.sorafumo
+@Last modified time: 08/01/2017 6:58 PM
 -->
 
 <div #displayarea class="aca interactive-map" (window:resize)="resize()">
@@ -13,6 +13,7 @@
 			<div class="pin" *ngFor="let pin of pins;let i = index;">
 				<div class="pin" [@pin]="pin.status === 'show' ? 'show' : 'hide'" [id]="'aca-map-pin' + i ">
 					<div *ngIf="pin.text&&pin.text!==''" class="text">{{pin.text}}</div>
+                    <div class="pin" [innerHTML]="pin?.html | safe"></div>
 				</div>
 			</div>
 		</div>
