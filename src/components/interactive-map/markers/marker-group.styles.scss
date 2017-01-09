@@ -1,0 +1,15 @@
+// @Author: Alex Sorafumo <alex.sorafumo>
+// @Date:   09/01/2017 12:55 PM
+// @Email:  alex@yuion.net
+// @Filename: marker-group.styles.scss
+// @Last modified by:   alex.sorafumo
+// @Last modified time: 10/01/2017 10:05 AM
+
+div.marker-group {
+    position: absolute;
+    top: 0; left: 0;
+    height: 1px;
+    width: 1px;
+    font-size: 1.2em;
+    z-index: 11;
+}

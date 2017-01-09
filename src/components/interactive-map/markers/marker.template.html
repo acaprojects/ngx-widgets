@@ -1,0 +1,24 @@
+<!--
+@Author: Alex Sorafumo <alex.sorafumo>
+@Date:   09/01/2017 12:22 PM
+@Email:  alex@yuion.net
+@Filename: maker.template.html
+@Last modified by:   alex.sorafumo
+@Last modified time: 09/01/2017 5:05 PM
+-->
+
+<div class="map-marker" [style.left]="x+'px'" [style.top]="y+'px'">
+    <div class="pin-display" *ngIf="type==='Pin'" [@pin]="show ? 'show' : 'hide'">
+        <div *ngIf="text&&text!==''" class="text">{{text}}</div>
+        <div class="pin" [innerHTML]="display_pin | safe"></div>
+    </div>
+    <div class="marker-display" *ngIf="type==='Marker'">
+        <div *ngIf="text&&text!==''" class="text">{{text}}</div>
+        <div class="marker" [class.active]="active" [style.background-color]="active?activeColor:color" (tap)="active=!active">
+            <div class="marker-ring" [class.animate]="animate" [style.border-color]="color"></div>
+        </div>
+    </div>
+    <div class="radius-display" *ngIf="type==='Radius'" [style.width]="width+'em'" [style.height]="height+'em'">
+        <div *ngIf="text&&text!==''" class="text">{{text}}</div>
+    </div>
+</div>

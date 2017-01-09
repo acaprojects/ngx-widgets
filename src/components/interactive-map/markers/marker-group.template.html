@@ -1,0 +1,27 @@
+<!--
+@Author: Alex Sorafumo <alex.sorafumo>
+@Date:   09/01/2017 12:55 PM
+@Email:  alex@yuion.net
+@Filename: marker-group.template.html
+@Last modified by:   alex.sorafumo
+@Last modified time: 09/01/2017 4:50 PM
+-->
+
+<div #main class="marker-group">
+    <div class="marker" *ngFor="let mkr of markers;let i = index;">
+        <map-marker
+            *ngIf="mkr.show"
+            [type]="mkr.type ? mkr.type : 'Pin'"
+            [show]="mkr.show"
+            [text]="mkr.text"
+            [color]="mkr.color?.one"
+            [highlight]="mkr.color?.highlight"
+            [stroke]="mkr.color?.two"
+            [(active)]="mkr.active"
+            [height]="radius*2"
+            [width]="radius*2"
+            [x]="mkr.left"
+            [y]="mkr.top">
+        </map-marker>
+    </div>
+</div>

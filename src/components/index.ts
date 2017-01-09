@@ -3,14 +3,14 @@
 * @Date:   04/10/2016 11:53 AM
 * @Email:  alex@yuion.net
 * @Filename: index.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:32 AM
+* @Last modified by:   alex.sorafumo
+* @Last modified time: 09/01/2017 3:27 PM
 */
 
 import { Button, ButtonGroup, ButtonToggle } from './buttons';
 import { Calendar, DataInput, Dropdown, OldDropdown, OldDropdownList, Slider, TimePicker, Toggle, Typeahead, TypeaheadList } from './form-controls';
 import { ImageCrop } from './img-crop';
-import { InteractiveMap } from './interactive-map';
+import { MAP_COMPONENTS } from './interactive-map';
 import { MaterialStyles } from './material-styles';
 import { Modal, ACA_WIDGET_MODALS } from './modal';
 import { Notification, NotifyBlock } from './notification';
@@ -42,7 +42,7 @@ export let COMPONENTS: any[] = [
     Toggle,
     Typeahead,
     ImageCrop,
-    InteractiveMap,
+    ...MAP_COMPONENTS,
     MaterialStyles,
     NotifyBlock,
     ...TABS_COMPONENTS,
