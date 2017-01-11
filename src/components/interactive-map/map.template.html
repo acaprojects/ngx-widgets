@@ -4,13 +4,13 @@
 @Email:  alex@yuion.net
 @Filename: map.template.html
 @Last modified by:   alex.sorafumo
-@Last modified time: 10/01/2017 9:42 AM
+@Last modified time: 10/01/2017 11:53 AM
 -->
 
 <div #displayarea class="aca interactive-map" (window:resize)="resize()">
     <div #maparea [@showmap]="(!loading && map_data)?'show':'hide'" *ngIf="active" class="map-contents">
         <div #mapdisplay class="map-area" [@zoom]="zoom_state" (tap)="tapMap($event)" (pinchstart)="startScale($event)" (pinch)="scaleMap($event)" (pinchend)="finishScale()" (panmove)="moveMap($event)" (panend)="moveEnd($event)"></div>
-            <map-marker-group [markers]="marker_list" [rotate]="rotations" [radius]="8*((100+_zoom)/100)" [disable]="false" [map]="map_details"></map-marker-group>
+            <map-marker-group [markers]="marker_list" [rotate]="rotations" [radius]="6*((100+_zoom)/100)" [disable]="false" [map]="map_details"></map-marker-group>
     </div>
 	<div *ngIf="loading && map !== ''" class="map-loading-space">
 		<spinner type="dot-circle" color="#000"></spinner>

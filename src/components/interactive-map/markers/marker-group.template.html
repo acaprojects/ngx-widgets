@@ -4,7 +4,7 @@
 @Email:  alex@yuion.net
 @Filename: marker-group.template.html
 @Last modified by:   alex.sorafumo
-@Last modified time: 09/01/2017 4:50 PM
+@Last modified time: 10/01/2017 7:29 PM
 -->
 
 <div #main class="marker-group">
@@ -14,14 +14,15 @@
             [type]="mkr.type ? mkr.type : 'Pin'"
             [show]="mkr.show"
             [text]="mkr.text"
-            [color]="mkr.color?.one"
-            [highlight]="mkr.color?.highlight"
-            [stroke]="mkr.color?.two"
+            [color]="mkr.colors?.one"
+            [highlight]="mkr.colors?.highlight"
+            [stroke]="mkr.colors?.two"
             [(active)]="mkr.active"
             [height]="radius*2"
             [width]="radius*2"
             [x]="mkr.left"
-            [y]="mkr.top">
+            [y]="mkr.top"
+            [fontSize]="font_size + 'em'">
         </map-marker>
     </div>
 </div>

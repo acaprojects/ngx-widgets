@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: map.component.ts
 * @Last modified by:   alex.sorafumo
-* @Last modified time: 10/01/2017 9:52 AM
+* @Last modified time: 10/01/2017 11:03 AM
 */
 
 import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
@@ -357,7 +357,6 @@ export class InteractiveMap {
         for(let i = 0; i < this.marker_list.length; i++) {
             if(this.marker_list[i].id && this.marker_list[i].id !== ''){
                 this.marker_list[i].el = () => {
-                    console.log(`Getting element for id ${this.marker_list[i].id}`);
                     return this.getElement(this.marker_list[i].id);
                 };
             }
@@ -557,9 +556,9 @@ export class InteractiveMap {
         if(event && this.map_item) {
             let mbb = this.map_item.getBoundingClientRect();
             console.debug((event.center.x - mbb.left).toString(), (event.center.y - mbb.top).toString());
+            console.log(elems);
         }
         elems = this.getItems(event.center, el);
-        console.log(elems);
         let e = {
             items: elems,
             event: event
