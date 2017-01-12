@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: pin.component.ts
 * @Last modified by:   alex.sorafumo
-* @Last modified time: 10/01/2017 12:08 PM
+* @Last modified time: 12/01/2017 10:46 AM
 */
 
 import { Component, Input, Output, EventEmitter } from '@angular/core';
@@ -50,6 +50,7 @@ export class MapMarkerComponent {
     @Input() x: number = 0;
     @Input() y: number = 0;
     @Input() fontSize: string = '1em';
+    @Input() radiusSize: number = 20;
     @Output() activeChange = new EventEmitter();
 
     id: string = ''

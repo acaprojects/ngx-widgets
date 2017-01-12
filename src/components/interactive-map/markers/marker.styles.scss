@@ -3,7 +3,7 @@
 // @Email:  alex@yuion.net
 // @Filename: marker.styles.scss
 // @Last modified by:   alex.sorafumo
-// @Last modified time: 10/01/2017 11:08 AM
+// @Last modified time: 12/01/2017 10:49 AM
 
 div.map-marker {
     position: absolute;
@@ -65,14 +65,17 @@ div.map-marker {
     }
     & .radius-display {
         position: absolute;
-        height: 1.0em;
-        width: 1.0em;
-        transform: translate(-50%, -50%);
-        border-radius: 100%;
-        background-color: rgba(3, 169, 244, 0.2);
-        border: 0.3em dashed rgba(3, 169, 244, 1);
-        box-shadow: 0px 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-        z-index: 20;
+        & .circle {
+            position: absolute;
+            height: 1.0em;
+            width: 1.0em;
+            transform: translate(-50%, -50%);
+            border-radius: 100%;
+            background-color: rgba(219, 83, 106, 0.2);
+            border: 0.3em dashed rgba(219, 83, 106, 1);
+            box-shadow: 0px 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+            z-index: 20;
+        }
     }
     & .text {
         position: absolute;

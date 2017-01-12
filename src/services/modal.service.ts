@@ -3,8 +3,8 @@
 * @Date:   18/11/2016 4:31 PM
 * @Email:  alex@yuion.net
 * @Filename: modal.service.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 05/01/2017 1:49 PM
+* @Last modified by:   alex.sorafumo
+* @Last modified time: 12/01/2017 3:44 PM
 */
 
 import { Injectable, ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type, Injector } from '@angular/core';
@@ -35,7 +35,6 @@ export class ModalService {
 
 	constructor(private _cr: ComponentFactoryResolver, private injector: Injector) {
 		this.loadView();
-		console.log('DateDialog');
 		Modals = {
 			default: Modal,
 			simple: SimpleModal,

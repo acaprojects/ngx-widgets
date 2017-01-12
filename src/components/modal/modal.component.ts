@@ -3,8 +3,8 @@
 * @Date:   18/11/2016 4:31 PM
 * @Email:  alex@yuion.net
 * @Filename: modal.component.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 20/12/2016 10:25 AM
+* @Last modified by:   alex.sorafumo
+* @Last modified time: 12/01/2017 3:54 PM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
@@ -129,7 +129,8 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
 
         // let's inject @Inputs to component instance
         this.content_instance = this.contentRef.instance;
-        this.content_instance.entity = this.data.data;
+        if(!this.content_instance.entity) this.content_instance.entity = {};
+        this.content_instance = this.data.data;
         this.content_instance.entity.close = (cb: Function) => { this.select('close', 'Component') };
         this.content_instance.entity.select = (option: string) => { this.select(option) };
         if(this.content_instance.init) this.content_instance.init();

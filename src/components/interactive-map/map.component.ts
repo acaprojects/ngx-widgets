@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: map.component.ts
 * @Last modified by:   alex.sorafumo
-* @Last modified time: 10/01/2017 11:03 AM
+* @Last modified time: 12/01/2017 10:42 AM
 */
 
 import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
@@ -89,7 +89,8 @@ export class InteractiveMap {
     map_details: any = {
         pos: { x: 0, y: 0 },
         dim: { x: 100, y: 100 },
-        real_dim: { x: 100, y: 100 }
+        real_dim: { x: 100, y: 100 },
+        area: { x: 100, y: 100 }
     }
     marker_list: any[] = [];
 
@@ -368,7 +369,9 @@ export class InteractiveMap {
     }
 
     updateMapDetails() {
+        if(!this.map_item || !this.map_area) return;
         let mbb = this.map_item.getBoundingClientRect();
+        let abb = this.map_area.nativeElement.getBoundingClientRect();
             // Position
         this.map_details.pos.x = mbb.left;
         this.map_details.pos.y = mbb.top;
@@ -379,6 +382,9 @@ export class InteractiveMap {
             // Real Dimensions
         this.map_details.real_dim.x = mbb.width;
         this.map_details.real_dim.y = mbb.height;
+            // Real Dimensions
+        this.map_details.area.x = abb.width;
+        this.map_details.area.y = abb.height;
     }
 
     updateFocus() {

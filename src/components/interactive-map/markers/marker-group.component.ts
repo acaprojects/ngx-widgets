@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: marker-group.component.ts
 * @Last modified by:   alex.sorafumo
-* @Last modified time: 10/01/2017 1:38 PM
+* @Last modified time: 12/01/2017 10:57 AM
 */
 
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
@@ -24,7 +24,8 @@ export class MapMarkerGroupComponent {
     @Input() map: any = {
         pos: { x: 0, y: 0 },
         dim: { x: 100, y: 100 },
-        real_dim: { x: 100, y: 100 }
+        real_dim: { x: 100, y: 100 },
+        area: { x: 100, y: 100 }
     }
 
     @ViewChild('main') main: ElementRef;
@@ -33,6 +34,7 @@ export class MapMarkerGroupComponent {
     prev_map: any = null;
     count: number = 0;
     font_size: number = 1;
+    radius_size: number = 12;
 
     constructor() {
 
@@ -52,7 +54,8 @@ export class MapMarkerGroupComponent {
         if(!this.prev_map ||
             (this.map.pos.x !== this.prev_map.pos.x || this.map.pos.y !== this.prev_map.pos.y) ||
             (this.map.dim.x !== this.prev_map.dim.x || this.map.dim.y !== this.prev_map.dim.y)||
-            (this.map.real_dim.x !== this.prev_map.real_dim.x || this.map.real_dim.y !== this.prev_map.real_dim.y)) {
+            (this.map.real_dim.x !== this.prev_map.real_dim.x || this.map.real_dim.y !== this.prev_map.real_dim.y)||
+            (this.map.area.x !== this.prev_map.area.x || this.map.area.y !== this.prev_map.area.y)) {
                 this.updateFontSize();
                 this.prev_map = JSON.parse(JSON.stringify(this.map));
                 setTimeout(() => {
@@ -64,6 +67,8 @@ export class MapMarkerGroupComponent {
     updateFontSize() {
         let long = this.map.dim.x > this.map.dim.y ? this.map.dim.x : this.map.dim.y;
         this.font_size = this.map.dim.y / long;
+        let size = this.map.area.x * ( 2 / 100);
+        this.radius_size = size;
     }
 
     setupMarkers() {

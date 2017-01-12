@@ -4,7 +4,7 @@
 @Email:  alex@yuion.net
 @Filename: maker.template.html
 @Last modified by:   alex.sorafumo
-@Last modified time: 09/01/2017 5:05 PM
+@Last modified time: 12/01/2017 10:50 AM
 -->
 
 <div class="map-marker" [style.left]="x+'px'" [style.top]="y+'px'">
@@ -18,7 +18,8 @@
             <div class="marker-ring" [class.animate]="animate" [style.border-color]="color"></div>
         </div>
     </div>
-    <div class="radius-display" *ngIf="type==='Radius'" [style.width]="width+'em'" [style.height]="height+'em'">
-        <div *ngIf="text&&text!==''" class="text">{{text}}</div>
+    <div class="radius-display" *ngIf="type==='Radius'">
+        <div *ngIf="text&&text!==''" class="text" [style.top]="-height/2+'em'">{{text}}</div>
+        <div class="circle" [style.font-size]="radiusSize+'px'" [style.width]="width+'em'" [style.height]="height+'em'">
     </div>
 </div>
