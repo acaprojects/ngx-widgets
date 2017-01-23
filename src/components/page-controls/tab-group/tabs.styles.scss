@@ -2,8 +2,8 @@
 // @Date:   26/09/2016 2:19 PM
 // @Email:  alex@yuion.net
 // @Filename: tabs.styles.scss
-// @Last modified by:   Yuion
-// @Last modified time: 15/12/2016 11:32 AM
+// @Last modified by:   alex.sorafumo
+// @Last modified time: 23/01/2017 12:23 PM
 
 $dim: 2.0em;
 $border-color: #ABABAB;
@@ -27,7 +27,7 @@ $bg-color: #FFFFFF;
             & > li {
                 position: relative;
                 bottom: 0;
-                margin-bottom: -1px;
+                margin-bottom: -0.1em;
                 padding: 0.5em 1.5em;
                 margin-right: 0.15em;
                 border-radius: 0.15em 0.15em 0 0;

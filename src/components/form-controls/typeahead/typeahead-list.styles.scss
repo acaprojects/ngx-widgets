@@ -3,7 +3,7 @@
 // @Email:  alex@yuion.net
 // @Filename: typeahead-list.styles.scss
 // @Last modified by:   alex.sorafumo
-// @Last modified time: 07/01/2017 10:55 AM
+// @Last modified time: 17/01/2017 4:25 PM
 
 .contents {
 	position: fixed;
@@ -48,6 +48,7 @@
 			word-wrap: nowrap;
 			z-index: 1000;
 			display: flex;
+			cursor: pointer;
 			&.default {
 				background-color: #FFF;
 				color: #000;

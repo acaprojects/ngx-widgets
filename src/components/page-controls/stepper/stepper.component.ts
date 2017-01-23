@@ -3,8 +3,8 @@
 * @Date:   12/12/2016 10:41 AM
 * @Email:  alex@yuion.net
 * @Filename: stepper.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:32 AM
+* @Last modified by:   alex.sorafumo
+* @Last modified time: 20/01/2017 3:45 PM
 */
 
 import { Component, Input, Output, EventEmitter, ElementRef, DoCheck, OnChanges} from '@angular/core';
@@ -48,7 +48,6 @@ export class Stepper implements AfterContentInit, DoCheck, OnChanges  {
 
     ngDoCheck() {
         if(this.steps && this.steps.change !== this.last_change && this.stepList) {
-            console.log(this.steps.states);
             this.last_change = this.steps.change;
             this.updateStates();
         }

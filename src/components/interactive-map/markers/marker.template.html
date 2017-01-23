@@ -4,11 +4,11 @@
 @Email:  alex@yuion.net
 @Filename: maker.template.html
 @Last modified by:   alex.sorafumo
-@Last modified time: 12/01/2017 10:50 AM
+@Last modified time: 13/01/2017 12:40 PM
 -->
 
 <div class="map-marker" [style.left]="x+'px'" [style.top]="y+'px'">
-    <div class="pin-display" *ngIf="type==='Pin'" [@pin]="show ? 'show' : 'hide'">
+    <div class="pin-display" *ngIf="!type||type==='Pin'" [@pin]="show ? 'show' : 'hide'">
         <div *ngIf="text&&text!==''" class="text">{{text}}</div>
         <div class="pin" [innerHTML]="display_pin | safe"></div>
     </div>

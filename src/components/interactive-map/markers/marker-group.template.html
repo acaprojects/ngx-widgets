@@ -4,13 +4,12 @@
 @Email:  alex@yuion.net
 @Filename: marker-group.template.html
 @Last modified by:   alex.sorafumo
-@Last modified time: 12/01/2017 10:52 AM
+@Last modified time: 16/01/2017 12:43 PM
 -->
 
 <div #main class="marker-group">
     <div class="marker" *ngFor="let mkr of markers;let i = index;">
         <map-marker
-            *ngIf="mkr.show"
             [type]="mkr.type ? mkr.type : 'Pin'"
             [show]="mkr.show"
             [text]="mkr.text"

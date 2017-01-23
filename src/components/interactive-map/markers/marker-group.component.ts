@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: marker-group.component.ts
 * @Last modified by:   alex.sorafumo
-* @Last modified time: 12/01/2017 10:57 AM
+* @Last modified time: 16/01/2017 12:38 PM
 */
 
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
@@ -35,9 +35,14 @@ export class MapMarkerGroupComponent {
     count: number = 0;
     font_size: number = 1;
     radius_size: number = 12;
+    marker_timer: any = null;
 
     constructor() {
-
+        this.marker_timer = setInterval(() => {
+            if(this.markers && this.count !== this.markers.length) {
+                this.updateMarkers();
+            }
+        }, 2000);
     }
 
     ngOnInit() {
@@ -64,6 +69,12 @@ export class MapMarkerGroupComponent {
         }
     }
 
+    ngOnDestroy() {
+        if(this.marker_timer) {
+            clearTimeout(this.marker_timer);
+        }
+    }
+
     updateFontSize() {
         let long = this.map.dim.x > this.map.dim.y ? this.map.dim.x : this.map.dim.y;
         this.font_size = this.map.dim.y / long;
@@ -79,7 +90,6 @@ export class MapMarkerGroupComponent {
                     let marker = this.markers[i];
                     if(!marker.x) marker.x = 0;
                     if(!marker.y) marker.y = 0;
-                    this.markers[i].show = true;
                 }
                 this.updateMarkers();
             }, 200);
@@ -124,15 +134,11 @@ export class MapMarkerGroupComponent {
                 let r_x = x / this.map.dim.x * this.map.real_dim.x;
                 let r_y = y / this.map.dim.y * this.map.real_dim.y;
                 let abb = this.main.nativeElement.getBoundingClientRect();
-                left = r_x + this.map.pos.x - abb.left;
-                top = r_y + this.map.pos.y - abb.top;
+                left = Math.round((r_x + this.map.pos.x - abb.left) * 100) / 100;
+                top =  Math.round((r_y + this.map.pos.y - abb.top) * 100) /  100;
             }
-            if(top < -DIM_LIMIT || top > DIM_LIMIT || left < -DIM_LIMIT || left > DIM_LIMIT) {
-                marker.show = false;
-            } else {
-                marker.top = top;
-                marker.left = left;
-            }
+            marker.top = top;
+            marker.left = left;
         }
     }
 }

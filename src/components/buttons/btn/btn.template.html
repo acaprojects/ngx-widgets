@@ -4,7 +4,7 @@
 @Email:  alex@yuion.net
 @Filename: btn.template.html
 @Last modified by:   alex.sorafumo
-@Last modified time: 06/01/2017 4:38 PM
+@Last modified time: 20/01/2017 2:45 PM
 -->
 
 <div class="aca btn" [class.disabled]="disabled">
@@ -14,7 +14,7 @@
 		(mousedown)="addActive()"
 		(mouseup)="removeActive()" [class]="btnType" >
 		<button #btn [type]="type" class="aca" [class.disabled]="disabled" (click)="clicked()">
-			<div [class.center]="btnType.indexOf('action') >= 0">
+			<div [class.center]="action_btn">
 				<ng-content></ng-content>
 			</div>
 			<div [@clickResp]="click_state" class="circle"></div>

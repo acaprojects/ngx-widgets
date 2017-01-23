@@ -3,8 +3,8 @@
 * @Date:   24/11/2016 3:43 PM
 * @Email:  alex@yuion.net
 * @Filename: step.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:31 AM
+* @Last modified by:   alex.sorafumo
+* @Last modified time: 20/01/2017 3:45 PM
 */
 
 import { Component, Input, Output, EventEmitter, ElementRef} from '@angular/core';
@@ -74,6 +74,5 @@ export class StepperStep {
     }
 
     ngOnDestroy() {
-        console.warn('Step Destroyed.');
     }
 }

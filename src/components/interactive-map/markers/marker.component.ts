@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: pin.component.ts
 * @Last modified by:   alex.sorafumo
-* @Last modified time: 12/01/2017 10:46 AM
+* @Last modified time: 17/01/2017 9:40 AM
 */
 
 import { Component, Input, Output, EventEmitter } from '@angular/core';
@@ -63,7 +63,8 @@ export class MapMarkerComponent {
     }
 
     ngOnInit() {
-
+        this.show = false;
+        setTimeout(() => { this.show = true }, 300);
     }
 
     ngOnChanges(changes: any) {

@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: map.component.ts
 * @Last modified by:   alex.sorafumo
-* @Last modified time: 12/01/2017 10:42 AM
+* @Last modified time: 17/01/2017 3:57 PM
 */
 
 import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
@@ -353,6 +353,12 @@ export class InteractiveMap {
         }
     }
 
+    ngDoCheck() {
+        if(this.marker_list.length !== this.pins.length) {
+            this.initPins();
+        }
+    }
+
     initPins() {
         this.marker_list = JSON.parse(JSON.stringify(this.pins));
         for(let i = 0; i < this.marker_list.length; i++) {
@@ -408,7 +414,7 @@ export class InteractiveMap {
                 let w_ratio = mbb.width  / bb.width  * (cbb.width / mbb.width );
                 let h_ratio = mbb.height  / bb.height  * (cbb.height / mbb.height );
                 let r = (w_ratio < h_ratio ? w_ratio : h_ratio) * ( typeof this.focus === 'string' ? 0.5 : 1.5);
-                this._zoom = Math.round((isNaN(r) ? 1 : r) * this.focusZoom);
+                this._zoom = (this.focusZoom);
                 this.zoom = this._zoom;
                 this.zoomChange.emit(this._zoom);
                 this.isFocus = true;
@@ -536,7 +542,6 @@ export class InteractiveMap {
             this.map_item.style.left = '50%';
             this.zoomed = true;
             this.setupDisabled();
-            this.initPins();
             this.prev_map_styles = [];
             this.map_style_ids = [];
             this.setupStyles();
@@ -544,6 +549,7 @@ export class InteractiveMap {
             this.resize();
             this.updateBoxes();
             setTimeout(() => {
+                this.initPins();
                 this.loading = false;
                 this.mapUpdated.emit();
             }, 500);
@@ -562,7 +568,6 @@ export class InteractiveMap {
         if(event && this.map_item) {
             let mbb = this.map_item.getBoundingClientRect();
             console.debug((event.center.x - mbb.left).toString(), (event.center.y - mbb.top).toString());
-            console.log(elems);
         }
         elems = this.getItems(event.center, el);
         let e = {

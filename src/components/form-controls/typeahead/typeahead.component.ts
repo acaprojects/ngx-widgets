@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: typeahead.component.ts
 * @Last modified by:   alex.sorafumo
-* @Last modified time: 07/01/2017 11:00 AM
+* @Last modified time: 17/01/2017 4:27 PM
 */
 
 import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
@@ -53,6 +53,7 @@ export class TypeaheadList {
     mouseup: any = null;
     none_msg: string = '';
     auto: boolean = false;
+    force_top: boolean = false;
 
     @ViewChild('list') list : ElementRef;
     @ViewChild('contents') contents : ElementRef;
@@ -68,7 +69,7 @@ export class TypeaheadList {
         }, 100);
     }
 
-    setupList(ta: any, items: any[], filterFields: string[], filter: string, num_results: number, cssClass: string, auto: boolean = false) {
+    setupList(ta: any, items: any[], filterFields: string[], filter: string, num_results: number, cssClass: string, auto: boolean = false, force_top: boolean = false) {
         this.parent = ta;
         this.items = items;
         this.filter = filter;
@@ -76,6 +77,7 @@ export class TypeaheadList {
         this.results = num_results ? num_results : 5;
         this.cssClass = cssClass ? cssClass : 'default';
         this.auto = auto;
+        this.force_top = force_top;
         this.filterList();
     }
 
@@ -95,29 +97,24 @@ export class TypeaheadList {
         for(let i = 0; i < this.items.length; i++) {
             let item = this.items[i];
             if(typeof item !== 'object') continue;
-            if(this.filterFields.length > 0) {
-                for(let k = 0; k < this.filterFields.length; k++) {
-                    let f = this.filterFields[k];
-                    if(item[f] && typeof item[f] === 'string') {
-                        let data = item[f].toLowerCase();
-                        if(data.indexOf(filter) >= 0) {
+            let keys = this.filterFields.length > 0 ? this.filterFields : Object.keys(item);
+            for(let k = 0; k < keys.length; k++) {
+                let f = keys[k];
+                if(item[f] && typeof item[f] === 'string') {
+                    let data = item[f].toLowerCase();
+                    if(data.indexOf(filter) >= 0) {
+                        let found = false;
+                        for(let i = 0; i < this.filtered_list.length; i++){
+                            if(item && item.id === this.filtered_list[i].id) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if(!found){
                             this.filtered_list.push(JSON.parse(JSON.stringify(item)));
                             added++;
-                            break;
                         }
-                    }
-                }
-            } else {
-                let keys = Object.keys(item);
-                for(let k = 0; k < keys.length; k++) {
-                    let f = keys[k];
-                    if(item[f] && typeof item[f] === 'string') {
-                        let data = item[f].toLowerCase();
-                        if(data.indexOf(filter) >= 0) {
-                            this.filtered_list.push(JSON.parse(JSON.stringify(item)));
-                            added++;
-                            break;
-                        }
+                        break;
                     }
                 }
             }
@@ -142,7 +139,7 @@ export class TypeaheadList {
             let h = document.documentElement.clientHeight;
             let content_box = this.contents.nativeElement.getBoundingClientRect();
             if(this.auto && c % 4 === 0){
-                if(Math.round(content_box.top) > Math.round(h/2 + 10)) {
+                if(Math.round(content_box.top) > Math.round(h/2 + 10) || this.force_top) {
                     console.log('Auto Top');
                     this.list_contents.nativeElement.style.top = '';
                     this.list_contents.nativeElement.style.bottom = '2.0em';
@@ -196,6 +193,7 @@ export class Typeahead {
     @Input() results: number = 5;
     @Input() active: boolean = false;
     @Input() auto: boolean = false;
+    @Input() forceTop: boolean = false;
     @Input() cssClass: string = 'default';
     @Input() msg: string = '';
     @Output() onSelect = new EventEmitter();
@@ -233,7 +231,7 @@ export class Typeahead {
         if(changes.list) {
             setTimeout(() => {
                 if(this.list_view){
-                    this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass, this.auto);
+                    this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass, this.auto, this.forceTop);
                 }
             }, 200);
         }
@@ -287,7 +285,7 @@ export class Typeahead {
             document.body.appendChild(cmpRef.location.nativeElement);
             this.list_view = cmpRef.instance;
             this.list_ref = cmpRef;
-            this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass);
+            this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass, this.auto, this.forceTop);
             this.list_view.moveList(this.main);
 
             this.update_timer = setInterval(() => {

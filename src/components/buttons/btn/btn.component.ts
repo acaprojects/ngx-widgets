@@ -3,8 +3,8 @@
 * @Date:   15/09/2016 12:32 PM
 * @Email:  alex@yuion.net
 * @Filename: btn.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:28 AM
+* @Last modified by:   alex.sorafumo
+* @Last modified time: 20/01/2017 2:55 PM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
@@ -42,6 +42,7 @@ export class Button {
 	@ViewChild('btn') button: ElementRef;
 
 	click_state: string = 'show';
+	action_btn: boolean = false;
 
 		//Private event observers
 	private _click: any = null;
@@ -53,7 +54,7 @@ export class Button {
 	constructor() {
 	}
 
-	ngAfterViewChecked() {
+	ngAfterViewInit() {
 		this.loadClasses();
 		if(this.cssClass) {
 			let classes = this.cssClass.split(' ');
@@ -93,12 +94,17 @@ export class Button {
 	}
 
 	ngOnChanges(changes: any) {
-		this.loadClasses();
+		if(changes.color || changes.primary || changes.secondary || changes.btnType){
+			this.loadClasses();
+			this.action_btn = this.btnType ? this.btnType.indexOf('action') >= 0 : false;
+		}
 	}
 
         // Function to add css classes to the button
 	addClass(el: any, name: string) {
-		el.classList.add(name);
+		if(!el.classList.contains(name)){
+			el.classList.add(name);
+		}
 	}
 
 	removeClass(el: any, name: string) {
