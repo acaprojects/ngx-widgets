@@ -127,7 +127,7 @@ module.exports = function(options) {
        * See: https://github.com/ampedandwired/html-webpack-plugin
        */
       new HtmlWebpackPlugin({
-        template: '.build/index.html',
+        template: '_build/index.html',
         chunksSortMode: 'dependency'
       }),
 
@@ -150,7 +150,7 @@ module.exports = function(options) {
     tslint: {
       emitErrors: false,
       failOnHint: false,
-      resourcePath: '.build'
+      resourcePath: '_build'
     },
 
     /**

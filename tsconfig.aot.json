@@ -15,7 +15,7 @@
     "noImplicitReturns": false,
     "noImplicitUseStrict": false,
     "noFallthroughCasesInSwitch": true,
-    "outDir": "./.build/compiled",
+    "outDir": "./_build/compiled",
     "lib": [
         "dom",
         "es6"
@@ -38,11 +38,11 @@
     "node_modules",
     "dist",
     "src",
-    ".build/main.aot.browser.ts",
-    ".build/polyfills.aot.browser.ts"
+    "_build/main.aot.browser.ts",
+    "_build/polyfills.aot.browser.ts"
   ],
   "angularCompilerOptions": {
-    "genDir": "./.build/compiled",
+    "genDir": "./_build/compiled",
     "debug": true
  }
 }

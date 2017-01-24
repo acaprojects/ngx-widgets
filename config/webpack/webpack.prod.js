@@ -197,7 +197,7 @@ module.exports = function(env) {
     tslint: {
       emitErrors: true,
       failOnHint: true,
-      resourcePath: '.build'
+      resourcePath: '_build'
     },
 
     /**

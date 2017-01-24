@@ -3,8 +3,8 @@
 * @Date:   18/11/2016 4:31 PM
 * @Email:  alex@yuion.net
 * @Filename: slider.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:29 AM
+* @Last modified by:   alex.sorafumo
+* @Last modified time: 23/01/2017 2:24 PM
 */
 
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
@@ -33,8 +33,11 @@ export class Slider {
     @ViewChild('prog')  prog: any;
 
     available: boolean = false;
+    previous: number = 0;
     position: number = 0;
+    percent: number = 0;
     bb : any;
+    change_timer: any = null;
 
     constructor(private a: ACA_Animate){
     }
@@ -56,6 +59,13 @@ export class Slider {
             this.refresh();
         }
         if(changes.value) this.refresh();
+    }
+
+    ngDoCheck() {
+        if(this.previous !== this.value) {
+            this.previous = this.value;
+            this.refresh();
+        }
     }
 
     getBarOffset(){
@@ -83,7 +93,7 @@ export class Slider {
         }
         if(this.value < this.min) this.value = this.min;
         else if(this.value > this.max) this.value = this.max;
-        this.valueChange.emit(this.value);
+        this.postValue();
     }
 
     updateValue(update:boolean = false) {
@@ -93,17 +103,21 @@ export class Slider {
         	this.a.animation(() => {}, () => {
 		        let range = +this.max - +this.min;
 		        let percent = (this.value - this.min) / range;
-	            if(this.align === 'horizontal') {
-	                this.knob.nativeElement.style.left = percent*this.bar.nativeElement.offsetWidth + 'px';
-	                this.prog.nativeElement.style.width = percent*this.bar.nativeElement.offsetWidth + 'px';
-	            } else {
-	                this.knob.nativeElement.style.top = (1-percent)*this.bar.nativeElement.offsetHeight + 'px';
-	                this.prog.nativeElement.style.height = (percent)*this.bar.nativeElement.offsetHeight + 'px';
-	                this.prog.nativeElement.style.top = (1-percent)*this.bar.nativeElement.offsetHeight + 'px';
-	            }
+                this.percent = Math.round(percent*10000)/100;
             }).animate();
         }
-        this.valueChange.emit(this.value);
+        this.postValue();
+    }
+
+    postValue() {
+        if(this.change_timer) {
+            clearTimeout(this.change_timer);
+            this.change_timer = null;
+        }
+        this.change_timer = setTimeout(() => {
+            this.valueChange.emit(this.value);
+            this.change_timer = null;
+        }, 300);
     }
 
     calcValue(event: any) {

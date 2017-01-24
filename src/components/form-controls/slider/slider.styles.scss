@@ -2,10 +2,9 @@
 // @Date:   20/09/2016 10:49 AM
 // @Email:  alex@yuion.net
 // @Filename: slider.styles.scss
-// @Last modified by:   Yuion
-// @Last modified time: 15/12/2016 11:29 AM
+// @Last modified by:   alex.sorafumo
+// @Last modified time: 24/01/2017 9:52 AM
 
-$dim: 1.5em;
 $base-color: #343434;
 
 div.slider {
@@ -16,41 +15,47 @@ div.slider {
         box-sizing: border-box;
         cursor: pointer;
     }
-    & .slider-block {
+    & .block {
         width:100%;
         touch-action: pan-y;
         cursor: default;
         padding: 1.0em 1.5em;
-        & .slider-bar{
+        & .bar{
             position: relative;
             width: 100%;
-            min-width: $dim;
-            height: $dim;
+            min-width: 1.0em;
+            height: 1.0em;
             touch-action: pan-y;
             background-color: #898989;
-            border-radius: $dim/2;
+            border-radius: 0.5em;
             cursor: pointer;
-            & .slider-knob {
+            & .knob-container{
                 position: absolute;
-                width: $dim*2;
-                height: $dim*2;
-                top:-50%;
-                left: 0;
-                transform: translateX(-50%);
-                touch-action: pan-y;
-                border-radius: $dim;
-                background-color: #FFFFFF;
-                box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+                height: 0;
+                width: 0;
+                top: 50%;
+                & .knob {
+                    position: absolute;
+                    width: 2.0em;
+                    height: 2.0em;
+                    top: 0;
+                    left: 0;
+                    transform: translate(-50%, -50%);
+                    touch-action: pan-y;
+                    border-radius: 100%;
+                    background-color: #FFFFFF;
+                    box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+                }
             }
 
-            & .slider-progress{
+            & .progress{
                 position: absolute;
                 top:0;
                 left:0;
                 height:100%;
                 touch-action: pan-y;
                 background-color: #53B3CB;
-                border-radius: $dim;
+                border-radius: 0.5em;
             }
         }
 
@@ -59,19 +64,22 @@ div.slider {
             height: 100%;
             touch-action: pan-x;
             padding: 1.5em 1.0em;
-            & .slider-bar{
-                width: $dim;
-                min-height: $dim;
+            & .bar{
+                width: 1.0em;
+                min-height: 1.0em;
                 height: 100%;
                 touch-action: pan-x;
-                & .slider-knob {
-                    left:-50%;
-                    top: 100%;
-                    transform: translateY(-50%);
-                    touch-action: pan-x;
+                & .knob-container{
+                    top: auto;
+                    left: 50%;
+                    & .knob {
+                        touch-action: pan-x;
+                    }
                 }
 
-                & .slider-progress{
+                & .progress{
+                    top: auto;
+                    bottom: 0;
                     width:100%;
                     touch-action: pan-x;
                 }

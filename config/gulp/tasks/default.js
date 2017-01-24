@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <alex.sorafumo>
+* @Date:   30/09/2016 2:19 PM
+* @Email:  alex@yuion.net
+* @Filename: default.js
+* @Last modified by:   alex.sorafumo
+* @Last modified time: 24/01/2017 4:56 PM
+*/
+
 'use strict';
 
 var gulp = require('gulp');
@@ -13,11 +22,11 @@ gulp.task('build:test', ['webpack:test']);
 
 gulp.task('source', ['clean:build', 'clean:dist'], function () {
     return gulp.src(['./src/**', '!./src/**/*.scss'])
-        .pipe(gulp.dest('./.build'));
+        .pipe(gulp.dest('./_build'));
 });
 gulp.task('source:dev', function () {
     return gulp.src(['./src/**', '!./src/**/*.scss'])
-        .pipe(gulp.dest('./.build'));
+        .pipe(gulp.dest('./_build'));
 });
 
 gulp.task('dev:watch', function () {

@@ -3,16 +3,23 @@
 @Date:   13/09/2016 2:55 PM
 @Email:  alex@yuion.net
 @Filename: slider.template.html
-@Last modified by:   Yuion
-@Last modified time: 15/12/2016 11:29 AM
+@Last modified by:   alex.sorafumo
+@Last modified time: 24/01/2017 9:55 AM
 -->
 
 <div [class]="'aca slider ' + cssClass" (window:resize)="resize()">
-    <div #space class="slider-block" [class.vertical]="align==='vertical'">
+    <div #space class="block" [class.vertical]="align==='vertical'">
         <!-- Vertical Slider -->
-        <div #bar class="slider-bar aca-slider-c1" (tap)="clickSlider($event)" (press)="moveSlider($event)" (pan)="moveSlider($event)">
-            <div #prog class="slider-progress aca-slider-c2"></div>
-            <div #knob class="slider-knob aca-slider-c3" (press)="moveSlider($event)" (pan)="moveSlider($event)"></div>
+        <div #bar class="bar c1" (tap)="clickSlider($event)" (press)="moveSlider($event)" (pan)="moveSlider($event)">
+            <div #prog class="progress c2"
+                [style.width]="align==='vertical' ? '100%' :percent + '%'"
+                [style.height]="align==='vertical' ? (percent) + '%':'100%' ">
+            </div>
+            <div class="knob-container"
+                [style.left]="align==='vertical' ? '50%' :percent + '%'"
+                [style.top]="align==='vertical' ? (100 - percent) + '%':'50%'">
+                <div #knob class="knob c3" (press)="moveSlider($event)" (pan)="moveSlider($event)"></div>
+            <div>
         </div>
     </div>
 </div>

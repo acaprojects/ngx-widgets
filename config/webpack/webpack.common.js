@@ -22,7 +22,7 @@ const METADATA = {
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };
-console.log(helpers.root('.build/index.html'));
+console.log(helpers.root('_build/index.html'));
 
 /*
  * Webpack configuration
@@ -40,7 +40,7 @@ module.exports = function(options) {
      */
     metadata: METADATA,
    entry: {
-     'polyfills':      './.build/index.ts'
+     'polyfills':      './_build/index.ts'
    },
 
     /*
@@ -67,7 +67,7 @@ module.exports = function(options) {
       extensions: ['', '.ts', '.js', '.json'],
 
       // An array of directory names to be resolved to the current directory
-      modules: [helpers.root('.build'), 'node_modules'],
+      modules: [helpers.root('_build'), 'node_modules'],
 
     },
 
@@ -92,7 +92,7 @@ module.exports = function(options) {
             replace: '$1.import($3).then(mod => (mod.__esModule && mod.default) ? mod.default : mod)',
             flags: 'g'
           },
-          include: [helpers.root('.build')]
+          include: [helpers.root('_build')]
         },
 
       ],
@@ -119,7 +119,7 @@ module.exports = function(options) {
           loaders: [
             'awesome-typescript-loader',
             'angular2-template-loader',
-            'angular2-router-loader?loader=system&genDir=.build/compiled/.build/app&aot=' + isProd
+            'angular2-router-loader?loader=system&genDir=_build/compiled/_build/app&aot=' + isProd
           ],
           exclude: [/\.(spec|e2e)\.ts$/]
         },
@@ -152,7 +152,7 @@ module.exports = function(options) {
         {
           test: /\.html$/,
           loader: 'raw-loader',
-          exclude: [ helpers.root('.build/index.html'), helpers.root('src/index.html') ]
+          exclude: [ helpers.root('_build/index.html'), helpers.root('src/index.html') ]
         },
 
         /* File loader for supporting images, for example, in CSS files.
@@ -216,8 +216,8 @@ module.exports = function(options) {
        */
       new ContextReplacementPlugin(
         // The (\\|\/) piece accounts for path separators in *nix and Windows
-        /angular(\\|\/)core(\\|\/)(esm(\\|\/).build|.build)(\\|\/)linker/,
-        helpers.root('.build') // location of your .build
+        /angular(\\|\/)core(\\|\/)(esm(\\|\/)_build|_build)(\\|\/)linker/,
+        helpers.root('_build') // location of your _build
       ),
 
       /*
@@ -229,7 +229,7 @@ module.exports = function(options) {
        * See: https://www.npmjs.com/package/copy-webpack-plugin
        */
       new CopyWebpackPlugin([{
-        from: '.build/assets',
+        from: '_build/assets',
         to: 'assets'
       }]),
 

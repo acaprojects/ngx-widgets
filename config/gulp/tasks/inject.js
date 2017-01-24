@@ -1,3 +1,12 @@
+/**
+* @Author: Alex Sorafumo <alex.sorafumo>
+* @Date:   11/10/2016 9:44 AM
+* @Email:  alex@yuion.net
+* @Filename: inject.js
+* @Last modified by:   alex.sorafumo
+* @Last modified time: 24/01/2017 4:56 PM
+*/
+
 'use strict';
 
 var gulp = require('gulp');
@@ -19,7 +28,7 @@ function replaceStringsWithRequires(string) {
 }
 
 gulp.task('inject:css+html', ['source', 'sass'], function() {
-    gulp.src(['./.build/**/*.ts'])
+    gulp.src(['./_build/**/*.ts'])
     .pipe(replace(templateUrlRegex, function (match, url) {
         // replace: templateUrl: './path/to/template.html'
         // with: template: require('./path/to/template.html')
@@ -31,5 +40,5 @@ gulp.task('inject:css+html', ['source', 'sass'], function() {
         return "styles:" + replaceStringsWithRequires(url);
     }))
     .pipe(injectfile())
-    .pipe(gulp.dest('./.build'));
+    .pipe(gulp.dest('./_build'));
 });

@@ -30,7 +30,7 @@
     ],
     "exclude": [
       "node_modules",
-      ".build",
+      "_build",
       "src",
       "dist",
       "index.ts"
