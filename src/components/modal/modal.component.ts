@@ -3,8 +3,8 @@
 * @Date:   18/11/2016 4:31 PM
 * @Email:  alex@yuion.net
 * @Filename: modal.component.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 23/01/2017 2:38 PM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 25/01/2017 5:17 PM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
@@ -97,12 +97,16 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
 
     ngOnChanges(changes: any) {
         if(changes.width) {
-            this.display_width = 2.5 * this.width;
-            this.display_height = this.display_width / 3 * 2 - 5;
+            this.updateWidth();
         }
         if(changes.top) {
             this.display_top = (this.top && this.top > 0 ? this.top : '') + this.unit;
         }
+    }
+
+    updateWidth() {
+        this.display_width = this.width;
+        this.display_height = this.display_width / 3 * 2 - 5;
     }
 
     ngOnDestroy(){
@@ -165,6 +169,10 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
             if(!this.data) this.data = {};
     	    this.data = (<any>Object).assign(this.data, data);
 	    	if(this.content_instance) this.content_instance.entity = this.data;
+            if(data.width !== undefined && data.width !== null) {
+                this.width = data.width;
+                this.updateWidth();
+            }
             if(data.top !== undefined && data.top !== null) {
                 setTimeout(() => {
                     this.display_top = (this.top && this.top > 0 ? this.top : '') + this.unit;
