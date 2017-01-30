@@ -3,8 +3,8 @@
 * @Date:   18/11/2016 4:31 PM
 * @Email:  alex@yuion.net
 * @Filename: time-picker.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:29 AM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 30/01/2017 9:52 AM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
@@ -52,8 +52,11 @@ export class TimePicker {
     		this.setDisplayTime();
     	}
     }
-
-    initTime() {
+    /**
+     * Initialises the time to the current time
+     * @return {void}
+     */
+    private initTime() {
     	let now = new Date();
     	this.time = {
     		h : now.getHours(),
@@ -69,8 +72,11 @@ export class TimePicker {
     	this.time.h %= 24;
     	this.setDisplayTime();
     }
-
-    setDisplayTime() {
+    /**
+     * Updates the time displayed by the component
+     * @return {void}
+     */
+    private setDisplayTime() {
         let time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
     		// Setup display hours
     	this.display_hour = (this.time.h % 12).toString();
@@ -86,29 +92,42 @@ export class TimePicker {
             this.timeChange.emit(this.time);
         }
     }
-
+    /**
+     * Adds one hour to the time
+     * @return {void}
+     */
     addHour() {
     	this.time.h++;
+            // Make sure hours a with the 24 of a day
     	this.time.h %= 24;
     	this.setDisplayTime();
     }
-
+    /**
+     * Reduces the times hour by one
+     * @return {[type]} [description]
+     */
     minusHour() {
     	this.time.h--;
+            // Make sure hours a with the 24 of a day
     	if(this.time.h < 0) this.time.h = 23;
     	this.setDisplayTime();
     }
-
+    /**
+     * Adds one minute to the time
+     * @return {void}
+     */
     addMinute() {
     	this.time.m += this.minuteStep;
+            // Add to hour if > 60
     	if(this.time.m >= 60) {
-    		this.time.h++;
     		this.time.m %= 60;
+            this.addHour();
     	}
-    	this.time.h %= 24;
-    	this.setDisplayTime();
     }
-
+    /**
+     * Reduces the time's minutes by one
+     * @return {[type]} [description]
+     */
     minusMinute() {
     	this.time.m -= this.minuteStep;
     	if(this.time.m < 0) {
@@ -117,15 +136,22 @@ export class TimePicker {
     	}
     	this.setDisplayTime();
     }
-
+    /**
+     * Changes the period from morning to afternoon(AM -> PM)
+     * @return {void}
+     */
     changePeriod() {
         setTimeout(() => {
         	this.time.h += 11;
         	this.addHour();
         }, 20);
     }
-
-    checkNumber(str: string) {
+    /**
+     * Checks if the input string is a valid number
+     * @param  {string} str String to check
+     * @return {string} Returns a string only containing numbers
+     */
+    private checkNumber(str: string) {
     	let numbers = '1234567890';
     	for(let i = 0; i < str.length; i++) {
     		if(numbers.indexOf(str[i]) < 0) {
@@ -135,22 +161,32 @@ export class TimePicker {
     	}
     	return str;
     }
-
+    /**
+     * Validates the hour value of the component
+     * @return {void}
+     */
     validateHour() {
     	this.display_hour = this.checkNumber(this.display_hour);
     	if(this.display_hour === '') return;
     	let hour = parseInt(this.display_hour);
-    	if(hour < 0 || hour > 60) this.display_hour = '12';
+    	if(hour < 0 || hour > 23) this.display_hour = '12';
     	else if(hour === NaN) this.display_hour = '';
     }
-
+    /**
+     * Validates the minute value of the component
+     * @return {void}
+     */
     validateMinute() {
     	this.display_minutes = this.checkNumber(this.display_minutes);
     	let minutes = parseInt(this.display_minutes);
     	if(minutes < 0 || minutes > 60) this.display_minutes = '00';
     	else if(minutes === NaN) this.display_minutes = '';
     }
-
+    /**
+     * Checks if a key press a been made and updates the hour if an up/down arrow key has been pressed
+     * @param  {any}    e Key Up Event
+     * @return {void}
+     */
     keyupHour(e: any) {
     	if(e) {
     		if(e.keyCode == '38') { // Up Arrow
@@ -161,6 +197,11 @@ export class TimePicker {
     	} else this.validateHour();
     }
 
+    /**
+     * Checks if a key press a been made and updates the minutes if an up/down arrow key has been pressed
+     * @param  {any}    e Key Up Event
+     * @return {void}
+     */
     keyupMinutes(e: any) {
     	if(e) {
     		if(e.keyCode == '38') { // Up Arrow
@@ -170,7 +211,10 @@ export class TimePicker {
     		} else this.validateMinute();
     	} else this.validateMinute();
     }
-
+    /**
+     * Checks if the display hour value is valid then updates the time hour value
+     * @return {void}
+     */
     checkHour() {
     	setTimeout(() => {
 	    		// Check for value
@@ -187,6 +231,10 @@ export class TimePicker {
     	}, 20);
     }
 
+    /**
+     * Checks if the display minutes value is valid then updates the time minutes value
+     * @return {void}
+     */
     checkMinute() {
     	setTimeout(() => {
 	    		// Check for value
@@ -203,14 +251,20 @@ export class TimePicker {
 	    	this.time.m = parseInt(this.display_minutes);
     	}, 20);
     }
-
+    /**
+     * Change input focus from hours to minutes
+     * @return {void}
+     */
     changeFocus() {
     	if(this.hour_input) this.hour_input.nativeElement.blur();
     	this.checkHour();
     	if(this.minute_input) this.minute_input.nativeElement.focus();
     	setTimeout(() => { this.checkHour(); }, 50);
     }
-
+    /**
+     * Called when the time changes
+     * @return {void}
+     */
     timeSet() {
     	this.checkHour();
     	this.checkMinute();

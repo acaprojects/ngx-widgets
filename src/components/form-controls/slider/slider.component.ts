@@ -3,8 +3,8 @@
 * @Date:   18/11/2016 4:31 PM
 * @Email:  alex@yuion.net
 * @Filename: slider.component.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 23/01/2017 2:24 PM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 27/01/2017 5:48 PM
 */
 
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
@@ -67,7 +67,10 @@ export class Slider {
             this.refresh();
         }
     }
-
+    /**
+     * Gets the offset of the slider bar
+     * @return {void}
+     */
     getBarOffset(){
         let dim = {
             x : 0,
@@ -80,22 +83,11 @@ export class Slider {
         dim.y = el.top
         return dim;
     }
-
-    slideUpdate(event: any) {
-        if(event) {
-            if(event.preventDefault) event.preventDefault();
-            if(event.stopPropagation) event.stopPropagation();
-        }
-        if(this.align === 'vertical') {
-            this.value = this.max - Math.round((event.relativePercentVertical/100 * (this.max - this.min)) + this.min);
-        } else {
-            this.value = Math.round((event.relativePercentHorizontal/100 * (this.max - this.min)) + this.min);
-        }
-        if(this.value < this.min) this.value = this.min;
-        else if(this.value > this.max) this.value = this.max;
-        this.postValue();
-    }
-
+    /**
+     * Update value of the slider
+     * @param  {boolean = false}       update Do we need to update the display
+     * @return {void}
+     */
     updateValue(update:boolean = false) {
         if(!this.knob || !this.bar || !this.prog) {
             setTimeout(() => { this.updateValue(update); }, 20);
@@ -108,7 +100,10 @@ export class Slider {
         }
         this.postValue();
     }
-
+    /**
+     * Emits the value throught the output binding
+     * @return {void}
+     */
     postValue() {
         if(this.change_timer) {
             clearTimeout(this.change_timer);
@@ -119,7 +114,11 @@ export class Slider {
             this.change_timer = null;
         }, 300);
     }
-
+    /**
+     * Calculates the new value of the slider using the position of the event
+     * @param  {any}    event Tap/Pan event
+     * @return {number} Returns the new value of the slider
+     */
     calcValue(event: any) {
         if(event) {
             if(event.preventDefault) event.preventDefault();
@@ -173,7 +172,11 @@ export class Slider {
    		else this.resize();
    	}
 
-
+    /**
+     * Updates the value and position of the slider based of the event
+     * @param  {any}    event Tap event
+     * @return {void}
+     */
     clickSlider(event: any) {
         if(event) {
             if(event.preventDefault) event.preventDefault();
@@ -183,6 +186,11 @@ export class Slider {
         this.updateValue();
     }
 
+    /**
+     * Updates the position of the progress and knob of the slider
+     * @param  {any}    event Pan event
+     * @return {void}
+     */
     moveSlider(event: any){
         if(event) {
             if(event.preventDefault) event.preventDefault();
@@ -193,6 +201,12 @@ export class Slider {
         this.refresh();
     }
 
+
+    /**
+     * Updates the position of the progress and knob of the slider
+     * @param  {any}    event PanEnd event
+     * @return {void}
+     */
     sliderStop(event: any){
         if(event) {
             if(event.preventDefault) event.preventDefault();
@@ -200,7 +214,10 @@ export class Slider {
         }
         this.refresh();
     }
-
+    /**
+     * Update slider positioning when the window is resized
+     * @return {void}
+     */
     resize(){
         if(this.bar) this.bb = this.bar.nativeElement.getBoundingClientRect();
         this.updateValue(true);

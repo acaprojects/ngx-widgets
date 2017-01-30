@@ -3,8 +3,8 @@
 * @Date:   28/10/2016 11:24 AM
 * @Email:  alex@yuion.net
 * @Filename: virtual-keyboard.directive.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:33 AM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 27/01/2017 1:28 PM
 */
 
 import { Directive, Input, Output, EventEmitter } from '@angular/core';
@@ -40,7 +40,7 @@ export class VirtualKeyboardDirective {
     }
 
 	ngOnDestory() {
-		console.log('Destroy Keyboar Directive');
+		if(window['debug']) console.debug('[WIDGETS][Keyboard(D)] Closed virtual keyboard');
 		if(this.cmp){
 			this.cmp.close();
 			setTimeout(() => {
@@ -50,7 +50,11 @@ export class VirtualKeyboardDirective {
 			}, 500);
 		}
 	}
-
+	/**
+	 * Render virtual keyboard on the root component
+	 * @param  {Type<any>} type Component to render
+	 * @return {void}
+	 */
     private render(type: Type<any>){
     	if(this.view) {
 	        let factory = this._cr.resolveComponentFactory(type);
@@ -70,7 +74,10 @@ export class VirtualKeyboardDirective {
             this.update();
         }
     }
-
+	/**
+	 * Update keyboard display
+	 * @return {void}
+	 */
     private update() {
         if(this.cmp) {
             this.cmp.model = this.model;
@@ -87,5 +94,4 @@ export class VirtualKeyboardDirective {
 			}
         }
     }
-
 }

@@ -3,13 +3,15 @@
 * @Date:   15/09/2016 12:32 PM
 * @Email:  alex@yuion.net
 * @Filename: btn.component.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 20/01/2017 2:55 PM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 27/01/2017 1:34 PM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+
+import { Utility } from '../../helpers';
 
 @Component({
 	selector: 'btn',
@@ -60,37 +62,52 @@ export class Button {
 			let classes = this.cssClass.split(' ');
 			let btn = this.button.nativeElement;
 			for(let i = 0; i < classes.length; i++) {
-				this.addClass(btn, classes[i]);
+				Utility.addClass(btn, classes[i]);
 			}
 		}
 	}
-
+	/**
+	 * Add hover CSS classes to button
+	 * @return {void}
+	 */
 	addHover() {
 		let btn = this.button.nativeElement;
-		this.swapClass(btn, 'step-one', 'step-two');
-		this.swapClass(btn, 'step-two', 'step-three');
-		this.addClass(btn, 'hover');
+		Utility.swapClass(btn, 'step-one', 'step-two');
+		Utility.swapClass(btn, 'step-two', 'step-three');
+		Utility.addClass(btn, 'hover');
 	}
 
+	/**
+	 * Remove hover CSS classes to button
+	 * @return {void}
+	 */
 	removeHover() {
 		let btn = this.button.nativeElement;
-		this.swapClass(btn, 'step-three', 'step-two');
-		this.swapClass(btn, 'step-two', 'step-one');
-		this.removeClass(btn, 'hover')
+		Utility.swapClass(btn, 'step-three', 'step-two');
+		Utility.swapClass(btn, 'step-two', 'step-one');
+		Utility.removeClass(btn, 'hover')
 	}
 
+	/**
+	 * Add active CSS classes to button
+	 * @return {void}
+	 */
 	addActive() {
 		let btn = this.button.nativeElement;
 		let simple = 'font-' + this.color + '-';
-		this.addClass(btn, 'active');
-		this.swapClass(btn, simple + this.primary, simple + this.secondary);
+		Utility.addClass(btn, 'active');
+		Utility.swapClass(btn, simple + this.primary, simple + this.secondary);
 	}
 
+	/**
+	 * Remove active CSS classes to button
+	 * @return {void}
+	 */
 	removeActive() {
 		let btn = this.button.nativeElement;
 		let simple = 'font-' + this.color + '-';
-		this.removeClass(btn, 'active');
-		this.swapClass(btn, simple + this.secondary, simple + this.primary);
+		Utility.removeClass(btn, 'active');
+		Utility.swapClass(btn, simple + this.secondary, simple + this.primary);
 	}
 
 	ngOnChanges(changes: any) {
@@ -100,44 +117,34 @@ export class Button {
 		}
 	}
 
-        // Function to add css classes to the button
-	addClass(el: any, name: string) {
-		if(!el.classList.contains(name)){
-			el.classList.add(name);
-		}
-	}
-
-	removeClass(el: any, name: string) {
-		el.classList.remove(name);
-	}
-
-	swapClass(el: any, first: string, second: string) {
-		if(el.classList.contains(first)) {
-			this.removeClass(el, first);
-			this.addClass(el, second);
-		}
-	}
-
-	loadClasses() {
+	/**
+	 * Add initial classes for the button
+	 * @return {void}
+	 */
+	private loadClasses() {
 		let btn = this.button.nativeElement;
 		btn.className = 'aca';
 		if(!this.disabled && this.btnType !== 'flat') {
 			let step = (this.btnType.indexOf('raised') >= 0 ? 'one' : 'two');
-			this.addClass(btn, 'step-' + step);
+			Utility.addClass(btn, 'step-' + step);
 		} else if(this.disabled) {
 			return;
 		}
 		if(this.btnType !== 'flat' && this.cssClass === '') {
-			this.addClass(btn, 'color');
-			this.addClass(btn, 'bg-' + this.color + '-' + this.primary);
-			this.addClass(btn, 'font-white');
+			Utility.addClass(btn, 'color');
+			Utility.addClass(btn, 'bg-' + this.color + '-' + this.primary);
+			Utility.addClass(btn, 'font-white');
 		} else if(this.btnType !== 'flat') {
 		} else if(this.btnType === 'flat') {
-			this.addClass(btn, 'color');
-			this.addClass(btn, 'font-' + this.color + '-' + this.primary);
+			Utility.addClass(btn, 'color');
+			Utility.addClass(btn, 'font-' + this.color + '-' + this.primary);
 		}
 	}
 
+	/**
+	 * Called when the button is clicked
+	 * @return {void}
+	 */
 	clicked() {
 		if(this.disabled) return;
 		this.click_state = (this.click_state === 'show' ? 'hide' : 'show');

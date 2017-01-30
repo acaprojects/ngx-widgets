@@ -3,19 +3,29 @@
 * @Date:   09/01/2017 12:18 PM
 * @Email:  alex@yuion.net
 * @Filename: Utility.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 09/01/2017 3:21 PM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 27/01/2017 1:32 PM
 */
 
 export class Utility {
     constructor() {
 
     }
-    
+    /**
+     * Replaces all instances of string in a string
+     * @param  {string} str     String to replace contents
+     * @param  {string} find    String to find within str
+     * @param  {string} replace String to replace find in str
+     * @return {string} Returns string with all instances of find replaced with replace
+     */
     static replaceAll(str: string, find: string, replace: string) {
         return str.replace(new RegExp(find, 'g'), replace);
     }
-
+    /**
+     * Escapes values the used to find elements
+     * @param  {string} value String to escape
+     * @return {string} Returns escaped string
+     */
     static escape (value: string) {
         var string = String(value);
         var length = string.length;
@@ -90,4 +100,33 @@ export class Utility {
         }
         return result;
     }
+
+	/**
+	 * Add CSS class to specified element
+	 * @return {void}
+	 */
+	static addClass(el: any, name: string) {
+		if(!el.classList.contains(name)){
+			el.classList.add(name);
+		}
+	}
+
+	/**
+	 * Remove CSS class from specified element
+	 * @return {void}
+	 */
+	static removeClass(el: any, name: string) {
+		el.classList.remove(name);
+	}
+
+	/**
+	 * Swaps the first CSS class for the second CSS class if it exists on the element
+	 * @return {void}
+	 */
+	static swapClass(el: any, first: string, second: string) {
+		if(el.classList.contains(first)) {
+			this.removeClass(el, first);
+			this.addClass(el, second);
+		}
+	}
 }

@@ -3,8 +3,8 @@
 * @Date:   18/11/2016 4:31 PM
 * @Email:  alex@yuion.net
 * @Filename: modal.service.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 12/01/2017 3:44 PM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 27/01/2017 1:14 PM
 */
 
 import { Injectable, ComponentFactoryResolver, ComponentRef, ViewContainerRef, Type, Injector } from '@angular/core';
@@ -50,6 +50,11 @@ export class ModalService {
 
 	}
 
+    /**
+     * Sets the view to attach the notification display, usually the root component
+     * @param  {ViewContainerRef} view View Container to attach the notifications display
+     * @return {void}
+     */
 	set view(view: ViewContainerRef) {
 		if(view){
 			this._view = view;
@@ -58,6 +63,10 @@ export class ModalService {
 		}
 	}
 
+    /**
+     * Attempts to load the root view container
+     * @return {void}
+     */
 	loadView() {
         let app_ref = <ApplicationRef>this.injector.get(ApplicationRef);
 		if(app_ref && app_ref['_rootComponents'] && app_ref['_rootComponents'][0] && app_ref['_rootComponents'][0]['_hostElement']){
@@ -72,11 +81,22 @@ export class ModalService {
 			}, 500);
 		}
 	}
-
+    /**
+     * Stores paramters for use when creating a modal with the given id
+     * @param  {string} id    Modal ID
+     * @param  {any}    input Modal creation parameters
+     * @return {void}
+     */
 	setup(id:string, input:any) {
 		this.modal_inputs[id] = input;
 	}
 
+    /**
+     * Opens a modal of id with the given or previously stored parameters
+     * @param  {string} id    Modal ID, if not set or empty will create random id
+     * @param  {any}    input (Optional) Modal Creation parameters
+     * @return {string}       Returns the id of the modal
+     */
 	open(id:string, input?:any) {
 		if(!id || id === '') id = Math.floor(Math.random() * 89999999 + 10000000).toString();
 		if(!input) {
@@ -90,7 +110,7 @@ export class ModalService {
 				this.last_modal_id = id;
 				return id;
 			} else  {
-				console.error('No inputs for modal.');
+				if(window['debug']) console.error('[WIDGETS][Modal(S)] No inputs for modal.');
 				return id;
 			}
 		}
@@ -124,6 +144,11 @@ export class ModalService {
 		return modal.status;
 	}
 
+    /**
+     * Close modal with the given id or all modals
+     * @param  {string} id (Optional)Modal ID
+     * @return {void}
+     */
 	close(id:string) {
 		if(id === '' && this.last_modal_id === '') {
 				// Close all modals
@@ -144,7 +169,10 @@ export class ModalService {
 			this.cleanModal(id);
 		}
 	}
-
+    /**
+     * Closes all modal
+     * @return {void}
+     */
 	clear() {
 		let keys = Object.keys(this.modal);
 		for(let i = 0; i < keys.length; i++) {
@@ -154,8 +182,12 @@ export class ModalService {
             }
 		}
 	}
-
-	cleanModal(id:string) {
+    /**
+     * Cleans up modal after it has been removed.
+     * @param  {string} id Modal ID
+     * @return {void}
+     */
+	private cleanModal(id:string) {
 		if(this.modalRef[id]) {
 
 				// Destory Modal
@@ -165,7 +197,12 @@ export class ModalService {
 		this.modal[id] = null;
 		this.modal_data[id] = null;
 	}
-
+    /**
+     * Render modal inside defined view container
+     * @param  {string}    id   Modal ID
+     * @param  {Type<any>} type Modal Component
+     * @return {any} Returns the instance of the modal
+     */
     private render(id:string, type: Type<any>){
     	if(this._view && type && typeof type !== 'string') {
 	        let factory = this._cr.resolveComponentFactory(type)

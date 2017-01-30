@@ -3,8 +3,8 @@
 * @Date:   13/09/2016 2:55 PM
 * @Email:  alex@yuion.net
 * @Filename: data-input.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:29 AM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 27/01/2017 5:30 PM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
@@ -135,7 +135,10 @@ export class DataInput {
 			}
 		})
 	}
-
+	/**
+	 * Focuses on the input field if the field is not disabled or readonly
+	 * @return {void}
+	 */
 	focusInput() {
 		if(this.input && !this.disabled && !this.readonly) {
 			this.input.nativeElement.focus();
@@ -149,7 +152,10 @@ export class DataInput {
 			this.input.nativeElement.blur();
 		}
 	}
-
+	/**
+	 * Blurs the input field
+	 * @return {void}
+	 */
 	blurInput() {
 		if(!this.focus_timer) {
 			this.focus_timer = setTimeout(() => {
@@ -158,7 +164,11 @@ export class DataInput {
 			}, 100);
 		}
 	}
-
+	/**
+	 * Handles keypresses in input field
+	 * @param  {any}    e Key press event
+	 * @return {void}
+	 */
 	keypress(e: any) {
     	if(e) {
     		if(e.keyCode == '38' && this.type === 'number') { // Up Arrow
@@ -188,11 +198,18 @@ export class DataInput {
 			this.validate_timer = null;
 		}, 100);
 	}
-
+	/**
+	 * Gets the focus status of the input field
+	 * @return {string} Returns focus if the input field is focused else blur is returned
+	 */
 	checkFocus() {
 		return (this.focus || (this.display_text && this.display_text !== '') ? 'focus': 'blur');
 	}
-
+	/**
+	 * Sets the position of the input cursor/caret inside the field
+	 * @param  {number} caretPos Index in the text to set the cursor
+	 * @return {void}
+	 */
 	setCaretPosition(caretPos: number) {
 		if(!this.input) return;
 		let elem = this.input.nativeElement;
@@ -209,7 +226,10 @@ export class DataInput {
 	        }
 	    }
 	}
-
+	/**
+	 * Checks the validity of the input field content based of the set type
+	 * @return {void}
+	 */
 	validateInput() {
 		if(this.no_validate) {
 			this.no_validate = false;
@@ -260,7 +280,10 @@ export class DataInput {
 		this.validate.emit(data);
 		this.modelChange.emit(this.clean_text);
 	}
-
+	/**
+	 * Validate text field input value
+	 * @return {string} Returns the valid input value
+	 */
 	validateText() {
 			// Check field validity
 		if(this.max && this.max > 0 && this.display_text && this.display_text.length > this.max) {
@@ -273,7 +296,10 @@ export class DataInput {
 		}
 		return this.display_text;
 	}
-
+	/**
+	 * Validate an email address input value
+	 * @return {string} Returns a valid input value
+	 */
 	validateEmail() {
 		if(!this.display_text || this.display_text === '' || this.display_text.length < 5) return '';
 		let email = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -285,6 +311,10 @@ export class DataInput {
 		return this.display_text;
 	}
 
+	/**
+	 * Validate an password input value
+	 * @return {string} Returns a valid input value
+	 */
 	validatePassword() {
 		if(!this.display_text || this.display_text === '' || this.display_text.length < 8) return '';
 		let passCheck = this.regex ? this.regex : /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,24}$/;
@@ -299,10 +329,17 @@ export class DataInput {
 		return this.display_text;
 	}
 
+	/**
+	 * Validate an date input value
+	 * @return {string} Returns a valid input value
+	 */
 	validateDate() {
 		return this.display_text;
 	}
-
+	/**
+	 * Validate numerical value
+	 * @return {void}
+	 */
 	validateNumber() {
 		if(!this.display_text || this.display_text === '') return '';
 		let valid_numbers = this.numbers + '.';
@@ -328,6 +365,10 @@ export class DataInput {
 		return this.display_text;
 	}
 
+	/**
+	 * Validate Credit/Debit card input value
+	 * @return {string} Returns a valid input value
+	 */
 	validateCard() {
 		if(!this.display_text || this.display_text === '') return '';
 		this.caret = this.input.nativeElement.selectionStart;
@@ -367,8 +408,12 @@ export class DataInput {
 		}, 50);
 		return num;
 	}
-
-    getCardType(num: string){
+	/**
+	 * Gets the type of the given Credit/Debit card number
+	 * @param  {string} num Card number
+	 * @return {string} Returns the named type of the card
+	 */
+    private getCardType(num: string){
             //Visa
         if(/^4[0-9]{6,}$/.test(num)) return 'Visa';
             //Mastercard
@@ -383,8 +428,12 @@ export class DataInput {
         else if(/^(?:2131|1800|35[0-9]{3})[0-9]{3,}$/.test(num)) return 'JBC';
         return 'None';
     };
-
-    checkLuhn(input: string){
+	/**
+	 * Performs the luhn check on the give card number
+	 * @param  {string} input Card number
+	 * @return {boolean}      Returns the success of passing the luhn check
+	 */
+    private checkLuhn(input: string){
         var sum = 0;
         var numdigits = input.length;
         var parity = numdigits % 2;
@@ -396,7 +445,12 @@ export class DataInput {
         }
         return (sum % 10) == 0;
     };
-
+	/**
+	 * Removes invalid characters from the given string
+	 * @param  {string} str   String to remove characters from
+	 * @param  {string} valid String of valid characters
+	 * @return {string}       Returns a string with all the invalid characters removed
+	 */
 	removeInvalidChars(str: string, valid: string) {
 		if(!str) return '';
 		let clean_str = '';

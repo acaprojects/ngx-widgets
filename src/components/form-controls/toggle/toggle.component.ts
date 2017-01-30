@@ -3,8 +3,8 @@
 * @Date:   15/09/2016 12:37 PM
 * @Email:  alex@yuion.net
 * @Filename: toggle.component.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 24/01/2017 5:16 PM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 30/01/2017 10:06 AM
 */
 
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
@@ -63,7 +63,6 @@ export class Toggle {
 
     ngAfterViewInit(){
         this.initElements();
-        this.updateValue(true);
     }
 
     ngOnChanges(changes: any){
@@ -75,11 +74,18 @@ export class Toggle {
             this._state = (typeof this.state === 'boolean' ? this.state : this._state);
         }
     }
-
+    /**
+     * Sets the toggle knob
+     * @return {void}
+     */
     initElements(){
         this.toggle = this.type === 'text' ? this.tknob : this.sknob;
     }
-
+    /**
+     * Changes the toggles state from on -> off and vice versa
+     * @param  {any}    event Click/Tap Event
+     * @return {void}
+     */
     changeState(event: any){
         console.log(this.state);
         if(this.disabled) return;
@@ -90,9 +96,5 @@ export class Toggle {
         setTimeout(() => {
             this.stateChange.emit(this._state);
         }, 200);
-    }
-
-    updateValue(update: boolean = false){
-
     }
 }

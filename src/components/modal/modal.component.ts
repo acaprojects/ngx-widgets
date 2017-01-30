@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: modal.component.ts
 * @Last modified by:   Alex Sorafumo
-* @Last modified time: 25/01/2017 5:17 PM
+* @Last modified time: 31/01/2017 9:58 AM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef} from '@angular/core';
@@ -121,7 +121,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         if(this.component !== undefined && this.component !== null){
     		let factory = this._cfr.resolveComponentFactory(this.component);
             if(factory) this.render(factory);
-            else console.error('[WIDGETS] [Modal] Unable to find factory for: ', this.component);
+            else console.error('[WIDGETS][Modal(C)] Unable to find factory for: ', this.component);
     	}
     }
 

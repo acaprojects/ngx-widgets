@@ -3,8 +3,8 @@
 * @Date:   20/09/2016 1:44 PM
 * @Email:  alex@yuion.net
 * @Filename: typeahead.component.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 17/01/2017 4:27 PM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 30/01/2017 5:19 PM
 */
 
 import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
@@ -68,7 +68,18 @@ export class TypeaheadList {
         setTimeout(() => {
         }, 100);
     }
-
+    /**
+     * Sets the values for the typeahead list
+     * @param  {any}        ta           Parent directive
+     * @param  {any[]}      items        Typeahead list items
+     * @param  {string[]}   filterFields Item fields to filter on
+     * @param  {string}     filter       Text to search fields for
+     * @param  {number}     num_results  Maximum number of results display
+     * @param  {string}     cssClass     CSS Class to add to typeahead list
+     * @param  {boolean = false} auto      Automatically position typeahead
+     * @param  {boolean = false} force_top Force typeahead above element
+     * @return {void}
+     */
     setupList(ta: any, items: any[], filterFields: string[], filter: string, num_results: number, cssClass: string, auto: boolean = false, force_top: boolean = false) {
         this.parent = ta;
         this.items = items;
@@ -80,12 +91,19 @@ export class TypeaheadList {
         this.force_top = force_top;
         this.filterList();
     }
-
+    /**
+     * Update the filtering on the item list
+     * @param  {string} filter Text to filter on
+     * @return {void}
+     */
     updateFilter(filter: string) {
         this.filter = filter;
         this.filterList();
     }
-
+    /**
+     * Filter list of items. If no filter set return all items up to results limit
+     * @return {void}
+     */
     filterList() {
         let added = 0;
         if(!this.filter || this.filter === '') {
@@ -121,7 +139,12 @@ export class TypeaheadList {
             if(added >= this.results) break;
         }
     }
-
+    /**
+     * Updates the display position of the list on the view
+     * @param  {any}    main  ElementRef that the typeahead is attached to
+     * @param  {any}    event (Optional) Event
+     * @return {void}
+     */
     moveList(main: any, event?: any) {
         if(!main || !this.contents) return;
         let main_box = main.nativeElement.getBoundingClientRect();
@@ -132,7 +155,11 @@ export class TypeaheadList {
         this.contents.nativeElement.style.display = '';
         this.positionList();
     }
-
+    /**
+     * Sets the relative position of the typeahead
+     * @param  {number} c Retry counter
+     * @return {void}
+     */
     positionList(c?: number) {
         if(!c) c = 0;
         if(this.list && this.contents) {
