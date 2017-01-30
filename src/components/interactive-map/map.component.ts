@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: map.component.ts
 * @Last modified by:   Alex Sorafumo
-* @Last modified time: 31/01/2017 9:59 AM
+* @Last modified time: 31/01/2017 10:06 AM
 */
 
 import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
@@ -509,18 +509,18 @@ export class InteractiveMap {
                         this.map_data = data;
                         this.setupMap();
                     }, (err: any) => {
-                        if(window['debug']) console.warning(`[WIDGETS][Map(C)] Error loading map "${this.map}".`);
+                        if(window['debug']) console.warn(`[WIDGETS][Map(C)] Error loading map "${this.map}".`);
                         console.error(err);
                     });
                 } else {
                     if(!this.map){
-                        if(window['debug']) console.warning('[WIDGETS][Map(C)] Path to map is not valid.');
+                        if(window['debug']) console.warn('[WIDGETS][Map(C)] Path to map is not valid.');
                     } else if(this.map.indexOf('.svg') < 0) {
-                        if(window['debug']) console.warning('[WIDGETS][Map(C)] Path to map is not an SVG.');
+                        if(window['debug']) console.warn('[WIDGETS][Map(C)] Path to map is not an SVG.');
                     } else if(this.map.length > 4) {
-                        if(window['debug']) console.warning('[WIDGETS][Map(C)] Path to map is not long enough. It needs to be longer than 4 characters');
+                        if(window['debug']) console.warn('[WIDGETS][Map(C)] Path to map is not long enough. It needs to be longer than 4 characters');
                     } else {
-                        if(window['debug']) console.warning(`[WIDGETS][Map(C)] Unknown error loading map with map path "${this.map}".`);
+                        if(window['debug']) console.warn(`[WIDGETS][Map(C)] Unknown error loading map with map path "${this.map}".`);
                     }
                 }
             } else {

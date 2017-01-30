@@ -4,14 +4,14 @@
 * @Email:  alex@yuion.net
 * @Filename: btn.component.ts
 * @Last modified by:   Alex Sorafumo
-* @Last modified time: 27/01/2017 1:34 PM
+* @Last modified time: 31/01/2017 10:12 AM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { Utility } from '../../helpers';
+import { Utility } from '../../../helpers/utility.class';
 
 @Component({
 	selector: 'btn',
