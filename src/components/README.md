@@ -1,454 +1,126 @@
 
 # Angular 2 - Widgets
 
-This documentation is out of date.
+## [Source Documentation](../README.md)
+
+## Component Listing
+- [Buttons](./components/buttons/README.md)
+ - [Buttons](./components/buttons/README.md)
+ - [Button Groups](./components/buttons/README.md)
+ - [Button Toggles](./components/buttons/README.md)
+- [Form Controls](./components/form-controls/README.md)
+ - [Calendars](./components/form-controls/README.md)
+ - [Data Inputs](./components/form-controls/README.md)
+ - [Dropdowns](./components/form-controls/README.md)
+ - [Sliders](./components/form-controls/README.md)
+ - [Time Pickers](./components/form-controls/README.md)
+ - [Toggles](./components/form-controls/README.md)
+ - [Typeaheads](./components/form-controls/README.md)
+- [Page Controls](./components/page-controls/README.md)
+ - [Steppers](./components/page-controls/README.md)
+ - [Tab Groups](./components/page-controls/README.md)
+- [Modals](./components/modals/README.md)
+- Other
+ - [Image Cropper](### Image Cropper)
+ - [Interactive Maps](### Interactive Maps)
+ - [Spinners](### Spinners)
+ - [Tooltips](### Tooltips)
+ - [Virtual Keyboard](### Virtual Keyboard)
 
 ## Usage
 
-Import the desired widget into your component.
+Import the ACA_WIDGETS_MODULE into the module which you wish to use a component from this library.
 
-All two-way bindings can be read on one-way binding `<attribute>Change`. e.g. `stateChange`
+All two-way bindings can be read on one-way binding `<attribute>Change`. e.g. `stateChange`.
 
-[Hammer.js](http://hammerjs.github.io/) version 2.x.x is required for the sliders and interactive map widgets
+[Hammer.js](http://hammerjs.github.io/) version 2.x.x is required for the sliders and interactive map widgets.
 
-### Button Toggle
+## Other Components 
 
-A simple button for toggling.
+### Image Cropper
 
-Import `import { ButtonToggle } from '@aca-1/a2-widgets';`
+UI element that allows for a user to select an image and crop it.
 
-To use a Button Toggle in your component for import the ButtonToggle directive into your component.
+![Image of Image Cropper](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
 
-Then you can use insert a btn-toggle tag into you html when you want the element to appear.
-
-e.g.
 ```html
-<btn-toggle active="Active" inactive="Inactive" [(value)]="value"></btn-toggle>
+<img-crop [id]="avatar-stream" [circle]="true" [select]="true" [width]="256" (completed)="uploadAvatar($event)"></img-crop>
 ```
 
-A Button Toggle has 3 attributes.
+Image Croppers have 7 attributes.
 
-Name | Bindings | Direction | Valid Types | Description
+Name | Binding | Direction | Valid Types | Description
 -----|----------|-----------|-------------|------------
-`active`| One-way | Write-only | String | Used to define the text displayed inside the button when it is in an active state.
-`inactive`| One-way | Write-only | String | Used to define the text displayed inside the button when it is in an inactive state.
-`value`| Two-way | Read & Write | Boolean | Used to get and set the state of the button
-
-### Button Groups
-
-A group of button toggles
-
-![Image of Button Group](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
-
-Import `import { ButtonGroup } from '@aca-1/a2-widgets';`
-
-To use a button group in your component for import the ButtonGroup directive into your component.
-
-Then you can use insert a btn-group tag into you html when you want the element to appear.
-
-e.g.
-```html
-<btn-group [items]="['One', 'Two', 'Three', 'Four']" [(selected)]="value"></btn-group>
-```
-
-A Button Group has 2 attributes.
-
-Name | Bindings | Direction | Valid Types | Description
------|----------|-----------|-------------|------------
-`items`| One-way | Write-only | String Array | Used to define the text displayed on each of the buttons.
-`selected`| Two-way | Read & Write | Integer | Used to get and set the index of the button that is selected within the group.
-
-### Toggle Buttons
-
-An array of various types of customisable toggle buttons.
-
-Import `import { FancyToggle } from '@aca-1/a2-widgets';`
-
-To use a fancy toggle button in your component for import the FancyToggle directive into your component.
-
-Then you can use insert a fancy-toggle tag into you html when you want the element to appear.
-
-The following attributes are common for all fancy toggle buttons.
-
-Name | Bindings | Direction | Valid Types | Description
------|----------|-----------|-------------|------------
-`type`| One-way | Write-only | String | Used to select the type of toggle button that you wish to use. Value can be 'text', 'image', 'icon', and 'ios'.
-`state`| Two-way | Read & Write | Boolean | Used to get and set the state of the toggle
-
-
-#### Text Toggle
-
-![Image of Text Toggle](https://cloud.githubusercontent.com/assets/20103948/17200838/e66ef50c-54cb-11e6-83e6-2994dbb055b7.png)
-
-Creates a toggle switch that display text inside the toggle space.
-
-e.g.
-```html
-<fancy-toggle type="text" [(state)]="value" inactive="Off" active="On"></fancy-toggle>
-```
-
-A Text Toggle has 2 other attributes.
-
-Name | Bindings | Direction | Valid Types | Description
------|----------|-----------|-------------|------------
-`active`| One-way | Write-only | String | Used to define the text displayed inside the toggle when it is in an active state.
-`inactive`| One-way | Write-only | String | Used to define the text displayed inside the toggle when it is in an inactive state.
-
-#### Image Toggle
-
-![Image of Image Toggle](https://cloud.githubusercontent.com/assets/20103948/17200836/e669e7ec-54cb-11e6-9f70-18fb15432ec7.png)
-
-Creates a toggle switch that displays an image based off of the state of the toggle
-
-e.g.
-```html
-<fancy-toggle type="image" [(state)]="value" inactive="/img/off_img.png" active="/img/on_img.png"></fancy-toggle>
-```
-
-A Image Toggle has 2 other attributes.
-
-Name | Bindings | Direction | Valid Types | Description
------|----------|-----------|-------------|------------
-`active`| One-way | Write-only | String | Used to define the image file used for the toggle when it is in an active state.
-`inactive`| One-way | Write-only | String | Used to define the image file used for the toggle when it is in an inactive state.
-
-#### Icon Toggle
-
-![Image of Icon Toggle](https://cloud.githubusercontent.com/assets/20103948/17200835/e62640e6-54cb-11e6-9417-16eaafe6a512.png)
-
-Creates a toggle switch that displays an icon based off of the state of the toggle.
-
-e.g.
-```html
-<fancy-toggle type="image" [(state)]="value" inactive="fa fa-times" active="fa fa-tick"></fancy-toggle>
-```
-
-A Image Toggle has 3 other attributes.
-
-Name | Bindings | Direction | Valid Types | Description
------|----------|-----------|-------------|------------
-`active`| One-way | Write-only | String | Used to define the icon css classes used for the toggle when it is in an active state.
-`inactive`| One-way | Write-only | String | Used to define the icon css classes used for the toggle when it is in an inactive state.
-`shape`| One-way | Write-only | String | Used to define the shape of the bound box of the toggle. Value can be `circle` or `square`
-
-#### iOS Toggle
-
-![Image of iOS Toggle](https://cloud.githubusercontent.com/assets/20103948/17200837/e66d32ee-54cb-11e6-94ce-c38d6cfe0eb2.png)
-
-Creates a simple toggle switch that looks like the toggles used in iOS.
-
-e.g.
-```html
-<fancy-toggle type="ios" [(state)]="value" inactive="Off" active="On"></fancy-toggle>
-```
-
-A iOS Toggle has no other attributes that can be set.
-
-### Slider
-
-![Image of Horizontal Slider](https://cloud.githubusercontent.com/assets/20103948/17200832/e61af240-54cb-11e6-8401-9f64821a1b76.png)
-
-![Image of Vertical Slider](https://cloud.githubusercontent.com/assets/20103948/17200833/e61ea930-54cb-11e6-938f-21c7d0ad7b5d.png)
-
-A simple slider that can be vertical or horizontal.
-
-Import `import { Slider } from '@aca-1/a2-widgets';`
-
-To use a slider in your component for import the Slider directive into your component.
-
-Then you can use insert a slider attribute into you html when you want the element to
-
-e.g.
-```html
-<div slider align="horizontal" [min]="-65535" max="65535" [(value)]="slider2"></div>
-```
-
-A Slider has 4 attributes.
-
-Name | Bindings | Direction | Valid Types | Description
------|----------|-----------|-------------|------------
-`align`| One-way | Write-only | String | Used to determine the render direction of the slider. Value can be 'horizontal', or 'vertical'.
-`min`| One-way | Write-only | Integer | Used set the minimum value of the slider.
-`max`| One-way | Write-only | Integer | Used set the maximum value of the slider.
-`value`| Two-way | Read & Write | Integer | Used get the value of the slider.
-
-### Tab Group
-
-![Image of Tab Group](https://cloud.githubusercontent.com/assets/20103948/17200834/e620bebe-54cb-11e6-912c-a1d6ed4717dc.png)
-
-Import `import { TABS_DIRECTIVES } from '@aca-1/a2-widgets';`
-
-To use a tab group in your component for import the TABS_DIRECTIVES into your component.
-
-Then you can use insert a tab-group tag into you html when you want the element to appear.
-
-e.g.
-```html
-<tab-group [(state)]="tab_value" routable="route" routeParam="tab">
-    <tab-head id="0">Title of Tab</tab-head>
-    <tab-body id="0">Content of Tab</tab-body>
-</tab-group>
-```
-
-A TabGroup has 3 attributes.
-
-Name | Bindings | Direction | Valid Types | Description
------|----------|-----------|-------------|------------
-`routable`| One-way | Write-only | String | Used to determine if the tabs read and write to the route of the application. Value can be 'route', 'query', or 'hash'.
-`routeParam`| One-way | Write-only | String | Used to name the variable that is used in routing for the selection of tab.
-`state`| Two-way | Read & Write | String | Used to get and set the id of the selected tab.
-
-#### Tab Head
-
-Inside tab groups the contents for the heading for each tab is defined within a tab-head tag
-
-A TabHead has 1 attributes.
-
-Name | Bindings | Direction | Valid Types | Description
------|----------|-----------|-------------|------------
-`id`| One-way | Write-only | String | Used to set identifier of the tab this is also used to refernce the TabBody that it matches with.
-
-#### Tab Body
-
-Inside tab groups the contents for the body for each tab is defined within a tab-body tag
-
-A TabBody has 1 attributes.
-
-Name | Bindings | Direction | Valid Types | Description
------|----------|-----------|-------------|------------
-`id`| One-way | Write-only | String | Used to set identifier of the tab this is also used to refernce the TabHead that it matches with.
+`id`| One-way | Write-only | String | Stream ID to look for an file on. Default: 'zero'
+`circle`| One-way | Write-only | Boolean | Crop image in a circle
+`file`| One-way | Write-only | File | File to be processed by the image cropper.
+`select`| One-way | Write-only | Boolean | Allow user to select an image
+`ratio`| One-way | Write-only | String | Crop box width to height ratio. Default: '4:3'
+`width`| One-way | Write-only | String | Width of the crop box in pixels. Default: 400
+`completed`| One-way | Read-only | String | Called when the user has finished with the crop. Returns the cropped image.
 
 ### Interactive Map
 
-![Image of Interactive Maps](http://www.roomsketcher.com/wp-content/uploads/2015/12/RoomSketcher-2D-Floor-Plans.jpg)
+UI element that displays SVG maps that can be interactive with the user
 
-An interactive map which renders a svg xml which is scalable and pannable.
+![Image of Interactive Map](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
 
-Import `import { InteractiveMap } from '@aca-1/a2-widgets';`
-
-To use a interactive map in your component for import the InteractiveMap into your component.
-
-Then you can use insert a interactive-map tag into you html when you want the element to appear.
-
-The interactive map will fill the parent container so make sure you size the parent to reflect how you want your map to be displayed.
-
-e.g.
 ```html
-<interactive-map map="/assets/img/map.svg" [active]="true" [controls]="true" [zoomMax]="400" (tap)="doSomething($event)"></interactive-map>
+<interactive-map 
+    [map]="'assets/map.svg'" 
+    [zoomMax]="300" 
+    [zoom]="userZoom" 
+    [controls]="false" 
+    [disable]="['vending-machine-1']"
+    [mapSize]="10000"
+    [focus]="'bedroom-one'"
+    [focusScroll]="true"
+    [mapStyles]="[{id:'bedroom-one', fill:'#123456'}]"
+    [rotations]="1"
+    (mapUpdated)="showMap()"
+    >
+  
+</interactive-map>
 ```
 
-An Interactive Map has 5 attributes.
+Interactive maps have 11 attributes.
 
-Name | Bindings | Direction | Valid Types | Description
+Name | Binding | Direction | Valid Types | Description
 -----|----------|-----------|-------------|------------
-`map`| One-way | Write-only | String | Used to set the svg image used for the map.
-`zoom`| Two-way | Read & Write | Integer | Used to set and get the zoom level of the map.
-`zoomMax`| One-way | Write-only | Integer | Used to set the maximum zoom level of the map i.e. 100 + zoomMax is the max zoom in %.
-`controls`| One-way | Write-only | Boolean | Used to set whether or not the zoom controls are displayed.
-`tap`| One-way | Read-only | Object | Used to get classes of items inside the map that were tap/clicked on.
+`map`| One-way | Write-only | String | File name of the SVG map to load
+`zoomMax`| One-way | Write-only | Integer | Max zoom value above 100% allowed. Default: 200
+`zoom`| Two-way | Read & Write | Number | Zoom level of the map. Default: 0
+`controls`| One-way | Write-only | Boolean | Display simple map controls. Default: true
+`disable`| One-way | Write-only | String[] | List of element IDs in map to hide
+`mapSize`| One-way | Write-only | Integer | Co-ordinate scale of the  width of the map Default: 100
+`focus`| One-way | Write-only | String | Element ID to focus on within the map.
+`focusScroll`| One-way | Write-only | Boolean | Allow user to move map around after focused on element. Default: false
+`mapStyles`| One-way | Write-only | Object[] | List of element ids and styles to change on that element.
+`rotations`| One-way | Write-only | Integer | Rotates the map coordinates by 90˚ x the value
+`mapUpdated`| One-way | Read-only | String | Called when the map data has been loaded.
 
-### Calendar
+### Spinner
 
-A Calendar which allows for selecting a date and time.
+UI element that displays the selected spinner/loader
 
-Import `import { Calendar } from '@aca-1/a2-widgets';`
+![Image of Spinner](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
 
-To use a Calendar in your component for import the Calendar directive into your component.
-
-Then you can use insert a calendar tag into you html when you want the element to appear.
-
-e.g.
 ```html
-<calendar [(date)]="start_date" [(time)]="start_time" selectTime="true" futureOnly="true"></calendar>
+<spinner [type]="'bounce'" [color]="rgba(255,255,255,0.67)"></spinner>
 ```
 
-![Image of Calendar](https://cloud.githubusercontent.com/assets/20103948/17283852/7dd71436-57f8-11e6-920c-56b04ef446ef.png)
+Spinners have 2 attributes.
 
-![Image of Calendar Time picker](https://cloud.githubusercontent.com/assets/20103948/17283853/7dd982e8-57f8-11e6-92b1-f688a2ee0fd2.png)
-
-A Calendar has 6 attributes.
-
-Name | Bindings | Direction | Valid Types | Description
+Name | Binding | Direction | Valid Types | Description
 -----|----------|-----------|-------------|------------
-`date`      | Two-way | Read & Write | Date | Used to get and set the date value used by the calendar.
-`minDate`   | One-way | Write-only | Date | Used to define first date that is selectable by the user.
-`futureOnly`| One-way | Write-only | Boolean | Sets `minDate` to the current date if true.
-`selectTime`| One-way | Write-only | Boolean | Allows the user to set the time of day.
-`time`      | Two-way | Write-only | Object | Used to get and set the time value of the selected date. i.e. time object is `{ h: Integer, m: Integer }`
-`minuteStep`| One-way | Write-only | Integer | Sets number of minutes the added or removed when minutes is changed.
+`type`| One-way | Write-only | String | Type of spinner to display. Options are `plane`, `bounce`, `ring-bounce`, `ring-rotate`, `ring-bounce-in`, `double-bounce`, `bars`, `cube-move`, `cube-grid`, 'dot-bounce', `dot-cicle`, `dot-circle-scale`
+`color`| One-way | Write-only | Boolean | Colour of the spinner. Default: #000000
 
-## Modals
+### Tooltip
 
-### Setup
+### Virtual Keyboard
 
-Modal Service must be initialised in the root component by setting the `view` property with a ViewContainerRef.
-
-```javascript
-
-import { Component, ViewContainerRef } from '@angular/core';
-import { ModalService } from '@aca-1/a2-widgets';
-
-@Component({
-  selector: 'app',
-  styleUrls: [...]
-  template: ...
-})
-export class App {
-  constructor(view: ViewContainerRef, private modal: ModalService) {
-    modal.view = view;
-  }
-}
-
-```
-
-Service should be injected as a global provider.
-
-### Directive
-
-Import `import { ModalDirective } from '@aca-1/a2-widgets';`
-
-To use a Modal in your component for import the ModalDirective directive into your component.
-
-Then you can use insert a modal attribute into you html when you want the element to appear.
-
-e.g.
-```html
-<div modal [title]="'ModalTest'" [id]="'a modal'" [close]="true" [html]="html" [data]="data" [size]="'small'" (ok)="done($event)"  (cancel)="failed($event)" [active]="true"></div>
-```
-
-A Modal has 3 attributes.
-
-Name      | Bindings | Direction   | Valid Types | Description
-----------|----------|-------------|-------------|------------
-`title`   | One-way | Write-only   | String   | Used to define the text displayed inside the header of the modal.
-`id`      | One-way | Write-only   | String   | Used to define the id of the modal. id is used by the modal service.
-`close`   | One-way | Write-only   | Boolean  | Used to define whether or not the user can close the modal by clicking outside it.
-`html`    | One-way | Write-only   | String   | Used to define the html contents of the modal.
-`data`    | Two-way | Read & Write | Any      | Used to define data property used by the modal content.
-`options` | One-way | Write-only   | Object[] | Used to define the buttons in the footer of the modal. Objects are structured like so: `{ text: String, fn: Function }`. Functions should have 2 arguments `data` and `callback`.
-`size`    | One-way | Write-only   | String   | Used to define the size of the modal. Value can be 'small' or 'large'.
-`styles`  | One-way | Write-only   | String   | Used to define the css styles of the modal content.
-`active`  | One-way | Write-only   | Boolean  | Used to open modal.
-`ok`      | One-way | Read-only    | N/A      | Called when the default 'ok' options is called.
-`cancel`  | One-way | Read-only    | N/A      | Called when the default 'cancel' options is called.
-
-Values in `data` can be bound to inside the html contents.
-
-e.g.
-```html
-	<div>{{data.name}}</div>
-```
-
-### Service
-
-Modals can also be added via code using the `ModalService`.
-
-#### Functions
-
-```javascript
-	setup(id: String, attr: Object);
-```
-##### Setup Function
-* No return value.
-* Function sets up the properties for the modal with the given id
-* attr can set all the writable attributes defined in the modal directive above
-
-```javascript
-	open(id: String, attr?: Object);
-```
-##### Open Function
-* No return value.
-* Function sets up the properties for the modal with the given id
-* attr can set all the writable attributes defined in the modal directive above
-
-```javascript
-	close(id: String);
-```
-##### Close Function
-* No return value.
-* Function closes a modal with the given id.
-
-```javascript
-	clear();
-```
-##### Clear Function
-* No return value.
-* Function closes all modals open.
-
-## Notifications
-
-### Setup
-
-Notifications Service must be initialised in the root component by setting the `view` property with a ViewContainerRef.
-
-```javascript
-
-import { Component, ViewContainerRef } from '@angular/core';
-import { NotificationService } from '@aca-1/a2-widgets';
-
-@Component({
-  selector: 'app',
-  styleUrls: [...]
-  template: ...
-})
-export class App {
-  constructor(view: ViewContainerRef, private notifications: NotificationService) {
-    notifications.view = view;
-  }
-}
-
-```
-
-Service should be injected as a global provider.
-
-### Directive
-
-Import `import { NotificationDirective } from '@aca-1/a2-widgets';`
-
-To use a Notification Directive in your component for import the NotificationDirective directive into your component.
-
-Then you can use insert a notification attribute into you html on the page you want the notification to be displayed.
-
-e.g.
-```html
-<div notification message="The world is ending... now!" [(value)]="value"></btn-toggle>
-```
-
-A Notification Directive has 3 attributes.
-
-Name | Bindings | Direction | Valid Types | Description
------|----------|-----------|-------------|------------
-`message` | One-way | Write-only | String  | Used to define the text displayed inside the notification, can be html.
-`cssClass`| One-way | Write-only | String  | Used to define any css class that will be applied to the created notification
-`options` | One-way | Write-only | Object  | Used to define options for the notification. `timeout`, `canClose` and `styles` can be set. `timeout` defined the time in ms the notification will close if `canClose` is false. `canClose` defines is the user can close the notification. `styles` is use to define custom styles for the notification.
-
-### Service
-
-Notifications can also be added via code using the `NotificationService`.
-
-#### Functions
-
-```javascript
-	add(message: String, cssClass?: String, options?: Object);
-```
-##### Open Function
-* Returns the id value of the notification.
-* Function opens a notification with the given `message` using the given `options`.
-* `options` has 3 properties that can be set `timeout`, `canClose` and `styles`. `timeout` defined the time in ms the notification will close if `canClose` is false. `canClose` defines is the user can close the notification. `styles` is use to define custom styles for the notification.
-
-```javascript
-	close(id: String);
-```
-##### Close Function
-* No return value.
-* Function closes a notification with the given id.
-
-```javascript
-	clear();
-```
-##### Clear Function
-* No return value.
-* Function closes all open notifications.
+==========================================
 
 ## Custom Styling
 
