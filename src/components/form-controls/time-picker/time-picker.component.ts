@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: time-picker.component.ts
 * @Last modified by:   Alex Sorafumo
-* @Last modified time: 30/01/2017 9:52 AM
+* @Last modified time: 01/02/2017 11:44 AM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
@@ -77,20 +77,22 @@ export class TimePicker {
      * @return {void}
      */
     private setDisplayTime() {
-        let time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
-    		// Setup display hours
-    	this.display_hour = (this.time.h % 12).toString();
-    	if(parseInt(this.display_hour) === 0) this.display_hour = '12';
-    		// Setup display minutes
-    	this.display_minutes = (this.time.m % 60).toString();
-    		// Setup display period
-    	this.display_period = ((this.time.h / 12 >= 1) ? 'PM' : 'AM');
-    	this.checkHour();
-    	this.checkMinute();
-        let new_time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
-        if(time !== new_time) {
-            this.timeChange.emit(this.time);
-        }
+        setTimeout(() => {
+            let time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
+        		// Setup display hours
+        	this.display_hour = (this.time.h % 12).toString();
+        	if(parseInt(this.display_hour) === 0) this.display_hour = '12';
+        		// Setup display minutes
+        	this.display_minutes = (this.time.m % 60).toString();
+        		// Setup display period
+        	this.display_period = ((this.time.h / 12 >= 1) ? 'PM' : 'AM');
+        	this.checkHour();
+        	this.checkMinute();
+            let new_time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
+            if(time !== new_time) {
+                this.timeChange.emit(this.time);
+            }
+        }, 20);
     }
     /**
      * Adds one hour to the time
@@ -123,6 +125,7 @@ export class TimePicker {
     		this.time.m %= 60;
             this.addHour();
     	}
+    	this.setDisplayTime();
     }
     /**
      * Reduces the time's minutes by one

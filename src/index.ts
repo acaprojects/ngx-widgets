@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: index.ts
 * @Last modified by:   Alex Sorafumo
-* @Last modified time: 31/01/2017 10:01 AM
+* @Last modified time: 01/02/2017 11:54 AM
 */
 
 import { NgModule } from '@angular/core';
@@ -46,8 +46,8 @@ export * from './components';
     ]
 })
 export class ACA_WIDGETS_MODULE {
-    version: string = '0.5.8';
-    build: string = 'dev-2017-01-31.v1';
+    version: string = '0.5.9';
+    build: string = 'dev-2017-02-01.v1';
     constructor() {
         console.debug(`ACA Angular 2 Widget Library - Version: ${this.version} | Build: ${this.build}`);
     }

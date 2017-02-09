@@ -1,0 +1,20 @@
+<!--
+@Author: Alex Sorafumo
+@Date:   07/02/2017 12:04 PM
+@Email:  alex@yuion.net
+@Filename: tooltip.template.html
+@Last modified by:   Alex Sorafumo
+@Last modified time: 07/02/2017 4:56 PM
+-->
+
+<div *ngIf="show" [class]="'tooltip ' + position + ' ' + cssClass + ' ' + theme" [style.font-size]="size" (window:tap)="checkTap($event)">
+    <div [class]="'block ' + position" >
+        <div #area class="contents">
+            <div #content></div>
+        </div>
+        <div class="triangle">
+            <div class="square"></div>
+        </div>
+    </div>
+</div>
+<ng-content></ng-content>

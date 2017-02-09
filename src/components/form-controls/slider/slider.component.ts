@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: slider.component.ts
 * @Last modified by:   Alex Sorafumo
-* @Last modified time: 27/01/2017 5:48 PM
+* @Last modified time: 01/02/2017 11:52 AM
 */
 
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
@@ -26,6 +26,7 @@ export class Slider {
     @Input() precision: number = 1;
     @Input() cssClass: string = '';
     @Output() valueChange = new EventEmitter();
+    @Output() delayValueChange = new EventEmitter();
     //*
     @ViewChild('space') space: any;
     @ViewChild('bar')   bar: any;
@@ -109,8 +110,9 @@ export class Slider {
             clearTimeout(this.change_timer);
             this.change_timer = null;
         }
+        this.valueChange.emit(this.value);
         this.change_timer = setTimeout(() => {
-            this.valueChange.emit(this.value);
+            this.delayValueChange.emit(this.value);
             this.change_timer = null;
         }, 300);
     }

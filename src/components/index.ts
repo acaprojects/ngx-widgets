@@ -3,8 +3,8 @@
 * @Date:   04/10/2016 11:53 AM
 * @Email:  alex@yuion.net
 * @Filename: index.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 09/01/2017 3:27 PM
+* @Last modified by:   Alex Sorafumo
+* @Last modified time: 07/02/2017 12:27 PM
 */
 
 import { Button, ButtonGroup, ButtonToggle } from './buttons';
@@ -16,6 +16,7 @@ import { Modal, ACA_WIDGET_MODALS } from './modal';
 import { Notification, NotifyBlock } from './notification';
 import { TABS_COMPONENTS, STEPPER_COMPONENTS } from './page-controls';
 import { Spinner } from './spinner';
+import { TooltipComponent } from './tooltip';
 import { VirtualKeyboard } from './virtual-keyboard';
 
 export * from './buttons';
@@ -27,6 +28,7 @@ export * from './modal';
 export * from './notification';
 export * from './page-controls';
 export * from './spinner';
+export * from './tooltip';
 export * from './virtual-keyboard';
 
 export let COMPONENTS: any[] = [
@@ -45,6 +47,7 @@ export let COMPONENTS: any[] = [
     ...MAP_COMPONENTS,
     MaterialStyles,
     NotifyBlock,
+    TooltipComponent,
     ...TABS_COMPONENTS,
     ...STEPPER_COMPONENTS,
     Spinner

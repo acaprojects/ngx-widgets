@@ -4,7 +4,7 @@
 * @Email:  alex@yuion.net
 * @Filename: btn.component.ts
 * @Last modified by:   Alex Sorafumo
-* @Last modified time: 31/01/2017 10:12 AM
+* @Last modified time: 07/02/2017 11:51 AM
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
@@ -36,6 +36,7 @@ export class Button {
 	@Input() secondary: string = 'C600';
 	@Input() type: string = '';
 	@Input() btnType: string = 'flat';
+	@Input() styles: any = {};
 	@Input() disabled: boolean = false;
 		// Output emitters
 	@Output() onClick = new EventEmitter();
@@ -45,13 +46,7 @@ export class Button {
 
 	click_state: string = 'show';
 	action_btn: boolean = false;
-
-		//Private event observers
-	private _click: any = null;
-	private _mouseover: any = null;
-	private _mouseout: any = null;
-	private _mouseup: any = null;
-	private _mousedown: any = null;
+	last_styles: string = '';
 
 	constructor() {
 	}
@@ -114,6 +109,22 @@ export class Button {
 		if(changes.color || changes.primary || changes.secondary || changes.btnType){
 			this.loadClasses();
 			this.action_btn = this.btnType ? this.btnType.indexOf('action') >= 0 : false;
+		}
+	}
+
+	ngDoCheck() {
+		let s = JSON.stringify(this.styles);
+		if(this.button && this.styles && this.last_styles !== s) {
+			this.last_styles = s;
+			for(let p in this.styles) {
+				let name: any = p.split('-');
+				name.forEach((str, index) => { if(index > 0) str[0] = str[0].toUpperCase(); })
+				name = name.join('');
+				let style = this.button.nativeElement.style;
+				if(name in style) {
+					this.button.nativeElement.style[name] = this.styles[name];
+				}
+			}
 		}
 	}
 

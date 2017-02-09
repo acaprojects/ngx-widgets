@@ -1,0 +1,83 @@
+// @Author: Alex Sorafumo
+// @Date:   07/02/2017 1:47 PM
+// @Email:  alex@yuion.net
+// @Filename: tooltip.styles.scss
+// @Last modified by:   Alex Sorafumo
+// @Last modified time: 07/02/2017 4:06 PM
+
+div.tooltip {
+    position: absolute;
+    z-index: 1000;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    &.top {
+        top: -100%;
+    }
+    &.left {
+        top: 50%;
+        transform: translateY(-50%);
+        left: -100%;
+    }
+    &.right {
+        top: 50%;
+        transform: translateY(-50%);
+        left: 100%;
+    }
+    & .block {
+        position: relative;
+        height: 0.5em;
+        width: 1.5em;
+        & .triangle{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1.5em;
+            height: 0.5em;
+            overflow: hidden;
+            & .square {
+                position: relative;
+                top: 0.25em;
+                left: 0.25em;
+                width: 1.0em;
+                height: 1.0em;
+                border-radius: 0.2em;
+                box-shadow: 0.05em 0.05em 0.35em 0.05em rgba(0,0,0,0.2);
+                transform: rotate(45deg);
+            }
+        }
+
+        & .contents {
+            position: absolute;
+            top: 100%;
+            padding: 0.5em;
+            min-height: 1.5em;
+            min-width: 1.5em;
+            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
+            border-radius: 0.1em;
+        }
+    }
+
+    &.default {
+        & .block {
+            & .square {
+                background-color: #FFFFFF;
+            }
+            & .contents {
+                background-color: #FFFFFF;
+                color: rgba(0,0,0,0.87);
+            }
+        }
+        &.dark {
+            & .block {
+                & .square {
+                    background-color: #000000;
+                }
+                & .contents {
+                    background-color: #000000;
+                    color: rgba(0,0,0,0.87);
+                }
+            }
+        }
+    }
+}
