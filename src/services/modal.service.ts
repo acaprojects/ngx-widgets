@@ -120,19 +120,26 @@ export class ModalService {
 		else this.modal_data[id] = {};
 			//Update parameters
 		this.modal_data[id] = {
+				// Type of modal. Gets set to an angulur component by service
 			type: Modals[input.type] ? Modals[input.type] : (this.modal_data[id].type ? this.modal_data[id].type : Modals.default),
+				// Title of the modal
 			title: input.title ? input.title : this.modal_data[id].title,
+				// Data to inject in to the modal content
 			data: input.data ? input.data : this.modal_data[id].data,
-			html: input.html ? input.html : this.modal_data[id].html,
+				// Component to inject into the modal
 			component: input.component ? input.component : ( input.cmp ? input.cmp : this.modal_data[id].component),
+				// Text
 			text: input.text ? input.text : this.modal_data[id].text,
+				// Default modal size. Can be small or large
 			size: input.size ? input.size : this.modal_data[id].size,
+				// Styles to be applied to the root element of modal
 			styles: input.styles ? input.styles : this.modal_data[id].styles,
-			options: input.options ? input.options : this.modal_data[id].options,
+				// Width of modal
 			width: input.width ? input.width : this.modal_data[id].width,
+				// Display modal at top of screen. If not true modal will show up in the middle of the screen
 			top: input.top ? input.top : this.modal_data[id].top,
+				// Enable closing of modal by clicking top right X or outside
 			close: input.close ? input.close : this.modal_data[id].close,
-			colors : input.colors ? input.colors : (this.modal_data[id].colors ? this.modal_data[id].colors : this.colors)
 		};
 		if(typeof this.modal_data[id].type === 'string') {
 			this.modal_data[id].type = Modals[this.modal_data[id].type] || Modals.default;

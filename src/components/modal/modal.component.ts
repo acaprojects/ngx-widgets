@@ -48,8 +48,6 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     @Input() cssClass: string = 'default';
     @Input() canClose: boolean = true;
     @Input() styles: string[] = [];
-    @Input() options: any[] = [];
-    @Input() colors: { fg: string, bg: string } = {fg:'#FFFFFF', bg:'#123456'}; // Colors
 
     @Output() dataChange = new EventEmitter();
     @Output('open') openEvent = new EventEmitter();
@@ -116,7 +114,10 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         }
         if(this.obs) this.obs.complete();
     }
-
+    /**
+     * Resolves the factory for building the content component
+     * @return {void}
+     */
     public buildContents() {
         if(this.component !== undefined && this.component !== null){
     		let factory = this._cfr.resolveComponentFactory(this.component);
@@ -124,7 +125,10 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
             else console.error('[WIDGETS][Modal(C)] Unable to find factory for: ', this.component);
     	}
     }
-
+    /**
+     * Creates the component and attaches it to the modal
+     * @param {any} factory Anular 2 Component factory
+     */
     public render(factory: any) {
     	if(this.contentRef) {
     		this.contentRef.destroy();
@@ -186,7 +190,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     public open() {
         this.state = true;
         setTimeout(() => { this.state_inner = true; }, 100);
-        setTimeout(() => { this.openEvent.emit(null); }, 500);
+        setTimeout(() => { this.openEvent.emit(); }, 500);
     }
 
     public close() {
@@ -194,7 +198,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         setTimeout(() => {
             if(this.clean_fn) this.clean_fn();
             if(this.service) this.service.cleanModal(this.id);
-            if(this.closeEvent) this.closeEvent.emit(null);
+            if(this.closeEvent) this.closeEvent.emit();
         }, 500);
     }
 

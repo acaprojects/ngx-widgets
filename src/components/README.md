@@ -21,11 +21,11 @@
  - [Tab Groups](./components/page-controls/README.md)
 - [Modals](./components/modals/README.md)
 - Other
- - [Image Cropper](### Image Cropper)
- - [Interactive Maps](### Interactive Maps)
- - [Spinners](### Spinners)
- - [Tooltips](### Tooltips)
- - [Virtual Keyboard](### Virtual Keyboard)
+ - Image Cropper
+ - Interactive Map
+ - Spinners
+ - Tooltips
+ - Virtual Keyboard
 
 ## Usage
 
@@ -118,7 +118,29 @@ Name | Binding | Direction | Valid Types | Description
 
 ### Tooltip
 
+UI element that displays SVG maps that can be interactive with the user
+
+![Image of Tooltip](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
+
+```html
+<div tooltip [show]="is_open" [cmp]="TooltipContentComponent" [data]="{ title: Bob }" [position]="'top" [offsetType]="'right'" [offset]="-0.5em"></div>
+```
+
+Interactive maps have 11 attributes.
+
+Name | Binding | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`show`| One-way | Write-only | Boolean | Shows the tooltip
+`cmp`| One-way | Write-only | Integer | Angular 2 Component to inject into the tooltip
+`data`| Two-way | Read & Write | Number | Data to pass to injected component
+`html`| Two-way | Read & Write | Number | HTML to inject into the tooltip
+`position`| One-way | Write-only | Boolean | Position of the tooltip relative to the parent element. Values: top, left, bottom, right
+`offsetType`| One-way | Write-only | String[] | Position the offset is applied. Values: top, left, bottom, right
+`offset`| One-way | Write-only | Integer | Offset applied to the tooltip box relative to the arrow
+
 ### Virtual Keyboard
+
+This component is still being worked on.
 
 ==========================================
 
@@ -128,59 +150,7 @@ All stylable elements have an attribute for adding a css class prefix to the ele
 
 Name | Bindings | Direction | Valid Types | Description
 -----|----------|-----------|-------------|------------
-`cssClass`| One-way | Write-only | String | Added the set value to the classes of the root element.
-`color1` | One-way | Write-only | String | Sets the background colour of the element.
-`color2` | One-way | Write-only | String | Sets the foreground colour of the element.
-`colors` | One-way | Write-only | Object | Sets the background and foreground colours of the element. e.g. { fg: '#123456', bg: '#FFF' }
-
-### Button
-
-Button Toggles and Button Groups share the same CSS.
-
-The styles of buttons can be changes using the css class `aca-btn-c1`
-When a button is active the css class `active` is also applied the active element
-
-e.g.
-```css
-  .aca-btn-c1 {
-      /*background-color: #123456;*/
-      border: 3px solid #123456;
-  }
-
-  .aca-btn-c1:hover, .btn-test .aca-btn-c1.active:hover {
-      background-color: #345678;
-      color: #FFFFFF;
-      border: 3px solid #123456;
-  }
-
-  .aca-btn-c1.active{
-      background-color: #123456;
-      color: #FFFFFF;
-      border: 3px solid #123456;
-  }
-
-```
-
-### Slider
-The styles of sliders can be changes using the css classes `aca-slider-c1, aca-slider-c2 & aca-slider-c3`
-
-* `aca-slider-c1` is applied on the slider bar base.
-* `aca-slider-c2` is applied on the progress strip of the bar.
-* `aca-slider-c3` is applied on the knob of the slider.
-
-e.g.
-```css
-  .aca-slider-c1 {
-      background-color:  #123456;
-  }
-  .aca-slider-c2 {
-      background-color:  #1239A4;
-  }
-  .aca-slider-c3 {
-      background-color: #454545;
-  }
-
-```
+`cssClass`| One-way | Write-only | String | Adds value to classes on the root element of the component
 
 ## License
 

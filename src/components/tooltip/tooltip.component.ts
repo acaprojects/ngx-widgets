@@ -26,6 +26,7 @@ export class TooltipComponent {
     @Input() show: boolean = true;
     @Input() cssClass: string = 'default';
     @Input() cmp: any = null;
+    @Input() html: string = '';
     @Input() data: any = {};
 
     @Output() showChange = new EventEmitter();

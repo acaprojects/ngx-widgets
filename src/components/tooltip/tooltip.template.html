@@ -10,7 +10,7 @@
 <div *ngIf="show" [class]="'tooltip ' + position + ' ' + cssClass + ' ' + theme" [style.font-size]="size" (window:tap)="checkTap($event)">
     <div [class]="'block ' + position" >
         <div #area class="contents">
-            <div #content></div>
+            <div #content [innerHTML]="html | safe"></div>
         </div>
         <div class="triangle">
             <div class="square"></div>

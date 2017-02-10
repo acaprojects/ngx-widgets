@@ -18,7 +18,7 @@ import { DropService } from '../services';
     // it should be added to the initial bootstrap
 })
 export class FileStream implements OnInit {
-	@Input('file-stream') fileStream: string = ''; // name of the stream the files should be sent to
+	@Input('file-stream') stream: string = ''; // name of the stream the files should be sent to
     private _element: any;
 
     constructor(elementRef: ElementRef, private _dropService: DropService) {

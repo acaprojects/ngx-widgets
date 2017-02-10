@@ -1,4 +1,16 @@
 
+# Angular 2 - Widgets
+
+## [Component Documentation](../README.md)
+
+- Page Controls
+ - Stepper
+ - Tab Group
+
+### Stepper
+
+![Image of Stepper](https://cloud.githubusercontent.com/assets/20103948/17200834/e620bebe-54cb-11e6-912c-a1d6ed4717dc.png)
+
 ### Tab Group
 
 ![Image of Tab Group](https://cloud.githubusercontent.com/assets/20103948/17200834/e620bebe-54cb-11e6-912c-a1d6ed4717dc.png)

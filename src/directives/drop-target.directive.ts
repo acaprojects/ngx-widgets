@@ -19,9 +19,9 @@ import { DropService } from '../services';
     //providers: [DropService],
 })
 export class DropTarget implements OnInit, OnDestroy {
-	@Input('drop-target')   dropTarget: 	string; 					// defaults to self, otherwise you can define a valid querySelector
-	@Input('drop-indicate') dropIndicate: 	string = 'drop-indicate'; 	// defines the hover class to apply, defaults to: drop-indicate
-	@Input('drop-stream')   dropStream: 	string; 					// name of the stream the files should be sent to
+	@Input('drop-target')   target: 	string; 	// defaults to self, otherwise you can define a valid querySelector
+	@Input() indicate: 	string = 'drop-indicate'; 	// defines the hover class to apply, defaults to: drop-indicate
+	@Input() stream: 	string; 					// name of the stream the files should be sent to
 
     private _element: any;
     private _unreg: () => void;
