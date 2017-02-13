@@ -14,7 +14,7 @@
 
 ### Calendar
 
-A visual Calendar which allows for selecting a date.
+Widget for selecting a date.
 
 e.g.
 ```html
@@ -49,7 +49,7 @@ Name | Binding | Direction | Valid Types | Description
 
 ### Dropdown
 
-:TODO Write description
+Widget for selection of a single item from a long list of items.
 
 ![Dropdown](https://cloud.githubusercontent.com/assets/20103948/22871518/a504e374-f205-11e6-8bd2-05455984b6b3.png)
 
@@ -65,7 +65,7 @@ Name | Binding | Direction | Valid Types | Description
 
 ### Slider
 
-A simple slider that can be vertical or horizontal.
+Widget for setting numberical values in a more physical form.
 
 ![Image of Horizontal Slider](https://cloud.githubusercontent.com/assets/20103948/17200832/e61af240-54cb-11e6-8401-9f64821a1b76.png)
 
@@ -88,7 +88,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 ### Time Picker
 
-A input form that allow for the user to select a time.
+Widget for selecting a time.
 
 e.g.
 ```html
@@ -107,7 +107,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 ### Toggle Buttons
 
-An variety of customisable toggle buttons.
+Widgets for representing and changing binary values.
 
 ```html
 <fancy-toggle type="text" [(state)]="active"></fancy-toggle>
@@ -142,7 +142,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 ![Image Toggle](https://cloud.githubusercontent.com/assets/20103948/22870871/bc88c5ac-f1ff-11e6-80fa-ebe3e00c4490.png)
 
-Creates a toggle switch that displays an image based off of the state of the toggle
+Widget that shows the binary state using images
 
 e.g.
 ```html
@@ -160,7 +160,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 ![Image of Icon Toggle](https://cloud.githubusercontent.com/assets/20103948/17200835/e62640e6-54cb-11e6-9417-16eaafe6a512.png)
 
-Creates a toggle switch that displays an icon based off of the state of the toggle.
+Widget that shows the binary state using icons
 
 e.g.
 ```html
@@ -179,7 +179,7 @@ Name | Bindings | Direction | Valid Types | Description
 
 ![Image of iOS Toggle](https://cloud.githubusercontent.com/assets/20103948/17200837/e66d32ee-54cb-11e6-94ce-c38d6cfe0eb2.png)
 
-Creates a simple toggle switch that looks like the toggles used in iOS.
+Widget that shows the binary state in the same way as toggles on iOS devices
 
 e.g.
 ```html
@@ -191,7 +191,7 @@ A iOS Toggle has no other attributes that can be set.
 
 ### Typeaheads
 
-:TODO Write description
+Widget for displaying a list of selectable items that can be filtered.
 
 ![Typeahead](https://cloud.githubusercontent.com/assets/20103948/22871508/90a38188-f205-11e6-8095-0786de6d17f7.png)
 

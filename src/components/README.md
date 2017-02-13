@@ -39,7 +39,7 @@ All two-way bindings can be read on one-way binding `<attribute>Change`. e.g. `s
 
 ### Image Cropper
 
-UI element that allows for a user to select an image and crop it.
+Widget for cropping image grabbed from a file stream
 
 ![Image Cropper](https://cloud.githubusercontent.com/assets/20103948/22871485/579c1d8c-f205-11e6-8453-bfaf655520b1.png)
 
@@ -61,7 +61,7 @@ Name | Binding | Direction | Valid Types | Description
 
 ### Interactive Map
 
-UI element that displays SVG maps that can be interactive with the user
+Widget for display SVGs as interactive maps.
 
 ![Image of Interactive Map](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
 
@@ -101,7 +101,7 @@ Name | Binding | Direction | Valid Types | Description
 
 ### Spinner
 
-UI element that displays the selected spinner/loader based off of spinkit
+Widget displays the selected spinner/loader. Based off of spinkit.
 
 [Preview](http://tobiasahlin.com/spinkit/)
 
@@ -118,7 +118,7 @@ Name | Binding | Direction | Valid Types | Description
 
 ### Tooltip
 
-UI element that displays SVG maps that can be interactive with the user
+Widget displays a tooltip with injectable content.
 
 ![Image of Tooltip](https://cloud.githubusercontent.com/assets/20103948/22870109/b08848ba-f1f8-11e6-9690-e2eff842c52f.png)
 
