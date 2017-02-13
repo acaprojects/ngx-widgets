@@ -15,7 +15,7 @@ A simple button based on Google's Material Design Guidelines
 ![Buttons](https://cloud.githubusercontent.com/assets/20103948/22870737/266593c6-f1fe-11e6-8ec1-9015a817cae1.png)
 
 e.g.
-```
+```html
 <btn type="submit" btnType="raised" color="pink" primary="C700" secondary="A700" (onClick)="doSomething()"></btn>
 ```
 

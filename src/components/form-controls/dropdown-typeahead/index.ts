@@ -7,4 +7,4 @@
 * @Last modified time: 15/12/2016 11:29 AM
 */
 
-export * from './dropdown.component';
+export * from './dropdown-typeahead.component';

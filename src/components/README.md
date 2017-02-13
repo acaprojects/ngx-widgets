@@ -41,7 +41,7 @@ All two-way bindings can be read on one-way binding `<attribute>Change`. e.g. `s
 
 UI element that allows for a user to select an image and crop it.
 
-![Image cropper](https://cloud.githubusercontent.com/assets/20103948/22870161/1eefd37c-f1f9-11e6-9e16-675eae5cc692.png)
+![Image Cropper](https://cloud.githubusercontent.com/assets/20103948/22871485/579c1d8c-f205-11e6-8453-bfaf655520b1.png)
 
 ```html
 <img-crop [id]="avatar-stream" [circle]="true" [select]="true" [width]="256" (completed)="uploadAvatar($event)"></img-crop>

@@ -102,7 +102,7 @@ export class Dropdown {
   	open() {
         let now = (new Date()).getTime();
         if(now - 1000 > this.last_change){
-            this.render(OldDropdownList);
+            this.render(DropdownList);
         }
   	}
 

@@ -51,7 +51,7 @@ Name | Binding | Direction | Valid Types | Description
 
 :TODO Write description
 
-![Dropdown](https://cloud.githubusercontent.com/assets/20103948/22870161/1eefd37c-f1f9-11e6-9e16-675eae5cc692.png)
+![Dropdown](https://cloud.githubusercontent.com/assets/20103948/22871518/a504e374-f205-11e6-8bd2-05455984b6b3.png)
 
 ```html
 <dropdown></dropdown>
@@ -193,7 +193,7 @@ A iOS Toggle has no other attributes that can be set.
 
 :TODO Write description
 
-![Typeahead](https://cloud.githubusercontent.com/assets/20103948/22870563/58985164-f1fc-11e6-937a-b08200904799.png)
+![Typeahead](https://cloud.githubusercontent.com/assets/20103948/22871508/90a38188-f205-11e6-8095-0786de6d17f7.png)
 
 ```html
 <typeahead></typeahead>
