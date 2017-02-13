@@ -4,22 +4,22 @@
 ## [Source Documentation](../README.md)
 
 ## Component Listing
-- [Buttons](./components/buttons/README.md)
- - [Buttons](./components/buttons/README.md)
- - [Button Groups](./components/buttons/README.md)
- - [Button Toggles](./components/buttons/README.md)
-- [Form Controls](./components/form-controls/README.md)
- - [Calendars](./components/form-controls/README.md)
- - [Data Inputs](./components/form-controls/README.md)
- - [Dropdowns](./components/form-controls/README.md)
- - [Sliders](./components/form-controls/README.md)
- - [Time Pickers](./components/form-controls/README.md)
- - [Toggles](./components/form-controls/README.md)
- - [Typeaheads](./components/form-controls/README.md)
-- [Page Controls](./components/page-controls/README.md)
- - [Steppers](./components/page-controls/README.md)
- - [Tab Groups](./components/page-controls/README.md)
-- [Modals](./components/modals/README.md)
+- [Buttons](./buttons/README.md)
+ - [Buttons](./buttons/README.md)
+ - [Button Groups](./buttons/README.md)
+ - [Button Toggles](./buttons/README.md)
+- [Form Controls](./form-controls/README.md)
+ - [Calendars](./form-controls/README.md)
+ - [Data Inputs](./form-controls/README.md)
+ - [Dropdowns](./form-controls/README.md)
+ - [Sliders](./form-controls/README.md)
+ - [Time Pickers](./form-controls/README.md)
+ - [Toggles](./form-controls/README.md)
+ - [Typeaheads](./form-controls/README.md)
+- [Page Controls](./page-controls/README.md)
+ - [Steppers](./page-controls/README.md)
+ - [Tab Groups](./page-controls/README.md)
+- [Modals](./modals/README.md)
 - Other
  - Image Cropper
  - Interactive Map
@@ -41,7 +41,7 @@ All two-way bindings can be read on one-way binding `<attribute>Change`. e.g. `s
 
 UI element that allows for a user to select an image and crop it.
 
-![Image of Image Cropper](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
+![Image cropper](https://cloud.githubusercontent.com/assets/20103948/22870161/1eefd37c-f1f9-11e6-9e16-675eae5cc692.png)
 
 ```html
 <img-crop [id]="avatar-stream" [circle]="true" [select]="true" [width]="256" (completed)="uploadAvatar($event)"></img-crop>
@@ -101,9 +101,9 @@ Name | Binding | Direction | Valid Types | Description
 
 ### Spinner
 
-UI element that displays the selected spinner/loader
+UI element that displays the selected spinner/loader based off of spinkit
 
-![Image of Spinner](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
+[Preview](http://tobiasahlin.com/spinkit/)
 
 ```html
 <spinner [type]="'bounce'" [color]="rgba(255,255,255,0.67)"></spinner>
@@ -114,13 +114,14 @@ Spinners have 2 attributes.
 Name | Binding | Direction | Valid Types | Description
 -----|----------|-----------|-------------|------------
 `type`| One-way | Write-only | String | Type of spinner to display. Options are `plane`, `bounce`, `ring-bounce`, `ring-rotate`, `ring-bounce-in`, `double-bounce`, `bars`, `cube-move`, `cube-grid`, 'dot-bounce', `dot-cicle`, `dot-circle-scale`
-`color`| One-way | Write-only | Boolean | Colour of the spinner. Default: #000000
+`color`| One-way | Write-only | Boolean | Colour of the spinner. Default: #000000/Black
 
 ### Tooltip
 
 UI element that displays SVG maps that can be interactive with the user
 
-![Image of Tooltip](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
+![Image of Tooltip](https://cloud.githubusercontent.com/assets/20103948/22870109/b08848ba-f1f8-11e6-9690-e2eff842c52f.png)
+
 
 ```html
 <div tooltip [show]="is_open" [cmp]="TooltipContentComponent" [data]="{ title: Bob }" [position]="'top" [offsetType]="'right'" [offset]="-0.5em"></div>

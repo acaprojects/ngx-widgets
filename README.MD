@@ -1,6 +1,8 @@
 
 # Angular 2 - Widgets
 
+General collection of widgets for use with Angular 2
+
 ## Source Documentation
 
 ## [Components](./src/components/README.md)
@@ -21,7 +23,7 @@
  - [Tab Groups](./src/components/page-controls/README.md)
 - [Modals](./src/components/modals/README.md)
 - [Other](./src/components/README.md)
- - [Image Cropper]((./src/components/README.md)
+ - [Image Cropper](./src/components/README.md)
  - [Interactive Maps](./src/components/README.md)
  - [Spinners](./src/components/README.md)
  - [Tooltips](./src/components/README.md)

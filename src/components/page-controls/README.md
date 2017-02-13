@@ -9,17 +9,32 @@
 
 ### Stepper
 
+:TODO Write description
+
 ![Image of Stepper](https://cloud.githubusercontent.com/assets/20103948/17200834/e620bebe-54cb-11e6-912c-a1d6ed4717dc.png)
+
+```html
+<stepper>
+	<step title="Steppa 1"></step>
+	<step title="Another Step"></step>
+</stepper>
+```
+
+Steppers have 7 attributes.
+
+Name | Binding | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`id`| One-way | Write-only | String | Stream ID to look for an file on. Default: 'zero'
+
+Stepper steps have 2 attributes.
+
+Name | Binding | Direction | Valid Types | Description
+-----|----------|-----------|-------------|------------
+`title`| One-way | Write-only | String | Name of the step to display
 
 ### Tab Group
 
-![Image of Tab Group](https://cloud.githubusercontent.com/assets/20103948/17200834/e620bebe-54cb-11e6-912c-a1d6ed4717dc.png)
-
-Import `import { TABS_DIRECTIVES } from '@aca-1/a2-widgets';`
-
-To use a tab group in your component for import the TABS_DIRECTIVES into your component.
-
-Then you can use insert a tab-group tag into you html when you want the element to appear.
+![Image of Tab Group](https://cloud.githubusercontent.com/assets/20103948/17200834/e620bebe-54c
 
 e.g.
 ```html
@@ -29,7 +44,7 @@ e.g.
 </tab-group>
 ```
 
-A TabGroup has 3 attributes.
+Tab Groups have 3 attributes.
 
 Name | Bindings | Direction | Valid Types | Description
 -----|----------|-----------|-------------|------------

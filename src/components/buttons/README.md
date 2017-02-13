@@ -12,14 +12,14 @@
 
 A simple button based on Google's Material Design Guidelines
 
+![Buttons](https://cloud.githubusercontent.com/assets/20103948/22870737/266593c6-f1fe-11e6-8ec1-9015a817cae1.png)
+
 e.g.
 ```
 <btn type="submit" btnType="raised" color="pink" primary="C700" secondary="A700" (onClick)="doSomething()"></btn>
 ```
 
 Buttons have 8 attributes.
-
-![Image of Buttons](https://cloud.githubusercontent.com/assets/20103948/17200830/e6144846-54cb-11e6-9c1a-214a15f5f7ad.png)
 
 Name | Bindings | Direction | Valid Types | Description
 -----|----------|-----------|-------------|------------
