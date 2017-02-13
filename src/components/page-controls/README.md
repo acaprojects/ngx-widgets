@@ -11,7 +11,7 @@
 
 :TODO Write description
 
-![Image of Stepper](https://cloud.githubusercontent.com/assets/20103948/17200834/e620bebe-54cb-11e6-912c-a1d6ed4717dc.png)
+![Stepper](https://cloud.githubusercontent.com/assets/20103948/22871747/eb2c5f2e-f207-11e6-849d-ec95e8306c5c.png)
 
 ```html
 <stepper>
@@ -34,7 +34,7 @@ Name | Binding | Direction | Valid Types | Description
 
 ### Tab Group
 
-![Image of Tab Group](https://cloud.githubusercontent.com/assets/20103948/17200834/e620bebe-54c
+![Tab Group](https://cloud.githubusercontent.com/assets/20103948/22871740/cfaf851e-f207-11e6-944d-fce7bb75d329.png)
 
 e.g.
 ```html
