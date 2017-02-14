@@ -10,7 +10,7 @@
 
 ### Button
 
-A simple button based on Google's Material Design Guidelines
+Widget for simple buttons based on Google's Material Design Guidelines
 
 ![Buttons](https://cloud.githubusercontent.com/assets/20103948/22870737/266593c6-f1fe-11e6-8ec1-9015a817cae1.png)
 

@@ -29,13 +29,10 @@ export class TimePicker {
     @Input() display: string;
     @Input() time: { h: number, m: number};
     @Input() minuteStep: number = 5;
-    @Input() color1: string = '#666';
-    @Input() color2: string = '#FFF';
-    @Input() text: string = '';
-    @Input() open: string = 'open';
     @Input() select: boolean = false;
+    @Input() cssClass: string = 'default';
     @Output() timeChange = new EventEmitter();
-    @Output() selected = new EventEmitter();
+    @Output() enter = new EventEmitter();
 
     @ViewChild('hourPick') hour_input: ElementRef;
     @ViewChild('minutePick') minute_input: ElementRef;
@@ -273,7 +270,7 @@ export class TimePicker {
     	this.checkMinute();
         	// Update time value
     	this.timeChange.emit(this.time);
-        this.selected.emit(this.time);
+        this.enter.emit(this.time);
     }
     //*/
 }

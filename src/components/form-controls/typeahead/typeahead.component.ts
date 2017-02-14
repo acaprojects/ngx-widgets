@@ -218,12 +218,12 @@ export class Typeahead {
     @Input() filterFields: string[] = [];
     @Input() list: any[] = [];
     @Input() results: number = 5;
-    @Input() active: boolean = false;
+    @Input() show: boolean = false;
     @Input() auto: boolean = false;
     @Input() forceTop: boolean = false;
     @Input() cssClass: string = 'default';
     @Input() msg: string = '';
-    @Output() onSelect = new EventEmitter();
+    @Output() selected = new EventEmitter();
 
     @ViewChild('main') main: ElementRef;
 
@@ -245,12 +245,12 @@ export class Typeahead {
         if(changes.filter) {
             if(this.list_view) this.list_view.updateFilter(this.filter);
         }
-        if(changes.active && !this.clicked) {
+        if(changes.show && !this.clicked) {
             setTimeout(() => {
-                if(!this.active) this.close();
+                if(!this.show) this.close();
                 else this.open();
             }, 200);
-        } else if(changes.active) {
+        } else if(changes.show) {
             setTimeout(() => {
                 this.ngOnChanges(changes);
             }, 200);
@@ -294,7 +294,7 @@ export class Typeahead {
     }
 
     setItem(item: any){
-        this.onSelect.emit(item);
+        this.selected.emit(item);
         this.close();
     }
 
