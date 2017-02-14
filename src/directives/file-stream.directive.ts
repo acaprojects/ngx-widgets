@@ -29,7 +29,7 @@ export class FileStream implements OnInit {
     // push the files to the selected stream
     ngOnInit() {
         this._element.addEventListener('change', () => {
-            this._dropService.pushFiles(this.fileStream, this._element.files);
+            this._dropService.pushFiles(this.stream, this._element.files);
         }, false);
     }
 }

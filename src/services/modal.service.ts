@@ -134,6 +134,10 @@ export class ModalService {
 			size: input.size ? input.size : this.modal_data[id].size,
 				// Styles to be applied to the root element of modal
 			styles: input.styles ? input.styles : this.modal_data[id].styles,
+				// Buttons for simple modals
+			options: input.options ? input.options : this.modal_data[id].options,
+				// Basic colours for modal
+			colors: input.colors ? input.colors : this.modal_data[id].colors,
 				// Width of modal
 			width: input.width ? input.width : this.modal_data[id].width,
 				// Display modal at top of screen. If not true modal will show up in the middle of the screen

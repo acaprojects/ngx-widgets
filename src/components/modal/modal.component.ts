@@ -45,6 +45,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     @Input() title: string = 'Modal Title';
     @Input() size: string;
     @Input() data: any;
+    @Input() options: any;
     @Input() cssClass: string = 'default';
     @Input() canClose: boolean = true;
     @Input() styles: string[] = [];
@@ -164,10 +165,14 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
 
     public setParams(data: any) {
         if(data) {
-            let keys = Object.keys(data);
-            for(let i = 0; i < keys.length; i++) {
-                if(PRIVATE_PARAMS.indexOf(keys[i]) < 0 && keys[i] in this && data[keys[i]] !== undefined && data[keys[i]] !== null) {
-                    this[keys[i]] = data[keys[i]];
+            for(let key in data) {
+                console.log(key);
+                if(PRIVATE_PARAMS.indexOf(key) < 0 && data[key] !== undefined && data[key] !== null) {
+                    console.log('Added.');
+                    this[key] = data[key];
+                } else {
+                    console.log('Failed', data[key]);
+
                 }
             }
             if(!this.data) this.data = {};

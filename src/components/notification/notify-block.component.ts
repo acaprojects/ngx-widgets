@@ -14,7 +14,7 @@ import { trigger, transition, animate, style, state, keyframes } 	 from '@angula
     selector: 'notify-block',
     template: `
         <div [@position]="position" [id]="id" [class]="'notification ' + cssClass" >
-            <div class="contents" [innerHTML]="entity?.html"></div>
+            <div class="contents" [innerHTML]="entity?.html | safe"></div>
             <div class="close-btn" *ngIf="entity?.canClose" (click)="entity.close()">&#x2613;</div>
         </div>
     `,
@@ -50,14 +50,23 @@ export class NotifyBlock {
     @Input() position: string = '0';
     @Input() remove: boolean = false;
     remove_check: any = null;
+    parent: any = null;
 
     constructor() {
         this.id = Math.floor(Math.random() * 899999 + 100000).toString();
         this.remove_check = setInterval(() => {
             if(this.remove) {
                 this.position = 'close';
+                setTimeout(() => {
+                    if(this.parent) this.parent.close(this.id);
+                }, 420);
             }
         }, 200);
+    }
+
+    setup(parent:any) {
+        this.parent = parent;
+        return this.id;
     }
 
     ngOnDestroy() {

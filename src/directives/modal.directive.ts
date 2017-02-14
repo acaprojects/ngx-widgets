@@ -19,6 +19,7 @@ export class ModalDirective {
 	@Input() id: string;
 	@Input() cmp: string = '';
 	@Input() active: boolean = false;
+	@Input() data: any = null;
 		// Outputs
 	@Output() activeChange = new EventEmitter();
 	@Output() event = new EventEmitter();
@@ -37,12 +38,7 @@ export class ModalDirective {
 				// Setup modal
 			this.service.setup(this.id, {
 				title: this.title,
-				cmp: this.cmp,
-				close: this.close,
-				options: this.options,
-				size: this.size,
-				styles: this.styles,
-				colors: this.colors
+				cmp: this.cmp
 			})
 		}
 		if(changes.active) {

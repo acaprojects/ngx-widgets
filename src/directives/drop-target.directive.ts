@@ -34,26 +34,26 @@ export class DropTarget implements OnInit, OnDestroy {
 
     // Register the element you want to recieve drop events
     ngOnInit() {
-        if (this.dropTarget) {
-            this._element = document.querySelector(this.dropTarget);
+        if (this.target) {
+            this._element = document.querySelector(this.target);
         }
 
-        this._unreg = this._dropService.register(this.dropStream, this._element, this._doHighlight.bind(this));
+        this._unreg = this._dropService.register(this.stream, this._element, this._doHighlight.bind(this));
     }
 
     ngOnChanges(changes: any){
     	setTimeout(() => {
-	    	if(changes.dropTarget && this.dropTarget) {
+	    	if(changes.target && this.target) {
 	    			// Change the drop target
 	    		this._unreg();
-	            this._element = document.querySelector(this.dropTarget);
-	       		this._unreg = this._dropService.register(this.dropStream, this._element, this._doHighlight.bind(this));
+	            this._element = document.querySelector(this.target);
+	       		this._unreg = this._dropService.register(this.stream, this._element, this._doHighlight.bind(this));
 	        	this._doHighlight(false);
 	    	}
-	    	if(changes.dropStream) {
+	    	if(changes.stream) {
 	    			// Change the drop stream
 	    		this._unreg();
-	       		this._unreg = this._dropService.register(this.dropStream, this._element, this._doHighlight.bind(this));
+	       		this._unreg = this._dropService.register(this.stream, this._element, this._doHighlight.bind(this));
 	    	}
     	}, 20);
     }
@@ -70,9 +70,9 @@ export class DropTarget implements OnInit, OnDestroy {
     // Applies the hover class to the element
     private _doHighlight(state: boolean) {
         if (state) {
-            this._element.classList.add(this.dropIndicate);
+            this._element.classList.add(this.indicate);
         } else {
-            this._element.classList.remove(this.dropIndicate);
+            this._element.classList.remove(this.indicate);
         }
     }
 }

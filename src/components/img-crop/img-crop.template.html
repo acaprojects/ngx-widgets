@@ -9,7 +9,7 @@
 
 <div class="aca img-crop">
 	<div class="img-space">
-		<div class="drop-zone" *ngIf="!image_data&&select" drop-target [drop-stream]="'img-crop' + (this.id !== '' ? '-' + this.id: '')" drop-indicate="hover">
+		<div class="drop-zone" *ngIf="!image_data&&select" drop-target [stream]="'img-crop' + (this.id !== '' ? '-' + this.id: '')" indicate="hover">
 			 <div class="loading drop">
 			 	Drag &amp; drop<br/><br/>
 			 	<i class="material-icons">system_update_alt</i>

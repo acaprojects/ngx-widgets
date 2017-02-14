@@ -35,6 +35,7 @@ export class Notification implements OnInit {
     @ViewChild('content', { read: ViewContainerRef }) public _content: ViewContainerRef;
 
     id: string;
+    inst_ids: any = {};
     content_instance: any[] = [];
     content_timers: any[] = [];
     contentRef: ComponentRef<any>[] = [];
@@ -53,29 +54,42 @@ export class Notification implements OnInit {
     }
 
     public render(html: string, cssClass: string) {
-        let factory = this._cfr.resolveComponentFactory(NotifyBlock);
-    	let cmpRef = this._content.createComponent(factory);
-    	this.contentRef.push(cmpRef);
-        // let's inject @Inputs to component instance
-        this.content_instance.push(cmpRef.instance);
-        this.contentRef.push(cmpRef);
-        cmpRef.instance.entity = this.data ? this.data : {};
-        cmpRef.instance.entity.canClose = this.canClose;
-        cmpRef.instance.entity.html = html;
-        cmpRef.instance.cssClass = cssClass;
-        cmpRef.instance.entity.close = () => {
-            this.close(cmpRef.instance.id);
-        };
-        if(!this.canClose) {
-            this.content_timers.push(setTimeout(() => {
-                cmpRef.instance.position = 'close';
-                setTimeout(() => {
-                    this.close(cmpRef.instance.id);
-                }, 300);
-            }, this.timeout));
+        let found = false;
+            //Check that message exists
+        for(let i = 0; i < this.content_instance.length; i++) {
+            let inst = this.content_instance[i];
+            if(inst.entity.html === html) {
+                found = true;
+                break;
+            }
         }
-        this.updatePositions();
-        return cmpRef;
+        if(!found){
+            let factory = this._cfr.resolveComponentFactory(NotifyBlock);
+            let cmpRef = this._content.createComponent(factory);
+            this.contentRef.push(cmpRef);
+            // let's inject @Inputs to component instance
+            this.inst_ids[this.content_instance.length] = cmpRef.instance.setup(this);
+            this.content_instance.push(cmpRef.instance);
+            this.contentRef.push(cmpRef);
+            cmpRef.instance.entity = this.data ? this.data : {};
+            cmpRef.instance.entity.canClose = this.canClose;
+            cmpRef.instance.entity.html = html;
+            cmpRef.instance.cssClass = cssClass;
+            cmpRef.instance.entity.close = () => {
+                this.close(cmpRef.instance.id);
+            };
+            if(!this.canClose) {
+                this.content_timers.push(setTimeout(() => {
+                    cmpRef.instance.position = 'close';
+                    setTimeout(() => {
+                        this.close(cmpRef.instance.id);
+                    }, 300);
+                }, this.timeout));
+            }
+            this.updatePositions();
+            return cmpRef;
+        }
+        return null;
     }
 
     ngOnChanges(changes: any) {
@@ -117,6 +131,7 @@ export class Notification implements OnInit {
 
     add(msg: string, cssClass: string, options: any) {
     	if(options) this.setOptions(options);
+
     	let ref = this.render(msg, cssClass);
     }
 

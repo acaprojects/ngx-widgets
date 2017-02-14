@@ -227,7 +227,7 @@ export class Typeahead {
 
     @ViewChild('main') main: ElementRef;
 
-    show: boolean = false;
+    shown: boolean = false;
     list_view: any = null;
     list_ref: any = null;
     last_change: number = null;
@@ -268,9 +268,9 @@ export class Typeahead {
         if(this.list_ref) return;
         let now = (new Date()).getTime();
         if(now - this.last_change < 100) return;
-        if(!this.show) {
+        if(!this.shown) {
             this.render(TypeaheadList);
-            this.show = true;
+            this.shown = true;
         } else {
             this.close();
         }
@@ -279,7 +279,7 @@ export class Typeahead {
     close() {
         if(!this.list_ref) return;
         this.closing = true;
-        this.show = false;
+        this.shown = false;
         if(this.list_ref) {
             if(this.list_ref.location.nativeElement.parent)
             this.list_ref.location.nativeElement.parent.removeChild(this.list_ref.location.nativeElement);

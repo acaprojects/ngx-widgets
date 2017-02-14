@@ -10,7 +10,6 @@ div.aca.time-picker {
 	text-align: center;
 	position: relative;
 	max-width: 100%;
-	height: 22.9em;
 	font-size: 2.0em;
 	@media screen and (max-device-width: 720px) {
 		font-size: 2.5em;
@@ -30,24 +29,10 @@ div.aca.time-picker {
 		margin: auto;
 	}
 	& .time-space {
-		position: absolute;
+		display: inline-block;
 		margin: auto;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		& .header, & .finish-btn {
+		& .header {
 			font-size: 0.7em;
-		}
-
-		& .finish-btn {
-			text-align: center;
-			cursor: pointer;
-			user-select: none;
-			& .btn {
-				display: inline-block;
-				padding: 0.2em 1.5em;
-				border-radius: 4px;
-			}
 		}
 
 		& .picker {
@@ -80,18 +65,35 @@ div.aca.time-picker {
 						text-align: center;
 					}
 				}
+				& .btn {
+					display: flex;
+		    		align-items: center;
+		    		height: 100%;
+					& button {
+						font-size: 0.8em;
+						border: none;
+						padding: 0.25em 1.0em;
+						border-radius: 0.1em;
+						outline: none;
+					}
+				}
 			}
 		}
 	}
 	&.default {
-		color: rgba(0,0,0,0.87)
+		color: rgba(0,0,0,0.87);
 		& .arrow {
 			color: rgba(0,0,0,0.87);
 		}
 
-		& .btn {
-			color: #FFF;
-			background-color: rgba(0,0,0,0.54);
+		& .btn {    
+			& button {
+				color: #FFF;
+				background-color: rgba(0,0,0,0.54);
+				&:hover {
+					background-color: rgba(0,0,0,0.87);
+				}
+			}
 		}
 	}
 }
