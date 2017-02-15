@@ -79,11 +79,17 @@ export class MapMarkerComponent {
             else if(MARKER_TYPES.indexOf(this.type) < 0) this.type = 'Pin';
         }
     }
-
+    /**
+     * Initialises the marker
+     * @return {void}
+     */
     init() {
         this.display_pin = this.getPin();
     }
-
+    /**
+     * Generates HTML for the display of the pin
+     * @return {void}
+     */
     getPin() {
         let pin = MapMarkerComponent.pin_html;
         if(this.active) {
@@ -95,7 +101,13 @@ export class MapMarkerComponent {
         pin = this.replaceAll(pin, 'aca-', ('aca-marker-' + this.id + '-'));
         return pin;
     }
-
+    /**
+     * Replace all occurance of a string within another string
+     * @param  {string} str     String to modify
+     * @param  {string} find    String to find
+     * @param  {string} replace String to replace with
+     * @return {string} Modified string
+     */
     private replaceAll(str: string, find: string, replace: string) {
         return str.replace(new RegExp(find, 'g'), replace);
     }

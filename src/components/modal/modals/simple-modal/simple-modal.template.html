@@ -8,7 +8,7 @@
 -->
 
 <div  [@backdrop]="state ? 'show' : 'hide'" [class]="'aca modal ' + cssClass">
-	<div class="tap-space" (tap)="onPointer($event)"></div>
+	<div class="tap-space" (tap)="tapped($event)"></div>
 	<div #modal class="modal-space" [@space]="state_inner ? 'show' : 'hide'"
 			[style.width]="(large ? 2.5 * width : width) + unit">
 		<div class="modal-header title" [style.background-color]="colors.bg" [style.color]="colors.fg" >

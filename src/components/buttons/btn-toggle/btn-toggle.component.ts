@@ -34,7 +34,7 @@ export class ButtonToggle {
 
     }
 
-    clickEvent(event: Event){
+    toggle(){
         this.value = !this.value;
         this.valueChange.emit(this.value);
     }

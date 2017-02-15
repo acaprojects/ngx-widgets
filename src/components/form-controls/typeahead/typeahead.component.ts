@@ -44,7 +44,6 @@ export class TypeaheadList {
     cssClass: string = 'default';
     contents_box: any = null;
     last_change: number = 0;
-    scrolled: boolean = false;
     timer: any = null;
     filter: string = '';
     filterFields: string[] = [];
@@ -157,15 +156,15 @@ export class TypeaheadList {
     }
     /**
      * Sets the relative position of the typeahead
-     * @param  {number} c Retry counter
+     * @param  {number} tries Retry counter
      * @return {void}
      */
-    positionList(c?: number) {
-        if(!c) c = 0;
+    positionList(tries?: number) {
+        if(!tries) tries = 0;
         if(this.list && this.contents) {
             let h = document.documentElement.clientHeight;
             let content_box = this.contents.nativeElement.getBoundingClientRect();
-            if(this.auto && c % 4 === 0){
+            if(this.auto && tries % 4 === 0){
                 if(Math.round(content_box.top) > Math.round(h/2 + 10) || this.force_top) {
                     console.log('Auto Top');
                     this.list_contents.nativeElement.style.top = '';
@@ -179,19 +178,24 @@ export class TypeaheadList {
             this.contents_box = this.contents.nativeElement.getBoundingClientRect();
         } else {
             setTimeout(() => {
-                this.positionList(c+1);
+                this.positionList(tries+1);
             }, 200);
         }
     }
-
+    /**
+     * Notifies the parent component that it has been clicked/tapped
+     * @return {void}
+     */
     clicked() {
         this.parent.clicked = true;
     }
-
+    /**
+     * Notifies the parent component of the selected element
+     * @param {any}    e Input event
+     * @param {number} i Index of the selected item
+     */
     setItem(e: any, i: number){
-        if(this.scrolled) return;
-        if(e) {
-            console.log(e);
+        if(e) { // Prevent clicking through typeahead
             if(e.preventDefault) e.preventDefault();
             if(e.stopPropagation) e.stopPropagation();
         }
@@ -263,7 +267,10 @@ export class Typeahead {
             }, 200);
         }
     }
-
+    /**
+     * Opens the typeahead option list
+     * @return {void}
+     */
     open() {
         if(this.list_ref) return;
         let now = (new Date()).getTime();
@@ -275,7 +282,10 @@ export class Typeahead {
             this.close();
         }
     }
-
+    /**
+     * Close the typeahead option list
+     * @return {void}
+     */
     close() {
         if(!this.list_ref) return;
         this.closing = true;
@@ -292,7 +302,10 @@ export class Typeahead {
             this.update_timer = null;
         }
     }
-
+    /**
+     * Sets the selected item and emits it to the binding
+     * @param {any} item [description]
+     */
     setItem(item: any){
         this.selected.emit(item);
         this.close();
@@ -301,14 +314,14 @@ export class Typeahead {
     ngOnDestroy() {
         this.close();
     }
-
-    private render(type: Type<any>, bindings: ResolvedReflectiveProvider[] = []){
+    /**
+     * Creates the option list and attaches it to the DOM
+     * @return {void}
+     */
+    private render(){
         if(this.view) {
-            let cmpFactory = this._cr.resolveComponentFactory(type);
-            const ctxInjector = this.view.parentInjector;
-            const childInjector = Array.isArray(bindings) && bindings.length > 0 ?
-            ReflectiveInjector.fromResolvedProviders(bindings, ctxInjector) : ctxInjector;
-            let cmpRef = this.view.createComponent(cmpFactory, this.view.length, childInjector);
+            let factory = this._cr.resolveComponentFactory(TypeaheadList);
+            let cmpRef = this.view.createComponent(factory);
             document.body.appendChild(cmpRef.location.nativeElement);
             this.list_view = cmpRef.instance;
             this.list_ref = cmpRef;

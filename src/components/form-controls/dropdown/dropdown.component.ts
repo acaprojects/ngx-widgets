@@ -33,7 +33,11 @@ export class DropdownList {
             }
         }
     }
-
+    /**
+     * Checks if the user clicked/tapped outside the dropdown
+     * @param  {any} e Input Event 
+     * @return {void}
+     */
     checkClick(e:any) {
         if(e) {
             if(e.stopPropagation) e.stopPropagation();
@@ -47,7 +51,12 @@ export class DropdownList {
             }, 50);
         }
     }
-
+    /**
+     * Sets the given item as selected tells the parent component
+     * @param  {number} i Index of the selected item
+     * @param  {any}    e Input event
+     * @return {void}
+     */
     select(i: number, e?:any) {
         if(e) {
             if(e.stopPropagation) e.stopPropagation();
@@ -58,7 +67,11 @@ export class DropdownList {
             this.parent.setOption(i);
         }, 50);
     }
-
+    /**
+     * Updates the position of the list based off the parent element of the parent component
+     * @param {any} main  Parent components parent element
+     * @param {any} event Input event
+     */
     moveList(main: any, event?: any) {
         if(!main || !this.contents) return;
         let main_box = main.nativeElement.getBoundingClientRect();
@@ -98,15 +111,20 @@ export class Dropdown {
 
 	constructor(private view: ViewContainerRef, private _cfr: ComponentFactoryResolver) {
 	}
-
+    /**
+     * Opens the dropdown option list
+     * @return {void}
+     */
   	open() {
         let now = (new Date()).getTime();
         if(now - 1000 > this.last_change){
             this.render(DropdownList);
         }
   	}
-
-
+    /**
+     * Closes the dropdown option list
+     * @return {void}
+     */
   	close() {
         if(this.list_ref) {
             if(this.update_timer) {
@@ -115,14 +133,20 @@ export class Dropdown {
             this.list_ref.destroy();
         }
   	}
-
+    /**
+     * Sets the selected option and emits the change
+     * @return {void}
+     */
   	setOption(i: number){
     	this.last_change = (new Date()).getTime();
     	this.selected = i;
     	this.selectedChange.emit(i);
     	this.close();
   	}
-
+    /**
+     * Gets the data of the selected option
+     * @return {any} Data of the selected option
+     */
   	get option(){
     	return this.options[this.selected];
   	}
@@ -131,12 +155,16 @@ export class Dropdown {
   		this.close();
   	}
 
-    private render(type: Type<any>){
+    /**
+     * Creates the option list and attaches it to the DOM
+     * @return {void}
+     */
+    private render(){
         if(this.view) {
         	if(this.list_ref) {
         		this.list_ref.destroy();
         	}
-        	let factory = this._cfr.resolveComponentFactory(type);
+        	let factory = this._cfr.resolveComponentFactory(DropdownList);
         	let cmpRef = this.view.createComponent(factory);
             document.body.appendChild(cmpRef.location.nativeElement);
             this.list = cmpRef.instance;

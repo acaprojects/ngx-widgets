@@ -7,7 +7,7 @@
 @Last modified time: 15/12/2016 11:28 AM
 -->
 
-<div [class]="'aca btn-toggle ' + cssClass" [class.active]="value" [class.inactive]="!value" (click)="clickEvent($event)">
+<div [class]="'aca btn-toggle ' + cssClass" [class.active]="value" [class.inactive]="!value" (tap)="toggle()">
     <span *ngIf='value'>{{(active ? active : 'On')}}</span>
     <span *ngIf='!value'>{{(inactive ? inactive : 'Off')}}</span>
 </div>

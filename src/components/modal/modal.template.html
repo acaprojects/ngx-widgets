@@ -10,7 +10,7 @@
 <div [id]="id ? id : 'modal'"
 	[@backdrop]="state ? 'show' : 'hide'"
 	[class]="'aca modal' + (cssClass ? ' ' + cssClass : '')">
-	<div class="tap-space" (tap)="onPointer($event)"></div>
+	<div class="tap-space" (tap)="tapped($event)"></div>
 	<div #modal class="modal-space"
 			[@space]="state_inner ? 'show' : 'hide'"
 			[ngStyle]="{'width': display_width + unit, 'top': display_top }">

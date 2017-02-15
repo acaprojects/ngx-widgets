@@ -78,7 +78,10 @@ export class ImageCrop {
 		}
 		this.cropperSettings.rounded = this.circle;
 	}
-
+	/**
+	 * Sets up the size of the cropped image
+	 * @return {void}
+	 */
 	setupSize() {
 		let ratio: { x:any, y:any } = { x: this.ratio.split(':')[0], y: this.ratio.split(':')[1] };
 		this.cropperSettings.width = this.width;
@@ -86,12 +89,15 @@ export class ImageCrop {
 		this.cropperSettings.croppedWidth = this.width;
 		this.cropperSettings.croppedHeight = this.width * ratio.y/ratio.x;
 	}
-
+	/**
+	 * Loads the image and injects it into the image cropper component
+	 * @param  {File} Image file from file input field
+	 * @return {void}
+	 */
 	loadImage(file: File) {
 		if(!file) return;
 		this.loading = true;
 	    this.image = new Image();
-	    //let file:File = $event.target.files[0];
 	    let myReader:FileReader = new FileReader();
 	    myReader.onloadend = (loadEvent:any) => {
 	        this.image.src = loadEvent.target.result;
@@ -103,7 +109,10 @@ export class ImageCrop {
 	    };
 	    myReader.readAsDataURL(file);
 	}
-
+	/**
+	 * Emits the cropped image data.
+	 * @return {void}
+	 */
 	saveImage() {
 		this.saving = true;
 		this.completed.emit(this.data.image);

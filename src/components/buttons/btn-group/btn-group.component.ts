@@ -32,8 +32,8 @@ export class ButtonGroup {
 
     }
 
-    clickEvent(event: any){
-        this.selected = event;
+    toggle(index: number){
+        this.selected = index;
         this.selectedChange.emit(this.selected);
     }
 }

@@ -104,7 +104,7 @@ export class InteractiveMap {
 
     constructor(private a: ACA_Animate, private service: MapService){
         this.status_check = setInterval(() => {
-            this.checkStatus(null, 0);
+            this.checkStatus();
         }, 1000);
     }
 
@@ -122,7 +122,7 @@ export class InteractiveMap {
                 this.updateMapDetails();
             }, 60);
         });
-        this.checkStatus(null, 0);
+        this.checkStatus();
         this.o_zoom = this._zoom;
     }
 
@@ -134,7 +134,10 @@ export class InteractiveMap {
             clearInterval(this.run_update);
         }
     }
-
+    /**
+     * Updates the bounding boxes if the zoom level has changed
+     * @return {void}
+     */
     update() {
         this.updateValues();
         this.checkValues();
@@ -149,17 +152,24 @@ export class InteractiveMap {
         }
         return true;
     }
-
+    /**
+     * Updates the zoom to move towards the set value so that zooming is smoother
+     * @return {void}
+     */
     updateValues() {
         // Update zoom
         this.o_zoom += this.moveTo(this.o_zoom, this._zoom);
         //this.o_zoom = (this._zoom);
         // Update Position
     }
-
+    /**
+     * Checks the zoom and position values and makes sure that they are within the set bounds
+     * @param  {boolean = false} force Forces the checking of values when item is focused on
+     * @return {void}
+     */
     checkValues(force: boolean = false) {
-        // Check zoom is valid
         if(!this.isFocus || force) {
+        	// Check zoom is valid
             if(this._zoom > this.zoomMax || this._zoom > ZOOM_LIMIT) this._zoom = this.zoomMax;
             else if (this._zoom < -50) this._zoom = -50;
             else if(!this._zoom) this._zoom = 0;
@@ -180,7 +190,10 @@ export class InteractiveMap {
             }
         }
     }
-
+    /**
+     * Updates the display of the map within the DOM
+     * @return {void}
+     */
     render() {
         // Update map
         if(this.map_item && this.active) {
@@ -198,12 +211,22 @@ export class InteractiveMap {
             if(this.isFocus) this.finishFocus();
         }
     }
-
+    /**
+     * Generate a value that moves in a direction of A to B
+     * @param {number}    from Starting position
+     * @param {number}    to   Ending position
+     * @param {number =    50}          max Max value of movement from A to B
+     * @return {number} Returns value for moving from A towards B
+     */
     moveTo(from: number, to: number, max: number = 50) {
         let dir = from - to < 0 ? 1 : -1;
         return dir * Math.min(Math.abs(from - to), max);
     }
-
+    /**
+     * Clears the list of disabled elements with the map
+     * @param  {string[]} strs List of element IDs that are disabled
+     * @return {void}
+     */
     clearDisabled(strs:string[]) {
         if(this.map_display) {
             for(let i = 0; i < strs.length; i++) {
@@ -214,7 +237,10 @@ export class InteractiveMap {
             }
         }
     }
-
+    /**
+     * Hides elements inside the map with the given IDs
+     * @return {void}
+     */
     setupDisabled() {
         if(this.active && this.map_display) {
             for(let i = 0; i < this.disable.length; i++) {
@@ -225,17 +251,22 @@ export class InteractiveMap {
             }
         }
     }
-
+    /**
+     * Alters the styling of the elements with the given IDs
+     * @return {void}
+     */
     setupStyles() {
-        // Clear previous color changes
+        // Clear previous style changes
         if(this.prev_map_styles && this.prev_map_styles.length > 0) {
             for(let i = 0; i < this.prev_map_styles.length; i++) {
                 let style = this.prev_map_styles[i];
                 let el = this.map_area.nativeElement.querySelector('#' + Utility.escape(style.id));
                 if(el) {
-                    if(style.color !== undefined && style.color !== null) el.style.color = style.color;
-                    if(style.opacity !== undefined && style.opacity !== null) el.style.opacity = style.opacity;
-                    if(style.fill !== undefined && style.fill !== null) el.style.fill = style.fill;
+                	for(let s in style) {
+                		if(s in el.style) {
+                			el.style[s] = s;
+                		}
+                	}
                 }
             }
         }
@@ -245,17 +276,11 @@ export class InteractiveMap {
             let el = this.map_area.nativeElement.querySelector('#' + Utility.escape(style.id));
             if(el && style.id !== '') {
                 let old_style = JSON.parse(JSON.stringify(style));
-                if(style.color) {
-                    old_style.color = el.style.color;
-                    el.style.color = style.color;
-                }
-                if(style.opacity) {
-                    old_style.opacity = el.style.opacity;
-                    el.style.opacity = style.opacity;
-                }
-                if(style.fill) {
-                    old_style.fill = el.style.fill;
-                    el.style.fill = style.fill;
+                for(let s in style) {
+                	if(s in el.style) {
+                		old_style = el.style[s];
+                		el.style[s] = style[s];
+                	}
                 }
                 if(this.map_style_ids.indexOf(style.id) < 0) {
                     this.prev_map_styles.push(old_style);
@@ -264,11 +289,17 @@ export class InteractiveMap {
             }
         }
     }
-
+    /**
+     * Removes all the pins from the map
+     * @return {void}
+     */
     clearPins() {
         this.pins = [];
     }
-
+    /**
+     * Checks if the interactive map is visisble on the DOM
+     * @return {void}
+     */
     isVisible() {
         if(this.self) {
             //Check if the map area is visiable
@@ -285,14 +316,21 @@ export class InteractiveMap {
     ngAfterViewInit() {
 
     }
-
+    /**
+     * Performs the initial setup of pins and focusing when a map is loaded
+     * @return {void}
+     */
     setupEvents() {
         this.initPins();
         if(this.focus) this.updateFocus();
     }
-
-    checkStatus(e: any, i: number) {
-        if(i > 2) return;
+    /**
+     * Checks if the map exists withing the DOM and is visible on the DOM 
+     * @param {number} tries Counter for the number of attempts to check the status
+     * @return {void} 
+     */
+    checkStatus(tries: number = 0) {
+        if(tries > 2) return;
         let visible = false;
         let el = this.self.nativeElement;
         while(el) {
@@ -306,7 +344,7 @@ export class InteractiveMap {
         if(!visible) {
             this.active = false;
             this.loading = true;
-            //setTimeout(() => { this.checkStatus(e, i+1); }, 50);
+            //setTimeout(() => { this.checkStatus(tries+1); }, 50);
         } else {
             if(this.active !== visible)  {
                 this.active = true;
@@ -354,11 +392,15 @@ export class InteractiveMap {
     }
 
     ngDoCheck() {
+    		// Check if the pins have changed
         if(this.marker_list.length !== this.pins.length) {
             this.initPins();
         }
     }
-
+    /**
+     * Initialise the pins displayed on the map
+     * @return {void}
+     */
     initPins() {
         this.marker_list = JSON.parse(JSON.stringify(this.pins));
         for(let i = 0; i < this.marker_list.length; i++) {
@@ -369,11 +411,18 @@ export class InteractiveMap {
             }
         }
     }
-
+    /**
+     * Gets the element with the given ID from the map
+     * @param {string} id Element ID
+     * @return {void}
+     */
     getElement(id: string) {
         return this.map_display.nativeElement.querySelector('#' + Utility.escape(id));
     }
-
+    /**
+     * Updates map dimentional information for use with the map pins/markers
+     * @return {void}
+     */
     updateMapDetails() {
         if(!this.map_item || !this.map_area) return;
         let mbb = this.map_item.getBoundingClientRect();
@@ -392,18 +441,26 @@ export class InteractiveMap {
         this.map_details.area.x = abb.width;
         this.map_details.area.y = abb.height;
     }
-
-    updateFocus() {
+    /**
+     * Updates to element focused in on the map
+     * @param  {number} tries Number of retry attempts
+     * @return {void}
+     */
+    updateFocus(tries: number = 0) {
         if(!this.map_display || !this.map_data) return;
         if(this.focus === null || this.focus === undefined || this.focus === '') return;
         this.zoomMax = 2000;
         if(this.map_item && this.map_area) {
             let bb = this.getFocusBB();
             if(bb) this.zoomFocus(bb);
-            else this.retryFocus();
+            else this.retryFocus(tries);
         } else this.retryFocus();
     }
-
+    /**
+     * Zooms into the focused item
+     * @param {any} bb Focused element bounding box
+     * @return {void}
+     */
     zoomFocus(bb: any) {
         if(!this.map_item || !this.map_area) return;
         let cbb = this.map_item.getBoundingClientRect();
@@ -424,13 +481,21 @@ export class InteractiveMap {
             }, 20);
         }
     }
-
-    retryFocus() {
+    /**
+     * Timeout for retrying to focus on a map item
+     * @param  {number} tries Number of retry attempts
+     * @return {void}
+     */
+    retryFocus(tries: number = 0) {
+    	if(tries > 10) return;
         setTimeout(() => {
-            this.updateFocus();
+            this.updateFocus(++tries);
         }, 100)
     }
-
+    /**
+     * Get the bounding box of the focused item or location
+     * @return {any} Bounding box of the item or location
+     */
     getFocusBB() {
         if(this.focus && typeof this.focus === 'string' && this.focus !== '') {
             let el = this.map_display.nativeElement.querySelector('#' + Utility.escape(this.focus));
@@ -461,7 +526,10 @@ export class InteractiveMap {
         }
         return this.zoom_bb;
     }
-
+    /**
+     * Finished the focusing position by updating the map zoom and updating the bounding boxes
+     * @return {void}
+     */
     finishFocus() {
         this.isFocus = false;
         let cnt = 0;
@@ -488,7 +556,12 @@ export class InteractiveMap {
             }
         }, 50);
     }
-
+    /**
+     * Sets the given point as the center of the display of the map
+     * @param  {number} x X coordinate in the map
+     * @param  {number} y Y coordinate in the map
+     * @return {void}
+     */
     focusOnPoint(x: number, y: number) {
         if(!this.map_item) return;
         let mbb = this.map_item.getBoundingClientRect();
@@ -497,7 +570,10 @@ export class InteractiveMap {
         this.center = { x: r_x, y: r_y };
         this.redraw();
     }
-
+    /**
+     * Gets the map data from the set file
+     * @return {void}
+     */
     loadMapData() {
         this.loading = true;
         setTimeout(() => {
@@ -530,7 +606,10 @@ export class InteractiveMap {
             }
         }, FADE_TIME);
     }
-
+    /**
+     * Injects map data into the DOM and sets pins, disabled elements and styling.
+     * @return {void}
+     */
     setupMap(){
         this.loading = true;
         if(this.map_data){
@@ -560,7 +639,10 @@ export class InteractiveMap {
         x : 0,
         y : 0
     }
-
+    /**
+     * Called when map is tapped/clicked
+     * @param {any} event Input Event
+     */
     tapMap(event: any) {
         //Traverse map and return array of clicked elements
         let elems: any[] = [];
@@ -569,6 +651,7 @@ export class InteractiveMap {
             let mbb = this.map_item.getBoundingClientRect();
             console.debug((event.center.x - mbb.left).toString(), (event.center.y - mbb.top).toString());
         }
+        	// Get list of element ids that the user has clicked on
         elems = this.getItems(event.center, el);
         let e = {
             items: elems,
@@ -576,7 +659,12 @@ export class InteractiveMap {
         }
         this.tap.emit(e);
     }
-
+    /**
+     * Recusively gets the list of element IDs withing the given position
+     * @param  {any} pos Position of the point to check elements contain
+     * @param  {any} el  Element whose children to check
+     * @return {void}
+     */
     getItems(pos: any, el: any) {
         let elems: any[] = []
         for(var i = 0; i < el.children.length; i++){
@@ -586,154 +674,205 @@ export class InteractiveMap {
                     if(el.children[i].id) elems.push(el.children[i].id);
                     let celems = this.getItems(pos, el.children[i]);
                     elems = elems.concat(celems);
-                }
             }
-            return elems;
         }
-
-        updatePosition(xp: number, yp: number) {
-            this.center.x += xp;
-            this.center.y += yp;
-            this.checkValues();
-        }
-
-        moveMap(event: any) {
-            if(this.move_timer) {
-                this.move.x = event.deltaX;
-                this.move.y = event.deltaY;
-                clearTimeout(this.move_timer);
-                this.move_timer = null;
-            }
-            if(this.move.x === 0) this.move.x = +event.deltaX;
-            if(this.move.y === 0) this.move.y = +event.deltaY;
-            let dX = +event.deltaX - +this.move.x;
-            dX = (Math.min(this.min, +Math.abs(dX)) * (dX < 0 ? -1 : 1));
-            let dY = +event.deltaY - +this.move.y;
-            dY = (Math.min(this.min, +Math.abs(dY)) * (dY < 0 ? -1 : 1));
-
-            this.updatePosition(-(dX/this.map_box.width), -(dY/this.map_box.height));
-            // Update the display of the map
-            this.redraw();
+        return elems;
+    }
+    /**
+     * Updates the position of the map
+     * @param  {number} xp New X position
+     * @param  {number} yp New Y position
+     * @return {void}
+     */
+    updatePosition(xp: number, yp: number) {
+        this.center.x += xp;
+        this.center.y += yp;
+        this.checkValues();
+    }
+    /**
+     * Updates the map position based off of user input
+     * @param  {any} event Input Event
+     * @return {void}
+     */
+    moveMap(event: any) {
+        if(this.move_timer) {
             this.move.x = event.deltaX;
             this.move.y = event.deltaY;
-            if(this.min < 100) this.min += 10;
+            clearTimeout(this.move_timer);
+            this.move_timer = null;
         }
+        if(this.move.x === 0) this.move.x = +event.deltaX;
+        if(this.move.y === 0) this.move.y = +event.deltaY;
+        let dX = +event.deltaX - +this.move.x;
+        dX = (Math.min(this.min, +Math.abs(dX)) * (dX < 0 ? -1 : 1));
+        let dY = +event.deltaY - +this.move.y;
+        dY = (Math.min(this.min, +Math.abs(dY)) * (dY < 0 ? -1 : 1));
 
-        moveEnd(event: any) {
-            if(this.move_timer) {
-                clearTimeout(this.move_timer);
-                this.move_timer = null;
-            }
-            this.move_timer = setTimeout(() => {
-                this.move.x = this.move.y = 0;
-                this.activate = false;
-                this.min = 1;
-                this.updateMapDetails();
-            }, 20);
-        }
-
-
-        dZoom = 1;
-
-        can_change_zoom: boolean = true;
-        zoom_timer: any = null;
-
-        updateZoom(zp: number, add: number = 0) {
-            this.can_change_zoom = false;
-            this._zoom = Math.round((this._zoom + 100) * zp - 100 + add);
-            this.checkValues(true);
-            this.redraw();
-            this.updateBoxes();
-            if(this.zoom_timer) {
-                clearTimeout(this.zoom_timer);
-                this.zoom_timer = null;
-            }
-            this.zoom_timer = setTimeout(() => {
-                this.can_change_zoom = true;
-                this.zoom_timer = null;
-            });
-        }
-
-        startScale(event: any) {
-            this.dZoom = event.scale;
-        }
-
-        scaleMap(event: any) {
-            let scale = event.scale - this.dZoom;
-            let dir = scale > 0 ? 1 : -1;
-            let value = 1 + dir * Math.max(Math.abs(scale), 0.01) / 2;
-            this.updateZoom(value);
-            this.dZoom += scale;
-        }
-
-        finishScale() {
-            this.dZoom = 0;
-        }
-
-        zoomIn() {
-            this.updateZoom(1.2);
-        }
-
-        zoomOut() {
-            this.updateZoom(0.8);
-        }
-
-        resetZoom() {
-            this.center = { x: 0.5, y: 0.5 };
-            this.updateZoom(0, -100);
-        }
-
-        private redraw(){
-            this.draw.animate();
-        }
-
-        resize() {
-            if(!this.self) return;
-            this.content_box = this.self.nativeElement.getBoundingClientRect();
-            if(this.map_item && this.map_display) {
-                let rect = this.map_item.getBoundingClientRect();
-                let md = this.map_display.nativeElement;
-            }
-            this.updateBoxes();
-            this.updateFocus();
-            this.loading = false;
-        }
-
-        updateAnimation: any;
-
-        setupUpdate() {
-            this.updateAnimation = this.a.animation(() => {}, () => {
-                if(!this.content_box && this.self) {
-                    this.content_box = this.self.nativeElement.getBoundingClientRect();
-                }
-                if(this.map_display && this.content_box && this.map_item) {
-                    //this.map_box = this.map_display.nativeElement.getBoundingClientRect();
-                    this.map_box = this.map_item.getBoundingClientRect();
-                    this.zoomChange.emit(this._zoom);
-                    let x = (this.map_box.width-this.content_box.width)/this.map_box.width;
-                    let y = (this.map_box.height-this.content_box.height)/this.map_box.height;
-                    this.min_center = {
-                        x: (-x + 0.5 < -0.05 ? -0.05 : (-x + 0.5 > 0.5 ? 0.5 : -x + 0.5)),
-                        y: (-y + 0.5 < -0.05 ? -0.05 : (-y + 0.5 > 0.5 ? 0.5 : -y + 0.5))
-                    };
-                    this.max_center = {
-                        x: (x + 0.5 > 1.05 ? 1.05 : (x + 0.5 < 0.5 ? 0.5 : x + 0.5)),
-                        y: (y + 0.5 > 1.05 ? 1.05 : (y + 0.5 < 0.5 ? 0.5 : y + 0.5)),
-                    };
-                    this.redraw();
-                    if(this.box_update) clearTimeout(this.box_update);
-                    this.box_update = setTimeout(() => {
-                        this.updateBoxes();
-                    }, 2000);
-                }
-            });
-        }
-
-        updateBoxes() {
-            if(this.box_update) clearTimeout(this.box_update);
-            this.box_update = setTimeout(() => {
-                this.updateAnimation.animate();
-            }, 100);
-        }
-
+        this.updatePosition(-(dX/this.map_box.width), -(dY/this.map_box.height));
+        // Update the display of the map
+        this.redraw();
+        this.move.x = event.deltaX;
+        this.move.y = event.deltaY;
+        if(this.min < 100) this.min += 10;
     }
+    /**
+     * Finalises the map position based off of user input
+     * @param  {any} event Input Event
+     * @return {void}
+     */
+    moveEnd(event: any) {
+        if(this.move_timer) {
+            clearTimeout(this.move_timer);
+            this.move_timer = null;
+        }
+        this.move_timer = setTimeout(() => {
+            this.move.x = this.move.y = 0;
+            this.activate = false;
+            this.min = 1;
+            this.updateMapDetails();
+        }, 20);
+    }
+
+
+    dZoom = 1;
+
+    can_change_zoom: boolean = true;
+    zoom_timer: any = null;
+    /**
+     * Updates the zoom level of the map and redraws the map
+     * @param  {number} zp  Percentage to modify the map by
+     * @param  {number} add Flat value to add to the zoom
+     * @return {void}   
+     */
+    updateZoom(zp: number, add: number = 0) {
+        this.can_change_zoom = false;
+        this._zoom = Math.round((this._zoom + 100) * zp - 100 + add);
+        this.checkValues(true);
+        this.redraw();
+        this.updateBoxes();
+        if(this.zoom_timer) {
+            clearTimeout(this.zoom_timer);
+            this.zoom_timer = null;
+        }
+        this.zoom_timer = setTimeout(() => {
+            this.can_change_zoom = true;
+            this.zoom_timer = null;
+        });
+    }
+    /**
+     * Initialised the updating of the map zoom level based off of user input
+     * @param  {any} event Input Event
+     * @return {void}
+     */
+    startScale(event: any) {
+        this.dZoom = event.scale;
+    }
+    /**
+     * Updates the map zoom level based off of user input
+     * @param  {any} event Input Event
+     * @return {void}
+     */
+    scaleMap(event: any) {
+        let scale = event.scale - this.dZoom;
+        let dir = scale > 0 ? 1 : -1;
+        let value = 1 + dir * Math.max(Math.abs(scale), 0.01) / 2;
+        this.updateZoom(value);
+        this.dZoom += scale;
+    }
+    /**
+     * Finalises the map zoom level based off of user input
+     * @param  {any} event Input Event
+     * @return {void}
+     */
+    finishScale() {
+        this.dZoom = 0;
+    }
+    /**
+     * Increases the zoom level of the map by 20%
+     * @return {void}
+     */
+    zoomIn() {
+        this.updateZoom(1.2);
+    }
+    /**
+     * Decreases the zoom level of the map by 20%
+     * @return {void}
+     */
+    zoomOut() {
+        this.updateZoom(0.8);
+    }
+    /**
+     * Resets the zoom level of the map and centers the map on the screen
+     * @return {void}
+     */
+    resetZoom() {
+        this.center = { x: 0.5, y: 0.5 };
+        this.updateZoom(0, -100);
+    }
+    /**
+     * Updates the display of the map within the DOM
+     * @return {void}
+     */
+    private redraw(){
+        this.draw.animate();
+    }
+    /**
+     * Called when the window resizes, updates focus and bounding boxes
+     * @return {void}
+     */
+    resize() {
+        if(!this.self) return;
+        this.content_box = this.self.nativeElement.getBoundingClientRect();
+        if(this.map_item && this.map_display) {
+            let rect = this.map_item.getBoundingClientRect();
+            let md = this.map_display.nativeElement;
+        }
+        this.updateBoxes();
+        this.updateFocus();
+        this.loading = false;
+    }
+
+    updateAnimation: any;
+    /**
+     * Sets up the bounding box update function
+     * @return {void}
+     */
+    setupUpdate() {
+        this.updateAnimation = this.a.animation(() => {}, () => {
+            if(!this.content_box && this.self) {
+                this.content_box = this.self.nativeElement.getBoundingClientRect();
+            }
+            if(this.map_display && this.content_box && this.map_item) {
+                //this.map_box = this.map_display.nativeElement.getBoundingClientRect();
+                this.map_box = this.map_item.getBoundingClientRect();
+                this.zoomChange.emit(this._zoom);
+                let x = (this.map_box.width-this.content_box.width)/this.map_box.width;
+                let y = (this.map_box.height-this.content_box.height)/this.map_box.height;
+                this.min_center = {
+                    x: (-x + 0.5 < -0.05 ? -0.05 : (-x + 0.5 > 0.5 ? 0.5 : -x + 0.5)),
+                    y: (-y + 0.5 < -0.05 ? -0.05 : (-y + 0.5 > 0.5 ? 0.5 : -y + 0.5))
+                };
+                this.max_center = {
+                    x: (x + 0.5 > 1.05 ? 1.05 : (x + 0.5 < 0.5 ? 0.5 : x + 0.5)),
+                    y: (y + 0.5 > 1.05 ? 1.05 : (y + 0.5 < 0.5 ? 0.5 : y + 0.5)),
+                };
+                this.redraw();
+                if(this.box_update) clearTimeout(this.box_update);
+                this.box_update = setTimeout(() => {
+                    this.updateBoxes();
+                }, 2000);
+            }
+        });
+    }
+    /**
+     * Updates the bounding boxes of the map container and the map inside
+     * @return {void}
+     */
+    updateBoxes() {
+        if(this.box_update) clearTimeout(this.box_update);
+        this.box_update = setTimeout(() => {
+            this.updateAnimation.animate();
+        }, 100);
+    }
+
+}

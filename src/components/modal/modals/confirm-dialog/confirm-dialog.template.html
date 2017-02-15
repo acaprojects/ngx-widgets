@@ -8,7 +8,7 @@
 -->
 
 <div  [@backdrop]="state" [class]="'aca modal ' + cssClass">
-	<div class="tap-space" (tap)="onPointer($event)"></div>
+	<div class="tap-space" (tap)="tapped($event)"></div>
 	<div #modal class="modal-space" [@space]="state">
 		<div class="dialog-header">{{title}}</div>
 		<div class="dialog-body">

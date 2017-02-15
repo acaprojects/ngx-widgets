@@ -102,7 +102,9 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
             this.display_top = (this.top && this.top > 0 ? this.top : '') + this.unit;
         }
     }
-
+    /**
+     * Updates the width of the modal
+     */
     updateWidth() {
         this.display_width = this.width;
         this.display_height = this.display_width / 3 * 2 - 5;
@@ -128,7 +130,8 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     }
     /**
      * Creates the component and attaches it to the modal
-     * @param {any} factory Anular 2 Component factory
+     * @param  {any} factory Anular 2 Component factory
+     * @return {void}
      */
     public render(factory: any) {
     	if(this.contentRef) {
@@ -145,8 +148,12 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         if(this.content_instance.init) this.content_instance.init();
 
     }
-
-    public onPointer(event: any) {
+    /**
+     * Called when the the window is tapped
+     * @param {any} event Input event
+     * @return {void}
+     */
+    public tapped(event: any) {
   		if (event.stopPropagation) event.stopPropagation();
 		else event.cancelBubble = true;
         if(!this.close || !this.modal) return;
@@ -154,19 +161,31 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         this.modal_box = this.modal.nativeElement.getBoundingClientRect();
         let box = this.modal_box;
         if(c.x < 10 && c.y < 10) this.open();
+            // User clicked outside modal close the modal
         if(c.x < box.left || c.y < box.top || c.x > box.left + box.width || c.y > box.top + box.height) {
             this.select('close', 'External Click');
         }
     }
-
+    /**
+     * Sets the modal data
+     * @param {any} data New modal data
+     * @return {void}
+     */
     public setData(data: any) {
         this.data = data;
+        if('data' in this.data && this.content_instance) {
+            this.content_instance.entity = this.data.data;
+        }
     }
-
+    /**
+     * Sets the parameters for the modal
+     * @param {any} data New parameter data
+     * @return {void}
+     */
     public setParams(data: any) {
         if(data) {
+                // Iterate through data and add it to the modal
             for(let key in data) {
-                console.log(key);
                 if(PRIVATE_PARAMS.indexOf(key) < 0 && data[key] !== undefined && data[key] !== null) {
                     console.log('Added.');
                     this[key] = data[key];
@@ -191,13 +210,19 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         	this.buildContents();
         }
     }
-
+    /**
+     * Called when the modal is opened
+     * @return {void}
+     */
     public open() {
         this.state = true;
         setTimeout(() => { this.state_inner = true; }, 100);
         setTimeout(() => { this.openEvent.emit(); }, 500);
     }
-
+    /**
+     * Closes the modal
+     * @return {void}
+     */
     public close() {
         this.state = this.state_inner = false;
         setTimeout(() => {
@@ -206,16 +231,36 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
             if(this.closeEvent) this.closeEvent.emit();
         }, 500);
     }
-
+    /**
+     * Sets a function to be called when the modal is closing
+     * @param  {Function} clean Cleanup function
+     * @return {void}
+     */
     set cleanup(clean: Function) {
         this.clean_fn = clean;
     }
-
+    /**
+     * Get an Observable that posts event that occur within the modal
+     * @return {void}
+     */
     get status() {
         return this.state_obs;
     }
-
-    public select(type: string, location:string = 'Button') {
+    /**
+     * Posts a button click/tap event
+     * @param  {string} type Type of button
+     * @return {void}
+     */
+    public select(type: string) {
+        this.event(type, 'Button');
+    }
+    /**
+     * Posts an event to the Observable.
+     * @param  {string}    type Type of event that has occured
+     * @param  {string =    'Code'}    location Location that the event has come from
+     * @return {void}
+     */
+    public event(type: string, location:string = 'Code') {
         if(this.content_instance) this.data = this.content_instance.entity;
         this.dataChange.emit(this.data);
         if(this.obs){

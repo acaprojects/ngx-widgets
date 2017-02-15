@@ -60,21 +60,24 @@ export class TooltipComponent {
     }
 
     ngOnChanges(changes: any) {
+           // Component changes or state of show changes to true
         if(changes.cmp || (changes.show && this.show)) {
             setTimeout(() => {
                 this.render();
             }, 20);
         }
-
+            // Offset has changed
         if(changes.offset || changes.offsetType) {
             this.updateOffset();
         }
     }
 
     ngAfterViewInit() {
-        setTimeout(() => {
-            this.render();
-        }, 100);
+        if(this.show){
+            setTimeout(() => {
+                this.render();
+            }, 100);
+        }
     }
     /**
      * Updates the offset position of the content box of the tooltip

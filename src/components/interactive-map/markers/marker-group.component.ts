@@ -61,6 +61,7 @@ export class MapMarkerGroupComponent {
             (this.map.dim.x !== this.prev_map.dim.x || this.map.dim.y !== this.prev_map.dim.y)||
             (this.map.real_dim.x !== this.prev_map.real_dim.x || this.map.real_dim.y !== this.prev_map.real_dim.y)||
             (this.map.area.x !== this.prev_map.area.x || this.map.area.y !== this.prev_map.area.y)) {
+                // Map box has changed update markers
                 this.updateFontSize();
                 this.prev_map = JSON.parse(JSON.stringify(this.map));
                 setTimeout(() => {
@@ -74,14 +75,20 @@ export class MapMarkerGroupComponent {
             clearTimeout(this.marker_timer);
         }
     }
-
+    /**
+     * Updates the size of the maker and its contents
+     * @return {void}
+     */
     updateFontSize() {
         let long = this.map.dim.x > this.map.dim.y ? this.map.dim.x : this.map.dim.y;
         this.font_size = this.map.dim.y / long;
         let size = this.map.area.x * ( 2 / 100);
         this.radius_size = size;
     }
-
+    /**
+     * Creates the markers to be display
+     * @return {void}
+     */
     setupMarkers() {
         if(!this.disable && this.markers) {
             this.count = this.markers.length;
@@ -95,7 +102,10 @@ export class MapMarkerGroupComponent {
             }, 200);
         }
     }
-
+    /**
+     * Updates the position of the markers
+     * @return {void}
+     */
     updateMarkers() {
         if(!this.main || !this.markers) return;
         for(let i = 0;  i < this.markers.length; i++) {

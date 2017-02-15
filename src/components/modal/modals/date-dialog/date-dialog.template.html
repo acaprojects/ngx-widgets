@@ -7,7 +7,7 @@
 @Last modified time: 05/01/2017 2:39 PM
 -->
 
-<div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (tap)="onPointer($event)">
+<div  [@backdrop]="state" [class]="'aca modal ' + cssClass" (tap)="tapped($event)">
 	<div #modal class="modal-space" [@space]="state">
 		<div class="dialog-header">
 			<div class="year">{{date_year}}</div>
