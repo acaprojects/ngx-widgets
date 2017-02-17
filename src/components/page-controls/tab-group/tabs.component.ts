@@ -132,10 +132,12 @@ export class TabGroup implements AfterContentInit  {
         if(this.active) {
             this.active.show();
         }
-        this.stateChange.emit(this.state);
-        if(this.routableValid() && !init){
-            this.updateRouteValue();
-        }
+        setTimeout(() => {
+            this.stateChange.emit(this.state);
+            if(this.routableValid() && !init){
+                this.updateRouteValue();
+            }
+        }, 20);
     }
 
     updateRouteValue() {

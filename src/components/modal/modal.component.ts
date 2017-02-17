@@ -143,7 +143,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         this.content_instance = this.contentRef.instance;
         this.content_instance.entity = this.data.data;
         if(!this.content_instance.entity) this.content_instance.entity = {};
-        this.content_instance.entity.close = (cb: Function) => { this.select('close', 'Component') };
+        this.content_instance.entity.close = (cb: Function) => { this.event('close', 'Component') };
         this.content_instance.entity.select = (option: string) => { this.select(option) };
         if(this.content_instance.init) this.content_instance.init();
 
@@ -163,7 +163,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         if(c.x < 10 && c.y < 10) this.open();
             // User clicked outside modal close the modal
         if(c.x < box.left || c.y < box.top || c.x > box.left + box.width || c.y > box.top + box.height) {
-            this.select('close', 'External Click');
+            this.event('close', 'External Click');
         }
     }
     /**

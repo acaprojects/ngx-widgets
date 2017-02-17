@@ -30,7 +30,6 @@ div.tooltip {
         width: 1.5em;
         & .triangle{
             position: absolute;
-            top: 0;
             left: 0;
             width: 1.5em;
             height: 0.5em;
@@ -41,9 +40,10 @@ div.tooltip {
                 left: 0.25em;
                 width: 1.0em;
                 height: 1.0em;
-                border-radius: 0.2em;
+                border-radius: 0.1em;
                 box-shadow: 0.05em 0.05em 0.35em 0.05em rgba(0,0,0,0.2);
                 transform: rotate(45deg);
+                border: 1px solid rgba(0,0,0,0.1);
             }
         }
 
@@ -54,6 +54,7 @@ div.tooltip {
             min-height: 1.5em;
             min-width: 1.5em;
             box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,0,0,0.1);
             border-radius: 0.1em;
         }
     }

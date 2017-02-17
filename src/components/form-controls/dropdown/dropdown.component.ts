@@ -44,7 +44,7 @@ export class DropdownList {
             if(e.preventDefault) e.preventDefault();
             setTimeout(() => {
                 let bb = this.contents.nativeElement.getBoundingClientRect();
-                let c = e.center;
+                let c = e.center ? e.center : { x: e.clientX, y: e.clientY };
                 if(c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y  > bb.top + bb.height) {
                     this.parent.close();
                 }
@@ -118,7 +118,7 @@ export class Dropdown {
   	open() {
         let now = (new Date()).getTime();
         if(now - 1000 > this.last_change){
-            this.render(DropdownList);
+            this.render();
         }
   	}
     /**

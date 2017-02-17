@@ -276,7 +276,7 @@ export class Typeahead {
         let now = (new Date()).getTime();
         if(now - this.last_change < 100) return;
         if(!this.shown) {
-            this.render(TypeaheadList);
+            this.render();
             this.shown = true;
         } else {
             this.close();

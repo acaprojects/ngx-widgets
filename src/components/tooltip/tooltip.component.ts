@@ -32,6 +32,8 @@ export class TooltipComponent {
     @Output() showChange = new EventEmitter();
     @Output() change = new EventEmitter();
 
+    toggle_timer: any = null;
+
     @ViewChild('area') content: ElementRef;
     @ViewChild('content', { read: ViewContainerRef }) view: ViewContainerRef;
 
@@ -46,13 +48,7 @@ export class TooltipComponent {
      */
     @HostListener('tap', ['$event'])
     onClick(e: any) {
-        if(!this.check(e)){
-            this.show = true;
-            this.showChange.emit(this.show);
-            setTimeout(() => {
-                this.render();
-            }, 20);
-        }
+        this.toggleShow();
     }
 
     constructor(private el: ElementRef, public _cfr: ComponentFactoryResolver) {
@@ -104,6 +100,7 @@ export class TooltipComponent {
      * @return {void}
      */
     toggleShow() {
+        console.log('Toggle Show');
         this.show = !this.show;
         this.showChange.emit(this.show);
         if(this.show){
@@ -118,8 +115,12 @@ export class TooltipComponent {
      * @return {void}
      */
     checkTap(e: any) {
+        console.log('Check Tap');
         if(!this.check(e)) {
             this.show = false;
+            this.toggle_timer = setTimeout(() => {
+                this.toggle_timer = null;
+            }, 100);
         }
     }
     /**
@@ -162,7 +163,6 @@ export class TooltipComponent {
      * @return {void}
      */
     private render(cnt: number = 0) {
-        console.error('Render');
         if(this.cmp && this.view) {
     		let factory = this._cfr.resolveComponentFactory(this.cmp);
             if(this._cmp) this._cmp.destroy();
@@ -174,8 +174,9 @@ export class TooltipComponent {
             this._inst.parent = this;
             if(this._inst.init) this._inst.init();
             this.updateOffset();
-        } else {
+        } else if(cnt < 30) {
             cnt++;
+            this.show = true;
             setTimeout(() => {
                 this.render(cnt);
             }, 100 * cnt);

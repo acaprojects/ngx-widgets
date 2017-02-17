@@ -54,12 +54,19 @@ export class Slider {
         }
         if(!this.step) this.step = 1;
         if(!this.precision) this.precision = 1;
-        if(!this.min) this.min = 0;
-        if(!this.max) this.max = 100;
+        if(this.min === undefined || this.min === null) this.min = 0;
+        if(this.min === undefined || this.min === null) this.max = 100;
         if(!this.knob) {
             this.refresh();
         }
-        if(changes.value) this.refresh();
+        if(changes.value) {
+            if(this.value < this.min) {
+                this.value = this.min
+            } else if(this.value > this.max) {
+                this.value = this.max;
+            }
+            this.refresh(false);
+        }
     }
 
     ngDoCheck() {
@@ -99,7 +106,6 @@ export class Slider {
                 this.percent = Math.round(percent*10000)/100;
             }).animate();
         }
-        this.postValue();
     }
     /**
      * Emits the value throught the output binding
@@ -225,7 +231,8 @@ export class Slider {
         this.updateValue(true);
     }
 
-    refresh(){
+    refresh(post: boolean = true){
         this.updateValue(true);
+        if(post) this.postValue();
     }
 }
