@@ -187,11 +187,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
                 // Iterate through data and add it to the modal
             for(let key in data) {
                 if(PRIVATE_PARAMS.indexOf(key) < 0 && data[key] !== undefined && data[key] !== null) {
-                    console.log('Added.');
                     this[key] = data[key];
-                } else {
-                    console.log('Failed', data[key]);
-
                 }
             }
             if(!this.data) this.data = {};

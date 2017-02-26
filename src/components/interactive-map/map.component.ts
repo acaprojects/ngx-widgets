@@ -67,6 +67,7 @@ export class InteractiveMap {
     map_box: any;
     map_data: any;
     map_item: any;
+    map_scale: number = 1;
     touchmap: any;
     private o_zoom: number = 0;
     private _zoom: number = 0; // As Percentage
@@ -144,7 +145,8 @@ export class InteractiveMap {
         // Clean up any dimension changes
         this.rotate = this.rotate % 360;
         let p_z_state = this.zoom_state;
-        this.zoom_state = Math.round(100 + this.o_zoom).toString();
+        this.zoom_state = Math.round((100 + this.o_zoom) / this.map_scale).toString();
+        if(+this.zoom_state < 50) this.zoom_state = '50';
         if(this.zoom_state !== p_z_state) {
             setTimeout(() => {
                 this.updateBoxes();
@@ -833,6 +835,8 @@ export class InteractiveMap {
     }
 
     updateAnimation: any;
+    prev_height: number = -999;
+    prev_zoom: number = -999;
     /**
      * Sets up the bounding box update function
      * @return {void}
@@ -856,6 +860,14 @@ export class InteractiveMap {
                     x: (x + 0.5 > 1.05 ? 1.05 : (x + 0.5 < 0.5 ? 0.5 : x + 0.5)),
                     y: (y + 0.5 > 1.05 ? 1.05 : (y + 0.5 < 0.5 ? 0.5 : y + 0.5)),
                 };
+	            if(this.content_box.height < this.map_box.height / ((100 + this._zoom)/100) && this.prev_height !== this.map_box.height) {
+	            	let mh = this.map_box.height;
+	            	let ch = this.content_box.height;
+	            	let w_r = this.map_box.width / this.content_box.width;
+	            	this.map_scale = Math.round(((mh / w_r) / ch) * 100) / 100;
+	            	this.prev_height = this.map_box.height;
+	            	this.prev_zoom = this._zoom;
+	            }
                 this.redraw();
                 if(this.box_update) clearTimeout(this.box_update);
                 this.box_update = setTimeout(() => {
