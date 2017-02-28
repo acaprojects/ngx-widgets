@@ -10,7 +10,7 @@
 <div [class]="'aca slider ' + cssClass" (window:resize)="resize()">
     <div #space class="block" [class.vertical]="align==='vertical'">
         <!-- Vertical Slider -->
-        <div #bar class="bar c1" (tap)="clickSlider($event)" (press)="moveSlider($event)" (pan)="moveSlider($event)">
+        <div #bar class="bar c1" (tap)="clickSlider($event)" (press)="moveSlider($event)" (pressup)="sliderStop($event)" (pan)="moveSlider($event)">
             <div #prog class="progress c2"
                 [style.width]="align==='vertical' ? '100%' :percent + '%'"
                 [style.height]="align==='vertical' ? (percent) + '%':'100%' ">

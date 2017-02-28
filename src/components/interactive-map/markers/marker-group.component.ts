@@ -21,6 +21,7 @@ export class MapMarkerGroupComponent {
     @Input() rotate: number = 0;
     @Input() radius: number = 1;
     @Input() disable: boolean = false;
+    @Input() reset: boolean = false;
     @Input() map: any = {
         pos: { x: 0, y: 0 },
         dim: { x: 100, y: 100 },

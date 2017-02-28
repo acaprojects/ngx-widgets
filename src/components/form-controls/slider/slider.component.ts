@@ -35,10 +35,13 @@ export class Slider {
 
     available: boolean = false;
     previous: number = 0;
+    current: number = 0;
     position: number = 0;
     percent: number = 0;
     bb : any;
     change_timer: any = null;
+    user_action: boolean = false;
+    action_timer: any = null;
 
     constructor(private a: ACA_Animate){
     }
@@ -59,19 +62,17 @@ export class Slider {
         if(!this.knob) {
             this.refresh();
         }
-        if(changes.value) {
+    }
+
+    ngDoCheck() {
+        if(this.previous !== this.value && !this.user_action) {
             if(this.value < this.min) {
                 this.value = this.min
             } else if(this.value > this.max) {
                 this.value = this.max;
             }
-            this.refresh(false);
-        }
-    }
-
-    ngDoCheck() {
-        if(this.previous !== this.value) {
             this.previous = this.value;
+            this.current = this.value;
             this.refresh();
         }
     }
@@ -102,7 +103,7 @@ export class Slider {
         } else if(update) {
         	this.a.animation(() => {}, () => {
 		        let range = +this.max - +this.min;
-		        let percent = (this.value - this.min) / range;
+		        let percent = (this.current - this.min) / range;
                 this.percent = Math.round(percent*10000)/100;
             }).animate();
         }
@@ -116,9 +117,9 @@ export class Slider {
             clearTimeout(this.change_timer);
             this.change_timer = null;
         }
-        this.valueChange.emit(this.value);
+        this.valueChange.emit(this.current);
         this.change_timer = setTimeout(() => {
-            this.delayValueChange.emit(this.value);
+            this.delayValueChange.emit(this.current);
             this.change_timer = null;
         }, 300);
     }
@@ -132,7 +133,7 @@ export class Slider {
             if(event.preventDefault) event.preventDefault();
             if(event.stopPropagation) event.stopPropagation();
         } else {
-            return this.value;
+            return this.current;
         }
         let align = this.align ? this.align.toLowerCase() : '';
         let isVertical = align.indexOf('vert') >= 0;
@@ -169,6 +170,7 @@ export class Slider {
    		if(i > 3 || !this.space) return;
    		let visible = false;
    		let el = this.space.nativeElement;
+            // Check if component is attached to the body of the page
    		while(el) {
    			if(el.nodeName === 'BODY') {
    				visible = true;
@@ -180,6 +182,18 @@ export class Slider {
    		else this.resize();
    	}
 
+    actionPerformed() {
+        if(this.action_timer) {
+            clearTimeout(this.action_timer);
+            this.action_timer = null;
+        }
+        this.user_action = true;
+        this.action_timer = setTimeout(() => {
+            this.user_action = false;
+            this.action_timer = null;
+        }, 300);
+    }
+
     /**
      * Updates the value and position of the slider based of the event
      * @param  {any}    event Tap event
@@ -190,7 +204,8 @@ export class Slider {
             if(event.preventDefault) event.preventDefault();
             if(event.stopPropagation) event.stopPropagation();
         }
-        this.value = this.calcValue(event);
+        this.current = this.value = this.calcValue(event);
+        this.actionPerformed();
         this.updateValue();
     }
 
@@ -204,8 +219,9 @@ export class Slider {
             if(event.preventDefault) event.preventDefault();
             if(event.stopPropagation) event.stopPropagation();
         }
-        let prev = this.value;
-        this.value = this.calcValue(event);
+        let prev = this.current;
+        this.current = this.value = this.calcValue(event);
+        this.user_action = true;
         this.refresh();
     }
 
@@ -220,6 +236,7 @@ export class Slider {
             if(event.preventDefault) event.preventDefault();
             if(event.stopPropagation) event.stopPropagation();
         }
+        this.actionPerformed();
         this.refresh();
     }
     /**

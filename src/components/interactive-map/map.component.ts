@@ -94,6 +94,7 @@ export class InteractiveMap {
         area: { x: 100, y: 100 }
     }
     marker_list: any[] = [];
+    reset_markers: boolean = false;
 
     box_update: any = null;
     draw: any = null;
@@ -145,7 +146,12 @@ export class InteractiveMap {
         // Clean up any dimension changes
         this.rotate = this.rotate % 360;
         let p_z_state = this.zoom_state;
-        this.zoom_state = Math.round((100 + this.o_zoom) / this.map_scale).toString();
+        this.zoom_state = Math.round((100 + this.o_zoom)).toString();
+        if(this.map_display) {
+        	let scale = Math.round((1/this.map_scale) * 1000) / 10 ;
+        	this.map_display.nativeElement.style.width = `${scale}%`;
+        	this.map_display.nativeElement.style['min-width'] = `${scale}%`;
+        }
         if(+this.zoom_state < 50) this.zoom_state = '50';
         if(this.zoom_state !== p_z_state) {
             setTimeout(() => {
@@ -266,7 +272,7 @@ export class InteractiveMap {
                 if(el) {
                 	for(let s in style) {
                 		if(s in el.style) {
-                			el.style[s] = s;
+                			el.style[s] = style[s];
                 		}
                 	}
                 }
@@ -280,7 +286,7 @@ export class InteractiveMap {
                 let old_style = JSON.parse(JSON.stringify(style));
                 for(let s in style) {
                 	if(s in el.style) {
-                		old_style = el.style[s];
+                		old_style[s] = el.style[s];
                 		el.style[s] = style[s];
                 	}
                 }
@@ -396,6 +402,9 @@ export class InteractiveMap {
     ngDoCheck() {
     		// Check if the pins have changed
         if(this.marker_list.length !== this.pins.length) {
+        	if(this.marker_list.length > this.pins.length) {
+        		this.marker_list.splice(this.pins.length-1, this.marker_list.length - this.pins.length);
+        	}
             this.initPins();
         }
     }
@@ -404,14 +413,19 @@ export class InteractiveMap {
      * @return {void}
      */
     initPins() {
-        this.marker_list = JSON.parse(JSON.stringify(this.pins));
-        for(let i = 0; i < this.marker_list.length; i++) {
+        for(let i = 0; i < this.pins.length; i++) {
+        	if(i < this.marker_list.length && this.marker_list[i]) {
+        		this.marker_list[i] = JSON.parse(JSON.stringify(this.pins[i]));
+        	} else {
+	        	this.marker_list.push(JSON.parse(JSON.stringify(this.pins[i])));
+	        }
             if(this.marker_list[i].id && this.marker_list[i].id !== ''){
                 this.marker_list[i].el = () => {
                     return this.getElement(this.marker_list[i].id);
                 };
             }
         }
+
     }
     /**
      * Gets the element with the given ID from the map
@@ -629,7 +643,9 @@ export class InteractiveMap {
             this.setupEvents();
             this.resize();
             this.updateBoxes();
+            //this.reset_markers = !this.reset_markers;
             setTimeout(() => {
+            	this.marker_list = [];
                 this.initPins();
                 this.loading = false;
                 this.mapUpdated.emit();
@@ -860,11 +876,15 @@ export class InteractiveMap {
                     x: (x + 0.5 > 1.05 ? 1.05 : (x + 0.5 < 0.5 ? 0.5 : x + 0.5)),
                     y: (y + 0.5 > 1.05 ? 1.05 : (y + 0.5 < 0.5 ? 0.5 : y + 0.5)),
                 };
-	            if(this.content_box.height < this.map_box.height / ((100 + this._zoom)/100) && this.prev_height !== this.map_box.height) {
+	            if(this.prev_height !== this.map_box.height) {
 	            	let mh = this.map_box.height;
 	            	let ch = this.content_box.height;
 	            	let w_r = this.map_box.width / this.content_box.width;
 	            	this.map_scale = Math.round(((mh / w_r) / ch) * 100) / 100;
+	            	console.log(w_r.toFixed(2), ch.toFixed(2), mh.toFixed(2), (mh/w_r).toFixed(2));
+	            	console.log(this.map_scale);
+	            	if(mh/w_r <= ch && this.map_scale < 1) this.map_scale = 1;
+	            	console.log(this.map_scale);
 	            	this.prev_height = this.map_box.height;
 	            	this.prev_zoom = this._zoom;
 	            }

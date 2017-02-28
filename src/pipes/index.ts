@@ -10,9 +10,11 @@
 import { SafePipe } from './safe.pipe';
 import { KeysPipe } from './keys.pipe';
 import { SafeUrlPipe } from './safe-url.pipe';
+import { SafeStylePipe } from './safe-style.pipe';
 
 export let PIPES: any[] = [
     SafePipe,
     KeysPipe,
-    SafeUrlPipe
+    SafeUrlPipe,
+    SafeStylePipe
 ];
