@@ -26,7 +26,6 @@ export class Slider {
     @Input() precision: number = 1;
     @Input() cssClass: string = '';
     @Output() valueChange = new EventEmitter();
-    @Output() delayValueChange = new EventEmitter();
     //*
     @ViewChild('space') space: any;
     @ViewChild('bar')   bar: any;
@@ -34,7 +33,7 @@ export class Slider {
     @ViewChild('prog')  prog: any;
 
     available: boolean = false;
-    previous: number = 0;
+    previous: number = null;
     current: number = 0;
     position: number = 0;
     percent: number = 0;
@@ -42,6 +41,8 @@ export class Slider {
     change_timer: any = null;
     user_action: boolean = false;
     action_timer: any = null;
+    update_timer: any = null;
+    stop_timer: any = null;
 
     constructor(private a: ACA_Animate){
     }
@@ -65,7 +66,13 @@ export class Slider {
     }
 
     ngDoCheck() {
-        if(this.previous !== this.value && !this.user_action) {
+        if(this.previous === null) {
+            this.previous = this.value;
+        }
+        if(isNaN(this.value)) this.value = this.min;
+        if(isNaN(this.min)) this.min = this.max < 0 ? this.max - this.step * 5 : 0;
+        if(isNaN(this.max)) this.max = this.min > 100 ? this.min + this.step * 5 : 100;
+        if(this.previous !== this.value && !this.user_action && !isNaN(this.value)) {
             if(this.value < this.min) {
                 this.value = this.min
             } else if(this.value > this.max) {
@@ -113,15 +120,20 @@ export class Slider {
      * @return {void}
      */
     postValue() {
-        if(this.change_timer) {
-            clearTimeout(this.change_timer);
-            this.change_timer = null;
-        }
-        this.valueChange.emit(this.current);
-        this.change_timer = setTimeout(() => {
-            this.delayValueChange.emit(this.current);
-            this.change_timer = null;
-        }, 300);
+        setTimeout(() => {
+            if(this.user_action && !this.update_timer) { 
+                this.update_timer = setTimeout(() => {
+                    this.valueChange.emit(this.current);
+                    this.update_timer = null;
+                }, 250);
+            } else if(!this.user_action){
+                if(!this.update_timer) {
+                    clearTimeout(this.update_timer);
+                    this.update_timer = null;
+                }
+                this.valueChange.emit(this.current);
+            }
+        }, 20);
     }
     /**
      * Calculates the new value of the slider using the position of the event
@@ -183,6 +195,12 @@ export class Slider {
    	}
 
     actionPerformed() {
+        if(this.update_timer) {
+            clearTimeout(this.update_timer);
+            this.update_timer = null;
+        }
+        this.user_action = false;
+        /*
         if(this.action_timer) {
             clearTimeout(this.action_timer);
             this.action_timer = null;
@@ -192,6 +210,7 @@ export class Slider {
             this.user_action = false;
             this.action_timer = null;
         }, 300);
+        */
     }
 
     /**
@@ -223,6 +242,13 @@ export class Slider {
         this.current = this.value = this.calcValue(event);
         this.user_action = true;
         this.refresh();
+        if(this.stop_timer) {
+            clearTimeout(this.stop_timer);
+            this.stop_timer = null;
+        }
+        this.stop_timer = setTimeout(() => {
+            this.sliderStop(event);
+        }, 300);
     }
 
 

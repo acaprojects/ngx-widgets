@@ -5,6 +5,39 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:28 AM
 
-.btn-obj {
-    display: inline-block;
+div.btn-group {
+	display: inline-flex;
+	border-radius: 0.1em;
+	box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+	margin: 0.5em;
+	& .btn-obj {
+		min-width: 8.0em;
+		padding: 0.5em 1.0em;
+		cursor: pointer;
+		border-left: 1px solid rgba(0,0,0,0.2);
+		border-right: 1px solid rgba(0,0,0,0.2);
+		&.active {
+
+		}
+		&.inactive {
+			background-color: #E0E0E0;
+			&:hover {
+				background-color: #BDBDBD;
+			}
+		}
+
+		&:first-child {
+			border-radius: 0.1em 0 0 0.1em;
+			border-left: none;
+		}
+
+		&:last-child {
+			border-radius: 0 0.1em 0.1em 0;
+			border-right: none;
+		}
+	}
+
+	& .default {
+
+	}
 }

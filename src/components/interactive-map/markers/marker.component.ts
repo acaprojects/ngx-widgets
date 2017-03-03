@@ -23,17 +23,15 @@ const MARKER_TYPES = ['Pin', 'Marker', 'Radius']
     templateUrl: './marker.template.html',
     styleUrls: ['./marker.styles.css'],
     animations: [
-        trigger('pin', [
+        trigger('drop', [
+            state('hide', style({transform: 'translate(-50%, -400%)'})),
+            state('show', style({transform: 'translate(-50%, 0%)'})),
+            transition('* <=> *', animate('700ms ease-out'))
+        ]),
+        trigger('show', [
             state('hide', style({opacity: 0})),
-            state('show', style({transform: 'translate(-50%, 0%)', opacity: 1})),
-            transition('* => show',
-                animate('700ms ease-out',
-                    keyframes([
-                        style({transform: 'translate(-50%, -400%)', opacity: 0, offset: 0}),
-                        style({transform: 'translate(-50%, 0%)', opacity: 1, offset:1})
-                    ])
-                )
-            )
+            state('show', style({opacity: 1})),
+            transition('* <=> *', animate('700ms ease-out'))
         ])
     ]
 })
@@ -47,8 +45,8 @@ export class MapMarkerComponent {
     @Input() active: boolean = false;
     @Input() width: number = 2;
     @Input() height: number = 2;
-    @Input() x: number = 0;
-    @Input() y: number = 0;
+    @Input() x: number = -9999;
+    @Input() y: number = -9999;
     @Input() fontSize: string = '1em';
     @Input() radiusSize: number = 20;
     @Input() drop: boolean = false;
@@ -56,17 +54,18 @@ export class MapMarkerComponent {
 
     id: string = ''
     display_pin: string = ''
+    shown: boolean = false;
     static pin_html: string = `
     <?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 53 65.7" style="enable-background:new 0 0 53 65.7;" xml:space="preserve"><style type="text/css">.aca-st0{fill:#FFFFFF;} .aca-st1{fill:#DC6900;stroke:#FFFFFF;stroke-width:2.5;stroke-miterlimit:10;}</style><g><circle class="aca-st0" cx="27.6" cy="21.8" r="13.1"/><path class="aca-st1" d="M27.6,4c9.9,0,18,8.1,18,18s-17.1,38.2-18,39.6c-0.9-1.5-18-29.7-18-39.6S17.7,4,27.6,4z M27.6,32.8 c6,0,10.8-4.8,10.8-10.8s-4.8-10.8-10.8-10.8S16.8,16,16.8,22S21.6,32.8,27.6,32.8"/></g></svg>
     `;
     reset_timer: any = null;
+    show_timer: any = null;
     constructor() {
         this.id = Math.floor(Math.random() * 89999999 + 10000000).toString();
     }
 
     ngOnInit() {
-        //this.show = false;
-        //setTimeout(() => { this.show = true }, 200);
+
     }
 
     ngOnChanges(changes: any) {
@@ -80,11 +79,17 @@ export class MapMarkerComponent {
             if(!this.type) this.type = 'Pin';
             else if(MARKER_TYPES.indexOf(this.type) < 0) this.type = 'Pin';
         }
-        if(changes.show && this.show) {
-            //this.reset();
+        if(changes.x || changes.y) {
+            if(!this.x) this.x = -9999;
+            if(!this.y) this.y = -9999;
         }
-        if(changes.drop) {
-            this.reset();
+        if(changes.show && this.show && this.shown !== this.show) {
+            if(this.show_timer) clearTimeout(this.show_timer);
+            this.show_timer = setTimeout(() => {
+                this.shown = this.show;
+                this.show_timer = null;
+            }, 200);
+            //this.reset();
         }
     }
     /**
@@ -108,22 +113,6 @@ export class MapMarkerComponent {
         pin = this.replaceAll(pin, '#FFFFFF', this.stroke);
         pin = this.replaceAll(pin, 'aca-', ('aca-marker-' + this.id + '-'));
         return pin;
-    }
-
-    reset() {
-        if(!this.reset_timer){
-            this.show = false;
-            this.reset_timer = setTimeout(() => {
-                //*
-                setTimeout(() => { 
-                    this.show = true; 
-                    setTimeout(() => {
-                        this.reset_timer = null;
-                    }, 700);
-                }, 200);
-            }, 10);
-        }
-        //*/
     }
     /**
      * Replace all occurance of a string within another string

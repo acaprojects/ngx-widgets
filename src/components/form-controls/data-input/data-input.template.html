@@ -39,6 +39,7 @@
 				(blur)="blurInput(); validateInput()"
 				(keyup)="keypress($event);"
 				[disabled]="disabled"
+				[pattern]="type==='tel'?'[0-9]*':''"
 				[style.width]="width?_width+'em':''"/>
 		</div>
 		<div [class]="'icon aca color ' + (focus ? ' font-' + color + '-' + primary : '')" *ngIf="icon && iconSide==='right'" >

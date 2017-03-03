@@ -1,13 +1,23 @@
 <!--
 @Author: Alex Sorafumo <Yuion>
-@Date:   13/09/2016 2:55 PM
+@Date:   13/09/2016 3:46 PM
 @Email:  alex@yuion.net
-@Filename: btn-toggle.template.html
-@Last modified by:   Yuion
-@Last modified time: 15/12/2016 11:28 AM
+@Filename: btn.template.html
+@Last modified by:   alex.sorafumo
+@Last modified time: 20/01/2017 2:45 PM
 -->
 
-<div [class]="'aca btn-toggle ' + cssClass" [class.active]="value" [class.inactive]="!value" (tap)="toggle()">
-    <span *ngIf='value'>{{(active ? active : 'On')}}</span>
-    <span *ngIf='!value'>{{(inactive ? inactive : 'Off')}}</span>
+<div class="aca btn" [class.disabled]="disabled">
+	<div #btnContainer
+		(mouseover)="addHover()"
+		(mouseout)="removeHover()"
+		(mousedown)="addActive()"
+		(mouseup)="removeActive()" [class]="btnType" >
+		<button #btn [type]="type" class="aca" [class.disabled]="disabled" (click)="clicked()">
+			<div [class.center]="action_btn">
+				<ng-content></ng-content>
+			</div>
+			<div [@clickResp]="click_state" class="circle"></div>
+		</button>
+	</div>
 </div>

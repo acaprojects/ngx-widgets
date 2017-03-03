@@ -9,6 +9,7 @@ div.map-marker {
     position: absolute;
     height: 1px;
     width: 1px;
+    opacity: 0;
     & .pin-display {
         position: absolute;
         height: 3.0em;

@@ -31,23 +31,24 @@ export class MapMarkerGroupComponent {
 
     @ViewChild('main') main: ElementRef;
 
-    prev_markers: any = null;
     prev_map: any = null;
     count: number = 0;
     font_size: number = 1;
     radius_size: number = 12;
     marker_timer: any = null;
+    prev_markers: string = '';
 
     constructor() {
         this.marker_timer = setInterval(() => {
-            if(this.markers && this.count !== this.markers.length) {
+            let markers = JSON.stringify(this.markers);
+            if(this.prev_markers !== markers) {
+                this.prev_markers = markers;
                 this.updateMarkers();
             }
-        }, 2000);
+        }, 1000);
     }
 
     ngOnInit() {
-
     }
 
     ngOnChanges(changes: any) {
@@ -111,6 +112,12 @@ export class MapMarkerGroupComponent {
         if(!this.main || !this.markers) return;
         for(let i = 0;  i < this.markers.length; i++) {
             let marker = this.markers[i];
+            if(!marker.show_fn) {
+                marker.show = false;
+                marker.show_fn = setTimeout(() => {
+                    marker.show = true;
+                }, 100);
+            }
             let top = -(DIM_LIMIT+1);
             let left = -(DIM_LIMIT+1);
             let el = marker.el ? marker.el() : null;
@@ -127,7 +134,8 @@ export class MapMarkerGroupComponent {
                 switch(this.rotate) {
                     case 1:
                     case 90:
-                        tmp= x; x = y; y = x;
+                        tmp= x; x = y; y = tmp;
+                        //y = this.map.dim.y - y;
                         x = this.map.dim.x - x;
                         break;
                     case 180:

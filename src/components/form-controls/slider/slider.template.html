@@ -10,7 +10,7 @@
 <div [class]="'aca slider ' + cssClass" (window:resize)="resize()">
     <div #space class="block" [class.vertical]="align==='vertical'">
         <!-- Vertical Slider -->
-        <div #bar class="bar c1" (tap)="clickSlider($event)" (press)="moveSlider($event)" (pressup)="sliderStop($event)" (pan)="moveSlider($event)">
+        <div #bar class="bar c1" (tap)="clickSlider($event)" (press)="clickSlider($event)" (pan)="moveSlider($event)">
             <div #prog class="progress c2"
                 [style.width]="align==='vertical' ? '100%' :percent + '%'"
                 [style.height]="align==='vertical' ? (percent) + '%':'100%' ">
@@ -18,7 +18,7 @@
             <div class="knob-container"
                 [style.left]="align==='vertical' ? '50%' :percent + '%'"
                 [style.top]="align==='vertical' ? (100 - percent) + '%':'50%'">
-                <div #knob class="knob c3" (press)="moveSlider($event)" (pan)="moveSlider($event)"></div>
+                <div #knob class="knob c3" (tap)="clickSlider($event)" (press)="clickSlider($event)" (pan)="moveSlider($event)"></div>
             <div>
         </div>
     </div>

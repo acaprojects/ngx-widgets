@@ -12,28 +12,49 @@ import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angu
 @Component({
     selector: 'btn-group',
     templateUrl: './btn-group.template.html',
-    styleUrls: [ './btn-group.styles.css' ]
+    styleUrls: [ './btn-group.styles.css', '../../material-styles/material-styles.css'  ]
 })
 export class ButtonGroup {
     @Input() items: any;
-    @Input() selected: number = 0;
-    @Input() cssClass: string = 'default';
-    @Output() selectedChange = new EventEmitter();
+    @Input() model: number = 0;
+    @Input() color: string = 'blue';
+    @Input() primary: string = 'C500';
+    @Input() secondary: string = 'C600';
+    @Input() cssClass: string = '';
+    @Output() modelChange = new EventEmitter();
+
+    btn_class;
 
     constructor(){
 
     }
 
+    ngOnInit() {
+        this.loadClasses();
+    }
+
     ngOnChanges(changes: any){
-        this.selectedChange.emit(this.selected);
+        if(changes.color || changes.primary || changes.secondary) {
+            this.loadClasses();
+        }
+        if(changes.model) {
+
+        }
     }
 
     ngAfterViewChecked() {
 
     }
 
+    loadClasses() {
+        this.btn_class = '';
+        if(this.cssClass === '') {
+            this.btn_class = `color bg-${this.color}-${this.primary} font-white`;
+        }
+    }
+
     toggle(index: number){
-        this.selected = index;
-        this.selectedChange.emit(this.selected);
+        this.model = index;
+        this.modelChange.emit(this.model);
     }
 }

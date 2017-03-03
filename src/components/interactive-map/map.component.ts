@@ -665,9 +665,38 @@ export class InteractiveMap {
         //Traverse map and return array of clicked elements
         let elems: any[] = [];
         let el = this.map_item;
-        if(event && this.map_item) {
-            let mbb = this.map_item.getBoundingClientRect();
-            console.debug((event.center.x - mbb.left).toString(), (event.center.y - mbb.top).toString());
+        if(event && this.map_display) {
+            let mbb = this.map_display.nativeElement.getBoundingClientRect();
+            if(window['debug']) {
+            	let c = event.center;
+            	let left = c.x - mbb.left;
+            	let top = c.y - mbb.top;
+            	let ratio = { x: +((left / mbb.width).toFixed(3)), y: +((top / mbb.height).toFixed(3)) };
+            	let tmp = 0;
+            	let dim = JSON.parse(JSON.stringify(this.map_details.dim));
+                switch(this.rotations) {
+                    case 1:
+                    case 90:
+                    	tmp = ratio.x; ratio.x = ratio.y; ratio.y = tmp;
+                    	tmp = dim.x; dim.x = dim.y; dim.y = tmp;
+                    	ratio.y = 1 - ratio.y;
+                    	break;
+                    case 2:
+                    case 180:
+                    	ratio.y = 1 - ratio.y;
+                    	ratio.x = 1 - ratio.x;
+                    	break;
+                    case 3:
+                    case 270:
+                    	tmp = ratio.x; ratio.x = ratio.y; ratio.y = tmp;
+                    	tmp = dim.x; dim.x = dim.y; dim.y = tmp;
+                    	ratio.x = 1 - ratio.x;
+                    	break;
+                }
+            	let posX = ratio.x * dim.x;
+            	let posY = ratio.y * dim.y;
+            	console.debug(`${left}, ${top}(${posX.toFixed(0)}, ${posY.toFixed(0)})`);
+            }
         }
         	// Get list of element ids that the user has clicked on
         elems = this.getItems(event.center, el);
@@ -881,10 +910,7 @@ export class InteractiveMap {
 	            	let ch = this.content_box.height;
 	            	let w_r = this.map_box.width / this.content_box.width;
 	            	this.map_scale = Math.round(((mh / w_r) / ch) * 100) / 100;
-	            	console.log(w_r.toFixed(2), ch.toFixed(2), mh.toFixed(2), (mh/w_r).toFixed(2));
-	            	console.log(this.map_scale);
 	            	if(mh/w_r <= ch && this.map_scale < 1) this.map_scale = 1;
-	            	console.log(this.map_scale);
 	            	this.prev_height = this.map_box.height;
 	            	this.prev_zoom = this._zoom;
 	            }

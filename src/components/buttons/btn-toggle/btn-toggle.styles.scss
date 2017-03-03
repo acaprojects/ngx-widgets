@@ -1,38 +1,101 @@
-// @Author: Alex Sorafumo <Yuion>
-// @Date:   13/09/2016 2:55 PM
+// @Author: Alex Sorafumo
+// @Date:   21/09/2016 1:10 PM
 // @Email:  alex@yuion.net
-// @Filename: btn-toggle.styles.scss
-// @Last modified by:   Yuion
-// @Last modified time: 15/12/2016 11:28 AM
+// @Filename: btn.styles.scss
+// @Last modified by:   alex.sorafumo
+// @Last modified time: 06/01/2017 4:43 PM
 
-$border: 3px;
-$base-color: #EE6352;
-$padding: 0.5em;
+.aca {
+	&.default {
+		font-family: Roboto;
+	}
 
+	& .center {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	&.disabled {
+		& button {
+			cursor: not-allowed !important;
+			background-color: rgba(255,255,255,0.2) !important;
+			color: rgba(0,0,0,0.54) !important;
+		}
+	}
+	&.btn {
+		position: relative;
+		display: inline-block;
+		padding: 0.5em 0.75em;
+		text-align: center;
+		cursor: pointer;
+		user-select: none;
+		& .action {
+			padding: 0;
+			& button {
+				height: 4.0em;
+				width: 4.0em;
+				padding: 0;
+				border-radius: 100%;
+				min-width: 4.0em;
+				&.hover {
 
-.btn-toggle {
-    min-width: 4.0em;
-    max-width: 100%;
-    width: auto;
-    min-height: 1.0em;
-    padding: $padding $padding*2;
-    text-align: center;
-    border-radius: 8px;
-    border: $border solid $base-color;
-    display: inline-block;
-    margin: $padding/5*4;
-    cursor: pointer;
-}
+				}
+			}
+		}
+		& .mini-action {
+			padding: 0;
+			& button {
+				height: 3.0em;
+				width: 3.0em;
+				min-width: 3.0em;
+				padding: 0;
+				border-radius: 100%;
+				&.hover {
 
-.btn-toggle:hover{
-    border: $border solid ($base-color + #111111);
-    background-color: #FFFFFF - #111111;
-}
-
-.btn-toggle.active:hover {
-    background-color: ($base-color + #111111);
-}
-
-.btn-toggle.active {
-    background-color: $base-color;
+				}
+			}
+		}
+		& .raised {
+			& button {
+				min-width: 7.0em;
+				&.disabled {
+					background-color: rgba(0,0,0, 0.5);
+					color: #000;
+				}
+				&.is-off {
+					background-color: #E0E0E0 !important;
+					color: #000 !important;
+					&:hover {
+						background-color: #BDBDBD !important;
+					}
+				}
+			}
+		}
+		& button {
+			font-size: 1.0em;
+			padding: 0.5em 0.75em;
+			position: relative;
+			outline: none;
+			border-radius: 0.1em;
+			border: none;
+			cursor: pointer;
+			overflow: hidden;
+			min-width: 6.0em;
+			&.disabled {
+				opacity: 0.25;
+			}
+		}
+		& .circle{
+			position: absolute;
+			width: 4.0em;
+			height: 4.0em;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%) scale(0);
+			background-color: #000;
+			opacity: 0;
+			border-radius: 100%;
+		}
+	}
 }
