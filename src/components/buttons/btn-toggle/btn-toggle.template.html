@@ -13,7 +13,7 @@
 		(mouseout)="removeHover()"
 		(mousedown)="addActive()"
 		(mouseup)="removeActive()" [class]="btnType" >
-		<button #btn [type]="type" class="aca" [class.disabled]="disabled" (click)="clicked()">
+		<button #btn class="aca" [class.disabled]="disabled" (click)="clicked()">
 			<div [class.center]="action_btn">
 				<ng-content></ng-content>
 			</div>
