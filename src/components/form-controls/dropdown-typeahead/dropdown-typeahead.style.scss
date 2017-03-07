@@ -5,125 +5,92 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:29 AM
 
-.dropdown {
+.dropdown-typeahead {
 	position: relative;
-	display: inline-block;
-	padding: 0.5em;
+	min-width: 12em;
 	height: 2.0em;
-	user-select: none;
-	cursor: pointer;
-	& .box {
-		position: relative;
-		&.generic {
-			border-top: 0.1em solid rgba(0,0,0,0.2);
-			border-bottom: 0.1em solid rgba(0,0,0,0.2);
-			&.hover {
-				background-color: rgba(0,0,0,0.1);
-			}
+	font-size: 1.0em;
+	z-index: 100;
+	border-radius: 0.1em;
+	& .item {
+		cursor: pointer;
+		padding: 0.25em;
+		& .field {
+
 		}
-		&.segmented {
-			border-top: 1px solid rgba(0,0,0,0.2);
-			border-bottom: 1px solid rgba(0,0,0,0.2);
-			& .hover {
-				background-color: rgba(0,0,0,0.1);
-			}
-			& .caret {
-				border-left: 1px solid rgba(0,0,0,0.2);
-			}
+		&.active {
+			
 		}
-		&.editable {
-			border-top: 1px solid rgba(0,0,0,0.2);
-			border-bottom: 1px solid rgba(0,0,0,0.2);
-			& .hover {
-				background-color: rgba(0,0,0,0.1);
-			}
-			& .text {
-				padding: 0;
+	}
+
+	& .list {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1999;
+		border-radius: 0.1em;
+		& .search {
+			margin: 0.25em 1.0em;
+			display: flex;
+			align-items: center;
+			border: 1px solid rgba(0,0,0,0.1);
+			border-radius: 0.1em;
+			height: 1.5em;
+			& .input {
+				padding: 0.2em 0.5em;
+				flex-grow: 1;
 				& input {
-					height: 100%;
-					outline: none;
+					width: 100%;
 					border: none;
+					outline: none;
 					font-size: 1.0em;
-					min-width: 4.0em;
-					padding: 1.0em 1.5em;
-					margin: 0;
 					background: none;
-					cursor: text;
 				}
 			}
-			& .caret {
-				border-left: 1px solid rgba(0,0,0,0.2);
+			& .icon {
+				margin: 0.25em;
+				& .search {
+					height: 1.0em;
+					width: 1.0em;
+					border: none;
+					background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS41IDE0aC0uNzlsLS4yOC0uMjdDMTUuNDEgMTIuNTkgMTYgMTEuMTEgMTYgOS41IDE2IDUuOTEgMTMuMDkgMyA5LjUgM1MzIDUuOTEgMyA5LjUgNS45MSAxNiA5LjUgMTZjMS42MSAwIDMuMDktLjU5IDQuMjMtMS41N2wuMjcuMjh2Ljc5bDUgNC45OUwyMC40OSAxOWwtNC45OS01em0tNiAwQzcuMDEgMTQgNSAxMS45OSA1IDkuNVM3LjAxIDUgOS41IDUgMTQgNy4wMSAxNCA5LjUgMTEuOTkgMTQgOS41IDE0eiIvPgogICAgPHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
+				}
 			}
-
 		}
 
-		& .caret {
-			width: 3.0em;
-			height: 100%;
-			text-align: center;
+		& .items {
+			max-height: 30vh;
+			overflow: auto;
 		}
+	}
 
-		& .text {
-			min-width: 6em;
-			padding: 1.0em 1.5em;
-			display: inline-block;
+	&.default {
+		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+		background-color: #FFF;
+		color: #000;
+		&:hover {
+			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
 		}
-
-		& .caret {
-			padding: 1.0em 0.75em;
-			display: inline-block;
-		}
-
-		&.top {
-			border-radius: 0;
+		& .item {
+			&:hover {
+				color: #FFF;
+				background-color: #2196F3;
+			}
 			&.active {
-				border-radius: 0 0 0.1em 0.1em;
-				border: none !important;
+
 			}
 		}
-
-		&.bottom {
-			&.active {
-				border-radius: 0.1em 0.1em 0 0;
-				border: none !important;
-			}
-		}
-
-		& .contents {
-			position: absolute;
-			width: 100%;
-			background-color: #FFF !important;
-			&.top {
-				bottom: 100%;
-				border-radius: 0.1em 0.1em 0 0;
-				border-bottom: 0.1em solid rgba(0,0,0,0.2);
-			}
-
-			&.bottom {
-				top: 100%;
-				border-radius: 0 0 0.1em 0.1em;
-				border-top: 0.1em solid rgba(0,0,0,0.2);
-			}
-			& ul {
-				width: 100%;
-				list-style: none;
-				padding: 1.0em 0;
-				margin: 0;
-				white-space: nowrap;
-				overflow: auto;
-				max-height: 60%;
-				& li {
-					position: relative;
-					width: 100%;
-					padding: 0.25em 1.5em;
-					padding-right: 4.0em;
-					&:hover {
-						background-color: rgba(0,0,0,0.1);
-					}
-					& .check {
-						position: absolute;
-						left: 0.5em;
-					}
+		& .list {
+			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+			background-color: #FFF;
+			color: #000;
+			overflow: hidden;
+			& .item {
+				&.active {
+					cursor: default;
+					background-color: #FFF;
+					color: #000;
 				}
 			}
 		}

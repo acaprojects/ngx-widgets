@@ -7,37 +7,31 @@
 @Last modified time: 15/12/2016 11:29 AM
 -->
 
-<div #main [class]="'aca dropdown '" >
-	<div #box class="box">
-		<div #text class="text"
-			(mouseup)="type==='segmented' ? removeActive() : ''">
-			<span  *ngIf="type!=='editable'">
-				{{ parseInt(selected) !== NaN && options.length > parseInt(selected) ? options[parseInt(selected)] : '-----'}}
-			</span>
-			<input *ngIf="type==='editable'" type="text" [(ngModel)]="value" (blur)="finishedInput()" (keyup)="updateInput()" />
+<div #main [class]="'aca dropdown-typeahead ' + cssClass" >
+	<div class="item active" [@show]="shown ? 'hide': 'show'" (tap)="toggle()">
+		<div *ngIf="type==='object'">
+			<span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k" [innerHTML]="model[f]"></span>
 		</div>
-		<div #caret class="caret" 
-			[class.hover]="caret_hover" 
-			(mouseover)="caret_hover=true" 
-			(mouseout)="caret_hover=false" 
-			(click)="open(true)">
-			{{show ? '&#9650;' : '&#9660;'}}
+		<div class="field" *ngIf="type!=='object'">{{model}}</div>
+	</div>
+	<div #list class="list" [@showlist]="shown ? 'show': 'hide'">
+		<div class="item active" (tap)="shown=!shown">
+			<div *ngIf="type==='object'">
+				<span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k" [innerHTML]="model[f]"></span>
+			</div>
+			<div class="field" *ngIf="type!=='object'">{{model}}</div>
 		</div>
-		<div #contents *ngIf="show" class="contents aca layer modal-one" [class.top]="top===true" [class.bottom]="top===false">
-			<div #list class="options">
-				<ul #listView [class]="classes">
-					<li [class]="'option ' + cssClass" 
-						*ngFor="let item of options; let i = index" 
-						[class.first]="i==0" 
-						[class.last]="i==options.length-1"  
-						[class.other]="i > 0" 
-						[class.odd]="i%2===1" 
-						[class.even]="i%2===0" 
-						(click)="setOption($event, i)"
-						(touchend)="setOption($event, i)">
-							<div class="check">{{selected === i.toString() ? '&#x2713;' : ''}}</div>{{item}} 
-					</li>
-				</ul>
+		<div hidden *ngIf="shown" (window:tap)="checkTap($event)"></div>
+		<div class="search">
+			<div class="input"><input type="text" [(ngModel)]="search" (ngModelChange)="filter()"/></div>
+			<div class="icon"><span class="icon search"></span></div>
+		</div>
+		<div class="items">
+			<div class="item" *ngFor="let item of display_items; let i = index " (tap)="select(i)">
+				<div *ngIf="type==='object'">
+					<span *ngFor="let f of fields; let k = index " class="field" [id]="'dropdown-item'+i+'-field'+k" [innerHTML]="item[f]"></span>
+				</div>
+				<div class="field" *ngIf="type!=='object'">{{item}}</div>
 			</div>
 		</div>
 	</div>

@@ -83,7 +83,26 @@ Dropdowns have 2 attributes.
 Name | Binding | Direction | Types | Description
 -----|----------|-----------|-------------|------------
 `options`| One-way | Write-only | String Array | List of options that can be selected
-`selected`| Two-way | Read & Write | String Array | Index of the selected option
+`selected`| Two-way | Read & Write | Number | Index of the selected option
+
+### Dropdown Typeahead
+
+Widget for selection of a single item from a long list of items.
+
+![Dropdown Typeahead](https://cloud.githubusercontent.com/assets/20103948/23636884/4c3bc590-032c-11e7-8160-ed6ca47fe507.png)
+
+```html
+<dropdown-typeahead [items]="item_list" [(model)]="item"></dropdown-typeahead>
+```
+
+Dropdowns have 2 attributes.
+
+Name | Binding | Direction | Types | Description
+-----|----------|-----------|-------------|------------
+`items`| One-way | Write-only | Any Array | List of options that can be selected
+`model`| Two-way | Read & Write | Any | The value of the selected item
+`search`| Two-way | Read & Write | String | Search filter string
+`fields`| One-way | Write-only | String Array | List of fields to be displayed
 
 ### Slider
 
