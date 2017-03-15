@@ -72,10 +72,6 @@ export class DateDialog extends Modal {
     days: any[] = [];
     months: any[] = [];
 
-    constructor(public _cfr: ComponentFactoryResolver) {
-        super(_cfr);
-    }
-
     ngOnInit() {
         this.setDate(new Date());
         if(this.futureOnly && (this.minDate === null || this.minDate === undefined)) this.minDate = new Date();

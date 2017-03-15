@@ -7,7 +7,7 @@
 * @Last modified time: 15/12/2016 11:32 AM
 */
 
-import { Component, Input, Output, EventEmitter, ElementRef} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, Renderer } from '@angular/core';
 import { ContentChildren, QueryList, AfterContentInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
@@ -24,12 +24,12 @@ export class TabHead {
     contents: string;
     isActive: boolean = false;
     visible: boolean = false;
-    constructor(private el: ElementRef) {
+    constructor(private el: ElementRef, private renderer: Renderer) {
     }
 
     ngAfterContentInit(){
         this.contents = this.el.nativeElement.innerHTML;
-        this.el.nativeElement.innerHTML = "";
+        this.renderer.setElementProperty(this.el.nativeElement, 'innerHTML', '');
     }
 
     get activeTab() {

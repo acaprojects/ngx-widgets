@@ -13,6 +13,7 @@ import { ModalService } from './modal.service';
 import { DropService } from './drop-service';
 import { DynamicTypeBuilder } from './dynamic/type.builder';
 import { MapService } from './map.service';
+import { WidgetThemeService } from './theme.service';
 
 export * from './animate.service';
 export * from './drop-service';
@@ -28,5 +29,6 @@ export let SERVICES: any[] = [
     ModalService,
     MapService,
     NotificationService,
-    DynamicTypeBuilder
+    DynamicTypeBuilder,
+    WidgetThemeService
 ];

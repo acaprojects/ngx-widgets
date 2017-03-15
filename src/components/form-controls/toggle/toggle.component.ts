@@ -27,8 +27,8 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
             transition("on <=> off", animate('100ms ease-out'))
         ]),
         trigger('iosToggle', [
-            state('on', style({left: '33%'})),
-            state('off', style({left: '2.5%'})),
+            state('on', style({left: '100%'})),
+            state('off', style({left: '0'})),
             transition('on <=> off', animate('100ms ease-out'))
         ])
     ]

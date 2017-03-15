@@ -41,9 +41,4 @@ export class SimpleModal extends Modal {
     @ViewChild('modal') public modal: ElementRef;
     @ViewChild('content', { read: ViewContainerRef }) public _content: ViewContainerRef;
 
-    constructor(
-    	public _cfr: ComponentFactoryResolver
-    ) {
-        super(_cfr);
-    }
 }

@@ -13,7 +13,7 @@
             <li *ngFor="let tab of tabHeaders"
             	[innerHTML]="tab.contents | safe"
             	[class.active]="tab.activeTab"
-            	(click)="setActiveTab(tab.id)"
+            	(tap)="setActiveTab(tab.id)"
             	(touchup)="setActiveTab(tab.id)"></li>
             <li [class]="'empty ' + cssClass"></li>
         </ul>

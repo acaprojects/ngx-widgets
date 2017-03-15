@@ -14,8 +14,8 @@
 			<div #content class="content"></div>
 		</div>
 		<div class="dialog-footer">
-			<btn btnType="flat" (click)="select(cancel)">Cancel</btn>
-			<btn btnType="flat" (click)="select(confirm)">{{confirm?.text}}</btn>
+			<btn btnType="flat" (tap)="select(cancel)">Cancel</btn>
+			<btn btnType="flat" (tap)="select(confirm)">{{confirm?.text}}</btn>
 		</div>
 	</div>
 </div>

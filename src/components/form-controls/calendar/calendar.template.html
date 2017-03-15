@@ -10,11 +10,11 @@
 <div class="aca calendar">
 	<div class="calendar-space">
 		<div class="header" [style.color]="color2" [style.background-color]="color1">
-			<div class="arrow left" [style.color]="color2" (click)="prevMonth()">
+			<div class="change-arrow" [style.color]="color2" (tap)="prevMonth()">
 				&#9668;
 			</div>
-			{{months[display_month]}} {{display_year}}
-			<div class="arrow right" [style.color]="color2" (click)="nextMonth()">
+			<div class="month">{{months[display_month]}} {{display_year}}</div>
+			<div class="change-arrow" [style.color]="color2" (tap)="nextMonth()">
 				&#9658;
 			</div>
 		</div>
@@ -25,16 +25,16 @@
 		<div class="month-days">
 			<div class="week" *ngFor="let week of [0, 1, 2, 3, 4, 5]">
 				<div class="day" *ngFor="let day of [0, 1, 2, 3, 4, 5, 6];"
-					[style.background-color]="month_node[week * 7 + day].active?color1:''"
-					[style.color]="month_node[week * 7 + day].active?color2:''"
-					[class.valid]="month_node[week * 7 + day].valid"
-					[class.today]="month_node[week * 7 + day].today"
-					[class.past]="month_node[week * 7 + day].past"
-					[class.active]="month_node[week * 7 + day].active"
-					[class.disabled]="month_node[week * 7 + day].disabled"
-					(click)="selectDate(week, day)">
+					[style.background-color]="month_node[week * 7 + day]?.active?color1:''"
+					[style.color]="month_node[week * 7 + day]?.active?color2:''"
+					[class.valid]="month_node[week * 7 + day]?.valid"
+					[class.today]="month_node[week * 7 + day]?.today"
+					[class.past]="month_node[week * 7 + day]?.past"
+					[class.active]="month_node[week * 7 + day]?.active"
+					[class.disabled]="month_node[week * 7 + day]?.disabled"
+					(tap)="selectDate(week, day)">
 
-					{{month_node[week * 7 + day].day}}
+					<div class="date">{{month_node[week * 7 + day]?.day}}</div>
 				</div>
 			</div>
 		</div>

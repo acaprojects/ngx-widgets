@@ -7,7 +7,7 @@
 * @Last modified time: 27/01/2017 5:30 PM
 */
 
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 
 @Component({
@@ -80,7 +80,7 @@ export class DataInput {
 	alphabet: string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	alphanumeric: string = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-	constructor() {
+	constructor(private renderer: Renderer) {
 
 	}
 
@@ -141,7 +141,7 @@ export class DataInput {
 	 */
 	focusInput() {
 		if(this.input && !this.disabled && !this.readonly) {
-			this.input.nativeElement.focus();
+			this.renderer.invokeElementMethod(this.input.nativeElement, 'focus', []);
 			if(this.focus_timer) {
 				clearTimeout(this.focus_timer);
 				this.focus_timer = null;
@@ -149,7 +149,7 @@ export class DataInput {
 			this.focus = true;
 			this.onFocus.emit();
 		} else {
-			this.input.nativeElement.blur();
+			this.renderer.invokeElementMethod(this.input.nativeElement, 'blur', []);
 		}
 	}
 	/**
@@ -220,9 +220,7 @@ export class DataInput {
 	            range.select();
 	        }
 	        else {
-	            if(elem.selectionStart) {
-	                elem.setSelectionRange(caretPos, caretPos);
-	            }
+	            this.renderer.invokeElementMethod(elem, 'setSelectionRange', [caretPos, caretPos]);
 	        }
 	    }
 	}

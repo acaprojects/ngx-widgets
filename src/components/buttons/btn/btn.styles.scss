@@ -6,9 +6,6 @@
 // @Last modified time: 06/01/2017 4:43 PM
 
 .aca {
-	&.default {
-		font-family: Roboto;
-	}
 
 	& .center {
 		position: absolute;
@@ -112,6 +109,9 @@
 			min-width: 6.0em;
 			&.disabled {
 				opacity: 0.25;
+			}
+			&.default {
+				font-family: Roboto;
 			}
 		}
 		& .circle{

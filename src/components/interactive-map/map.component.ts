@@ -7,12 +7,13 @@
 * @Last modified time: 31/01/2017 10:06 AM
 */
 
-import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import { Component, Pipe, Input, Output, EventEmitter, ElementRef, ViewChild, Renderer } from '@angular/core';
 import { trigger, transition, animate, style, state, group, keyframes } from '@angular/core';
 
 import { ACA_Animate } from '../../services/animate.service';
 import { MapService } from '../../services';
 import { Utility } from '../../helpers/utility.class';
+import { WIDGET_SETTINGS } from '../../settings';
 
 declare let Hammer: any;
 
@@ -74,7 +75,6 @@ export class InteractiveMap {
     rotate: number = 0; // In degrees
     zoomed: boolean = false;
     map_shown: boolean = false;
-    debug: string[] = [];
     map_orientation: string = '';
     activate: boolean = false;
     de: any;
@@ -103,11 +103,15 @@ export class InteractiveMap {
     zoom_bb: any = null;
     move_timer: any = null;
     run_update: any = null;
+    debug: boolean = false;
 
-    constructor(private a: ACA_Animate, private service: MapService){
+    constructor(private a: ACA_Animate, private service: MapService, private renderer: Renderer){
         this.status_check = setInterval(() => {
             this.checkStatus();
         }, 1000);
+        WIDGET_SETTINGS.observe('debug').subscribe((data) => {
+        	this.debug = data;
+        });
     }
 
     ngOnInit(){
@@ -149,8 +153,9 @@ export class InteractiveMap {
         this.zoom_state = Math.round((100 + this.o_zoom)).toString();
         if(this.map_display) {
         	let scale = Math.round((1/this.map_scale) * 1000) / 10 ;
-        	this.map_display.nativeElement.style.width = `${scale}%`;
-        	this.map_display.nativeElement.style['min-width'] = `${scale}%`;
+        	let m_el = this.map_display.nativeElement;
+        	this.renderer.setElementStyle(m_el, 'width', `${scale}%`);
+        	this.renderer.setElementStyle(m_el, 'min-width', `${scale}%`);
         }
         if(+this.zoom_state < 50) this.zoom_state = '50';
         if(this.zoom_state !== p_z_state) {
@@ -238,9 +243,9 @@ export class InteractiveMap {
     clearDisabled(strs:string[]) {
         if(this.map_display) {
             for(let i = 0; i < strs.length; i++) {
-                let el = this.map_display.nativeElement.querySelector('#' + Utility.escape(strs[i]));
+            	let el = this.renderer.selectRootElement('#' + Utility.escape(strs[i]))
                 if(el !== null) {
-                    el.style.display = 'inherit';
+                	this.renderer.setElementStyle(el, 'display', 'inherit');
                 }
             }
         }
@@ -252,9 +257,9 @@ export class InteractiveMap {
     setupDisabled() {
         if(this.active && this.map_display) {
             for(let i = 0; i < this.disable.length; i++) {
-                let el = this.map_display.nativeElement.querySelector('#' + Utility.escape(this.disable[i]));
+            	let el = this.renderer.selectRootElement('#' + Utility.escape(this.disable[i]))
                 if(el !== null) {
-                    el.style.display = 'none';
+                	this.renderer.setElementStyle(el, 'display', 'none');
                 }
             }
         }
@@ -268,10 +273,11 @@ export class InteractiveMap {
         if(this.prev_map_styles && this.prev_map_styles.length > 0) {
             for(let i = 0; i < this.prev_map_styles.length; i++) {
                 let style = this.prev_map_styles[i];
-                let el = this.map_area.nativeElement.querySelector('#' + Utility.escape(style.id));
+            	let el = this.renderer.selectRootElement('#' + Utility.escape(style.id));
                 if(el) {
                 	for(let s in style) {
-                		if(s in el.style) {
+                		if(s in el.nativeElement.style) {
+                			this.renderer.setElementStyle(el, s, style[s]);
                 			el.style[s] = style[s];
                 		}
                 	}
@@ -281,13 +287,13 @@ export class InteractiveMap {
         if(!this.mapStyles || !this.map_item) return;
         for(let i = 0; i < this.mapStyles.length; i++){
             let style = this.mapStyles[i];
-            let el = this.map_area.nativeElement.querySelector('#' + Utility.escape(style.id));
+            	let el = this.renderer.selectRootElement('#' + Utility.escape(style.id));
             if(el && style.id !== '') {
                 let old_style = JSON.parse(JSON.stringify(style));
                 for(let s in style) {
-                	if(s in el.style) {
+                	if(s in el.nativeElement.style) {
                 		old_style[s] = el.style[s];
-                		el.style[s] = style[s];
+                		this.renderer.setElementStyle(el, s, style[s]);
                 	}
                 }
                 if(this.map_style_ids.indexOf(style.id) < 0) {
@@ -312,10 +318,11 @@ export class InteractiveMap {
         if(this.self) {
             //Check if the map area is visiable
             let bb = this.self.nativeElement.getBoundingClientRect();
+            let body = this.renderer.selectRootElement('body');
             if(bb.left + bb.width < 0) return false;
             else if(bb.top + bb.height < 0) return false;
-            else if(bb.top > window.innerHeight) return false;
-            else if(bb.left > window.innerWidth) return false;
+            else if(bb.top > body.innerHeight) return false;
+            else if(bb.left > body.innerWidth) return false;
             return true;
         }
         return false;
@@ -430,10 +437,10 @@ export class InteractiveMap {
     /**
      * Gets the element with the given ID from the map
      * @param {string} id Element ID
-     * @return {void}
+     * @return {ElementRef}
      */
     getElement(id: string) {
-        return this.map_display.nativeElement.querySelector('#' + Utility.escape(id));
+        return this.renderer.selectRootElement('#' + Utility.escape(id));
     }
     /**
      * Updates map dimentional information for use with the map pins/markers
@@ -514,7 +521,7 @@ export class InteractiveMap {
      */
     getFocusBB() {
         if(this.focus && typeof this.focus === 'string' && this.focus !== '') {
-            let el = this.map_display.nativeElement.querySelector('#' + Utility.escape(this.focus));
+            let el = this.getElement(Utility.escape(this.focus));
             if(el !== null) {
                 this.zoom_bb = el.getBoundingClientRect();
             }
@@ -595,24 +602,25 @@ export class InteractiveMap {
         setTimeout(() => {
             this.map_data = null;
             if(this.active) {
-                this.map_display.nativeElement.innerHTML = '';
+            	let m_el = this.map_display.nativeElement;
+            	this.renderer.setElementProperty(m_el, 'innerHTML', '');
                 if(this.map && this.map.indexOf('.svg') >= 0 && this.map.length > 4) {
                     this.service.getMap(this.map).then((data: any) => {
                         this.map_data = data;
                         this.setupMap();
                     }, (err: any) => {
-                        if(window['debug']) console.warn(`[WIDGETS][Map(C)] Error loading map "${this.map}".`);
+                        if(this.debug) console.warn(`[WIDGETS][Map(C)] Error loading map "${this.map}".`);
                         console.error(err);
                     });
                 } else {
                     if(!this.map){
-                        if(window['debug']) console.warn('[WIDGETS][Map(C)] Path to map is not valid.');
+                        if(this.debug) console.warn('[WIDGETS][Map(C)] Path to map is not valid.');
                     } else if(this.map.indexOf('.svg') < 0) {
-                        if(window['debug']) console.warn('[WIDGETS][Map(C)] Path to map is not an SVG.');
+                        if(this.debug) console.warn('[WIDGETS][Map(C)] Path to map is not an SVG.');
                     } else if(this.map.length > 4) {
-                        if(window['debug']) console.warn('[WIDGETS][Map(C)] Path to map is not long enough. It needs to be longer than 4 characters');
+                        if(this.debug) console.warn('[WIDGETS][Map(C)] Path to map is not long enough. It needs to be longer than 4 characters');
                     } else {
-                        if(window['debug']) console.warn(`[WIDGETS][Map(C)] Unknown error loading map with map path "${this.map}".`);
+                        if(this.debug) console.warn(`[WIDGETS][Map(C)] Unknown error loading map with map path "${this.map}".`);
                     }
                 }
             } else {
@@ -629,7 +637,8 @@ export class InteractiveMap {
     setupMap(){
         this.loading = true;
         if(this.map_data){
-            this.map_display.nativeElement.innerHTML = this.map_data;
+        	let m_el = this.map_display.nativeElement;
+        	this.renderer.setElementProperty(m_el, 'innerHTML', this.map_data);
             this.map_item = this.map_display.nativeElement.children[0];
             this.map_item.style[this.map_orientation] = '100%';
             this.map_item.style.position = 'absolute';
@@ -667,7 +676,7 @@ export class InteractiveMap {
         let el = this.map_item;
         if(event && this.map_display) {
             let mbb = this.map_display.nativeElement.getBoundingClientRect();
-            if(window['debug']) {
+            if(this.debug) {
             	let c = event.center;
             	let left = c.x - mbb.left;
             	let top = c.y - mbb.top;

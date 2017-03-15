@@ -7,7 +7,7 @@
 * @Last modified time: 07/02/2017 5:22 PM
 */
 
-import { Component, Input, Output, ElementRef, ViewChild, EventEmitter } from '@angular/core';
+import { Component, Input, Output, ElementRef, ViewChild, EventEmitter, Renderer } from '@angular/core';
 import { ComponentFactoryResolver, ViewContainerRef, HostListener } from '@angular/core'
 
 const POS_LIST: string[] = ['bottom', 'top', 'left', 'right'];
@@ -51,7 +51,7 @@ export class TooltipComponent {
         this.toggleShow();
     }
 
-    constructor(private el: ElementRef, public _cfr: ComponentFactoryResolver) {
+    constructor(private el: ElementRef, private _cfr: ComponentFactoryResolver, private renderer: Renderer) {
 
     }
 
@@ -82,12 +82,12 @@ export class TooltipComponent {
     private updateOffset() {
         if(this.content) {
             let el = this.content.nativeElement;
-            el.style.top = '';
-            el.style.left = '';
-            el.style.bottom = '';
-            el.style.right = '';
+            this.renderer.setElementStyle(el, 'top', '');
+            this.renderer.setElementStyle(el, 'left', '');
+            this.renderer.setElementStyle(el, 'bottom', '');
+            this.renderer.setElementStyle(el, 'right', '');
             if(this.offsetType in el.style) {
-                el.style[this.offsetType] = this.offset;
+            	this.renderer.setElementStyle(el, this.offsetType, this.offset);
             }
         } else {
             setTimeout(() => {

@@ -15,7 +15,7 @@ import { trigger, transition, animate, style, state, keyframes } 	 from '@angula
     template: `
         <div [@position]="position" [id]="id" [class]="'notification ' + cssClass" >
             <div class="contents" [innerHTML]="entity?.html | safe"></div>
-            <div class="close-btn" *ngIf="entity?.canClose" (click)="entity.close()">&#x2613;</div>
+            <div class="close-btn" *ngIf="entity?.canClose" (tap)="entity.close()">&#x2613;</div>
         </div>
     `,
     styleUrls: [ './notify-block.styles.css' ],

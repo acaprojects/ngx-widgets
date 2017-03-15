@@ -13,14 +13,14 @@
 			[style.width]="(large ? 2.5 * width : width) + unit">
 		<div class="modal-header title" [style.background-color]="colors.bg" [style.color]="colors.fg" >
 			<div class="text title">{{title}}</div>
-			<!--div *ngIf="close||false" class="close-btn" (click)="close_fn()"></div-->
+			<!--div *ngIf="close||false" class="close-btn" (tap)="close_fn()"></div-->
 		</div>
 		<div class="modal-body">
 			<div class="content"><div #content></div></div>
 		</div>
 		<div class="modal-footer">
 			<div class="modal-btns" *ngFor="let btn of options">
-				<btn type="submit" btnType="raised" [cssClass]="btn.class" (onClick)="select(btn.text)">{{btn.text}}</btn>
+				<btn type="submit" btnType="raised" [cssClass]="btn.class" (tapped)="select(btn.text)">{{btn.text}}</btn>
 			</div>
 		</div>
 	</div>

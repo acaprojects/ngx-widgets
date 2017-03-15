@@ -8,7 +8,7 @@
 */
 
 import { BUTTONS } from './buttons';
-import { FORM_CONTROLS, DropdownList, TypeaheadList } from './form-controls';
+import { FORM_CONTROLS, TypeaheadList } from './form-controls';
 import { ImageCrop } from './img-crop';
 import { MAP_COMPONENTS } from './interactive-map';
 import { MaterialStyles } from './material-styles';
@@ -48,7 +48,6 @@ export let ENTRY_COMPONENTS: any[] = [
     ACA_WIDGET_MODALS,
     Notification,
     NotifyBlock,
-    DropdownList,
     TypeaheadList,
     VirtualKeyboard
 ];

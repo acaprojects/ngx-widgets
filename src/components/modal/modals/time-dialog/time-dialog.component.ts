@@ -50,10 +50,6 @@ export class TimeDialog extends Modal {
     hours: number[] = [];
     minutes: number[] = [];
 
-    constructor(public _cfr: ComponentFactoryResolver) {
-        super(_cfr);
-    }
-
     ngOnInit() {
         this.hours = [];
         this.minutes = [];

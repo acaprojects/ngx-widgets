@@ -10,40 +10,39 @@
 	position: relative;
 	max-width: 100%;
 	height: 22.9em;
-	overflow-x: auto;
-	overflow-y: hidden;
+	font-size: 1.0em;
 	& .calendar-space {
 		display: inline-block;
 		height: 100%;
 		width: 25.6em;
-		border: 0.1em solid rgba(0,0,0,0.2);
+		border: 1px solid rgba(0,0,0,0.2);
+		border-radius: 0.1em;
 		background-color: #FFF;
+		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
 		user-select: none;
 		cursor: default;
 		& .header {
 			position: relative;
+			display: flex;
 			width: 100%;
 			height: 11.111111%;
 			border-bottom: 0.05em solid rgba(0,0,0,0.2);
 			background-color: #666;
 			color: #FFF;
 			font-size: 1.2em;
-			padding: 0.5em;
-			& .arrow {
-				position: absolute;
+
+			& .month {
+				flex-grow: 1;
+				text-align: center;
+				padding: 0.2em;
+			}
+			& .change-arrow {
 				font-size: 1.3em;
 				cursor: pointer;
-				top: 0.25em;
+				padding: 0 0.5em;
 				&:hover {
 					color: rgba(255,255,255,0.54) !important;
 				}
-				&.right {
-					right: 0.5em;
-				}
-				&.left {
-					left: 0.5em;
-				}
-
 			}
 		}
 		& .week-days {
@@ -75,17 +74,24 @@
 				flex-direction: row;
 				height: 11.111111%;
 				& .day {
+					position: relative;
 					height: 2.7em;
 					width: 3.55em;
 					margin: 0.1em;
 					padding: 1.0em 0.5em;
 					flex-grow: 0;
+					& .date {
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+					}
 
 					&.valid {
 						cursor: pointer;
 						&:hover {
 							background-color: rgba(0,0,0,0.3);
-							color: rgb(255,255,255);
+							color: rgba(0,0,0,0.54);
 						}
 
 						&.today {
@@ -109,123 +115,6 @@
 					}
 				}
 			}
-		}
-	}
-
-	& .time-picker {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 100%;
-		left: 0;
-		text-align: center;
-		background-color: #FFF;
-		font-size: 2.0em;
-
-		& .arrow {
-			&.down {
-				background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDcuODRMMTIgMTIuNDJsNC41OS00LjU4TDE4IDkuMjVsLTYgNi02LTZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNzVoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
-			}
-			&.up {
-				background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDE1LjQxTDEyIDEwLjgzbDQuNTkgNC41OEwxOCAxNGwtNi02LTYgNnoiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
-			}
-			background-repeat: no-repeat;
-			background-position: center;
-			background-size: contain;
-			height: 0.8em;
-			width: 1.0em;
-			margin: auto;
-		}
-
-		& .time-space {
-			position: absolute;
-			margin: auto;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			& .header, & .finish-btn {
-				font-size: 0.7em;
-			}
-
-			& .finish-btn {
-				text-align: center;
-				cursor: pointer;
-				& .btn {
-					display: inline-block;
-					padding: 0.5em 1.5em;
-					border-radius: 0.1em;
-				}
-			}
-
-			& .picker {
-				display: flex;
-				flex-direction: row;
-				& .pick {
-					padding: 0.2em;
-					width: 3.0em;
-					& .display-arrow {
-						position: relative;
-						font-weight: bolder;
-						text-align: center;
-						width: 100%;
-						font-size: 1.7em;
-						cursor: pointer;
-					}
-					& .set {
-						border: 0.1em solid #DDD;
-						border-radius: 0.1em;
-						outline: none;
-						&:active {
-							box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-						}
-						& input{
-							height: 100%;
-							width: 100%;
-							font-size: 0.8em;
-							padding: 0.2em;
-							border: none;
-							text-align: center;
-							cursor: text;
-						}
-					}
-					&.btn {
-						position: relative;
-						padding: 1.85em 0.2em;
-					}
-					& .btn {
-						position: absolute;
-						top: 50%;
-						transform: translateY(-50%);
-						vertical-align: middle;
-						border-radius: 0.2em;
-						outline: none;
-						font-size: 0.8em;
-						padding: 0.2em 1.0em;
-						cursor: pointer;
-						& button {
-							color: #FFFFFF;
-							height: 100%;
-							width: 100%;
-							font-size: 0.8em;
-							padding: 0.2em;
-							border: none;
-							background: none;
-							outline: none;
-							text-align: center;
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
-
-@media only screen and (max-device-width: 720px){
-	.calendar {
-
-		& .time-picker {
-			font-size: 2.5em;
 		}
 	}
 }

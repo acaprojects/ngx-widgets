@@ -8,7 +8,7 @@
 */
 
 // Require what we need from rxjs
-import { Injectable } from '@angular/core'
+import { Injectable, Renderer } from '@angular/core'
 import { Observable } from 'rxjs/Observable';
 import { DropFiles } from './drop-files';
 
@@ -25,38 +25,45 @@ export class DropService {
     private static _callbacks     = {}; // stream name => callback array
 
     // This are our event observables
-    private _drop:     any;
-    private _dragenter:any;
-    private _dragover: any;
-    private _dragleave:any;
+    private _event_obs: any = {};
+    public event: any = {};
+    private _listeners: any = {};
 
     // Tracks the number of dragenter events by tracking
     // the target elements (works around a firefox issue)
     private _counter = new Set();
 
 
-    constructor() {
+    constructor(/*private renderer: Renderer*/) {
         let overFired: any;
 
         // Define the event streams
-        this._drop = Observable.fromEvent(window, 'drop')
-            .map(this._preventDefault)
-            .filter(this._checkTarget.bind(this));
-
+        this._event_obs['drop'] = new Observable((observer) => {
+        	this.event['drop'] = (event: Event) => {
+	        	let e = this._preventDefault(event);
+	        	observer.next(this._checkTarget(e));
+        	}
+	    });
         // Prevent default on all dragover events
-        this._dragover = Observable.fromEvent(window, 'dragover').subscribe((event: Event) => {
-            event.preventDefault();
+        this._event_obs['dragover'] = new Observable((observer) => {
+        	this.event['dragover'] = (event: Event) => {
+	            event.preventDefault();
+	            observer.next(event);
+	        };
         });
 
-        this._dragenter = Observable.fromEvent(window, 'dragenter')
-            .map(this._preventDefault)
-            .filter(this._checkTarget.bind(this));
-
-        this._dragleave = Observable.fromEvent(window, 'dragleave')
-            .map(this._preventDefault)
-            .filter((event) => {
+        this._event_obs['dragenter'] = new Observable((observer) => {
+        	this.event['dragenter'] = (event: Event) => {
+	        	let e = this._preventDefault(event);
+	        	observer.next(this._checkTarget(e));
+	        };
+        });
+        this._event_obs['dragleave'] = new Observable((observer) => {
+        	this.event['dragleave'] = (event: Event) => {
+	        	let e = this._preventDefault(event);
+	        	this._checkTarget(e);
                 let dropTargets = this._dropTargets,
-                    target = event.target,
+                    target = e.target,
                     i:number;
 
                 this._counter.delete(target);
@@ -73,26 +80,27 @@ export class DropService {
                 } else {
                     for (i = 0; i < dropTargets.length; i += 1) {
                         if (dropTargets[i] === target) {
-                            return true;
+                            return observer.next(true);
                         }
                     }
                 }
 
-                return false;
-            });
+                return observer.next(false);
+	        };
+        });
 
         // Start watching for the events
-        this._dragenter.subscribe((obj: any) => {
+        this._event_obs['dragenter'].subscribe((obj: any) => {
             overFired = obj.target;
             this._updateClasses(obj);
         });
-        this._dragleave.subscribe((obj: any) => {
+        this._event_obs['dragleave'].subscribe((obj: any) => {
             if (!overFired) {
                 this._removeClass(obj);
             }
             overFired = null;
         });
-        this._drop.subscribe((obj: any) => {
+        this._event_obs['drop'].subscribe((obj: any) => {
             let observer = this._removeClass(obj);
             // Stream the files
             if (observer) {
@@ -105,7 +113,19 @@ export class DropService {
     }
 
     ngOnDestroy() {
-
+    		// Remove Observers
+    	for(let e in this._event_obs) {
+    		if(this._event_obs[e]) {
+    			this._event_obs[e].unsubscribe();
+    		}
+    	}
+    		// Remove listeners
+    	for(let l in this._listeners) {
+    		if(this._listeners[l]){
+	    		this._listeners[l]();
+	    		this._listeners[l] = null;
+	    	}
+    	}
     }
 
     // Configures an element to become a drop target

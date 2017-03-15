@@ -23,7 +23,8 @@ export class ButtonGroup {
     @Input() cssClass: string = '';
     @Output() modelChange = new EventEmitter();
 
-    btn_class;
+    btn_class: string = '';
+    hover: boolean = false;
 
     constructor(){
 
@@ -49,8 +50,17 @@ export class ButtonGroup {
     loadClasses() {
         this.btn_class = '';
         if(this.cssClass === '') {
-            this.btn_class = `color bg-${this.color}-${this.primary} font-white`;
+            if(!this.hover) {
+            	this.btn_class = `color bg-${this.color}-${this.primary} font-white`;
+            } else {
+            	this.btn_class = `color bg-${this.color}-${this.secondary} font-white`;
+            }
         }
+    }
+
+    setHover(state: boolean) {
+    	this.hover = state;
+    	this.loadClasses();
     }
 
     toggle(index: number){

@@ -19,14 +19,14 @@ const PLACEHOLDER = '-';
     animations: []
 })
 export class Calendar {
-    @Input() date: Date = new Date();
+    @Input() model: Date = new Date();
     @Input() minDate: Date = null;
     @Input() futureOnly: boolean = false;
     @Input() display: string;
     @Input() minuteStep: number = 5;
     @Input() color1: string = '#666';
     @Input() color2: string = '#FFF';
-    @Output() dateChange = new EventEmitter();
+    @Output() modelChange = new EventEmitter();
     @Output() finished = new EventEmitter();
 
     @ViewChild('hourPick') hour_input: ElementRef;
@@ -46,7 +46,9 @@ export class Calendar {
     days: any[] = [];
     months: any[] = [];
 
-    constructor() { }
+    constructor() {
+    	this.setDate(new Date);
+    }
 
     ngOnInit() {
         if(this.futureOnly && (this.minDate === null || this.minDate === undefined)) this.minDate = new Date();
@@ -63,9 +65,9 @@ export class Calendar {
     }
 
     ngOnChanges(changes:any) {
-        if(changes.date) {
-            if(changes.date.currentValue) {
-            	this.setDate(changes.date.currentValue);
+        if(changes.model) {
+            if(changes.model.currentValue) {
+            	this.setDate(changes.model.currentValue);
             }
         }
     }
@@ -76,9 +78,9 @@ export class Calendar {
      */
     setDate(date: Date) {
         if(!(date instanceof Date)) date = new Date();
-        this.date = date;
-        this.display_year = this.date.getFullYear();
-        this.display_month = this.date.getMonth();
+        this.model = date;
+        this.display_year = this.model.getFullYear();
+        this.display_month = this.model.getMonth();
         this.generateMonth();
     }
     /**
@@ -132,7 +134,7 @@ export class Calendar {
      * @return {boolean} Returns if day is selected
      */
     isActive(day: number) {
-        let now = this.date;
+        let now = this.model;
         return (now.getFullYear() === this.display_year &&
                 now.getMonth() === this.display_month &&
                 now.getDate() === +day);
@@ -199,10 +201,10 @@ export class Calendar {
         if(!+this.month_node[week * 7 + day].valid) return false;
         let date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day].day);
         if(this.isBeforeMinDate(+this.month_node[week * 7 + day].day)) return false;
-        date.setHours(this.date.getHours());
-        date.setMinutes(this.date.getMinutes());
+        date.setHours(this.model.getHours());
+        date.setMinutes(this.model.getMinutes());
         this.setDate(date);
-        this.dateChange.emit(date);
+        this.modelChange.emit(date);
         return true;
     }
 }

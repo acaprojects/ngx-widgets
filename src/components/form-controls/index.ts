@@ -9,7 +9,7 @@
 
 import { Calendar } from './calendar';
 import { DataInput } from './data-input';
-import { Dropdown, DropdownList } from './dropdown';
+import { Dropdown } from './dropdown';
 import { DropdownTypeahead } from './dropdown-typeahead';
 import { Slider } from './slider';
 import { TimePicker } from './time-picker';
@@ -29,7 +29,6 @@ export const FORM_CONTROLS: any[] = [
 	Calendar,
 	DataInput,
 	Dropdown,
-	DropdownList,
 	DropdownTypeahead,
 	Slider,
 	TimePicker,

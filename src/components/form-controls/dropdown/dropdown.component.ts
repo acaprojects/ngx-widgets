@@ -7,181 +7,105 @@
 * @Last modified time: 20/12/2016 9:37 AM
 */
 
-import { Injectable, ComponentFactoryResolver, ViewContainerRef, Type } from '@angular/core';
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 
 @Component({
-    selector: 'dropdown-list',
-    styleUrls: [ './dropdown-list.style.css' ],
-    templateUrl: './dropdown.template.html'
-})
-export class DropdownList {
-    @Input() options: string[] = ['Select an Option'];
-    @Input() selected: number = 0;
-    @Input() cssClass: string = 'default';
-
-    parent: any = null;
-
-    @ViewChild('contents') contents: ElementRef;
-
-    setup(params: any) {
-        let keys = Object.keys(params);
-        for(let i = 0; i < keys.length; i++){
-            if(keys[i] in this) {
-                this[keys[i]] = params[keys[i]];
-            }
-        }
-    }
-    /**
-     * Checks if the user clicked/tapped outside the dropdown
-     * @param  {any} e Input Event 
-     * @return {void}
-     */
-    checkClick(e:any) {
-        if(e) {
-            if(e.stopPropagation) e.stopPropagation();
-            if(e.preventDefault) e.preventDefault();
-            setTimeout(() => {
-                let bb = this.contents.nativeElement.getBoundingClientRect();
-                let c = e.center ? e.center : { x: e.clientX, y: e.clientY };
-                if(c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y  > bb.top + bb.height) {
-                    this.parent.close();
-                }
-            }, 50);
-        }
-    }
-    /**
-     * Sets the given item as selected tells the parent component
-     * @param  {number} i Index of the selected item
-     * @param  {any}    e Input event
-     * @return {void}
-     */
-    select(i: number, e?:any) {
-        if(e) {
-            if(e.stopPropagation) e.stopPropagation();
-            if(e.preventDefault) e.preventDefault();
-        }
-        setTimeout(() => {
-            this.selected = i;
-            this.parent.setOption(i);
-        }, 50);
-    }
-    /**
-     * Updates the position of the list based off the parent element of the parent component
-     * @param {any} main  Parent components parent element
-     * @param {any} event Input event
-     */
-    moveList(main: any, event?: any) {
-        if(!main || !this.contents) return;
-        let main_box = main.nativeElement.getBoundingClientRect();
-        this.contents.nativeElement.style.width = '1px';
-        this.contents.nativeElement.style.top = Math.round(main_box.top + window.pageYOffset) + 'px';
-        this.contents.nativeElement.style.left = Math.round(main_box.left + main_box.width/2) + 'px';
-        this.contents.nativeElement.style.height = Math.round(main_box.height) + 'px';
-        this.contents.nativeElement.style.display = '';
-    }
-
-}
-
-@Component({
-  selector: 'dropdown',
-  styleUrls: [ './dropdown.style.css' ],
-  template: `
-    <div #main [class]="'aca dropdown ' + cssClass" (click)="open()">
-        <div class="text">{{options[selected] ? options[selected] : '-----'}}</div>
-        <div class="text placeholder" *ngFor="let o of options">{{o}}</div>
-    </div>
-  `
+    selector: 'dropdown',
+    styleUrls: [ './dropdown.style.css' ],
+    templateUrl: './dropdown.template.html',
+	animations : [
+        trigger('show', [
+            state('show',  style({ opacity: '1' })),
+            state('hide',  style({ opacity: '0' })),
+            transition('* <=> *', animate('150ms ease-out'))
+        ]),
+        trigger('showlist', [
+            state('show',  style({ opacity: '1', height: '*' })),
+            state('hide',  style({ opacity: '0', height: '2.0em' })),
+            transition('* <=> *', animate('750ms ease-out'))
+        ])
+    ]
 })
 export class Dropdown {
-  	@Input() options: string[] = ['Select an Option'];
-  	@Input() selected: number = 0;
-  	@Input() cssClass: string = 'default';
-  	@Input() selectClass: string = 'default';
-  	@Output() selectedChange = new EventEmitter();
+	@Input() items: any[] = [];
+	@Input() model: any = null;
+	@Input() fields: string[] = ['name'];
+	@Input() cssClass: string = 'default';
 
-    @ViewChild('main') main: ElementRef;
+	@Output() modelChange: any = new EventEmitter();
+	@Output() searchChange: any = new EventEmitter();
 
-  	show: boolean = false;
-  	list: any = null;
-  	list_ref: any = null;
-    update_timer: any = null;
-    last_change: number = (new Date()).getTime();
+	@ViewChild('list') list: ElementRef;
 
-	constructor(private view: ViewContainerRef, private _cfr: ComponentFactoryResolver) {
+	type: string = 'string';
+	display_items: any = [];
+	shown: boolean = false;
+
+	constructor() {
+
 	}
-    /**
-     * Opens the dropdown option list
-     * @return {void}
-     */
-  	open() {
-        let now = (new Date()).getTime();
-        if(now - 1000 > this.last_change){
-            this.render();
-        }
-  	}
-    /**
-     * Closes the dropdown option list
-     * @return {void}
-     */
-  	close() {
-        if(this.list_ref) {
-            if(this.update_timer) {
-                clearInterval(this.update_timer);
-            }
-            this.list_ref.destroy();
-        }
-  	}
-    /**
-     * Sets the selected option and emits the change
-     * @return {void}
-     */
-  	setOption(i: number){
-    	this.last_change = (new Date()).getTime();
-    	this.selected = i;
-    	this.selectedChange.emit(i);
-    	this.close();
-  	}
-    /**
-     * Gets the data of the selected option
-     * @return {any} Data of the selected option
-     */
-  	get option(){
-    	return this.options[this.selected];
-  	}
 
-  	ngOnDestroy() {
-  		this.close();
-  	}
+	ngOnInit() {
+	}
 
-    /**
-     * Creates the option list and attaches it to the DOM
-     * @return {void}
-     */
-    private render(){
-        if(this.view) {
-        	if(this.list_ref) {
-        		this.list_ref.destroy();
-        	}
-        	let factory = this._cfr.resolveComponentFactory(DropdownList);
-        	let cmpRef = this.view.createComponent(factory);
-            document.body.appendChild(cmpRef.location.nativeElement);
-            this.list = cmpRef.instance;
-            this.list_ref = cmpRef;
+	ngOnDestroy() {
 
-            this.list.setup({
-                parent: this,
-                options: this.options,
-                selected: this.selected,
-                cssClass: this.selectClass
-            });
-            this.list.moveList(this.main);
-            this.update_timer = setInterval(() => {
-                this.list.moveList(this.main);
-            }, 50);
-            return this.list;
-        }
-    }
+	}
+
+	ngOnChanges(changes: any) {
+		if(changes.items) {
+			if(this.items && this.items.length > 0) {
+				this.display_items = this.items;
+				this.type = typeof this.items[0];
+				if(!this.model) {
+					this.model = this.items[0];
+				}
+			}
+		}
+	}
+	/**
+	 * Checks whether the given item contains a property containing the given string
+	 * @param {any}    item   Item to search through
+	 * @param {string} search String to search for within item
+	 * @return {boolean} Returns whether or not the string is contained in the item
+	 */
+	itemContains(item: any, search: string) {
+		let s = search.toLowerCase();
+		for(let p in item){
+			if(typeof item[p] === 'string' && item[p].toLowerCase().indexOf(s) >= 0) {
+				return true;
+			} else if(typeof item[p] === 'number' && item[p].toString().indexOf(s) >= 0) {
+				return true;
+			} else if(typeof item[p] === 'object' && this.itemContains(item[p], search)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * Selects the item with the given index
+	 * @param {number} i Index of the selected item
+	 * @return {void}
+	 */
+	select(i: number) {
+		this.model = this.display_items[i];
+		this.modelChange.emit(this.model);
+		this.shown = false;
+	}
+
+	toggle() {
+		this.shown = !this.shown;
+	}
+
+	checkTap(e: any) {
+		if(e) {
+			let bb = this.list.nativeElement.getBoundingClientRect();
+			let c = e.center;
+			if(c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
+				this.shown = false;
+			}
+		}
+	}
 
 }

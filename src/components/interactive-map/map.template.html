@@ -19,8 +19,8 @@
 		Map not found!
 	</div>
     <div class="map-controls" *ngIf="controls&&!loading">
-        <div class="zoom-btn" (click)="zoomIn()" >+</div>
-        <div class="zoom-btn" syle="font-size:0.7em;" (click)="resetZoom()">{{(100 + zoom).toFixed(0) + '%'}}</div>
-        <div class="zoom-btn" (click)="zoomOut()">-</div>
+        <div class="zoom-btn" (tap)="zoomIn()" >+</div>
+        <div class="zoom-btn" syle="font-size:0.7em;" (tap)="resetZoom()">{{(100 + zoom).toFixed(0) + '%'}}</div>
+        <div class="zoom-btn" (tap)="zoomOut()">-</div>
     </div>
 </div>

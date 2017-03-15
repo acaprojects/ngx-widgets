@@ -63,25 +63,21 @@ export class Slider {
         if(!this.knob) {
             this.refresh();
         }
-    }
-
-    ngDoCheck() {
-        if(this.previous === null) {
-            this.previous = this.value;
-        }
-        if(isNaN(this.value)) this.value = this.min;
         if(isNaN(this.min)) this.min = this.max < 0 ? this.max - this.step * 5 : 0;
         if(isNaN(this.max)) this.max = this.min > 100 ? this.min + this.step * 5 : 100;
-        if(this.previous !== this.value && !this.user_action && !isNaN(this.value)) {
+        if(isNaN(this.value)) this.value = this.min;
+        if(changes.value && !this.user_action && !isNaN(this.value)) {
             if(this.value < this.min) {
                 this.value = this.min
             } else if(this.value > this.max) {
                 this.value = this.max;
             }
-            this.previous = this.value;
             this.current = this.value;
             this.refresh();
         }
+    }
+
+    ngDoCheck() {
     }
     /**
      * Gets the offset of the slider bar

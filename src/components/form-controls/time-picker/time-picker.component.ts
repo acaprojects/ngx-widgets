@@ -7,7 +7,7 @@
 * @Last modified time: 01/02/2017 11:44 AM
 */
 
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 
 const PLACEHOLDER = '-';
@@ -27,7 +27,7 @@ const PLACEHOLDER = '-';
 })
 export class TimePicker {
     @Input() display: string;
-    @Input() time: { h: number, m: number};
+    @Input() time: { h: number, m: number} = { h: 23, m: 59 };
     @Input() minuteStep: number = 5;
     @Input() select: boolean = false;
     @Input() cssClass: string = 'default';
@@ -41,7 +41,7 @@ export class TimePicker {
     display_minutes: string = '59';
     display_period: string = 'PM';
 
-    constructor() {
+    constructor(private renderer: Renderer) {
     }
 
     ngOnChanges(changes: any) {
@@ -256,9 +256,13 @@ export class TimePicker {
      * @return {void}
      */
     changeFocus() {
-    	if(this.hour_input) this.hour_input.nativeElement.blur();
+    	if(this.hour_input) {
+    		this.renderer.invokeElementMethod(this.hour_input.nativeElement, 'blur', []);
+    	}
     	this.checkHour();
-    	if(this.minute_input) this.minute_input.nativeElement.focus();
+    	if(this.minute_input) {
+    		this.renderer.invokeElementMethod(this.minute_input.nativeElement, 'focus', []); 
+    	}
     	setTimeout(() => { this.checkHour(); }, 50);
     }
     /**

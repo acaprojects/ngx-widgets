@@ -1,34 +1,73 @@
-// @Author: Alex Sorafumo
-// @Date:   16/09/2016 10:29 AM
+// @Author: Alex Sorafumo <Yuion>
+// @Date:   13/09/2016 2:55 PM
 // @Email:  alex@yuion.net
 // @Filename: dropdown.style.scss
-// @Last modified by:   Alex Sorafumo
-// @Last modified time: 19/12/2016 12:44 PM
+// @Last modified by:   Yuion
+// @Last modified time: 15/12/2016 11:29 AM
 
 .dropdown {
 	position: relative;
-	min-width: 12.0em;
-	height: 2.5em;
-	padding: 0.5em 2.0em;
-	user-select: none;
-	display: inline-block;
-	overflow: hidden;
-	cursor: pointer;
+	min-width: 12em;
+	height: 2.0em;
+	font-size: 1.0em;
+	//z-index: 100;
 	border-radius: 0.1em;
-	& .text {
-		&.placeholder {
-			position: absolute;
-			opacity: 0.001;
+	margin: 0.5em;
+	text-align: center;
+	& .item {
+		cursor: pointer;
+		padding: 0.25em;
+		& .field {
+
+		}
+		&.active {
+			
+		}
+	}
+
+	& .list {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 1999;
+		border-radius: 0.1em;
+
+		& .items {
+			max-height: 30vh;
+			overflow: auto;
 		}
 	}
 
 	&.default {
+		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+		background-color: #FFF;
 		color: #000;
-		border: 0.2em solid rgba(0, 0, 0, 0.7);
-		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
-		&:hover, & .active{
-			background-color: rgba(0, 0, 0, 0.2);
-			color: #FFF;
+		&:hover {
+			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
+		}
+		& .item {
+			&:hover {
+				color: #FFF;
+				background-color: #2196F3;
+			}
+			&.active {
+
+			}
+		}
+		& .list {
+			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+			background-color: #FFF;
+			color: #000;
+			overflow: hidden;
+			& .item {
+				&.active {
+					cursor: default;
+					background-color: #FFF;
+					color: #000;
+					border-bottom: 1px solid rgba(0,0,0,0.1);
+				}
+			}
 		}
 	}
 }

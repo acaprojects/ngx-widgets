@@ -7,7 +7,7 @@
 * @Last modified time: 15/12/2016 11:35 AM
 */
 
-import { ElementRef, Input } from '@angular/core';
+import { ElementRef, Input, Renderer } from '@angular/core';
 import { Directive, OnInit, OnDestroy } from '@angular/core';
 import { DropService } from '../services';
 
@@ -24,18 +24,41 @@ export class DropTarget implements OnInit, OnDestroy {
 	@Input() stream: 	string; 					// name of the stream the files should be sent to
 
     private _element: any;
+    static listeners: any = {};
+    static _ref_cnt: number = 0;
     private _unreg: () => void;
 
 
-    constructor(elementRef: ElementRef, private _dropService: DropService) {
+    constructor(elementRef: ElementRef, private _dropService: DropService, private renderer: Renderer) {
         this._element = elementRef.nativeElement;
+        DropTarget._ref_cnt++;
+       	if(!DropTarget.listeners['drop']){
+	       	DropTarget.listeners['drop'] = this.renderer.listenGlobal('window', 'drop', (e: Event) => {
+	       		this._dropService.event['drop'](e);
+	       	});
+	    }
+       	if(!DropTarget.listeners['dragover']){
+	       	DropTarget.listeners['dragover'] = this.renderer.listenGlobal('window', 'dragover', (e: Event) => {
+	       		this._dropService.event['dragover'](e);
+	       	});
+	    }
+       	if(!DropTarget.listeners['dragenter']){
+	       	DropTarget.listeners['dragenter'] = this.renderer.listenGlobal('window', 'dragenter', (e: Event) => {
+	       		this._dropService.event['drop'](e);
+	       	});
+	    }
+       	if(!DropTarget.listeners['dragleave']){
+	       	DropTarget.listeners['dragleave'] = this.renderer.listenGlobal('window', 'dragleave', (e: Event) => {
+	       		this._dropService.event['dragleave'](e);
+	       	});
+	    }
     }
 
 
     // Register the element you want to recieve drop events
     ngOnInit() {
         if (this.target) {
-            this._element = document.querySelector(this.target);
+            this._element = this.renderer.selectRootElement(this.target);
         }
 
         this._unreg = this._dropService.register(this.stream, this._element, this._doHighlight.bind(this));
@@ -64,15 +87,21 @@ export class DropTarget implements OnInit, OnDestroy {
 
         // In case the drop-target is another element (not the ElementRef)
         this._doHighlight(false);
+        DropTarget._ref_cnt--;
+        if(DropTarget._ref_cnt <= 0) {
+
+        }
     }
 
 
     // Applies the hover class to the element
     private _doHighlight(state: boolean) {
         if (state) {
-            this._element.classList.add(this.indicate);
+        	this.renderer.setElementClass(this._element, this.indicate, true);
         } else {
-            this._element.classList.remove(this.indicate);
+        	let class_list: string = this._element.class;
+        	class_list = class_list.replace(this.indicate, '');
+        	this.renderer.setElementClass(this._element, class_list, false);
         }
     }
 }

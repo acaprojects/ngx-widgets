@@ -8,7 +8,7 @@
 -->
 
 <div class="aca input" [style.width]="width?_width+'em':''" [class.editable]="!disabled&&!readonly">
-	<div (click)="focusInput()"
+	<div (tap)="focusInput()"
 		[class]="'input-space ' + theme + ' aca color ' + (focus ? 'border-' + color + '-' + primary : '')"
 		[class.disabled]="disabled"
 		[class.readonly]="readonly"

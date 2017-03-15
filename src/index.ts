@@ -7,7 +7,7 @@
 * @Last modified time: 01/02/2017 11:54 AM
 */
 
-import { NgModule } from '@angular/core';
+import { NgModule, ApplicationModule, Renderer } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -23,6 +23,7 @@ export * from './directives';
 export * from './pipes';
 export * from './services';
 export * from './components';
+export * from './helpers';
 
 @NgModule({
     declarations: [
@@ -41,13 +42,13 @@ export * from './components';
         ENTRY_COMPONENTS
     ],
     providers: [
-        SERVICES,
+        SERVICES
         //COMPILER_PROVIDERS
     ]
 })
 export class ACA_WIDGETS_MODULE {
-    version: string = '0.6.0';
-    build: string = '2017-03-07.v1';
+    version: string = '0.6.2';
+    build: string = '2017-03-13.v1';
     constructor() {
         console.debug(`ACA Angular 2 Widget Library - Version: ${this.version} | Build: ${this.build}`);
     }

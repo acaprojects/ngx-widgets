@@ -7,7 +7,7 @@
 * @Last modified time: 30/01/2017 5:19 PM
 */
 
-import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type } from '@angular/core';
+import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type, Renderer } from '@angular/core';
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -60,7 +60,7 @@ export class TypeaheadList {
 
     keys = {37: 1, 38: 1, 39: 1, 40: 1};
 
-    constructor() {
+    constructor(private renderer: Renderer) {
     }
 
     ngOnInit() {
@@ -147,11 +147,12 @@ export class TypeaheadList {
     moveList(main: any, event?: any) {
         if(!main || !this.contents) return;
         let main_box = main.nativeElement.getBoundingClientRect();
-        this.contents.nativeElement.style.width = '1px';
-        this.contents.nativeElement.style.top = Math.round(main_box.top + window.pageYOffset) + 'px';
-        this.contents.nativeElement.style.left = Math.round(main_box.left + main_box.width/2) + 'px';
-        this.contents.nativeElement.style.height = Math.round(main_box.height) + 'px';
-        this.contents.nativeElement.style.display = '';
+        let c_el = this.contents.nativeElement;
+        this.renderer.setElementStyle(c_el, 'width', '1px');
+        this.renderer.setElementStyle(c_el, 'top', Math.round(main_box.top + window.pageYOffset) + 'px');
+        this.renderer.setElementStyle(c_el, 'left', Math.round(main_box.left + main_box.width/2) + 'px');
+        this.renderer.setElementStyle(c_el, 'height', Math.round(main_box.height) + 'px');
+        this.renderer.setElementStyle(c_el, 'display', '');
         this.positionList();
     }
     /**
@@ -165,14 +166,13 @@ export class TypeaheadList {
             let h = document.documentElement.clientHeight;
             let content_box = this.contents.nativeElement.getBoundingClientRect();
             if(this.auto && tries % 4 === 0){
+            	let l_el = this.list_contents.nativeElement;
                 if(Math.round(content_box.top) > Math.round(h/2 + 10) || this.force_top) {
-                    console.log('Auto Top');
-                    this.list_contents.nativeElement.style.top = '';
-                    this.list_contents.nativeElement.style.bottom = '2.0em';
+                    this.renderer.setElementStyle(l_el, 'top', '');
+                    this.renderer.setElementStyle(l_el, 'bottom', '2.0em');
                 } else {
-                    console.log('Auto Bottom');
-                    this.list_contents.nativeElement.style.top = '0';
-                    this.list_contents.nativeElement.style.bottom = '';
+                    this.renderer.setElementStyle(l_el, 'top', '0');
+                    this.renderer.setElementStyle(l_el, 'bottom', '');
                 }
             }
             this.contents_box = this.contents.nativeElement.getBoundingClientRect();
@@ -241,7 +241,7 @@ export class Typeahead {
     clicked: boolean = false;
     update_timer: any = null;
 
-    constructor(private _cr: ComponentFactoryResolver, private view: ViewContainerRef) {
+    constructor(private _cr: ComponentFactoryResolver, private view: ViewContainerRef, private renderer: Renderer) {
 
     }
 
@@ -291,8 +291,9 @@ export class Typeahead {
         this.closing = true;
         this.shown = false;
         if(this.list_ref) {
-            if(this.list_ref.location.nativeElement.parent)
-            this.list_ref.location.nativeElement.parent.removeChild(this.list_ref.location.nativeElement);
+            if(this.list_ref.location.nativeElement.parent) {
+            	this.renderer.detachView([this.list_ref.location.nativeElement])
+            }
             this.list_ref.destroy();
             this.list_ref = null;
         }
@@ -322,7 +323,8 @@ export class Typeahead {
         if(this.view) {
             let factory = this._cr.resolveComponentFactory(TypeaheadList);
             let cmpRef = this.view.createComponent(factory);
-            document.body.appendChild(cmpRef.location.nativeElement);
+            let body = this.renderer.selectRootElement('body');
+            this.renderer.projectNodes(body, [cmpRef.location.nativeElement]);
             this.list_view = cmpRef.instance;
             this.list_ref = cmpRef;
             this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass, this.auto, this.forceTop);

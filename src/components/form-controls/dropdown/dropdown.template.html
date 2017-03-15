@@ -7,20 +7,28 @@
 @Last modified time: 15/12/2016 11:29 AM
 -->
 
-<div class="click-space" (click)="checkClick($event)"></div>
-<div #contents class="contents">
-	<div #list class="options">
-		<ul #listview>
-			<li [class]="'option ' + cssClass"
-				*ngFor="let item of options; let i = index"
-				[class.first]="i==0"
-				[class.last]="i==options.length-1"
-				[class.other]="i > 0"
-				[class.odd]="i%2===1"
-				[class.even]="i%2===0"
-				(tap)="select(i, $event)">
-					<div class="check">{{selected === i ? '&#x2713;' : ''}}</div>{{item}}
-			</li>
-		</ul>
+<div #main [class]="'aca dropdown ' + cssClass" >
+	<div class="item active" [@show]="shown ? 'hide': 'show'" (tap)="toggle()">
+		<div *ngIf="type==='object'">
+			<span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k" [innerHTML]="model[f]"></span>
+		</div>
+		<div class="field" *ngIf="type!=='object'">{{model}}</div>
+	</div>
+	<div #list class="list" [@showlist]="shown ? 'show': 'hide'">
+		<div class="item active" (tap)="shown=!shown">
+			<div *ngIf="type==='object'">
+				<span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k" [innerHTML]="model[f]"></span>
+			</div>
+			<div class="field" *ngIf="type!=='object'">{{model}}</div>
+		</div>
+		<div hidden *ngIf="shown" (window:tap)="checkTap($event)"></div>
+		<div class="items">
+			<div class="item" *ngFor="let item of display_items; let i = index " (tap)="select(i)">
+				<div *ngIf="type==='object'">
+					<span *ngFor="let f of fields; let k = index " class="field" [id]="'dropdown-item'+i+'-field'+k" [innerHTML]="item[f]"></span>
+				</div>
+				<div class="field" *ngIf="type!=='object'">{{item}}</div>
+			</div>
+		</div>
 	</div>
 </div>

@@ -13,6 +13,8 @@ import { Modal } from '../components/modal';
 import { AlertDialog, ConfirmDialog, DateDialog, TimeDialog } from '../components';
 import { SimpleModal } from '../components/modal/modals';
 
+import { WIDGETS_SETTINGS } from '../settings';
+
 let Modals: any = {
 
 }

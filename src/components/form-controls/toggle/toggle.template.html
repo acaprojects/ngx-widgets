@@ -7,7 +7,7 @@
 @Last modified time: 24/01/2017 4:37 PM
 -->
 
-<div class="aca toggle" [class.disabled]="disabled" (click)="changeState($event)" [style.font-size]="size" override>
+<div class="aca toggle" [class.disabled]="disabled" (tap)="changeState($event)" [style.font-size]="size" override>
     <div *ngIf="type==='text'" [@toggleBg]="disabled ? 'disabled' : (_state ? 'on' : 'off')" class="text-toggle">
         <div *ngIf="_state" class="text active">{{active ? active : 'On'}}</div>
         <div *ngIf="!_state" class="text inactive">{{inactive ? inactive : 'Off'}}</div>

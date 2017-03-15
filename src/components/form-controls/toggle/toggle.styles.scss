@@ -138,19 +138,24 @@ $bg-color: #FFFFFF;
     & .ios-toggle {
         position:relative;
         width: $dim*1.5;
-        height: $dim;
+        height: $dim / 2;
         border-radius: $dim;
 		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
         background-color: $bg-color;
+        margin: 1.0em;
         cursor: pointer;
         & .toggle-knob {
             position:absolute;
-            top: 0;
+            top: 50%;
 			bottom: 0;
             width: 60%;
             left: 0;
+            height: $dim;
+            width: $dim;
+            transform: translate(-50%, -50%);
             background-color: $bg-color;
             border-radius: $dim;
+			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
         }
         &.active {
             background-color: $green;
