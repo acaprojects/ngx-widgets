@@ -14,44 +14,44 @@ export class ACA_NextFrame {
 	animating: any = null;
 
 	constructor() {
-		this.setupPolyfill(window);
+		this.setupPolyfill(self);
 	}
 
-	setupPolyfill(window: any) {
+	setupPolyfill(self: any) {
 
 	    let lastTime: any = 0;
 	    let vendors = ['moz', 'webkit', 'o', 'ms'];
 	    let x: number;
 
 	    // Remove vendor prefixing if prefixed and break early if not
-	    for (x = 0; x < vendors.length && !window.requestAnimationFrame; x += 1) {
-	        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-	        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame']
-	                                   || window[vendors[x] + 'CancelRequestAnimationFrame'];
+	    for (x = 0; x < vendors.length && !self.requestAnimationFrame; x += 1) {
+	        self.requestAnimationFrame = self[vendors[x] + 'RequestAnimationFrame'];
+	        self.cancelAnimationFrame = self[vendors[x] + 'CancelAnimationFrame']
+	                                   || self[vendors[x] + 'CancelRequestAnimationFrame'];
 	    }
 
 	    // Check if full standard supported
-	    if (window.cancelAnimationFrame === undefined) {
+	    if (self.cancelAnimationFrame === undefined) {
 	        // Check if standard partially supported
-	        if (window.requestAnimationFrame === undefined) {
+	        if (self.requestAnimationFrame === undefined) {
 	            // No support, emulate standard
-	            window.requestAnimationFrame = function (callback: any) {
+	            self.requestAnimationFrame = function (callback: any) {
 	                let now = new Date().getTime(),
 	                    // +16 ~ 60fps, +32 ~ 31fps
 	                    // Went with 30fps for older slower browsers / devcie support
 	                    nextTime = Math.max(lastTime + 32, now);
 
-	                return window.setTimeout(() => { callback(lastTime = nextTime); }, nextTime - now);
+	                return setTimeout(() => { callback(lastTime = nextTime); }, nextTime - now);
 	            };
 
-	            window.cancelAnimationFrame = window.clearTimeout;
+	            self.cancelAnimationFrame = self.clearTimeout;
 	        } else {
 	            // Emulate cancel for browsers that don't support it
-	            console.log(window.requestAnimationFrame);
-	            let vendor = window.requestAnimationFrame;
+	            console.log(self.requestAnimationFrame);
+	            let vendor = self.requestAnimationFrame;
 	            lastTime = {};
 
-	            window.requestAnimationFrame = (callback: any) => {
+	            self.requestAnimationFrame = (callback: any) => {
 	                let id = x; // Generate the id (x is initialized in the for loop above)
 	                x += 1;
 	                lastTime[id] = callback;
@@ -75,7 +75,7 @@ export class ACA_NextFrame {
 	                return id;
 	            };
 
-	            window.cancelAnimationFrame = (id: any) => {
+	            self.cancelAnimationFrame = (id: any) => {
 	                delete lastTime[id];
 	            };
 	        }
@@ -85,7 +85,7 @@ export class ACA_NextFrame {
     nextFrame(){
 	    if (this.animating === null) {
 	        this.animating = new Promise((resolve, reject) => {
-	        	window.requestAnimationFrame(() => {
+	        	self.requestAnimationFrame(() => {
 	        		resolve(true);
 					this.animating = null;
 	        	});

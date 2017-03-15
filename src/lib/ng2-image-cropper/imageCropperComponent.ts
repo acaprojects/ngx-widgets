@@ -33,7 +33,7 @@ export class ImageCropperComponent implements AfterViewInit {
     public croppedWidth: number;
     public croppedHeight: number;
 
-    public intervalRef: number;
+    public intervalRef: any;
 
     public renderer: Renderer;
 
@@ -109,7 +109,7 @@ export class ImageCropperComponent implements AfterViewInit {
     public setImage(image: HTMLImageElement) {
         let self = this;
 
-        this.intervalRef = window.setInterval(function() {
+        this.intervalRef = setInterval(function() {
             if (self.intervalRef) {
                 clearInterval(self.intervalRef);
             }
