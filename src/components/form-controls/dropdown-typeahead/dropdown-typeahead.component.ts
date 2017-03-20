@@ -23,7 +23,7 @@ import { Observable } from 'rxjs/Rx';
         ]),
         trigger('showlist', [
             state('show',  style({ opacity: '1', height: '*' })),
-            state('hide',  style({ opacity: '0', height: '2.0em' })),
+            state('hide',  style({ opacity: '0', height: '2.0em', display:'none' })),
             transition('* <=> *', animate('750ms ease-out'))
         ])
     ]
@@ -31,11 +31,13 @@ import { Observable } from 'rxjs/Rx';
 export class DropdownTypeahead {
 	@Input() items: any[] = [];
 	@Input() model: any = null;
+	@Input() index: number = 0;
 	@Input() search: string = '';
 	@Input() fields: string[] = ['name'];
 	@Input() cssClass: string = 'default';
 
 	@Output() modelChange: any = new EventEmitter();
+	@Output() indexChange: any = new EventEmitter();
 	@Output() searchChange: any = new EventEmitter();
 
 	@ViewChild('list') list: ElementRef;
@@ -123,6 +125,7 @@ export class DropdownTypeahead {
 	select(i: number) {
 		this.model = this.display_items[i];
 		this.modelChange.emit(this.model);
+		this.indexChange.emit(i);
 		this.search = '';
 		this.shown = false;
 	}

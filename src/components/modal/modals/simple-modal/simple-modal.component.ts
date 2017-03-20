@@ -22,16 +22,15 @@ const PLACEHOLDER = '-';
     templateUrl: './simple-modal.template.html',
     animations: [
         trigger('backdrop', [
-            state('hide',   style({'opacity' : '0'})),
-            state('show', style({'opacity' : '1' })),
-            transition('* => hide', animate('0.5s ease-out')),
-            transition('* => show', animate('0.5s ease-in'))
+            state('hide', style({ opacity : 0 })),
+            state('show', style({ opacity : 1 })),
+            transition('* <=> *', animate('0.5s ease-out'))
         ]),
         trigger('space', [
-            state('hide',   style({ 'left': '100%', 'opacity' : '0'})),
-            state('show', style({ 'left':   '50%', 'opacity' : '1' })),
-            transition('* => hide', animate('0.2s ease-out')),
-            transition('* => show', animate('0.2s ease-in'))
+            state('hide', style({ transform: 'translate(-50%, -50%) scale(0)'})),
+            state('show', style({ transform: 'translate(-50%, -50%) scale(1.0)'})),
+            transition('* <=> *', animate('0.2s ease-out')),
+            transition('void => *', animate('0.2s ease-out'))
         ])
     ]
 })

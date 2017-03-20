@@ -2,13 +2,13 @@
 * @Author: Alex Sorafumo
 * @Date:   2017-03-10 11:46:09
 * @Last Modified by:   Alex Sorafumo
-* @Last Modified time: 2017-03-10 12:12:07
+* @Last Modified time: 2017-03-16 15:23:44
 */
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { WIDGET_SETTINGS } from '../settings';
+import { WIDGETS_SETTINGS } from '../settings';
 
 /*
 	Theme Data Structure

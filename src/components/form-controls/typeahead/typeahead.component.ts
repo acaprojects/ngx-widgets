@@ -291,9 +291,8 @@ export class Typeahead {
         this.closing = true;
         this.shown = false;
         if(this.list_ref) {
-            if(this.list_ref.location.nativeElement.parent) {
-            	this.renderer.detachView([this.list_ref.location.nativeElement])
-            }
+            if(this.list_ref.location.nativeElement.parent)
+            this.list_ref.location.nativeElement.parent.removeChild(this.list_ref.location.nativeElement);
             this.list_ref.destroy();
             this.list_ref = null;
         }
@@ -323,8 +322,7 @@ export class Typeahead {
         if(this.view) {
             let factory = this._cr.resolveComponentFactory(TypeaheadList);
             let cmpRef = this.view.createComponent(factory);
-            let body = this.renderer.selectRootElement('body');
-            this.renderer.projectNodes(body, [cmpRef.location.nativeElement]);
+            document.body.appendChild(cmpRef.location.nativeElement);
             this.list_view = cmpRef.instance;
             this.list_ref = cmpRef;
             this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass, this.auto, this.forceTop);

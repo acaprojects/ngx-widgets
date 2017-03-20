@@ -17,12 +17,13 @@ $space: 1.5em;
 	background-color: rgba(0,0,0,0.3);
 	font-size: 15px;
 	z-index: 9999999;
+	opacity: 0;
 
 	& .modal-space {
 	    position: absolute;
 	    top: 50%;
 	    left: 50%;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%) scale(0);
 		width: $sm-height;
 		min-height: $sm-height / 2 * 3;
 		@media screen and (max-width: 720px) {
@@ -32,6 +33,7 @@ $space: 1.5em;
 		border-radius: 0.1em;
 		max-height: 95vh;
 		max-width: 95vw;
+
 		& .dialog {
 			&-header {
 				position: absolute;
@@ -124,7 +126,7 @@ $space: 1.5em;
 			}
 			&-footer {
 				position: absolute;
-				height: $space * 2; left: 0;
+				height: $space * 2 + 1em; left: 0;
 				right: 0; bottom: 0;
 				padding: 0.5em;
 				text-align: center;

@@ -32,13 +32,12 @@ $space: 2.2em;
 	    position: absolute;
 	    top: 50%;
 	    left: 50%;
-		transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%) scale(0);
 		background-color: #FFF;
 		border-radius: 0.1em;
 		min-height: 12.0em;
 		max-height: 95vh;
 		max-width: 95vw;
-		opacity: 0;
 		& .modal {
 			&-header {
 				position: absolute;

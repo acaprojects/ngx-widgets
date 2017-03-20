@@ -22,7 +22,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
         ]),
         trigger('showlist', [
             state('show',  style({ opacity: '1', height: '*' })),
-            state('hide',  style({ opacity: '0', height: '2.0em' })),
+            state('hide',  style({ opacity: '0', height: '2.0em', display: 'none' })),
             transition('* <=> *', animate('750ms ease-out'))
         ])
     ]
@@ -30,11 +30,12 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 export class Dropdown {
 	@Input() items: any[] = [];
 	@Input() model: any = null;
+	@Input() index: number = 0;
 	@Input() fields: string[] = ['name'];
 	@Input() cssClass: string = 'default';
 
 	@Output() modelChange: any = new EventEmitter();
-	@Output() searchChange: any = new EventEmitter();
+	@Output() indexChange: any = new EventEmitter();
 
 	@ViewChild('list') list: ElementRef;
 
@@ -91,6 +92,7 @@ export class Dropdown {
 	select(i: number) {
 		this.model = this.display_items[i];
 		this.modelChange.emit(this.model);
+		this.indexChange.emit(i);
 		this.shown = false;
 	}
 

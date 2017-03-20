@@ -11,8 +11,6 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer
 import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { Utility } from '../../../helpers/utility.class';
-
 @Component({
 	selector: 'btn',
 	styleUrls: [ './btn.styles.css', '../../material-styles/material-styles.css' ],

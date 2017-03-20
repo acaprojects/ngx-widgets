@@ -1,10 +1,8 @@
-/**
-* @Author: Alex Sorafumo <alex.sorafumo>
-* @Date:   09/01/2017 3:06 PM
-* @Email:  alex@yuion.net
-* @Filename: index.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 09/01/2017 3:25 PM
+/*
+* @Author: Alex Sorafumo
+* @Date:   2017-03-16 15:29:53
+* @Last Modified by:   Alex Sorafumo
+* @Last Modified time: 2017-03-16 15:30:29
 */
 
-export * from './utility.class';
+export * from './utility';

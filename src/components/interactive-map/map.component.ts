@@ -12,8 +12,8 @@ import { trigger, transition, animate, style, state, group, keyframes } from '@a
 
 import { ACA_Animate } from '../../services/animate.service';
 import { MapService } from '../../services';
-import { Utility } from '../../helpers/utility.class';
-import { WIDGET_SETTINGS } from '../../settings';
+import { Utility } from '../../helpers';
+import { WIDGETS_SETTINGS } from '../../settings';
 
 declare let Hammer: any;
 
@@ -104,14 +104,22 @@ export class InteractiveMap {
     move_timer: any = null;
     run_update: any = null;
     debug: boolean = false;
+    zooming: boolean = false;
+    animations: any = {};
 
     constructor(private a: ACA_Animate, private service: MapService, private renderer: Renderer){
         this.status_check = setInterval(() => {
             this.checkStatus();
         }, 1000);
-        WIDGET_SETTINGS.observe('debug').subscribe((data) => {
+        WIDGETS_SETTINGS.observe('debug').subscribe((data) => {
         	this.debug = data;
         });
+        let defaults = service.defaults;
+        for(let i in defaults) {
+        	if(i in this) {
+        		this[i] = defaults[i];
+        	}
+        }
     }
 
     ngOnInit(){
@@ -170,8 +178,38 @@ export class InteractiveMap {
      * @return {void}
      */
     updateValues() {
+    	if(this.zooming) return;
         // Update zoom
         this.o_zoom += this.moveTo(this.o_zoom, this._zoom);
+        if(this.map_display){
+        	let startingStyles = { styles: [{}] }
+        	let keyframes = [
+	        	{
+				    offset: 0,
+				    styles: {
+					    styles: [{
+					        transform: '*',
+					    }]
+				    }
+				},
+	        	{
+				    offset: 1,
+				    styles: {
+					    styles: [{
+					        transform: `scale(${this.o_zoom/100})`,
+					    }]
+				    }
+				},
+        	];
+        	/*
+        	if(!this.animations[this.o_zoom]){
+	        	this.animations[this.o_zoom] = this.renderer.animate(this.map_display, startingStyles, keyframes, 100, 0, 'ease-out');
+	        }
+        	this.zooming = true;
+        	this.animations[this.o_zoom].play();
+        	this.animations[this.o_zoom].onDone(() => { this.zooming = false; });
+        	//*/
+        }
         //this.o_zoom = (this._zoom);
         // Update Position
     }
@@ -243,7 +281,7 @@ export class InteractiveMap {
     clearDisabled(strs:string[]) {
         if(this.map_display) {
             for(let i = 0; i < strs.length; i++) {
-            	let el = this.renderer.selectRootElement('#' + Utility.escape(strs[i]))
+                let el = this.getElement(strs[i]);
                 if(el !== null) {
                 	this.renderer.setElementStyle(el, 'display', 'inherit');
                 }
@@ -257,7 +295,7 @@ export class InteractiveMap {
     setupDisabled() {
         if(this.active && this.map_display) {
             for(let i = 0; i < this.disable.length; i++) {
-            	let el = this.renderer.selectRootElement('#' + Utility.escape(this.disable[i]))
+                let el = this.getElement(this.disable[i]);
                 if(el !== null) {
                 	this.renderer.setElementStyle(el, 'display', 'none');
                 }
@@ -269,14 +307,20 @@ export class InteractiveMap {
      * @return {void}
      */
     setupStyles() {
+    	if(!this.map_display) {
+    		setTimeout(() => {
+    			this.setupStyles();
+    		}, 500);
+    		return;
+    	}
         // Clear previous style changes
         if(this.prev_map_styles && this.prev_map_styles.length > 0) {
             for(let i = 0; i < this.prev_map_styles.length; i++) {
                 let style = this.prev_map_styles[i];
-            	let el = this.renderer.selectRootElement('#' + Utility.escape(style.id));
+                let el = this.getElement(style.id);
                 if(el) {
                 	for(let s in style) {
-                		if(s in el.nativeElement.style) {
+                		if(s in el.style) {
                 			this.renderer.setElementStyle(el, s, style[s]);
                 			el.style[s] = style[s];
                 		}
@@ -287,11 +331,11 @@ export class InteractiveMap {
         if(!this.mapStyles || !this.map_item) return;
         for(let i = 0; i < this.mapStyles.length; i++){
             let style = this.mapStyles[i];
-            	let el = this.renderer.selectRootElement('#' + Utility.escape(style.id));
+            let el = this.getElement(style.id);
             if(el && style.id !== '') {
                 let old_style = JSON.parse(JSON.stringify(style));
                 for(let s in style) {
-                	if(s in el.nativeElement.style) {
+                	if(s in el.style) {
                 		old_style[s] = el.style[s];
                 		this.renderer.setElementStyle(el, s, style[s]);
                 	}
@@ -318,11 +362,13 @@ export class InteractiveMap {
         if(this.self) {
             //Check if the map area is visiable
             let bb = this.self.nativeElement.getBoundingClientRect();
+            /*
             let body = this.renderer.selectRootElement('body');
             if(bb.left + bb.width < 0) return false;
             else if(bb.top + bb.height < 0) return false;
             else if(bb.top > body.innerHeight) return false;
             else if(bb.left > body.innerWidth) return false;
+            //*/
             return true;
         }
         return false;
@@ -390,9 +436,6 @@ export class InteractiveMap {
         if(changes.pins && this.pins) {
             this.initPins();
         }
-        if(changes.mapStyles) {
-            this.setupStyles();
-        }
         if(changes.focus) {
             this.o_zoom = 0;
             setTimeout(() => {
@@ -406,6 +449,8 @@ export class InteractiveMap {
         }
     }
 
+    prev_styles: string = null;
+
     ngDoCheck() {
     		// Check if the pins have changed
         if(this.marker_list.length !== this.pins.length) {
@@ -413,6 +458,11 @@ export class InteractiveMap {
         		this.marker_list.splice(this.pins.length-1, this.marker_list.length - this.pins.length);
         	}
             this.initPins();
+        }
+        let styles = this.mapStyles ? JSON.stringify(this.mapStyles) : '';
+        if(this.mapStyles && styles != this.prev_styles) {
+        	this.prev_styles = styles;
+            this.setupStyles();
         }
     }
     /**
@@ -440,7 +490,11 @@ export class InteractiveMap {
      * @return {ElementRef}
      */
     getElement(id: string) {
-        return this.renderer.selectRootElement('#' + Utility.escape(id));
+    	if(this.map_display){
+	        return this.map_display.nativeElement.querySelector('#' + Utility.escape(id));
+	    } else {
+	    	return null;
+	    }
     }
     /**
      * Updates map dimentional information for use with the map pins/markers
@@ -521,7 +575,7 @@ export class InteractiveMap {
      */
     getFocusBB() {
         if(this.focus && typeof this.focus === 'string' && this.focus !== '') {
-            let el = this.getElement(Utility.escape(this.focus));
+            let el = this.getElement(this.focus);
             if(el !== null) {
                 this.zoom_bb = el.getBoundingClientRect();
             }
@@ -603,7 +657,7 @@ export class InteractiveMap {
             this.map_data = null;
             if(this.active) {
             	let m_el = this.map_display.nativeElement;
-            	this.renderer.setElementProperty(m_el, 'innerHTML', '');
+            	m_el.innerHTML = '';
                 if(this.map && this.map.indexOf('.svg') >= 0 && this.map.length > 4) {
                     this.service.getMap(this.map).then((data: any) => {
                         this.map_data = data;
@@ -638,6 +692,7 @@ export class InteractiveMap {
         this.loading = true;
         if(this.map_data){
         	let m_el = this.map_display.nativeElement;
+        	m_el.innerHTML = this.map_data;
         	this.renderer.setElementProperty(m_el, 'innerHTML', this.map_data);
             this.map_item = this.map_display.nativeElement.children[0];
             this.map_item.style[this.map_orientation] = '100%';
@@ -723,13 +778,15 @@ export class InteractiveMap {
      */
     getItems(pos: any, el: any) {
         let elems: any[] = []
-        for(var i = 0; i < el.children.length; i++){
-            let rect = el.children[i].getBoundingClientRect();
-            if(pos.y >= rect.top && pos.y <= rect.top + rect.height &&
-                pos.x >= rect.left && pos.x <= rect.left + rect.width) {
-                    if(el.children[i].id) elems.push(el.children[i].id);
-                    let celems = this.getItems(pos, el.children[i]);
-                    elems = elems.concat(celems);
+        if(el){
+            for(var i = 0; i < el.children.length; i++){
+                let rect = el.children[i].getBoundingClientRect();
+                if(pos.y >= rect.top && pos.y <= rect.top + rect.height &&
+                    pos.x >= rect.left && pos.x <= rect.left + rect.width) {
+                        if(el.children[i].id) elems.push(el.children[i].id);
+                        let celems = this.getItems(pos, el.children[i]);
+                        elems = elems.concat(celems);
+                }
             }
         }
         return elems;

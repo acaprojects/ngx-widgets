@@ -20,7 +20,7 @@
 		</div>
 		<div class="modal-footer">
 			<div class="modal-btns" *ngFor="let btn of options">
-				<btn type="submit" btnType="raised" [cssClass]="btn.class" (tapped)="select(btn.text)">{{btn.text}}</btn>
+				<btn type="submit" btnType="raised" [cssClass]="'default ' + btn.class" (tapped)="select(btn.text)">{{btn.text}}</btn>
 			</div>
 		</div>
 	</div>

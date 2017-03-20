@@ -17,11 +17,28 @@ export class MapService {
 	maps = {};
 	map_promise = {};
 	debug: boolean = false;
+	defaults: any = {
+		zoomMax: 200,
+		controls: true,
+		mapSize: 100,
+		focusScroll: false,
+		focusZoom: 80,
+		padding: '2.0em',
+		rotations: 0
+	}
 
 	constructor(private http: Http) {
 		WIDGETS_SETTINGS.observe('debug').subscribe((data) => {
 			this.debug = data;
 		}, (err) => {}, () => {})
+	}
+
+	setDefaults(options: any) {
+		for(let o in options) {
+			if(o in this.defaults) {
+				this.defaults[o] = options[o];
+			}
+		}
 	}
 
 	/**

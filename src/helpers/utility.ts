@@ -108,28 +108,29 @@ export class Utility {
     		// Parse colour values
     	let r1, g1, b1, r2, b2, g2;
     	if(color1[0] === '#') {
-    		r1 = parseInt(color1[1] + color1[2]);
-    		g1 = parseInt(color1[3] + color1[4]);
-    		b1 = parseInt(color1[4] + color1[6]);
+    		r1 = parseInt(color1[1] + color1[2], 16);
+    		g1 = parseInt(color1[3] + color1[4], 16);
+    		b1 = parseInt(color1[4] + color1[6], 16);
     	} else {
-    		r1 = parseInt(color1[0] + color1[1]);
-    		g1 = parseInt(color1[2] + color1[3]);
-    		b1 = parseInt(color1[4] + color1[5]);
+    		r1 = parseInt(color1[0] + color1[1], 16);
+    		g1 = parseInt(color1[2] + color1[3], 16);
+    		b1 = parseInt(color1[4] + color1[5], 16);
     	}
     	if(color2[0] === '#') {
-    		r2 = parseInt(color2[1] + color2[2]);
-    		g2 = parseInt(color2[3] + color2[4]);
-    		b2 = parseInt(color2[4] + color2[6]);
+    		r2 = parseInt(color2[1] + color2[2], 16);
+    		g2 = parseInt(color2[3] + color2[4], 16);
+    		b2 = parseInt(color2[4] + color2[6], 16);
     	} else {
-    		r2 = parseInt(color2[0] + color2[1]);
-    		g2 = parseInt(color2[2] + color2[3]);
-    		b2 = parseInt(color2[4] + color2[5]);
+    		r2 = parseInt(color2[0] + color2[1], 16);
+    		g2 = parseInt(color2[2] + color2[3], 16);
+    		b2 = parseInt(color2[4] + color2[5], 16);
     	}
     	if(isNaN(r1) || isNaN(r2) || isNaN(g1) || isNaN(g2) || isNaN(b1) || isNaN(b2)) {
     		return 0;
     	}
     	let lum1 = Utility.luminanace(r1, b1, g1);
     	let lum2 = Utility.luminanace(r2, b2, g2);
+    	return (lum1 + 0.05) / (lum2 + 0.05);
     }
 
     static luminanace(r: number, g: number, b: number) {

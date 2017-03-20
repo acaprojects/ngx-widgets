@@ -110,7 +110,7 @@ export class ModalService {
 					// Create Modal
 				let modal = this.render(id, this.modal_data[id].type);
 				this.last_modal_id = id;
-				return id;
+				return modal.status;
 			} else  {
 				if(window['debug']) console.error('[WIDGETS][Modal(S)] No inputs for modal.');
 				return id;
@@ -236,6 +236,7 @@ export class ModalService {
 				this.render(id, type);
 			}
 		}
+		return { status: null };
     }
 
 }
