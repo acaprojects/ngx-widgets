@@ -7,7 +7,7 @@
 * @Last modified time: 15/12/2016 11:32 AM
 */
 
-import { Component, Input, Output, EventEmitter, ElementRef} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, Renderer } from '@angular/core';
 import { ViewChild, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,13 +32,18 @@ export class TabGroup implements AfterContentInit  {
         //Toggle Knob
     @ContentChildren(TabHead) tabHeaders: QueryList<TabHead>;
     @ContentChildren(TabBody) tabBodies: QueryList<TabBody>;
+    @ViewChild('header') header: ElementRef;
+    @ViewChild('body') body: ElementRef;
 
     active: TabBody;
     rvalue: string;
     qvalue: string;
     hvalue: string;
+    listeners: any = {};
+    node_list: string[] = [];
+    content_init: boolean = false;
 
-    constructor(private loc : Location, private route: ActivatedRoute, private _router: Router){
+    constructor(private loc : Location, private route: ActivatedRoute, private _router: Router, private renderer: Renderer){
         this.route.params.map(params => params[this.routeParam]).subscribe(params => {
             this.rvalue = params;
         })
@@ -47,12 +52,22 @@ export class TabGroup implements AfterContentInit  {
 
     ngAfterContentInit(){
         this.initElements();
+        console.log('Contents Initialised');
         if(this.routableValid()) {
                 // Get Route Value
             setTimeout(() => {
                 if(this.routeValue && this.routeValue !== this.state) this.setActiveTab(this.routeValue);
             }, 100);
         }
+    }
+
+    head_cnt: number = 0;
+
+    ngDoCheck() {
+    	if(this.content_init && this.tabHeaders && this.tabHeaders.toArray().length !== this.head_cnt){
+    		this.head_cnt = this.tabHeaders.toArray().length;
+    		this.injectContents();
+	    }
     }
 
     processRoute() {
@@ -112,8 +127,42 @@ export class TabGroup implements AfterContentInit  {
         if(!this.state){
             if(this.tabHeaders.first) this.state = this.tabHeaders.first.id;
         }
+        this.injectContents();
             //Setup active tab
         this.setActiveTab(this.state, true);
+        this.content_init = true;
+    }
+
+    injectContents() {
+        	// Inject Tab Headers into the page
+        let tabs: any[] = this.tabHeaders.toArray();
+        for(let i = 0; i < this.tabHeaders.length; i++){
+        	this.addHeadNode(tabs[i]);
+        }
+        	// Inject Tab Bodies into the page
+        tabs = this.tabBodies.toArray();
+        for(let i = 0; i < this.tabBodies.length; i++){
+        	this.addBodyNode(tabs[i]);
+        }
+    }
+
+    addHeadNode(node: any) {
+    	let root = this.header;
+    	if(!root || !node || this.node_list.indexOf(node.id) >= 0) return;
+
+        this.renderer.projectNodes(root.nativeElement, [node.nativeElement()]);
+        this.listeners[node.id] = node.listen().subscribe((id: string) => {
+        	this.setActiveTab(id);
+        });
+        this.node_list.push(`head-${node.id}`);
+    }
+
+    addBodyNode(node: any) {
+    	let root = this.body;
+    	if(!root || !node || this.node_list.indexOf(node.id) >= 0) return;
+
+        this.renderer.projectNodes(root.nativeElement, [node.nativeElement()]);
+        this.node_list.push(`body-${node.id}`);
     }
 
     setActiveTab(id: string, init:boolean = false) {

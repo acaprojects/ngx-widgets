@@ -11,11 +11,11 @@
 	<div class="calendar-space">
 		<div class="header" [style.color]="color2" [style.background-color]="color1">
 			<div class="change-arrow" [style.color]="color2" (tap)="prevMonth()">
-				&#9668;
+				<div class="arrow left"></div>
 			</div>
 			<div class="month">{{months[display_month]}} {{display_year}}</div>
 			<div class="change-arrow" [style.color]="color2" (tap)="nextMonth()">
-				&#9658;
+				<div class="arrow right"></div>
 			</div>
 		</div>
 		<div class="week-days">

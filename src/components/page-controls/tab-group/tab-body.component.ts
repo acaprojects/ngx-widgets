@@ -13,20 +13,18 @@ import { ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 @Component({
     selector: 'tab-body',
     template: `
-        <div class="tab-body" *ngIf="visible">
+        <div [class]="'tab-body ' + cssClass" *ngIf="visible">
             <ng-content></ng-content>
         </div>
     `
 })
 export class TabBody {
     @Input() id: string;
-    contents: string;
+    @Input() cssClass: string = 'default';
     visible: boolean = false;
-    constructor(private el: ElementRef) {
-    }
 
-    ngAfterContentInit(){
-        this.contents = this.el.nativeElement.innerHTML;
+    constructor(private el: ElementRef) {
+
     }
 
     show() {
@@ -38,6 +36,11 @@ export class TabBody {
         this.visible = false;
         return false;
     }
+
+    nativeElement() {
+    	return this.el.nativeElement;
+    }
+
     ngOnDestroy() {
         console.warn('Body Destroyed.');
     }

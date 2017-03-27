@@ -17,12 +17,19 @@ export interface ICropperSettings {
     rounded: boolean;
     keepAspect: boolean;
     preserveSize: boolean;
+    compressRatio: number;
+    responsive: boolean;
 }
 
 export class CropperSettings implements ICropperSettings {
 
+
     public canvasWidth: number = 300;
     public canvasHeight: number = 300;
+
+    public dynamicSizing: boolean = false;
+    public cropperClass: string;
+    public croppingClass: string;
 
     public width: number = 200;
     public height: number = 200;
@@ -31,8 +38,6 @@ export class CropperSettings implements ICropperSettings {
     public minHeight: number = 50;
     public minWithRelativeToResolution: boolean = true;
 
-    public responsive: boolean = false;
-
     public croppedWidth: number = 100;
     public croppedHeight: number = 100;
 
@@ -40,10 +45,15 @@ export class CropperSettings implements ICropperSettings {
     public touchRadius: number = 20;
     public noFileInput: boolean = false;
 
-    public fileType:string = "png";
+    public fileType:string;
+
+    public resampleFn:Function;
 
     public allowedFilesRegex: RegExp = /\.(jpe?g|png|gif)$/i;
     public preserveSize: boolean = false;
+
+    public compressRatio:number = 1.0;
+    public responsive: boolean = false;
 
     private _rounded: boolean = false;
     private _keepAspect: boolean = true;

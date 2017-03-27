@@ -8,7 +8,7 @@
 .dropdown {
 	position: relative;
 	min-width: 12em;
-	height: 2.0em;
+	min-height: 2.0em;
 	font-size: 1.0em;
 	//z-index: 100;
 	border-radius: 0.1em;
@@ -17,11 +17,12 @@
 	& .item {
 		cursor: pointer;
 		padding: 0.4em;
+		text-align: left;
 		& .field {
-
+			padding: 0 0.5em;
 		}
 		&.active {
-			
+			text-align: center;
 		}
 	}
 
@@ -32,7 +33,7 @@
 		right: 0;
 		z-index: 1999;
 		border-radius: 0.1em;
-		opacity: 0;
+		//opacity: 0;
 
 		& .items {
 			max-height: 30vh;

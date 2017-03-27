@@ -10,26 +10,31 @@
 import { Component, Input, Output, EventEmitter, ElementRef, Renderer } from '@angular/core';
 import { ContentChildren, QueryList, AfterContentInit, ViewEncapsulation } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
+
 @Component({
     selector: 'tab-head',
     template: `
-    <div class="tab-head">
+    <div [class]="'tab-head ' + cssClass" [class.active]="isActive" (tap)="tapped()">
         <ng-content></ng-content>
     </div>
     `,
-    encapsulation: ViewEncapsulation.None
+    styleUrls: ['./tab-head.styles.css']
 })
 export class TabHead {
     @Input() id: string;
+    @Input() cssClass: string = 'default';
+
     contents: string;
     isActive: boolean = false;
     visible: boolean = false;
-    constructor(private el: ElementRef, private renderer: Renderer) {
-    }
+    tap_observer: any = null;
+    tap_obs: any = null;
 
-    ngAfterContentInit(){
-        this.contents = this.el.nativeElement.innerHTML;
-        this.renderer.setElementProperty(this.el.nativeElement, 'innerHTML', '');
+    constructor(private el: ElementRef) {
+    	this.tap_observer = new Observable((observer) => {
+    		this.tap_obs = observer;
+    	});
     }
 
     get activeTab() {
@@ -52,5 +57,17 @@ export class TabHead {
     hide() {
         this.visible = false;
         return false;
+    }
+
+    nativeElement() {
+    	return this.el.nativeElement;
+    }
+
+    tapped() {
+    	this.tap_obs.next(this.id);
+    }
+
+    listen() {
+    	return this.tap_observer;
     }
 }

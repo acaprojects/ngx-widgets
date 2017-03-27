@@ -61,15 +61,17 @@ export class ButtonToggle {
 	}
 
 	updateClasses() {
-		if(this.cssClass && this.cssClass !== ''){
-			let el_class = `${this.base_class}`;
-		} else {
-			let el_class_c_p = `color bg-${this.color}-${this.primary} font-white`;
-			let el_class_c_s = `color bg-${this.color}-${this.secondary} font-white`;
-			let el_class_step = `step-${this.active?'two':'one'}`;
-			let el_class_color = this.hover ? el_class_c_s : el_class_c_p ;
-			this.btn_class = `${this.base_class} ${this.model ? el_class_color : ''} ${el_class_step}`;
-		}
+		setTimeout(() => {
+			if(this.cssClass && this.cssClass !== ''){
+				let el_class = `${this.base_class}`;
+			} else {
+				let el_class_c_p = `color bg-${this.color}-${this.primary} font-white`;
+				let el_class_c_s = `color bg-${this.color}-${this.secondary} font-white`;
+				let el_class_step = `step-${this.active?'two':'one'}`;
+				let el_class_color = this.hover ? el_class_c_s : el_class_c_p ;
+				this.btn_class = `${this.base_class} ${this.model ? el_class_color : ''} ${el_class_step}`;
+			}
+		}, 10);
 	}
 	/**
 	 * Sets the hover state of the button
@@ -94,7 +96,7 @@ export class ButtonToggle {
 			this.action_btn = this.btnType ? this.btnType.indexOf('action') >= 0 : false;
 			this.updateClasses();
 		}
-		if(changes.cssClass) {
+		if(changes.cssClass || changes.model) {
 			this.base_class = `aca btn ${this.cssClass}`;
 			this.updateClasses();
 		}

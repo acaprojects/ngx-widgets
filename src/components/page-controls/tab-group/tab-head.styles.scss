@@ -1,0 +1,37 @@
+/*
+* @Author: Alex Sorafumo
+* @Date:   2017-03-21 15:12:59
+* @Last Modified by:   Alex Sorafumo
+* @Last Modified time: 2017-03-21 15:35:12
+*/
+
+div.tab-head {
+    position: relative;
+    bottom: 0;
+    margin-bottom: -1px;
+    padding: 0.5em 1.5em;
+    margin-right: 0.15em; 
+    border-radius: 0.15em 0.15em 0 0;
+    &.active {
+        border-bottom: none;
+    }
+	&.default {
+        background-color: rgba(0,0,0,0.1);
+        border: 1px solid rgba(0,0,0,0.2);
+        border-bottom: none;
+        min-width: 4.0em;
+        cursor: pointer;
+        &.active {
+            background-color: #FFFFFF;
+            border: 1px solid rgba(0,0,0,0.2);
+        	border-bottom: 0.1em solid #FFFFFF;
+            &:hover {
+                background-color: #FFFFFF;
+                color: rgba(0,0,0,0.87);
+            }
+        }
+        &:hover{
+            color: rgba(0,0,0,0.54);
+        }
+    }
+}

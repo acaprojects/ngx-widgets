@@ -14,68 +14,39 @@ $bg-color: #FFFFFF;
 .tab-group {
     z-index: inherit;
     & .tab-header {
+    	position: relative;
+        padding: 0 1.0em;
+        margin-bottom: 0;
+        padding-top: 0.5em;
+        list-style: none;
+        white-space: nowrap;
+        display:flex;
+        text-align: center;
+
         overflow-x: auto;
         overflow-y: visible;
         user-select: none;
-        & ul {
-            padding: 0 1.0em;
-            margin-bottom: 0;
-            list-style: none;
-            white-space: nowrap;
-            display:flex;
-            text-align: center;
-            & > li {
-                position: relative;
-                bottom: 0;
-                margin-bottom: -0.1em;
-                padding: 0.5em 1.5em;
-                margin-right: 0.15em;
-                border-radius: 0.15em 0.15em 0 0;
-                &.active {
-                    border-bottom: none;
-                }
-                &:nth-child(n+2) {
-                	//border-left: none;
-                }
-                &.empty {
-                	position:relative;
-                	width: 1px !important;
-                	padding: 0.5em !important;
-                	opacity:1;
-                	bottom: -1px !important;
-                	border-top: none !important;
-                	border-left: none !important;
-                	border-right: none !important;
-                	background: none !important;
-                }
-            }
-			&.default {
-        		border-bottom: 0.1em solid rgba(0,0,0,0.1);
-            	& > li {
-                    background-color: rgba(0,0,0,0.1);
-                    border: 0.1em solid rgba(0,0,0,0.1);
-                    border-bottom: none;
-                    min-width: 4.0em;
-                    cursor: pointer;
-	                &.active {
-                        background-color: #FFFFFF;
-                        border: 0.1em solid rgba(0,0,0,0.1);
-                    	border-bottom: 0.1em solid #FFFFFF;
-                        &:hover {
-                            background-color: #FFFFFF;
-                            color: rgba(0,0,0,0.87);
-                        }
-	                }
-	                &:hover{
-                        color: rgba(0,0,0,0.54);
-	                }
-                }
-            }
+        & .border {
+        	position: absolute;
+        	top: 0;
+        	left: 0;
+        	right: 0;
+        	bottom: 1px;
+        	border-bottom: 1px solid rgba(0,0,0,0.2);
         }
+	    & .empty {
+	    	position:relative;
+	    	width: 1px !important;
+	    	padding: 0.5em !important;
+	    	opacity:1;
+	    	bottom: -1px !important;
+	    	border-top: none !important;
+	    	border-left: none !important;
+	    	border-right: none !important;
+	    	background: none !important;
+	    }
     }
-    & .tab-contents{
-        & .tab-head{
-            display: hidden;
-        }
+    & .contents {
+    	//display: none;
     }
 }
