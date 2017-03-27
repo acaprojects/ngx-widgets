@@ -33,6 +33,7 @@ export class Dropdown {
 	@Input() index: number = 0;
 	@Input() fields: string[] = ['name'];
 	@Input() cssClass: string = 'default';
+	@Input() placeholder: string = '=== Select Option ===';
 
 	@Output() modelChange: any = new EventEmitter();
 	@Output() indexChange: any = new EventEmitter();
