@@ -73,7 +73,7 @@ export class Slider {
                 this.value = this.max;
             }
             this.current = this.value;
-            this.refresh();
+        	this.updateValue(true);
         }
     }
 
@@ -117,17 +117,15 @@ export class Slider {
      */
     postValue() {
         setTimeout(() => {
-            if(this.user_action && !this.update_timer) { 
-                this.update_timer = setTimeout(() => {
-                    this.valueChange.emit(this.current);
-                    this.update_timer = null;
-                }, 250);
-            } else if(!this.user_action){
+        	if(this.user_action){
                 if(!this.update_timer) {
                     clearTimeout(this.update_timer);
                     this.update_timer = null;
                 }
-                this.valueChange.emit(this.current);
+                this.update_timer = setTimeout(() => {
+                    this.valueChange.emit(this.current);
+                    this.update_timer = null;
+                }, 180); // Delay timer for posting value changes.
             }
         }, 20);
     }
@@ -196,7 +194,7 @@ export class Slider {
             this.update_timer = null;
         }
         this.user_action = false;
-        /*
+        ///*
         if(this.action_timer) {
             clearTimeout(this.action_timer);
             this.action_timer = null;
@@ -206,7 +204,7 @@ export class Slider {
             this.user_action = false;
             this.action_timer = null;
         }, 300);
-        */
+        //*/
     }
 
     /**
@@ -215,13 +213,16 @@ export class Slider {
      * @return {void}
      */
     clickSlider(event: any) {
+    	console.log('Clicked Slider');
         if(event) {
             if(event.preventDefault) event.preventDefault();
             if(event.stopPropagation) event.stopPropagation();
         }
+        let prev = this.current;
         this.current = this.value = this.calcValue(event);
+        console.log(this.value);
         this.actionPerformed();
-        this.updateValue();
+        this.refresh();
     }
 
     /**

@@ -33,7 +33,7 @@ export class Button {
 	@Input() primary: string = 'C500';
 	@Input() secondary: string = 'C600';
 	@Input() type: string = '';
-	@Input() btnType: string = 'flat';
+	@Input() btnType: string = 'raised';
 	@Input() styles: any = {};
 	@Input() disabled: boolean = false;
 		// Output emitters
@@ -62,6 +62,7 @@ export class Button {
 		setTimeout(() => {
 			if(this.cssClass && this.cssClass !== ''){
 				let el_class = `${this.base_class}`;
+				this.btn_class = el_class;
 			} else {
 				let el_class_c_p = `color bg-${this.color}-${this.primary} font-white`;
 				let el_class_c_s = `color bg-${this.color}-${this.secondary} font-white`;

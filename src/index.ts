@@ -47,8 +47,8 @@ export * from './helpers';
     ]
 })
 export class ACA_WIDGETS_MODULE {
-    version: string = '0.6.5';
-    build: string = '2017-03-24.v1';
+    version: string = '0.7.3';
+    build: string = '2017-03-30.v1';
     constructor() {
         console.debug(`[ACA][LIBRARY] Widgets - Version: ${this.version} | Build: ${this.build}`);
     }

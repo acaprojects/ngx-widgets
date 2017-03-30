@@ -15,6 +15,7 @@ import { MaterialStyles } from './material-styles';
 import { Modal, ACA_WIDGET_MODALS } from './modal';
 import { Notification, NotifyBlock } from './notification';
 import { PAGE_CONTROLS } from './page-controls';
+import { ProgressCircleComponent } from './progress-circle';
 import { Spinner } from './spinner';
 import { TooltipComponent } from './tooltip';
 import { VirtualKeyboard } from './virtual-keyboard';
@@ -38,6 +39,7 @@ export let COMPONENTS: any[] = [
     ...MAP_COMPONENTS,
     MaterialStyles,
     NotifyBlock,
+    ProgressCircleComponent,
     TooltipComponent,
     ...PAGE_CONTROLS,
     Spinner

@@ -26,6 +26,7 @@ export class TabGroup implements AfterContentInit  {
     @Input() routable: string = ''; // Search, Query, Hash, Route
     @Input() routeParam: string = 'tab'; //
     @Input() cssClass: string = 'default';
+    @Input() disabled: string[] = [];
     @Output() stateChange = new EventEmitter();
 
     //*
@@ -52,7 +53,6 @@ export class TabGroup implements AfterContentInit  {
 
     ngAfterContentInit(){
         this.initElements();
-        console.log('Contents Initialised');
         if(this.routableValid()) {
                 // Get Route Value
             setTimeout(() => {
@@ -62,6 +62,15 @@ export class TabGroup implements AfterContentInit  {
     }
 
     head_cnt: number = 0;
+
+    ngOnChanges(changes: any) {
+    	if(changes.disabled) {
+    		this.updateDisable();
+    	}
+    	if(changes.state) {
+    		this.setActiveTab(this.state);
+    	}
+    }
 
     ngDoCheck() {
     	if(this.content_init && this.tabHeaders && this.tabHeaders.toArray().length !== this.head_cnt){
@@ -137,12 +146,12 @@ export class TabGroup implements AfterContentInit  {
         	// Inject Tab Headers into the page
         let tabs: any[] = this.tabHeaders.toArray();
         for(let i = 0; i < this.tabHeaders.length; i++){
-        	this.addHeadNode(tabs[i]);
+	        this.addHeadNode(tabs[i]);
         }
         	// Inject Tab Bodies into the page
         tabs = this.tabBodies.toArray();
         for(let i = 0; i < this.tabBodies.length; i++){
-        	this.addBodyNode(tabs[i]);
+	        this.addBodyNode(tabs[i]);
         }
     }
 
@@ -166,6 +175,8 @@ export class TabGroup implements AfterContentInit  {
     }
 
     setActiveTab(id: string, init:boolean = false) {
+    	if(this.disabled.indexOf(id) >= 0) return;
+    	if(!this.tabBodies || !this.tabHeaders) return;
         this.state = id;
 
         let tabs = this.tabHeaders.toArray();
@@ -187,6 +198,24 @@ export class TabGroup implements AfterContentInit  {
                 this.updateRouteValue();
             }
         }, 20);
+    }
+
+    updateDisable() {
+	    if(!this.tabHeaders || !this.tabBodies) {
+	    	setTimeout(() => {
+	    		this.updateDisable();
+	    	}, 200);
+	    } else {
+            let tabs = this.tabHeaders.toArray();
+            for(let i = 0; i < this.tabHeaders.length; i++){
+                if(this.disabled.indexOf(tabs[i].id) >= 0) tabs[i].hide();
+                else tabs[i].show();
+            }
+            let content = this.tabBodies.toArray();
+            for(let i = 0; i < this.tabBodies.length; i++){
+                if(this.disabled.indexOf(content[i].id) >= 0) content[i].hide();
+            }
+        }
     }
 
     updateRouteValue() {

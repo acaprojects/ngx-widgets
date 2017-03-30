@@ -15,7 +15,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
     selector: 'tab-head',
     template: `
-    <div [class]="'tab-head ' + cssClass" [class.active]="isActive" (tap)="tapped()">
+    <div *ngIf="visible" [class]="'tab-head ' + cssClass" [class.active]="isActive" (tap)="tapped()">
         <ng-content></ng-content>
     </div>
     `,
@@ -27,7 +27,7 @@ export class TabHead {
 
     contents: string;
     isActive: boolean = false;
-    visible: boolean = false;
+    visible: boolean = true;
     tap_observer: any = null;
     tap_obs: any = null;
 

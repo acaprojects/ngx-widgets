@@ -7,7 +7,7 @@
 * @Last modified time: 31/01/2017 9:58 AM
 */
 
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { ComponentRef, ViewContainerRef, ComponentFactoryResolver }  from '@angular/core';
 import { AfterViewInit, OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
 import { trigger, transition, animate, style, state, keyframes } 	 from '@angular/core';
@@ -75,7 +75,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
     protected obs: any = null;
 
 
-    constructor(private _cfr: ComponentFactoryResolver, private renderer: Renderer) {
+    constructor(private _cfr: ComponentFactoryResolver, private renderer: Renderer2) {
         this.id = (Math.round(Math.random() * 899999999 + 100000000)).toString();
         this.state_obs = new Observable((observer: any) => {
             this.obs = observer;
@@ -129,6 +129,11 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
      * @return {void}
      */
     public buildContents() {
+    	if(!this._cfr) {
+    		return setTimeout(() => {
+    			this.buildContents();
+    		}, 200);
+    	}
         if(this.component !== undefined && this.component !== null){
     		let factory = this._cfr.resolveComponentFactory(this.component);
             if(factory) this.render(factory);
@@ -190,6 +195,12 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
      * @return {void}
      */
     public setParams(data: any) {
+    	if(!this.modal) {
+    		setTimeout(() => {
+    			this.setParams(data);
+    		}, 200);
+    		return;
+    	}
         if(data) {
                 // Iterate through data and add it to the modal
             for(let key in data) {
@@ -208,8 +219,8 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
                 setTimeout(() => {
                     this.display_top = (this.top && this.top > 0 ? this.top : '') + this.unit;
                     let mdl = this.modal.nativeElement;
-                    this.renderer.setElementStyle(mdl, 'top', this.display_top);
-                }, 100);
+                    if(mdl) this.renderer.setStyle(mdl, 'top', this.display_top);
+                }, 200);
             }
         	this.buildContents();
         }
