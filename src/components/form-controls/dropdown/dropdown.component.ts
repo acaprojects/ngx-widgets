@@ -33,7 +33,7 @@ export class Dropdown {
 	@Input() index: number = 0;
 	@Input() fields: string[] = ['name'];
 	@Input() cssClass: string = 'default';
-	@Input() placeholder: string = '=== Select Option ===';
+	@Input() placeholder: string = '';
 
 	@Output() modelChange: any = new EventEmitter();
 	@Output() indexChange: any = new EventEmitter();
@@ -42,6 +42,7 @@ export class Dropdown {
 
 	type: string = 'string';
 	display_items: any = [];
+	current_item: any = null;
 	shown: boolean = false;
 
 	constructor() {
@@ -58,12 +59,21 @@ export class Dropdown {
 	ngOnChanges(changes: any) {
 		if(changes.items) {
 			if(this.items && this.items.length > 0) {
-				this.display_items = this.items;
-				this.type = typeof this.items[0];
-				if(!this.model) {
-					this.model = this.items[0];
-				}
+				setTimeout(() => {
+					this.display_items = this.items;
+					this.type = typeof this.items[0];
+					if(!this.placeholder || this.placeholder === ''){
+						if(!this.model) {
+							this.model = this.items[0];
+						}
+					}
+				}, 200);
 			}
+		}
+		if(changes.model) {
+			setTimeout(() => {
+				this.current_item = this.model;
+			}, 200);
 		}
 	}
 	/**

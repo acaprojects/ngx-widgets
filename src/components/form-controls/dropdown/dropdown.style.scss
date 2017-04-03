@@ -18,6 +18,9 @@
 		cursor: pointer;
 		padding: 0.4em;
 		text-align: left;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 		& .field {
 			padding: 0 0.5em;
 		}

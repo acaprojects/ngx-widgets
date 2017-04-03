@@ -35,6 +35,7 @@ export class DropdownTypeahead {
 	@Input() search: string = '';
 	@Input() fields: string[] = ['name'];
 	@Input() cssClass: string = 'default';
+	@Input() placeholder: string = '';
 
 	@Output() modelChange: any = new EventEmitter();
 	@Output() indexChange: any = new EventEmitter();
@@ -44,6 +45,7 @@ export class DropdownTypeahead {
 
 	type: string = 'string';
 	display_items: any = [];
+	current_item: any = null;
 	shown: boolean = false;
 
 	constructor() {
@@ -61,15 +63,23 @@ export class DropdownTypeahead {
 	ngOnChanges(changes: any) {
 		if(changes.items) {
 			if(this.items && this.items.length > 0) {
-				this.type = typeof this.items[0];
-				if(!this.model) {
-					this.model = this.items[0];
-				}
+				setTimeout(() => {
+					this.type = typeof this.items[0];
+					this.display_items = this.items;
+					if(!this.placeholder || this.placeholder === ''){
+						if(!this.model) {
+							this.model = this.items[0];
+						}
+					}
+					this.filter();
+				}, 200);
 			}
-			this.filter();
 		}
-		if(changes.model) {
+		if(changes.model || changes.search) {
 			this.filter();
+			setTimeout(() => {
+				this.current_item = this.model;
+			}, 200);
 		}
 	}
 	/**

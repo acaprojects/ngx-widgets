@@ -11,7 +11,7 @@
 	<div class="item active" [@show]="shown ? 'hide': 'show'" (tap)="toggle()">
 		<div class="inner" *ngIf="model&&model!==''">
 			<div *ngIf="type==='object'">
-				<span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k" [innerHTML]="model[f]"></span>
+				<span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k">{{model[f]}}</span>
 			</div>
 			<div class="field" *ngIf="type!=='object'">{{model}}</div>
 		</div>
@@ -21,7 +21,7 @@
 		<div class="item active" (tap)="shown=!shown">
 			<div class="inner" *ngIf="model&&model!==''">
 				<div *ngIf="type==='object'">
-					<span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k" [innerHTML]="model[f]"></span>
+					<span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k">{{model[f]}}</span>
 				</div>
 				<div class="field" *ngIf="type!=='object'">{{model}}</div>
 			</div>
@@ -29,11 +29,13 @@
 		</div>
 		<div hidden *ngIf="shown" (window:tap)="checkTap($event)"></div>
 		<div class="items">
-			<div class="item" *ngFor="let item of display_items; let i = index " (tap)="select(i)">
-				<div *ngIf="type==='object'">
-					<span *ngFor="let f of fields; let k = index " class="field" [id]="'dropdown-item'+i+'-field'+k" [innerHTML]="item[f]"></span>
+			<div *ngFor="let item of display_items; let i = index " (tap)="select(i)">
+				<div class="item" *ngIf="item!==current_item">
+					<div *ngIf="type==='object'">
+						<span *ngFor="let f of fields; let k = index " class="field" [id]="'dropdown-item'+i+'-field'+k">{{item[f]}}</span>
+					</div>
+					<div class="field" *ngIf="type!=='object'">{{item}}</div>
 				</div>
-				<div class="field" *ngIf="type!=='object'">{{item}}</div>
 			</div>
 		</div>
 	</div>
