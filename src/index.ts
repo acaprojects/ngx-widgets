@@ -46,10 +46,17 @@ export * from './helpers';
         //COMPILER_PROVIDERS
     ]
 })
-export class ACA_WIDGETS_MODULE {
-    version: string = '0.7.3';
-    build: string = '2017-03-30.v1';
+export class WidgetsModule {
+    version: string = '0.7.6';
+    build: string = '2017-05-01.v1';
+    static init: boolean = false;
     constructor() {
-        console.debug(`[ACA][LIBRARY] Widgets - Version: ${this.version} | Build: ${this.build}`);
+    	if(!WidgetsModule.init){
+    		WidgetsModule.init = true;
+	        console.debug(`[ACA][LIBRARY] Widgets - Version: ${this.version} | Build: ${this.build}`);
+	    }
     }
 }
+
+export let ACA_WIDGETS_MODULE = WidgetsModule;
+

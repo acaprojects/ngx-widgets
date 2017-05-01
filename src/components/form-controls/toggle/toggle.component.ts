@@ -18,17 +18,23 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
         trigger('toggleBg', [
             state('on', style({ 'background-color': '#23CE6B' })),
             state('off', style({ 'background-color': '#F64740' })),
+            state('On', style({ 'background-color': '#23CE6B' })),
+            state('Off', style({ 'background-color': '#F64740' })),
             state('disabled', style({ 'background-color': '#DCDCDC' })),
             transition('* => *', animate('100ms ease-out'))
         ]),
         trigger('textToggle', [
             state('on', style({left: '50%'})),
             state('off', style({left: '0%'})),
+            state('On', style({left: '50%'})),
+            state('Off', style({left: '0%'})),
             transition("on <=> off", animate('100ms ease-out'))
         ]),
         trigger('iosToggle', [
             state('on', style({left: '100%'})),
             state('off', style({left: '0'})),
+            state('On', style({left: '100%'})),
+            state('Off', style({left: '0'})),
             transition('on <=> off', animate('100ms ease-out'))
         ])
     ]
@@ -36,8 +42,8 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
 export class Toggle {
     @Input() type: string;
     @Input() state: boolean = true;
-    @Input() active: string;
-    @Input() inactive: string;
+    @Input() active: string = "On";
+    @Input() inactive: string = "Off";
     @Input() view: string = 'square';
     @Input() disabled: boolean = false;
     @Input() size: string = '1.0em';

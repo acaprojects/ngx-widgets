@@ -19,12 +19,12 @@ import { Observable } from 'rxjs/Rx';
         trigger('show', [
             state('show',  style({ opacity: '1' })),
             state('hide',  style({ opacity: '0' })),
-            transition('* <=> *', animate('150ms ease-out'))
+            transition('show <=> hide', animate('150ms ease-out'))
         ]),
         trigger('showlist', [
             state('show',  style({ opacity: '1', height: '*' })),
             state('hide',  style({ opacity: '0', height: '2.0em', display:'none' })),
-            transition('* <=> *', animate('750ms ease-out'))
+            transition('show <=> hide', animate('750ms ease-out'))
         ])
     ]
 })

@@ -9,8 +9,8 @@
 
 <div class="aca toggle" [class.disabled]="disabled" (tap)="changeState($event)" [style.font-size]="size" override>
     <div *ngIf="type==='text'" [@toggleBg]="disabled ? 'disabled' : (_state ? 'on' : 'off')" class="text-toggle">
-        <div *ngIf="_state" class="text active">{{active ? active : 'On'}}</div>
-        <div *ngIf="!_state" class="text inactive">{{inactive ? inactive : 'Off'}}</div>
+        <div *ngIf="_state" class="text active">{{active}}</div>
+        <div *ngIf="!_state" class="text inactive">{{inactive}}</div>
         <div #textKnob [@textToggle]="disabled ? 'disabled' : (_state ? 'on' : 'off')" class="toggle-knob"></div>
     </div>
     <div *ngIf="type==='image'" class="image-toggle">
@@ -28,7 +28,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="type!=='text' && type!=='image' && type!=='icon'" [@toggleBg]="disabled ? 'disabled' : (_state ? 'on' : 'off')" class="ios-toggle">
-        <div #iosKnob [@iosToggle]="disabled ? 'disabled' : (_state ? 'on' : 'off')" class="toggle-knob"></div>
+    <div *ngIf="type!=='text' && type!=='image' && type!=='icon'" [@toggleBg]="disabled ? 'disabled' : (_state ? active : inactive)" class="ios-toggle">
+        <div #iosKnob [@iosToggle]="disabled ? 'disabled' : (_state ? active : inactive)" class="toggle-knob"></div>
     </div>
 </div>

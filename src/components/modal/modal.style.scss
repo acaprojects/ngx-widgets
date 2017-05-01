@@ -27,7 +27,7 @@ $space: 2.2em;
 	}
 
 	& .modal-space {
-	    position: absolute;
+	    position: relative;
 	    top: 50%;
 	    left: 50%;
 		transform: translate(-50%, -50%) scale(0);
@@ -36,6 +36,13 @@ $space: 2.2em;
 		min-height: 10.0em;
 		max-height: 90vh;
 		max-width: 95vw;
+		@media screen and (max-width: 720px) {
+			width: 101% !important;
+			height: 101% !important;
+			max-width: 101vw;
+			max-height: 101vh;
+			border-radius: 0;
+		}
 		& .modal {
 			&-header {
 				position: absolute;
@@ -58,13 +65,10 @@ $space: 2.2em;
 				z-index: 2020;
 			}
 			&-body {
-				max-height: 85vh;
-				max-width: 85vw;
 				overflow: auto;
 				font-size: 1.0em;
 				z-index: 2010;
 				& .content {
-					padding: 1.0em;
 				}
 			}
 			&-footer {

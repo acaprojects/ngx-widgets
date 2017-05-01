@@ -23,7 +23,7 @@ export class TooltipComponent {
     @Input() size: string = '1.0em';
     @Input() position: string = 'bottom';
     @Input() theme: string = 'light';
-    @Input() show: boolean = true;
+    @Input() show: boolean = false;
     @Input() cssClass: string = 'default';
     @Input() cmp: any = null;
     @Input() html: string = '';
@@ -48,7 +48,9 @@ export class TooltipComponent {
      */
     @HostListener('tap', ['$event'])
     onClick(e: any) {
-        this.toggleShow();
+    	if(!this.check(e)){
+	        this.toggleShow();
+	    }
     }
 
     constructor(private el: ElementRef, private _cfr: ComponentFactoryResolver, private renderer: Renderer) {
@@ -57,7 +59,7 @@ export class TooltipComponent {
 
     ngOnChanges(changes: any) {
            // Component changes or state of show changes to true
-        if(changes.cmp || (changes.show && this.show)) {
+        if(changes.cmp) {
             setTimeout(() => {
                 this.render();
             }, 20);
@@ -68,13 +70,6 @@ export class TooltipComponent {
         }
     }
 
-    ngAfterViewInit() {
-        if(this.show){
-            setTimeout(() => {
-                this.render();
-            }, 100);
-        }
-    }
     /**
      * Updates the offset position of the content box of the tooltip
      * @return {void}
@@ -100,14 +95,11 @@ export class TooltipComponent {
      * @return {void}
      */
     toggleShow() {
-        console.log('Toggle Show');
         this.show = !this.show;
         this.showChange.emit(this.show);
-        if(this.show){
-            setTimeout(() => {
-                this.render();
-            }, 20);
-        }
+        this.toggle_timer = setTimeout(() => {
+        	this.toggle_timer = null;
+        }, 100);
     }
     /**
      * Checks if the given event occurred outside the tool tip and hides it if so
@@ -115,8 +107,7 @@ export class TooltipComponent {
      * @return {void}
      */
     checkTap(e: any) {
-        console.log('Check Tap');
-        if(!this.check(e)) {
+        if(!this.toggle_timer && !this.check(e)) {
             this.show = false;
             this.toggle_timer = setTimeout(() => {
                 this.toggle_timer = null;
@@ -176,7 +167,6 @@ export class TooltipComponent {
             this.updateOffset();
         } else if(cnt < 30) {
             cnt++;
-            this.show = true;
             setTimeout(() => {
                 this.render(cnt);
             }, 100 * cnt);

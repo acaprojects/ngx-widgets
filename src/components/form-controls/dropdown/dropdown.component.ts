@@ -18,7 +18,7 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
         trigger('show', [
             state('show',  style({ opacity: '1' })),
             state('hide',  style({ opacity: '0' })),
-            transition('* <=> *', animate('150ms ease-out'))
+            transition('hide <=> show', animate('150ms ease-out'))
         ]),
         trigger('showlist', [
             state('show',  style({ height: '*' })),

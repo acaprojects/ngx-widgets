@@ -38,7 +38,7 @@ gulp.task('ngc', ['inject:css+html'], function (cb) {
     return exec('./node_modules/.bin/ngc -p ./tsconfig.aot.json', function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
-        cb(err);
         del(['./dist/**/*.ts']);
+        return cb(err);
     });
 });

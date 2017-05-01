@@ -211,9 +211,14 @@ export class TabGroup implements AfterContentInit  {
                 if(this.disabled.indexOf(tabs[i].id) >= 0) tabs[i].hide();
                 else tabs[i].show();
             }
-            let content = this.tabBodies.toArray();
-            for(let i = 0; i < this.tabBodies.length; i++){
-                if(this.disabled.indexOf(content[i].id) >= 0) content[i].hide();
+            	// Set active tab to the first available tab if the current tab is disabled
+            if(this.disabled.indexOf(this.state) >= 0) {
+            	for(let i = 0; i < tabs.length; i++){
+            		if(this.disabled.indexOf(tabs[i].id) < 0) {
+            			this.setActiveTab(tabs[i].id);
+            			break;
+            		}
+            	}
             }
         }
     }

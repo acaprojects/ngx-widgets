@@ -5,7 +5,7 @@ module.exports = function () {
         src = root + 'src/',
         config = root + 'config/',
         app = src + 'app/',
-        public = src + 'assets/',
+        assets = src + 'assets/',
         index = src + 'index.html';
 
     var gulpConfig = {
@@ -16,7 +16,7 @@ module.exports = function () {
         build: build,
         coverage: coverage,
         index: index,
-        public: public
+        assets: assets
     };
 
     return gulpConfig;
