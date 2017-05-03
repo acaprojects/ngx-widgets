@@ -17,26 +17,27 @@ const DIM_LIMIT = 20000;
     styleUrls: ['./marker-group.styles.css'],
 })
 export class MapMarkerGroupComponent {
-    @Input() markers: any[] = [];
-    @Input() rotate: number = 0;
-    @Input() radius: number = 1;
-    @Input() disable: boolean = false;
-    @Input() reset: boolean = false;
-    @Input() map: any = {
+    @Input() public markers: any[] = [];
+    @Input() public rotate: number = 0;
+    @Input() public radius: number = 1;
+    @Input() public disable: boolean = false;
+    @Input() public reset: boolean = false;
+    @Input() public map: any = {
         pos: { x: 0, y: 0 },
         dim: { x: 100, y: 100 },
         real_dim: { x: 100, y: 100 },
         area: { x: 100, y: 100 },
     };
 
-    @ViewChild('main') main: ElementRef;
+    public count: number = 0;
+    public font_size: number = 1;
+    public radius_size: number = 12;
 
-    prev_map: any = null;
-    count: number = 0;
-    font_size: number = 1;
-    radius_size: number = 12;
-    marker_timer: any = null;
-    prev_markers: string = '';
+    @ViewChild('main') private main: ElementRef;
+
+    private prev_map: any = null;
+    private marker_timer: any = null;
+    private prev_markers: string = '';
 
     constructor() {
         this.marker_timer = setInterval(() => {
@@ -48,16 +49,13 @@ export class MapMarkerGroupComponent {
         }, 1000);
     }
 
-    ngOnInit() {
-    }
-
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (changes.markers) {
             this.setupMarkers();
         }
     }
 
-    ngDoCheck() {
+    public ngDoCheck() {
         if (!this.prev_map ||
             (this.map.pos.x !== this.prev_map.pos.x || this.map.pos.y !== this.prev_map.pos.y) ||
             (this.map.dim.x !== this.prev_map.dim.x || this.map.dim.y !== this.prev_map.dim.y) ||
@@ -72,7 +70,7 @@ export class MapMarkerGroupComponent {
         }
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         if (this.marker_timer) {
             clearTimeout(this.marker_timer);
         }
@@ -81,7 +79,7 @@ export class MapMarkerGroupComponent {
      * Updates the size of the maker and its contents
      * @return {void}
      */
-    updateFontSize() {
+    private updateFontSize() {
         const long = this.map.dim.x > this.map.dim.y ? this.map.dim.x : this.map.dim.y;
         this.font_size = this.map.dim.y / long;
         const size = this.map.area.x * ( 2 / 100);
@@ -91,7 +89,7 @@ export class MapMarkerGroupComponent {
      * Creates the markers to be display
      * @return {void}
      */
-    setupMarkers() {
+    public setupMarkers() {
         if (!this.disable && this.markers) {
             this.count = this.markers.length;
             setTimeout(() => {
@@ -108,7 +106,7 @@ export class MapMarkerGroupComponent {
      * Updates the position of the markers
      * @return {void}
      */
-    updateMarkers() {
+    private updateMarkers() {
         if (!this.main || !this.markers) return;
         for (let i = 0;  i < this.markers.length; i++) {
             const marker = this.markers[i];

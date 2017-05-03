@@ -26,11 +26,9 @@ export class ModalDirective {
     @Output() public error = new EventEmitter();
 
     constructor(private service: ModalService) {
-        if (!this.id || this.id === '') this.id = Math.floor(Math.random() * 89999999 + 10000000).toString();
-    }
-
-    public ngOnInit() {
-
+        if (!this.id || this.id === '') {
+            this.id = Math.floor(Math.random() * 89999999 + 10000000).toString();
+        }
     }
 
     public ngOnChanges(changes: any) {
@@ -47,8 +45,9 @@ export class ModalDirective {
                     .subscribe(
                         (data) => this.event.emit(),
                         (err) => this.error.emit(),
-                        () => {},
-                    );
+                        () => {
+                            return;
+                        });
             }else {
                 this.service.close(this.id);
             }

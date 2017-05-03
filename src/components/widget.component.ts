@@ -2,16 +2,18 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-10 11:56:00
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-03 12:38:35
+ * @Last Modified time: 2017-05-03 14:40:40
  */
 
-import { Component, Renderer } from '@angular/core';
+import { Component, Input, Renderer } from '@angular/core';
 
 @Component({
     selector: 'aca-widget',
     template: '<div class="widget"></div>',
 })
 export class WidgetComponent {
+    @Input() public cssClass: string = 'default';
+
     protected theme: any = {};
     protected component_name: string = 'widget';
     protected theme_sub: any = null;
@@ -21,7 +23,11 @@ export class WidgetComponent {
         this.theme_sub = theme_service.listener().subscribe((theme) => {
             this.theme = theme;
             this.updateTheme();
-        }, (err) => {}, () => {});
+        }, (err) => {
+            return;
+        }, () => {
+            return;
+        });
     }
 
     public ngAfterViewInit() {
@@ -29,7 +35,9 @@ export class WidgetComponent {
     }
 
     public ngOnDestory() {
-
+        if (this.theme_sub) {
+            this.theme_sub.unsubscribe();
+        }
     }
 
     private updateTheme() {
@@ -38,7 +46,9 @@ export class WidgetComponent {
             for (const el in theme) {
                 if (this.cmp_elements[el]) {
                     for (const style in theme[el]) {
-                        this.renderer.setElementStyle(this.cmp_elements[el], style, theme[el][style]);
+                        if (theme[el][style]) {
+                            this.renderer.setElementStyle(this.cmp_elements[el], style, theme[el][style]);
+                        }
                     }
                 }
             }

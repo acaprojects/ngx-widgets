@@ -8,7 +8,7 @@
  */
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { animate, keyframes, state, style, transition, trigger }      from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 const KEY_LIST = {
@@ -62,32 +62,28 @@ const KEY_LIST = {
   ],
 })
 export class VirtualKeyboard {
-    @Input() model: string = '';
-    @Input() active: boolean = false;
-    @Input() type: string = 'QWERTY';
-    @Input() layout: string = 'standard';
-    @Output() modelChange = new EventEmitter();
-    @Output() activeChange = new EventEmitter();
+    @Input() public model: string = '';
+    @Input() public active: boolean = false;
+    @Input() public type: string = 'QWERTY';
+    @Input() public layout: string = 'standard';
+    @Output() public modelChange = new EventEmitter();
+    @Output() public activeChange = new EventEmitter();
 
-    @ViewChild('main') keyboard: ElementRef;
+    public top: string = '';
+    public left: string = '';
+    public top_value: number = 0;
+    public left_value: number = 0;
+    public keys: any = { normal: [], shift: [] };
+    public is_shift: boolean = false;
+    public is_caps: boolean = false;
 
-    top: string = '';
-    left: string = '';
-    top_value: number = 0;
-    left_value: number = 0;
-    keys: any = { normal: [], shift: [] };
-    is_shift: boolean = false;
-    is_caps: boolean = false;
+    @ViewChild('main') private keyboard: ElementRef;
 
     constructor() {
         this.loadKeys();
     }
 
-    ngOnInit() {
-
-    }
-
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (changes.type) {
             this.loadKeys();
         }
@@ -96,50 +92,19 @@ export class VirtualKeyboard {
         }
     }
 
-    open() {
-        console.log('Open Virtual Keyboard');
-        setTimeout(() => { this.active = true; }, 20);
-    }
-
-    close() {
-        console.log('Close Virtual Keyboard');
-        setTimeout(() => { this.active = false; this.activeChange.emit(false); }, 20);
-    }
-
-    loadLayout() {
+    public open() {
         setTimeout(() => {
-            this.loadKeys();
-            if (this.layout === 'split') {
-                const keys: any = { left: {}, right: {} };
-                const left: any = { normal: [], shift: [] };
-                const right: any = { normal: [], shift: [] };
-                left.normal.push(this.keys.normal[0].slice(0, Math.ceil(this.keys.normal[0].length / 2)));
-                left.shift.push(this.keys.shift[0].slice(0, Math.ceil(this.keys.shift[0].length / 2)));
-                right.normal.push(this.keys.normal[0].slice(Math.ceil(this.keys.normal[0].length / 2), this.keys.normal[0].length));
-                right.shift.push(this.keys.shift[0].slice(Math.ceil(this.keys.shift[0].length / 2), this.keys.shift[0].length));
-                for (let i = 1; i < this.keys.normal.length; i++) {
-                    left.normal.push(this.keys.normal[i].slice(0, Math.floor(this.keys.normal[i].length / 2)));
-                    left.shift.push(this.keys.shift[i].slice(0, Math.floor(this.keys.shift[i].length / 2)));
-                    right.normal.push(this.keys.normal[i].slice(Math.floor(this.keys.normal[i].length / 2), this.keys.normal[i].length));
-                    right.shift.push(this.keys.shift[i].slice(Math.floor(this.keys.shift[i].length / 2), this.keys.shift[i].length));
-                }
-                keys.left = left;
-                keys.right = right;
-                this.keys = keys;
-            }
-        }, 50);
+            this.active = true;
+        }, 20);
     }
 
-    loadKeys() {
-        this.keys = KEY_LIST[this.type.toUpperCase()];
-        if (!this.keys) this.keys = KEY_LIST['QWERTY'];
-        for (let i = 0; i < this.keys.normal.length; i++) {
-            if (typeof this.keys.normal[i] === 'string') this.keys.normal[i] = this.keys.normal[i].split('');
-            if (typeof this.keys.shift[i] === 'string') this.keys.shift[i] = this.keys.shift[i].split('');
-        }
+    public close() {
+        setTimeout(() => {
+            this.active = false; this.activeChange.emit(false);
+        }, 20);
     }
 
-    addChar(char: string) {
+    public addChar(char: string) {
         setTimeout(() => {
             this.model += char;
             this.is_shift = false;
@@ -147,33 +112,33 @@ export class VirtualKeyboard {
         }, 20);
     }
 
-    backspace() {
+    public backspace() {
         setTimeout(() => {
             this.model = this.model.substring(0, this.model.length - 1);
             this.modelChange.emit(this.model);
         }, 20);
     }
 
-    delete() {
-
+    public delete() {
+        return;
     }
 
-    clear() {
+    public clear() {
         setTimeout(() => {
             this.model = '';
             this.modelChange.emit(this.model);
         }, 20);
     }
 
-    caps() {
+    public caps() {
         this.is_caps = !this.is_caps;
     }
 
-    shift() {
+    public shift() {
         this.is_shift = !this.is_shift;
     }
 
-    moveKeyboard(e: any) {
+    public moveKeyboard(e: any) {
         if (e) {
             if (this.keyboard) {
                 const key_box = this.keyboard.nativeElement.getBoundingClientRect();
@@ -184,10 +149,60 @@ export class VirtualKeyboard {
                     this.top_value = e.center.y - 25;
                     this.left_value = e.center.x;
                 }
-                if (this.top_value < 0) this.top_value = 0;
-                if (this.left_value < key_box.width / 2) this.left_value = key_box.width / 2;
+                if (this.top_value < 0) {
+                    this.top_value = 0;
+                }
+                if (this.left_value < key_box.width / 2) {
+                    this.left_value = key_box.width / 2;
+                }
                 this.top = this.top_value + 'px';
                 this.left = this.left_value + 'px';
+            }
+        }
+    }
+
+    private loadLayout() {
+        setTimeout(() => {
+            this.loadKeys();
+            if (this.layout === 'split') {
+                const keys: any = { left: {}, right: {} };
+                const left: any = { normal: [], shift: [] };
+                const right: any = { normal: [], shift: [] };
+
+                let n_len = Math.ceil(this.keys.normal[0].length / 2);
+                let s_len = Math.ceil(this.keys.shift[0].length / 2);
+
+                left.normal.push(this.keys.normal[0].slice(0, n_len));
+                left.shift.push(this.keys.shift[0].slice(0, s_len));
+                right.normal.push(this.keys.normal[0].slice(n_len, this.keys.normal[0].length));
+                right.shift.push(this.keys.shift[0].slice(s_len, this.keys.shift[0].length));
+                for (let i = 1; i < this.keys.normal.length; i++) {
+                    n_len = Math.floor(this.keys.normal[i].length / 2);
+                    s_len = Math.floor(this.keys.shift[i].length / 2);
+
+                    left.normal.push(this.keys.normal[i].slice(0, n_len));
+                    left.shift.push(this.keys.shift[i].slice(0, s_len));
+                    right.normal.push(this.keys.normal[i].slice(n_len, this.keys.normal[i].length));
+                    right.shift.push(this.keys.shift[i].slice(s_len, this.keys.shift[i].length));
+                }
+                keys.left = left;
+                keys.right = right;
+                this.keys = keys;
+            }
+        }, 50);
+    }
+
+    private loadKeys() {
+        this.keys = KEY_LIST[this.type.toUpperCase()];
+        if (!this.keys) {
+            this.keys = KEY_LIST.QWERTY;
+        }
+        for (let i = 0; i < this.keys.normal.length; i++) {
+            if (typeof this.keys.normal[i] === 'string') {
+                this.keys.normal[i] = this.keys.normal[i].split('');
+            }
+            if (typeof this.keys.shift[i] === 'string') {
+                this.keys.shift[i] = this.keys.shift[i].split('');
             }
         }
     }

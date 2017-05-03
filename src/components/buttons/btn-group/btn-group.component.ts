@@ -48,17 +48,6 @@ export class ButtonGroup {
 
     }
 
-    loadClasses() {
-        this.btn_class = '';
-        if (this.cssClass === '') {
-            if (!this.hover) {
-                this.btn_class = `color bg-${this.color}-${this.primary} font-white`;
-            } else {
-                this.btn_class = `color bg-${this.color}-${this.secondary} font-white`;
-            }
-        }
-    }
-
     public setHover(state: boolean) {
         this.hover = state;
         this.loadClasses();
@@ -67,5 +56,16 @@ export class ButtonGroup {
     public toggle(index: number) {
         this.model = index;
         this.modelChange.emit(this.model);
+    }
+
+    private loadClasses() {
+        this.btn_class = '';
+        if (this.cssClass === '') {
+            if (!this.hover) {
+                this.btn_class = `color bg-${this.color}-${this.primary} font-white`;
+            } else {
+                this.btn_class = `color bg-${this.color}-${this.secondary} font-white`;
+            }
+        }
     }
 }

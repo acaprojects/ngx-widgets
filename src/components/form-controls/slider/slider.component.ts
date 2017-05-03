@@ -18,40 +18,41 @@ declare let Hammer: any;
     styleUrls: [ './slider.styles.css' ],
 })
 export class Slider {
-    @Input() align: string = 'horizontal';
-    @Input() min: number = 0;
-    @Input() max: number = 100;
-    @Input() value: number = 0;
-    @Input() step: number = 1;
-    @Input() precision: number = 1;
-    @Input() cssClass: string = '';
-    @Output() valueChange = new EventEmitter();
-    //*
-    @ViewChild('space') space: any;
-    @ViewChild('bar')   bar: any;
-    @ViewChild('knob')  knob: any;
-    @ViewChild('prog')  prog: any;
+    @Input() public align: string = 'horizontal';
+    @Input() public min: number = 0;
+    @Input() public max: number = 100;
+    @Input() public value: number = 0;
+    @Input() public step: number = 1;
+    @Input() public precision: number = 1;
+    @Input() public cssClass: string = '';
+    @Output() public valueChange = new EventEmitter();
 
-    available: boolean = false;
-    previous: number = null;
-    current: number = 0;
-    position: number = 0;
-    percent: number = 0;
-    bb : any;
-    change_timer: any = null;
-    user_action: boolean = false;
-    action_timer: any = null;
-    update_timer: any = null;
-    stop_timer: any = null;
+    public available: boolean = false;
+    public current: number = 0;
+    public position: number = 0;
+    public percent: number = 0;
+
+    @ViewChild('space') private space: any;
+    @ViewChild('bar') private bar: any;
+    @ViewChild('knob') private knob: any;
+    @ViewChild('prog') private prog: any;
+
+    private previous: number = null;
+    private bb : any;
+    private change_timer: any = null;
+    private user_action: boolean = false;
+    private action_timer: any = null;
+    private update_timer: any = null;
+    private stop_timer: any = null;
 
     constructor(private a: Animate) {
     }
 
-    ngAfterViewInit() {
+    public ngAfterViewInit() {
         this.available = true;
     }
 
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (this.min > this.max) {
             this.min = 0;
             this.max = 100;
@@ -76,31 +77,12 @@ export class Slider {
             this.updateValue(true);
         }
     }
-
-    ngDoCheck() {
-    }
-    /**
-     * Gets the offset of the slider bar
-     * @return {void}
-     */
-    getBarOffset() {
-        const dim = {
-            x : 0,
-            y : 0,
-        };
-        if (!this.bar) return dim;
-        if (!this.bb) this.bb = this.bar.nativeElement.getBoundingClientRect();
-        const el = this.bb;
-        dim.x = el.left;
-        dim.y = el.top;
-        return dim;
-    }
     /**
      * Update value of the slider
      * @param  {boolean = false}       update Do we need to update the display
      * @return {void}
      */
-    updateValue(update: boolean = false) {
+    public updateValue(update: boolean = false) {
         if (!this.knob || !this.bar || !this.prog) {
             setTimeout(() => { this.updateValue(update); }, 20);
         } else if (update) {
@@ -111,11 +93,72 @@ export class Slider {
             }).animate();
         }
     }
+
+    /**
+     * Updates the value and position of the slider based of the event
+     * @param  {any}    event Tap event
+     * @return {void}
+     */
+    public clickSlider(event: any) {
+        if (event) {
+            if (event.preventDefault) event.preventDefault();
+            if (event.stopPropagation) event.stopPropagation();
+        }
+        const prev = this.current;
+        this.current = this.value = this.calcValue(event);
+        this.actionPerformed();
+        this.refresh();
+    }
+
+    /**
+     * Updates the position of the progress and knob of the slider
+     * @param  {any}    event Pan event
+     * @return {void}
+     */
+    public moveSlider(event: any) {
+        if (event) {
+            if (event.preventDefault) event.preventDefault();
+            if (event.stopPropagation) event.stopPropagation();
+        }
+        const prev = this.current;
+        this.current = this.value = this.calcValue(event);
+        this.user_action = true;
+        this.refresh();
+        if (this.stop_timer) {
+            clearTimeout(this.stop_timer);
+            this.stop_timer = null;
+        }
+        this.stop_timer = setTimeout(() => {
+            this.sliderStop(event);
+        }, 300);
+    }
+
+    /**
+     * Updates the position of the progress and knob of the slider
+     * @param  {any}    event PanEnd event
+     * @return {void}
+     */
+    public sliderStop(event: any) {
+        if (event) {
+            if (event.preventDefault) event.preventDefault();
+            if (event.stopPropagation) event.stopPropagation();
+        }
+        this.actionPerformed();
+        this.refresh();
+    }
+    /**
+     * Update slider positioning when the window is resized
+     * @return {void}
+     */
+    public resize() {
+        if (this.bar) this.bb = this.bar.nativeElement.getBoundingClientRect();
+        this.updateValue(true);
+    }
     /**
      * Emits the value throught the output binding
      * @return {void}
      */
-    postValue() {
+    private postValue() {
         setTimeout(() => {
             if (this.user_action) {
                 if (!this.update_timer) {
@@ -134,7 +177,7 @@ export class Slider {
      * @param  {any}    event Tap/Pan event
      * @return {number} Returns the new value of the slider
      */
-    calcValue(event: any) {
+    private calcValue(event: any) {
         if (event) {
             if (event.preventDefault) event.preventDefault();
             if (event.stopPropagation) event.stopPropagation();
@@ -168,7 +211,7 @@ export class Slider {
         return Math.min(+this.max, Math.max(+this.min, (rounded + +this.min)));
     }
 
-       checkStatus(e: any, i: number) {
+       public checkStatus(e: any, i: number) {
         if (event) {
             if (event.preventDefault) event.preventDefault();
             if (event.stopPropagation) event.stopPropagation();
@@ -188,7 +231,7 @@ export class Slider {
            else this.resize();
        }
 
-    actionPerformed() {
+    private actionPerformed() {
         if (this.update_timer) {
             clearTimeout(this.update_timer);
             this.update_timer = null;
@@ -208,69 +251,23 @@ export class Slider {
     }
 
     /**
-     * Updates the value and position of the slider based of the event
-     * @param  {any}    event Tap event
+     * Gets the offset of the slider bar
      * @return {void}
      */
-    clickSlider(event: any) {
-        console.log('Clicked Slider');
-        if (event) {
-            if (event.preventDefault) event.preventDefault();
-            if (event.stopPropagation) event.stopPropagation();
-        }
-        const prev = this.current;
-        this.current = this.value = this.calcValue(event);
-        console.log(this.value);
-        this.actionPerformed();
-        this.refresh();
+    private getBarOffset() {
+        const dim = {
+            x : 0,
+            y : 0,
+        };
+        if (!this.bar) return dim;
+        if (!this.bb) this.bb = this.bar.nativeElement.getBoundingClientRect();
+        const el = this.bb;
+        dim.x = el.left;
+        dim.y = el.top;
+        return dim;
     }
 
-    /**
-     * Updates the position of the progress and knob of the slider
-     * @param  {any}    event Pan event
-     * @return {void}
-     */
-    moveSlider(event: any) {
-        if (event) {
-            if (event.preventDefault) event.preventDefault();
-            if (event.stopPropagation) event.stopPropagation();
-        }
-        const prev = this.current;
-        this.current = this.value = this.calcValue(event);
-        this.user_action = true;
-        this.refresh();
-        if (this.stop_timer) {
-            clearTimeout(this.stop_timer);
-            this.stop_timer = null;
-        }
-        this.stop_timer = setTimeout(() => {
-            this.sliderStop(event);
-        }, 300);
-    }
-
-    /**
-     * Updates the position of the progress and knob of the slider
-     * @param  {any}    event PanEnd event
-     * @return {void}
-     */
-    sliderStop(event: any) {
-        if (event) {
-            if (event.preventDefault) event.preventDefault();
-            if (event.stopPropagation) event.stopPropagation();
-        }
-        this.actionPerformed();
-        this.refresh();
-    }
-    /**
-     * Update slider positioning when the window is resized
-     * @return {void}
-     */
-    resize() {
-        if (this.bar) this.bb = this.bar.nativeElement.getBoundingClientRect();
-        this.updateValue(true);
-    }
-
-    refresh(post: boolean = true) {
+    private refresh(post: boolean = true) {
         this.updateValue(true);
         if (post) this.postValue();
     }

@@ -29,38 +29,31 @@ import { Observable } from 'rxjs/Rx';
     ],
 })
 export class DropdownTypeahead {
-    @Input() items: any[] = [];
-    @Input() model: any = null;
-    @Input() index: number = 0;
-    @Input() search: string = '';
-    @Input() fields: string[] = ['name'];
-    @Input() cssClass: string = 'default';
-    @Input() placeholder: string = '';
+    @Input() public items: any[] = [];
+    @Input() public model: any = null;
+    @Input() public index: number = 0;
+    @Input() public search: string = '';
+    @Input() public fields: string[] = ['name'];
+    @Input() public cssClass: string = 'default';
+    @Input() public placeholder: string = '';
 
-    @Output() modelChange: any = new EventEmitter();
-    @Output() indexChange: any = new EventEmitter();
-    @Output() searchChange: any = new EventEmitter();
+    @Output() public modelChange: any = new EventEmitter();
+    @Output() public indexChange: any = new EventEmitter();
+    @Output() public searchChange: any = new EventEmitter();
 
-    @ViewChild('list') list: ElementRef;
+    public display_items: any = [];
+    public current_item: any = null;
+    public shown: boolean = false;
 
-    type: string = 'string';
-    display_items: any = [];
-    current_item: any = null;
-    shown: boolean = false;
+    @ViewChild('list') private list: ElementRef;
 
-    constructor() {
+    private type: string = 'string';
 
-    }
-
-    ngOnInit() {
+    public ngOnInit() {
         this.filter();
     }
 
-    ngOnDestroy() {
-
-    }
-
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (changes.items) {
             if (this.items && this.items.length > 0) {
                 setTimeout(() => {
@@ -83,9 +76,41 @@ export class DropdownTypeahead {
         }
     }
     /**
+     * Selects the item with the given index
+     * @param {number} i Index of the selected item
+     * @return {void}
+     */
+    public select(i: number) {
+        this.model = this.display_items[i];
+        this.modelChange.emit(this.model);
+        this.indexChange.emit(i);
+        this.search = '';
+        this.shown = false;
+    }
+
+    public toggle() {
+        this.shown = !this.shown;
+        this.search = '';
+        this.filter();
+    }
+
+    public checkTap(e: any) {
+        if (e) {
+            const bb = this.list.nativeElement.getBoundingClientRect();
+            const c = e.center;
+            if (c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
+                this.shown = false;
+                this.search = '';
+                setTimeout(() => {
+                    this.filter();
+                }, 500);
+            }
+        }
+    }
+    /**
      * Filters the items to be displayed based off the search string
      */
-    filter() {
+    private filter() {
         this.searchChange.emit(this.search);
         let filtered: any[] = [];
         const items = JSON.parse(JSON.stringify(this.items));
@@ -114,7 +139,7 @@ export class DropdownTypeahead {
      * @param {string} search String to search for within item
      * @return {boolean} Returns whether or not the string is contained in the item
      */
-    itemContains(item: any, search: string) {
+    private itemContains(item: any, search: string) {
         const s = search.toLowerCase();
         for (const p in item) {
             if (typeof item[p] === 'string' && item[p].toLowerCase().indexOf(s) >= 0) {
@@ -126,37 +151,5 @@ export class DropdownTypeahead {
             }
         }
         return false;
-    }
-    /**
-     * Selects the item with the given index
-     * @param {number} i Index of the selected item
-     * @return {void}
-     */
-    select(i: number) {
-        this.model = this.display_items[i];
-        this.modelChange.emit(this.model);
-        this.indexChange.emit(i);
-        this.search = '';
-        this.shown = false;
-    }
-
-    toggle() {
-        this.shown = !this.shown;
-        this.search = '';
-        this.filter();
-    }
-
-    checkTap(e: any) {
-        if (e) {
-            const bb = this.list.nativeElement.getBoundingClientRect();
-            const c = e.center;
-            if (c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
-                this.shown = false;
-                this.search = '';
-                setTimeout(() => {
-                    this.filter();
-                }, 500);
-            }
-        }
     }
 }

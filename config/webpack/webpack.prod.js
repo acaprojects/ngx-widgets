@@ -130,7 +130,7 @@ module.exports = function(env) {
         'process.env': {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
-          'HMR': METADATA.HMR,
+          'HMR': METADATA.HMR
         }
       }),
 
@@ -162,7 +162,7 @@ module.exports = function(env) {
         mangle: { screw_ie8 : true, keep_fnames: true }, //prod
         compress: { screw_ie8: true }, //prod
         comments: false //prod
-      }),
+      })
 
       /**
        * Plugin: IgnorePlugin

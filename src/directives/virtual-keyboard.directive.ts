@@ -29,7 +29,7 @@ export class VirtualKeyboardDirective {
     private cmpRef: ComponentRef<any> = null;
 
     constructor(private _cr: ComponentFactoryResolver, private app_ref: ApplicationRef) {
-        let app = app_ref as any;
+        const app = app_ref as any;
         if (app && app._rootComponents && app.rootComponents[0] && app._rootComponents[0]._hostElement) {
             this.view = app._rootComponents[0]._hostElement.vcRef;
         }
@@ -73,9 +73,11 @@ export class VirtualKeyboardDirective {
                  .subscribe(
                      (data: any) => {
                          this.active = data; this.activeChange.emit(data);
-                     }, (err: any) => {},
-                     () => {},
-                 );
+                     }, (err: any) => {
+                         return;
+                     }, () => {
+                         return;
+                     });
              this.update();
          }
      }

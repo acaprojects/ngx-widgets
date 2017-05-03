@@ -2,7 +2,7 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-29 09:24:29
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-03 12:38:34
+ * @Last Modified time: 2017-05-03 14:44:11
  */
 
 import { Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
@@ -13,27 +13,27 @@ import { Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/cor
     styleUrls: ['./progress-circle.styles.css'],
 })
 export class ProgressCircleComponent {
-    @Input() progress: number = 0; // Number between 0 and 1000
-    @Input() bg: string = '#CFD8DC';
-    @Input() color: string = '#2196F3';
-    @Input() innerColor: string = '#2196F3';
+    @Input() public progress: number = 0; // Number between 0 and 1000
+    @Input() public bg: string = '#CFD8DC';
+    @Input() public color: string = '#2196F3';
+    @Input() public innerColor: string = '#2196F3';
 
-    @ViewChild('main') main: ElementRef;
-    @ViewChild('maskfull') mask_full: ElementRef;
-    @ViewChild('full') full: ElementRef;
-    @ViewChild('half') half: ElementRef;
-    @ViewChild('fix') fix: ElementRef;
-    @ViewChild('inner') inner: ElementRef;
+    @ViewChild('main') private main: ElementRef;
+    @ViewChild('maskfull') private mask_full: ElementRef;
+    @ViewChild('full') private full: ElementRef;
+    @ViewChild('half') private half: ElementRef;
+    @ViewChild('fix') private fix: ElementRef;
+    @ViewChild('inner') private inner: ElementRef;
 
     constructor(private renderer: Renderer2) {
 
     }
 
-    ngAfterViewInit() {
+    public ngAfterViewInit() {
 
     }
 
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (changes.progress) {
             this.update();
         }
@@ -43,7 +43,7 @@ export class ProgressCircleComponent {
         }
     }
 
-    update() {
+    public update() {
         this.progress = Math.round(this.progress);
         if (this.progress < 0) this.progress = 0;
         else if (this.progress > 1000) this.progress = 1000;
@@ -56,14 +56,12 @@ export class ProgressCircleComponent {
         if (this.mask_full) {
             this.renderer.setStyle(this.mask_full.nativeElement, 'transform', `rotate(${180 + 180 / 1000 * this.progress}deg)`);
         }
-        ///*
-        //*/
         if (this.fix) {
             this.renderer.setStyle(this.fix.nativeElement, 'transform', `rotate(${180 / 1000 * this.progress * 2}deg)`);
         }
     }
 
-    changeColor() {
+    public changeColor() {
         if (this.full && this.fix && this.half && this.inner && this.main && this.mask_full) {
             this.renderer.setStyle(this.full.nativeElement, 'background-color', this.color);
             this.renderer.setStyle(this.half.nativeElement, 'background-color', this.color);

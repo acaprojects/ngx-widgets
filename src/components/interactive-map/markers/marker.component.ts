@@ -36,39 +36,39 @@ const MARKER_TYPES = ['Pin', 'Marker', 'Radius'];
     ],
 })
 export class MapMarkerComponent {
-    @Input() type: string = 'Pin';
-    @Input() text: string = '';
-    @Input() show: boolean = false;
-    @Input() color: string = '#F44336';
-    @Input() highlight: string = '#4CAF50';
-    @Input() stroke: string = '#FFFFFF';
-    @Input() active: boolean = false;
-    @Input() width: number = 2;
-    @Input() height: number = 2;
-    @Input() x: number = -9999;
-    @Input() y: number = -9999;
-    @Input() fontSize: string = '1em';
-    @Input() radiusSize: number = 20;
-    @Input() drop: boolean = false;
-    @Output() activeChange = new EventEmitter();
 
-    id: string = '';
-    display_pin: string = '';
-    shown: boolean = false;
-    static pin_html: string = `
+    private static pin_html: string = `
     <?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 53 65.7" style="enable-background:new 0 0 53 65.7;" xml:space="preserve"><style type="text/css">.aca-st0{fill:#FFFFFF;} .aca-st1{fill:#DC6900;stroke:#FFFFFF;stroke-width:2.5;stroke-miterlimit:10;}</style><g><circle class="aca-st0" cx="27.6" cy="21.8" r="13.1"/><path class="aca-st1" d="M27.6,4c9.9,0,18,8.1,18,18s-17.1,38.2-18,39.6c-0.9-1.5-18-29.7-18-39.6S17.7,4,27.6,4z M27.6,32.8 c6,0,10.8-4.8,10.8-10.8s-4.8-10.8-10.8-10.8S16.8,16,16.8,22S21.6,32.8,27.6,32.8"/></g></svg>
     `;
-    reset_timer: any = null;
-    show_timer: any = null;
+
+    @Input() public type: string = 'Pin';
+    @Input() public text: string = '';
+    @Input() public show: boolean = false;
+    @Input() public color: string = '#F44336';
+    @Input() public highlight: string = '#4CAF50';
+    @Input() public stroke: string = '#FFFFFF';
+    @Input() public active: boolean = false;
+    @Input() public width: number = 2;
+    @Input() public height: number = 2;
+    @Input() public x: number = -9999;
+    @Input() public y: number = -9999;
+    @Input() public fontSize: string = '1em';
+    @Input() public radiusSize: number = 20;
+    @Input() public drop: boolean = false;
+    @Output() public activeChange = new EventEmitter();
+
+    public display_pin: string = '';
+    public shown: boolean = false;
+
+    private id: string = '';
+    private reset_timer: any = null;
+    private show_timer: any = null;
+
     constructor() {
         this.id = Math.floor(Math.random() * 89999999 + 10000000).toString();
     }
 
-    ngOnInit() {
-
-    }
-
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if ((changes.color || changes.highlight || changes.stroke)) {
             if (!this.color) this.color = DEFAULT_COLORS.main;
             if (!this.highlight) this.highlight = DEFAULT_COLORS.active;
@@ -89,21 +89,14 @@ export class MapMarkerComponent {
                 this.shown = this.show;
                 this.show_timer = null;
             }, 200);
-            //this.reset();
+            // this.reset();
         }
-    }
-    /**
-     * Initialises the marker
-     * @return {void}
-     */
-    init() {
-        this.display_pin = this.getPin();
     }
     /**
      * Generates HTML for the display of the pin
      * @return {void}
      */
-    getPin() {
+    public getPin() {
         let pin = MapMarkerComponent.pin_html;
         if (this.active) {
             pin = this.replaceAll(pin, '#DC6900', this.highlight);
@@ -113,6 +106,13 @@ export class MapMarkerComponent {
         pin = this.replaceAll(pin, '#FFFFFF', this.stroke);
         pin = this.replaceAll(pin, 'aca-', ('aca-marker-' + this.id + '-'));
         return pin;
+    }
+    /**
+     * Initialises the marker
+     * @return {void}
+     */
+    private init() {
+        this.display_pin = this.getPin();
     }
     /**
      * Replace all occurance of a string within another string

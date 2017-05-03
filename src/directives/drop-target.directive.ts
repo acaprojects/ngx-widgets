@@ -13,42 +13,39 @@ import { DropService } from '../services';
 
 @Directive({
     selector: '[drop-target]',
-    // If added as a provider then a new instance is created for every DropTarget
-    // this is not desirable and as drop service should be available application wide
-    // it should be added to the initial bootstrap
-    //providers: [DropService],
 })
 export class DropTarget implements OnInit, OnDestroy {
-    @Input('drop-target') public target: string;         // defaults to self, otherwise you can define a valid querySelector
+    private static _ref_cnt: number = 0;
+    private static listeners: any = {};
+
+    @Input('drop-target') public target: string;     // defaults to self, otherwise you can define a valid querySelector
     @Input() public indicate: string = 'drop-indicate';  // defines the hover class to apply, defaults to: drop-indicate
     @Input() public stream: string;                      // name of the stream the files should be sent to
 
     private _element: any;
-    static listeners: any = {};
-    static _ref_cnt: number = 0;
     private _unreg: () => void;
 
     constructor(elementRef: ElementRef, private _dropService: DropService, private renderer: Renderer) {
         this._element = elementRef.nativeElement;
         DropTarget._ref_cnt++;
-        if (!DropTarget.listeners['drop']) {
-            DropTarget.listeners['drop'] = this.renderer.listenGlobal('window', 'drop', (e: Event) => {
-                this._dropService.event['drop'](e);
+        if (!DropTarget.listeners.drop) {
+            DropTarget.listeners.drop = this.renderer.listenGlobal('window', 'drop', (e: Event) => {
+                this._dropService.event.drop(e);
             });
         }
-        if (!DropTarget.listeners['dragover']) {
-            DropTarget.listeners['dragover'] = this.renderer.listenGlobal('window', 'dragover', (e: Event) => {
-                this._dropService.event['dragover'](e);
+        if (!DropTarget.listeners.dragover) {
+            DropTarget.listeners.dragover = this.renderer.listenGlobal('window', 'dragover', (e: Event) => {
+                this._dropService.event.dragover(e);
             });
         }
-        if (!DropTarget.listeners['dragenter']) {
-            DropTarget.listeners['dragenter'] = this.renderer.listenGlobal('window', 'dragenter', (e: Event) => {
-                this._dropService.event['drop'](e);
+        if (!DropTarget.listeners.dragenter) {
+            DropTarget.listeners.dragenter = this.renderer.listenGlobal('window', 'dragenter', (e: Event) => {
+                this._dropService.event.drop(e);
             });
         }
-        if (!DropTarget.listeners['dragleave']) {
-            DropTarget.listeners['dragleave'] = this.renderer.listenGlobal('window', 'dragleave', (e: Event) => {
-                this._dropService.event['dragleave'](e);
+        if (!DropTarget.listeners.dragleave) {
+            DropTarget.listeners.dragleave = this.renderer.listenGlobal('window', 'dragleave', (e: Event) => {
+                this._dropService.event.dragleave(e);
             });
         }
     }
@@ -87,7 +84,8 @@ export class DropTarget implements OnInit, OnDestroy {
         this._doHighlight(false);
         DropTarget._ref_cnt--;
         if (DropTarget._ref_cnt <= 0) {
-
+            DropTarget._ref_cnt = 0;
+            return;
         }
     }
 

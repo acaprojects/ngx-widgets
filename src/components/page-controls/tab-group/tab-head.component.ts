@@ -22,14 +22,15 @@ import { Observable } from 'rxjs/Observable';
     styleUrls: ['./tab-head.styles.css'],
 })
 export class TabHead {
-    @Input() id: string;
-    @Input() cssClass: string = 'default';
+    @Input() public id: string;
+    @Input() public cssClass: string = 'default';
 
-    contents: string;
-    isActive: boolean = false;
-    visible: boolean = true;
-    tap_observer: any = null;
-    tap_obs: any = null;
+    public visible: boolean = true;
+
+    private contents: string;
+    private isActive: boolean = false;
+    private tap_observer: any = null;
+    private tap_obs: any = null;
 
     constructor(private el: ElementRef) {
         this.tap_observer = new Observable((observer) => {
@@ -49,25 +50,25 @@ export class TabHead {
         this.isActive = false;
     }
 
-    show() {
+    public show() {
         this.visible = true;
         return true;
     }
 
-    hide() {
+    public hide() {
         this.visible = false;
         return false;
     }
 
-    nativeElement() {
+    public nativeElement() {
         return this.el.nativeElement;
     }
 
-    tapped() {
+    public tapped() {
         this.tap_obs.next(this.id);
     }
 
-    listen() {
+    public listen() {
         return this.tap_observer;
     }
 }

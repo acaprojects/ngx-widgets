@@ -38,41 +38,43 @@ const PRIVATE_PARAMS = ['id', 'type', 'service', 'data', 'dataChange', 'openEven
     ],
 })
 export class Modal implements OnInit, OnChanges, OnDestroy {
-    @Input() id: string = '';
-    @Input() service: any = null;
-    @Input() component: any = null;
-    @Input() title: string = 'Modal Title';
-    @Input() size: string;
-    @Input() data: any;
-    @Input() options: any;
-    @Input() cssClass: string = 'default';
-    @Input() canClose: boolean = true;
-    @Input() styles: string[] = [];
+    @Input() public id: string = '';
+    @Input() public service: any = null;
+    @Input() public component: any = null;
+    @Input() public title: string = 'Modal Title';
+    @Input() public size: string;
+    @Input() public data: any;
+    @Input() public options: any;
+    @Input() public cssClass: string = 'default';
+    @Input() public canClose: boolean = true;
+    @Input() public styles: string[] = [];
 
-    @Output() dataChange = new EventEmitter();
-    @Output('open') openEvent = new EventEmitter();
-    @Output('close') closeEvent = new EventEmitter();
-    @ViewChild('modal') public modal: ElementRef;
-    @ViewChild('content', { read: ViewContainerRef }) public _content: ViewContainerRef;
+    @Output() public dataChange = new EventEmitter();
+    @Output('open') public openEvent = new EventEmitter();
+    @Output('close') public closeEvent = new EventEmitter();
 
-    modal_box: any;
-    state: boolean = false;
-    state_inner: boolean = false;
-    error: boolean = false;
-    err_msg: string = '';
-    width: number = 20;
-    top: number = 0;
-    unit: string = 'em';
-    html: string = '';
-    large: boolean = false;
-    display_top: string = '50%';
-    display_width: number = 20;
-    display_height: number = 12;
+    public modal_box: any;
+    public state: boolean = false;
+    public state_inner: boolean = false;
+    public error: boolean = false;
+    public err_msg: string = '';
+    public width: number = 20;
+    public top: number = 0;
+    public unit: string = 'em';
+    public html: string = '';
+    public large: boolean = false;
+    public display_top: string = '50%';
+    public display_width: number = 20;
+    public display_height: number = 12;
+
     protected clean_fn: Function = null;
     protected content_instance: any = null;
     protected contentRef: ComponentRef<any> = null;
     protected state_obs: any = null;
     protected obs: any = null;
+
+    @ViewChild('modal') private modal: ElementRef;
+    @ViewChild('content', { read: ViewContainerRef }) private _content: ViewContainerRef;
 
     constructor(private _cfr: ComponentFactoryResolver, private renderer: Renderer2) {
         this.id = (Math.round(Math.random() * 899999999 + 100000000)).toString();
@@ -82,17 +84,14 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
 
     }
 
-    ngOnInit() {
-    }
-
-    ngAfterContentInit() {
+    public ngAfterContentInit() {
         if (this.modal) {
             this.buildContents();
             this.modal_box = this.modal.nativeElement.getBoundingClientRect();
         }
     }
 
-    ngAfterViewInit() {
+    public ngAfterViewInit() {
         setTimeout(() => {
             this.state = false;
             this.state_inner = false;
@@ -100,7 +99,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         }, 200);
     }
 
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (changes.width) {
             this.updateWidth();
         }
@@ -108,15 +107,8 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
             this.display_top = (this.top && this.top > 0 ? this.top : '') + this.unit;
         }
     }
-    /**
-     * Updates the width of the modal
-     */
-    updateWidth() {
-        this.display_width = this.width;
-        this.display_height = this.display_width / 3 * 2 - 5;
-    }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         if (this.contentRef) {
             this.contentRef.destroy();
             this.contentRef = null;
@@ -138,26 +130,6 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
             if (factory) this.render(factory);
             else console.error('[WIDGETS][Modal(C)] Unable to find factory for: ', this.component);
         }
-    }
-    /**
-     * Creates the component and attaches it to the modal
-     * @param  {any} factory Anular 2 Component factory
-     * @return {void}
-     */
-    public render(factory: any) {
-        if (this.contentRef) {
-            this.contentRef.destroy();
-        }
-        this.contentRef = this._content.createComponent(factory);
-
-        // let's inject @Inputs to component instance
-        this.content_instance = this.contentRef.instance;
-        this.content_instance.entity = this.data.data;
-        if (!this.content_instance.entity) this.content_instance.entity = {};
-        this.content_instance.entity.close = (cb: Function) => { this.event('close', 'Component'); };
-        this.content_instance.entity.select = (option: string) => { this.select(option); };
-        if (this.content_instance.init) this.content_instance.init();
-
     }
     /**
      * Called when the the window is tapped
@@ -288,5 +260,32 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
         } else {
             this.close();
         }
+    }
+    /**
+     * Updates the width of the modal
+     */
+    private updateWidth() {
+        this.display_width = this.width;
+        this.display_height = this.display_width / 3 * 2 - 5;
+    }
+    /**
+     * Creates the component and attaches it to the modal
+     * @param  {any} factory Anular 2 Component factory
+     * @return {void}
+     */
+    private render(factory: any) {
+        if (this.contentRef) {
+            this.contentRef.destroy();
+        }
+        this.contentRef = this._content.createComponent(factory);
+
+        // let's inject @Inputs to component instance
+        this.content_instance = this.contentRef.instance;
+        this.content_instance.entity = this.data.data;
+        if (!this.content_instance.entity) this.content_instance.entity = {};
+        this.content_instance.entity.close = (cb: Function) => { this.event('close', 'Component'); };
+        this.content_instance.entity.select = (option: string) => { this.select(option); };
+        if (this.content_instance.init) this.content_instance.init();
+
     }
 }

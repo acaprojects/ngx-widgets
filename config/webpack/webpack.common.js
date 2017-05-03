@@ -67,7 +67,7 @@ module.exports = function(options) {
       extensions: ['', '.ts', '.js', '.json'],
 
       // An array of directory names to be resolved to the current directory
-      modules: [helpers.root('_build'), 'node_modules'],
+      modules: [helpers.root('_build'), 'node_modules']
 
     },
 
@@ -93,7 +93,7 @@ module.exports = function(options) {
             flags: 'g'
           },
           include: [helpers.root('_build')]
-        },
+        }
 
       ],
 
@@ -231,7 +231,7 @@ module.exports = function(options) {
       new CopyWebpackPlugin([{
         from: '_build/assets',
         to: 'assets'
-      }]),
+      }])
 
     ],
 

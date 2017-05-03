@@ -17,27 +17,28 @@ import { DropService } from '../../services';
     styleUrls: [ './img-crop.styles.css' ],
 })
 export class ImageCrop {
-    @Input() id: string  = 'zero';
-    @Input() circle: boolean = false;
-    @Input() file: any = null;
-    @Input() select: boolean = true;
-    @Input() ratio: string = '4:3';
-    @Input() width: number = 400;
+    @Input() public id: string  = 'zero';
+    @Input() public circle: boolean = false;
+    @Input() public file: any = null;
+    @Input() public select: boolean = true;
+    @Input() public ratio: string = '4:3';
+    @Input() public width: number = 400;
 
-    @Output() completed = new EventEmitter();
+    @Output() public completed = new EventEmitter();
 
-    @ViewChild('cropper') image_cropper : ImageCropperComponent;
-    @ViewChild('image') canvas : ElementRef;
+    public loading: boolean = false;
+    public zoom: number = 100;
+    public image_data: string = null;
+    public saving = false;
+    public data: any = {};
+    public image: any = null;
 
-    data: any = {};
-    image: any = null;
-    loading: boolean = false;
-    cropperSettings: CropperSettings = null;
-    zoom: number = 100;
-    image_data: string = null;
-    saving = false;
-    stream: any = null;
-    sub: any = null;
+    @ViewChild('cropper') private image_cropper : ImageCropperComponent;
+    @ViewChild('image') private canvas : ElementRef;
+
+    private stream: any = null;
+    private sub: any = null;
+    private cropperSettings: CropperSettings = null;
 
     constructor(private drop_service: DropService) {
         this.cropperSettings = new CropperSettings();

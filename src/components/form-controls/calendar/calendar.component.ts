@@ -10,6 +10,8 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 
+import * as moment from 'moment';
+
 const PLACEHOLDER = '-';
 
 @Component({
@@ -19,38 +21,32 @@ const PLACEHOLDER = '-';
     animations: [],
 })
 export class Calendar {
-    @Input() model: Date = new Date();
-    @Input() minDate: Date = null;
-    @Input() futureOnly: boolean = false;
-    @Input() display: string;
-    @Input() minuteStep: number = 5;
-    @Input() color1: string = '#666';
-    @Input() color2: string = '#FFF';
-    @Output() modelChange = new EventEmitter();
-    @Output() finished = new EventEmitter();
+    @Input() public model: Date = new Date();
+    @Input() public minDate: Date = null;
+    @Input() public futureOnly: boolean = false;
+    @Input() public display: string;
+    @Input() public minuteStep: number = 5;
+    @Input() public color1: string = '#666';
+    @Input() public color2: string = '#FFF';
+    @Output() public modelChange = new EventEmitter();
+    @Output() public finished = new EventEmitter();
 
-    @ViewChild('hourPick') hour_input: ElementRef;
-    @ViewChild('minutePick') minute_input: ElementRef;
+    public months_long = ['Janurary', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    public months_short = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+    public days_long = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    public days_short = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-    months_long = ['Janurary', 'Feburary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    months_short = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-    days_long = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    days_short = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-
-    month_node: any[] = [];
-    display_year: number = 2016;
-    display_month: number = 0;
-    display_hour: string = '11';
-    display_minutes: string = '59';
-    display_period: string = 'PM';
-    days: any[] = [];
-    months: any[] = [];
+    public month_node: any[] = [];
+    public display_period: string = '';
+    public month: number = 0;
+    public days: any[] = [];
+    public months: any[] = [];
 
     constructor() {
         this.setDate(new Date);
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         if (this.futureOnly && (this.minDate === null || this.minDate === undefined)) this.minDate = new Date();
         if (this.display == 'short') {
             this.months = this.months_short;
@@ -64,7 +60,7 @@ export class Calendar {
         }
     }
 
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (changes.model) {
             if (changes.model.currentValue) {
                 this.setDate(changes.model.currentValue);
@@ -76,11 +72,14 @@ export class Calendar {
      * @param  {Date}   date Date to set
      * @return {void}
      */
-    setDate(date: Date) {
+    public setDate(date: Date) {
         if (!(date instanceof Date)) date = new Date();
-        this.model = date;
-        this.display_year = this.model.getFullYear();
-        this.display_month = this.model.getMonth();
+        let new_date = moment(date);
+        new_date.hour(12);
+        new_date.minute(0);
+        new_date.second(0);
+        this.model = new_date.toDate();
+        this.modelChange.emit(this.model);
         this.generateMonth();
     }
     /**
@@ -88,108 +87,71 @@ export class Calendar {
      * @param  {number} day [description]
      * @return {boolean} Returns if the given day is in the past
      */
-    isPast(day: number) {
-        const c_date = new Date();
-        c_date.setDate(c_date.getDate() - 1);
-        const date = new Date(this.display_year, this.display_month, +day);
-        return this.compareDates(c_date, date);
+    public isPast(day: number) {
+        let date = moment();
+        date.add(this.month, 'months');
+        date.date(day);
+        return date.isSameOrAfter(moment());
     }
     /**
      * Check if given day is after the mininum allowed date
      * @param  {number} day Day of month to check
      * @return {boolean} Returns if the given day is before the set minimum date
      */
-    isBeforeMinDate(day: number) {
-        if (this.minDate === null) return false;
-        const c_date = new Date(this.minDate.getTime());
-        c_date.setDate(c_date.getDate() - 1);
-        const date = new Date(this.display_year, this.display_month, +day);
-        return this.compareDates(c_date, date);
+    public isBeforeMinDate(day: number) {
+        if (this.minDate === null) {
+            return false;
+        }
+        let min = moment(this.minDate);
+        let date = moment();
+        date.add(this.month, 'months');
+        date.date(day);
+        return date.isBefore(min, 'day');
     }
     /**
-     * Compares two dates
-     * @param  {Date}   date1 First date to compare
-     * @param  {Date}   date2 Second date to compate
-     * @return {boolean} Returns if date1 is before date2
-     */
-    private compareDates(date1: Date, date2: Date) {
-        date1.setHours(23, 59, 59, 0);
-        date2.setHours(23, 58, 59, 0);
-        return (date1.getTime() > date2.getTime());
-    }
     /**
      * Checks if given date is Today
      * @param  {number} day Day of the month to check
      * @return {boolean} Returns if day is today
      */
-    isToday(day: number) {
-        const now = new Date();
-        return (now.getFullYear() === this.display_year &&
-                now.getMonth() === this.display_month &&
-                now.getDate() === +day);
+    public isToday(day: number) {
+        let now = moment();
+        let date = moment();
+        date.add(this.month, 'months');
+        date.date(day);
+        return date.isSame(now, 'day');
     }
     /**
      * Check if the given date is the selected one
      * @param  {number} day Day of the month to check
      * @return {boolean} Returns if day is selected
      */
-    isActive(day: number) {
-        const now = this.model;
-        return (now.getFullYear() === this.display_year &&
-                now.getMonth() === this.display_month &&
-                now.getDate() === +day);
-    }
-    /**
-     * Generates the dates to display for the month that is currently displaying
-     * @return {void}
-     */
-    generateMonth() {
-        const firstDay = new Date(this.display_year, this.display_month, 1);
-        const monthDays = (new Date(this.display_year, this.display_month + 1, 0)).getDate();
-        const day = firstDay.getDay();
-        this.month_node = [];
-        const ph = { day : PLACEHOLDER, valid: false, past: false, today: false, active: false, disabled: false };
-        let i: number;
-            // Fill in blank days at beginning of the month
-        for (i = 0; i < day; i++) this.month_node.push(ph);
-            // Fill in days of the month
-        for (i = 0; i < monthDays; i++) {
-            const day = {
-                day : (i + 1).toString(),
-                valid: true,
-                past: this.isPast(i + 1),
-                today: this.isToday(i + 1),
-                active: this.isActive(i + 1),
-                disabled: this.isBeforeMinDate(i + 1),
-            };
-            this.month_node.push(day);
-        }
-            // Fill in blank days at end of the month
-        const cnt = 7 * 6 - this.month_node.length;
-        for (i = 0; i < cnt; i++) this.month_node.push(ph);
+    public isActive(day: number) {
+        const now = moment(this.model);
+        let date = moment();
+        date.add(this.month, 'months');
+        date.date(day);
+        return date.isSame(now, 'day');
     }
     /**
      * Changes calendar display to the next month
      * @return {void}
      */
-    nextMonth() {
-        this.display_month++;
-        this.display_month %= 12;
-        if (this.display_month == 0) this.display_year++;
+    public nextMonth() {
+        this.month++;
         this.generateMonth();
     }
     /**
      * Changes calendar display to the previous month
      * @return {void}
      */
-    prevMonth() {
-        this.display_month--;
-        this.display_month %= 12;
-        if (this.display_month == -1) {
-            this.display_year--;
-            this.display_month = 11;
-        }
+    public prevMonth() {
+        this.month--
         this.generateMonth();
+    }
+
+    public resetMonth() {
+        this.month = 0;
     }
     /**
      * Updates the selected day of the month on the calendar display
@@ -197,14 +159,61 @@ export class Calendar {
      * @param  {number} day  Day of the week
      * @return {boolean} Returns whether or not the date is valid to select
      */
-    selectDate(week: number, day: number) {
-        if (!+this.month_node[week * 7 + day].valid) return false;
-        const date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day].day);
-        if (this.isBeforeMinDate(+this.month_node[week * 7 + day].day)) return false;
-        date.setHours(this.model.getHours());
-        date.setMinutes(this.model.getMinutes());
-        this.setDate(date);
-        this.modelChange.emit(date);
+    public selectDate(date: number) {
+        if (!this.month_node[date].valid) {
+            return false;
+        }
+        let new_date = moment()
+        new_date.add(this.month, 'months');
+        new_date.date(date);
+        if (this.isBeforeMinDate(+date)) {
+            return false;
+        }
+        this.setDate(new_date.toDate());
         return true;
+    }
+    /**
+     * Generates the dates to display for the month that is currently displaying
+     * @return {void}
+     */
+
+    private generateMonth() {
+        this.month_node = [];
+            // Get month information
+        let now = moment();
+        let current_day = now.date();
+        now.date(1);
+        now.add(this.month, 'months');
+        this.display = now.format('MMMM YYYY');
+        let length = now.daysInMonth();
+        let start = now.day();
+        now.subtract(1, 'months');
+        let prev_length = now.daysInMonth();
+            // Generate previous month's data
+        for(let i = prev_length - start; i < prev_length; i++) {
+            this.month_node.push({
+                date: i+1,
+                current: false,
+                events: []
+            });
+        }
+            // Generate current month's data
+        for(let i = 0; i < length; i++) {
+            let today = this.month === 0 && i+1 === current_day;
+            now.date(i+1);
+            this.month_node.push({
+                date: i+1,
+                current: true,
+                today: today
+            });
+        }
+            // Generate next month's data
+        for(let i = 0; this.month_node.length < 42; i++) {
+            this.month_node.push({
+                date: i+1,
+                current: false,
+                events: []
+            });
+        }
     }
 }

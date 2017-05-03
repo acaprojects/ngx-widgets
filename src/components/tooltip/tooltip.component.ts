@@ -18,24 +18,24 @@ const POS_LIST: string[] = ['bottom', 'top', 'left', 'right'];
     styleUrls: ['./tooltip.styles.css'],
 })
 export class TooltipComponent {
-    @Input() offset: string = '0';
-    @Input() offsetType: string = 'left';
-    @Input() size: string = '1.0em';
-    @Input() position: string = 'bottom';
-    @Input() theme: string = 'light';
-    @Input() show: boolean = false;
-    @Input() cssClass: string = 'default';
-    @Input() cmp: any = null;
-    @Input() html: string = '';
-    @Input() data: any = {};
+    @Input() public offset: string = '0';
+    @Input() public offsetType: string = 'left';
+    @Input() public size: string = '1.0em';
+    @Input() public position: string = 'bottom';
+    @Input() public theme: string = 'light';
+    @Input() public show: boolean = false;
+    @Input() public cssClass: string = 'default';
+    @Input() public cmp: any = null;
+    @Input() public html: string = '';
+    @Input() public data: any = {};
 
-    @Output() showChange = new EventEmitter();
-    @Output() change = new EventEmitter();
+    @Output() public showChange = new EventEmitter();
+    @Output() public change = new EventEmitter();
 
-    toggle_timer: any = null;
+    private toggle_timer: any = null;
 
-    @ViewChild('area') content: ElementRef;
-    @ViewChild('content', { read: ViewContainerRef }) view: ViewContainerRef;
+    @ViewChild('area') private content: ElementRef;
+    @ViewChild('content', { read: ViewContainerRef }) private view: ViewContainerRef;
 
     private _cmp: any = null; // Created component
     private _inst: any = null; // Component Instance
@@ -47,7 +47,7 @@ export class TooltipComponent {
      * @return {void}
      */
     @HostListener('tap', ['$event'])
-    onClick(e: any) {
+    public onClick(e: any) {
         if (!this.check(e)) {
             this.toggleShow();
         }
@@ -57,7 +57,7 @@ export class TooltipComponent {
 
     }
 
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
            // Component changes or state of show changes to true
         if (changes.cmp) {
             setTimeout(() => {
@@ -69,32 +69,11 @@ export class TooltipComponent {
             this.updateOffset();
         }
     }
-
-    /**
-     * Updates the offset position of the content box of the tooltip
-     * @return {void}
-     */
-    private updateOffset() {
-        if (this.content) {
-            const el = this.content.nativeElement;
-            this.renderer.setElementStyle(el, 'top', '');
-            this.renderer.setElementStyle(el, 'left', '');
-            this.renderer.setElementStyle(el, 'bottom', '');
-            this.renderer.setElementStyle(el, 'right', '');
-            if (this.offsetType in el.style) {
-                this.renderer.setElementStyle(el, this.offsetType, this.offset);
-            }
-        } else {
-            setTimeout(() => {
-                this.updateOffset();
-            }, 50);
-        }
-    }
     /**
      * Toggles whether or not the tooltip is shown
      * @return {void}
      */
-    toggleShow() {
+    public toggleShow() {
         this.show = !this.show;
         this.showChange.emit(this.show);
         this.toggle_timer = setTimeout(() => {
@@ -106,7 +85,7 @@ export class TooltipComponent {
      * @param  {any}    e Hammer Tap Event
      * @return {void}
      */
-    checkTap(e: any) {
+    public checkTap(e: any) {
         if (!this.toggle_timer && !this.check(e)) {
             this.show = false;
             this.toggle_timer = setTimeout(() => {
@@ -119,7 +98,7 @@ export class TooltipComponent {
      * @param  {any}    e Event
      * @return {boolean} Returns whether or not the event occurred inside the tooltip
      */
-    check(e: any) {
+    public check(e: any) {
         let inside = false;
         if (e && this.content) {
             let pos = { x: 0, y: 0 };
@@ -141,12 +120,33 @@ export class TooltipComponent {
      * @param  {any}    data Data associated with change
      * @return {void}
      */
-    causeChange(type: string, data?: any) {
+    public causeChange(type: string, data?: any) {
         const odata = {
             type,
             data,
         };
         this.change.emit(odata);
+    }
+
+    /**
+     * Updates the offset position of the content box of the tooltip
+     * @return {void}
+     */
+    private updateOffset() {
+        if (this.content) {
+            const el = this.content.nativeElement;
+            this.renderer.setElementStyle(el, 'top', '');
+            this.renderer.setElementStyle(el, 'left', '');
+            this.renderer.setElementStyle(el, 'bottom', '');
+            this.renderer.setElementStyle(el, 'right', '');
+            if (this.offsetType in el.style) {
+                this.renderer.setElementStyle(el, this.offsetType, this.offset);
+            }
+        } else {
+            setTimeout(() => {
+                this.updateOffset();
+            }, 50);
+        }
     }
     /**
      * Renders the given component inside the tooltip

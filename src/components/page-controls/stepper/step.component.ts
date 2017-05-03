@@ -24,27 +24,24 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
     ],
 })
 export class StepperStep {
-    @Input() title: string = 'Step';
-    @Input() open: boolean = false;
-    @Input() active: boolean = false;
-    @Input() error: boolean = false;
-    index: number = 1;
-    ordered: boolean = true;
-    parent: any = null;
+    @Input() public title: string = 'Step';
+    @Input() public open: boolean = false;
+    @Input() public active: boolean = false;
+    @Input() public error: boolean = false;
 
-    contents: string;
-    constructor(private el: ElementRef) {
-    }
+    public index: number = 1;
+    public ordered: boolean = true;
+    private parent: any = null;
 
-    ngOnChanges(changes: any) {
+    private contents: string;
 
-    }
+    constructor(private el: ElementRef) { }
 
-    ngAfterContentInit() {
+    public ngAfterContentInit() {
         this.contents = this.el.nativeElement.innerHTML;
     }
 
-    toggle() {
+    public toggle() {
         if (this.ordered) {
             this.show();
         } else {
@@ -53,19 +50,19 @@ export class StepperStep {
         }
     }
 
-    show() {
+    public show() {
         this.open = true;
         this.parent.open(this.index);
         return true;
     }
 
-    hide() {
+    public hide() {
         this.open = false;
         this.parent.close(this.index);
         return false;
     }
 
-    setState(states?: any) {
+    public setState(states?: any) {
         setTimeout(() => {
             this.open   = !states || !states.open   ? false : states.open;
             this.active = !states || !states.active ? false : states.active;
@@ -73,6 +70,4 @@ export class StepperStep {
         }, 20);
     }
 
-    ngOnDestroy() {
-    }
 }

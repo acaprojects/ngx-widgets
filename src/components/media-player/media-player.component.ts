@@ -2,7 +2,7 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-05-02 16:51:45
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-03 12:38:34
+ * @Last Modified time: 2017-05-03 14:56:49
  */
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
@@ -23,48 +23,40 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
     ],
 })
 export class MediaPlayerComponent {
-    @Input() src: any = null;
-    @Input() color: string = '#2196F3';
+    @Input() public src: any = null;
+    @Input() public color: string = '#2196F3';
 
-    @Output() time: any = new EventEmitter();
-    @Output() length: any = new EventEmitter();
+    @Output() public time: any = new EventEmitter();
+    @Output() public length: any = new EventEmitter();
 
-    progress: number = 0;
-    current_time: string = '00:00';
-    duration: string = '00:00';
-    start: number = (new Date()).getTime();
-    media_playing: boolean = false;
-    controls_active: boolean = true;
-    hide_timer: any = null;
-    is_end: boolean = false;
+    public progress: number = 0;
+    public current_time: string = '00:00';
+    public duration: string = '00:00';
+    public start: number = (new Date()).getTime();
+    public media_playing: boolean = false;
+    public controls_active: boolean = true;
+    public is_end: boolean = false;
 
-    @ViewChild('video') video: ElementRef;
-    @ViewChild('player') player: ElementRef;
+    private hide_timer: any = null;
+
+    @ViewChild('video') private video: ElementRef;
+    @ViewChild('player') private player: ElementRef;
 
     constructor(private cdr: ChangeDetectorRef, private zone: NgZone) {
+
     }
 
-    ngAfterViewInit() {
+    public ngAfterViewInit() {
         this.init();
     }
 
-    init() {
-        if (!this.player) {
-            setTimeout(() => {
-                this.init();
-            }, 200);
-        } else {
-            this.playMedia();
-        }
-    }
-
-    change() {
+    public change() {
         this.zone.run(() => {
             this.cdr.markForCheck();
         });
     }
 
-    changeMediaState() {
+    public changeMediaState() {
         if (this.media_playing) {
             this.stopMedia();
         } else {
@@ -72,7 +64,7 @@ export class MediaPlayerComponent {
         }
     }
 
-    playMedia() {
+    public playMedia() {
         this.media_playing = true;
         this.player.nativeElement.play();
         this.setDuration();
@@ -81,17 +73,17 @@ export class MediaPlayerComponent {
         }, 400);
     }
 
-    stopMedia() {
+    public stopMedia() {
         this.media_playing = false;
         this.player.nativeElement.pause();
     }
 
-    restartMedia() {
+    public restartMedia() {
         this.player.nativeElement.play();
         this.player.nativeElement.currentTime = 0;
     }
 
-    showTools() {
+    public showTools() {
         this.controls_active = true;
         if (this.hide_timer) {
             clearTimeout(this.hide_timer);
@@ -104,7 +96,7 @@ export class MediaPlayerComponent {
         }, 3000);
     }
 
-    updateTimer() {
+    public updateTimer() {
         if (!this.player) return;
         const time = this.player.nativeElement.currentTime;
         const secs = Math.floor(time % 60);
@@ -124,7 +116,7 @@ export class MediaPlayerComponent {
         this.change();
     }
 
-    setDuration() {
+    public setDuration() {
         if (!this.player) return;
         const time = this.player.nativeElement.duration;
         const secs = Math.floor(time % 60);
@@ -139,8 +131,7 @@ export class MediaPlayerComponent {
         this.length.emit(this.duration);
     }
 
-    toggleFullScreen() {
-        console.log('Toggle FullScreen');
+    public toggleFullScreen() {
         const doc: any = window.document;
         const docEl: any = this.video.nativeElement;
 
@@ -150,5 +141,15 @@ export class MediaPlayerComponent {
         if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
             requestFullScreen.call(docEl);
         } else cancelFullScreen.call(doc);
+    }
+
+    private init() {
+        if (!this.player) {
+            setTimeout(() => {
+                this.init();
+            }, 200);
+        } else {
+            this.playMedia();
+        }
     }
 }

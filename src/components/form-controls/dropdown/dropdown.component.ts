@@ -28,35 +28,25 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
     ],
 })
 export class Dropdown {
-    @Input() items: any[] = [];
-    @Input() model: any = null;
-    @Input() index: number = 0;
-    @Input() fields: string[] = ['name'];
-    @Input() cssClass: string = 'default';
-    @Input() placeholder: string = '';
+    @Input() public items: any[] = [];
+    @Input() public model: any = null;
+    @Input() public index: number = 0;
+    @Input() public fields: string[] = ['name'];
+    @Input() public cssClass: string = 'default';
+    @Input() public placeholder: string = '';
 
-    @Output() modelChange: any = new EventEmitter();
-    @Output() indexChange: any = new EventEmitter();
+    @Output() public modelChange: any = new EventEmitter();
+    @Output() public indexChange: any = new EventEmitter();
 
-    @ViewChild('list') list: ElementRef;
+    private type: string = 'string';
 
-    type: string = 'string';
-    display_items: any = [];
-    current_item: any = null;
-    shown: boolean = false;
+    @ViewChild('list') private list: ElementRef;
 
-    constructor() {
+    public display_items: any = [];
+    public current_item: any = null;
+    public shown: boolean = false;
 
-    }
-
-    ngOnInit() {
-    }
-
-    ngOnDestroy() {
-
-    }
-
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (changes.items) {
             if (this.items && this.items.length > 0) {
                 setTimeout(() => {
@@ -77,12 +67,37 @@ export class Dropdown {
         }
     }
     /**
+     * Selects the item with the given index
+     * @param {number} i Index of the selected item
+     * @return {void}
+     */
+    public select(i: number) {
+        this.model = this.display_items[i];
+        this.modelChange.emit(this.model);
+        this.indexChange.emit(i);
+        this.shown = false;
+    }
+
+    public toggle() {
+        this.shown = !this.shown;
+    }
+
+    public checkTap(e: any) {
+        if (e) {
+            const bb = this.list.nativeElement.getBoundingClientRect();
+            const c = e.center;
+            if (c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
+                this.shown = false;
+            }
+        }
+    }
+    /**
      * Checks whether the given item contains a property containing the given string
      * @param {any}    item   Item to search through
      * @param {string} search String to search for within item
      * @return {boolean} Returns whether or not the string is contained in the item
      */
-    itemContains(item: any, search: string) {
+    private itemContains(item: any, search: string) {
         const s = search.toLowerCase();
         for (const p in item) {
             if (typeof item[p] === 'string' && item[p].toLowerCase().indexOf(s) >= 0) {
@@ -94,31 +109,6 @@ export class Dropdown {
             }
         }
         return false;
-    }
-    /**
-     * Selects the item with the given index
-     * @param {number} i Index of the selected item
-     * @return {void}
-     */
-    select(i: number) {
-        this.model = this.display_items[i];
-        this.modelChange.emit(this.model);
-        this.indexChange.emit(i);
-        this.shown = false;
-    }
-
-    toggle() {
-        this.shown = !this.shown;
-    }
-
-    checkTap(e: any) {
-        if (e) {
-            const bb = this.list.nativeElement.getBoundingClientRect();
-            const c = e.center;
-            if (c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
-                this.shown = false;
-            }
-        }
     }
 
 }

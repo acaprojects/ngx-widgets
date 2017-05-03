@@ -48,7 +48,7 @@ module.exports = function(options) {
       /**
        * Make sure root is src
        */
-      root: helpers.root('src'),
+      root: helpers.root('src')
 
     },
 
@@ -200,9 +200,9 @@ module.exports = function(options) {
         'process.env': {
           'ENV': JSON.stringify(ENV),
           'NODE_ENV': JSON.stringify(ENV),
-          'HMR': false,
+          'HMR': false
         }
-      }),
+      })
 
 
     ],

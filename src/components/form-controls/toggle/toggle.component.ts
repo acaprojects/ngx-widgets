@@ -40,38 +40,32 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
     ],
 })
 export class Toggle {
-    @Input() type: string;
-    @Input() state: boolean = true;
-    @Input() active: string = 'On';
-    @Input() inactive: string = 'Off';
-    @Input() view: string = 'square';
-    @Input() disabled: boolean = false;
-    @Input() size: string = '1.0em';
-    @Input() colorYes: string = 'green';
-    @Input() primaryYes: string = 'C500';
-    @Input() colorNo: string = 'red';
-    @Input() primaryNo: string = 'C500';
-    @Output() stateChange = new EventEmitter();
-    //*
-        //Toggle Knob
-    @ViewChild('iosToggle')  sknob: any;
-    @ViewChild('textToggle') tknob: any;
+    @Input() public type: string;
+    @Input() public state: boolean = true;
+    @Input() public active: string = 'On';
+    @Input() public inactive: string = 'Off';
+    @Input() public view: string = 'square';
+    @Input() public disabled: boolean = false;
+    @Input() public size: string = '1.0em';
+    @Input() public colorYes: string = 'green';
+    @Input() public primaryYes: string = 'C500';
+    @Input() public colorNo: string = 'red';
+    @Input() public primaryNo: string = 'C500';
+    @Output() public stateChange = new EventEmitter();
 
-    toggle: ElementRef;
     protected _state: boolean = true;
+        // Toggle Knob
+    @ViewChild('iosToggle')  private sknob: any;
+    @ViewChild('textToggle') private tknob: any;
+
+    private toggle: ElementRef;
     private state_timer: any = null;
 
-    constructor() {
-    }
-
-    ngInit() {
-    }
-
-    ngAfterViewInit() {
+    public ngAfterViewInit() {
         this.initElements();
     }
 
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (changes.type) {
             this.initElements();
         }
@@ -81,18 +75,11 @@ export class Toggle {
         }
     }
     /**
-     * Sets the toggle knob
-     * @return {void}
-     */
-    initElements() {
-        this.toggle = this.type === 'text' ? this.tknob : this.sknob;
-    }
-    /**
      * Changes the toggles state from on -> off and vice versa
      * @param  {any}    event Click/Tap Event
      * @return {void}
      */
-    changeState(event: any) {
+    public changeState(event: any) {
         console.log(this.state);
         if (this.disabled) return;
         if (event.stopPropagation) event.stopPropagation();
@@ -102,5 +89,12 @@ export class Toggle {
         setTimeout(() => {
             this.stateChange.emit(this._state);
         }, 200);
+    }
+    /**
+     * Sets the toggle knob
+     * @return {void}
+     */
+    private initElements() {
+        this.toggle = this.type === 'text' ? this.tknob : this.sknob;
     }
 }

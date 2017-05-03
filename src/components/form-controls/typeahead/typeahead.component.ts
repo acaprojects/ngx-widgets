@@ -36,34 +36,35 @@ import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, 
     styleUrls : [ './typeahead-list.styles.css' ],
 })
 export class TypeaheadList {
-    app : any = null;
-    parent: any = null;
-    items: any[] = [];
-    filtered_list: any[] = [];
-    results: number = 5;
-    cssClass: string = 'default';
-    contents_box: any = null;
-    last_change: number = 0;
-    timer: any = null;
-    filter: string = '';
-    filterFields: string[] = [];
-    scroll: any = null;
-    mousedown: any = null;
-    mouseup: any = null;
-    none_msg: string = '';
-    auto: boolean = false;
-    force_top: boolean = false;
+    public app : any = null;
+    public parent: any = null;
+    public items: any[] = [];
+    public filtered_list: any[] = [];
+    public results: number = 5;
+    public cssClass: string = 'default';
+    public none_msg: string = '';
+    public auto: boolean = false;
+    public force_top: boolean = false;
 
-    @ViewChild('list') list : ElementRef;
-    @ViewChild('contents') contents : ElementRef;
-    @ViewChild('listView') list_contents : ElementRef;
+    public keys = {37: 1, 38: 1, 39: 1, 40: 1};
 
-    keys = {37: 1, 38: 1, 39: 1, 40: 1};
+    private contents_box: any = null;
+    private last_change: number = 0;
+    private timer: any = null;
+    private filter: string = '';
+    private filterFields: string[] = [];
+    private scroll: any = null;
+    private mousedown: any = null;
+    private mouseup: any = null;
+
+    @ViewChild('list') private list : ElementRef;
+    @ViewChild('contents') private contents : ElementRef;
+    @ViewChild('listView') private list_contents : ElementRef;
 
     constructor(private renderer: Renderer) {
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         setTimeout(() => {
         }, 100);
     }
@@ -79,7 +80,7 @@ export class TypeaheadList {
      * @param  {boolean = false} force_top Force typeahead above element
      * @return {void}
      */
-    setupList(ta: any, items: any[], filterFields: string[], filter: string, num_results: number, cssClass: string, auto: boolean = false, force_top: boolean = false) {
+    public setupList(ta: any, items: any[], filterFields: string[], filter: string, num_results: number, cssClass: string, auto: boolean = false, force_top: boolean = false) {
         this.parent = ta;
         this.items = items;
         this.filter = filter;
@@ -91,11 +92,51 @@ export class TypeaheadList {
         this.filterList();
     }
     /**
+     * Updates the display position of the list on the view
+     * @param  {any}    main  ElementRef that the typeahead is attached to
+     * @param  {any}    event (Optional) Event
+     * @return {void}
+     */
+    public moveList(main: any, event?: any) {
+        if (!main || !this.contents) return;
+        const main_box = main.nativeElement.getBoundingClientRect();
+        const c_el = this.contents.nativeElement;
+        this.renderer.setElementStyle(c_el, 'width', '1px');
+        this.renderer.setElementStyle(c_el, 'top', Math.round(main_box.top + window.pageYOffset) + 'px');
+        this.renderer.setElementStyle(c_el, 'left', Math.round(main_box.left + main_box.width / 2) + 'px');
+        this.renderer.setElementStyle(c_el, 'height', Math.round(main_box.height) + 'px');
+        this.renderer.setElementStyle(c_el, 'display', '');
+        this.positionList();
+    }
+    /**
+     * Notifies the parent component that it has been clicked/tapped
+     * @return {void}
+     */
+    public clicked() {
+        this.parent.clicked = true;
+    }
+    /**
+     * Notifies the parent component of the selected element
+     * @param {any}    e Input event
+     * @param {number} i Index of the selected item
+     */
+    public setItem(e: any, i: number) {
+        if (e) { // Prevent clicking through typeahead
+            if (e.preventDefault) e.preventDefault();
+            if (e.stopPropagation) e.stopPropagation();
+        }
+        this.clicked();
+        setTimeout(() => {
+            this.parent.setItem(this.filtered_list[i]);
+            this.parent.clicked = false;
+        }, 30);
+    }
+    /**
      * Update the filtering on the item list
      * @param  {string} filter Text to filter on
      * @return {void}
      */
-    updateFilter(filter: string) {
+    private updateFilter(filter: string) {
         this.filter = filter;
         this.filterList();
     }
@@ -103,7 +144,7 @@ export class TypeaheadList {
      * Filter list of items. If no filter set return all items up to results limit
      * @return {void}
      */
-    filterList() {
+    private filterList() {
         let added = 0;
         if (!this.filter || this.filter === '') {
             this.filtered_list = JSON.parse(JSON.stringify(this.items.length > this.results ? this.items.slice(0, this.results) : this.items));
@@ -139,28 +180,11 @@ export class TypeaheadList {
         }
     }
     /**
-     * Updates the display position of the list on the view
-     * @param  {any}    main  ElementRef that the typeahead is attached to
-     * @param  {any}    event (Optional) Event
-     * @return {void}
-     */
-    moveList(main: any, event?: any) {
-        if (!main || !this.contents) return;
-        const main_box = main.nativeElement.getBoundingClientRect();
-        const c_el = this.contents.nativeElement;
-        this.renderer.setElementStyle(c_el, 'width', '1px');
-        this.renderer.setElementStyle(c_el, 'top', Math.round(main_box.top + window.pageYOffset) + 'px');
-        this.renderer.setElementStyle(c_el, 'left', Math.round(main_box.left + main_box.width / 2) + 'px');
-        this.renderer.setElementStyle(c_el, 'height', Math.round(main_box.height) + 'px');
-        this.renderer.setElementStyle(c_el, 'display', '');
-        this.positionList();
-    }
-    /**
      * Sets the relative position of the typeahead
      * @param  {number} tries Retry counter
      * @return {void}
      */
-    positionList(tries?: number) {
+    private positionList(tries?: number) {
         if (!tries) tries = 0;
         if (this.list && this.contents) {
             const h = document.documentElement.clientHeight;
@@ -182,32 +206,6 @@ export class TypeaheadList {
             }, 200);
         }
     }
-    /**
-     * Notifies the parent component that it has been clicked/tapped
-     * @return {void}
-     */
-    clicked() {
-        this.parent.clicked = true;
-    }
-    /**
-     * Notifies the parent component of the selected element
-     * @param {any}    e Input event
-     * @param {number} i Index of the selected item
-     */
-    setItem(e: any, i: number) {
-        if (e) { // Prevent clicking through typeahead
-            if (e.preventDefault) e.preventDefault();
-            if (e.stopPropagation) e.stopPropagation();
-        }
-        this.clicked();
-        setTimeout(() => {
-            this.parent.setItem(this.filtered_list[i]);
-            this.parent.clicked = false;
-        }, 30);
-    }
-
-    ngOnDestroy() {
-    }
 
 }
 
@@ -217,34 +215,35 @@ export class TypeaheadList {
     templateUrl: './typeahead.template.html',
 })
 export class Typeahead {
-    @Input() filter: string = '';
-    @Input() filterFields: string[] = [];
-    @Input() list: any[] = [];
-    @Input() results: number = 5;
-    @Input() show: boolean = false;
-    @Input() auto: boolean = false;
-    @Input() forceTop: boolean = false;
-    @Input() cssClass: string = 'default';
-    @Input() msg: string = '';
-    @Output() selected = new EventEmitter();
+    @Input() public filter: string = '';
+    @Input() public filterFields: string[] = [];
+    @Input() public list: any[] = [];
+    @Input() public results: number = 5;
+    @Input() public show: boolean = false;
+    @Input() public auto: boolean = false;
+    @Input() public forceTop: boolean = false;
+    @Input() public cssClass: string = 'default';
+    @Input() public msg: string = '';
+    @Output() public selected = new EventEmitter();
 
-    @ViewChild('main') main: ElementRef;
+    public shown: boolean = false;
+    public closing: boolean = false;
 
-    shown: boolean = false;
-    list_view: any = null;
-    list_ref: any = null;
-    last_change: number = null;
-    container: any;
-    id: number = 12345678;
-    closing: boolean = false;
-    clicked: boolean = false;
-    update_timer: any = null;
+    @ViewChild('main') private main: ElementRef;
+
+    private list_view: any = null;
+    private list_ref: any = null;
+    private last_change: number = null;
+    private container: any;
+    private id: number = 12345678;
+    private clicked: boolean = false;
+    private update_timer: any = null;
 
     constructor(private _cr: ComponentFactoryResolver, private view: ViewContainerRef, private renderer: Renderer) {
 
     }
 
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (changes.filter) {
             if (this.list_view) this.list_view.updateFilter(this.filter);
         }
@@ -270,7 +269,7 @@ export class Typeahead {
      * Opens the typeahead option list
      * @return {void}
      */
-    open() {
+    public open() {
         if (this.list_ref) return;
         const now = (new Date()).getTime();
         if (now - this.last_change < 100) return;
@@ -285,7 +284,7 @@ export class Typeahead {
      * Close the typeahead option list
      * @return {void}
      */
-    close() {
+    public close() {
         if (!this.list_ref) return;
         this.closing = true;
         this.shown = false;
@@ -305,12 +304,12 @@ export class Typeahead {
      * Sets the selected item and emits it to the binding
      * @param {any} item [description]
      */
-    setItem(item: any) {
+    public setItem(item: any) {
         this.selected.emit(item);
         this.close();
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.close();
     }
     /**

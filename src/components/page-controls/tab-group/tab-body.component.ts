@@ -19,29 +19,26 @@ import { AfterContentInit, ContentChildren, QueryList } from '@angular/core';
     `,
 })
 export class TabBody {
-    @Input() id: string;
-    @Input() cssClass: string = 'default';
-    visible: boolean = false;
+    @Input() public id: string;
+    @Input() public cssClass: string = 'default';
+
+    public visible: boolean = false;
 
     constructor(private el: ElementRef) {
 
     }
 
-    show() {
+    public show() {
         this.visible = true;
         return true;
     }
 
-    hide() {
+    public hide() {
         this.visible = false;
         return false;
     }
 
-    nativeElement() {
+    public nativeElement() {
         return this.el.nativeElement;
-    }
-
-    ngOnDestroy() {
-        console.warn('Body Destroyed.');
     }
 }

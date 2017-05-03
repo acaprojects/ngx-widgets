@@ -44,13 +44,14 @@ import { animate, keyframes, state, style, transition, trigger }      from '@ang
     ],
 })
 export class NotifyBlock {
-    @Input() entity: any = {};
-    @Input() id: string = '';
-    @Input() cssClass: string = 'default';
-    @Input() position: string = '0';
-    @Input() remove: boolean = false;
-    remove_check: any = null;
-    parent: any = null;
+    @Input() public entity: any = {};
+    @Input() public id: string = '';
+    @Input() public cssClass: string = 'default';
+    @Input() public position: string = '0';
+    @Input() public remove: boolean = false;
+
+    public remove_check: any = null;
+    private parent: any = null;
 
     constructor() {
         this.id = Math.floor(Math.random() * 899999 + 100000).toString();
@@ -64,12 +65,12 @@ export class NotifyBlock {
         }, 200);
     }
 
-    setup(parent: any) {
+    public setup(parent: any) {
         this.parent = parent;
         return this.id;
     }
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         if (this.remove_check) clearInterval(this.remove_check);
         this.position = 'close';
     }
