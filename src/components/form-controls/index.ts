@@ -26,13 +26,13 @@ export * from './toggle';
 export * from './typeahead';
 
 export const FORM_CONTROLS: any[] = [
-	Calendar,
-	DataInput,
-	Dropdown,
-	DropdownTypeahead,
-	Slider,
-	TimePicker,
-	Toggle,
-	Typeahead,
-	TypeaheadList
+    Calendar,
+    DataInput,
+    Dropdown,
+    DropdownTypeahead,
+    Slider,
+    TimePicker,
+    Toggle,
+    Typeahead,
+    TypeaheadList
 ];

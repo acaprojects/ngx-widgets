@@ -6,73 +6,73 @@
 // @Last modified time: 15/12/2016 11:29 AM
 
 .dropdown {
-	position: relative;
-	min-width: 12em;
-	min-height: 2.0em;
-	font-size: 1.0em;
-	//z-index: 100;
-	border-radius: 0.1em;
-	margin: 0.5em;
-	text-align: center;
-	& .item {
-		cursor: pointer;
-		padding: 0.4em;
-		text-align: left;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		& .field {
-			padding: 0 0.5em;
-		}
-		&.active {
-			text-align: center;
-		}
-	}
+    position: relative;
+    min-width: 12em;
+    min-height: 2.0em;
+    font-size: 1.0em;
+    //z-index: 100;
+    border-radius: 0.1em;
+    margin: 0.5em;
+    text-align: center;
+    & .item {
+        cursor: pointer;
+        padding: 0.4em;
+        text-align: left;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        & .field {
+            padding: 0 0.5em;
+        }
+        &.active {
+            text-align: center;
+        }
+    }
 
-	& .list {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		z-index: 1999;
-		border-radius: 0.1em;
-		//opacity: 0;
+    & .list {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1999;
+        border-radius: 0.1em;
+        //opacity: 0;
 
-		& .items {
-			max-height: 30vh;
-			overflow: auto;
-		}
-	}
+        & .items {
+            max-height: 30vh;
+            overflow: auto;
+        }
+    }
 
-	&.default {
-		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-		background-color: #FFF;
-		color: #000;
-		&:hover {
-			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
-		}
-		& .item {
-			&:hover {
-				color: #FFF;
-				background-color: #2196F3;
-			}
-			&.active {
+    &.default {
+        box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+        background-color: #FFF;
+        color: #000;
+        &:hover {
+            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
+        }
+        & .item {
+            &:hover {
+                color: #FFF;
+                background-color: #2196F3;
+            }
+            &.active {
 
-			}
-		}
-		& .list {
-			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-			background-color: #FFF;
-			color: #000;
-			overflow: hidden;
-			& .item {
-				&.active {
-					cursor: default;
-					background-color: #FFF;
-					color: #000;
-					border-bottom: 1px solid rgba(0,0,0,0.1);
-				}
-			}
-		}
-	}
+            }
+        }
+        & .list {
+            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+            background-color: #FFF;
+            color: #000;
+            overflow: hidden;
+            & .item {
+                &.active {
+                    cursor: default;
+                    background-color: #FFF;
+                    color: #000;
+                    border-bottom: 1px solid rgba(0,0,0,0.1);
+                }
+            }
+        }
+    }
 }

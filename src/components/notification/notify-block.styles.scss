@@ -9,44 +9,44 @@ $height: 4.0em;
 $width: 25.0em;
 
 .notification {
-	user-select: none;
-	&.defaultClass {
-		background-color: #FFF;
-		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-		word-wrap: normal;
-		& div {
-			flex-grow: 1;
-			flex-shrink: 1;
-		}
-		& .close-btn {
-			color: #444;
-			&:hover {
-				color: #AAA;
-			}
-		}
-	}
-	margin-top: 1.0em;
-	position: fixed;
-	height: $height;
-	width: $width;
-	max-width: 96vw;
-	padding: 0.75em;
-	font-size: 1.5em;
-	border-radius: 0.15em;
-	bottom: 0.5em;
-	right: 0.5em;
-	opacity: 1;
-	overflow: hidden;
-	& .contents {
-		display: flex;
-		align-items: center;
-	}
-	& .close-btn {
-		position: absolute;
-		right: 0.2em;
-		padding: 0;
-		top: 0.2em;
-		font-size: 1.2em;
-		cursor: pointer;
-	}
+    user-select: none;
+    &.defaultClass {
+        background-color: #FFF;
+        box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+        word-wrap: normal;
+        & div {
+            flex-grow: 1;
+            flex-shrink: 1;
+        }
+        & .close-btn {
+            color: #444;
+            &:hover {
+                color: #AAA;
+            }
+        }
+    }
+    margin-top: 1.0em;
+    position: fixed;
+    height: $height;
+    width: $width;
+    max-width: 96vw;
+    padding: 0.75em;
+    font-size: 1.5em;
+    border-radius: 0.15em;
+    bottom: 0.5em;
+    right: 0.5em;
+    opacity: 1;
+    overflow: hidden;
+    & .contents {
+        display: flex;
+        align-items: center;
+    }
+    & .close-btn {
+        position: absolute;
+        right: 0.2em;
+        padding: 0;
+        top: 0.2em;
+        font-size: 1.2em;
+        cursor: pointer;
+    }
 }

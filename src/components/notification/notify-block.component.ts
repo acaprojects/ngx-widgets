@@ -8,7 +8,7 @@
 */
 
 import { Component, Input, Output } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes } 	 from '@angular/core';
+import { trigger, transition, animate, style, state, keyframes }      from '@angular/core';
 
 @Component({
     selector: 'notify-block',
@@ -21,7 +21,7 @@ import { trigger, transition, animate, style, state, keyframes } 	 from '@angula
     styleUrls: [ './notify-block.styles.css' ],
     animations: [
         trigger('position', [
-        	state('0', style({ bottom: '0.5em' })),
+            state('0', style({ bottom: '0.5em' })),
             state('1', style({ bottom: '5.0em' })),
             state('2', style({ bottom: '9.5em' })),
             state('3', style({ bottom: '14.0em' })),
@@ -37,9 +37,9 @@ import { trigger, transition, animate, style, state, keyframes } 	 from '@angula
             state('13', style({ bottom: '59em' })),
             state('hidden', style({ opacity: 0, display: 'none' })),
             state('close', style({ opacity: 0, display: 'none' })),
-        	transition('void => *', [ style({ right: '10.0em',  opacity: 0}), animate('400ms ease-out', style({ right: '0.5em', opacity: 1})) ]),
-        	transition('* => close', [ style({ right: '0.5em',  opacity: 1}), animate('400ms ease-out', style({ right: '-10.0em', opacity: 0})) ]),
-    	    transition('* <=> *', animate('400ms ease-out') )
+            transition('void => *', [ style({ right: '10.0em',  opacity: 0}), animate('400ms ease-out', style({ right: '0.5em', opacity: 1})) ]),
+            transition('* => close', [ style({ right: '0.5em',  opacity: 1}), animate('400ms ease-out', style({ right: '-10.0em', opacity: 0})) ]),
+            transition('* <=> *', animate('400ms ease-out') )
         ])
     ]
 })

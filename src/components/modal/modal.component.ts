@@ -10,7 +10,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { ComponentRef, ViewContainerRef, ComponentFactoryResolver }  from '@angular/core';
 import { AfterViewInit, OnInit, OnDestroy, OnChanges, SimpleChange } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes } 	 from '@angular/core';
+import { trigger, transition, animate, style, state, keyframes }      from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -88,16 +88,16 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
 
     ngAfterContentInit(){
         if(this.modal) {
-        	this.buildContents();
+            this.buildContents();
             this.modal_box = this.modal.nativeElement.getBoundingClientRect();
         }
     }
 
     ngAfterViewInit() {
-    	setTimeout(() => {
-	    	this.state = false;
-	    	this.state_inner = false;
-	        this.open();
+        setTimeout(() => {
+            this.state = false;
+            this.state_inner = false;
+            this.open();
         }, 200);
     }
 
@@ -129,16 +129,16 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
      * @return {void}
      */
     public buildContents() {
-    	if(!this._cfr) {
-    		return setTimeout(() => {
-    			this.buildContents();
-    		}, 200);
-    	}
+        if(!this._cfr) {
+            return setTimeout(() => {
+                this.buildContents();
+            }, 200);
+        }
         if(this.component !== undefined && this.component !== null){
-    		let factory = this._cfr.resolveComponentFactory(this.component);
+            let factory = this._cfr.resolveComponentFactory(this.component);
             if(factory) this.render(factory);
             else console.error('[WIDGETS][Modal(C)] Unable to find factory for: ', this.component);
-    	}
+        }
     }
     /**
      * Creates the component and attaches it to the modal
@@ -146,10 +146,10 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
      * @return {void}
      */
     public render(factory: any) {
-    	if(this.contentRef) {
-    		this.contentRef.destroy();
-    	}
-    	this.contentRef = this._content.createComponent(factory);
+        if(this.contentRef) {
+            this.contentRef.destroy();
+        }
+        this.contentRef = this._content.createComponent(factory);
 
         // let's inject @Inputs to component instance
         this.content_instance = this.contentRef.instance;
@@ -166,8 +166,8 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
      * @return {void}
      */
     public tapped(event: any) {
-  		if (event.stopPropagation) event.stopPropagation();
-		else event.cancelBubble = true;
+          if (event.stopPropagation) event.stopPropagation();
+        else event.cancelBubble = true;
         if(!this.close || !this.modal) return;
         let c: { x: number, y: number } = event.center ? event.center : { x: event.clientX, y: event.clientY };
         this.modal_box = this.modal.nativeElement.getBoundingClientRect();
@@ -195,12 +195,12 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
      * @return {void}
      */
     public setParams(data: any) {
-    	if(!this.modal) {
-    		setTimeout(() => {
-    			this.setParams(data);
-    		}, 200);
-    		return;
-    	}
+        if(!this.modal) {
+            setTimeout(() => {
+                this.setParams(data);
+            }, 200);
+            return;
+        }
         if(data) {
                 // Iterate through data and add it to the modal
             for(let key in data) {
@@ -209,8 +209,8 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
                 }
             }
             if(!this.data) this.data = {};
-    	    this.data = (<any>Object).assign(this.data, data);
-	    	if(this.content_instance) this.content_instance.entity = this.data;
+            this.data = (<any>Object).assign(this.data, data);
+            if(this.content_instance) this.content_instance.entity = this.data;
             if(data.width !== undefined && data.width !== null) {
                 this.width = data.width;
                 this.updateWidth();
@@ -222,7 +222,7 @@ export class Modal implements OnInit, OnChanges, OnDestroy {
                     if(mdl) this.renderer.setStyle(mdl, 'top', this.display_top);
                 }, 200);
             }
-        	this.buildContents();
+            this.buildContents();
         }
     }
     /**

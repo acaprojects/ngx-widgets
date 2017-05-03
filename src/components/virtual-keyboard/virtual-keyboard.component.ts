@@ -8,7 +8,7 @@
 */
 
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes } 	 from '@angular/core';
+import { trigger, transition, animate, style, state, keyframes }      from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 const KEY_LIST = {

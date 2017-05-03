@@ -16,7 +16,7 @@ export * from './btn-group';
 export * from './btn-toggle';
 
 export const BUTTONS: any[] = [
-	Button,
-	ButtonGroup,
-	ButtonToggle
+    Button,
+    ButtonGroup,
+    ButtonToggle
 ];

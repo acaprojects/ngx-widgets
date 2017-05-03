@@ -48,9 +48,9 @@ export class TooltipComponent {
      */
     @HostListener('tap', ['$event'])
     onClick(e: any) {
-    	if(!this.check(e)){
-	        this.toggleShow();
-	    }
+        if(!this.check(e)){
+            this.toggleShow();
+        }
     }
 
     constructor(private el: ElementRef, private _cfr: ComponentFactoryResolver, private renderer: Renderer) {
@@ -82,7 +82,7 @@ export class TooltipComponent {
             this.renderer.setElementStyle(el, 'bottom', '');
             this.renderer.setElementStyle(el, 'right', '');
             if(this.offsetType in el.style) {
-            	this.renderer.setElementStyle(el, this.offsetType, this.offset);
+                this.renderer.setElementStyle(el, this.offsetType, this.offset);
             }
         } else {
             setTimeout(() => {
@@ -98,7 +98,7 @@ export class TooltipComponent {
         this.show = !this.show;
         this.showChange.emit(this.show);
         this.toggle_timer = setTimeout(() => {
-        	this.toggle_timer = null;
+            this.toggle_timer = null;
         }, 100);
     }
     /**
@@ -155,7 +155,7 @@ export class TooltipComponent {
      */
     private render(cnt: number = 0) {
         if(this.cmp && this.view) {
-    		let factory = this._cfr.resolveComponentFactory(this.cmp);
+            let factory = this._cfr.resolveComponentFactory(this.cmp);
             if(this._cmp) this._cmp.destroy();
             this._cmp = this.view.createComponent(factory);
                 // let's inject @Inputs to component instance

@@ -39,29 +39,29 @@ export class DropService {
 
         // Define the event streams
         this._event_obs['drop'] = new Observable((observer) => {
-        	this.event['drop'] = (event: Event) => {
-	        	let e = this._preventDefault(event);
-	        	observer.next(this._checkTarget(e));
-        	}
-	    });
+            this.event['drop'] = (event: Event) => {
+                let e = this._preventDefault(event);
+                observer.next(this._checkTarget(e));
+            }
+        });
         // Prevent default on all dragover events
         this._event_obs['dragover'] = new Observable((observer) => {
-        	this.event['dragover'] = (event: Event) => {
-	            event.preventDefault();
-	            observer.next(event);
-	        };
+            this.event['dragover'] = (event: Event) => {
+                event.preventDefault();
+                observer.next(event);
+            };
         });
 
         this._event_obs['dragenter'] = new Observable((observer) => {
-        	this.event['dragenter'] = (event: Event) => {
-	        	let e = this._preventDefault(event);
-	        	observer.next(this._checkTarget(e));
-	        };
+            this.event['dragenter'] = (event: Event) => {
+                let e = this._preventDefault(event);
+                observer.next(this._checkTarget(e));
+            };
         });
         this._event_obs['dragleave'] = new Observable((observer) => {
-        	this.event['dragleave'] = (event: Event) => {
-	        	let e = this._preventDefault(event);
-	        	this._checkTarget(e);
+            this.event['dragleave'] = (event: Event) => {
+                let e = this._preventDefault(event);
+                this._checkTarget(e);
                 let dropTargets = this._dropTargets,
                     target = e.target,
                     i:number;
@@ -86,7 +86,7 @@ export class DropService {
                 }
 
                 return observer.next(false);
-	        };
+            };
         });
 
         // Start watching for the events
@@ -113,19 +113,19 @@ export class DropService {
     }
 
     ngOnDestroy() {
-    		// Remove Observers
-    	for(let e in this._event_obs) {
-    		if(this._event_obs[e]) {
-    			this._event_obs[e].unsubscribe();
-    		}
-    	}
-    		// Remove listeners
-    	for(let l in this._listeners) {
-    		if(this._listeners[l]){
-	    		this._listeners[l]();
-	    		this._listeners[l] = null;
-	    	}
-    	}
+            // Remove Observers
+        for(let e in this._event_obs) {
+            if(this._event_obs[e]) {
+                this._event_obs[e].unsubscribe();
+            }
+        }
+            // Remove listeners
+        for(let l in this._listeners) {
+            if(this._listeners[l]){
+                this._listeners[l]();
+                this._listeners[l] = null;
+            }
+        }
     }
 
     // Configures an element to become a drop target

@@ -64,19 +64,19 @@ export class TabGroup implements AfterContentInit  {
     head_cnt: number = 0;
 
     ngOnChanges(changes: any) {
-    	if(changes.disabled) {
-    		this.updateDisable();
-    	}
-    	if(changes.state) {
-    		this.setActiveTab(this.state);
-    	}
+        if(changes.disabled) {
+            this.updateDisable();
+        }
+        if(changes.state) {
+            this.setActiveTab(this.state);
+        }
     }
 
     ngDoCheck() {
-    	if(this.content_init && this.tabHeaders && this.tabHeaders.toArray().length !== this.head_cnt){
-    		this.head_cnt = this.tabHeaders.toArray().length;
-    		this.injectContents();
-	    }
+        if(this.content_init && this.tabHeaders && this.tabHeaders.toArray().length !== this.head_cnt){
+            this.head_cnt = this.tabHeaders.toArray().length;
+            this.injectContents();
+        }
     }
 
     processRoute() {
@@ -143,40 +143,40 @@ export class TabGroup implements AfterContentInit  {
     }
 
     injectContents() {
-        	// Inject Tab Headers into the page
+            // Inject Tab Headers into the page
         let tabs: any[] = this.tabHeaders.toArray();
         for(let i = 0; i < this.tabHeaders.length; i++){
-	        this.addHeadNode(tabs[i]);
+            this.addHeadNode(tabs[i]);
         }
-        	// Inject Tab Bodies into the page
+            // Inject Tab Bodies into the page
         tabs = this.tabBodies.toArray();
         for(let i = 0; i < this.tabBodies.length; i++){
-	        this.addBodyNode(tabs[i]);
+            this.addBodyNode(tabs[i]);
         }
     }
 
     addHeadNode(node: any) {
-    	let root = this.header;
-    	if(!root || !node || this.node_list.indexOf(node.id) >= 0) return;
+        let root = this.header;
+        if(!root || !node || this.node_list.indexOf(node.id) >= 0) return;
 
         this.renderer.projectNodes(root.nativeElement, [node.nativeElement()]);
         this.listeners[node.id] = node.listen().subscribe((id: string) => {
-        	this.setActiveTab(id);
+            this.setActiveTab(id);
         });
         this.node_list.push(`head-${node.id}`);
     }
 
     addBodyNode(node: any) {
-    	let root = this.body;
-    	if(!root || !node || this.node_list.indexOf(node.id) >= 0) return;
+        let root = this.body;
+        if(!root || !node || this.node_list.indexOf(node.id) >= 0) return;
 
         this.renderer.projectNodes(root.nativeElement, [node.nativeElement()]);
         this.node_list.push(`body-${node.id}`);
     }
 
     setActiveTab(id: string, init:boolean = false) {
-    	if(this.disabled.indexOf(id) >= 0) return;
-    	if(!this.tabBodies || !this.tabHeaders) return;
+        if(this.disabled.indexOf(id) >= 0) return;
+        if(!this.tabBodies || !this.tabHeaders) return;
         this.state = id;
 
         let tabs = this.tabHeaders.toArray();
@@ -201,24 +201,24 @@ export class TabGroup implements AfterContentInit  {
     }
 
     updateDisable() {
-	    if(!this.tabHeaders || !this.tabBodies) {
-	    	setTimeout(() => {
-	    		this.updateDisable();
-	    	}, 200);
-	    } else {
+        if(!this.tabHeaders || !this.tabBodies) {
+            setTimeout(() => {
+                this.updateDisable();
+            }, 200);
+        } else {
             let tabs = this.tabHeaders.toArray();
             for(let i = 0; i < this.tabHeaders.length; i++){
                 if(this.disabled.indexOf(tabs[i].id) >= 0) tabs[i].hide();
                 else tabs[i].show();
             }
-            	// Set active tab to the first available tab if the current tab is disabled
+                // Set active tab to the first available tab if the current tab is disabled
             if(this.disabled.indexOf(this.state) >= 0) {
-            	for(let i = 0; i < tabs.length; i++){
-            		if(this.disabled.indexOf(tabs[i].id) < 0) {
-            			this.setActiveTab(tabs[i].id);
-            			break;
-            		}
-            	}
+                for(let i = 0; i < tabs.length; i++){
+                    if(this.disabled.indexOf(tabs[i].id) < 0) {
+                        this.setActiveTab(tabs[i].id);
+                        break;
+                    }
+                }
             }
         }
     }

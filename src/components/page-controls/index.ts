@@ -14,6 +14,6 @@ export * from './tab-group';
 export * from './stepper';
 
 export const PAGE_CONTROLS: any[] = [
-	TABS_COMPONENTS, 
-	STEPPER_COMPONENTS
+    TABS_COMPONENTS,
+    STEPPER_COMPONENTS
 ];

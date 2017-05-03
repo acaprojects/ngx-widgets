@@ -9,96 +9,96 @@ $green: #23CE6B;
 $red: #F64740;
 
 .aca {
-	&.input {
-		position: relative;
-		display: inline-block;
-		padding: 0.1em;
-		font-size: 1.2em;
-		user-select: none;
-		& .error { color: $red; border-color: $red; }
-		& .valid { color: $green; border-color: $green; }
-		& .input-space {
-			position: relative;
-			display: flex;
-			align-items: center;
-			padding: 0.2em 0 0.1em 0;
-			user-select: none;
-			&.light {
-				color: rgba(0,0,0,0.4);
-				border-bottom: 0.1em solid rgba(0,0,0,0.4);
-				&.disabled {
-					border-bottom: 0.1em dotted rgba(0,0,0,0.4);
-				}
-				&.readonly {
-					border-bottom: 0.1em dashed rgba(0,0,0,0.4);
-				}
+    &.input {
+        position: relative;
+        display: inline-block;
+        padding: 0.1em;
+        font-size: 1.2em;
+        user-select: none;
+        & .error { color: $red; border-color: $red; }
+        & .valid { color: $green; border-color: $green; }
+        & .input-space {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0.2em 0 0.1em 0;
+            user-select: none;
+            &.light {
+                color: rgba(0,0,0,0.4);
+                border-bottom: 0.1em solid rgba(0,0,0,0.4);
+                &.disabled {
+                    border-bottom: 0.1em dotted rgba(0,0,0,0.4);
+                }
+                &.readonly {
+                    border-bottom: 0.1em dashed rgba(0,0,0,0.4);
+                }
 
-				& input.text {
-					color: rgba(0,0,0,0.8);
-					width: 100%;
-				}
-			}
-			&.dark {
-				color: rgba(255,255,255,0.4);
-				border-bottom: 0.1em solid rgba(255,255,255,0.4);
-				&.disabled {
-					border-bottom: 0.1em dotted rgba(255,255,255,0.4);
-				}
-				&.readonly {
-					border-bottom: 0.1em dashed rgba(255,255,255,0.4) !important;
-				}
-				& input.text { color: rgba(255,255,255,0.8); }
-			}
-			cursor: text;
-			&.disabled {
-				cursor: not-allowed;
-			}
-			& .placeholder {
-				position: absolute;
-				top: 0.2em;
-				left: 0;
-				font-size: 1.0em;
-				&.left {
-					left: 1.5em;
-				}
-			}
-			& .input {
-				flex-grow: 1;
-				display: flex;
-				width: 12.0em;
-				max-width: 100%;
-				& input.text {
-					font-size: 1.0em;
-					flex-grow: 1;
-					outline: none;
-					border: none;
-					margin: 0;
-					padding: 0;
-					background: none;
-				}
-			}
-			& .icon {
-				flex-grow: 0;
-				height: 1.2em;
-				width: 1.2em;
-			}
-		}
-		& .info-space {
-			padding: 0.2em 0;
-			font-size: 0.6em;
-			& .message {
-				display: inline-block;
-				float: left;
-				width: 69%;
-				text-align: left;
-			}
+                & input.text {
+                    color: rgba(0,0,0,0.8);
+                    width: 100%;
+                }
+            }
+            &.dark {
+                color: rgba(255,255,255,0.4);
+                border-bottom: 0.1em solid rgba(255,255,255,0.4);
+                &.disabled {
+                    border-bottom: 0.1em dotted rgba(255,255,255,0.4);
+                }
+                &.readonly {
+                    border-bottom: 0.1em dashed rgba(255,255,255,0.4) !important;
+                }
+                & input.text { color: rgba(255,255,255,0.8); }
+            }
+            cursor: text;
+            &.disabled {
+                cursor: not-allowed;
+            }
+            & .placeholder {
+                position: absolute;
+                top: 0.2em;
+                left: 0;
+                font-size: 1.0em;
+                &.left {
+                    left: 1.5em;
+                }
+            }
+            & .input {
+                flex-grow: 1;
+                display: flex;
+                width: 12.0em;
+                max-width: 100%;
+                & input.text {
+                    font-size: 1.0em;
+                    flex-grow: 1;
+                    outline: none;
+                    border: none;
+                    margin: 0;
+                    padding: 0;
+                    background: none;
+                }
+            }
+            & .icon {
+                flex-grow: 0;
+                height: 1.2em;
+                width: 1.2em;
+            }
+        }
+        & .info-space {
+            padding: 0.2em 0;
+            font-size: 0.6em;
+            & .message {
+                display: inline-block;
+                float: left;
+                width: 69%;
+                text-align: left;
+            }
 
-			& .counter {
-				display: inline-block;
-				float: right;
-				text-align: right;
-				width: 30%;
-			}
-		}
-	}
+            & .counter {
+                display: inline-block;
+                float: right;
+                text-align: right;
+                width: 30%;
+            }
+        }
+    }
 }

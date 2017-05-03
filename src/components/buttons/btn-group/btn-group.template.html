@@ -8,12 +8,12 @@
 -->
 
 <div [class]="'aca btn-group ' + cssClass">
-    <div *ngFor="let item of items; let i = index" 
-    	[class]="'aca btn-obj ' + (i===model ? 'active ' + btn_class : 'inactive')" 
-    	(tap)="toggle(i)"
-		(mouseover)="i===model?setHover(true):''"
-		(mouseout)="setHover()"
-    	>
-    	<div [class]="'btn-'+i">{{item}}</div>
+    <div *ngFor="let item of items; let i = index"
+        [class]="'aca btn-obj ' + (i===model ? 'active ' + btn_class : 'inactive')"
+        (tap)="toggle(i)"
+        (mouseover)="i===model?setHover(true):''"
+        (mouseout)="setHover()"
+        >
+        <div [class]="'btn-'+i">{{item}}</div>
     </div>
 </div>

@@ -15,22 +15,22 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@
     templateUrl: './spinner.template.html'
 })
 export class Spinner {
-	@Input() type: string = 'plane';
-	@Input() color: string = '#FFF';
-	@Input() cssClass: string = 'default';
+    @Input() type: string = 'plane';
+    @Input() color: string = '#FFF';
+    @Input() cssClass: string = 'default';
 
-	id : string = '';
-	state: string = 'one';
+    id : string = '';
+    state: string = 'one';
 
-	constructor() {
-	}
+    constructor() {
+    }
 
-	ngOnInit() {
+    ngOnInit() {
 
-	}
+    }
 
-	ngOnChanges(changes: any) {
-		if(this.type === null || this.type === undefined) this.type = 'plane';
-	}
+    ngOnChanges(changes: any) {
+        if(this.type === null || this.type === undefined) this.type = 'plane';
+    }
 
 }

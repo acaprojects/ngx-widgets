@@ -13,708 +13,708 @@ $space: 0.5em;
     margin: auto;
     user-select: none;
     &.plane {
-    	height: 4.0em;
-    	width: 4.0em;
-    	& .plane {
-	    	height: 4.0em;
-	    	width: 4.0em;
-    		background-color: #FFF;
-    		& .box {
-		    	height: 4.0em;
-		    	width: 4.0em;
-    		}
-			-webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
-			animation: sk-rotateplane 1.2s infinite ease-in-out;
-		}
-		@-webkit-keyframes sk-rotateplane {
-			0% { -webkit-transform: perspective(12.0em) }
-			50% { -webkit-transform: perspective(12.0em) rotateY(180deg) }
-			100% { -webkit-transform: perspective(12.0em) rotateY(180deg)  rotateX(180deg) }
-		}
+        height: 4.0em;
+        width: 4.0em;
+        & .plane {
+            height: 4.0em;
+            width: 4.0em;
+            background-color: #FFF;
+            & .box {
+                height: 4.0em;
+                width: 4.0em;
+            }
+            -webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+            animation: sk-rotateplane 1.2s infinite ease-in-out;
+        }
+        @-webkit-keyframes sk-rotateplane {
+            0% { -webkit-transform: perspective(12.0em) }
+            50% { -webkit-transform: perspective(12.0em) rotateY(180deg) }
+            100% { -webkit-transform: perspective(12.0em) rotateY(180deg)  rotateX(180deg) }
+        }
 
-		@keyframes sk-rotateplane {
-			0% {
-			    transform: perspective(12.0em) rotateX(0deg) rotateY(0deg);
-			    -webkit-transform: perspective(12.0em) rotateX(0deg) rotateY(0deg)
-			} 50% {
-			    transform: perspective(12.0em) rotateX(-180.1deg) rotateY(0deg);
-			    -webkit-transform: perspective(12.0em) rotateX(-180.1deg) rotateY(0deg)
-			} 100% {
-			    transform: perspective(12.0em) rotateX(-180deg) rotateY(-179.9deg);
-			    -webkit-transform: perspective(12.0em) rotateX(-180deg) rotateY(-179.9deg);
-			}
-		}
-	}
+        @keyframes sk-rotateplane {
+            0% {
+                transform: perspective(12.0em) rotateX(0deg) rotateY(0deg);
+                -webkit-transform: perspective(12.0em) rotateX(0deg) rotateY(0deg)
+            } 50% {
+                transform: perspective(12.0em) rotateX(-180.1deg) rotateY(0deg);
+                -webkit-transform: perspective(12.0em) rotateX(-180.1deg) rotateY(0deg)
+            } 100% {
+                transform: perspective(12.0em) rotateX(-180deg) rotateY(-179.9deg);
+                -webkit-transform: perspective(12.0em) rotateX(-180deg) rotateY(-179.9deg);
+            }
+        }
+    }
 
-	&.double-bounce {
-    	height: 4.0em;
-    	width: 4.0em;
+    &.double-bounce {
+        height: 4.0em;
+        width: 4.0em;
 
-		& .circle {
-    		background-color: #FFF;
-			&.one,  &.two {
-		    	height: 4.0em;
-		    	width: 4.0em;
-			  	border-radius: 50%;
-			  	background-color: #333;
-			  	opacity: 0.6;
-			  	position: absolute;
-			  	top: 0;
-			  	left: 0;
+        & .circle {
+            background-color: #FFF;
+            &.one,  &.two {
+                height: 4.0em;
+                width: 4.0em;
+                  border-radius: 50%;
+                  background-color: #333;
+                  opacity: 0.6;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
 
-			  	-webkit-animation: sk-bounce 2.0s infinite ease-in-out;
-			  	animation: sk-bounce 2.0s infinite ease-in-out;
-			}
+                  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+                  animation: sk-bounce 2.0s infinite ease-in-out;
+            }
 
-			&.two {
-			  	-webkit-animation-delay: -1.0s;
-			  	animation-delay: -1.0s;
-			}
-		}
+            &.two {
+                  -webkit-animation-delay: -1.0s;
+                  animation-delay: -1.0s;
+            }
+        }
 
-		@-webkit-keyframes sk-bounce {
-		  	0%, 100% { -webkit-transform: scale(0.0) }
-		  	50% { -webkit-transform: scale(1.0) }
-		}
+        @-webkit-keyframes sk-bounce {
+              0%, 100% { -webkit-transform: scale(0.0) }
+              50% { -webkit-transform: scale(1.0) }
+        }
 
-		@keyframes sk-bounce {
-		  	0%, 100% {
-		    	transform: scale(0.0);
-		    	-webkit-transform: scale(0.0);
-		  	} 50% {
-		    	transform: scale(1.0);
-		    	-webkit-transform: scale(1.0);
-		  	}
-		}
-	}
+        @keyframes sk-bounce {
+              0%, 100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+              } 50% {
+                transform: scale(1.0);
+                -webkit-transform: scale(1.0);
+              }
+        }
+    }
 
-	&.bars {
-		display: flex;
-		& .rect{
-			height: 3.0em;
-			width: 0.5em;
-			margin-right: 0.05em;
-			display: inline-block;
-    		background-color: #FFF;
-			-webkit-animation: sk-stretchdelay 1.3s infinite ease-in-out;
-			animation: sk-stretchdelay 1.3s infinite ease-in-out;
-			&.one {
-  				-webkit-animation-delay: -1.2s;
-  				animation-delay: -1.2s;
-			}
-			&.two {
-  				-webkit-animation-delay: -1.1s;
-  				animation-delay: -1.1s;
-			}
-			&.three {
-  				-webkit-animation-delay: -1.0s;
-  				animation-delay: -1.0s;
-			}
-			&.four {
-  				-webkit-animation-delay: -0.9s;
-  				animation-delay: -0.9s;
-			}
-			&.five {
-  				-webkit-animation-delay: -0.8s;
-  				animation-delay: -0.8s;
-			}
-			&.six {
-  				-webkit-animation-delay: -0.7s;
-  				animation-delay: -0.7s;
-			}
-		}
-		@-webkit-keyframes sk-stretchdelay {
-		  	0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
-	  		20% { -webkit-transform: scaleY(1.0) }
-		}
+    &.bars {
+        display: flex;
+        & .rect{
+            height: 3.0em;
+            width: 0.5em;
+            margin-right: 0.05em;
+            display: inline-block;
+            background-color: #FFF;
+            -webkit-animation: sk-stretchdelay 1.3s infinite ease-in-out;
+            animation: sk-stretchdelay 1.3s infinite ease-in-out;
+            &.one {
+                  -webkit-animation-delay: -1.2s;
+                  animation-delay: -1.2s;
+            }
+            &.two {
+                  -webkit-animation-delay: -1.1s;
+                  animation-delay: -1.1s;
+            }
+            &.three {
+                  -webkit-animation-delay: -1.0s;
+                  animation-delay: -1.0s;
+            }
+            &.four {
+                  -webkit-animation-delay: -0.9s;
+                  animation-delay: -0.9s;
+            }
+            &.five {
+                  -webkit-animation-delay: -0.8s;
+                  animation-delay: -0.8s;
+            }
+            &.six {
+                  -webkit-animation-delay: -0.7s;
+                  animation-delay: -0.7s;
+            }
+        }
+        @-webkit-keyframes sk-stretchdelay {
+              0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+              20% { -webkit-transform: scaleY(1.0) }
+        }
 
-		@keyframes sk-stretchdelay {
-  			0%, 40%, 100% {
-    			transform: scaleY(0.4);
-    			-webkit-transform: scaleY(0.4);
-  			}  20% {
-    			transform: scaleY(1.0);
-    			-webkit-transform: scaleY(1.0);
-  			}
-		}
-	}
+        @keyframes sk-stretchdelay {
+              0%, 40%, 100% {
+                transform: scaleY(0.4);
+                -webkit-transform: scaleY(0.4);
+              }  20% {
+                transform: scaleY(1.0);
+                -webkit-transform: scaleY(1.0);
+              }
+        }
+    }
 
-	&.cubemove {
-		height: 4.0em;
-		width: 4.0em;
-		& .cubemove {
-	    	height: 4.0em;
-	    	width: 4.0em;
+    &.cubemove {
+        height: 4.0em;
+        width: 4.0em;
+        & .cubemove {
+            height: 4.0em;
+            width: 4.0em;
 
-			& .cube {
-				width: 1.0em;
-				height: 1.0em;
-  				position: absolute;
-  				top: 0;
-  				left: 0;
-    			background-color: #FFF;
+            & .cube {
+                width: 1.0em;
+                height: 1.0em;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                background-color: #FFF;
 
-  				-webkit-animation: sk-cubemove 1.8s infinite ease-in-out;
-  				animation: sk-cubemove 1.8s infinite ease-in-out;
+                  -webkit-animation: sk-cubemove 1.8s infinite ease-in-out;
+                  animation: sk-cubemove 1.8s infinite ease-in-out;
 
-				&.two {
-  					-webkit-animation-delay: -0.9s;
-  					animation-delay: -0.9s;
-				}
-			}
+                &.two {
+                      -webkit-animation-delay: -0.9s;
+                      animation-delay: -0.9s;
+                }
+            }
 
-			@-webkit-keyframes sk-cubemove {
-  				25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5) }
-  				50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
-  				75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5) }
-  				100% { -webkit-transform: rotate(-360deg) }
-			}
+            @-webkit-keyframes sk-cubemove {
+                  25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5) }
+                  50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
+                  75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5) }
+                  100% { -webkit-transform: rotate(-360deg) }
+            }
 
-			@keyframes sk-cubemove {
-  				25% {
-    				transform: translateX(4.2em) rotate(-90deg) scale(0.5);
-    				-webkit-transform: translateX(4.2em) rotate(-90deg) scale(0.5);
-  				} 50% {
-    				transform: translateX(4.2em) translateY(4.2em) rotate(-179deg);
-    				-webkit-transform: translateX(4.2em) translateY(4.2em) rotate(-179deg);
-  				} 50.1% {
-    				transform: translateX(4.2em) translateY(4.2em) rotate(-180deg);
-    				-webkit-transform: translateX(4.2em) translateY(4.2em) rotate(-180deg);
-  				} 75% {
-    				transform: translateX(0px) translateY(4.2em) rotate(-270deg) scale(0.5);
-    				-webkit-transform: translateX(0px) translateY(4.2em) rotate(-270deg) scale(0.5);
-  				} 100% {
-    				transform: rotate(-360deg);
-    				-webkit-transform: rotate(-360deg);
-  				}
-			}
-		}
+            @keyframes sk-cubemove {
+                  25% {
+                    transform: translateX(4.2em) rotate(-90deg) scale(0.5);
+                    -webkit-transform: translateX(4.2em) rotate(-90deg) scale(0.5);
+                  } 50% {
+                    transform: translateX(4.2em) translateY(4.2em) rotate(-179deg);
+                    -webkit-transform: translateX(4.2em) translateY(4.2em) rotate(-179deg);
+                  } 50.1% {
+                    transform: translateX(4.2em) translateY(4.2em) rotate(-180deg);
+                    -webkit-transform: translateX(4.2em) translateY(4.2em) rotate(-180deg);
+                  } 75% {
+                    transform: translateX(0px) translateY(4.2em) rotate(-270deg) scale(0.5);
+                    -webkit-transform: translateX(0px) translateY(4.2em) rotate(-270deg) scale(0.5);
+                  } 100% {
+                    transform: rotate(-360deg);
+                    -webkit-transform: rotate(-360deg);
+                  }
+            }
+        }
 
-	}
-	&.bounce {
-		height: 4.0em;
-		width: 4.0em;
-		& .bounce {
-	    	height: 4.0em;
-	    	width: 4.0em;
-			& .circle {
-		    	height: 4.0em;
-		    	width: 4.0em;
-	    		background-color: #FFF;
-				border-radius: 100%;
-				-webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
-				animation: sk-scaleout 1.0s infinite ease-in-out;
-			}
-		}
+    }
+    &.bounce {
+        height: 4.0em;
+        width: 4.0em;
+        & .bounce {
+            height: 4.0em;
+            width: 4.0em;
+            & .circle {
+                height: 4.0em;
+                width: 4.0em;
+                background-color: #FFF;
+                border-radius: 100%;
+                -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+                animation: sk-scaleout 1.0s infinite ease-in-out;
+            }
+        }
 
-		@-webkit-keyframes sk-scaleout {
-  			0% { -webkit-transform: scale(0) }
-  			100% {
-    			-webkit-transform: scale(1.0);
-    			opacity: 0;
-  			}
-		}
+        @-webkit-keyframes sk-scaleout {
+              0% { -webkit-transform: scale(0) }
+              100% {
+                -webkit-transform: scale(1.0);
+                opacity: 0;
+              }
+        }
 
-		@keyframes sk-scaleout {
-  			0% {
-    			-webkit-transform: scale(0);
-    			transform: scale(0);
-  			} 100% {
-    			-webkit-transform: scale(1.0);
-    			transform: scale(1.0);
-    			opacity: 0;
-  			}
-		}
-	}
+        @keyframes sk-scaleout {
+              0% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+              } 100% {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+                opacity: 0;
+              }
+        }
+    }
 
-	&.ring-bounce {
-		height: 4.0em;
-		width: 4.0em;
-		& .ring-bounce {
-	    	height: 4.0em;
-	    	width: 4.0em;
-			& .circle {
-		    	height: 4.0em;
-		    	width: 4.0em;
-		    	border: 0.5em solid #FFF;
-	    		border-color: #FFF;
-				border-radius: 100%;
-				-webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
-				animation: sk-scaleout 1.0s infinite ease-in-out;
-			}
-		}
+    &.ring-bounce {
+        height: 4.0em;
+        width: 4.0em;
+        & .ring-bounce {
+            height: 4.0em;
+            width: 4.0em;
+            & .circle {
+                height: 4.0em;
+                width: 4.0em;
+                border: 0.5em solid #FFF;
+                border-color: #FFF;
+                border-radius: 100%;
+                -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+                animation: sk-scaleout 1.0s infinite ease-in-out;
+            }
+        }
 
-		@-webkit-keyframes sk-scaleout {
-  			0% { -webkit-transform: scale(0) }
-  			100% {
-    			-webkit-transform: scale(1.0);
-    			opacity: 0;
-  			}
-		}
+        @-webkit-keyframes sk-scaleout {
+              0% { -webkit-transform: scale(0) }
+              100% {
+                -webkit-transform: scale(1.0);
+                opacity: 0;
+              }
+        }
 
-		@keyframes sk-scaleout {
-  			0% {
-    			-webkit-transform: scale(0);
-    			transform: scale(0);
-  			} 100% {
-    			-webkit-transform: scale(1.0);
-    			transform: scale(1.0);
-    			opacity: 0;
-  			}
-		}
-	}
+        @keyframes sk-scaleout {
+              0% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+              } 100% {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+                opacity: 0;
+              }
+        }
+    }
 
-	&.ring-rotate {
-		height: 4.0em;
-		width: 4.0em;
-		& .ring-rotate {
-			position: relative;
-	    	height: 4.0em;
-	    	width: 4.0em;
-			& .circle {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-		    	height: 4.0em;
-		    	width: 4.0em;
-		    	border-bottom: 0.2em solid #FFF;
-		    	border-left: 0.2em solid #FFF;
-	    		border-color: #FFF;
-				border-radius: 100%;
+    &.ring-rotate {
+        height: 4.0em;
+        width: 4.0em;
+        & .ring-rotate {
+            position: relative;
+            height: 4.0em;
+            width: 4.0em;
+            & .circle {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 4.0em;
+                width: 4.0em;
+                border-bottom: 0.2em solid #FFF;
+                border-left: 0.2em solid #FFF;
+                border-color: #FFF;
+                border-radius: 100%;
 
-				&.one {
-		    		height: 4.0em;
-		    		width: 4.0em;
-					-webkit-animation: sk-rotate 1.0s infinite ease-in-out;
-					animation: sk-rotate 1.0s infinite ease-in-out;
-				}
-				&.two {
-		    		height: 3.0em;
-		    		width: 3.0em;
-  					-webkit-animation-delay: -0.75s;
-  					animation-delay: -0.75s;
-					-webkit-animation: sk-rotate-i 1.0s infinite ease-in-out;
-					animation: sk-rotate-i 1.0s infinite ease-in-out;
-				}
-				&.three {
-		    		height: 2.0em;
-		    		width: 2.0em;
-  					-webkit-animation-delay: -0.5s;
-  					animation-delay: -0.5s;
-					-webkit-animation: sk-rotate 1.0s infinite ease-in-out;
-					animation: sk-rotate 1.0s infinite ease-in-out;
-				}
-				&.four {
-		    		height: 1.0em;
-		    		width: 1.0em;
-  					-webkit-animation-delay: -0.25s;
-  					animation-delay: -0.25s;
-					-webkit-animation: sk-rotate-i 1.0s infinite ease-in-out;
-					animation: sk-rotate-i 1.0s infinite ease-in-out;
-				}
-			}
-		}
+                &.one {
+                    height: 4.0em;
+                    width: 4.0em;
+                    -webkit-animation: sk-rotate 1.0s infinite ease-in-out;
+                    animation: sk-rotate 1.0s infinite ease-in-out;
+                }
+                &.two {
+                    height: 3.0em;
+                    width: 3.0em;
+                      -webkit-animation-delay: -0.75s;
+                      animation-delay: -0.75s;
+                    -webkit-animation: sk-rotate-i 1.0s infinite ease-in-out;
+                    animation: sk-rotate-i 1.0s infinite ease-in-out;
+                }
+                &.three {
+                    height: 2.0em;
+                    width: 2.0em;
+                      -webkit-animation-delay: -0.5s;
+                      animation-delay: -0.5s;
+                    -webkit-animation: sk-rotate 1.0s infinite ease-in-out;
+                    animation: sk-rotate 1.0s infinite ease-in-out;
+                }
+                &.four {
+                    height: 1.0em;
+                    width: 1.0em;
+                      -webkit-animation-delay: -0.25s;
+                      animation-delay: -0.25s;
+                    -webkit-animation: sk-rotate-i 1.0s infinite ease-in-out;
+                    animation: sk-rotate-i 1.0s infinite ease-in-out;
+                }
+            }
+        }
 
-		@-webkit-keyframes sk-rotate {
-  			0% { -webkit-transform: translate(-50%, -50%) rotate(0deg) }
-  			50% { -webkit-transform: translate(-50%, -50%) rotate(179deg) }
-  			100% { -webkit-transform: translate(-50%, -50%) rotate(357deg); }
-		}
+        @-webkit-keyframes sk-rotate {
+              0% { -webkit-transform: translate(-50%, -50%) rotate(0deg) }
+              50% { -webkit-transform: translate(-50%, -50%) rotate(179deg) }
+              100% { -webkit-transform: translate(-50%, -50%) rotate(357deg); }
+        }
 
-		@keyframes sk-rotate {
-  			0%   { -webkit-transform: translate(-50%, -50%) rotate(  0deg); transform: translate(-50%, -50%) rotate(  0deg) }
-  			50%  { -webkit-transform: translate(-50%, -50%) rotate(179deg); transform: translate(-50%, -50%) rotate(179deg) }
-  			100% { -webkit-transform: translate(-50%, -50%) rotate(357deg); transform: translate(-50%, -50%) rotate(357deg) }
-		}
+        @keyframes sk-rotate {
+              0%   { -webkit-transform: translate(-50%, -50%) rotate(  0deg); transform: translate(-50%, -50%) rotate(  0deg) }
+              50%  { -webkit-transform: translate(-50%, -50%) rotate(179deg); transform: translate(-50%, -50%) rotate(179deg) }
+              100% { -webkit-transform: translate(-50%, -50%) rotate(357deg); transform: translate(-50%, -50%) rotate(357deg) }
+        }
 
-		@-webkit-keyframes sk-rotate-i {
-  			0% { -webkit-transform: translate(-50%, -50%) rotate(-0deg) }
-  			50% { -webkit-transform: translate(-50%, -50%) rotate(-179deg) }
-  			100% { -webkit-transform: translate(-50%, -50%) rotate(-357deg); }
-		}
+        @-webkit-keyframes sk-rotate-i {
+              0% { -webkit-transform: translate(-50%, -50%) rotate(-0deg) }
+              50% { -webkit-transform: translate(-50%, -50%) rotate(-179deg) }
+              100% { -webkit-transform: translate(-50%, -50%) rotate(-357deg); }
+        }
 
-		@keyframes sk-rotate-i {
-  			0%   { -webkit-transform: translate(-50%, -50%) rotate(  -0deg); transform: translate(-50%, -50%) rotate(  -0deg) }
-  			50%  { -webkit-transform: translate(-50%, -50%) rotate(-179deg); transform: translate(-50%, -50%) rotate(-179deg) }
-  			100% { -webkit-transform: translate(-50%, -50%) rotate(-357deg); transform: translate(-50%, -50%) rotate(-357deg) }
-		}
-	}
+        @keyframes sk-rotate-i {
+              0%   { -webkit-transform: translate(-50%, -50%) rotate(  -0deg); transform: translate(-50%, -50%) rotate(  -0deg) }
+              50%  { -webkit-transform: translate(-50%, -50%) rotate(-179deg); transform: translate(-50%, -50%) rotate(-179deg) }
+              100% { -webkit-transform: translate(-50%, -50%) rotate(-357deg); transform: translate(-50%, -50%) rotate(-357deg) }
+        }
+    }
 
-	&.ring-bounce-in {
-		height: 4.0em;
-		width: 4.0em;
-		& .ring-bounce-in {
-	    	height: 4.0em;
-	    	width: 4.0em;
-			& .circle {
-		    	height: 4.0em;
-		    	width: 4.0em;
-			  	position: absolute;
-			  	top: 0;
-			  	left: 0;
-		    	border: 0.5em solid #FFF;
-	    		border-color: #FFF;
-				border-radius: 100%;
-				opacity: 0.5;
-				-webkit-animation: sk-scaleout-in 2.0s infinite ease-in-out;
-				animation: sk-scaleout-in 2.0s infinite ease-in-out;
-				&.two {
-  					-webkit-animation-delay: -1.0s;
-  					animation-delay: -1.0s;
-				}
-			}
-		}
+    &.ring-bounce-in {
+        height: 4.0em;
+        width: 4.0em;
+        & .ring-bounce-in {
+            height: 4.0em;
+            width: 4.0em;
+            & .circle {
+                height: 4.0em;
+                width: 4.0em;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                border: 0.5em solid #FFF;
+                border-color: #FFF;
+                border-radius: 100%;
+                opacity: 0.5;
+                -webkit-animation: sk-scaleout-in 2.0s infinite ease-in-out;
+                animation: sk-scaleout-in 2.0s infinite ease-in-out;
+                &.two {
+                      -webkit-animation-delay: -1.0s;
+                      animation-delay: -1.0s;
+                }
+            }
+        }
 
-		@-webkit-keyframes sk-scaleout-in {
-  			0% { -webkit-transform: scale(0) }
-  			50% { -webkit-transform: scale(1.0); }
-  			100% { -webkit-transform: scale(0); }
-		}
+        @-webkit-keyframes sk-scaleout-in {
+              0% { -webkit-transform: scale(0) }
+              50% { -webkit-transform: scale(1.0); }
+              100% { -webkit-transform: scale(0); }
+        }
 
-		@keyframes sk-scaleout-in {
-  			0% {
-    			-webkit-transform: scale(0);
-    			transform: scale(0);
-  			} 50% {
-    			-webkit-transform: scale(1.0);
-    			transform: scale(1.0);
-  			} 100% {
-    			-webkit-transform: scale(0);
-    			transform: scale(0);
-  			}
-		}
-	}
+        @keyframes sk-scaleout-in {
+              0% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+              } 50% {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+              } 100% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+              }
+        }
+    }
 
-	&.dot-bounce {
-		height: 1.8em;
-		width: 7.0em;
-		& .dot-bounce {
-			height: 1.8em;
-			width: 7.0em;
-			text-align: center;
-			& .circle {
-			  	width: 1.8em;
-			  	height: 1.8em;
-			  	background-color: #FFF;
-			  	border-radius: 100%;
-			  	margin-right: 0.25em;
-			  	display: inline-block;
-			  	-webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-			  	animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-			  	&.one {
-  					-webkit-animation-delay: -0.32s;
-  					animation-delay: -0.32s;
-			  	}
-			  	&.two {
+    &.dot-bounce {
+        height: 1.8em;
+        width: 7.0em;
+        & .dot-bounce {
+            height: 1.8em;
+            width: 7.0em;
+            text-align: center;
+            & .circle {
+                  width: 1.8em;
+                  height: 1.8em;
+                  background-color: #FFF;
+                  border-radius: 100%;
+                  margin-right: 0.25em;
+                  display: inline-block;
+                  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+                  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+                  &.one {
+                      -webkit-animation-delay: -0.32s;
+                      animation-delay: -0.32s;
+                  }
+                  &.two {
 
-					-webkit-animation-delay: -0.16s;
-					animation-delay: -0.16s;
-			  	}
-			}
-		}
+                    -webkit-animation-delay: -0.16s;
+                    animation-delay: -0.16s;
+                  }
+            }
+        }
 
-		@-webkit-keyframes sk-bouncedelay {
-  			0%, 80%, 100% { -webkit-transform: scale(0) }
-  			40% { -webkit-transform: scale(1.0) }
-		}
+        @-webkit-keyframes sk-bouncedelay {
+              0%, 80%, 100% { -webkit-transform: scale(0) }
+              40% { -webkit-transform: scale(1.0) }
+        }
 
-		@keyframes sk-bouncedelay {
-  			0%, 80%, 100% {
-    			-webkit-transform: scale(0);
-    			transform: scale(0);
-  			} 40% {
-    			-webkit-transform: scale(1.0);
-    			transform: scale(1.0);
-  			}
-		}
-	}
+        @keyframes sk-bouncedelay {
+              0%, 80%, 100% {
+                -webkit-transform: scale(0);
+                transform: scale(0);
+              } 40% {
+                -webkit-transform: scale(1.0);
+                transform: scale(1.0);
+              }
+        }
+    }
 
-	&.dot-circle-scale {
-  		width: 4.0em;
-  		height: 4.0em;
-		& .dot-circle {
-	  		width: 4.0em;
-	  		height: 4.0em;
-	  		position: relative;
-	  		& .dot {
-		  		width: 4.0em;
-		  		height: 4.0em;
-				position: absolute;
-				left: 0;
-				top: 0;
-				& .inner {
-					content: '';
-	  				display: block;
-	  				margin: 0 auto;
-	  				width: 0.6em;
-	  				height: 0.6em;
-	  				background-color: #333;
-			  		border-radius: 0.2em;
-	  				-webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
-	          		animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
-				}
-				&.one    {
-					transform: rotate( 30deg);
-					& .inner {
-	  					-webkit-animation-delay: -1.1s;
-	          			animation-delay: -1.1s;
-					}
-				}
-				&.two    {
-					transform: rotate( 60deg);
-					& .inner {
-	  					-webkit-animation-delay: -1s;
-	          			animation-delay: -1s;
-					}
-				}
-				&.three  {
-					transform: rotate( 90deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.9s;
-	          			animation-delay: -0.9s;
-					}
-				}
-				&.four   {
-					transform: rotate(120deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.8s;
-	          			animation-delay: -0.8s;
-					}
-				}
-				&.five   {
-					transform: rotate(150deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.7s;
-	          			animation-delay: -0.7s;
-					}
-				}
-				&.six    {
-					transform: rotate(180deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.6s;
-	          			animation-delay: -0.6s;
-					}
-				}
-				&.seven  {
-					transform: rotate(210deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.5s;
-	          			animation-delay: -0.5s;
-					}
-				}
-				&.eight  {
-					transform: rotate(240deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.4s;
-	          			animation-delay: -0.4s;
-					}
-				}
-				&.nine   {
-					transform: rotate(270deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.3s;
-	          			animation-delay: -0.3s;
-					}
-				}
-				&.ten    {
-					transform: rotate(300deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.2s;
-	          			animation-delay: -0.2s;
-					}
-				}
-				&.eleven {
-					transform: rotate(330deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.1s;
-	          			animation-delay: -0.1s;
-					}
-				}
-				&.twelve { transform: rotate(360deg); }
-	  		}
+    &.dot-circle-scale {
+          width: 4.0em;
+          height: 4.0em;
+        & .dot-circle {
+              width: 4.0em;
+              height: 4.0em;
+              position: relative;
+              & .dot {
+                  width: 4.0em;
+                  height: 4.0em;
+                position: absolute;
+                left: 0;
+                top: 0;
+                & .inner {
+                    content: '';
+                      display: block;
+                      margin: 0 auto;
+                      width: 0.6em;
+                      height: 0.6em;
+                      background-color: #333;
+                      border-radius: 0.2em;
+                      -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
+                      animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
+                }
+                &.one    {
+                    transform: rotate( 30deg);
+                    & .inner {
+                          -webkit-animation-delay: -1.1s;
+                          animation-delay: -1.1s;
+                    }
+                }
+                &.two    {
+                    transform: rotate( 60deg);
+                    & .inner {
+                          -webkit-animation-delay: -1s;
+                          animation-delay: -1s;
+                    }
+                }
+                &.three  {
+                    transform: rotate( 90deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.9s;
+                          animation-delay: -0.9s;
+                    }
+                }
+                &.four   {
+                    transform: rotate(120deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.8s;
+                          animation-delay: -0.8s;
+                    }
+                }
+                &.five   {
+                    transform: rotate(150deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.7s;
+                          animation-delay: -0.7s;
+                    }
+                }
+                &.six    {
+                    transform: rotate(180deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.6s;
+                          animation-delay: -0.6s;
+                    }
+                }
+                &.seven  {
+                    transform: rotate(210deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.5s;
+                          animation-delay: -0.5s;
+                    }
+                }
+                &.eight  {
+                    transform: rotate(240deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.4s;
+                          animation-delay: -0.4s;
+                    }
+                }
+                &.nine   {
+                    transform: rotate(270deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.3s;
+                          animation-delay: -0.3s;
+                    }
+                }
+                &.ten    {
+                    transform: rotate(300deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.2s;
+                          animation-delay: -0.2s;
+                    }
+                }
+                &.eleven {
+                    transform: rotate(330deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.1s;
+                          animation-delay: -0.1s;
+                    }
+                }
+                &.twelve { transform: rotate(360deg); }
+              }
 
-			@-webkit-keyframes sk-circleBounceDelay {
-	  			0%, 80%, 100% {
-	    			-webkit-transform: scale(0);
-	            	transform: scale(0);
-	  			} 40% {
-	    			-webkit-transform: scale(1);
-	            	transform: scale(1);
-	  			}
-			}
+            @-webkit-keyframes sk-circleBounceDelay {
+                  0%, 80%, 100% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                  } 40% {
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                  }
+            }
 
-			@keyframes sk-circleBounceDelay {
-			  	0%, 80%, 100% {
-			    	-webkit-transform: scale(0);
-			        transform: scale(0);
-			  	} 40% {
-			    	-webkit-transform: scale(1);
-			        transform: scale(1);
-			  	}
-			}
+            @keyframes sk-circleBounceDelay {
+                  0%, 80%, 100% {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                  } 40% {
+                    -webkit-transform: scale(1);
+                    transform: scale(1);
+                  }
+            }
 
-		}
-	}
-	&.dot-circle {
-  		width: 4.0em;
-  		height: 4.0em;
-		& .dot-circle {
-	  		width: 4.0em;
-	  		height: 4.0em;
-	  		position: relative;
-	  		& .dot {
-		  		width: 4.0em;
-		  		height: 4.0em;
-				position: absolute;
-				left: 0;
-				top: 0;
-				& .inner {
-					content: '';
-	  				display: block;
-	  				margin: 0 auto;
-	  				width: 0.6em;
-	  				height: 0.6em;
-	  				background-color: #000;
-	  				border-radius: 100%;
-					-webkit-animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
-	      			animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
-				}
+        }
+    }
+    &.dot-circle {
+          width: 4.0em;
+          height: 4.0em;
+        & .dot-circle {
+              width: 4.0em;
+              height: 4.0em;
+              position: relative;
+              & .dot {
+                  width: 4.0em;
+                  height: 4.0em;
+                position: absolute;
+                left: 0;
+                top: 0;
+                & .inner {
+                    content: '';
+                      display: block;
+                      margin: 0 auto;
+                      width: 0.6em;
+                      height: 0.6em;
+                      background-color: #000;
+                      border-radius: 100%;
+                    -webkit-animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
+                      animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
+                }
 
 
-				&.one    {
-					transform: rotate( 30deg);
-					& .inner {
-	  					-webkit-animation-delay: -1.1s;
-	          			animation-delay: -1.1s;
-					}
-				}
-				&.two    {
-					transform: rotate( 60deg);
-					& .inner {
-	  					-webkit-animation-delay: -1s;
-	          			animation-delay: -1s;
-					}
-				}
-				&.three  {
-					transform: rotate( 90deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.9s;
-	          			animation-delay: -0.9s;
-					}
-				}
-				&.four   {
-					transform: rotate(120deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.8s;
-	          			animation-delay: -0.8s;
-					}
-				}
-				&.five   {
-					transform: rotate(150deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.7s;
-	          			animation-delay: -0.7s;
-					}
-				}
-				&.six    {
-					transform: rotate(180deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.6s;
-	          			animation-delay: -0.6s;
-					}
-				}
-				&.seven  {
-					transform: rotate(210deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.5s;
-	          			animation-delay: -0.5s;
-					}
-				}
-				&.eight  {
-					transform: rotate(240deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.4s;
-	          			animation-delay: -0.4s;
-					}
-				}
-				&.nine   {
-					transform: rotate(270deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.3s;
-	          			animation-delay: -0.3s;
-					}
-				}
-				&.ten    {
-					transform: rotate(300deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.2s;
-	          			animation-delay: -0.2s;
-					}
-				}
-				&.eleven {
-					transform: rotate(330deg);
-					& .inner {
-	  					-webkit-animation-delay: -0.1s;
-	          			animation-delay: -0.1s;
-					}
-				}
-				&.twelve { transform: rotate(360deg); }
-	  		}
-		}
-		@-webkit-keyframes sk-circleFadeDelay {
-		  0%, 39%, 100% { opacity: 0; }
-		  40% { opacity: 1; }
-		}
+                &.one    {
+                    transform: rotate( 30deg);
+                    & .inner {
+                          -webkit-animation-delay: -1.1s;
+                          animation-delay: -1.1s;
+                    }
+                }
+                &.two    {
+                    transform: rotate( 60deg);
+                    & .inner {
+                          -webkit-animation-delay: -1s;
+                          animation-delay: -1s;
+                    }
+                }
+                &.three  {
+                    transform: rotate( 90deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.9s;
+                          animation-delay: -0.9s;
+                    }
+                }
+                &.four   {
+                    transform: rotate(120deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.8s;
+                          animation-delay: -0.8s;
+                    }
+                }
+                &.five   {
+                    transform: rotate(150deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.7s;
+                          animation-delay: -0.7s;
+                    }
+                }
+                &.six    {
+                    transform: rotate(180deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.6s;
+                          animation-delay: -0.6s;
+                    }
+                }
+                &.seven  {
+                    transform: rotate(210deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.5s;
+                          animation-delay: -0.5s;
+                    }
+                }
+                &.eight  {
+                    transform: rotate(240deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.4s;
+                          animation-delay: -0.4s;
+                    }
+                }
+                &.nine   {
+                    transform: rotate(270deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.3s;
+                          animation-delay: -0.3s;
+                    }
+                }
+                &.ten    {
+                    transform: rotate(300deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.2s;
+                          animation-delay: -0.2s;
+                    }
+                }
+                &.eleven {
+                    transform: rotate(330deg);
+                    & .inner {
+                          -webkit-animation-delay: -0.1s;
+                          animation-delay: -0.1s;
+                    }
+                }
+                &.twelve { transform: rotate(360deg); }
+              }
+        }
+        @-webkit-keyframes sk-circleFadeDelay {
+          0%, 39%, 100% { opacity: 0; }
+          40% { opacity: 1; }
+        }
 
-		@keyframes sk-circleFadeDelay {
-		  0%, 39%, 100% { opacity: 0; }
-		  40% { opacity: 1; }
-		}
-	}
+        @keyframes sk-circleFadeDelay {
+          0%, 39%, 100% { opacity: 0; }
+          40% { opacity: 1; }
+        }
+    }
 
-	&.cube-grid {
-  		width: 4.0em;
-  		height: 4.0em;
-		& .cube-grid {
-	  		width: 4.0em;
-	  		height: 4.0em;
-			& .cube {
-  				width: 33%;
-  				height: 33%;
-  				background-color: #333;
-  				float: left;
-  				-webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
-          		animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
-          		&.one, &.five, &.nine {
-	  				-webkit-animation-delay: -0.2s;
-	          		animation-delay: -0.2s;
-          		}
+    &.cube-grid {
+          width: 4.0em;
+          height: 4.0em;
+        & .cube-grid {
+              width: 4.0em;
+              height: 4.0em;
+            & .cube {
+                  width: 33%;
+                  height: 33%;
+                  background-color: #333;
+                  float: left;
+                  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+                  animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+                  &.one, &.five, &.nine {
+                      -webkit-animation-delay: -0.2s;
+                      animation-delay: -0.2s;
+                  }
 
-          		&.two, &.six {
-					-webkit-animation-delay: -0.3s;
-	          		animation-delay: -0.3s;
-          		}
+                  &.two, &.six {
+                    -webkit-animation-delay: -0.3s;
+                      animation-delay: -0.3s;
+                  }
 
-          		&.three {
-  					-webkit-animation-delay: -0.4s;
-          			animation-delay: -0.4s;
-          		}
+                  &.three {
+                      -webkit-animation-delay: -0.4s;
+                      animation-delay: -0.4s;
+                  }
 
-          		&.four, &.eight {
-  					-webkit-animation-delay: -0.1s;
-          			animation-delay: -0.1s;
+                  &.four, &.eight {
+                      -webkit-animation-delay: -0.1s;
+                      animation-delay: -0.1s;
 
-          		}
-			}
-			@-webkit-keyframes sk-cubeGridScaleDelay {
-			  	0%, 70%, 100% {transform: scale3D(1, 1, 1); }
-			  	35% { transform: scale3D(0, 0, 1); }
-			}
+                  }
+            }
+            @-webkit-keyframes sk-cubeGridScaleDelay {
+                  0%, 70%, 100% {transform: scale3D(1, 1, 1); }
+                  35% { transform: scale3D(0, 0, 1); }
+            }
 
-			@keyframes sk-cubeGridScaleDelay {
-			  	0%, 70%, 100% { transform: scale3D(1, 1, 1); }
-			  	35% { transform: scale3D(0, 0, 1); }
-			}
-		}
-	}
+            @keyframes sk-cubeGridScaleDelay {
+                  0%, 70%, 100% { transform: scale3D(1, 1, 1); }
+                  35% { transform: scale3D(0, 0, 1); }
+            }
+        }
+    }
 }

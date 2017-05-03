@@ -166,7 +166,7 @@ export class TypeaheadList {
             let h = document.documentElement.clientHeight;
             let content_box = this.contents.nativeElement.getBoundingClientRect();
             if(this.auto && tries % 4 === 0){
-            	let l_el = this.list_contents.nativeElement;
+                let l_el = this.list_contents.nativeElement;
                 if(Math.round(content_box.top) > Math.round(h/2 + 10) || this.force_top) {
                     this.renderer.setElementStyle(l_el, 'top', '');
                     this.renderer.setElementStyle(l_el, 'bottom', '2.0em');

@@ -73,7 +73,7 @@ export class Slider {
                 this.value = this.max;
             }
             this.current = this.value;
-        	this.updateValue(true);
+            this.updateValue(true);
         }
     }
 
@@ -104,9 +104,9 @@ export class Slider {
         if(!this.knob || !this.bar || !this.prog) {
             setTimeout(() => { this.updateValue(update); }, 20);
         } else if(update) {
-        	this.a.animation(() => {}, () => {
-		        let range = +this.max - +this.min;
-		        let percent = (this.current - this.min) / range;
+            this.a.animation(() => {}, () => {
+                let range = +this.max - +this.min;
+                let percent = (this.current - this.min) / range;
                 this.percent = Math.round(percent*10000)/100;
             }).animate();
         }
@@ -117,7 +117,7 @@ export class Slider {
      */
     postValue() {
         setTimeout(() => {
-        	if(this.user_action){
+            if(this.user_action){
                 if(!this.update_timer) {
                     clearTimeout(this.update_timer);
                     this.update_timer = null;
@@ -168,25 +168,25 @@ export class Slider {
         return Math.min(+this.max, Math.max(+this.min, (rounded + +this.min)));
     }
 
-   	checkStatus(e: any, i: number) {
+       checkStatus(e: any, i: number) {
         if(event) {
             if(event.preventDefault) event.preventDefault();
             if(event.stopPropagation) event.stopPropagation();
         }
-   		if(i > 3 || !this.space) return;
-   		let visible = false;
-   		let el = this.space.nativeElement;
+           if(i > 3 || !this.space) return;
+           let visible = false;
+           let el = this.space.nativeElement;
             // Check if component is attached to the body of the page
-   		while(el) {
-   			if(el.nodeName === 'BODY') {
-   				visible = true;
-   				break;
-   			}
-   			el = el.parentNode;
-   		}
-   		if(!visible) setTimeout(() => { this.checkStatus(e, i+1); }, 100);
-   		else this.resize();
-   	}
+           while(el) {
+               if(el.nodeName === 'BODY') {
+                   visible = true;
+                   break;
+               }
+               el = el.parentNode;
+           }
+           if(!visible) setTimeout(() => { this.checkStatus(e, i+1); }, 100);
+           else this.resize();
+       }
 
     actionPerformed() {
         if(this.update_timer) {
@@ -213,7 +213,7 @@ export class Slider {
      * @return {void}
      */
     clickSlider(event: any) {
-    	console.log('Clicked Slider');
+        console.log('Clicked Slider');
         if(event) {
             if(event.preventDefault) event.preventDefault();
             if(event.stopPropagation) event.stopPropagation();

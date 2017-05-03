@@ -8,41 +8,41 @@
 -->
 
 <div [class]="'aca time-picker ' + cssClass">
-	<div class="time-space">
-		<div class="picker">
-			<div class="pick">
-				<div class='display-arrow'><div class="arrow up" (tap)="addHour()"></div></div>
-				<div class='set'>
-					<input
-						type="text"
-						#hourPick
-						maxlength="2"
-						[(ngModel)]="display_hour"
-						(blur)="checkHour()"
-						(keyup)="keyupHour($event)"
-						(keyup.enter)="changeFocus()">
-				</div>
-				<div class='display-arrow'><div class="arrow down" (tap)="minusHour()"></div></div>
-			</div>
-			<div class="pick">
-				<div class='display-arrow'><div class="arrow up" (tap)="addMinute()"></div></div>
-				<div class='set'>
-					<input
-						type="text"
-						#minutePick
-						maxlength="2"
-						[(ngModel)]="display_minutes"
-						(blur)="checkMinute()"
-						(keyup)="keyupMinutes($event)"
-						(keyup.enter)="timeSet()">
-				</div>
-				<div class='display-arrow'><div class="arrow down" (tap)="minusMinute()"></div></div>
-			</div>
-			<div class="pick btn">
-				<div class="btn">
-					<button class="am-pm" (tap)="changePeriod()">{{display_period}}</button>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="time-space">
+        <div class="picker">
+            <div class="pick">
+                <div class='display-arrow'><div class="arrow up" (tap)="addHour()"></div></div>
+                <div class='set'>
+                    <input
+                        type="text"
+                        #hourPick
+                        maxlength="2"
+                        [(ngModel)]="display_hour"
+                        (blur)="checkHour()"
+                        (keyup)="keyupHour($event)"
+                        (keyup.enter)="changeFocus()">
+                </div>
+                <div class='display-arrow'><div class="arrow down" (tap)="minusHour()"></div></div>
+            </div>
+            <div class="pick">
+                <div class='display-arrow'><div class="arrow up" (tap)="addMinute()"></div></div>
+                <div class='set'>
+                    <input
+                        type="text"
+                        #minutePick
+                        maxlength="2"
+                        [(ngModel)]="display_minutes"
+                        (blur)="checkMinute()"
+                        (keyup)="keyupMinutes($event)"
+                        (keyup.enter)="timeSet()">
+                </div>
+                <div class='display-arrow'><div class="arrow down" (tap)="minusMinute()"></div></div>
+            </div>
+            <div class="pick btn">
+                <div class="btn">
+                    <button class="am-pm" (tap)="changePeriod()">{{display_period}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

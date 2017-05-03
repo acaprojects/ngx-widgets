@@ -95,8 +95,8 @@ export class Toggle {
     changeState(event: any){
         console.log(this.state);
         if(this.disabled) return;
-  		if (event.stopPropagation) event.stopPropagation();
-		else event.cancelBubble = true;
+          if (event.stopPropagation) event.stopPropagation();
+        else event.cancelBubble = true;
         this._state = !this._state;
         this.state = this._state;
         setTimeout(() => {

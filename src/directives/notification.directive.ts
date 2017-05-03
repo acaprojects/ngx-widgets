@@ -11,22 +11,22 @@ import { Directive, Input, Output, EventEmitter } from '@angular/core';
 import { NotificationService } from '../services';
 
 @Directive({
-	selector: '[notification]'
+    selector: '[notification]'
 })
 export class NotificationDirective {
-		// Inputs
-	@Input() message: string;
-	@Input() cssClass: string;
-	@Input() options: any;
-		// Outputs
+        // Inputs
+    @Input() message: string;
+    @Input() cssClass: string;
+    @Input() options: any;
+        // Outputs
 
-	constructor(private service: NotificationService) {
+    constructor(private service: NotificationService) {
 
-	}
+    }
 
-	ngOnInit() {
-		setTimeout(() => {
-			this.service.add(this.message, this.cssClass, this.options);
-		}, 100);
-	}
+    ngOnInit() {
+        setTimeout(() => {
+            this.service.add(this.message, this.cssClass, this.options);
+        }, 100);
+    }
 }

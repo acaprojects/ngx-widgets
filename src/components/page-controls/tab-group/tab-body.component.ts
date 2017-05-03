@@ -38,7 +38,7 @@ export class TabBody {
     }
 
     nativeElement() {
-    	return this.el.nativeElement;
+        return this.el.nativeElement;
     }
 
     ngOnDestroy() {

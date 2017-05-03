@@ -18,7 +18,7 @@ import { DropService } from '../services';
     // it should be added to the initial bootstrap
 })
 export class FileStream implements OnInit {
-	@Input('file-stream') stream: string = ''; // name of the stream the files should be sent to
+    @Input('file-stream') stream: string = ''; // name of the stream the files should be sent to
     private _element: any;
 
     constructor(elementRef: ElementRef, private _dropService: DropService, private renderer: Renderer) {
@@ -28,7 +28,7 @@ export class FileStream implements OnInit {
     // Hook up the file selection box with an event handler to
     // push the files to the selected stream
     ngOnInit() {
-    	this.renderer.listen(this._element, 'change', () => {
+        this.renderer.listen(this._element, 'change', () => {
             this._dropService.pushFiles(this.stream, this._element.files);
         });
     }

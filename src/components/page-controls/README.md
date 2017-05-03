@@ -15,8 +15,8 @@ Widget for displaying progress through a sequence by breaking it up into a numbe
 
 ```html
 <stepper>
-	<step title="Steppa 1"></step>
-	<step title="Another Step"></step>
+    <step title="Steppa 1"></step>
+    <step title="Another Step"></step>
 </stepper>
 ```
 

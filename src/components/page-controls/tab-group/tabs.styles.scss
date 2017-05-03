@@ -14,7 +14,7 @@ $bg-color: #FFFFFF;
 .tab-group {
     z-index: inherit;
     & .tab-header {
-    	position: relative;
+        position: relative;
         padding: 0 1.0em;
         margin-bottom: 0;
         padding-top: 0.5em;
@@ -27,26 +27,26 @@ $bg-color: #FFFFFF;
         overflow-y: visible;
         user-select: none;
         & .border {
-        	position: absolute;
-        	top: 0;
-        	left: 0;
-        	right: 0;
-        	bottom: 1px;
-        	border-bottom: 1px solid rgba(0,0,0,0.2);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 1px;
+            border-bottom: 1px solid rgba(0,0,0,0.2);
         }
-	    & .empty {
-	    	position:relative;
-	    	width: 1px !important;
-	    	padding: 0.5em !important;
-	    	opacity:1;
-	    	bottom: -1px !important;
-	    	border-top: none !important;
-	    	border-left: none !important;
-	    	border-right: none !important;
-	    	background: none !important;
-	    }
+        & .empty {
+            position:relative;
+            width: 1px !important;
+            padding: 0.5em !important;
+            opacity:1;
+            bottom: -1px !important;
+            border-top: none !important;
+            border-left: none !important;
+            border-right: none !important;
+            background: none !important;
+        }
     }
     & .contents {
-    	//display: none;
+        //display: none;
     }
 }

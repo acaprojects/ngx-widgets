@@ -12,12 +12,12 @@
         <div #mapdisplay class="map-area" [@zoom]="zoom_state"></div>
         <map-marker-group [markers]="marker_list" [rotate]="rotations" [radius]="6*((100+_zoom)/100)/map_scale" [disable]="false" [map]="map_details" [reset]="reset_markers"></map-marker-group>
     </div>
-	<div *ngIf="loading && map !== ''" class="map-loading-space">
-		<spinner type="dot-circle" color="#000"></spinner>
-	</div>
-	<div *ngIf="!loading && !map_data && map !== ''" class="map-loading-space" [style.font-size]="'1.5em'">
-		Map not found!
-	</div>
+    <div *ngIf="loading && map !== ''" class="map-loading-space">
+        <spinner type="dot-circle" color="#000"></spinner>
+    </div>
+    <div *ngIf="!loading && !map_data && map !== ''" class="map-loading-space" [style.font-size]="'1.5em'">
+        Map not found!
+    </div>
     <div class="map-controls" *ngIf="controls&&!loading">
         <div class="zoom-btn" (tap)="zoomIn()" >+</div>
         <div class="zoom-btn" syle="font-size:0.7em;" (tap)="resetZoom()">{{(100 + zoom).toFixed(0) + '%'}}</div>

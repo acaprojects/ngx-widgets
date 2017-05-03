@@ -8,26 +8,26 @@
 -->
 
 <div class="aca img-crop">
-	<div class="img-space">
-		<div class="drop-zone" *ngIf="!image_data&&select" drop-target [stream]="'img-crop' + (this.id !== '' ? '-' + this.id: '')" indicate="hover">
-			 <div class="loading drop">
-			 	Drag &amp; drop<br/><br/>
-			 	<i class="material-icons">system_update_alt</i>
-			 </div>
-		</div >
-		<img-cropper *ngIf="!saving&&image_data" #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
-		<div class="img-error" *ngIf="error"> File selected is not a valid image file</div>
-		<div class="loading img" *ngIf="saving">
-			<img [src]="data.image" > <br/>
-		</div >
-		<div class="loading" *ngIf="loading">
-			<spinner type="dot-circle"></spinner >
-		</div >
-	</div >
-	<br />
-	<div class="img-tools">
-		<input *ngIf="select" class="img-select" type="file" [file-stream]="'img-crop' + (this.id !== '' ? '-' + this.id: '')" />
-		<btn btnType="raised-3d" (onClick)="saveImage()" [disabled]="saving" >Save</btn>
-	</div>
-	<div class="loading save" *ngIf="saving" >Saving...</div>
+    <div class="img-space">
+        <div class="drop-zone" *ngIf="!image_data&&select" drop-target [stream]="'img-crop' + (this.id !== '' ? '-' + this.id: '')" indicate="hover">
+             <div class="loading drop">
+                 Drag &amp; drop<br/><br/>
+                 <i class="material-icons">system_update_alt</i>
+             </div>
+        </div >
+        <img-cropper *ngIf="!saving&&image_data" #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
+        <div class="img-error" *ngIf="error"> File selected is not a valid image file</div>
+        <div class="loading img" *ngIf="saving">
+            <img [src]="data.image" > <br/>
+        </div >
+        <div class="loading" *ngIf="loading">
+            <spinner type="dot-circle"></spinner >
+        </div >
+    </div >
+    <br />
+    <div class="img-tools">
+        <input *ngIf="select" class="img-select" type="file" [file-stream]="'img-crop' + (this.id !== '' ? '-' + this.id: '')" />
+        <btn btnType="raised-3d" (onClick)="saveImage()" [disabled]="saving" >Save</btn>
+    </div>
+    <div class="loading save" *ngIf="saving" >Saving...</div>
 </div>

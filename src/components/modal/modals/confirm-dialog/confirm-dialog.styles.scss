@@ -9,65 +9,65 @@ $sm-height: 15.0em;
 $space: 2.5em;
 
 .modal {
-	position: fixed;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	background-color: rgba(0,0,0,0.3);
-	font-size: 4mm;
-	z-index: 9999999;
-	& .tap-space {
-	    position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-	}
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.3);
+    font-size: 4mm;
+    z-index: 9999999;
+    & .tap-space {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
 
-	& .modal-space {
-	    position: absolute;
-	    top: 50%;
-	    left: 50%;
-		transform: translate(-50%, -50%);
-		width: $sm-height;
-		min-height: $sm-height / 2;
-		background-color: #FFF;
-		border-radius: 0.1em;
-		max-height: 95vh;
-		max-width: 95vw;
-		& .dialog {
-			&-header {
-				position: absolute;
-				top: 0; left: 0;
-				right: 0; height: $space;
-				padding: 0.5em;
-				font-size: 1.5em;
-			}
-			&-body {
-				max-height: 90vh;
-				max-width: 90vw;
-				overflow: auto;
-				font-size: 1.0em;
-				& .content {
-					padding: ($space + 1.0em) 1.0em;
-				}
-			}
-			&-footer {
-				position: absolute;
-				height: $space + 1.0em; left: 0;
-				right: 0; bottom: 0;
-				padding: 0.5em;
-				text-align: right;
-				white-space: nowrap;
-			}
-		}
-	}
+    & .modal-space {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: $sm-height;
+        min-height: $sm-height / 2;
+        background-color: #FFF;
+        border-radius: 0.1em;
+        max-height: 95vh;
+        max-width: 95vw;
+        & .dialog {
+            &-header {
+                position: absolute;
+                top: 0; left: 0;
+                right: 0; height: $space;
+                padding: 0.5em;
+                font-size: 1.5em;
+            }
+            &-body {
+                max-height: 90vh;
+                max-width: 90vw;
+                overflow: auto;
+                font-size: 1.0em;
+                & .content {
+                    padding: ($space + 1.0em) 1.0em;
+                }
+            }
+            &-footer {
+                position: absolute;
+                height: $space + 1.0em; left: 0;
+                right: 0; bottom: 0;
+                padding: 0.5em;
+                text-align: right;
+                white-space: nowrap;
+            }
+        }
+    }
 }
 
 
 @media only screen and (max-device-width: 720px){
-	.modal {
-		font-size:20px;
-	}
+    .modal {
+        font-size:20px;
+    }
 }

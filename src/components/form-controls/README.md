@@ -66,7 +66,7 @@ Name | Binding | Direction | Types | Description
 `decimals`| One-way | Write-only | String | Number inputs can contain decimal values
 `theme`| One-way | Write-only | String | Light or dark themed fields
 `width`| One-way | Write-only | String | Width of the field in `em`
-`readonly`| One-way | Write-only | String | Disables field input and changes the underline to be unbroken 
+`readonly`| One-way | Write-only | String | Disables field input and changes the underline to be unbroken
 
 ### Dropdown
 
@@ -145,7 +145,7 @@ Name | Bindings | Direction | Types | Description
 -----|----------|-----------|-------------|------------
 `time`      | Two-way | Write-only | Object | Used to get and set the time value of the selected date. i.e. time object is `{ h: Number, m: Number }`
 `minuteStep`| One-way | Write-only | Number | Sets number of minutes the added or removed when minutes is changed.
-`enter`		| One-way | Read-only  | time   | Called when the user pressed enter on the minutes field
+`enter`        | One-way | Read-only  | time   | Called when the user pressed enter on the minutes field
 
 
 ### Toggle Buttons

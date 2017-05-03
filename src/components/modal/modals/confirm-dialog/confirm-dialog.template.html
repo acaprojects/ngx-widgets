@@ -8,15 +8,15 @@
 -->
 
 <div  [@backdrop]="state" [class]="'aca modal ' + cssClass">
-	<div class="tap-space" (tap)="tapped($event)"></div>
-	<div #modal class="modal-space" [@space]="state">
-		<div class="dialog-header">{{title}}</div>
-		<div class="dialog-body">
-			<div #content class="content">{{msg}}</div>
-		</div>
-		<div class="dialog-footer">
-			<btn btnType="flat" (onClick)="select('cancel')">Cancel</btn>
-			<btn btnType="flat" (onClick)="select('confirm')">{{confirm}}</btn>
-		</div>
-	</div>
+    <div class="tap-space" (tap)="tapped($event)"></div>
+    <div #modal class="modal-space" [@space]="state">
+        <div class="dialog-header">{{title}}</div>
+        <div class="dialog-body">
+            <div #content class="content">{{msg}}</div>
+        </div>
+        <div class="dialog-footer">
+            <btn btnType="flat" (onClick)="select('cancel')">Cancel</btn>
+            <btn btnType="flat" (onClick)="select('confirm')">{{confirm}}</btn>
+        </div>
+    </div>
 </div>

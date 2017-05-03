@@ -7,10 +7,10 @@
 @Last modified time: 07/02/2017 4:56 PM
 -->
 
-<div [class]="'tooltip ' + position + ' ' + cssClass + ' ' + theme" 
-	 [style.display]="show?'':'none'"  
-	 [style.font-size]="size" 
-	 (window:tap)="checkTap($event)">
+<div [class]="'tooltip ' + position + ' ' + cssClass + ' ' + theme"
+     [style.display]="show?'':'none'"
+     [style.font-size]="size"
+     (window:tap)="checkTap($event)">
     <div [class]="'block ' + position" >
         <div #area class="contents">
             <div #content [innerHTML]="html | safe"></div>

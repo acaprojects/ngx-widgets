@@ -8,45 +8,45 @@
 -->
 
 <div  [@backdrop]="state?'show':'hide'" [class]="'aca modal ' + cssClass" (tap)="tapped($event)">
-	<div #modal class="modal-space" [@space]="state_inner?'show':'hide'">
-		<div class="dialog-header">
-			<div class="year">{{date_year}}</div>
-			<div class="date">{{date_display}}</div>
-		</div>
-		<div class="dialog-body">
-			<div class="header">
-				<div class="arrow left" (tap)="prevMonth()">
-					&#9668;
-				</div>
-				{{months[display_month]}} {{display_year}}
-				<div class="arrow right" (tap)="nextMonth()">
-					&#9658;
-				</div>
-			</div>
-			<div class="week-days">
-				<div class="weekday" *ngFor="let day of days;let i = index" [class.even]="i%2==0">{{day}}</div>
-			</div>
-			<div class="divider"><div class="inner"></div></div>
-			<div class="month-days">
-				<div class="week" *ngFor="let week of [0, 1, 2, 3, 4, 5]">
-					<div class="day" *ngFor="let day of [0, 1, 2, 3, 4, 5, 6];"
-						[style.background-color]="month_node[week * 7 + day].active?colors.bg:''"
-						[style.color]="month_node[week * 7 + day].active?colors.fg:''"
-						[class.valid]="month_node[week * 7 + day].valid"
-						[class.today]="month_node[week * 7 + day].today"
-						[class.past]="month_node[week * 7 + day].past"
-						[class.active]="month_node[week * 7 + day].active"
-						[class.disabled]="month_node[week * 7 + day].disabled"
-						(tap)="selectDate(week, day)">
+    <div #modal class="modal-space" [@space]="state_inner?'show':'hide'">
+        <div class="dialog-header">
+            <div class="year">{{date_year}}</div>
+            <div class="date">{{date_display}}</div>
+        </div>
+        <div class="dialog-body">
+            <div class="header">
+                <div class="arrow left" (tap)="prevMonth()">
+                    &#9668;
+                </div>
+                {{months[display_month]}} {{display_year}}
+                <div class="arrow right" (tap)="nextMonth()">
+                    &#9658;
+                </div>
+            </div>
+            <div class="week-days">
+                <div class="weekday" *ngFor="let day of days;let i = index" [class.even]="i%2==0">{{day}}</div>
+            </div>
+            <div class="divider"><div class="inner"></div></div>
+            <div class="month-days">
+                <div class="week" *ngFor="let week of [0, 1, 2, 3, 4, 5]">
+                    <div class="day" *ngFor="let day of [0, 1, 2, 3, 4, 5, 6];"
+                        [style.background-color]="month_node[week * 7 + day].active?colors.bg:''"
+                        [style.color]="month_node[week * 7 + day].active?colors.fg:''"
+                        [class.valid]="month_node[week * 7 + day].valid"
+                        [class.today]="month_node[week * 7 + day].today"
+                        [class.past]="month_node[week * 7 + day].past"
+                        [class.active]="month_node[week * 7 + day].active"
+                        [class.disabled]="month_node[week * 7 + day].disabled"
+                        (tap)="selectDate(week, day)">
 
-						{{month_node[week * 7 + day].day}}
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="dialog-footer">
-			<btn btnType="flat" color="orange" (tapped)="select('Cancel')">Cancel</btn>
-			<btn btnType="flat" color="orange" (tapped)="select('Ok')">{{confirm?.text}}</btn>
-		</div>
-	</div>
+                        {{month_node[week * 7 + day].day}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dialog-footer">
+            <btn btnType="flat" color="orange" (tapped)="select('Cancel')">Cancel</btn>
+            <btn btnType="flat" color="orange" (tapped)="select('Ok')">{{confirm?.text}}</btn>
+        </div>
+    </div>
 </div>

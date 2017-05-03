@@ -42,7 +42,7 @@ Modals can also be added via code using the `ModalService`.
 ##### Functions
 
 ```javascript
-	setup(id: String, attr: Object);
+    setup(id: String, attr: Object);
 ```
 ###### Setup Function
 * No return value.
@@ -50,7 +50,7 @@ Modals can also be added via code using the `ModalService`.
 * attr can set all the writable attributes defined in the modal directive above
 
 ```javascript
-	open(id: String, attr?: Object);
+    open(id: String, attr?: Object);
 ```
 ###### Open Function
 * No return value.
@@ -58,14 +58,14 @@ Modals can also be added via code using the `ModalService`.
 * attr can set all the writable attributes defined in the modal directive above
 
 ```javascript
-	close(id: String);
+    close(id: String);
 ```
 ###### Close Function
 * No return value.
 * Function closes a modal with the given id.
 
 ```javascript
-	clear();
+    clear();
 ```
 ###### Clear Function
 * No return value.
@@ -102,7 +102,7 @@ Notifications can also be added via code using the `NotificationService`.
 ##### Functions
 
 ```javascript
-	add(message: String, cssClass?: String, options?: Object);
+    add(message: String, cssClass?: String, options?: Object);
 ```
 ###### Open Function
 * Returns the id value of the notification.
@@ -110,14 +110,14 @@ Notifications can also be added via code using the `NotificationService`.
 * `options` has 3 properties that can be set `timeout`, `canClose` and `styles`. `timeout` defined the time in ms the notification will close if `canClose` is false. `canClose` defines is the user can close the notification. `styles` is use to define custom styles for the notification.
 
 ```javascript
-	close(id: String);
+    close(id: String);
 ```
 ###### Close Function
 * No return value.
 * Function closes a notification with the given id.
 
 ```javascript
-	clear();
+    clear();
 ```
 ###### Clear Function
 * No return value.

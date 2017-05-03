@@ -13,7 +13,7 @@ import { ApplicationRef } from '@angular/core';
 import { VirtualKeyboard } from '../components';
 
 @Directive({
-	selector: '[virtual-keyboard]'
+    selector: '[virtual-keyboard]'
 })
 export class VirtualKeyboardDirective {
     @Input() model: string = '';
@@ -23,61 +23,61 @@ export class VirtualKeyboardDirective {
     @Output() modelChange = new EventEmitter();
     @Output() activeChange = new EventEmitter();
 
-	view: ViewContainerRef;
-  	cmp: any = null;
-  	cmpRef: ComponentRef<any> = null;
+    view: ViewContainerRef;
+      cmp: any = null;
+      cmpRef: ComponentRef<any> = null;
 
-	constructor(private _cr: ComponentFactoryResolver, private app_ref: ApplicationRef) {
-		this.view = app_ref['_rootComponents'][0]['_hostElement'].vcRef;
-	}
+    constructor(private _cr: ComponentFactoryResolver, private app_ref: ApplicationRef) {
+        this.view = app_ref['_rootComponents'][0]['_hostElement'].vcRef;
+    }
 
-	ngOnInit() {
+    ngOnInit() {
         this.render(VirtualKeyboard);
-	}
+    }
 
     ngOnChanges(changes: any) {
         this.update();
     }
 
-	ngOnDestory() {
-		if(window['debug']) console.debug('[WIDGETS][Keyboard(D)] Closed virtual keyboard');
-		if(this.cmp){
-			this.cmp.close();
-			setTimeout(() => {
-				if(this.cmpRef) {
-					this.cmpRef.destroy();
-				}
-			}, 500);
-		}
-	}
-	/**
-	 * Render virtual keyboard on the root component
-	 * @param  {Type<any>} type Component to render
-	 * @return {void}
-	 */
+    ngOnDestory() {
+        if(window['debug']) console.debug('[WIDGETS][Keyboard(D)] Closed virtual keyboard');
+        if(this.cmp){
+            this.cmp.close();
+            setTimeout(() => {
+                if(this.cmpRef) {
+                    this.cmpRef.destroy();
+                }
+            }, 500);
+        }
+    }
+    /**
+     * Render virtual keyboard on the root component
+     * @param  {Type<any>} type Component to render
+     * @return {void}
+     */
     private render(type: Type<any>){
-    	if(this.view) {
-	        let factory = this._cr.resolveComponentFactory(type);
-			if(this.cmpRef) {
-				this.cmpRef.destroy();
-			}
-	    	this.cmpRef = this.view.createComponent(factory);
+        if(this.view) {
+            let factory = this._cr.resolveComponentFactory(type);
+            if(this.cmpRef) {
+                this.cmpRef.destroy();
+            }
+            this.cmpRef = this.view.createComponent(factory);
 
-	        // let's inject @Inputs to component instance
-	        this.cmp = this.cmpRef.instance;
-			this.cmp.activeChange.subscribe(
-				(data:any) => {
-					this.active = data; this.activeChange.emit(data);
-				}, (err:any) => {},
-				() => {}
-			)
+            // let's inject @Inputs to component instance
+            this.cmp = this.cmpRef.instance;
+            this.cmp.activeChange.subscribe(
+                (data:any) => {
+                    this.active = data; this.activeChange.emit(data);
+                }, (err:any) => {},
+                () => {}
+            )
             this.update();
         }
     }
-	/**
-	 * Update keyboard display
-	 * @return {void}
-	 */
+    /**
+     * Update keyboard display
+     * @return {void}
+     */
     private update() {
         if(this.cmp) {
             this.cmp.model = this.model;
@@ -85,13 +85,13 @@ export class VirtualKeyboardDirective {
             this.cmp.layout = this.layout;
             this.cmp.modelChange = this.modelChange;
             this.cmp.loadLayout();
-			if(this.active !== this.cmp.active){
-				if(this.active) {
-					this.cmp.open();
-				} else if (!this.active) {
-					this.cmp.close();
-				}
-			}
+            if(this.active !== this.cmp.active){
+                if(this.active) {
+                    this.cmp.open();
+                } else if (!this.active) {
+                    this.cmp.close();
+                }
+            }
         }
     }
 }

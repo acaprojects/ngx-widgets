@@ -37,30 +37,30 @@ div.map-marker {
                 width: 1.0em;
                 border-radius: 100%;
                 border: 0.1em solid #4CAF50;
-				-webkit-animation: ring-scaleout 1.0s infinite ease-in-out;
-				animation: ring-scaleout 1.0s infinite ease-in-out;
+                -webkit-animation: ring-scaleout 1.0s infinite ease-in-out;
+                animation: ring-scaleout 1.0s infinite ease-in-out;
             }
 
-    		@-webkit-keyframes ring-scaleout {
-      			0% {
+            @-webkit-keyframes ring-scaleout {
+                  0% {
                     -webkit-transform: scale(1.0);
                 }
-      			100% {
-        			-webkit-transform: scale(1.5);
-        			opacity: 0;
-      			}
-    		}
+                  100% {
+                    -webkit-transform: scale(1.5);
+                    opacity: 0;
+                  }
+            }
 
-    		@keyframes ring-scaleout {
-      			0% {
-        			-webkit-transform: scale(1.0);
-        			transform: scale(1.0);
-      			} 100% {
-        			-webkit-transform: scale(1.5);
-        			transform: scale(2.0);
-        			opacity: 0;
-      			}
-    		}
+            @keyframes ring-scaleout {
+                  0% {
+                    -webkit-transform: scale(1.0);
+                    transform: scale(1.0);
+                  } 100% {
+                    -webkit-transform: scale(1.5);
+                    transform: scale(2.0);
+                    opacity: 0;
+                  }
+            }
         }
         z-index: 20;
     }

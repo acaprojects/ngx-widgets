@@ -6,96 +6,96 @@
 // @Last modified time: 15/12/2016 11:29 AM
 
 .dropdown-typeahead {
-	position: relative;
-	min-width: 12em;
-	min-height: 2.0em;
-	font-size: 1.0em;
-	z-index: 100;
-	border-radius: 0.1em;
-	margin: 0.5em;
-	text-align: center;
-	& .item {
-		cursor: pointer;
-		padding: 0.25em;
-		& .field {
+    position: relative;
+    min-width: 12em;
+    min-height: 2.0em;
+    font-size: 1.0em;
+    z-index: 100;
+    border-radius: 0.1em;
+    margin: 0.5em;
+    text-align: center;
+    & .item {
+        cursor: pointer;
+        padding: 0.25em;
+        & .field {
 
-		}
-		&.active {
-			
-		}
-	}
+        }
+        &.active {
 
-	& .list {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		z-index: 1999;
-		border-radius: 0.1em;
-		opacity: 0;
-		& .search {
-			margin: 0.25em 1.0em;
-			display: flex;
-			align-items: center;
-			border: 1px solid rgba(0,0,0,0.1);
-			border-radius: 0.1em;
-			height: 1.5em;
-			& .input {
-				padding: 0.2em 0.5em;
-				flex-grow: 1;
-				& input {
-					width: 100%;
-					border: none;
-					outline: none;
-					font-size: 1.0em;
-					background: none;
-				}
-			}
-			& .icon {
-				margin: 0.25em;
-				& .search {
-					height: 1.0em;
-					width: 1.0em;
-					border: none;
-					background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS41IDE0aC0uNzlsLS4yOC0uMjdDMTUuNDEgMTIuNTkgMTYgMTEuMTEgMTYgOS41IDE2IDUuOTEgMTMuMDkgMyA5LjUgM1MzIDUuOTEgMyA5LjUgNS45MSAxNiA5LjUgMTZjMS42MSAwIDMuMDktLjU5IDQuMjMtMS41N2wuMjcuMjh2Ljc5bDUgNC45OUwyMC40OSAxOWwtNC45OS01em0tNiAwQzcuMDEgMTQgNSAxMS45OSA1IDkuNVM3LjAxIDUgOS41IDUgMTQgNy4wMSAxNCA5LjUgMTEuOTkgMTQgOS41IDE0eiIvPgogICAgPHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
-				}
-			}
-		}
+        }
+    }
 
-		& .items {
-			max-height: 30vh;
-			overflow: auto;
-		}
-	}
+    & .list {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1999;
+        border-radius: 0.1em;
+        opacity: 0;
+        & .search {
+            margin: 0.25em 1.0em;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 0.1em;
+            height: 1.5em;
+            & .input {
+                padding: 0.2em 0.5em;
+                flex-grow: 1;
+                & input {
+                    width: 100%;
+                    border: none;
+                    outline: none;
+                    font-size: 1.0em;
+                    background: none;
+                }
+            }
+            & .icon {
+                margin: 0.25em;
+                & .search {
+                    height: 1.0em;
+                    width: 1.0em;
+                    border: none;
+                    background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS41IDE0aC0uNzlsLS4yOC0uMjdDMTUuNDEgMTIuNTkgMTYgMTEuMTEgMTYgOS41IDE2IDUuOTEgMTMuMDkgMyA5LjUgM1MzIDUuOTEgMyA5LjUgNS45MSAxNiA5LjUgMTZjMS42MSAwIDMuMDktLjU5IDQuMjMtMS41N2wuMjcuMjh2Ljc5bDUgNC45OUwyMC40OSAxOWwtNC45OS01em0tNiAwQzcuMDEgMTQgNSAxMS45OSA1IDkuNVM3LjAxIDUgOS41IDUgMTQgNy4wMSAxNCA5LjUgMTEuOTkgMTQgOS41IDE0eiIvPgogICAgPHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
+                }
+            }
+        }
 
-	&.default {
-		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-		background-color: #FFF;
-		color: #000;
-		&:hover {
-			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
-		}
-		& .item {
-			&:hover {
-				color: #FFF;
-				background-color: #2196F3;
-			}
-			&.active {
+        & .items {
+            max-height: 30vh;
+            overflow: auto;
+        }
+    }
 
-			}
-		}
-		& .list {
-			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-			background-color: #FFF;
-			color: #000;
-			overflow: hidden;
-			& .item {
-				&.active {
-					cursor: default;
-					background-color: #FFF;
-					color: #000;
-				}
-			}
-		}
-	}
+    &.default {
+        box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+        background-color: #FFF;
+        color: #000;
+        &:hover {
+            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
+        }
+        & .item {
+            &:hover {
+                color: #FFF;
+                background-color: #2196F3;
+            }
+            &.active {
+
+            }
+        }
+        & .list {
+            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+            background-color: #FFF;
+            color: #000;
+            overflow: hidden;
+            & .item {
+                &.active {
+                    cursor: default;
+                    background-color: #FFF;
+                    color: #000;
+                }
+            }
+        }
+    }
 }

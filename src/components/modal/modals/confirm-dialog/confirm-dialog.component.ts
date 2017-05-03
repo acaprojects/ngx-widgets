@@ -39,7 +39,7 @@ export class ConfirmDialog extends Modal {
     @ViewChild('content') content: ElementRef;
 
     setParams(data: any) {
-    	super.setParams(data);
-    	this.canClose = true;
+        super.setParams(data);
+        this.canClose = true;
     }
 }

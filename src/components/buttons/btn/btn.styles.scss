@@ -7,121 +7,121 @@
 
 .aca {
 
-	& .center {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-	}
-	&.disabled {
-		& button {
-			cursor: not-allowed !important;
-			background-color: rgba(255,255,255,0.2) !important;
-			color: rgba(0,0,0,0.54) !important;
-		}
-	}
-	&.btn {
-		position: relative;
-		display: inline-block;
-		padding: 0.5em 0.25em;
-		text-align: center;
-		cursor: pointer;
-		user-select: none;
-		& .action {
-			padding: 0;
-			& button {
-				height: 4.0em;
-				width: 4.0em;
-				padding: 0;
-				border-radius: 100%;
-				min-width: 4.0em;
-				&.hover {
+    & .center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    &.disabled {
+        & button {
+            cursor: not-allowed !important;
+            background-color: rgba(255,255,255,0.2) !important;
+            color: rgba(0,0,0,0.54) !important;
+        }
+    }
+    &.btn {
+        position: relative;
+        display: inline-block;
+        padding: 0.5em 0.25em;
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+        & .action {
+            padding: 0;
+            & button {
+                height: 4.0em;
+                width: 4.0em;
+                padding: 0;
+                border-radius: 100%;
+                min-width: 4.0em;
+                &.hover {
 
-				}
-			}
-		}
-		& .mini-action {
-			padding: 0;
-			& button {
-				height: 3.0em;
-				width: 3.0em;
-				min-width: 3.0em;
-				padding: 0;
-				border-radius: 100%;
-				&.hover {
+                }
+            }
+        }
+        & .mini-action {
+            padding: 0;
+            & button {
+                height: 3.0em;
+                width: 3.0em;
+                min-width: 3.0em;
+                padding: 0;
+                border-radius: 100%;
+                &.hover {
 
-				}
-			}
-		}
-		& .raised {
-			& button {
-				&.disabled {
-					background-color: rgba(0,0,0, 0.5);
-					color: #000;
-				}
-			}
-		}
-		& .raised-3d {
-			position: relative;
-			& button {
-				box-shadow: 0px 0.15em 0px 0px rgba(0,0,0,0.75);
-				&.disabled {
-					background-color: rgba(0,0,0, 0.5);
-					color: #000;
-					margin-top: 0.15em;
-					box-shadow: none;
-				}
-				&.hover{
-					margin-top: 0.05em;
-					box-shadow: 0px 0.1em 0px 0px rgba(0,0,0,0.75);
-				}
-				&.active {
-					color: rgba(0,0,0,0.54);
-					margin-top: 0.15em;
-					box-shadow: none;
-				}
-			}
-		}
+                }
+            }
+        }
+        & .raised {
+            & button {
+                &.disabled {
+                    background-color: rgba(0,0,0, 0.5);
+                    color: #000;
+                }
+            }
+        }
+        & .raised-3d {
+            position: relative;
+            & button {
+                box-shadow: 0px 0.15em 0px 0px rgba(0,0,0,0.75);
+                &.disabled {
+                    background-color: rgba(0,0,0, 0.5);
+                    color: #000;
+                    margin-top: 0.15em;
+                    box-shadow: none;
+                }
+                &.hover{
+                    margin-top: 0.05em;
+                    box-shadow: 0px 0.1em 0px 0px rgba(0,0,0,0.75);
+                }
+                &.active {
+                    color: rgba(0,0,0,0.54);
+                    margin-top: 0.15em;
+                    box-shadow: none;
+                }
+            }
+        }
 
-		& .flat {
-			& button {
-				background: none;
-				min-width: 6.0em;
-				&.hover {
-					background: #CCC;
-				}
-				&.active {
-					background: #999;
-				}
-			}
-		}
-		& button {
-			font-size: 1.0em;
-			padding: 0.5em 0.75em;
-			position: relative;
-			outline: none;
-			border-radius: 0.1em;
-			border: none;
-			cursor: pointer;
-			overflow: hidden;
-			min-width: 6.0em;
-			&.disabled {
-				opacity: 0.25;
-			}
-			&.default {
-				font-family: Roboto;
-			}
-		}
-		& .circle{
-			position: absolute;
-			width: 4.0em;
-			height: 4.0em;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%) scale(0);
-			background-color: #000;
-			opacity: 0;
-			border-radius: 100%;
-		}
-	}
+        & .flat {
+            & button {
+                background: none;
+                min-width: 6.0em;
+                &.hover {
+                    background: #CCC;
+                }
+                &.active {
+                    background: #999;
+                }
+            }
+        }
+        & button {
+            font-size: 1.0em;
+            padding: 0.5em 0.75em;
+            position: relative;
+            outline: none;
+            border-radius: 0.1em;
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            min-width: 6.0em;
+            &.disabled {
+                opacity: 0.25;
+            }
+            &.default {
+                font-family: Roboto;
+            }
+        }
+        & .circle{
+            position: absolute;
+            width: 4.0em;
+            height: 4.0em;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: #000;
+            opacity: 0;
+            border-radius: 100%;
+        }
+    }
 }

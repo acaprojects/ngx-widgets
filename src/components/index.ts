@@ -12,6 +12,7 @@ import { FORM_CONTROLS, TypeaheadList } from './form-controls';
 import { ImageCrop } from './img-crop';
 import { MAP_COMPONENTS } from './interactive-map';
 import { MaterialStyles } from './material-styles';
+import { MediaPlayerComponent } from './media-player';
 import { Modal, ACA_WIDGET_MODALS } from './modal';
 import { Notification, NotifyBlock } from './notification';
 import { PAGE_CONTROLS } from './page-controls';
@@ -25,6 +26,7 @@ export * from './form-controls';
 export * from './img-crop';
 export * from './interactive-map';
 export * from './material-styles';
+export * from './media-player';
 export * from './modal';
 export * from './notification';
 export * from './page-controls';
@@ -38,6 +40,7 @@ export let COMPONENTS: any[] = [
     ImageCrop,
     ...MAP_COMPONENTS,
     MaterialStyles,
+    MediaPlayerComponent,
     NotifyBlock,
     ProgressCircleComponent,
     TooltipComponent,

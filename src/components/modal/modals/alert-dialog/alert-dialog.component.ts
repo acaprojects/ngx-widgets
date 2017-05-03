@@ -33,21 +33,21 @@ const PLACEHOLDER = '-';
     ]
 })
 export class AlertDialog extends Modal {
-	confirm: any = { text: 'OK', fn: null };
-	cancel:  any = { text: 'CANCEL', fn: null };
+    confirm: any = { text: 'OK', fn: null };
+    cancel:  any = { text: 'CANCEL', fn: null };
 
     setParams(data: any) {
-    	super.setParams(data);
-    	this.canClose = true;
-    	if(data && data.options){
-    		for(let i = 0; i < data.options; i++) {
-    			let option = data.options[i];
-    			if(option.type === 'confirm') {
-    				this.confirm = option;
-    			} else if(option.type === 'cancel') {
-    				this.cancel = option;
-    			}
-    		}
-    	}
+        super.setParams(data);
+        this.canClose = true;
+        if(data && data.options){
+            for(let i = 0; i < data.options; i++) {
+                let option = data.options[i];
+                if(option.type === 'confirm') {
+                    this.confirm = option;
+                } else if(option.type === 'cancel') {
+                    this.cancel = option;
+                }
+            }
+        }
     }
 }

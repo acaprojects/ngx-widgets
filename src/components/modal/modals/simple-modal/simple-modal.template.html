@@ -8,23 +8,23 @@
 -->
 
 <div  [@backdrop]="state ? 'show' : 'hide'" [class]="'aca modal ' + cssClass">
-	<div class="tap-space" (tap)="tapped($event)"></div>
-	<div #modal class="modal-space" [@space]="state_inner ? 'show' : 'hide'"
-			[style.width]="(large ? 2.5 * width : width) + unit">
-		<div class="modal-header title" [style.background-color]="colors.bg" [style.color]="colors.fg" >
-			<div class="text title">{{title}}</div>
-			<!--div *ngIf="close||false" class="close-btn" (tap)="close_fn()"></div-->
-		</div>
-		<div class="modal-body">
-			<div class="content"><div #content></div></div>
-		</div>
-		<div class="modal-footer">
-			<div class="modal-btns" *ngFor="let btn of options">
-				<btn type="submit" btnType="raised" 
-				[color]="btn.color&&btn.color!==''?btn.color:'blue'" 
-				[primary]="btn.primary&&btn.primary!==''?btn.primary:'C500'" 
-				[secondary]="btn.secondary&&btn.secondary!==''?btn.secondary:'A400'" (tapped)="select(btn.text)">{{btn.text}}</btn>
-			</div>
-		</div>
-	</div>
+    <div class="tap-space" (tap)="tapped($event)"></div>
+    <div #modal class="modal-space" [@space]="state_inner ? 'show' : 'hide'"
+            [style.width]="(large ? 2.5 * width : width) + unit">
+        <div class="modal-header title" [style.background-color]="colors.bg" [style.color]="colors.fg" >
+            <div class="text title">{{title}}</div>
+            <!--div *ngIf="close||false" class="close-btn" (tap)="close_fn()"></div-->
+        </div>
+        <div class="modal-body">
+            <div class="content"><div #content></div></div>
+        </div>
+        <div class="modal-footer">
+            <div class="modal-btns" *ngFor="let btn of options">
+                <btn type="submit" btnType="raised"
+                [color]="btn.color&&btn.color!==''?btn.color:'blue'"
+                [primary]="btn.primary&&btn.primary!==''?btn.primary:'C500'"
+                [secondary]="btn.secondary&&btn.secondary!==''?btn.secondary:'A400'" (tapped)="select(btn.text)">{{btn.text}}</btn>
+            </div>
+        </div>
+    </div>
 </div>

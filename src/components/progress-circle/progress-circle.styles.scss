@@ -2,7 +2,7 @@
 * @Author: Alex Sorafumo
 * @Date:   2017-03-29 09:30:47
 * @Last Modified by:   Alex Sorafumo
-* @Last Modified time: 2017-03-29 12:05:15
+* @Last Modified time: 2017-05-03 11:56:45
 */
 
 $circle-background: #CFD8DC;
@@ -12,58 +12,58 @@ $transition-length: 1s;
 $increment: 180deg / 1000;
 
 div.radial-progress {
-  	position: relative;
-  	background-color: $circle-background;
-  	height: $circle-size;
-  	width: $circle-size;
-  	border-radius: 50%;
-  	margin: 0.25em auto;
-  	& .circle {
-  		& .fill, & .mask {
-	    	position: absolute;
-	  		border-radius: 50%;
-		  	height: $circle-size;
-		  	width: $circle-size;
-			transition: transform $transition-length;
-	    	-webkit-backface-visibility: hidden;
-  		}
+      position: relative;
+      background-color: $circle-background;
+      height: $circle-size;
+      width: $circle-size;
+      border-radius: 50%;
+      margin: 0.25em auto;
+      & .circle {
+          & .fill, & .mask {
+            position: absolute;
+              border-radius: 50%;
+              height: $circle-size;
+              width: $circle-size;
+            transition: transform $transition-length;
+            -webkit-backface-visibility: hidden;
+          }
 
-  		& .fill {
-	    	background-color: $circle-color;
-  		}
+          & .fill {
+            background-color: $circle-color;
+          }
 
-  		& .mask {
-  			background-color: $circle-background;
-  		}
+          & .mask {
+              background-color: $circle-background;
+          }
 
-  		& .mask.half {
-      		clip: rect(0,$circle-size,$circle-size,$circle-size/2);
-	  		& .fill {
-		    	clip: rect(0, $circle-size, $circle-size, 0);
-	  		}
-  		}
-  		//*
-  		& .mask.full {
-		    clip: rect(0, $circle-size/2, $circle-size, 0);
-	  		& .fill {
-      			clip: rect(0,$circle-size,$circle-size,$circle-size/2);
-	  		}
-  		}
-  		//*/
-  		& .shadow {
-	    	position: absolute;
-	  		border-radius: 50%;
-		  	height: $circle-size;
-		  	width: $circle-size;
-  		}
-  	}
+          & .mask.half {
+              clip: rect(0,$circle-size,$circle-size,$circle-size/2);
+              & .fill {
+                clip: rect(0, $circle-size, $circle-size, 0);
+              }
+          }
+          //*
+          & .mask.full {
+            clip: rect(0, $circle-size/2, $circle-size, 0);
+              & .fill {
+                  clip: rect(0,$circle-size,$circle-size,$circle-size/2);
+              }
+          }
+          //*/
+          & .shadow {
+            position: absolute;
+              border-radius: 50%;
+              height: $circle-size;
+              width: $circle-size;
+          }
+      }
 
-  	& .inset {
-  		height: $circle-size - 1.0em;
-  		width: $circle-size - 1.0em;
-    	position: absolute;
-    	margin: 0.5em;
-    	border-radius: 50%;
-    	background-color: #FFFFFF;
-  	}
+      & .inset {
+          height: $circle-size - 1.0em;
+          width: $circle-size - 1.0em;
+        position: absolute;
+        margin: 0.5em;
+        border-radius: 50%;
+        background-color: #FFFFFF;
+      }
 }

@@ -51,16 +51,16 @@ export class ButtonGroup {
         this.btn_class = '';
         if(this.cssClass === '') {
             if(!this.hover) {
-            	this.btn_class = `color bg-${this.color}-${this.primary} font-white`;
+                this.btn_class = `color bg-${this.color}-${this.primary} font-white`;
             } else {
-            	this.btn_class = `color bg-${this.color}-${this.secondary} font-white`;
+                this.btn_class = `color bg-${this.color}-${this.secondary} font-white`;
             }
         }
     }
 
     setHover(state: boolean) {
-    	this.hover = state;
-    	this.loadClasses();
+        this.hover = state;
+        this.loadClasses();
     }
 
     toggle(index: number){

@@ -12,38 +12,38 @@ $red: #F64740;
 $bg-color: #FFFFFF;
 
 .toggle {
-	position: relative;
+    position: relative;
     box-sizing: content-box;
     padding: 0.5em;
     display: inline-block;
-	user-select: none;
+    user-select: none;
     & .center {
-    	position: absolute;
-    	top: 50%;
-    	left: 50%;
-    	transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
-	&[override] .disabled {
-		& .text-toggle {
-			background-color: #DCDCDC;
-			&.active, &.inactive {
-				background-color: #DCDCDC;
-			}
-		}
-		& .ios-toggle {
-			background-color: #DCDCDC;
-			&.active, &.inactive {
-				background-color: #DCDCDC;
-			}
-		}
-	}
+    &[override] .disabled {
+        & .text-toggle {
+            background-color: #DCDCDC;
+            &.active, &.inactive {
+                background-color: #DCDCDC;
+            }
+        }
+        & .ios-toggle {
+            background-color: #DCDCDC;
+            &.active, &.inactive {
+                background-color: #DCDCDC;
+            }
+        }
+    }
 
     & .text-toggle{
         position: relative;
         height: $dim;
         width: $dim*3;
-		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
+        box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
         border-radius: 0.2em;
         box-sizing: content-box;
         color: $bg-color;
@@ -54,10 +54,10 @@ $bg-color: #FFFFFF;
             box-sizing: content-box;
             width:49%;
             text-align: center;
-			top: 50%;
-			transform: translateY(-50%);
+            top: 50%;
+            transform: translateY(-50%);
             &.active {
-				left: 0;
+                left: 0;
             }
             &.inactive {
                 right:0;
@@ -72,8 +72,8 @@ $bg-color: #FFFFFF;
         & .toggle-knob{
             position:absolute;
             width:50%;
-			top: 0;
-			bottom: 0;
+            top: 0;
+            bottom: 0;
             border-radius: 0.18em;
             background-color: $bg-color;
             left: 0;
@@ -101,16 +101,16 @@ $bg-color: #FFFFFF;
             height: 100%;
             border: 0.2em solid $border-color;
             &.bg {
-            	border: none;
-            	border-radius: 100%;
-            	font-size: 0.8em;
-            	&:hover { background-color: rgba(0,0,0,0.4); }
-            	&:active { background-color: rgba(0,0,0,0.6); }
-            	&.active {
-            		background-color: rgba(0,0,0,0.2);
-	            	&:hover { background-color: rgba(0,0,0,0.4); }
-	            	&:active { background-color: rgba(0,0,0,0.6); }
-            	}
+                border: none;
+                border-radius: 100%;
+                font-size: 0.8em;
+                &:hover { background-color: rgba(0,0,0,0.4); }
+                &:active { background-color: rgba(0,0,0,0.6); }
+                &.active {
+                    background-color: rgba(0,0,0,0.2);
+                    &:hover { background-color: rgba(0,0,0,0.4); }
+                    &:active { background-color: rgba(0,0,0,0.6); }
+                }
             }
             &.circle {
                 border-radius: 100%;
@@ -123,14 +123,14 @@ $bg-color: #FFFFFF;
         & .icon{
             position: absolute;
             top: 50%;
-			left: 50%;
-			transform: translate(-50%, -40%);
+            left: 50%;
+            transform: translate(-50%, -40%);
             margin: auto;
             text-align: center;
             font-size: 150%;
             color: $red;
             &.active {
-            	color: $green;
+                color: $green;
             }
         }
     }
@@ -140,14 +140,14 @@ $bg-color: #FFFFFF;
         width: $dim*1.5;
         height: $dim / 2;
         border-radius: $dim;
-		box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
+        box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
         background-color: $bg-color;
         margin: 1.0em;
         cursor: pointer;
         & .toggle-knob {
             position:absolute;
             top: 50%;
-			bottom: 0;
+            bottom: 0;
             width: 60%;
             left: 0;
             height: $dim;
@@ -155,7 +155,7 @@ $bg-color: #FFFFFF;
             transform: translate(-50%, -50%);
             background-color: $bg-color;
             border-radius: $dim;
-			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
+            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
         }
         &.active {
             background-color: $green;

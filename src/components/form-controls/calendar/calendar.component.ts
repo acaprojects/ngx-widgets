@@ -47,7 +47,7 @@ export class Calendar {
     months: any[] = [];
 
     constructor() {
-    	this.setDate(new Date);
+        this.setDate(new Date);
     }
 
     ngOnInit() {
@@ -67,7 +67,7 @@ export class Calendar {
     ngOnChanges(changes:any) {
         if(changes.model) {
             if(changes.model.currentValue) {
-            	this.setDate(changes.model.currentValue);
+                this.setDate(changes.model.currentValue);
             }
         }
     }

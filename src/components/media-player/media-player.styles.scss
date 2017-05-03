@@ -1,0 +1,78 @@
+/*
+* @Author: Alex Sorafumo
+* @Date:   2017-05-02 16:56:23
+* @Last Modified by:   Alex Sorafumo
+* @Last Modified time: 2017-05-03 10:10:39
+*/
+
+div.media-player {
+    position: relative;
+    min-width: 16.0em;
+    min-height: 10.0em;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.4);
+    overflow: hidden;
+    & video {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    & .status-buttons {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        & .status {
+            font-size: 3.5em;
+            height: 1.25em;
+            width: 1.25em;
+            background-color: #FFFFFF;
+            border-radius: 100%;
+            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+            padding-left: 0.15em;
+            cursor: pointer;
+            &:hover {
+                background-color: #DDDDDD;
+            }
+            &:active {
+                box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.4);
+            }
+        }
+    }
+    & .video-controls {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2.0em;
+        padding: 0.25em 0.5em;
+        background-color: #111111;
+        color: #FFFFFF;
+        display: flex;
+        & .time {
+            flex-grow: 1;
+            &.end {
+                text-align: right;
+            }
+        }
+        & .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 0.2em;
+            background-color: #AAAAAA;
+            & .progress {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+            }
+        }
+    }
+}

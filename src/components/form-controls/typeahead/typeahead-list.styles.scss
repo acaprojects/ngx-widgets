@@ -6,92 +6,92 @@
 // @Last modified time: 17/01/2017 4:25 PM
 
 .contents {
-	position: fixed;
-	width: 20.0em;
-	height: 0.1em;
-	z-index: 99999;
-	user-select: none;
-	font-size: 1.0em;
-	@media screen and (max-width: 720px) {
-		font-size: 2.0em;
-	}
-	& .options {
-		position: absolute;
-		transform: translateX(-50%);
-		text-align: left;
-		min-width: 100%;
-		top: 100%;
+    position: fixed;
+    width: 20.0em;
+    height: 0.1em;
+    z-index: 99999;
+    user-select: none;
+    font-size: 1.0em;
+    @media screen and (max-width: 720px) {
+        font-size: 2.0em;
+    }
+    & .options {
+        position: absolute;
+        transform: translateX(-50%);
+        text-align: left;
+        min-width: 100%;
+        top: 100%;
 
-		& ul {
-			position: absolute;
-    		transform: translateX(-50%);
-			list-style: none;
-			padding: 0;
-			margin: 0.2em 0;
-			background-color: #FFF;
-			border-radius: 0.1em;
-			box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-			max-height: 35vh;
-			max-width: 90vw;
-			min-width: 100%;
-			white-space: nowrap;
-			overflow: auto;
-			z-index: 1000;
-		}
+        & ul {
+            position: absolute;
+            transform: translateX(-50%);
+            list-style: none;
+            padding: 0;
+            margin: 0.2em 0;
+            background-color: #FFF;
+            border-radius: 0.1em;
+            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+            max-height: 35vh;
+            max-width: 90vw;
+            min-width: 100%;
+            white-space: nowrap;
+            overflow: auto;
+            z-index: 1000;
+        }
 
-		& .option {
-			padding: 0.8em 1.5em;
-			background-color: #FFF;
-			color: #000;
-			max-width: 90vw;
-			min-width: 100%;
-			word-wrap: nowrap;
-			z-index: 1000;
-			display: flex;
-			cursor: pointer;
-			&.default {
-				background-color: #FFF;
-				color: #000;
-				&:hover{
-					background-color: rgb(251, 136,   0);
-					color: #FFF;
-					& .desc {
-						color: rgba(0,0,0,0.54);
-					}
-				}
+        & .option {
+            padding: 0.8em 1.5em;
+            background-color: #FFF;
+            color: #000;
+            max-width: 90vw;
+            min-width: 100%;
+            word-wrap: nowrap;
+            z-index: 1000;
+            display: flex;
+            cursor: pointer;
+            &.default {
+                background-color: #FFF;
+                color: #000;
+                &:hover{
+                    background-color: rgb(251, 136,   0);
+                    color: #FFF;
+                    & .desc {
+                        color: rgba(0,0,0,0.54);
+                    }
+                }
 
-				& .desc{
-					color: rgba(0,0,0,0.2);
-				}
-			}
+                & .desc{
+                    color: rgba(0,0,0,0.2);
+                }
+            }
 
-			& .name {
-				flex-grow: 1;
-				text-align: left;
-				padding-right: 2.0em;
-			}
+            & .name {
+                flex-grow: 1;
+                text-align: left;
+                padding-right: 2.0em;
+            }
 
-			& .desc {
-				flex-grow: 1;
-				text-align: right;
-				padding-left: 2.0em;
-			}
-			&:hover {
-				background-color: rgb(251, 136,   0);
-				color: #FFF;
-			}
-			&.other {
-				border-top: 0.05em solid rgba(0,0,0,0.05);
-			}
+            & .desc {
+                flex-grow: 1;
+                text-align: right;
+                padding-left: 2.0em;
+            }
+            &:hover {
+                background-color: rgb(251, 136,   0);
+                color: #FFF;
+            }
+            &.other {
+                border-top: 0.05em solid rgba(0,0,0,0.05);
+            }
 
-			&.first {
-				border-radius: 0.1em 0.1em 0 0;
-			}
+            &.first {
+                border-radius: 0.1em 0.1em 0 0;
+            }
 
-			&.last {
-				border-radius: 0 0 0.1em 0.1em;
-			}
+            &.last {
+                border-radius: 0 0 0.1em 0.1em;
+            }
 
-		}
-	}
+        }
+    }
 }

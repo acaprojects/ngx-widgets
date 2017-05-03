@@ -32,9 +32,9 @@ export class TabHead {
     tap_obs: any = null;
 
     constructor(private el: ElementRef) {
-    	this.tap_observer = new Observable((observer) => {
-    		this.tap_obs = observer;
-    	});
+        this.tap_observer = new Observable((observer) => {
+            this.tap_obs = observer;
+        });
     }
 
     get activeTab() {
@@ -60,14 +60,14 @@ export class TabHead {
     }
 
     nativeElement() {
-    	return this.el.nativeElement;
+        return this.el.nativeElement;
     }
 
     tapped() {
-    	this.tap_obs.next(this.id);
+        this.tap_obs.next(this.id);
     }
 
     listen() {
-    	return this.tap_observer;
+        return this.tap_observer;
     }
 }

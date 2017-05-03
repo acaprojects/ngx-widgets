@@ -14,58 +14,58 @@ import { WIDGETS_SETTINGS } from '../settings';
 
 @Injectable()
 export class MapService {
-	maps = {};
-	map_promise = {};
-	debug: boolean = false;
-	defaults: any = {
-		zoomMax: 200,
-		controls: true,
-		mapSize: 100,
-		focusScroll: false,
-		focusZoom: 80,
-		padding: '2.0em',
-		rotations: 0
-	}
+    maps = {};
+    map_promise = {};
+    debug: boolean = false;
+    defaults: any = {
+        zoomMax: 200,
+        controls: true,
+        mapSize: 100,
+        focusScroll: false,
+        focusZoom: 80,
+        padding: '2.0em',
+        rotations: 0
+    }
 
-	constructor(private http: Http) {
-		WIDGETS_SETTINGS.observe('debug').subscribe((data) => {
-			this.debug = data;
-		}, (err) => {}, () => {})
-	}
+    constructor(private http: Http) {
+        WIDGETS_SETTINGS.observe('debug').subscribe((data) => {
+            this.debug = data;
+        }, (err) => {}, () => {})
+    }
 
-	setDefaults(options: any) {
-		for(let o in options) {
-			if(o in this.defaults) {
-				this.defaults[o] = options[o];
-			}
-		}
-	}
+    setDefaults(options: any) {
+        for(let o in options) {
+            if(o in this.defaults) {
+                this.defaults[o] = options[o];
+            }
+        }
+    }
 
-	/**
-	 * Gets the map from the specified URL
-	 * @param  {string} map_url URL of the map url
-	 * @return {Promise<string>} Returns the file of the specified map
-	 */
-	getMap(map_url: string) {
-		if(this.map_promise[map_url] === undefined || this.map_promise[map_url] === null) {
-			this.map_promise[map_url] = new Promise((resolve, reject) => {
-					// Check if map has already been loaded
-				if(this.maps[map_url]){
-					resolve(this.maps[map_url]);
-				} else {
-			        this.http.get(map_url).map(res => res.text()).subscribe(
-			            data => this.maps[map_url] = data,
-			            err => {
-							if(this.debug) console.error(`[WIDGETS][Map(S)] Unable to load map with url '${map_url}'`);
-							reject(err);
-						}, () => {
-			            	resolve(this.maps[map_url]);
-			            	this.map_promise[map_url] = null;
-			            }
-			        );
-				}
-			});
-		}
-		return this.map_promise[map_url];
-	}
+    /**
+     * Gets the map from the specified URL
+     * @param  {string} map_url URL of the map url
+     * @return {Promise<string>} Returns the file of the specified map
+     */
+    getMap(map_url: string) {
+        if(this.map_promise[map_url] === undefined || this.map_promise[map_url] === null) {
+            this.map_promise[map_url] = new Promise((resolve, reject) => {
+                    // Check if map has already been loaded
+                if(this.maps[map_url]){
+                    resolve(this.maps[map_url]);
+                } else {
+                    this.http.get(map_url).map(res => res.text()).subscribe(
+                        data => this.maps[map_url] = data,
+                        err => {
+                            if(this.debug) console.error(`[WIDGETS][Map(S)] Unable to load map with url '${map_url}'`);
+                            reject(err);
+                        }, () => {
+                            resolve(this.maps[map_url]);
+                            this.map_promise[map_url] = null;
+                        }
+                    );
+                }
+            });
+        }
+        return this.map_promise[map_url];
+    }
 }

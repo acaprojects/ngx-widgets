@@ -47,14 +47,14 @@ export * from './helpers';
     ]
 })
 export class WidgetsModule {
-    version: string = '0.7.6';
-    build: string = '2017-05-01.v1';
+    version: string = '0.8.0';
+    build: string = '2017-05-02.v1';
     static init: boolean = false;
     constructor() {
-    	if(!WidgetsModule.init){
-    		WidgetsModule.init = true;
-	        console.debug(`[ACA][LIBRARY] Widgets - Version: ${this.version} | Build: ${this.build}`);
-	    }
+        if(!WidgetsModule.init){
+            WidgetsModule.init = true;
+            console.debug(`[ACA][LIBRARY] Widgets - Version: ${this.version} | Build: ${this.build}`);
+        }
     }
 }
 
