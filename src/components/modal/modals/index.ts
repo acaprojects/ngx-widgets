@@ -3,10 +3,10 @@
 import { AlertDialog } from './alert-dialog';
 import { ConfirmDialog } from './confirm-dialog';
 import { DateDialog } from './date-dialog';
-import { TimeDialog } from './time-dialog';
 //*/
     // Other modals
 import { SimpleModal } from './simple-modal';
+import { TimeDialog } from './time-dialog';
 
 //*/
 export * from './alert-dialog';
@@ -23,5 +23,5 @@ export const ACA_WIDGET_MODALS = [
     DateDialog,
     TimeDialog,
     //*/
-    SimpleModal
-]
+    SimpleModal,
+];

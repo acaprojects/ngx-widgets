@@ -1,15 +1,15 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
-* @Date:   24/11/2016 3:43 PM
-* @Email:  alex@yuion.net
-* @Filename: step.component.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 20/01/2017 3:45 PM
-*/
+ * @Author: Alex Sorafumo <Yuion>
+ * @Date:   24/11/2016 3:43 PM
+ * @Email:  alex@yuion.net
+ * @Filename: step.component.ts
+ * @Last modified by:   alex.sorafumo
+ * @Last modified time: 20/01/2017 3:45 PM
+ */
 
-import { Component, Input, Output, EventEmitter, ElementRef} from '@angular/core';
-import { ContentChildren, QueryList, AfterContentInit } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
+import { AfterContentInit, ContentChildren, QueryList } from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 
 @Component({
     selector: 'step',
@@ -17,11 +17,11 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
     styleUrls: ['./step.styles.css'],
     animations: [
         trigger('showstep', [
-            state('show',   style({ 'height': '*', 'padding-bottom' : '1.5em', overflow: 'visible' })),
-            state('hide', style({ 'height': '0', 'padding-bottom' : '0', opacity: 0 })),
-            transition('show <=> hide', animate('0.7s ease-in-out'))
-        ])
-    ]
+            state('show',   style({ 'height': '*', 'padding-bottom' : '1.5em', 'overflow': 'visible' })),
+            state('hide', style({ 'height': '0', 'padding-bottom' : '0', 'opacity': 0 })),
+            transition('show <=> hide', animate('0.7s ease-in-out')),
+        ]),
+    ],
 })
 export class StepperStep {
     @Input() title: string = 'Step';
@@ -40,15 +40,15 @@ export class StepperStep {
 
     }
 
-    ngAfterContentInit(){
+    ngAfterContentInit() {
         this.contents = this.el.nativeElement.innerHTML;
     }
 
     toggle() {
-        if(this.ordered) {
-            this.show()
+        if (this.ordered) {
+            this.show();
         } else {
-            if(this.open) this.hide();
+            if (this.open) this.hide();
             else this.show();
         }
     }
@@ -65,7 +65,7 @@ export class StepperStep {
         return false;
     }
 
-    setState(states?:any) {
+    setState(states?: any) {
         setTimeout(() => {
             this.open   = !states || !states.open   ? false : states.open;
             this.active = !states || !states.active ? false : states.active;

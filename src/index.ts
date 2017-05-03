@@ -1,23 +1,24 @@
 /**
-* @Author: Alex Sorafumo
-* @Date:   18/11/2016 4:15 PM
-* @Email:  alex@yuion.net
-* @Filename: index.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 01/02/2017 11:54 AM
-*/
+ * @Author: Alex Sorafumo
+ * @Date:   18/11/2016 4:15 PM
+ * @Email:  alex@yuion.net
+ * @Filename: index.ts
+ * @Last modified by:   Alex Sorafumo
+ * @Last modified time: 01/02/2017 11:54 AM
+ */
 
-import { NgModule, ApplicationModule, Renderer } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { COMPILER_PROVIDERS } from '@angular/compiler';
+import { ApplicationModule, NgModule, Renderer } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { COMPILER_PROVIDERS } from '@angular/compiler';
 
 import { COMPONENTS, ENTRY_COMPONENTS } from './components';
 import { DIRECTIVES } from './directives';
+import { ImageCropperModule } from 'ng2-img-cropper';
 import { PIPES } from './pipes';
 import { SERVICES } from './services';
-import { ImageCropperModule } from './lib';
+import { WIDGETS } from './settings';
 
 export * from './directives';
 export * from './pipes';
@@ -30,33 +31,32 @@ export * from './helpers';
         COMPONENTS,
         DIRECTIVES,
         PIPES,
-        ENTRY_COMPONENTS
+        ENTRY_COMPONENTS,
     ],
     imports: [ CommonModule, FormsModule, ImageCropperModule ],
     exports: [
         COMPONENTS,
         DIRECTIVES,
-        PIPES
+        PIPES,
     ],
     entryComponents: [
-        ENTRY_COMPONENTS
+        ENTRY_COMPONENTS,
     ],
     providers: [
-        SERVICES
+        SERVICES,
         //COMPILER_PROVIDERS
-    ]
+    ],
 })
 export class WidgetsModule {
     version: string = '0.8.0';
     build: string = '2017-05-02.v1';
     static init: boolean = false;
     constructor() {
-        if(!WidgetsModule.init){
+        if (!WidgetsModule.init) {
             WidgetsModule.init = true;
-            console.debug(`[ACA][LIBRARY] Widgets - Version: ${this.version} | Build: ${this.build}`);
+            WIDGETS.version(this.version, this.build);
         }
     }
 }
 
 export let ACA_WIDGETS_MODULE = WidgetsModule;
-

@@ -1,14 +1,14 @@
 /**
-* @Author: Alex Sorafumo
-* @Date:   20/09/2016 1:54 PM
-* @Email:  alex@yuion.net
-* @Filename: dropdown.component.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 20/12/2016 9:37 AM
-*/
+ * @Author: Alex Sorafumo
+ * @Date:   20/09/2016 1:54 PM
+ * @Email:  alex@yuion.net
+ * @Filename: dropdown.component.ts
+ * @Last modified by:   Alex Sorafumo
+ * @Last modified time: 20/12/2016 9:37 AM
+ */
 
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 
 @Component({
     selector: 'dropdown',
@@ -18,14 +18,14 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
         trigger('show', [
             state('show',  style({ opacity: '1' })),
             state('hide',  style({ opacity: '0' })),
-            transition('hide <=> show', animate('150ms ease-out'))
+            transition('hide <=> show', animate('150ms ease-out')),
         ]),
         trigger('showlist', [
             state('show',  style({ height: '*' })),
             state('hide',  style({ height: '2.4em', display: 'none' })),
-            transition('hide <=> show', animate('750ms ease-out'))
-        ])
-    ]
+            transition('hide <=> show', animate('750ms ease-out')),
+        ]),
+    ],
 })
 export class Dropdown {
     @Input() items: any[] = [];
@@ -57,20 +57,20 @@ export class Dropdown {
     }
 
     ngOnChanges(changes: any) {
-        if(changes.items) {
-            if(this.items && this.items.length > 0) {
+        if (changes.items) {
+            if (this.items && this.items.length > 0) {
                 setTimeout(() => {
                     this.display_items = this.items;
                     this.type = typeof this.items[0];
-                    if(!this.placeholder || this.placeholder === ''){
-                        if(!this.model) {
+                    if (!this.placeholder || this.placeholder === '') {
+                        if (!this.model) {
                             this.model = this.items[0];
                         }
                     }
                 }, 200);
             }
         }
-        if(changes.model) {
+        if (changes.model) {
             setTimeout(() => {
                 this.current_item = this.model;
             }, 200);
@@ -83,13 +83,13 @@ export class Dropdown {
      * @return {boolean} Returns whether or not the string is contained in the item
      */
     itemContains(item: any, search: string) {
-        let s = search.toLowerCase();
-        for(let p in item){
-            if(typeof item[p] === 'string' && item[p].toLowerCase().indexOf(s) >= 0) {
+        const s = search.toLowerCase();
+        for (const p in item) {
+            if (typeof item[p] === 'string' && item[p].toLowerCase().indexOf(s) >= 0) {
                 return true;
-            } else if(typeof item[p] === 'number' && item[p].toString().indexOf(s) >= 0) {
+            } else if (typeof item[p] === 'number' && item[p].toString().indexOf(s) >= 0) {
                 return true;
-            } else if(typeof item[p] === 'object' && this.itemContains(item[p], search)) {
+            } else if (typeof item[p] === 'object' && this.itemContains(item[p], search)) {
                 return true;
             }
         }
@@ -112,10 +112,10 @@ export class Dropdown {
     }
 
     checkTap(e: any) {
-        if(e) {
-            let bb = this.list.nativeElement.getBoundingClientRect();
-            let c = e.center;
-            if(c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
+        if (e) {
+            const bb = this.list.nativeElement.getBoundingClientRect();
+            const c = e.center;
+            if (c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
                 this.shown = false;
             }
         }

@@ -45,31 +45,31 @@ Modals can also be added via code using the `ModalService`.
     setup(id: String, attr: Object);
 ```
 ###### Setup Function
-* No return value.
-* Function sets up the properties for the modal with the given id
-* attr can set all the writable attributes defined in the modal directive above
+ * No return value.
+ * Function sets up the properties for the modal with the given id
+ * attr can set all the writable attributes defined in the modal directive above
 
 ```javascript
     open(id: String, attr?: Object);
 ```
 ###### Open Function
-* No return value.
-* Function sets up the properties for the modal with the given id
-* attr can set all the writable attributes defined in the modal directive above
+ * No return value.
+ * Function sets up the properties for the modal with the given id
+ * attr can set all the writable attributes defined in the modal directive above
 
 ```javascript
     close(id: String);
 ```
 ###### Close Function
-* No return value.
-* Function closes a modal with the given id.
+ * No return value.
+ * Function closes a modal with the given id.
 
 ```javascript
     clear();
 ```
 ###### Clear Function
-* No return value.
-* Function closes all modals open.
+ * No return value.
+ * Function closes all modals open.
 
 ### Notifications
 
@@ -105,20 +105,20 @@ Notifications can also be added via code using the `NotificationService`.
     add(message: String, cssClass?: String, options?: Object);
 ```
 ###### Open Function
-* Returns the id value of the notification.
-* Function opens a notification with the given `message` using the given `options`.
-* `options` has 3 properties that can be set `timeout`, `canClose` and `styles`. `timeout` defined the time in ms the notification will close if `canClose` is false. `canClose` defines is the user can close the notification. `styles` is use to define custom styles for the notification.
+ * Returns the id value of the notification.
+ * Function opens a notification with the given `message` using the given `options`.
+ * `options` has 3 properties that can be set `timeout`, `canClose` and `styles`. `timeout` defined the time in ms the notification will close if `canClose` is false. `canClose` defines is the user can close the notification. `styles` is use to define custom styles for the notification.
 
 ```javascript
     close(id: String);
 ```
 ###### Close Function
-* No return value.
-* Function closes a notification with the given id.
+ * No return value.
+ * Function closes a notification with the given id.
 
 ```javascript
     clear();
 ```
 ###### Clear Function
-* No return value.
-* Function closes all open notifications.
+ * No return value.
+ * Function closes all open notifications.

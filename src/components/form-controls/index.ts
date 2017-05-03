@@ -1,11 +1,11 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
-* @Date:   15/09/2016 11:48 AM
-* @Email:  alex@yuion.net
-* @Filename: index.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:30 AM
-*/
+ * @Author: Alex Sorafumo <Yuion>
+ * @Date:   15/09/2016 11:48 AM
+ * @Email:  alex@yuion.net
+ * @Filename: index.ts
+ * @Last modified by:   Yuion
+ * @Last modified time: 15/12/2016 11:30 AM
+ */
 
 import { Calendar } from './calendar';
 import { DataInput } from './data-input';
@@ -34,5 +34,5 @@ export const FORM_CONTROLS: any[] = [
     TimePicker,
     Toggle,
     Typeahead,
-    TypeaheadList
+    TypeaheadList,
 ];

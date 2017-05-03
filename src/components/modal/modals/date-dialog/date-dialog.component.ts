@@ -1,17 +1,17 @@
 /**
-* @Author: Alex Sorafumo
-* @Date:   13/09/2016 2:55 PM
-* @Email:  alex@yuion.net
-* @Filename: date-dialog.component.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 19/12/2016 4:39 PM
-*/
+ * @Author: Alex Sorafumo
+ * @Date:   13/09/2016 2:55 PM
+ * @Email:  alex@yuion.net
+ * @Filename: date-dialog.component.ts
+ * @Last modified by:   Alex Sorafumo
+ * @Last modified time: 19/12/2016 4:39 PM
+ */
 
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ComponentFactoryResolver } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
+import { Component, ComponentFactoryResolver, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
+import * as moment from 'moment';
 import { ModalService } from '../../../../services';
 import { Modal } from '../../modal.component';
-import * as moment from 'moment';
 
 const PLACEHOLDER = '-';
 
@@ -23,15 +23,15 @@ const PLACEHOLDER = '-';
         trigger('backdrop', [
             state('hide', style({ opacity : 0 })),
             state('show', style({ opacity : 1 })),
-            transition('* <=> *', animate('0.5s ease-out'))
+            transition('* <=> *', animate('0.5s ease-out')),
         ]),
         trigger('space', [
             state('hide', style({ transform: 'translate(-50%, -50%) scale(0)'})),
             state('show', style({ transform: 'translate(-50%, -50%) scale(1.0)'})),
             transition('* <=> *', animate('0.2s ease-out')),
-            transition('void => *', animate('0.2s ease-out'))
-        ])
-    ]
+            transition('void => *', animate('0.2s ease-out')),
+        ]),
+    ],
 })
 export class DateDialog extends Modal {
     @Input() date: Date = new Date();
@@ -65,11 +65,11 @@ export class DateDialog extends Modal {
 
     ngOnInit() {
         this.setDate(new Date());
-        if(this.futureOnly && (this.minDate === null || this.minDate === undefined)) this.minDate = new Date();
-        if(this.display == 'short') {
+        if (this.futureOnly && (this.minDate === null || this.minDate === undefined)) this.minDate = new Date();
+        if (this.display == 'short') {
             this.months = this.months_short;
             this.days = this.days_short;
-        } else if(this.display == 'long') {
+        } else if (this.display == 'long') {
             this.months = this.months_long;
             this.days = this.days_long;
         } else {
@@ -81,16 +81,16 @@ export class DateDialog extends Modal {
         }, 500);
     }
 
-    ngOnChanges(changes:any) {
-        if(changes.date) {
-            if(changes.date.currentValue) {
+    ngOnChanges(changes: any) {
+        if (changes.date) {
+            if (changes.date.currentValue) {
                 this.setDate(changes.date.currentValue);
             }
         }
     }
 
     setDate(date: Date) {
-        if(!(date instanceof Date)) this._date = moment(new Date());
+        if (!(date instanceof Date)) this._date = moment(new Date());
         else this._date = moment(date);
         this.display_year = this._date.year();
         this.display_month = this._date.month();
@@ -100,17 +100,17 @@ export class DateDialog extends Modal {
     }
 
     isPast(day: number) {
-        let c_date = new Date();
-        c_date.setDate(c_date.getDate()-1);
-        let date = new Date(this.display_year, this.display_month, +day);
+        const c_date = new Date();
+        c_date.setDate(c_date.getDate() - 1);
+        const date = new Date(this.display_year, this.display_month, +day);
         return this.compareDates(c_date, date);
     }
 
     isBeforeMinDate(day: number) {
-        if(this.minDate === null) return false;
-        let c_date = new Date(this.minDate.getTime());
-        c_date.setDate(c_date.getDate()-1);
-        let date = new Date(this.display_year, this.display_month, +day);
+        if (this.minDate === null) return false;
+        const c_date = new Date(this.minDate.getTime());
+        c_date.setDate(c_date.getDate() - 1);
+        const date = new Date(this.display_year, this.display_month, +day);
         return this.compareDates(c_date, date);
     }
 
@@ -121,55 +121,55 @@ export class DateDialog extends Modal {
     }
 
     isToday(day: number) {
-        let now = moment();
+        const now = moment();
         return (now.year() === this.display_year &&
         now.month() === this.display_month &&
         now.date() === +day);
     }
     isActive(day: number) {
-        let now = this._date;
+        const now = this._date;
         return (now.year() === this.display_year &&
         now.month() === this.display_month &&
         now.date() === +day);
     }
 
     generateMonth() {
-        let firstDay = new Date(this.display_year, this.display_month, 1);
-        let monthDays = (new Date(this.display_year, this.display_month+1, 0)).getDate();
-        let day = firstDay.getDay();
+        const firstDay = new Date(this.display_year, this.display_month, 1);
+        const monthDays = (new Date(this.display_year, this.display_month + 1, 0)).getDate();
+        const day = firstDay.getDay();
         this.month_node = [];
-        let ph = { day : PLACEHOLDER, valid: false, past: false, today: false, active: false, disabled: false };
+        const ph = { day : PLACEHOLDER, valid: false, past: false, today: false, active: false, disabled: false };
         let i: number;
         // Fill in blank days at beginning of the month
-        for(i = 0; i < day; i++) this.month_node.push(ph);
+        for (i = 0; i < day; i++) this.month_node.push(ph);
         // Fill in days of the month
-        for(i = 0; i < monthDays; i++) {
-            let day = {
-                day : (i+1).toString(),
+        for (i = 0; i < monthDays; i++) {
+            const day = {
+                day : (i + 1).toString(),
                 valid: true,
-                past: this.isPast(i+1),
-                today: this.isToday(i+1),
-                active: this.isActive(i+1),
-                disabled: this.isBeforeMinDate(i+1)
+                past: this.isPast(i + 1),
+                today: this.isToday(i + 1),
+                active: this.isActive(i + 1),
+                disabled: this.isBeforeMinDate(i + 1),
             };
             this.month_node.push(day);
         }
         // Fill in blank days at end of the month
-        let cnt = 7 * 6 - this.month_node.length;
-        for(i = 0; i < cnt; i++) this.month_node.push(ph);
+        const cnt = 7 * 6 - this.month_node.length;
+        for (i = 0; i < cnt; i++) this.month_node.push(ph);
     }
 
-    nextMonth(){
+    nextMonth() {
         this.display_month++;
         this.display_month %= 12;
-        if(this.display_month == 0) this.display_year++;
+        if (this.display_month == 0) this.display_year++;
         this.generateMonth();
     }
 
     prevMonth() {
         this.display_month--;
         this.display_month %= 12;
-        if(this.display_month == -1) {
+        if (this.display_month == -1) {
             this.display_year--;
             this.display_month = 11;
         }
@@ -177,10 +177,10 @@ export class DateDialog extends Modal {
     }
 
     selectDate(week: number, day: number) {
-        if(!this.ready) return false;
-        if(!+this.month_node[week * 7 + day].valid) return false;
-        let date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day].day);
-        if(this.isBeforeMinDate(+this.month_node[week * 7 + day].day)) return false;
+        if (!this.ready) return false;
+        if (!+this.month_node[week * 7 + day].valid) return false;
+        const date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day].day);
+        if (this.isBeforeMinDate(+this.month_node[week * 7 + day].day)) return false;
         date.setHours(this._date.hours(), this._date.minutes());
         this.setDate(date);
         this.dateChange.emit(date);
@@ -189,10 +189,10 @@ export class DateDialog extends Modal {
     }
 
     checkNumber(str: string) {
-        let numbers = '1234567890';
-        for(let i = 0; i < str.length; i++) {
-            if(numbers.indexOf(str[i]) < 0) {
-                str = str.substr(0, i-1) + str.substr(i+1, str.length);
+        const numbers = '1234567890';
+        for (let i = 0; i < str.length; i++) {
+            if (numbers.indexOf(str[i]) < 0) {
+                str = str.substr(0, i - 1) + str.substr(i + 1, str.length);
                 i--;
             }
         }
@@ -206,14 +206,14 @@ export class DateDialog extends Modal {
     setParams(data: any) {
         super.setParams(data);
         console.log(data);
-        if(data && data.data && data.data.date && data.data.date instanceof Date) this.setDate(data.data.date);
+        if (data && data.data && data.data.date && data.data.date instanceof Date) this.setDate(data.data.date);
         this.canClose = true;
-        if(data && data.options){
-            for(let i = 0; i < data.options.length; i++) {
-                let option = data.options[i];
-                if(option.type === 'confirm') {
+        if (data && data.options) {
+            for (let i = 0; i < data.options.length; i++) {
+                const option = data.options[i];
+                if (option.type === 'confirm') {
                     this.confirm = option;
-                } else if(option.type === 'cancel') {
+                } else if (option.type === 'cancel') {
                     this.cancel = option;
                 }
             }

@@ -1,14 +1,14 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
-* @Date:   28/10/2016 11:24 AM
-* @Email:  alex@yuion.net
-* @Filename: virtual-keyboard.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:32 AM
-*/
+ * @Author: Alex Sorafumo <Yuion>
+ * @Date:   28/10/2016 11:24 AM
+ * @Email:  alex@yuion.net
+ * @Filename: virtual-keyboard.component.ts
+ * @Last modified by:   Yuion
+ * @Last modified time: 15/12/2016 11:32 AM
+ */
 
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes }      from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger }      from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 const KEY_LIST = {
@@ -17,24 +17,24 @@ const KEY_LIST = {
             '`1234567890-=',
             'qwertyuiop[]\\',
             'asdfghjkl;\'',
-            'zxcvbnm,./'
+            'zxcvbnm,./',
         ],
         shift: [
             '~!@#$%^&*()_+',
             'QWERTYUIOP{}',
             'ASDFGHJKL:"',
-            'ZXCVBNM<>?'
-        ]
+            'ZXCVBNM<>?',
+        ],
     },
     NUMPAD : {
         normal: [
-            '123', '456', '789', '*0#'
+            '123', '456', '789', '*0#',
         ],
         shift: [
-            '123', '456', '789', '*0#'
-        ]
-    }
-}
+            '123', '456', '789', '*0#',
+        ],
+    },
+};
 
 @Component({
   selector: 'keyboard-display',
@@ -45,21 +45,21 @@ const KEY_LIST = {
           state('hide', style({ opacity : '0', transform: 'scale(0.5)', display: 'none' })),
           state('show', style({ opacity : '1', transform: 'scale(1.0)' })),
           transition('show <=> hide', animate('0.25s ease-out')),
-          transition('void => show', animate('0.25s ease-in'))
+          transition('void => show', animate('0.25s ease-in')),
       ]),
       trigger('keyboardleft', [
           state('hide', style({ opacity : '0', left: '-100%' })),
           state('show', style({ opacity : '1', left: '0' })),
           transition('show <=> hide', animate('0.25s ease-out')),
-          transition('void => show', animate('0.25s ease-in'))
+          transition('void => show', animate('0.25s ease-in')),
       ]),
       trigger('keyboardright', [
           state('hide', style({ opacity : '0', right: '-100%' })),
           state('show', style({ opacity : '1', right: '0' })),
           transition('show <=> hide', animate('0.25s ease-out')),
-          transition('void => show', animate('0.25s ease-in'))
-      ])
-  ]
+          transition('void => show', animate('0.25s ease-in')),
+      ]),
+  ],
 })
 export class VirtualKeyboard {
     @Input() model: string = '';
@@ -88,10 +88,10 @@ export class VirtualKeyboard {
     }
 
     ngOnChanges(changes: any) {
-        if(changes.type) {
+        if (changes.type) {
             this.loadKeys();
         }
-        if(changes.layout) {
+        if (changes.layout) {
             this.loadLayout();
         }
     }
@@ -109,19 +109,19 @@ export class VirtualKeyboard {
     loadLayout() {
         setTimeout(() => {
             this.loadKeys();
-            if(this.layout === 'split') {
-                let keys: any = { left: {}, right: {} };
-                let left: any = { normal: [], shift: [] };
-                let right: any = { normal: [], shift: [] };
-                left.normal.push(this.keys.normal[0].slice(0, Math.ceil(this.keys.normal[0].length/2)));
-                left.shift.push(this.keys.shift[0].slice(0, Math.ceil(this.keys.shift[0].length/2)));
-                right.normal.push(this.keys.normal[0].slice(Math.ceil(this.keys.normal[0].length/2), this.keys.normal[0].length));
-                right.shift.push(this.keys.shift[0].slice(Math.ceil(this.keys.shift[0].length/2), this.keys.shift[0].length));
-                for(let i = 1; i < this.keys.normal.length; i++) {
-                    left.normal.push(this.keys.normal[i].slice(0, Math.floor(this.keys.normal[i].length/2)));
-                    left.shift.push(this.keys.shift[i].slice(0, Math.floor(this.keys.shift[i].length/2)));
-                    right.normal.push(this.keys.normal[i].slice(Math.floor(this.keys.normal[i].length/2), this.keys.normal[i].length));
-                    right.shift.push(this.keys.shift[i].slice(Math.floor(this.keys.shift[i].length/2), this.keys.shift[i].length));
+            if (this.layout === 'split') {
+                const keys: any = { left: {}, right: {} };
+                const left: any = { normal: [], shift: [] };
+                const right: any = { normal: [], shift: [] };
+                left.normal.push(this.keys.normal[0].slice(0, Math.ceil(this.keys.normal[0].length / 2)));
+                left.shift.push(this.keys.shift[0].slice(0, Math.ceil(this.keys.shift[0].length / 2)));
+                right.normal.push(this.keys.normal[0].slice(Math.ceil(this.keys.normal[0].length / 2), this.keys.normal[0].length));
+                right.shift.push(this.keys.shift[0].slice(Math.ceil(this.keys.shift[0].length / 2), this.keys.shift[0].length));
+                for (let i = 1; i < this.keys.normal.length; i++) {
+                    left.normal.push(this.keys.normal[i].slice(0, Math.floor(this.keys.normal[i].length / 2)));
+                    left.shift.push(this.keys.shift[i].slice(0, Math.floor(this.keys.shift[i].length / 2)));
+                    right.normal.push(this.keys.normal[i].slice(Math.floor(this.keys.normal[i].length / 2), this.keys.normal[i].length));
+                    right.shift.push(this.keys.shift[i].slice(Math.floor(this.keys.shift[i].length / 2), this.keys.shift[i].length));
                 }
                 keys.left = left;
                 keys.right = right;
@@ -132,10 +132,10 @@ export class VirtualKeyboard {
 
     loadKeys() {
         this.keys = KEY_LIST[this.type.toUpperCase()];
-        if(!this.keys) this.keys = KEY_LIST['QWERTY'];
-        for(let i = 0; i < this.keys.normal.length; i++) {
-            if(typeof this.keys.normal[i] === 'string') this.keys.normal[i] = this.keys.normal[i].split('');
-            if(typeof this.keys.shift[i] === 'string') this.keys.shift[i] = this.keys.shift[i].split('');
+        if (!this.keys) this.keys = KEY_LIST['QWERTY'];
+        for (let i = 0; i < this.keys.normal.length; i++) {
+            if (typeof this.keys.normal[i] === 'string') this.keys.normal[i] = this.keys.normal[i].split('');
+            if (typeof this.keys.shift[i] === 'string') this.keys.shift[i] = this.keys.shift[i].split('');
         }
     }
 
@@ -174,18 +174,18 @@ export class VirtualKeyboard {
     }
 
     moveKeyboard(e: any) {
-        if(e) {
-            if(this.keyboard){
-                let key_box = this.keyboard.nativeElement.getBoundingClientRect();
-                if(this.top === '' || this.left === '') {
+        if (e) {
+            if (this.keyboard) {
+                const key_box = this.keyboard.nativeElement.getBoundingClientRect();
+                if (this.top === '' || this.left === '') {
                     this.top_value = key_box.top;
                     this.left_value = key_box.left;
                 } else {
                     this.top_value = e.center.y - 25;
                     this.left_value = e.center.x;
                 }
-                if(this.top_value < 0) this.top_value = 0;
-                if(this.left_value < key_box.width/2) this.left_value = key_box.width/2;
+                if (this.top_value < 0) this.top_value = 0;
+                if (this.left_value < key_box.width / 2) this.left_value = key_box.width / 2;
                 this.top = this.top_value + 'px';
                 this.left = this.left_value + 'px';
             }

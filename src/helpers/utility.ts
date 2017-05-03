@@ -1,11 +1,11 @@
 /**
-* @Author: Alex Sorafumo <alex.sorafumo>
-* @Date:   09/01/2017 12:18 PM
-* @Email:  alex@yuion.net
-* @Filename: Utility.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 27/01/2017 1:32 PM
-*/
+ * @Author: Alex Sorafumo <alex.sorafumo>
+ * @Date:   09/01/2017 12:18 PM
+ * @Email:  alex@yuion.net
+ * @Filename: Utility.ts
+ * @Last modified by:   Alex Sorafumo
+ * @Last modified time: 27/01/2017 1:32 PM
+ */
 
 export class Utility {
     constructor() {
@@ -26,13 +26,13 @@ export class Utility {
      * @param  {string} value String to escape
      * @return {string} Returns escaped string
      */
-    static escape (value: string) {
-        var string = String(value);
-        var length = string.length;
-        var index = -1;
-        var codeUnit: any;
-        var result = '';
-        var firstCodeUnit = string.charCodeAt(0);
+    static escape(value: string) {
+        const string = String(value);
+        const length = string.length;
+        let index = -1;
+        let codeUnit: any;
+        let result = '';
+        const firstCodeUnit = string.charCodeAt(0);
         while (++index < length) {
             codeUnit = string.charCodeAt(index);
             // Note: there’s no need to special-case astral symbols, surrogate
@@ -103,11 +103,11 @@ export class Utility {
 
     static contrastRatio(color1: string, color2: string) {
             // Make sure colours are valid HEX colour codes
-        if(!color1 || color1.length < 6 || color1.length > 7) return -1;
-        if(!color2 || color2.length < 6 || color2.length > 7) return -1;
+        if (!color1 || color1.length < 6 || color1.length > 7) return -1;
+        if (!color2 || color2.length < 6 || color2.length > 7) return -1;
             // Parse colour values
         let r1, g1, b1, r2, b2, g2;
-        if(color1[0] === '#') {
+        if (color1[0] === '#') {
             r1 = parseInt(color1[1] + color1[2], 16);
             g1 = parseInt(color1[3] + color1[4], 16);
             b1 = parseInt(color1[4] + color1[6], 16);
@@ -116,7 +116,7 @@ export class Utility {
             g1 = parseInt(color1[2] + color1[3], 16);
             b1 = parseInt(color1[4] + color1[5], 16);
         }
-        if(color2[0] === '#') {
+        if (color2[0] === '#') {
             r2 = parseInt(color2[1] + color2[2], 16);
             g2 = parseInt(color2[3] + color2[4], 16);
             b2 = parseInt(color2[4] + color2[6], 16);
@@ -125,20 +125,20 @@ export class Utility {
             g2 = parseInt(color2[2] + color2[3], 16);
             b2 = parseInt(color2[4] + color2[5], 16);
         }
-        if(isNaN(r1) || isNaN(r2) || isNaN(g1) || isNaN(g2) || isNaN(b1) || isNaN(b2)) {
+        if (isNaN(r1) || isNaN(r2) || isNaN(g1) || isNaN(g2) || isNaN(b1) || isNaN(b2)) {
             return 0;
         }
-        let lum1 = Utility.luminanace(r1, b1, g1);
-        let lum2 = Utility.luminanace(r2, b2, g2);
+        const lum1 = Utility.luminanace(r1, b1, g1);
+        const lum2 = Utility.luminanace(r2, b2, g2);
         return (lum1 + 0.05) / (lum2 + 0.05);
     }
 
     static luminanace(r: number, g: number, b: number) {
-        var a = [r,g,b].map(function(v) {
+        const a = [r, g, b].map(function(v) {
             v /= 255;
             return (v <= 0.03928) ?
                 v / 12.92 :
-                Math.pow( ((v+0.055)/1.055), 2.4 );
+                Math.pow( ((v + 0.055) / 1.055), 2.4 );
             });
         return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
     }
@@ -148,7 +148,7 @@ export class Utility {
      * @return {void}
      */
     static addClass(el: any, name: string) {
-        if(!el.classList.contains(name)){
+        if (!el.classList.contains(name)) {
             el.classList.add(name);
         }
     }
@@ -166,7 +166,7 @@ export class Utility {
      * @return {void}
      */
     static swapClass(el: any, first: string, second: string) {
-        if(el.classList.contains(first)) {
+        if (el.classList.contains(first)) {
             this.removeClass(el, first);
             this.addClass(el, second);
         }

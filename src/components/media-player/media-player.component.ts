@@ -1,13 +1,13 @@
 /*
-* @Author: Alex Sorafumo
-* @Date:   2017-05-02 16:51:45
-* @Last Modified by:   Alex Sorafumo
-* @Last Modified time: 2017-05-03 10:12:42
-*/
+ * @Author: Alex Sorafumo
+ * @Date:   2017-05-02 16:51:45
+ * @Last Modified by:   Alex Sorafumo
+ * @Last Modified time: 2017-05-03 12:38:34
+ */
 
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 
 @Component({
     selector: 'media-player',
@@ -16,15 +16,15 @@ import { trigger, transition, animate, style, state, keyframes } from '@angular/
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         trigger('controls', [
-            state('show', style({ 'bottom': '0' })),
-            state('hide', style({ 'bottom': '-1.8em' })),
+            state('show', style({ bottom: '0' })),
+            state('hide', style({ bottom: '-1.8em' })),
             transition('show <=> hide', animate('0.4s ease-out')),
         ]),
-    ]
+    ],
 })
 export class MediaPlayerComponent {
     @Input() src: any = null;
-    @Input() color: string = '#2196F3'
+    @Input() color: string = '#2196F3';
 
     @Output() time: any = new EventEmitter();
     @Output() length: any = new EventEmitter();
@@ -49,7 +49,7 @@ export class MediaPlayerComponent {
     }
 
     init() {
-        if(!this.player) {
+        if (!this.player) {
             setTimeout(() => {
                 this.init();
             }, 200);
@@ -65,7 +65,7 @@ export class MediaPlayerComponent {
     }
 
     changeMediaState() {
-        if(this.media_playing) {
+        if (this.media_playing) {
             this.stopMedia();
         } else {
             this.playMedia();
@@ -93,11 +93,11 @@ export class MediaPlayerComponent {
 
     showTools() {
         this.controls_active = true;
-        if(this.hide_timer) {
+        if (this.hide_timer) {
             clearTimeout(this.hide_timer);
         }
         this.hide_timer = setTimeout(() => {
-            if(this.media_playing) {
+            if (this.media_playing) {
                 this.controls_active = false;
             }
             this.hide_timer = null;
@@ -105,18 +105,18 @@ export class MediaPlayerComponent {
     }
 
     updateTimer() {
-        if(!this.player) return;
-        let time = this.player.nativeElement.currentTime;
-        let secs = Math.floor(time % 60);
-        let mins = Math.floor(time/60);
+        if (!this.player) return;
+        const time = this.player.nativeElement.currentTime;
+        const secs = Math.floor(time % 60);
+        const mins = Math.floor(time / 60);
         this.current_time = `${mins < 10 ? '0' + mins : mins}:${secs < 10 ? '0' + secs : secs}`;
         this.time.emit(this.current_time);
         this.progress = this.player.nativeElement.currentTime / this.player.nativeElement.duration * 100;
         this.is_end = this.player.nativeElement.currentTime === this.player.nativeElement.duration;
-        if(this.is_end) {
+        if (this.is_end) {
             this.stopMedia();
         }
-        if(this.media_playing) {
+        if (this.media_playing) {
             setTimeout(() => {
                 this.updateTimer();
             }, 400);
@@ -125,11 +125,11 @@ export class MediaPlayerComponent {
     }
 
     setDuration() {
-        if(!this.player) return;
-        let time = this.player.nativeElement.duration;
-        let secs = Math.floor(time % 60);
-        let mins = Math.floor(time/60);
-        if(isNaN(secs) || isNaN(mins)) {
+        if (!this.player) return;
+        const time = this.player.nativeElement.duration;
+        const secs = Math.floor(time % 60);
+        const mins = Math.floor(time / 60);
+        if (isNaN(secs) || isNaN(mins)) {
             setTimeout(() => {
                 this.setDuration();
             }, 200);
@@ -140,14 +140,14 @@ export class MediaPlayerComponent {
     }
 
     toggleFullScreen() {
-        console.log('Toggle FullScreen')
-        let doc: any = window.document;
-        let docEl: any = this.video.nativeElement;
+        console.log('Toggle FullScreen');
+        const doc: any = window.document;
+        const docEl: any = this.video.nativeElement;
 
-        let requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-        let cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+        const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+        const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
 
-        if(!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+        if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
             requestFullScreen.call(docEl);
         } else cancelFullScreen.call(doc);
     }

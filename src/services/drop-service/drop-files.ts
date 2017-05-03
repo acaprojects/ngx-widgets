@@ -1,28 +1,29 @@
 /**
-* @Author: Stephen von Takack
-* @Date:   13/09/2016 2:55 PM
-* @Email:  steve@acaprojects.com
-* @Filename: drop-files.spec.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 15/12/2016 11:37 AM
-*/
+ * @Author: Stephen von Takack
+ * @Date:   13/09/2016 2:55 PM
+ * @Email:  steve@acaprojects.com
+ * @Filename: drop-files.spec.ts
+ * @Last modified by:   Alex Sorafumo
+ * @Last modified time: 15/12/2016 11:37 AM
+ */
 
 export class DropFiles {
-    promise: Promise<DropFiles>;
 
-    length:number = 0;
-    totalSize:number = 0;
-    files:Array<any> = [];
-    calculating:boolean = false;
+    public length: number = 0;
+    public totalSize: number = 0;
+    public files: any[] = [];
+    public calculating: boolean = false;
 
-    private _pending:Array<any>;
-    private resolve:any;
-    private reject:any;
+    public promise: Promise<DropFiles>;
 
-    constructor(event:any) {
-        let files:Array<any> = event.dataTransfer.files,
-            items:Array<any> = event.dataTransfer.items,
-            either:Array<any> = items || files;
+    private _pending: any[];
+    private resolve: any;
+    private reject: any;
+
+    constructor(event: any) {
+        const files: any[] = event.dataTransfer.files;
+        const items: any[] = event.dataTransfer.items;
+        const either: any[] = items || files;
 
         this.promise = new Promise((resolve, reject) => {
             if (!either || files.length === 0) {
@@ -36,9 +37,9 @@ export class DropFiles {
                 this.reject = reject;
 
                 this._pending = [{
-                    items: items,
+                    items,
                     folders: true,
-                    path: ''
+                    path: '',
                 }];
                 this.calculating = true;
                 // files are flattened so this should be accurate
@@ -46,10 +47,10 @@ export class DropFiles {
                 this.length = files.length;
                 this._processPending();
             } else {
-                let i: number, file: any;
+                let file: any;
 
                 // Clone the files array
-                for (i = 0; i < files.length; i += 1) {
+                for (let i = 0; i < files.length; i += 1) {
                     file = files[i];
 
                     // ensure the file has some content
@@ -68,9 +69,9 @@ export class DropFiles {
     // Extracts the files from the folders
     private _processPending() {
         if (this._pending.length > 0) {
-            let item = this._pending.shift(),
-                items = item.items,
-                length = items.length;
+            const item = this._pending.shift();
+            const items = item.items;
+            const length = items.length;
 
             // Let's ignore this folder
             if (length === 0 || length === undefined) {
@@ -80,58 +81,57 @@ export class DropFiles {
 
             // Check if this pending item has any folders
             if (item.folders) {
-                let i: number,
-                    entry: any,
-                    obj: any,
-                    count: number = 0,
-                    new_items: any[] = [],
-                    checkCount = () => {
-                        // Counts the entries processed so we can add any files to the queue
-                        count += 1;
-                        if (count >= length) {
-                            if (new_items.length > 0) {
-                                // add any files to the start of the queue
-                                this._pending.unshift({
-                                    items: new_items,
-                                    folders: false
-                                });
-                            }
-                            setTimeout(this._processPending.bind(this), 0);
+                let entry: any;
+                let obj: any;
+                let count: number = 0;
+                const new_items: any[] = [];
+                const checkCount = () => {
+                    // Counts the entries processed so we can add any files to the queue
+                    count += 1;
+                    if (count >= length) {
+                        if (new_items.length > 0) {
+                            // add any files to the start of the queue
+                            this._pending.unshift({
+                                items: new_items,
+                                folders: false,
+                            });
                         }
-                    },
-                    processEntry = (entry: any, path: any) => {
-                        // If it is a directory we add it to the pending queue
-                        try {
-                            if (entry.isDirectory) {
-                                entry.createReader().readEntries((entries: any) => {
-                                    this._pending.push({
-                                        items: entries,
-                                        folders: true,
-                                        path: path + entry.name + '/'
-                                    });
-                                    checkCount();
+                        setTimeout(this._processPending.bind(this), 0);
+                    }
+                };
+                const processEntry = (f_entry: any, path: any) => {
+                    // If it is a directory we add it to the pending queue
+                    try {
+                        if (f_entry.isDirectory) {
+                            f_entry.createReader().readEntries((entries: any) => {
+                                this._pending.push({
+                                    items: entries,
+                                    folders: true,
+                                    path: path + entry.name + '/',
                                 });
-                            } else if (entry.isFile) {
-                                // Files are added to a file queue
-                                entry.file((file: any) => {
-                                    file.dir_path = path;
-
-                                    if (file.type || file.size > 0) {
-                                        this.totalSize += file.size;
-                                        new_items.push(file);
-                                    }
-
-                                    checkCount();
-                                });
-                            } else {
                                 checkCount();
-                            }
-                        } catch (err) {
+                            });
+                        } else if (f_entry.isFile) {
+                            // Files are added to a file queue
+                            f_entry.file((file: any) => {
+                                file.dir_path = path;
+
+                                if (file.type || file.size > 0) {
+                                    this.totalSize += file.size;
+                                    new_items.push(file);
+                                }
+
+                                checkCount();
+                            });
+                        } else {
                             checkCount();
                         }
-                    };
+                    } catch (err) {
+                        checkCount();
+                    }
+                };
 
-                for (i = 0; i < length; i += 1) {
+                for (let i = 0; i < length; i += 1) {
                     // first layer of DnD folders require you to getAsEntry
                     if (item.path.length === 0) {
                         obj = items[i];

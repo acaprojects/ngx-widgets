@@ -1,15 +1,15 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
-* @Date:   12/12/2016 10:41 AM
-* @Email:  alex@yuion.net
-* @Filename: stepper.component.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 20/01/2017 3:45 PM
-*/
+ * @Author: Alex Sorafumo <Yuion>
+ * @Date:   12/12/2016 10:41 AM
+ * @Email:  alex@yuion.net
+ * @Filename: stepper.component.ts
+ * @Last modified by:   alex.sorafumo
+ * @Last modified time: 20/01/2017 3:45 PM
+ */
 
-import { Component, Input, Output, EventEmitter, ElementRef, DoCheck, OnChanges} from '@angular/core';
-import { ViewChild, ContentChildren, QueryList, AfterContentInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import { AfterContentInit, ContentChildren, QueryList, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { StepperStep } from './step.component';
@@ -25,11 +25,11 @@ import { StepperStep } from './step.component';
         .stepper {
             width: 100%;
         }
-    `]
+    `],
 })
 export class Stepper implements AfterContentInit, DoCheck, OnChanges  {
 
-    @Input() type: string = "ordered";
+    @Input() type: string = 'ordered';
     @Input() direction: string = 'vertical';
     @Input() steps: any = { count: 0, change: false, states: [] };
     @Output() stepsChange = new EventEmitter();
@@ -41,53 +41,53 @@ export class Stepper implements AfterContentInit, DoCheck, OnChanges  {
     }
 
     ngOnChanges(changes: any) {
-        if(changes.steps && this.steps && this.stepList) {
+        if (changes.steps && this.steps && this.stepList) {
             this.updateStates();
         }
     }
 
     ngDoCheck() {
-        if(this.steps && this.steps.change !== this.last_change && this.stepList) {
+        if (this.steps && this.steps.change !== this.last_change && this.stepList) {
             this.last_change = this.steps.change;
             this.updateStates();
         }
     }
 
     updateStates() {
-        let step_list = this.stepList.toArray();
-        for(let i = 0; i < step_list.length; i++) {
-            if(this.steps.states[i]) {
+        const step_list = this.stepList.toArray();
+        for (let i = 0; i < step_list.length; i++) {
+            if (this.steps.states[i]) {
                 step_list[i].setState(this.steps.states[i]);
             }
         }
     }
 
-    ngAfterContentInit(){
+    ngAfterContentInit() {
         this.initElements();
     }
 
-    initElements(){
-        if(!this.steps) return;
-        let step_list = this.stepList.toArray();
-        for(let i = 0; i < step_list.length; i++) {
-            if(i > this.steps.states.length) this.steps.states.push({ open: false, active: false, error: false });
+    initElements() {
+        if (!this.steps) return;
+        const step_list = this.stepList.toArray();
+        for (let i = 0; i < step_list.length; i++) {
+            if (i > this.steps.states.length) this.steps.states.push({ open: false, active: false, error: false });
             step_list[i].index = i;
             step_list[i].parent = this;
-            if(this.type !== 'ordered') {
+            if (this.type !== 'ordered') {
                 step_list[i].ordered = false;
             }
-            step_list[i].open = this.steps.states[i].open = (i===0);
-            step_list[i].active = this.steps.states[i].active = (i===0);
+            step_list[i].open = this.steps.states[i].open = (i === 0);
+            step_list[i].active = this.steps.states[i].active = (i === 0);
         }
         this.stepsChange.emit(this.steps);
     }
 
     open(index: number) {
-        let step_list = this.stepList.toArray();
+        const step_list = this.stepList.toArray();
         this.steps.states[index].open = true;
-        for(let i = 0; i < step_list.length; i++) {
-            if(this.direction === 'ordered') {
-                if(i === index) {
+        for (let i = 0; i < step_list.length; i++) {
+            if (this.direction === 'ordered') {
+                if (i === index) {
                     step_list[i].setState({ open: true, active: step_list[i].active, error: step_list[i].error });
                     this.steps.states[i].open = true;
                 } else {

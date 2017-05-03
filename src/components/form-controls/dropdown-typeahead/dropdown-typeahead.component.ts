@@ -1,14 +1,14 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
-* @Date:   13/09/2016 2:55 PM
-* @Email:  alex@yuion.net
-* @Filename: dropdown.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:29 AM
-*/
+ * @Author: Alex Sorafumo <Yuion>
+ * @Date:   13/09/2016 2:55 PM
+ * @Email:  alex@yuion.net
+ * @Filename: dropdown.component.ts
+ * @Last modified by:   Yuion
+ * @Last modified time: 15/12/2016 11:29 AM
+ */
 
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 @Component({
@@ -19,14 +19,14 @@ import { Observable } from 'rxjs/Rx';
         trigger('show', [
             state('show',  style({ opacity: '1' })),
             state('hide',  style({ opacity: '0' })),
-            transition('show <=> hide', animate('150ms ease-out'))
+            transition('show <=> hide', animate('150ms ease-out')),
         ]),
         trigger('showlist', [
             state('show',  style({ opacity: '1', height: '*' })),
-            state('hide',  style({ opacity: '0', height: '2.0em', display:'none' })),
-            transition('show <=> hide', animate('750ms ease-out'))
-        ])
-    ]
+            state('hide',  style({ opacity: '0', height: '2.0em', display: 'none' })),
+            transition('show <=> hide', animate('750ms ease-out')),
+        ]),
+    ],
 })
 export class DropdownTypeahead {
     @Input() items: any[] = [];
@@ -61,13 +61,13 @@ export class DropdownTypeahead {
     }
 
     ngOnChanges(changes: any) {
-        if(changes.items) {
-            if(this.items && this.items.length > 0) {
+        if (changes.items) {
+            if (this.items && this.items.length > 0) {
                 setTimeout(() => {
                     this.type = typeof this.items[0];
                     this.display_items = this.items;
-                    if(!this.placeholder || this.placeholder === ''){
-                        if(!this.model) {
+                    if (!this.placeholder || this.placeholder === '') {
+                        if (!this.model) {
                             this.model = this.items[0];
                         }
                     }
@@ -75,7 +75,7 @@ export class DropdownTypeahead {
                 }, 200);
             }
         }
-        if(changes.model || changes.search) {
+        if (changes.model || changes.search) {
             this.filter();
             setTimeout(() => {
                 this.current_item = this.model;
@@ -88,19 +88,19 @@ export class DropdownTypeahead {
     filter() {
         this.searchChange.emit(this.search);
         let filtered: any[] = [];
-        let items = JSON.parse(JSON.stringify(this.items));
-        if(!this.search || this.search === '') {
+        const items = JSON.parse(JSON.stringify(this.items));
+        if (!this.search || this.search === '') {
             filtered = items;
-            let i = filtered.indexOf(this.model);
-            if(i >= 0) {
+            const i = filtered.indexOf(this.model);
+            if (i >= 0) {
                 filtered.splice(i, 1);
             }
         } else {
-            for(let i of items) {
-                if(i !== this.model){
-                    if(this.type === 'object' && this.itemContains(i, this.search)) {
+            for (const i of items) {
+                if (i !== this.model) {
+                    if (this.type === 'object' && this.itemContains(i, this.search)) {
                         filtered.push(i);
-                    } else if(this.itemContains({ id: i }, this.search)) {
+                    } else if (this.itemContains({ id: i }, this.search)) {
                         filtered.push(i);
                     }
                 }
@@ -115,13 +115,13 @@ export class DropdownTypeahead {
      * @return {boolean} Returns whether or not the string is contained in the item
      */
     itemContains(item: any, search: string) {
-        let s = search.toLowerCase();
-        for(let p in item){
-            if(typeof item[p] === 'string' && item[p].toLowerCase().indexOf(s) >= 0) {
+        const s = search.toLowerCase();
+        for (const p in item) {
+            if (typeof item[p] === 'string' && item[p].toLowerCase().indexOf(s) >= 0) {
                 return true;
-            } else if(typeof item[p] === 'number' && item[p].toString().indexOf(s) >= 0) {
+            } else if (typeof item[p] === 'number' && item[p].toString().indexOf(s) >= 0) {
                 return true;
-            } else if(typeof item[p] === 'object' && this.itemContains(item[p], search)) {
+            } else if (typeof item[p] === 'object' && this.itemContains(item[p], search)) {
                 return true;
             }
         }
@@ -147,10 +147,10 @@ export class DropdownTypeahead {
     }
 
     checkTap(e: any) {
-        if(e) {
-            let bb = this.list.nativeElement.getBoundingClientRect();
-            let c = e.center;
-            if(c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
+        if (e) {
+            const bb = this.list.nativeElement.getBoundingClientRect();
+            const c = e.center;
+            if (c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
                 this.shown = false;
                 this.search = '';
                 setTimeout(() => {

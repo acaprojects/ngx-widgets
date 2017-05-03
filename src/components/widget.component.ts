@@ -1,15 +1,15 @@
 /*
-* @Author: Alex Sorafumo
-* @Date:   2017-03-10 11:56:00
-* @Last Modified by:   Alex Sorafumo
-* @Last Modified time: 2017-05-03 11:56:45
-*/
+ * @Author: Alex Sorafumo
+ * @Date:   2017-03-10 11:56:00
+ * @Last Modified by:   Alex Sorafumo
+ * @Last Modified time: 2017-05-03 12:38:35
+ */
 
 import { Component, Renderer } from '@angular/core';
 
 @Component({
     selector: 'aca-widget',
-    template: '<div class="widget"></div>'
+    template: '<div class="widget"></div>',
 })
 export class WidgetComponent {
     protected theme: any = {};
@@ -24,24 +24,24 @@ export class WidgetComponent {
         }, (err) => {}, () => {});
     }
 
-    updateTheme() {
-        if(this.theme && this.theme[this.component_name]) {
-            let theme = this.theme[this.component_name];
-            for(let el in theme) {
-                if(this.cmp_elements[el]) {
-                    for(let style in theme[el]) {
+    public ngAfterViewInit() {
+        this.updateTheme();
+    }
+
+    public ngOnDestory() {
+
+    }
+
+    private updateTheme() {
+        if (this.theme && this.theme[this.component_name]) {
+            const theme = this.theme[this.component_name];
+            for (const el in theme) {
+                if (this.cmp_elements[el]) {
+                    for (const style in theme[el]) {
                         this.renderer.setElementStyle(this.cmp_elements[el], style, theme[el][style]);
                     }
                 }
             }
         }
-    }
-
-    ngAfterViewInit() {
-        this.updateTheme();
-    }
-
-    ngOnDestory() {
-
     }
 }

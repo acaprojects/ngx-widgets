@@ -1,22 +1,22 @@
 /**
-* @Author: Alex Sorafumo <alex.sorafumo>
-* @Date:   09/01/2017 12:01 PM
-* @Email:  alex@yuion.net
-* @Filename: pin.component.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 17/01/2017 9:40 AM
-*/
+ * @Author: Alex Sorafumo <alex.sorafumo>
+ * @Date:   09/01/2017 12:01 PM
+ * @Email:  alex@yuion.net
+ * @Filename: pin.component.ts
+ * @Last modified by:   alex.sorafumo
+ * @Last modified time: 17/01/2017 9:40 AM
+ */
 
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { trigger, transition, animate, style, state, group, keyframes } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { animate, group, keyframes, state, style, transition, trigger } from '@angular/core';
 
 const DEFAULT_COLORS = {
     main: '#F44336',
     active: '#4CAF50',
-    stroke: '#FFFFFF'
-}
+    stroke: '#FFFFFF',
+};
 
-const MARKER_TYPES = ['Pin', 'Marker', 'Radius']
+const MARKER_TYPES = ['Pin', 'Marker', 'Radius'];
 
 @Component({
     selector: 'map-marker',
@@ -26,14 +26,14 @@ const MARKER_TYPES = ['Pin', 'Marker', 'Radius']
         trigger('drop', [
             state('hide', style({transform: 'translate(-50%, -400%)'})),
             state('show', style({transform: 'translate(-50%, 0%)'})),
-            transition('* <=> *', animate('700ms ease-out'))
+            transition('* <=> *', animate('700ms ease-out')),
         ]),
         trigger('show', [
             state('hide', style({opacity: 0})),
             state('show', style({opacity: 1})),
-            transition('* <=> *', animate('700ms ease-out'))
-        ])
-    ]
+            transition('* <=> *', animate('700ms ease-out')),
+        ]),
+    ],
 })
 export class MapMarkerComponent {
     @Input() type: string = 'Pin';
@@ -52,8 +52,8 @@ export class MapMarkerComponent {
     @Input() drop: boolean = false;
     @Output() activeChange = new EventEmitter();
 
-    id: string = ''
-    display_pin: string = ''
+    id: string = '';
+    display_pin: string = '';
     shown: boolean = false;
     static pin_html: string = `
     <?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 53 65.7" style="enable-background:new 0 0 53 65.7;" xml:space="preserve"><style type="text/css">.aca-st0{fill:#FFFFFF;} .aca-st1{fill:#DC6900;stroke:#FFFFFF;stroke-width:2.5;stroke-miterlimit:10;}</style><g><circle class="aca-st0" cx="27.6" cy="21.8" r="13.1"/><path class="aca-st1" d="M27.6,4c9.9,0,18,8.1,18,18s-17.1,38.2-18,39.6c-0.9-1.5-18-29.7-18-39.6S17.7,4,27.6,4z M27.6,32.8 c6,0,10.8-4.8,10.8-10.8s-4.8-10.8-10.8-10.8S16.8,16,16.8,22S21.6,32.8,27.6,32.8"/></g></svg>
@@ -69,22 +69,22 @@ export class MapMarkerComponent {
     }
 
     ngOnChanges(changes: any) {
-        if((changes.color || changes.highlight || changes.stroke)) {
-            if(!this.color) this.color = DEFAULT_COLORS.main;
-            if(!this.highlight) this.highlight = DEFAULT_COLORS.active;
-            if(!this.stroke) this.stroke = DEFAULT_COLORS.stroke;
+        if ((changes.color || changes.highlight || changes.stroke)) {
+            if (!this.color) this.color = DEFAULT_COLORS.main;
+            if (!this.highlight) this.highlight = DEFAULT_COLORS.active;
+            if (!this.stroke) this.stroke = DEFAULT_COLORS.stroke;
             this.init();
         }
-        if(changes.type) {
-            if(!this.type) this.type = 'Pin';
-            else if(MARKER_TYPES.indexOf(this.type) < 0) this.type = 'Pin';
+        if (changes.type) {
+            if (!this.type) this.type = 'Pin';
+            else if (MARKER_TYPES.indexOf(this.type) < 0) this.type = 'Pin';
         }
-        if(changes.x || changes.y) {
-            if(!this.x) this.x = -9999;
-            if(!this.y) this.y = -9999;
+        if (changes.x || changes.y) {
+            if (!this.x) this.x = -9999;
+            if (!this.y) this.y = -9999;
         }
-        if(changes.show && this.show && this.shown !== this.show) {
-            if(this.show_timer) clearTimeout(this.show_timer);
+        if (changes.show && this.show && this.shown !== this.show) {
+            if (this.show_timer) clearTimeout(this.show_timer);
             this.show_timer = setTimeout(() => {
                 this.shown = this.show;
                 this.show_timer = null;
@@ -105,7 +105,7 @@ export class MapMarkerComponent {
      */
     getPin() {
         let pin = MapMarkerComponent.pin_html;
-        if(this.active) {
+        if (this.active) {
             pin = this.replaceAll(pin, '#DC6900', this.highlight);
         } else {
             pin = this.replaceAll(pin, '#DC6900', this.color);

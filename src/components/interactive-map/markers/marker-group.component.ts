@@ -1,20 +1,20 @@
 /**
-* @Author: Alex Sorafumo <alex.sorafumo>
-* @Date:   09/01/2017 12:03 PM
-* @Email:  alex@yuion.net
-* @Filename: marker-group.component.ts
-* @Last modified by:   alex.sorafumo
-* @Last modified time: 16/01/2017 12:38 PM
-*/
+ * @Author: Alex Sorafumo <alex.sorafumo>
+ * @Date:   09/01/2017 12:03 PM
+ * @Email:  alex@yuion.net
+ * @Filename: marker-group.component.ts
+ * @Last modified by:   alex.sorafumo
+ * @Last modified time: 16/01/2017 12:38 PM
+ */
 
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 const DIM_LIMIT = 20000;
 
 @Component({
     selector: 'map-marker-group',
     templateUrl: './marker-group.template.html',
-    styleUrls: ['./marker-group.styles.css']
+    styleUrls: ['./marker-group.styles.css'],
 })
 export class MapMarkerGroupComponent {
     @Input() markers: any[] = [];
@@ -26,8 +26,8 @@ export class MapMarkerGroupComponent {
         pos: { x: 0, y: 0 },
         dim: { x: 100, y: 100 },
         real_dim: { x: 100, y: 100 },
-        area: { x: 100, y: 100 }
-    }
+        area: { x: 100, y: 100 },
+    };
 
     @ViewChild('main') main: ElementRef;
 
@@ -40,8 +40,8 @@ export class MapMarkerGroupComponent {
 
     constructor() {
         this.marker_timer = setInterval(() => {
-            let markers = JSON.stringify(this.markers);
-            if(this.prev_markers !== markers) {
+            const markers = JSON.stringify(this.markers);
+            if (this.prev_markers !== markers) {
                 this.prev_markers = markers;
                 this.updateMarkers();
             }
@@ -52,16 +52,16 @@ export class MapMarkerGroupComponent {
     }
 
     ngOnChanges(changes: any) {
-        if(changes.markers) {
+        if (changes.markers) {
             this.setupMarkers();
         }
     }
 
     ngDoCheck() {
-        if(!this.prev_map ||
+        if (!this.prev_map ||
             (this.map.pos.x !== this.prev_map.pos.x || this.map.pos.y !== this.prev_map.pos.y) ||
-            (this.map.dim.x !== this.prev_map.dim.x || this.map.dim.y !== this.prev_map.dim.y)||
-            (this.map.real_dim.x !== this.prev_map.real_dim.x || this.map.real_dim.y !== this.prev_map.real_dim.y)||
+            (this.map.dim.x !== this.prev_map.dim.x || this.map.dim.y !== this.prev_map.dim.y) ||
+            (this.map.real_dim.x !== this.prev_map.real_dim.x || this.map.real_dim.y !== this.prev_map.real_dim.y) ||
             (this.map.area.x !== this.prev_map.area.x || this.map.area.y !== this.prev_map.area.y)) {
                 // Map box has changed update markers
                 this.updateFontSize();
@@ -73,7 +73,7 @@ export class MapMarkerGroupComponent {
     }
 
     ngOnDestroy() {
-        if(this.marker_timer) {
+        if (this.marker_timer) {
             clearTimeout(this.marker_timer);
         }
     }
@@ -82,9 +82,9 @@ export class MapMarkerGroupComponent {
      * @return {void}
      */
     updateFontSize() {
-        let long = this.map.dim.x > this.map.dim.y ? this.map.dim.x : this.map.dim.y;
+        const long = this.map.dim.x > this.map.dim.y ? this.map.dim.x : this.map.dim.y;
         this.font_size = this.map.dim.y / long;
-        let size = this.map.area.x * ( 2 / 100);
+        const size = this.map.area.x * ( 2 / 100);
         this.radius_size = size;
     }
     /**
@@ -92,13 +92,13 @@ export class MapMarkerGroupComponent {
      * @return {void}
      */
     setupMarkers() {
-        if(!this.disable && this.markers) {
+        if (!this.disable && this.markers) {
             this.count = this.markers.length;
             setTimeout(() => {
-                for(let i = 0; i < this.markers.length; i++) {
-                    let marker = this.markers[i];
-                    if(!marker.x) marker.x = 0;
-                    if(!marker.y) marker.y = 0;
+                for (let i = 0; i < this.markers.length; i++) {
+                    const marker = this.markers[i];
+                    if (!marker.x) marker.x = 0;
+                    if (!marker.y) marker.y = 0;
                 }
                 this.updateMarkers();
             }, 200);
@@ -109,32 +109,32 @@ export class MapMarkerGroupComponent {
      * @return {void}
      */
     updateMarkers() {
-        if(!this.main || !this.markers) return;
-        for(let i = 0;  i < this.markers.length; i++) {
-            let marker = this.markers[i];
-            if(!marker.show_fn) {
+        if (!this.main || !this.markers) return;
+        for (let i = 0;  i < this.markers.length; i++) {
+            const marker = this.markers[i];
+            if (!marker.show_fn) {
                 marker.show = false;
                 marker.show_fn = setTimeout(() => {
                     marker.show = true;
                 }, 100);
             }
-            let top = -(DIM_LIMIT+1);
-            let left = -(DIM_LIMIT+1);
-            let el = marker.el ? marker.el() : null;
-            if(el){
-                let bb = el.getBoundingClientRect();
-                let abb = this.main.nativeElement.getBoundingClientRect();
-                top = bb.top + bb.height/2 - abb.top;
-                left = bb.left + bb.width/2 - abb.left;
-            } else if(marker.x > 0 && marker.y > 0) {
+            let top = -(DIM_LIMIT + 1);
+            let left = -(DIM_LIMIT + 1);
+            const el = marker.el ? marker.el() : null;
+            if (el) {
+                const bb = el.getBoundingClientRect();
+                const abb = this.main.nativeElement.getBoundingClientRect();
+                top = bb.top + bb.height / 2 - abb.top;
+                left = bb.left + bb.width / 2 - abb.left;
+            } else if (marker.x > 0 && marker.y > 0) {
                 let x = marker.x;
                 let y = marker.y;
                     // Handle map rotations
                 let tmp = 0;
-                switch(this.rotate) {
+                switch (this.rotate) {
                     case 1:
                     case 90:
-                        tmp= x; x = y; y = tmp;
+                        tmp = x; x = y; y = tmp;
                         //y = this.map.dim.y - y;
                         x = this.map.dim.x - x;
                         break;
@@ -150,9 +150,9 @@ export class MapMarkerGroupComponent {
                         y = this.map.dim.y - y;
                         break;
                 }
-                let r_x = x / this.map.dim.x * this.map.real_dim.x;
-                let r_y = y / this.map.dim.y * this.map.real_dim.y;
-                let abb = this.main.nativeElement.getBoundingClientRect();
+                const r_x = x / this.map.dim.x * this.map.real_dim.x;
+                const r_y = y / this.map.dim.y * this.map.real_dim.y;
+                const abb = this.main.nativeElement.getBoundingClientRect();
                 left = Math.round((r_x + this.map.pos.x - abb.left) * 100) / 100;
                 top =  Math.round((r_y + this.map.pos.y - abb.top) * 100) /  100;
             }

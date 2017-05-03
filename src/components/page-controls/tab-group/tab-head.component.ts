@@ -1,14 +1,14 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
-* @Date:   13/09/2016 2:55 PM
-* @Email:  alex@yuion.net
-* @Filename: tab-head.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:32 AM
-*/
+ * @Author: Alex Sorafumo <Yuion>
+ * @Date:   13/09/2016 2:55 PM
+ * @Email:  alex@yuion.net
+ * @Filename: tab-head.component.ts
+ * @Last modified by:   Yuion
+ * @Last modified time: 15/12/2016 11:32 AM
+ */
 
-import { Component, Input, Output, EventEmitter, ElementRef, Renderer } from '@angular/core';
-import { ContentChildren, QueryList, AfterContentInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, Renderer } from '@angular/core';
+import { AfterContentInit, ContentChildren, QueryList, ViewEncapsulation } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -19,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
         <ng-content></ng-content>
     </div>
     `,
-    styleUrls: ['./tab-head.styles.css']
+    styleUrls: ['./tab-head.styles.css'],
 })
 export class TabHead {
     @Input() id: string;
@@ -41,11 +41,11 @@ export class TabHead {
         return this.isActive;
     }
 
-    public active(){
+    public active() {
         this.isActive = true;
     }
 
-    public inactive(){
+    public inactive() {
         this.isActive = false;
     }
 

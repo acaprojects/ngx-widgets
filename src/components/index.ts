@@ -1,11 +1,11 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
-* @Date:   04/10/2016 11:53 AM
-* @Email:  alex@yuion.net
-* @Filename: index.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 07/02/2017 12:27 PM
-*/
+ * @Author: Alex Sorafumo <Yuion>
+ * @Date:   04/10/2016 11:53 AM
+ * @Email:  alex@yuion.net
+ * @Filename: index.ts
+ * @Last modified by:   Alex Sorafumo
+ * @Last modified time: 07/02/2017 12:27 PM
+ */
 
 import { BUTTONS } from './buttons';
 import { FORM_CONTROLS, TypeaheadList } from './form-controls';
@@ -13,7 +13,7 @@ import { ImageCrop } from './img-crop';
 import { MAP_COMPONENTS } from './interactive-map';
 import { MaterialStyles } from './material-styles';
 import { MediaPlayerComponent } from './media-player';
-import { Modal, ACA_WIDGET_MODALS } from './modal';
+import { ACA_WIDGET_MODALS, Modal } from './modal';
 import { Notification, NotifyBlock } from './notification';
 import { PAGE_CONTROLS } from './page-controls';
 import { ProgressCircleComponent } from './progress-circle';
@@ -45,7 +45,7 @@ export let COMPONENTS: any[] = [
     ProgressCircleComponent,
     TooltipComponent,
     ...PAGE_CONTROLS,
-    Spinner
+    Spinner,
 ];
 
 export let ENTRY_COMPONENTS: any[] = [
@@ -54,5 +54,5 @@ export let ENTRY_COMPONENTS: any[] = [
     Notification,
     NotifyBlock,
     TypeaheadList,
-    VirtualKeyboard
+    VirtualKeyboard,
 ];

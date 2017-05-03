@@ -1,14 +1,14 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
-* @Date:   18/11/2016 4:31 PM
-* @Email:  alex@yuion.net
-* @Filename: time-picker.component.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 01/02/2017 11:44 AM
-*/
+ * @Author: Alex Sorafumo <Yuion>
+ * @Date:   18/11/2016 4:31 PM
+ * @Email:  alex@yuion.net
+ * @Filename: time-picker.component.ts
+ * @Last modified by:   Alex Sorafumo
+ * @Last modified time: 01/02/2017 11:44 AM
+ */
 
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, Renderer } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, Renderer, ViewChild } from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 
 const PLACEHOLDER = '-';
 
@@ -18,12 +18,12 @@ const PLACEHOLDER = '-';
     templateUrl: './time-picker.template.html',
     animations: [
         trigger('dateTime', [
-            state('hide', style({'top':'100%'})),
-            state('show', style({'top':  '0'})),
-            state('open', style({'top':  '0'})),
-            transition('show <=> hide', animate('0.5s ease-out'))
-        ])
-    ]
+            state('hide', style({top: '100%'})),
+            state('show', style({top:  '0'})),
+            state('open', style({top:  '0'})),
+            transition('show <=> hide', animate('0.5s ease-out')),
+        ]),
+    ],
 })
 export class TimePicker {
     @Input() display: string;
@@ -45,7 +45,7 @@ export class TimePicker {
     }
 
     ngOnChanges(changes: any) {
-        if(changes.time) {
+        if (changes.time) {
             this.setDisplayTime();
         }
     }
@@ -54,15 +54,15 @@ export class TimePicker {
      * @return {void}
      */
     private initTime() {
-        let now = new Date();
+        const now = new Date();
         this.time = {
             h : now.getHours(),
-            m : now.getMinutes()
-        }
+            m : now.getMinutes(),
+        };
             // Clean up minutes to represent the set minute step
-        let minMod = this.time.m % this.minuteStep;
+        const minMod = this.time.m % this.minuteStep;
         this.time.m = this.minuteStep * (Math.ceil(this.time.m / this.minuteStep));
-        if(this.time.m >= 60) {
+        if (this.time.m >= 60) {
             this.time.h++;
             this.time.m %= 60;
         }
@@ -75,18 +75,18 @@ export class TimePicker {
      */
     private setDisplayTime() {
         setTimeout(() => {
-            let time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
+            const time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
                 // Setup display hours
             this.display_hour = (this.time.h % 12).toString();
-            if(parseInt(this.display_hour) === 0) this.display_hour = '12';
+            if (parseInt(this.display_hour) === 0) this.display_hour = '12';
                 // Setup display minutes
             this.display_minutes = (this.time.m % 60).toString();
                 // Setup display period
             this.display_period = ((this.time.h / 12 >= 1) ? 'PM' : 'AM');
             this.checkHour();
             this.checkMinute();
-            let new_time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
-            if(time !== new_time) {
+            const new_time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
+            if (time !== new_time) {
                 this.timeChange.emit(this.time);
             }
         }, 20);
@@ -108,7 +108,7 @@ export class TimePicker {
     minusHour() {
         this.time.h--;
             // Make sure hours a with the 24 of a day
-        if(this.time.h < 0) this.time.h = 23;
+        if (this.time.h < 0) this.time.h = 23;
         this.setDisplayTime();
     }
     /**
@@ -118,7 +118,7 @@ export class TimePicker {
     addMinute() {
         this.time.m += this.minuteStep;
             // Add to hour if > 60
-        if(this.time.m >= 60) {
+        if (this.time.m >= 60) {
             this.time.m %= 60;
             this.addHour();
         }
@@ -130,7 +130,7 @@ export class TimePicker {
      */
     minusMinute() {
         this.time.m -= this.minuteStep;
-        if(this.time.m < 0) {
+        if (this.time.m < 0) {
             this.time.m = 60 + this.time.m;
             this.minusHour();
         }
@@ -152,10 +152,10 @@ export class TimePicker {
      * @return {string} Returns a string only containing numbers
      */
     private checkNumber(str: string) {
-        let numbers = '1234567890';
-        for(let i = 0; i < str.length; i++) {
-            if(numbers.indexOf(str[i]) < 0) {
-                str = str.substr(0, i-1) + str.substr(i+1, str.length);
+        const numbers = '1234567890';
+        for (let i = 0; i < str.length; i++) {
+            if (numbers.indexOf(str[i]) < 0) {
+                str = str.substr(0, i - 1) + str.substr(i + 1, str.length);
                 i--;
             }
         }
@@ -167,10 +167,10 @@ export class TimePicker {
      */
     validateHour() {
         this.display_hour = this.checkNumber(this.display_hour);
-        if(this.display_hour === '') return;
-        let hour = parseInt(this.display_hour);
-        if(hour < 0 || hour > 23) this.display_hour = '12';
-        else if(hour === NaN) this.display_hour = '';
+        if (this.display_hour === '') return;
+        const hour = parseInt(this.display_hour);
+        if (hour < 0 || hour > 23) this.display_hour = '12';
+        else if (hour === NaN) this.display_hour = '';
     }
     /**
      * Validates the minute value of the component
@@ -178,9 +178,9 @@ export class TimePicker {
      */
     validateMinute() {
         this.display_minutes = this.checkNumber(this.display_minutes);
-        let minutes = parseInt(this.display_minutes);
-        if(minutes < 0 || minutes > 60) this.display_minutes = '00';
-        else if(minutes === NaN) this.display_minutes = '';
+        const minutes = parseInt(this.display_minutes);
+        if (minutes < 0 || minutes > 60) this.display_minutes = '00';
+        else if (minutes === NaN) this.display_minutes = '';
     }
     /**
      * Checks if a key press a been made and updates the hour if an up/down arrow key has been pressed
@@ -188,10 +188,10 @@ export class TimePicker {
      * @return {void}
      */
     keyupHour(e: any) {
-        if(e) {
-            if(e.keyCode == '38') { // Up Arrow
+        if (e) {
+            if (e.keyCode == '38') { // Up Arrow
                 this.addHour();
-            } else if(e.keyCode == '40') { // Up Arrow
+            } else if (e.keyCode == '40') { // Up Arrow
                 this.minusHour();
             } else this.validateHour();
         } else this.validateHour();
@@ -203,10 +203,10 @@ export class TimePicker {
      * @return {void}
      */
     keyupMinutes(e: any) {
-        if(e) {
-            if(e.keyCode == '38') { // Up Arrow
+        if (e) {
+            if (e.keyCode == '38') { // Up Arrow
                 this.addMinute();
-            } else if(e.keyCode == '40') { // Up Arrow
+            } else if (e.keyCode == '40') { // Up Arrow
                 this.minusMinute();
             } else this.validateMinute();
         } else this.validateMinute();
@@ -218,16 +218,16 @@ export class TimePicker {
     checkHour() {
         setTimeout(() => {
                 // Check for value
-            if(!this.display_hour) this.display_hour = '12';
+            if (!this.display_hour) this.display_hour = '12';
                 // Check length
-            if(this.display_hour.length > 2) this.display_hour = this.display_hour.slice(0, 2);
+            if (this.display_hour.length > 2) this.display_hour = this.display_hour.slice(0, 2);
                 // Check for valid characters
             this.validateHour();
                 // Check number is valid
-            if(parseInt(this.display_hour) === NaN || parseInt(this.display_hour) > 12 || parseInt(this.display_hour) < 0 || this.display_hour === '')
+            if (parseInt(this.display_hour) === NaN || parseInt(this.display_hour) > 12 || parseInt(this.display_hour) < 0 || this.display_hour === '')
                 this.display_hour = '12';
                 // Update hours
-            this.time.h = (parseInt(this.display_hour)%12) + (this.display_period === 'AM' ? 0 : 12);
+            this.time.h = (parseInt(this.display_hour) % 12) + (this.display_period === 'AM' ? 0 : 12);
         }, 20);
     }
 
@@ -238,15 +238,15 @@ export class TimePicker {
     checkMinute() {
         setTimeout(() => {
                 // Check for value
-            if(!this.display_minutes) this.display_minutes = '00';
+            if (!this.display_minutes) this.display_minutes = '00';
                 // Check length
-            if(this.display_minutes.length > 2) this.display_minutes = this.display_minutes.slice(0, 2);
+            if (this.display_minutes.length > 2) this.display_minutes = this.display_minutes.slice(0, 2);
                 // Check for valid characters
             this.validateMinute();
                 // Check number is valid
-            if(parseInt(this.display_minutes) === NaN || parseInt(this.display_minutes) > 59 || parseInt(this.display_minutes) < 0 || this.display_minutes === '')
+            if (parseInt(this.display_minutes) === NaN || parseInt(this.display_minutes) > 59 || parseInt(this.display_minutes) < 0 || this.display_minutes === '')
                 this.display_minutes = '00';
-            if(parseInt(this.display_minutes) < 10)  this.display_minutes = '0' + parseInt(this.display_minutes);
+            if (parseInt(this.display_minutes) < 10)  this.display_minutes = '0' + parseInt(this.display_minutes);
                 // Update minutes
             this.time.m = parseInt(this.display_minutes);
         }, 20);
@@ -256,11 +256,11 @@ export class TimePicker {
      * @return {void}
      */
     changeFocus() {
-        if(this.hour_input) {
+        if (this.hour_input) {
             this.renderer.invokeElementMethod(this.hour_input.nativeElement, 'blur', []);
         }
         this.checkHour();
-        if(this.minute_input) {
+        if (this.minute_input) {
             this.renderer.invokeElementMethod(this.minute_input.nativeElement, 'focus', []);
         }
         setTimeout(() => { this.checkHour(); }, 50);

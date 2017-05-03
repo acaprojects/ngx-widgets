@@ -1,21 +1,21 @@
 /**
-* @Author: Alex Sorafumo
-* @Date:   07/02/2017 11:56 AM
-* @Email:  alex@yuion.net
-* @Filename: tooltip.component.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 07/02/2017 5:22 PM
-*/
+ * @Author: Alex Sorafumo
+ * @Date:   07/02/2017 11:56 AM
+ * @Email:  alex@yuion.net
+ * @Filename: tooltip.component.ts
+ * @Last modified by:   Alex Sorafumo
+ * @Last modified time: 07/02/2017 5:22 PM
+ */
 
-import { Component, Input, Output, ElementRef, ViewChild, EventEmitter, Renderer } from '@angular/core';
-import { ComponentFactoryResolver, ViewContainerRef, HostListener } from '@angular/core'
+import { Component, ElementRef, EventEmitter, Input, Output, Renderer, ViewChild } from '@angular/core';
+import { ComponentFactoryResolver, HostListener, ViewContainerRef } from '@angular/core';
 
 const POS_LIST: string[] = ['bottom', 'top', 'left', 'right'];
 
 @Component({
     selector: '[tooltip]',
     templateUrl: './tooltip.template.html',
-    styleUrls: ['./tooltip.styles.css']
+    styleUrls: ['./tooltip.styles.css'],
 })
 export class TooltipComponent {
     @Input() offset: string = '0';
@@ -48,7 +48,7 @@ export class TooltipComponent {
      */
     @HostListener('tap', ['$event'])
     onClick(e: any) {
-        if(!this.check(e)){
+        if (!this.check(e)) {
             this.toggleShow();
         }
     }
@@ -59,13 +59,13 @@ export class TooltipComponent {
 
     ngOnChanges(changes: any) {
            // Component changes or state of show changes to true
-        if(changes.cmp) {
+        if (changes.cmp) {
             setTimeout(() => {
                 this.render();
             }, 20);
         }
             // Offset has changed
-        if(changes.offset || changes.offsetType) {
+        if (changes.offset || changes.offsetType) {
             this.updateOffset();
         }
     }
@@ -75,13 +75,13 @@ export class TooltipComponent {
      * @return {void}
      */
     private updateOffset() {
-        if(this.content) {
-            let el = this.content.nativeElement;
+        if (this.content) {
+            const el = this.content.nativeElement;
             this.renderer.setElementStyle(el, 'top', '');
             this.renderer.setElementStyle(el, 'left', '');
             this.renderer.setElementStyle(el, 'bottom', '');
             this.renderer.setElementStyle(el, 'right', '');
-            if(this.offsetType in el.style) {
+            if (this.offsetType in el.style) {
                 this.renderer.setElementStyle(el, this.offsetType, this.offset);
             }
         } else {
@@ -107,7 +107,7 @@ export class TooltipComponent {
      * @return {void}
      */
     checkTap(e: any) {
-        if(!this.toggle_timer && !this.check(e)) {
+        if (!this.toggle_timer && !this.check(e)) {
             this.show = false;
             this.toggle_timer = setTimeout(() => {
                 this.toggle_timer = null;
@@ -121,15 +121,15 @@ export class TooltipComponent {
      */
     check(e: any) {
         let inside = false;
-        if(e && this.content) {
+        if (e && this.content) {
             let pos = { x: 0, y: 0 };
-            let bb = this.content.nativeElement.getBoundingClientRect();
-            if(e.center) {
+            const bb = this.content.nativeElement.getBoundingClientRect();
+            if (e.center) {
                 pos = e.center;
             } else {
                 pos = { x: e.clientX, y: e.clientY };
             }
-            if(pos.x >= bb.left && pos.x <= bb.left + bb.width && pos.y >= bb.top && pos.y <= bb.top + bb.height) {
+            if (pos.x >= bb.left && pos.x <= bb.left + bb.width && pos.y >= bb.top && pos.y <= bb.top + bb.height) {
                 inside = true;
             }
         }
@@ -142,9 +142,9 @@ export class TooltipComponent {
      * @return {void}
      */
     causeChange(type: string, data?: any) {
-        let odata = {
-            type: type,
-            data: data
+        const odata = {
+            type,
+            data,
         };
         this.change.emit(odata);
     }
@@ -154,18 +154,18 @@ export class TooltipComponent {
      * @return {void}
      */
     private render(cnt: number = 0) {
-        if(this.cmp && this.view) {
-            let factory = this._cfr.resolveComponentFactory(this.cmp);
-            if(this._cmp) this._cmp.destroy();
+        if (this.cmp && this.view) {
+            const factory = this._cfr.resolveComponentFactory(this.cmp);
+            if (this._cmp) this._cmp.destroy();
             this._cmp = this.view.createComponent(factory);
                 // let's inject @Inputs to component instance
             this._inst = this._cmp.instance;
             this._inst.entity = this.data;
-            if(!this._inst.entity) this._inst.entity = {};
+            if (!this._inst.entity) this._inst.entity = {};
             this._inst.parent = this;
-            if(this._inst.init) this._inst.init();
+            if (this._inst.init) this._inst.init();
             this.updateOffset();
-        } else if(cnt < 30) {
+        } else if (cnt < 30) {
             cnt++;
             setTimeout(() => {
                 this.render(cnt);

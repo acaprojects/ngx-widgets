@@ -1,14 +1,14 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
-* @Date:   03/11/2016 3:15 PM
-* @Email:  alex@yuion.net
-* @Filename: notify-block.component.ts
-* @Last modified by:   Yuion
-* @Last modified time: 15/12/2016 11:31 AM
-*/
+ * @Author: Alex Sorafumo <Yuion>
+ * @Date:   03/11/2016 3:15 PM
+ * @Email:  alex@yuion.net
+ * @Filename: notify-block.component.ts
+ * @Last modified by:   Yuion
+ * @Last modified time: 15/12/2016 11:31 AM
+ */
 
 import { Component, Input, Output } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes }      from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger }      from '@angular/core';
 
 @Component({
     selector: 'notify-block',
@@ -39,9 +39,9 @@ import { trigger, transition, animate, style, state, keyframes }      from '@ang
             state('close', style({ opacity: 0, display: 'none' })),
             transition('void => *', [ style({ right: '10.0em',  opacity: 0}), animate('400ms ease-out', style({ right: '0.5em', opacity: 1})) ]),
             transition('* => close', [ style({ right: '0.5em',  opacity: 1}), animate('400ms ease-out', style({ right: '-10.0em', opacity: 0})) ]),
-            transition('* <=> *', animate('400ms ease-out') )
-        ])
-    ]
+            transition('* <=> *', animate('400ms ease-out') ),
+        ]),
+    ],
 })
 export class NotifyBlock {
     @Input() entity: any = {};
@@ -55,22 +55,22 @@ export class NotifyBlock {
     constructor() {
         this.id = Math.floor(Math.random() * 899999 + 100000).toString();
         this.remove_check = setInterval(() => {
-            if(this.remove) {
+            if (this.remove) {
                 this.position = 'close';
                 setTimeout(() => {
-                    if(this.parent) this.parent.close(this.id);
+                    if (this.parent) this.parent.close(this.id);
                 }, 420);
             }
         }, 200);
     }
 
-    setup(parent:any) {
+    setup(parent: any) {
         this.parent = parent;
         return this.id;
     }
 
     ngOnDestroy() {
-        if(this.remove_check) clearInterval(this.remove_check);
+        if (this.remove_check) clearInterval(this.remove_check);
         this.position = 'close';
     }
 }

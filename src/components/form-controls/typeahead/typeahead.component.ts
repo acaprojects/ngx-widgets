@@ -1,14 +1,14 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
-* @Date:   20/09/2016 1:44 PM
-* @Email:  alex@yuion.net
-* @Filename: typeahead.component.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 30/01/2017 5:19 PM
-*/
+ * @Author: Alex Sorafumo <Yuion>
+ * @Date:   20/09/2016 1:44 PM
+ * @Email:  alex@yuion.net
+ * @Filename: typeahead.component.ts
+ * @Last modified by:   Alex Sorafumo
+ * @Last modified time: 30/01/2017 5:19 PM
+ */
 
-import { Injectable, ComponentFactoryResolver, ComponentRef, ReflectiveInjector, ViewContainerRef, ResolvedReflectiveProvider, Type, Renderer } from '@angular/core';
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, Injectable, ReflectiveInjector, Renderer, ResolvedReflectiveProvider, Type, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
     selector: 'typeahead-list',
@@ -33,7 +33,7 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ChangeDe
     </div>
     </div>
     `,
-    styleUrls : [ './typeahead-list.styles.css' ]
+    styleUrls : [ './typeahead-list.styles.css' ],
 })
 export class TypeaheadList {
     app : any = null;
@@ -105,29 +105,29 @@ export class TypeaheadList {
      */
     filterList() {
         let added = 0;
-        if(!this.filter || this.filter === '') {
+        if (!this.filter || this.filter === '') {
             this.filtered_list = JSON.parse(JSON.stringify(this.items.length > this.results ? this.items.slice(0, this.results) : this.items));
             return;
         }
         this.filtered_list = [];
-        let filter = this.filter.toLowerCase();
-        for(let i = 0; i < this.items.length; i++) {
-            let item = this.items[i];
-            if(typeof item !== 'object') continue;
-            let keys = this.filterFields.length > 0 ? this.filterFields : Object.keys(item);
-            for(let k = 0; k < keys.length; k++) {
-                let f = keys[k];
-                if(item[f] && typeof item[f] === 'string') {
-                    let data = item[f].toLowerCase();
-                    if(data.indexOf(filter) >= 0) {
+        const filter = this.filter.toLowerCase();
+        for (let i = 0; i < this.items.length; i++) {
+            const item = this.items[i];
+            if (typeof item !== 'object') continue;
+            const keys = this.filterFields.length > 0 ? this.filterFields : Object.keys(item);
+            for (let k = 0; k < keys.length; k++) {
+                const f = keys[k];
+                if (item[f] && typeof item[f] === 'string') {
+                    const data = item[f].toLowerCase();
+                    if (data.indexOf(filter) >= 0) {
                         let found = false;
-                        for(let i = 0; i < this.filtered_list.length; i++){
-                            if(item && item.id === this.filtered_list[i].id) {
+                        for (let i = 0; i < this.filtered_list.length; i++) {
+                            if (item && item.id === this.filtered_list[i].id) {
                                 found = true;
                                 break;
                             }
                         }
-                        if(!found){
+                        if (!found) {
                             this.filtered_list.push(JSON.parse(JSON.stringify(item)));
                             added++;
                         }
@@ -135,7 +135,7 @@ export class TypeaheadList {
                     }
                 }
             }
-            if(added >= this.results) break;
+            if (added >= this.results) break;
         }
     }
     /**
@@ -145,12 +145,12 @@ export class TypeaheadList {
      * @return {void}
      */
     moveList(main: any, event?: any) {
-        if(!main || !this.contents) return;
-        let main_box = main.nativeElement.getBoundingClientRect();
-        let c_el = this.contents.nativeElement;
+        if (!main || !this.contents) return;
+        const main_box = main.nativeElement.getBoundingClientRect();
+        const c_el = this.contents.nativeElement;
         this.renderer.setElementStyle(c_el, 'width', '1px');
         this.renderer.setElementStyle(c_el, 'top', Math.round(main_box.top + window.pageYOffset) + 'px');
-        this.renderer.setElementStyle(c_el, 'left', Math.round(main_box.left + main_box.width/2) + 'px');
+        this.renderer.setElementStyle(c_el, 'left', Math.round(main_box.left + main_box.width / 2) + 'px');
         this.renderer.setElementStyle(c_el, 'height', Math.round(main_box.height) + 'px');
         this.renderer.setElementStyle(c_el, 'display', '');
         this.positionList();
@@ -161,13 +161,13 @@ export class TypeaheadList {
      * @return {void}
      */
     positionList(tries?: number) {
-        if(!tries) tries = 0;
-        if(this.list && this.contents) {
-            let h = document.documentElement.clientHeight;
-            let content_box = this.contents.nativeElement.getBoundingClientRect();
-            if(this.auto && tries % 4 === 0){
-                let l_el = this.list_contents.nativeElement;
-                if(Math.round(content_box.top) > Math.round(h/2 + 10) || this.force_top) {
+        if (!tries) tries = 0;
+        if (this.list && this.contents) {
+            const h = document.documentElement.clientHeight;
+            const content_box = this.contents.nativeElement.getBoundingClientRect();
+            if (this.auto && tries % 4 === 0) {
+                const l_el = this.list_contents.nativeElement;
+                if (Math.round(content_box.top) > Math.round(h / 2 + 10) || this.force_top) {
                     this.renderer.setElementStyle(l_el, 'top', '');
                     this.renderer.setElementStyle(l_el, 'bottom', '2.0em');
                 } else {
@@ -178,7 +178,7 @@ export class TypeaheadList {
             this.contents_box = this.contents.nativeElement.getBoundingClientRect();
         } else {
             setTimeout(() => {
-                this.positionList(tries+1);
+                this.positionList(tries + 1);
             }, 200);
         }
     }
@@ -194,10 +194,10 @@ export class TypeaheadList {
      * @param {any}    e Input event
      * @param {number} i Index of the selected item
      */
-    setItem(e: any, i: number){
-        if(e) { // Prevent clicking through typeahead
-            if(e.preventDefault) e.preventDefault();
-            if(e.stopPropagation) e.stopPropagation();
+    setItem(e: any, i: number) {
+        if (e) { // Prevent clicking through typeahead
+            if (e.preventDefault) e.preventDefault();
+            if (e.stopPropagation) e.stopPropagation();
         }
         this.clicked();
         setTimeout(() => {
@@ -211,11 +211,10 @@ export class TypeaheadList {
 
 }
 
-
 @Component({
     selector: '[typeahead]',
     styleUrls: [ './typeahead.style.css' ],
-    templateUrl: './typeahead.template.html'
+    templateUrl: './typeahead.template.html',
 })
 export class Typeahead {
     @Input() filter: string = '';
@@ -246,22 +245,22 @@ export class Typeahead {
     }
 
     ngOnChanges(changes: any) {
-        if(changes.filter) {
-            if(this.list_view) this.list_view.updateFilter(this.filter);
+        if (changes.filter) {
+            if (this.list_view) this.list_view.updateFilter(this.filter);
         }
-        if(changes.show && !this.clicked) {
+        if (changes.show && !this.clicked) {
             setTimeout(() => {
-                if(!this.show) this.close();
+                if (!this.show) this.close();
                 else this.open();
             }, 200);
-        } else if(changes.show) {
+        } else if (changes.show) {
             setTimeout(() => {
                 this.ngOnChanges(changes);
             }, 200);
         }
-        if(changes.list) {
+        if (changes.list) {
             setTimeout(() => {
-                if(this.list_view){
+                if (this.list_view) {
                     this.list_view.setupList(this, this.list, this.filterFields, this.filter, this.results, this.cssClass, this.auto, this.forceTop);
                 }
             }, 200);
@@ -272,10 +271,10 @@ export class Typeahead {
      * @return {void}
      */
     open() {
-        if(this.list_ref) return;
-        let now = (new Date()).getTime();
-        if(now - this.last_change < 100) return;
-        if(!this.shown) {
+        if (this.list_ref) return;
+        const now = (new Date()).getTime();
+        if (now - this.last_change < 100) return;
+        if (!this.shown) {
             this.render();
             this.shown = true;
         } else {
@@ -287,17 +286,17 @@ export class Typeahead {
      * @return {void}
      */
     close() {
-        if(!this.list_ref) return;
+        if (!this.list_ref) return;
         this.closing = true;
         this.shown = false;
-        if(this.list_ref) {
-            if(this.list_ref.location.nativeElement.parent)
+        if (this.list_ref) {
+            if (this.list_ref.location.nativeElement.parent)
             this.list_ref.location.nativeElement.parent.removeChild(this.list_ref.location.nativeElement);
             this.list_ref.destroy();
             this.list_ref = null;
         }
         this.clicked = false;
-        if(this.update_timer) {
+        if (this.update_timer) {
             clearInterval(this.update_timer);
             this.update_timer = null;
         }
@@ -306,7 +305,7 @@ export class Typeahead {
      * Sets the selected item and emits it to the binding
      * @param {any} item [description]
      */
-    setItem(item: any){
+    setItem(item: any) {
         this.selected.emit(item);
         this.close();
     }
@@ -318,10 +317,10 @@ export class Typeahead {
      * Creates the option list and attaches it to the DOM
      * @return {void}
      */
-    private render(){
-        if(this.view) {
-            let factory = this._cr.resolveComponentFactory(TypeaheadList);
-            let cmpRef = this.view.createComponent(factory);
+    private render() {
+        if (this.view) {
+            const factory = this._cr.resolveComponentFactory(TypeaheadList);
+            const cmpRef = this.view.createComponent(factory);
             document.body.appendChild(cmpRef.location.nativeElement);
             this.list_view = cmpRef.instance;
             this.list_ref = cmpRef;

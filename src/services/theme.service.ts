@@ -1,59 +1,63 @@
 /*
-* @Author: Alex Sorafumo
-* @Date:   2017-03-10 11:46:09
-* @Last Modified by:   Alex Sorafumo
-* @Last Modified time: 2017-05-03 11:56:46
-*/
+ * @Author: Alex Sorafumo
+ * @Date:   2017-03-10 11:46:09
+ * @Last Modified by:   Alex Sorafumo
+ * @Last Modified time: 2017-05-03 12:41:43
+ */
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { WIDGETS_SETTINGS } from '../settings';
+import { WIDGETS } from '../settings';
 
 /*
-    Theme Data Structure
+Theme Data Structure
 
-    'default' : { // Name of theme
-        'ButtonComponent' : { // Name of Component
-            'ButtonElement' : { // Name of element
-                'box-shadow' : '0 0.1em 0.2em 0.1em rgba(0,0,0,0.2)' // Style to apply to element
-            }
+'default' : { // Name of theme
+    'ButtonComponent' : { // Name of Component
+        'ButtonElement' : { // Name of element
+            'box-shadow' : '0 0.1em 0.2em 0.1em rgba(0,0,0,0.2)' // Style to apply to element
         }
     }
+}
  */
 
 @Injectable()
 export class WidgetThemeService {
-    themes: any = {
+    private themes: any = {
         default: {
 
-        }
+        },
     };
     private _obs: any = null;
     private observer: any = null;
-    active_theme: string = 'default';
-    listener_timer: any = null;
+    private active_theme: string = 'default';
+    private listener_timer: any = null;
 
     constructor() {
-        this._obs
+        // this._obs;
     }
 
-    newTheme(theme: string, components: any) {
-        if(!this.themes[theme] && theme !== 'default') {
+    public newTheme(theme: string, components: any) {
+        if (!this.themes[theme] && theme !== 'default') {
             this.themes[theme] = components;
             return true;
         }
         return false;
     }
 
-    updateTheme(theme: string, components: any) {
-        if(this.themes[theme] && theme !== 'default') {
-            for(let i in components) {
-                for(let el in components[i]) {
-                    this.themes[theme][i][el] = components[i][el];
+    public updateTheme(theme: string, components: any) {
+        if (this.themes[theme] && theme !== 'default') {
+            for (const i in components) {
+                if (components[i]) {
+                    for (const el in components[i]) {
+                        if (components[i][el]) {
+                            this.themes[theme][i][el] = components[i][el];
+                        }
+                    }
                 }
             }
-            if(theme === this.active_theme) {
+            if (theme === this.active_theme) {
                 this.observer.next(this.themes[theme]);
             }
             return true;
@@ -61,18 +65,18 @@ export class WidgetThemeService {
         return false;
     }
 
-    addThemeComponents(theme: string, components: any) {
-        if(this.themes[theme]) {
-            for(let i in components) {
-                if(!this.themes[theme][i]) {
+    public addThemeComponents(theme: string, components: any) {
+        if (this.themes[theme]) {
+            for (const i in components) {
+                if (!this.themes[theme][i] && components[i]) {
                     this.themes[theme][i] = components[i];
                 }
             }
         }
     }
 
-    setTheme(theme: string) {
-        if(this.themes[theme]) {
+    public setTheme(theme: string) {
+        if (this.themes[theme]) {
             this.active_theme = theme;
             this.observer.next(this.themes[this.active_theme]);
         }
@@ -82,8 +86,8 @@ export class WidgetThemeService {
         return this.active_theme;
     }
 
-    listener() {
-        if(this.listener_timer) {
+    public listener() {
+        if (this.listener_timer) {
             clearTimeout(this.listener_timer);
             this.listener_timer = null;
         }

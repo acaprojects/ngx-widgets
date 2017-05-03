@@ -1,14 +1,14 @@
 /**
-* @Author: Alex Sorafumo <Yuion>
-* @Date:   15/09/2016 6:40 PM
-* @Email:  alex@yuion.net
-* @Filename: calendar.component.ts
-* @Last modified by:   Alex Sorafumo
-* @Last modified time: 27/01/2017 2:00 PM
-*/
+ * @Author: Alex Sorafumo <Yuion>
+ * @Date:   15/09/2016 6:40 PM
+ * @Email:  alex@yuion.net
+ * @Filename: calendar.component.ts
+ * @Last modified by:   Alex Sorafumo
+ * @Last modified time: 27/01/2017 2:00 PM
+ */
 
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { trigger, transition, animate, style, state, keyframes } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 
 const PLACEHOLDER = '-';
 
@@ -16,7 +16,7 @@ const PLACEHOLDER = '-';
     selector: 'calendar',
     styleUrls: [ './calendar.style.css' ],
     templateUrl: './calendar.template.html',
-    animations: []
+    animations: [],
 })
 export class Calendar {
     @Input() model: Date = new Date();
@@ -51,11 +51,11 @@ export class Calendar {
     }
 
     ngOnInit() {
-        if(this.futureOnly && (this.minDate === null || this.minDate === undefined)) this.minDate = new Date();
-        if(this.display == 'short') {
+        if (this.futureOnly && (this.minDate === null || this.minDate === undefined)) this.minDate = new Date();
+        if (this.display == 'short') {
             this.months = this.months_short;
             this.days = this.days_short;
-        } else if(this.display == 'long') {
+        } else if (this.display == 'long') {
             this.months = this.months_long;
             this.days = this.days_long;
         } else {
@@ -64,9 +64,9 @@ export class Calendar {
         }
     }
 
-    ngOnChanges(changes:any) {
-        if(changes.model) {
-            if(changes.model.currentValue) {
+    ngOnChanges(changes: any) {
+        if (changes.model) {
+            if (changes.model.currentValue) {
                 this.setDate(changes.model.currentValue);
             }
         }
@@ -77,7 +77,7 @@ export class Calendar {
      * @return {void}
      */
     setDate(date: Date) {
-        if(!(date instanceof Date)) date = new Date();
+        if (!(date instanceof Date)) date = new Date();
         this.model = date;
         this.display_year = this.model.getFullYear();
         this.display_month = this.model.getMonth();
@@ -89,9 +89,9 @@ export class Calendar {
      * @return {boolean} Returns if the given day is in the past
      */
     isPast(day: number) {
-        let c_date = new Date();
-        c_date.setDate(c_date.getDate()-1);
-        let date = new Date(this.display_year, this.display_month, +day);
+        const c_date = new Date();
+        c_date.setDate(c_date.getDate() - 1);
+        const date = new Date(this.display_year, this.display_month, +day);
         return this.compareDates(c_date, date);
     }
     /**
@@ -100,10 +100,10 @@ export class Calendar {
      * @return {boolean} Returns if the given day is before the set minimum date
      */
     isBeforeMinDate(day: number) {
-        if(this.minDate === null) return false;
-        let c_date = new Date(this.minDate.getTime());
-        c_date.setDate(c_date.getDate()-1);
-        let date = new Date(this.display_year, this.display_month, +day);
+        if (this.minDate === null) return false;
+        const c_date = new Date(this.minDate.getTime());
+        c_date.setDate(c_date.getDate() - 1);
+        const date = new Date(this.display_year, this.display_month, +day);
         return this.compareDates(c_date, date);
     }
     /**
@@ -123,7 +123,7 @@ export class Calendar {
      * @return {boolean} Returns if day is today
      */
     isToday(day: number) {
-        let now = new Date();
+        const now = new Date();
         return (now.getFullYear() === this.display_year &&
                 now.getMonth() === this.display_month &&
                 now.getDate() === +day);
@@ -134,7 +134,7 @@ export class Calendar {
      * @return {boolean} Returns if day is selected
      */
     isActive(day: number) {
-        let now = this.model;
+        const now = this.model;
         return (now.getFullYear() === this.display_year &&
                 now.getMonth() === this.display_month &&
                 now.getDate() === +day);
@@ -144,38 +144,38 @@ export class Calendar {
      * @return {void}
      */
     generateMonth() {
-        let firstDay = new Date(this.display_year, this.display_month, 1);
-        let monthDays = (new Date(this.display_year, this.display_month+1, 0)).getDate();
-        let day = firstDay.getDay();
+        const firstDay = new Date(this.display_year, this.display_month, 1);
+        const monthDays = (new Date(this.display_year, this.display_month + 1, 0)).getDate();
+        const day = firstDay.getDay();
         this.month_node = [];
-        let ph = { day : PLACEHOLDER, valid: false, past: false, today: false, active: false, disabled: false };
+        const ph = { day : PLACEHOLDER, valid: false, past: false, today: false, active: false, disabled: false };
         let i: number;
             // Fill in blank days at beginning of the month
-        for(i = 0; i < day; i++) this.month_node.push(ph);
+        for (i = 0; i < day; i++) this.month_node.push(ph);
             // Fill in days of the month
-        for(i = 0; i < monthDays; i++) {
-            let day = {
-                day : (i+1).toString(),
+        for (i = 0; i < monthDays; i++) {
+            const day = {
+                day : (i + 1).toString(),
                 valid: true,
-                past: this.isPast(i+1),
-                today: this.isToday(i+1),
-                active: this.isActive(i+1),
-                disabled: this.isBeforeMinDate(i+1)
+                past: this.isPast(i + 1),
+                today: this.isToday(i + 1),
+                active: this.isActive(i + 1),
+                disabled: this.isBeforeMinDate(i + 1),
             };
             this.month_node.push(day);
         }
             // Fill in blank days at end of the month
-        let cnt = 7 * 6 - this.month_node.length;
-        for(i = 0; i < cnt; i++) this.month_node.push(ph);
+        const cnt = 7 * 6 - this.month_node.length;
+        for (i = 0; i < cnt; i++) this.month_node.push(ph);
     }
     /**
      * Changes calendar display to the next month
      * @return {void}
      */
-    nextMonth(){
+    nextMonth() {
         this.display_month++;
         this.display_month %= 12;
-        if(this.display_month == 0) this.display_year++;
+        if (this.display_month == 0) this.display_year++;
         this.generateMonth();
     }
     /**
@@ -185,7 +185,7 @@ export class Calendar {
     prevMonth() {
         this.display_month--;
         this.display_month %= 12;
-        if(this.display_month == -1) {
+        if (this.display_month == -1) {
             this.display_year--;
             this.display_month = 11;
         }
@@ -198,9 +198,9 @@ export class Calendar {
      * @return {boolean} Returns whether or not the date is valid to select
      */
     selectDate(week: number, day: number) {
-        if(!+this.month_node[week * 7 + day].valid) return false;
-        let date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day].day);
-        if(this.isBeforeMinDate(+this.month_node[week * 7 + day].day)) return false;
+        if (!+this.month_node[week * 7 + day].valid) return false;
+        const date = new Date(this.display_year, this.display_month, +this.month_node[week * 7 + day].day);
+        if (this.isBeforeMinDate(+this.month_node[week * 7 + day].day)) return false;
         date.setHours(this.model.getHours());
         date.setMinutes(this.model.getMinutes());
         this.setDate(date);

@@ -1,68 +1,79 @@
 /*
-* @Author: Alex Sorafumo
-* @Date:   2017-03-08 11:23:08
-* @Last Modified by:   Alex Sorafumo
-* @Last Modified time: 2017-05-03 11:56:46
-*/
+ * @Author: Alex Sorafumo
+ * @Date:   2017-03-08 11:23:08
+ * @Last Modified by:   Alex Sorafumo
+ * @Last Modified time: 2017-05-03 12:38:35
+ */
 
 import { Observable } from 'rxjs/Observable';
 
-export class WIDGETS_SETTINGS {
-    static var_list: string[] = ['debug'];
-    static data: any = {};
-    static obs: any = {};
-    static _obs: any = {};
+export class WIDGETS {
 
-    static get(name: string) {
+    public static get(name: string) {
         return this.data[name];
     }
 
-    static observe(var_name: string) {
-        if(!WIDGETS_SETTINGS.obs[var_name]) {
-            WIDGETS_SETTINGS.obs[var_name] = new Observable((observer) => {
-                WIDGETS_SETTINGS._obs[var_name] = observer;
+    public static observe(var_name: string) {
+        if (!WIDGETS.obs[var_name]) {
+            WIDGETS.obs[var_name] = new Observable((observer) => {
+                WIDGETS._obs[var_name] = observer;
                 setTimeout(() => {
-                    WIDGETS_SETTINGS._obs[var_name].next(WIDGETS_SETTINGS.data[var_name]);
+                    WIDGETS._obs[var_name].next(WIDGETS.data[var_name]);
                 }, 200);
             });
         }
-        return WIDGETS_SETTINGS.obs[var_name];
+        return WIDGETS.obs[var_name];
     }
 
-    static loadSettings() {
-        let globalScope = self;
-        if(globalScope) {
-            for(let i of WIDGETS_SETTINGS.var_list) {
-                if(globalScope[i] !== undefined && (WIDGETS_SETTINGS.data[i] === undefined || globalScope[i] !== WIDGETS_SETTINGS.data[i])) {
-                    console.log(`[WIDGETS] [SETTINGS] ${i} was changed from ${WIDGETS_SETTINGS.data[i]} to ${globalScope[i]}`)
-                    WIDGETS_SETTINGS.data[i] = globalScope[i];
-                    if(!WIDGETS_SETTINGS.obs[i] || !WIDGETS_SETTINGS._obs[i]) {
-                        WIDGETS_SETTINGS.obs[i] = new Observable((observer) => {
-                            WIDGETS_SETTINGS._obs[i] = observer;
-                            WIDGETS_SETTINGS._obs[i].next(WIDGETS_SETTINGS.data[i]);
+    public static loadSettings() {
+        const globalScope = self as any;
+        if (globalScope) {
+            for (const i of WIDGETS.var_list) {
+                if (globalScope[i] !== undefined && (WIDGETS.data[i] === undefined
+                    || globalScope[i] !== WIDGETS.data[i])) {
+
+                    WIDGETS.data[i] = globalScope[i];
+                    if (!WIDGETS.obs[i] || !WIDGETS._obs[i]) {
+                        WIDGETS.obs[i] = new Observable((observer) => {
+                            WIDGETS._obs[i] = observer;
+                            WIDGETS._obs[i].next(WIDGETS.data[i]);
                         });
-                    } else if(WIDGETS_SETTINGS._obs[i]){
-                        WIDGETS_SETTINGS._obs[i].next(WIDGETS_SETTINGS.data[i]);
+                    } else if (WIDGETS._obs[i]) {
+                        WIDGETS._obs[i].next(WIDGETS.data[i]);
                     }
 
                 }
             }
-                // Load data for mock control systems
-            if(globalScope['systemData']) {
-                WIDGETS_SETTINGS.data['control'] = globalScope['systemData'];
-            } else if(globalScope['systemsData']) {
-                WIDGETS_SETTINGS.data['control'] = globalScope['systemsData'];
-            } else if(globalScope['control'] && globalScope['control']['systems']) {
-                WIDGETS_SETTINGS.data['control'] = globalScope['control']['systems'];
+        }
+    }
+
+    public static log(type: string, msg: string, args?: any, out: string = 'debug') {
+        if (WIDGETS.data && WIDGETS.data.debug) {
+            if (args) {
+                console[out](`[COMPOSER][${type}] ${msg}`, args);
+            } else {
+                console[out](`[COMPOSER][${type}] ${msg}`);
             }
         }
     }
+
+    public static error(type: string, msg: string, args?: any) {
+        WIDGETS.log(type, msg, args, 'error');
+    }
+
+    public static version(version: string, build: string, out: any = 'debug') {
+        console[out](`[ACA][LIBRARY] Widgets - Version: ${version} | Build: ${build}`);
+    }
+
+    private static var_list: string[] = ['debug'];
+    private static data: any = {};
+    private static obs: any = {};
+    private static _obs: any = {};
 }
 
 setTimeout(() => {
-    WIDGETS_SETTINGS.loadSettings();
+    WIDGETS.loadSettings();
     setInterval(() => {
-        WIDGETS_SETTINGS.loadSettings();
+        WIDGETS.loadSettings();
     }, 500);
 }, 100);
-
