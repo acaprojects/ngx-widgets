@@ -12,10 +12,10 @@ import { COMPILER_PROVIDERS } from '@angular/compiler';
 import { ApplicationModule, NgModule, Renderer } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { ImageCropperModule } from 'ng2-img-cropper';
 
 import { COMPONENTS, ENTRY_COMPONENTS } from './components';
 import { DIRECTIVES } from './directives';
-import { ImageCropperModule } from 'ng2-img-cropper';
 import { PIPES } from './pipes';
 import { SERVICES } from './services';
 import { WIDGETS } from './settings';
@@ -44,13 +44,15 @@ export * from './helpers';
     ],
     providers: [
         SERVICES,
-        //COMPILER_PROVIDERS
+        // COMPILER_PROVIDERS
     ],
 })
 export class WidgetsModule {
-    version: string = '0.8.0';
-    build: string = '2017-05-02.v1';
-    static init: boolean = false;
+    private static init: boolean = false;
+
+    private version: string = '0.8.0';
+    private build: string = '2017-05-02.v1';
+
     constructor() {
         if (!WidgetsModule.init) {
             WidgetsModule.init = true;

@@ -36,10 +36,10 @@ export class NextFrame {
             if (self.requestAnimationFrame === undefined) {
                 // No support, emulate standard
                 self.requestAnimationFrame = (callback: any) => {
-                    const now = (new Date()).getTime(),
+                    const now = (new Date()).getTime();
                     // +16 ~ 60fps, +32 ~ 31fps
                     // Went with 30fps for older slower browsers / devcie support
-                    nextTime = Math.max(lastTime + 32, now);
+                    const nextTime = Math.max(lastTime + 32, now);
 
                     return setTimeout(() => { callback(lastTime = nextTime); }, nextTime - now);
                 };
@@ -67,7 +67,6 @@ export class NextFrame {
                                 delete lastTime[id];
                                 if (error) {
                                     // throw error;
-                                    return;
                                 }         // re-throw the error if an error occurred
                             }
                         }

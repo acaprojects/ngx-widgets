@@ -8,9 +8,6 @@
  */
 
 export class Utility {
-    constructor() {
-
-    }
     /**
      * Replaces all instances of string in a string
      * @param  {string} str     String to replace contents
@@ -18,7 +15,7 @@ export class Utility {
      * @param  {string} replace String to replace find in str
      * @return {string} Returns string with all instances of find replaced with replace
      */
-    static replaceAll(str: string, find: string, replace: string) {
+    public static replaceAll(str: string, find: string, replace: string) {
         return str.replace(new RegExp(find, 'g'), replace);
     }
     /**
@@ -26,21 +23,21 @@ export class Utility {
      * @param  {string} value String to escape
      * @return {string} Returns escaped string
      */
-    static escape(value: string) {
-        const string = String(value);
+    public static escape(value: string) {
+        const str = String(value);
         const length = string.length;
         let index = -1;
         let codeUnit: any;
         let result = '';
-        const firstCodeUnit = string.charCodeAt(0);
+        const firstCodeUnit = str.charCodeAt(0);
         while (++index < length) {
-            codeUnit = string.charCodeAt(index);
+            codeUnit = str.charCodeAt(index);
             // Note: there’s no need to special-case astral symbols, surrogate
             // pairs, or lone surrogates.
 
             // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER
             // (U+FFFD).
-            if (codeUnit == 0x0000) {
+            if (codeUnit === 0x0000) {
                 result += '\uFFFD';
                 continue;
             }
@@ -48,16 +45,16 @@ export class Utility {
             if (
                 // If the character is in the range [\1-\1F] (U+0001 to U+001F) or is
                 // U+007F, […]
-                (codeUnit >= 0x0001 && codeUnit <= 0x001F) || codeUnit == 0x007F ||
+                (codeUnit >= 0x0001 && codeUnit <= 0x001F) || codeUnit === 0x007F ||
                 // If the character is the first character and is in the range [0-9]
                 // (U+0030 to U+0039), […]
-                (index == 0 && codeUnit >= 0x0030 && codeUnit <= 0x0039) ||
+                (index === 0 && codeUnit >= 0x0030 && codeUnit <= 0x0039) ||
                 // If the character is the second character and is in the range [0-9]
                 // (U+0030 to U+0039) and the first character is a `-` (U+002D), […]
                 (
-                    index == 1 &&
+                    index === 1 &&
                     codeUnit >= 0x0030 && codeUnit <= 0x0039 &&
-                    firstCodeUnit == 0x002D
+                    firstCodeUnit === 0x002D
                 )
             ) {
                 // https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
@@ -68,11 +65,11 @@ export class Utility {
             if (
                 // If the character is the first character and is a `-` (U+002D), and
                 // there is no second character, […]
-                index == 0 &&
-                length == 1 &&
-                codeUnit == 0x002D
+                index === 0 &&
+                length === 1 &&
+                codeUnit === 0x002D
             ) {
-                result += '\\' + string.charAt(index);
+                result += '\\' + str.charAt(index);
                 continue;
             }
 
@@ -82,31 +79,37 @@ export class Utility {
             // U+005A), or [a-z] (U+0061 to U+007A), […]
             if (
                 codeUnit >= 0x0080 ||
-                codeUnit == 0x002D ||
-                codeUnit == 0x005F ||
+                codeUnit === 0x002D ||
+                codeUnit === 0x005F ||
                 codeUnit >= 0x0030 && codeUnit <= 0x0039 ||
                 codeUnit >= 0x0041 && codeUnit <= 0x005A ||
                 codeUnit >= 0x0061 && codeUnit <= 0x007A
             ) {
                 // the character itself
-                result += string.charAt(index);
+                result += str.charAt(index);
                 continue;
             }
 
             // Otherwise, the escaped character.
             // https://drafts.csswg.org/cssom/#escape-a-character
-            result += '\\' + string.charAt(index);
+            result += '\\' + str.charAt(index);
 
         }
         return result;
     }
 
-    static contrastRatio(color1: string, color2: string) {
+    public static contrastRatio(color1: string, color2: string) {
             // Make sure colours are valid HEX colour codes
-        if (!color1 || color1.length < 6 || color1.length > 7) return -1;
-        if (!color2 || color2.length < 6 || color2.length > 7) return -1;
+        if (!color1 || color1.length < 6 || color1.length > 7 || !color2 || color2.length < 6 || color2.length > 7) {
+            return -1;
+        }
             // Parse colour values
-        let r1, g1, b1, r2, b2, g2;
+        let r1;
+        let g1;
+        let b1;
+        let r2;
+        let b2;
+        let g2;
         if (color1[0] === '#') {
             r1 = parseInt(color1[1] + color1[2], 16);
             g1 = parseInt(color1[3] + color1[4], 16);
@@ -133,8 +136,8 @@ export class Utility {
         return (lum1 + 0.05) / (lum2 + 0.05);
     }
 
-    static luminanace(r: number, g: number, b: number) {
-        const a = [r, g, b].map(function(v) {
+    public static luminanace(r: number, g: number, b: number) {
+        const a = [r, g, b].map((v) => {
             v /= 255;
             return (v <= 0.03928) ?
                 v / 12.92 :
@@ -147,7 +150,7 @@ export class Utility {
      * Add CSS class to specified element
      * @return {void}
      */
-    static addClass(el: any, name: string) {
+    public static addClass(el: any, name: string) {
         if (!el.classList.contains(name)) {
             el.classList.add(name);
         }
@@ -157,7 +160,7 @@ export class Utility {
      * Remove CSS class from specified element
      * @return {void}
      */
-    static removeClass(el: any, name: string) {
+    public static removeClass(el: any, name: string) {
         el.classList.remove(name);
     }
 
@@ -165,7 +168,7 @@ export class Utility {
      * Swaps the first CSS class for the second CSS class if it exists on the element
      * @return {void}
      */
-    static swapClass(el: any, first: string, second: string) {
+    public static swapClass(el: any, first: string, second: string) {
         if (el.classList.contains(first)) {
             this.removeClass(el, first);
             this.addClass(el, second);

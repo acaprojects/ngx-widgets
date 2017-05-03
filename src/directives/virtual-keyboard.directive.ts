@@ -29,7 +29,10 @@ export class VirtualKeyboardDirective {
     private cmpRef: ComponentRef<any> = null;
 
     constructor(private _cr: ComponentFactoryResolver, private app_ref: ApplicationRef) {
-        this.view = app_ref['_rootComponents'][0]['_hostElement'].vcRef;
+        let app = app_ref as any;
+        if (app && app._rootComponents && app.rootComponents[0] && app._rootComponents[0]._hostElement) {
+            this.view = app._rootComponents[0]._hostElement.vcRef;
+        }
     }
 
     public ngOnInit() {
@@ -66,12 +69,13 @@ export class VirtualKeyboardDirective {
 
              // let's inject @Inputs to component instance
              this.cmp = this.cmpRef.instance;
-             this.cmp.activeChange.subscribe(
-                                             (data: any) => {
-                                                 this.active = data; this.activeChange.emit(data);
-                                             }, (err: any) => {},
-                                             () => {},
-                                             );
+             this.cmp.activeChange
+                 .subscribe(
+                     (data: any) => {
+                         this.active = data; this.activeChange.emit(data);
+                     }, (err: any) => {},
+                     () => {},
+                 );
              this.update();
          }
      }
