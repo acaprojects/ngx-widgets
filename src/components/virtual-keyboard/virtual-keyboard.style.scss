@@ -15,7 +15,7 @@
     }
     & .topbar {
         text-align: right;
-        padding: 0.25em 0.5em 0.5em 0.5em;
+        padding: .25em .5em .5em .5em;
         cursor: grab;
         &:active {
             cursor: grabbing;
@@ -24,17 +24,17 @@
             display: inline-block;
             cursor: pointer;
             &:hover {
-                color: rgba(0,0,0,0.54);
+                color: rgba(0,0,0,.54);
             }
         }
     }
 
     & .keyboard {
         background-color: #FFFFFF;
-        box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-        border-radius: 0.2em;
-        padding: 0.25em;
-        margin: 0.5em;
+        box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
+        border-radius: .2em;
+        padding: .25em;
+        margin: .5em;
         z-index: 9999;
         text-align: center;
         font-size: 1.2em;
@@ -60,22 +60,22 @@
             justify-content: center;
             & .key {
                 background-color: #FFFFFF;
-                box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-                border-radius: 0.2em;
-                padding: 0.5em 1.0em;
-                margin: 0.25em;
+                box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
+                border-radius: .2em;
+                padding: .5em 1.0em;
+                margin: .25em;
                 height: 2.2em;
                 font-size: 1.0em;
                 cursor: pointer;
                 &.normal {
                     width: 2.5em;
-                    padding: 0.5em 0.75em;
+                    padding: .5em .75em;
                 }
                 &:hover {
                     background-color: #DDDDDD;
                 }
                 &:active {
-                    box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
+                    box-shadow: 0 .1em .2em .1em rgba(0,0,0,.1);
                 }
                 &.active {
                     background-color: #4CAF50;

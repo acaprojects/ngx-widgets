@@ -27,7 +27,7 @@ div.slider {
             height: 1.0em;
             touch-action: pan-y;
             background-color: #898989;
-            border-radius: 0.5em;
+            border-radius: .5em;
             cursor: pointer;
             & .knob-container{
                 position: absolute;
@@ -44,7 +44,7 @@ div.slider {
                     touch-action: pan-y;
                     border-radius: 100%;
                     background-color: #FFFFFF;
-                    box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+                    box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
                 }
             }
 
@@ -55,7 +55,7 @@ div.slider {
                 height:100%;
                 touch-action: pan-y;
                 background-color: #53B3CB;
-                border-radius: 0.5em;
+                border-radius: .5em;
             }
         }
 

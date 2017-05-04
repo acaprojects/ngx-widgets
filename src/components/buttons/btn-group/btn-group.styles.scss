@@ -7,15 +7,15 @@
 
 div.btn-group {
     display: inline-flex;
-    border-radius: 0.1em;
-    box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
-    margin: 0.5em;
+    border-radius: .1em;
+    box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
+    margin: .5em;
     & .btn-obj {
         min-width: 8.0em;
-        padding: 0.5em 1.0em;
+        padding: .5em 1.0em;
         cursor: pointer;
-        border-left: 1px solid rgba(0,0,0,0.2);
-        border-right: 1px solid rgba(0,0,0,0.2);
+        border-left: 1px solid rgba(0,0,0,.2);
+        border-right: 1px solid rgba(0,0,0,.2);
         &.active {
 
         }
@@ -27,12 +27,12 @@ div.btn-group {
         }
 
         &:first-child {
-            border-radius: 0.1em 0 0 0.1em;
+            border-radius: .1em 0 0 .1em;
             border-left: none;
         }
 
         &:last-child {
-            border-radius: 0 0.1em 0.1em 0;
+            border-radius: 0 .1em .1em 0;
             border-right: none;
         }
     }

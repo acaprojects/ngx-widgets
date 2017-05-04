@@ -19,13 +19,6 @@ export class Spinner {
     @Input() public color: string = '#FFF';
     @Input() public cssClass: string = 'default';
 
-    constructor() {
-    }
-
-    public ngOnInit() {
-
-    }
-
     public ngOnChanges(changes: any) {
         if (this.type === null || this.type === undefined) this.type = 'plane';
     }

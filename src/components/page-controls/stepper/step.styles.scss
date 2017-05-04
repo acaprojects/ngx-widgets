@@ -18,12 +18,12 @@
         position: relative;
         height: 2.0em;
         width: 2.0em;
-        margin: 0.25em;
-        padding: 0.5em;
+        margin: .25em;
+        padding: .5em;
         text-align: center;
         background-color: #EFEFEF;
         border-radius: 100%;
-        color: rgba(0,0,0,0.87);
+        color: rgba(0,0,0,.87);
         cursor: pointer;
         &.active {
             background-color: #FF9800;
@@ -38,7 +38,7 @@
     & .step-bar {
         position: relative;
         flex: 1 1 auto;
-        padding: 0.25em 1.2em;
+        padding: .25em 1.2em;
         width: 2.0em;
         max-width: 2.0em;
         min-height: 2.0em;
@@ -47,25 +47,25 @@
             position: absolute;
             top: 0;
             left: 50%;
-            width: 0.1em;
+            width: .1em;
             transform: translateX(-50%);
             right: 0;
             bottom: 0;
-            background-color: rgba(0,0,0,0.2);
+            background-color: rgba(0,0,0,.2);
         }
     }
     & .step-desc {
         flex-grow: 1;
-        padding: 0.75em 1.2em;
+        padding: .75em 1.2em;
     }
 
     & .step-content {
         flex-grow: 1;
-        padding: 0.5em 0.5em 1.0em 0.5em;
+        padding: .5em .5em 1.0em .5em;
         text-align: center;
         overflow: hidden;
         @media all and (max-width: 720px) {
-            padding: 0.75em 0.2em 0.75em 0.5em;
+            padding: .75em .2em .75em .5em;
         }
     }
 }

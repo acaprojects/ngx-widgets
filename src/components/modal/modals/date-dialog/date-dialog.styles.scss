@@ -5,7 +5,7 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
 
-$sm-height: 20.0em;
+$sm-height: 20em;
 $space: 1.5em;
 
 .modal {
@@ -14,7 +14,7 @@ $space: 1.5em;
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,.3);
     font-size: 15px;
     z-index: 9999999;
     opacity: 0;
@@ -30,7 +30,7 @@ $space: 1.5em;
             min-height: $sm-height / 5 * 6;
         }
         background-color: #FFF;
-        border-radius: 0.1em;
+        border-radius: .1em;
         max-height: 95vh;
         max-width: 95vw;
 
@@ -39,11 +39,11 @@ $space: 1.5em;
                 position: absolute;
                 top: 0; left: 0;
                 right: 0; height: 3.0em;
-                padding: 0.5em;
+                padding: .5em;
                 font-size: 1.5em;
                 background-color: #EB8C00;
                 color: #FFFFFF;
-                border-radius: 0.1em 0.1em 0 0;
+                border-radius: .1em .1em 0 0;
             }
             &-body {
                 max-height: 90vh;
@@ -52,7 +52,7 @@ $space: 1.5em;
                 font-size: 1.0em;
                 user-select: none;
                 cursor: default;
-                padding: 5.0em 0.5em 3.0em 0.5em;
+                padding: 5.0em .5em 3.0em .5em;
                 text-align: center;
                 & .header {
                     position: relative;
@@ -60,19 +60,19 @@ $space: 1.5em;
                     height: 11.111111%;
                     border-bottom: 1px solid #EEE;
                     font-size: 1.2em;
-                    padding: 0.5em;
+                    padding: .5em;
                     & .arrow {
                         position: absolute;
                         font-size: 1.3em;
                         cursor: pointer;
-                        color: rgba(0,0,0,0.87);
+                        color: rgba(0,0,0,.87);
                         &.left {
-                            top: 0.1em;
-                            left: 0.5em;
+                            top: .1em;
+                            left: .5em;
                         }
                         &.right {
-                            top: 0.1em;
-                            right: 0.5em;
+                            top: .1em;
+                            right: .5em;
                         }
                     }
                 }
@@ -89,7 +89,7 @@ $space: 1.5em;
                 & .divider {
                     height: 1px;
                     width: 100%;
-                    padding: 0 0.5em 0.2em 0.5em;
+                    padding: 0 .5em .2em .5em;
                     & .inner {
                         height: 1px;
                         width: 100%;
@@ -103,16 +103,16 @@ $space: 1.5em;
                         & .day {
                             height: 2.5em;
                             width: 2.5em;
-                            margin: 0.1em;
-                            padding: 0.75em 0.5em;
+                            margin: .1em;
+                            padding: .75em .5em;
                             flex-grow: 0;
                             &.valid {
                                 cursor: pointer;
                                 &:hover { background-color: #ddd; }
                                 &.today { color: #0EAD69; font-weight: bold; }
                                 &.past { background-color: #eee; }
-                                &.active { color: rgba(255, 255, 255, 0.8); border-radius: 100%; }
-                                &.disabled { color: rgba(0,0,0,0.1); cursor: not-allowed; }
+                                &.active { color: rgba(255, 255, 255, .8); border-radius: 100%; }
+                                &.disabled { color: rgba(0,0,0,.1); cursor: not-allowed; }
                             }
 
                             &.active {
@@ -128,7 +128,7 @@ $space: 1.5em;
                 position: absolute;
                 height: $space * 2 + 1em; left: 0;
                 right: 0; bottom: 0;
-                padding: 0.5em;
+                padding: .5em;
                 text-align: center;
                 white-space: nowrap;
             }

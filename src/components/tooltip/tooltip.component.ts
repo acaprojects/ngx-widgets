@@ -40,6 +40,10 @@ export class TooltipComponent {
     private _cmp: any = null; // Created component
     private _inst: any = null; // Component Instance
 
+    constructor(private el: ElementRef, private _cfr: ComponentFactoryResolver, private renderer: Renderer) {
+
+    }
+
     /**
      * Function call when the element that this is attached to is tapped
      * emits a ontap event
@@ -53,9 +57,6 @@ export class TooltipComponent {
         }
     }
 
-    constructor(private el: ElementRef, private _cfr: ComponentFactoryResolver, private renderer: Renderer) {
-
-    }
 
     public ngOnChanges(changes: any) {
            // Component changes or state of show changes to true
@@ -156,14 +157,20 @@ export class TooltipComponent {
     private render(cnt: number = 0) {
         if (this.cmp && this.view) {
             const factory = this._cfr.resolveComponentFactory(this.cmp);
-            if (this._cmp) this._cmp.destroy();
+            if (this._cmp) {
+                this._cmp.destroy();
+            }
             this._cmp = this.view.createComponent(factory);
                 // let's inject @Inputs to component instance
             this._inst = this._cmp.instance;
             this._inst.entity = this.data;
-            if (!this._inst.entity) this._inst.entity = {};
+            if (!this._inst.entity) {
+                this._inst.entity = {};
+            }
             this._inst.parent = this;
-            if (this._inst.init) this._inst.init();
+            if (this._inst.init) {
+                this._inst.init();
+            }
             this.updateOffset();
         } else if (cnt < 30) {
             cnt++;

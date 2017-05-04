@@ -14,7 +14,7 @@ $space: 2.2em;
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,.3);
     font-size: 20px;
     z-index: 2000;
     opacity: 0;
@@ -32,8 +32,8 @@ $space: 2.2em;
         left: 50%;
         transform: translate(-50%, -50%) scale(0);
         background-color: #FFF;
-        border-radius: 0.1em;
-        min-height: 10.0em;
+        border-radius: .1em;
+        min-height: 10em;
         max-height: 90vh;
         max-width: 95vw;
         @media screen and (max-width: 720px) {
@@ -48,14 +48,14 @@ $space: 2.2em;
                 position: absolute;
                 top: 0; left: 0;
                 right: 0; height: $space;
-                padding: 0.5em 1.0em;
+                padding: .5em 1.0em;
                 font-size: 1.5em;
-                border-radius: 0.1em 0.1em 0 0;
+                border-radius: .1em .1em 0 0;
                 //text-align: center;
                 & .close-btn {
                     position: absolute;
-                    top: 0.25em;
-                    right: 0.5em;
+                    top: .25em;
+                    right: .5em;
                     color: #FFF;
                     cursor: pointer;
                     &:hover {
@@ -73,27 +73,27 @@ $space: 2.2em;
             }
             &-footer {
                 position: absolute;
-                height: $space + 0.5em; left: 0;
+                height: $space + .5em; left: 0;
                 right: 0; bottom: 0;
-                padding: 0.5em;
+                padding: .5em;
                 text-align: right;
                 background-color: #FFF;
                 white-space: nowrap;
-                border-top: 0.1em solid rgba(0,0,0,0.1);
-                border-radius: 0 0 0.1em 0.1em;
+                border-top: .1em solid rgba(0,0,0,.1);
+                border-radius: 0 0 .1em .1em;
                 z-index: 2020;
                 & .modal-btns {
                     display: inline-block;
                     text-align: center;
-                    padding: 0.2em;
+                    padding: .2em;
                     & .modal-btn {
                         outline: none;
                         border: none;
-                        padding: 0.5em 2.0em;
-                        border-radius: 0.2em;
+                        padding: .5em 2.0em;
+                        border-radius: .2em;
                         background-color: #273043;
                         color: #FFF;
-                        font-size: 0.75em;
+                        font-size: .75em;
                         cursor: pointer;
                         &:hover {
 

@@ -36,7 +36,7 @@ div.map-marker {
                 height: 1.0em;
                 width: 1.0em;
                 border-radius: 100%;
-                border: 0.1em solid #4CAF50;
+                border: .1em solid #4CAF50;
                 -webkit-animation: ring-scaleout 1.0s infinite ease-in-out;
                 animation: ring-scaleout 1.0s infinite ease-in-out;
             }
@@ -72,9 +72,9 @@ div.map-marker {
             width: 1.0em;
             transform: translate(-50%, -50%);
             border-radius: 100%;
-            background-color: rgba(219, 83, 106, 0.2);
-            border: 0.3em dashed rgba(219, 83, 106, 1);
-            box-shadow: 0px 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+            background-color: rgba(219, 83, 106, .2);
+            border: .3em dashed rgba(219, 83, 106, 1);
+            box-shadow: 0px .1em .2em .1em rgba(0,0,0,.2);
             z-index: 20;
         }
     }
@@ -83,13 +83,13 @@ div.map-marker {
         top: 0;
         left: 50%;
         transform: translate(-50%, -120%);
-        padding: 0.5em;
+        padding: .5em;
         background-color: #FFF;
         //border: 2px solid #DDD;
         border-radius: 4px;
         width: auto;
         white-space: nowrap;
-        box-shadow: 0px 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+        box-shadow: 0px .1em .2em .1em rgba(0,0,0,.2);
         z-index: 21;
     }
 }

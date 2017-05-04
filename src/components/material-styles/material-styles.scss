@@ -33,11 +33,11 @@
         }
     }
     &.step, &-step {
-        &-zero  { box-shadow: 0 0 0 1px rgba(0,0,0,0.2); }
-        &-one   { box-shadow: 0 0.1em 0.1em 1px rgba(0,0,0,0.2); }
-        &-two   { box-shadow: 0 0.2em 0.2em 1px rgba(0,0,0,0.2); }
-        &-three { box-shadow: 0 0.3em 0.3em 1px rgba(0,0,0,0.2); }
-        &-four  { box-shadow: 0 0.4em 0.4em 1px rgba(0,0,0,0.2); }
+        &-zero  { box-shadow: 0 0 0 1px rgba(0,0,0,.2); }
+        &-one   { box-shadow: 0 .1em .1em 1px rgba(0,0,0,.2); }
+        &-two   { box-shadow: 0 .2em .2em 1px rgba(0,0,0,.2); }
+        &-three { box-shadow: 0 .3em .3em 1px rgba(0,0,0,.2); }
+        &-four  { box-shadow: 0 .4em .4em 1px rgba(0,0,0,.2); }
     }
     &.color {
         $colors: (

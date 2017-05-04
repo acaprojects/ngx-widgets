@@ -12,7 +12,7 @@ $red: #F64740;
     &.input {
         position: relative;
         display: inline-block;
-        padding: 0.1em;
+        padding: .1em;
         font-size: 1.2em;
         user-select: none;
         & .error { color: $red; border-color: $red; }
@@ -21,33 +21,33 @@ $red: #F64740;
             position: relative;
             display: flex;
             align-items: center;
-            padding: 0.2em 0 0.1em 0;
+            padding: .2em 0 .1em 0;
             user-select: none;
             &.light {
-                color: rgba(0,0,0,0.4);
-                border-bottom: 0.1em solid rgba(0,0,0,0.4);
+                color: rgba(0,0,0,.4);
+                border-bottom: .1em solid rgba(0,0,0,.4);
                 &.disabled {
-                    border-bottom: 0.1em dotted rgba(0,0,0,0.4);
+                    border-bottom: .1em dotted rgba(0,0,0,.4);
                 }
                 &.readonly {
-                    border-bottom: 0.1em dashed rgba(0,0,0,0.4);
+                    border-bottom: .1em dashed rgba(0,0,0,.4);
                 }
 
                 & input.text {
-                    color: rgba(0,0,0,0.8);
+                    color: rgba(0,0,0,.8);
                     width: 100%;
                 }
             }
             &.dark {
-                color: rgba(255,255,255,0.4);
-                border-bottom: 0.1em solid rgba(255,255,255,0.4);
+                color: rgba(255,255,255,.4);
+                border-bottom: .1em solid rgba(255,255,255,.4);
                 &.disabled {
-                    border-bottom: 0.1em dotted rgba(255,255,255,0.4);
+                    border-bottom: .1em dotted rgba(255,255,255,.4);
                 }
                 &.readonly {
-                    border-bottom: 0.1em dashed rgba(255,255,255,0.4) !important;
+                    border-bottom: .1em dashed rgba(255,255,255,.4) !important;
                 }
-                & input.text { color: rgba(255,255,255,0.8); }
+                & input.text { color: rgba(255,255,255,.8); }
             }
             cursor: text;
             &.disabled {
@@ -55,7 +55,7 @@ $red: #F64740;
             }
             & .placeholder {
                 position: absolute;
-                top: 0.2em;
+                top: .2em;
                 left: 0;
                 font-size: 1.0em;
                 &.left {
@@ -84,8 +84,8 @@ $red: #F64740;
             }
         }
         & .info-space {
-            padding: 0.2em 0;
-            font-size: 0.6em;
+            padding: .2em 0;
+            font-size: .6em;
             & .message {
                 display: inline-block;
                 float: left;

@@ -11,12 +11,12 @@
     min-height: 2.0em;
     font-size: 1.0em;
     z-index: 100;
-    border-radius: 0.1em;
-    margin: 0.5em;
+    border-radius: .1em;
+    margin: .5em;
     text-align: center;
     & .item {
         cursor: pointer;
-        padding: 0.25em;
+        padding: .25em;
         & .field {
 
         }
@@ -31,17 +31,17 @@
         left: 0;
         right: 0;
         z-index: 1999;
-        border-radius: 0.1em;
+        border-radius: .1em;
         opacity: 0;
         & .search {
-            margin: 0.25em 1.0em;
+            margin: .25em 1.0em;
             display: flex;
             align-items: center;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 0.1em;
+            border: 1px solid rgba(0,0,0,.1);
+            border-radius: .1em;
             height: 1.5em;
             & .input {
-                padding: 0.2em 0.5em;
+                padding: .2em .5em;
                 flex-grow: 1;
                 & input {
                     width: 100%;
@@ -52,7 +52,7 @@
                 }
             }
             & .icon {
-                margin: 0.25em;
+                margin: .25em;
                 & .search {
                     height: 1.0em;
                     width: 1.0em;
@@ -69,11 +69,11 @@
     }
 
     &.default {
-        box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+        box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
         background-color: #FFF;
         color: #000;
         &:hover {
-            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
+            box-shadow: 0 .1em .2em .1em rgba(0,0,0,.1);
         }
         & .item {
             &:hover {
@@ -85,7 +85,7 @@
             }
         }
         & .list {
-            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+            box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
             background-color: #FFF;
             color: #000;
             overflow: hidden;

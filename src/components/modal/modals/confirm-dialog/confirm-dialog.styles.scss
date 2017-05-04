@@ -14,7 +14,7 @@ $space: 2.5em;
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,.3);
     font-size: 4mm;
     z-index: 9999999;
     & .tap-space {
@@ -33,7 +33,7 @@ $space: 2.5em;
         width: $sm-height;
         min-height: $sm-height / 2;
         background-color: #FFF;
-        border-radius: 0.1em;
+        border-radius: .1em;
         max-height: 95vh;
         max-width: 95vw;
         & .dialog {
@@ -41,7 +41,7 @@ $space: 2.5em;
                 position: absolute;
                 top: 0; left: 0;
                 right: 0; height: $space;
-                padding: 0.5em;
+                padding: .5em;
                 font-size: 1.5em;
             }
             &-body {
@@ -57,7 +57,7 @@ $space: 2.5em;
                 position: absolute;
                 height: $space + 1.0em; left: 0;
                 right: 0; bottom: 0;
-                padding: 0.5em;
+                padding: .5em;
                 text-align: right;
                 white-space: nowrap;
             }

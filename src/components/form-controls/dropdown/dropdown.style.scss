@@ -11,18 +11,18 @@
     min-height: 2.0em;
     font-size: 1.0em;
     //z-index: 100;
-    border-radius: 0.1em;
-    margin: 0.5em;
+    border-radius: .1em;
+    margin: .5em;
     text-align: center;
     & .item {
         cursor: pointer;
-        padding: 0.4em;
+        padding: .4em;
         text-align: left;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         & .field {
-            padding: 0 0.5em;
+            padding: 0 .5em;
         }
         &.active {
             text-align: center;
@@ -35,7 +35,7 @@
         left: 0;
         right: 0;
         z-index: 1999;
-        border-radius: 0.1em;
+        border-radius: .1em;
         //opacity: 0;
 
         & .items {
@@ -45,11 +45,11 @@
     }
 
     &.default {
-        box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+        box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
         background-color: #FFF;
         color: #000;
         &:hover {
-            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
+            box-shadow: 0 .1em .2em .1em rgba(0,0,0,.1);
         }
         & .item {
             &:hover {
@@ -61,7 +61,7 @@
             }
         }
         & .list {
-            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+            box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
             background-color: #FFF;
             color: #000;
             overflow: hidden;
@@ -70,7 +70,7 @@
                     cursor: default;
                     background-color: #FFF;
                     color: #000;
-                    border-bottom: 1px solid rgba(0,0,0,0.1);
+                    border-bottom: 1px solid rgba(0,0,0,.1);
                 }
             }
         }

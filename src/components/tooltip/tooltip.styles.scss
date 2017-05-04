@@ -26,24 +26,24 @@ div.tooltip {
     }
     & .block {
         position: relative;
-        height: 0.5em;
+        height: .5em;
         width: 1.5em;
         & .triangle{
             position: absolute;
             left: 0;
             width: 1.5em;
-            height: 0.5em;
+            height: .5em;
             overflow: hidden;
             & .square {
                 position: relative;
-                top: 0.25em;
-                left: 0.25em;
+                top: .25em;
+                left: .25em;
                 width: 1.0em;
                 height: 1.0em;
-                border-radius: 0.1em;
-                box-shadow: 0.05em 0.05em 0.35em 0.05em rgba(0,0,0,0.2);
+                border-radius: .1em;
+                box-shadow: 05em 05em .35em 05em rgba(0,0,0,.2);
                 transform: rotate(45deg);
-                border: 1px solid rgba(0,0,0,0.1);
+                border: 1px solid rgba(0,0,0,.1);
             }
         }
 
@@ -52,9 +52,9 @@ div.tooltip {
             top: 100%;
             min-height: 1.5em;
             min-width: 1.5em;
-            box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.1);
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: 0.1em;
+            box-shadow: 0 .1em .2em .1em rgba(0,0,0,.1);
+            border: 1px solid rgba(0,0,0,.1);
+            border-radius: .1em;
         }
     }
 
@@ -65,7 +65,7 @@ div.tooltip {
             }
             & .contents {
                 background-color: #FFFFFF;
-                color: rgba(0,0,0,0.87);
+                color: rgba(0,0,0,.87);
             }
         }
         &.dark {
@@ -75,7 +75,7 @@ div.tooltip {
                 }
                 & .contents {
                     background-color: #000000;
-                    color: rgba(0,0,0,0.87);
+                    color: rgba(0,0,0,.87);
                 }
             }
         }

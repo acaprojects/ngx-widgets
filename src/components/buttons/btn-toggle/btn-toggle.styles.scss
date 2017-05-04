@@ -19,14 +19,14 @@
     &.disabled {
         & button {
             cursor: not-allowed !important;
-            background-color: rgba(255,255,255,0.2) !important;
-            color: rgba(0,0,0,0.54) !important;
+            background-color: rgba(255,255,255,.2) !important;
+            color: rgba(0,0,0,.54) !important;
         }
     }
     &.btn {
         position: relative;
         display: inline-block;
-        padding: 0.5em 0.75em;
+        padding: .5em .75em;
         text-align: center;
         cursor: pointer;
         user-select: none;
@@ -60,7 +60,7 @@
             & button {
                 min-width: 7.0em;
                 &.disabled {
-                    background-color: rgba(0,0,0, 0.5);
+                    background-color: rgba(0,0,0, .5);
                     color: #000;
                 }
                 &.is-off {
@@ -74,16 +74,16 @@
         }
         & button {
             font-size: 1.0em;
-            padding: 0.5em 0.75em;
+            padding: .5em .75em;
             position: relative;
             outline: none;
-            border-radius: 0.1em;
+            border-radius: .1em;
             border: none;
             cursor: pointer;
             overflow: hidden;
             min-width: 6.0em;
             &.disabled {
-                opacity: 0.25;
+                opacity: .25;
             }
         }
         & .circle{

@@ -2,12 +2,12 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-29 09:30:47
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-03 12:38:34
+ * @Last Modified time: 2017-05-04 12:28:13
  */
 
 $circle-background: #CFD8DC;
 $circle-color: #2196F3;
-$circle-size: 10.0em;
+$circle-size: 10em;
 $transition-length: 1s;
 $increment: 180deg / 1000;
 
@@ -17,7 +17,7 @@ div.radial-progress {
       height: $circle-size;
       width: $circle-size;
       border-radius: 50%;
-      margin: 0.25em auto;
+      margin: .25em auto;
       & .circle {
           & .fill, & .mask {
             position: absolute;
@@ -62,7 +62,7 @@ div.radial-progress {
           height: $circle-size - 1.0em;
           width: $circle-size - 1.0em;
         position: absolute;
-        margin: 0.5em;
+        margin: .5em;
         border-radius: 50%;
         background-color: #FFFFFF;
       }
