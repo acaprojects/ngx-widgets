@@ -9,7 +9,7 @@
     position: fixed;
     z-index: 9999;
     &.standard {
-        //top: 1.0em;
+        //top: 1.0;
         left: 50%;
         transform: translateX(-50%);
     }
@@ -24,14 +24,14 @@
             display: inline-block;
             cursor: pointer;
             &:hover {
-                color: rgba(0,0,0,.54);
+                color: rgba(0, 0, 0, .54);
             }
         }
     }
 
     & .keyboard {
-        background-color: #FFFFFF;
-        box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
+        background-color: #ffffff;
+        box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
         border-radius: .2em;
         padding: .25em;
         margin: .5em;
@@ -59,27 +59,27 @@
             align-items: center;
             justify-content: center;
             & .key {
-                background-color: #FFFFFF;
-                box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
+                background-color: #ffffff;
+                box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
                 border-radius: .2em;
-                padding: .5em 1.0em;
+                padding: .5em 1.0;
                 margin: .25em;
                 height: 2.2em;
-                font-size: 1.0em;
+                font-size: 1.0;
                 cursor: pointer;
                 &.normal {
                     width: 2.5em;
                     padding: .5em .75em;
                 }
                 &:hover {
-                    background-color: #DDDDDD;
+                    background-color: #dddddd;
                 }
                 &:active {
-                    box-shadow: 0 .1em .2em .1em rgba(0,0,0,.1);
+                    box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
                 }
                 &.active {
-                    background-color: #4CAF50;
-                    color: #FFFFFF;
+                    background-color: #4caf50;
+                    color: #ffffff;
                 }
             }
         }

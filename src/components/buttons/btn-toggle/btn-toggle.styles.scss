@@ -19,8 +19,8 @@
     &.disabled {
         & button {
             cursor: not-allowed !important;
-            background-color: rgba(255,255,255,.2) !important;
-            color: rgba(0,0,0,.54) !important;
+            background-color: rgba(255, 255, 255, .2) !important;
+            color: rgba(0, 0, 0, .54) !important;
         }
     }
     &.btn {
@@ -33,11 +33,11 @@
         & .action {
             padding: 0;
             & button {
-                height: 4.0em;
-                width: 4.0em;
+                height: 4.0;
+                width: 4.0;
                 padding: 0;
                 border-radius: 100%;
-                min-width: 4.0em;
+                min-width: 4.0;
                 &.hover {
 
                 }
@@ -46,9 +46,9 @@
         & .mini-action {
             padding: 0;
             & button {
-                height: 3.0em;
-                width: 3.0em;
-                min-width: 3.0em;
+                height: 3.0;
+                width: 3.0;
+                min-width: 3.0;
                 padding: 0;
                 border-radius: 100%;
                 &.hover {
@@ -58,22 +58,22 @@
         }
         & .raised {
             & button {
-                min-width: 7.0em;
+                min-width: 7.0;
                 &.disabled {
-                    background-color: rgba(0,0,0, .5);
+                    background-color: rgba(0, 0, 0, .5);
                     color: #000;
                 }
                 &.is-off {
-                    background-color: #E0E0E0 !important;
+                    background-color: #e0e0e0 !important;
                     color: #000 !important;
                     &:hover {
-                        background-color: #BDBDBD !important;
+                        background-color: #bdbdbd !important;
                     }
                 }
             }
         }
         & button {
-            font-size: 1.0em;
+            font-size: 1.0;
             padding: .5em .75em;
             position: relative;
             outline: none;
@@ -81,15 +81,15 @@
             border: none;
             cursor: pointer;
             overflow: hidden;
-            min-width: 6.0em;
+            min-width: 6.0;
             &.disabled {
                 opacity: .25;
             }
         }
         & .circle{
             position: absolute;
-            width: 4.0em;
-            height: 4.0em;
+            width: 4.0;
+            height: 4.0;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);

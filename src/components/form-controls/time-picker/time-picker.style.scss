@@ -10,22 +10,22 @@ div.aca.time-picker {
     text-align: center;
     position: relative;
     max-width: 100%;
-    font-size: 2.0em;
+    font-size: 2.0;
     @media screen and (max-device-width: 720px) {
         font-size: 2.5em;
     }
     & .arrow {
         &.down {
-            background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDcuODRMMTIgMTIuNDJsNC41OS00LjU4TDE4IDkuMjVsLTYgNi02LTZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNzVoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
+            background-image: url(data:image/svg+xml;base64, PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDcuODRMMTIgMTIuNDJsNC41OS00LjU4TDE4IDkuMjVsLTYgNi02LTZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNzVoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
         }
         &.up {
-            background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDE1LjQxTDEyIDEwLjgzbDQuNTkgNC41OEwxOCAxNGwtNi02LTYgNnoiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
+            background-image: url(data:image/svg+xml;base64, PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDE1LjQxTDEyIDEwLjgzbDQuNTkgNC41OEwxOCAxNGwtNi02LTYgNnoiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
         }
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
         height: .8em;
-        width: 1.0em;
+        width: 1.0;
         margin: auto;
     }
     & .time-space {
@@ -39,7 +39,7 @@ div.aca.time-picker {
             display: flex;
             & .pick {
                 padding: .2em;
-                width: 3.0em;
+                width: 3.0;
                 & .display-arrow {
                     position: relative;
                     font-weight: bolder;
@@ -50,11 +50,11 @@ div.aca.time-picker {
                 }
 
                 & .set {
-                    border: 2px solid #DDD;
+                    border: 2px solid #ddd;
                     border-radius: 4px;
                     outline: none;
                     &:active {
-                        box-shadow: 1px 1px 5px 2px #DDD;
+                        box-shadow: 1px 1px 5px 2px #ddd;
                     }
                     & input{
                         height: 100%;
@@ -72,7 +72,7 @@ div.aca.time-picker {
                     & button {
                         font-size: .8em;
                         border: none;
-                        padding: .25em 1.0em;
+                        padding: .25em 1.0;
                         border-radius: .1em;
                         outline: none;
                     }
@@ -81,17 +81,17 @@ div.aca.time-picker {
         }
     }
     &.default {
-        color: rgba(0,0,0,.87);
+        color: rgba(0, 0, 0, .87);
         & .arrow {
-            color: rgba(0,0,0,.87);
+            color: rgba(0, 0, 0, .87);
         }
 
         & .btn {
             & button {
-                color: #FFF;
-                background-color: rgba(0,0,0,.54);
+                color: #fff;
+                background-color: rgba(0, 0, 0, .54);
                 &:hover {
-                    background-color: rgba(0,0,0,.87);
+                    background-color: rgba(0, 0, 0, .87);
                 }
             }
         }

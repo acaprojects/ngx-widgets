@@ -5,7 +5,7 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
 
-$sm-height: 15.0em;
+$sm-height: 15.0;
 $space: 2.5em;
 
 .modal {
@@ -14,7 +14,7 @@ $space: 2.5em;
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0, 0, 0, .3);
     font-size: 4mm;
     z-index: 9999999;
 
@@ -25,7 +25,7 @@ $space: 2.5em;
         transform: translate(-50%, -50%);
         width: $sm-height;
         min-height: $sm-height / 2;
-        background-color: #FFF;
+        background-color: #fff;
         border-radius: .1em;
         max-height: 95vh;
         max-width: 95vw;
@@ -41,14 +41,14 @@ $space: 2.5em;
                 max-height: 90vh;
                 max-width: 90vw;
                 overflow: auto;
-                font-size: 1.0em;
+                font-size: 1.0;
                 & .content {
-                    padding: ($space + 1.0em) 1.0em;
+                    padding: ($space + 1.0) 1.0;
                 }
             }
             &-footer {
                 position: absolute;
-                height: $space + 1.0em; left: 0;
+                height: $space + 1.0; left: 0;
                 right: 0; bottom: 0;
                 padding: .5em;
                 text-align: right;

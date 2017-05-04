@@ -5,11 +5,11 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
 
-$sm-height: 20em;
+$sm-height: 20;
 $space: 2.5em;
 
-$clock_size: 18.0em;
-$clock_i_size: 16.0em;
+$clock_size: 18.0;
+$clock_i_size: 16.0;
 
 .modal {
     position: fixed;
@@ -17,7 +17,7 @@ $clock_i_size: 16.0em;
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0, 0, 0, .3);
     font-size: 15px;
     z-index: 9999999;
 
@@ -28,7 +28,7 @@ $clock_i_size: 16.0em;
         transform: translate(-50%, -50%);
         width: $sm-height;
         min-height: $sm-height / 2;
-        background-color: #FFF;
+        background-color: #fff;
         border-radius: .1em;
         max-height: 95vh;
         max-width: 95vw;
@@ -44,45 +44,45 @@ $clock_i_size: 16.0em;
                 max-height: 90vh;
                 max-width: 90vw;
                 overflow: auto;
-                font-size: 1.0em;
+                font-size: 1.0;
                 text-align: center;
                 & .content {
-                    padding: ($space + 1.0em) 1.0em;
+                    padding: ($space + 1.0) 1.0;
                     & .clock {
                         position: relative;
                         display: inline-block;
-                        height: 18.0em;
-                        width: 18.0em;
+                        height: 18.0;
+                        width: 18.0;
                         padding: .5em;
-                        background-color: rgba(0,0,0,.1);
-                        color: rgba(0,0,0,.87);
+                        background-color: rgba(0, 0, 0, .1);
+                        color: rgba(0, 0, 0, .87);
                         border-radius: 100%;
                         & .inner {
                             position: absolute;
-                            height: 16.0em;
-                            width: 16.0em;
-                            top: 1.0em;
-                            left: 1.0em;
+                            height: 16.0;
+                            width: 16.0;
+                            top: 1.0;
+                            left: 1.0;
                             & .time {
                                 position: absolute;
-                                height: 2.0em;
-                                width: 2.0em;
+                                height: 2.0;
+                                width: 2.0;
                                 padding: .5em;
                                 text-align: center;
                                 transform: translate(-50%, -50%);
                                 &.p12 { top:      0; left: $clock_i_size/2; }
-                                &.p3  { top:    $clock_i_size/2; right:   0;}
-                                &.p6  { bottom:   0; left:  $clock_i_size/2;}
-                                &.p9  { top:   $clock_i_size/2; left:    0;}
+                                &.p3 { top:    $clock_i_size/2; right:   0;}
+                                &.p6 { bottom:   0; left:  $clock_i_size/2;}
+                                &.p9 { top:   $clock_i_size/2; left:    0;}
 
-                                &.p1  { top:    $clock_i_size/10; right: $clock_i_size/4; }
-                                &.p5  { bottom: $clock_i_size/10; right: $clock_i_size/4; }
-                                &.p7  { bottom: $clock_i_size/10; left:  $clock_i_size/4; }
+                                &.p1 { top:    $clock_i_size/10; right: $clock_i_size/4; }
+                                &.p5 { bottom: $clock_i_size/10; right: $clock_i_size/4; }
+                                &.p7 { bottom: $clock_i_size/10; left:  $clock_i_size/4; }
                                 &.p11 { top:    $clock_i_size/10; left:  $clock_i_size/4; }
 
-                                &.p2  { top:    $clock_i_size/4; right: $clock_i_size/10; }
-                                &.p4  { bottom: $clock_i_size/4; right: $clock_i_size/10; }
-                                &.p8  { bottom: $clock_i_size/4; left:  $clock_i_size/10; }
+                                &.p2 { top:    $clock_i_size/4; right: $clock_i_size/10; }
+                                &.p4 { bottom: $clock_i_size/4; right: $clock_i_size/10; }
+                                &.p8 { bottom: $clock_i_size/4; left:  $clock_i_size/10; }
                                 &.p10 { top:    $clock_i_size/4; left:  $clock_i_size/10; }
                             }
                         }
@@ -91,7 +91,7 @@ $clock_i_size: 16.0em;
             }
             &-footer {
                 position: absolute;
-                height: $space + 1.0em; left: 0;
+                height: $space + 1.0; left: 0;
                 right: 0; bottom: 0;
                 padding: .5em;
                 text-align: right;

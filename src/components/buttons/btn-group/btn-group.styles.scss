@@ -8,21 +8,21 @@
 div.btn-group {
     display: inline-flex;
     border-radius: .1em;
-    box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
+    box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
     margin: .5em;
     & .btn-obj {
-        min-width: 8.0em;
-        padding: .5em 1.0em;
+        min-width: 8.0;
+        padding: .5em 1.0;
         cursor: pointer;
-        border-left: 1px solid rgba(0,0,0,.2);
-        border-right: 1px solid rgba(0,0,0,.2);
+        border-left: 1px solid rgba(0, 0, 0, .2);
+        border-right: 1px solid rgba(0, 0, 0, .2);
         &.active {
 
         }
         &.inactive {
-            background-color: #E0E0E0;
+            background-color: #e0e0e0;
             &:hover {
-                background-color: #BDBDBD;
+                background-color: #bdbdbd;
             }
         }
 

@@ -2,12 +2,12 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-29 09:30:47
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-04 12:28:13
+ * @Last Modified time: 2017-05-04 14:20:08
  */
 
-$circle-background: #CFD8DC;
-$circle-color: #2196F3;
-$circle-size: 10em;
+$circle-background: #cfd8dc;
+$circle-color: #2196f3;
+$circle-size: 10;
 $transition-length: 1s;
 $increment: 180deg / 1000;
 
@@ -37,7 +37,7 @@ div.radial-progress {
           }
 
           & .mask.half {
-              clip: rect(0,$circle-size,$circle-size,$circle-size/2);
+              clip: rect(0, $circle-size, $circle-size, $circle-size/2);
               & .fill {
                 clip: rect(0, $circle-size, $circle-size, 0);
               }
@@ -46,7 +46,7 @@ div.radial-progress {
           & .mask.full {
             clip: rect(0, $circle-size/2, $circle-size, 0);
               & .fill {
-                  clip: rect(0,$circle-size,$circle-size,$circle-size/2);
+                  clip: rect(0, $circle-size, $circle-size, $circle-size/2);
               }
           }
           //*/
@@ -59,11 +59,11 @@ div.radial-progress {
       }
 
       & .inset {
-          height: $circle-size - 1.0em;
-          width: $circle-size - 1.0em;
+          height: $circle-size - 1.0;
+          width: $circle-size - 1.0;
         position: absolute;
         margin: .5em;
         border-radius: 50%;
-        background-color: #FFFFFF;
+        background-color: #ffffff;
       }
 }

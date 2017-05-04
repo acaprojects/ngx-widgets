@@ -18,7 +18,7 @@ $space: .5em;
         & .plane {
             height: 4em;
             width: 4em;
-            background-color: #FFF;
+            background-color: #fff;
             & .box {
                 height: 4em;
                 width: 4em;
@@ -51,7 +51,7 @@ $space: .5em;
         width: 4em;
 
         & .circle {
-            background-color: #FFF;
+            background-color: #fff;
             &.one,  &.two {
                 height: 4em;
                 width: 4em;
@@ -95,7 +95,7 @@ $space: .5em;
             width: .5em;
             margin-right: 5em;
             display: inline-block;
-            background-color: #FFF;
+            background-color: #fff;
             -webkit-animation: sk-stretchdelay 1.3s infinite ease-in-out;
             animation: sk-stretchdelay 1.3s infinite ease-in-out;
             &.one {
@@ -152,7 +152,7 @@ $space: .5em;
                   position: absolute;
                   top: 0;
                   left: 0;
-                background-color: #FFF;
+                background-color: #fff;
 
                   -webkit-animation: sk-cubemove 1.8s infinite ease-in-out;
                   animation: sk-cubemove 1.8s infinite ease-in-out;
@@ -200,7 +200,7 @@ $space: .5em;
             & .circle {
                 height: 4em;
                 width: 4em;
-                background-color: #FFF;
+                background-color: #fff;
                 border-radius: 100%;
                 -webkit-animation: sk-scaleout 1s infinite ease-in-out;
                 animation: sk-scaleout 1s infinite ease-in-out;
@@ -236,8 +236,8 @@ $space: .5em;
             & .circle {
                 height: 4em;
                 width: 4em;
-                border: .5em solid #FFF;
-                border-color: #FFF;
+                border: .5em solid #fff;
+                border-color: #fff;
                 border-radius: 100%;
                 -webkit-animation: sk-scaleout 1s infinite ease-in-out;
                 animation: sk-scaleout 1s infinite ease-in-out;
@@ -277,9 +277,9 @@ $space: .5em;
                 left: 50%;
                 height: 4em;
                 width: 4em;
-                border-bottom: .2em solid #FFF;
-                border-left: .2em solid #FFF;
-                border-color: #FFF;
+                border-bottom: .2em solid #fff;
+                border-left: .2em solid #fff;
+                border-color: #fff;
                 border-radius: 100%;
 
                 &.one {
@@ -322,8 +322,8 @@ $space: .5em;
         }
 
         @keyframes sk-rotate {
-              0%   { -webkit-transform: translate(-50%, -50%) rotate(  0deg); transform: translate(-50%, -50%) rotate(  0deg); }
-              50%  { -webkit-transform: translate(-50%, -50%) rotate(179deg); transform: translate(-50%, -50%) rotate(179deg); }
+              0%  { -webkit-transform: translate(-50%, -50%) rotate(  0deg); transform: translate(-50%, -50%) rotate(  0deg); }
+              50% { -webkit-transform: translate(-50%, -50%) rotate(179deg); transform: translate(-50%, -50%) rotate(179deg); }
               100% { -webkit-transform: translate(-50%, -50%) rotate(357deg); transform: translate(-50%, -50%) rotate(357deg); }
         }
 
@@ -334,8 +334,8 @@ $space: .5em;
         }
 
         @keyframes sk-rotate-i {
-              0%   { -webkit-transform: translate(-50%, -50%) rotate(  -0deg); transform: translate(-50%, -50%) rotate(  -0deg); }
-              50%  { -webkit-transform: translate(-50%, -50%) rotate(-179deg); transform: translate(-50%, -50%) rotate(-179deg); }
+              0%  { -webkit-transform: translate(-50%, -50%) rotate(  -0deg); transform: translate(-50%, -50%) rotate(  -0deg); }
+              50% { -webkit-transform: translate(-50%, -50%) rotate(-179deg); transform: translate(-50%, -50%) rotate(-179deg); }
               100% { -webkit-transform: translate(-50%, -50%) rotate(-357deg); transform: translate(-50%, -50%) rotate(-357deg); }
         }
     }
@@ -352,8 +352,8 @@ $space: .5em;
                   position: absolute;
                   top: 0;
                   left: 0;
-                border: .5em solid #FFF;
-                border-color: #FFF;
+                border: .5em solid #fff;
+                border-color: #fff;
                 border-radius: 100%;
                 opacity: .5;
                 -webkit-animation: sk-scaleout-in 2s infinite ease-in-out;
@@ -395,7 +395,7 @@ $space: .5em;
             & .circle {
                   width: 1.8em;
                   height: 1.8em;
-                  background-color: #FFF;
+                  background-color: #fff;
                   border-radius: 100%;
                   margin-right: .25em;
                   display: inline-block;
@@ -453,70 +453,70 @@ $space: .5em;
                       -webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
                       animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
                 }
-                &.one    {
+                &.one   {
                     transform: rotate( 30deg);
                     & .inner {
                           -webkit-animation-delay: -1.1s;
                           animation-delay: -1.1s;
                     }
                 }
-                &.two    {
+                &.two   {
                     transform: rotate( 60deg);
                     & .inner {
                           -webkit-animation-delay: -1s;
                           animation-delay: -1s;
                     }
                 }
-                &.three  {
+                &.three {
                     transform: rotate( 90deg);
                     & .inner {
                           -webkit-animation-delay: -.9s;
                           animation-delay: -.9s;
                     }
                 }
-                &.four   {
+                &.four  {
                     transform: rotate(120deg);
                     & .inner {
                           -webkit-animation-delay: -.8s;
                           animation-delay: -.8s;
                     }
                 }
-                &.five   {
+                &.five  {
                     transform: rotate(150deg);
                     & .inner {
                           -webkit-animation-delay: -.7s;
                           animation-delay: -.7s;
                     }
                 }
-                &.six    {
+                &.six   {
                     transform: rotate(180deg);
                     & .inner {
                           -webkit-animation-delay: -.6s;
                           animation-delay: -.6s;
                     }
                 }
-                &.seven  {
+                &.seven {
                     transform: rotate(210deg);
                     & .inner {
                           -webkit-animation-delay: -.5s;
                           animation-delay: -.5s;
                     }
                 }
-                &.eight  {
+                &.eight {
                     transform: rotate(240deg);
                     & .inner {
                           -webkit-animation-delay: -.4s;
                           animation-delay: -.4s;
                     }
                 }
-                &.nine   {
+                &.nine  {
                     transform: rotate(270deg);
                     & .inner {
                           -webkit-animation-delay: -.3s;
                           animation-delay: -.3s;
                     }
                 }
-                &.ten    {
+                &.ten   {
                     transform: rotate(300deg);
                     & .inner {
                           -webkit-animation-delay: -.2s;
@@ -581,70 +581,70 @@ $space: .5em;
                 }
 
 
-                &.one    {
+                &.one   {
                     transform: rotate( 30deg);
                     & .inner {
                           -webkit-animation-delay: -1.1s;
                           animation-delay: -1.1s;
                     }
                 }
-                &.two    {
+                &.two   {
                     transform: rotate( 60deg);
                     & .inner {
                           -webkit-animation-delay: -1s;
                           animation-delay: -1s;
                     }
                 }
-                &.three  {
+                &.three {
                     transform: rotate( 90deg);
                     & .inner {
                           -webkit-animation-delay: -.9s;
                           animation-delay: -.9s;
                     }
                 }
-                &.four   {
+                &.four  {
                     transform: rotate(120deg);
                     & .inner {
                           -webkit-animation-delay: -.8s;
                           animation-delay: -.8s;
                     }
                 }
-                &.five   {
+                &.five  {
                     transform: rotate(150deg);
                     & .inner {
                           -webkit-animation-delay: -.7s;
                           animation-delay: -.7s;
                     }
                 }
-                &.six    {
+                &.six   {
                     transform: rotate(180deg);
                     & .inner {
                           -webkit-animation-delay: -.6s;
                           animation-delay: -.6s;
                     }
                 }
-                &.seven  {
+                &.seven {
                     transform: rotate(210deg);
                     & .inner {
                           -webkit-animation-delay: -.5s;
                           animation-delay: -.5s;
                     }
                 }
-                &.eight  {
+                &.eight {
                     transform: rotate(240deg);
                     & .inner {
                           -webkit-animation-delay: -.4s;
                           animation-delay: -.4s;
                     }
                 }
-                &.nine   {
+                &.nine  {
                     transform: rotate(270deg);
                     & .inner {
                           -webkit-animation-delay: -.3s;
                           animation-delay: -.3s;
                     }
                 }
-                &.ten    {
+                &.ten   {
                     transform: rotate(300deg);
                     & .inner {
                           -webkit-animation-delay: -.2s;

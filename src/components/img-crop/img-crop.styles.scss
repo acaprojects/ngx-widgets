@@ -17,15 +17,15 @@ div.img-crop {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 1.0em;
+        font-size: 1.0;
         &.save {
             top: 15%;
-            padding: .5em 1.0em;
-            background-color: #FFF;
-            color: rgba(0,0,0,.87);
+            padding: .5em 1.0;
+            background-color: #fff;
+            color: rgba(0, 0, 0, .87);
             white-space: nowrap;
             border-radius: .1em;
-            box-shadow: 0 0 1px 1px rgba(0,0,0,.5);
+            box-shadow: 0 0 1px 1px rgba(0, 0, 0, .5);
         }
     }
 
@@ -34,7 +34,7 @@ div.img-crop {
         height: 100%;
         font-size: 1.6em;
         border-radius: .2em;
-        background-color: rgba(0,0,0,.3);
+        background-color: rgba(0, 0, 0, .3);
         white-space: nowrap;
         & .material-icons {
             font-size: 1.5em;
@@ -54,7 +54,7 @@ div.img-crop {
         max-height: 99vmin;
         overflow: hidden;
         border-radius: .2em;
-        background-color: #DDD;
+        background-color: #ddd;
         & canvas {
             display: none;
             width: 0;
@@ -64,8 +64,8 @@ div.img-crop {
             position: absolute;
             top: 0;
             left: 0;
-            width: 16.0em;
-            height: 16.0em;
+            width: 16.0;
+            height: 16.0;
             max-width: 99vmin;
             max-height: 99vmin;
         }

@@ -8,8 +8,8 @@
 .dropdown {
     position: relative;
     min-width: 12em;
-    min-height: 2.0em;
-    font-size: 1.0em;
+    min-height: 2.0;
+    font-size: 1.0;
     //z-index: 100;
     border-radius: .1em;
     margin: .5em;
@@ -45,32 +45,32 @@
     }
 
     &.default {
-        box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
-        background-color: #FFF;
+        box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
+        background-color: #fff;
         color: #000;
         &:hover {
-            box-shadow: 0 .1em .2em .1em rgba(0,0,0,.1);
+            box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
         }
         & .item {
             &:hover {
-                color: #FFF;
-                background-color: #2196F3;
+                color: #fff;
+                background-color: #2196f3;
             }
             &.active {
 
             }
         }
         & .list {
-            box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
-            background-color: #FFF;
+            box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
+            background-color: #fff;
             color: #000;
             overflow: hidden;
             & .item {
                 &.active {
                     cursor: default;
-                    background-color: #FFF;
+                    background-color: #fff;
                     color: #000;
-                    border-bottom: 1px solid rgba(0,0,0,.1);
+                    border-bottom: 1px solid rgba(0, 0, 0, .1);
                 }
             }
         }

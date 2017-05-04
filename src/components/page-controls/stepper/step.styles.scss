@@ -16,22 +16,22 @@
 
     & .step-number {
         position: relative;
-        height: 2.0em;
-        width: 2.0em;
+        height: 2.0;
+        width: 2.0;
         margin: .25em;
         padding: .5em;
         text-align: center;
-        background-color: #EFEFEF;
+        background-color: #efefef;
         border-radius: 100%;
-        color: rgba(0,0,0,.87);
+        color: rgba(0, 0, 0, .87);
         cursor: pointer;
         &.active {
-            background-color: #FF9800;
-            color: #FFFFFF;
+            background-color: #ff9800;
+            color: #ffffff;
         }
         &.error {
-            background-color: #F44336 !important;
-            color: #FFFFFF;
+            background-color: #f44336 !important;
+            color: #ffffff;
         }
     }
 
@@ -39,9 +39,9 @@
         position: relative;
         flex: 1 1 auto;
         padding: .25em 1.2em;
-        width: 2.0em;
-        max-width: 2.0em;
-        min-height: 2.0em;
+        width: 2.0;
+        max-width: 2.0;
+        min-height: 2.0;
         //height: 100%;
         & .bar {
             position: absolute;
@@ -51,7 +51,7 @@
             transform: translateX(-50%);
             right: 0;
             bottom: 0;
-            background-color: rgba(0,0,0,.2);
+            background-color: rgba(0, 0, 0, .2);
         }
     }
     & .step-desc {
@@ -61,7 +61,7 @@
 
     & .step-content {
         flex-grow: 1;
-        padding: .5em .5em 1.0em .5em;
+        padding: .5em .5em 1.0 .5em;
         text-align: center;
         overflow: hidden;
         @media all and (max-width: 720px) {

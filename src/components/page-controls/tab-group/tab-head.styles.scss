@@ -2,7 +2,7 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-21 15:12:59
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-04 12:28:13
+ * @Last Modified time: 2017-05-04 14:20:08
  */
 
 div.tab-head {
@@ -16,22 +16,22 @@ div.tab-head {
         border-bottom: none;
     }
     &.default {
-        background-color: rgba(0,0,0,.1);
-        border: 1px solid rgba(0,0,0,.2);
+        background-color: rgba(0, 0, 0, .1);
+        border: 1px solid rgba(0, 0, 0, .2);
         border-bottom: none;
-        min-width: 4.0em;
+        min-width: 4.0;
         cursor: pointer;
         &.active {
-            background-color: #FFFFFF;
-            border: 1px solid rgba(0,0,0,.2);
-            border-bottom: .1em solid #FFFFFF;
+            background-color: #ffffff;
+            border: 1px solid rgba(0, 0, 0, .2);
+            border-bottom: .1em solid #ffffff;
             &:hover {
-                background-color: #FFFFFF;
-                color: rgba(0,0,0,.87);
+                background-color: #ffffff;
+                color: rgba(0, 0, 0, .87);
             }
         }
         &:hover{
-            color: rgba(0,0,0,.54);
+            color: rgba(0, 0, 0, .54);
         }
     }
 }

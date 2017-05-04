@@ -12,31 +12,31 @@ div.map-marker {
     opacity: 0;
     & .pin-display {
         position: absolute;
-        height: 3.0em;
+        height: 3.0;
         width: 2.5em;
         bottom: 0;
         transform: translateX(-50%);
         z-index: 1000;
         & .pin {
-            height: 3.0em;
+            height: 3.0;
             width: 2.5em;
         }
         z-index: 20;
     }
     & .marker-display {
         position: absolute;
-        height: 1.0em;
-        width: 1.0em;
+        height: 1.0;
+        width: 1.0;
         transform: translate(-50%, -50%);
         & .marker {
-            height: 1.0em;
-            width: 1.0em;
+            height: 1.0;
+            width: 1.0;
             border-radius: 100%;
             & .marker-ring {
-                height: 1.0em;
-                width: 1.0em;
+                height: 1.0;
+                width: 1.0;
                 border-radius: 100%;
-                border: .1em solid #4CAF50;
+                border: .1em solid #4caf50;
                 -webkit-animation: ring-scaleout 1.0s infinite ease-in-out;
                 animation: ring-scaleout 1.0s infinite ease-in-out;
             }
@@ -68,13 +68,13 @@ div.map-marker {
         position: absolute;
         & .circle {
             position: absolute;
-            height: 1.0em;
-            width: 1.0em;
+            height: 1.0;
+            width: 1.0;
             transform: translate(-50%, -50%);
             border-radius: 100%;
             background-color: rgba(219, 83, 106, .2);
             border: .3em dashed rgba(219, 83, 106, 1);
-            box-shadow: 0px .1em .2em .1em rgba(0,0,0,.2);
+            box-shadow: 0px .1em .2em .1em rgba(0, 0, 0, .2);
             z-index: 20;
         }
     }
@@ -84,12 +84,12 @@ div.map-marker {
         left: 50%;
         transform: translate(-50%, -120%);
         padding: .5em;
-        background-color: #FFF;
-        //border: 2px solid #DDD;
+        background-color: #fff;
+        //border: 2px solid #ddd;
         border-radius: 4px;
         width: auto;
         white-space: nowrap;
-        box-shadow: 0px .1em .2em .1em rgba(0,0,0,.2);
+        box-shadow: 0px .1em .2em .1em rgba(0, 0, 0, .2);
         z-index: 21;
     }
 }

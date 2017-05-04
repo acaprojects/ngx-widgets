@@ -5,14 +5,14 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
 
-$height: 4.0em;
-$width: 25.0em;
+$height: 4.0;
+$width: 25.0;
 
 .notification {
     user-select: none;
     &.defaultClass {
-        background-color: #FFF;
-        box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
+        background-color: #fff;
+        box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
         word-wrap: normal;
         & div {
             flex-grow: 1;
@@ -21,11 +21,11 @@ $width: 25.0em;
         & .close-btn {
             color: #444;
             &:hover {
-                color: #AAA;
+                color: #aaa;
             }
         }
     }
-    margin-top: 1.0em;
+    margin-top: 1.0;
     position: fixed;
     height: $height;
     width: $width;

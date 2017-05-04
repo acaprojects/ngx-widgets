@@ -5,17 +5,17 @@
 // @Last modified by:   alex.sorafumo
 // @Last modified time: 23/01/2017 12:23 PM
 
-$dim: 2.0em;
-$border-color: #ABABAB;
-$green: #23CE6B;
-$red: #F64740;
-$bg-color: #FFFFFF;
+$dim: 2.0;
+$border-color: #ababab;
+$green: #23ce6b;
+$red: #f64740;
+$bg-color: #ffffff;
 
 .tab-group {
     z-index: inherit;
     & .tab-header {
         position: relative;
-        padding: 0 1.0em;
+        padding: 0 1.0;
         margin-bottom: 0;
         padding-top: .5em;
         list-style: none;
@@ -32,7 +32,7 @@ $bg-color: #FFFFFF;
             left: 0;
             right: 0;
             bottom: 1px;
-            border-bottom: 1px solid rgba(0,0,0,.2);
+            border-bottom: 1px solid rgba(0, 0, 0, .2);
         }
         & .empty {
             position:relative;

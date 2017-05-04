@@ -5,7 +5,7 @@
 // @Last modified by:   Alex Sorafumo
 // @Last modified time: 20/12/2016 10:12 AM
 
-$sm-height: 15.0em;
+$sm-height: 15.0;
 $space: 2.2em;
 
 .modal {
@@ -14,8 +14,8 @@ $space: 2.2em;
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0,0,0,.3);
-    font-size: 1.0em;
+    background-color: rgba(0, 0, 0, .3);
+    font-size: 1.0;
     z-index: 2000;
     opacity: 0;
     overflow: auto;
@@ -33,9 +33,9 @@ $space: 2.2em;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%) scale(0);
-        background-color: #FFF;
+        background-color: #fff;
         border-radius: .1em;
-        min-height: 12.0em;
+        min-height: 12.0;
         max-height: 95vh;
         max-width: 95vw;
         & .modal {
@@ -43,7 +43,7 @@ $space: 2.2em;
                 position: absolute;
                 top: 0; left: 0;
                 right: 0; height: $space;
-                padding: .5em 1.0em;
+                padding: .5em 1.0;
                 font-size: 1.5em;
                 border-radius: .1em .1em 0 0;
                 display: flex;
@@ -55,13 +55,13 @@ $space: 2.2em;
                 & .close-btn {
                     height: 1.2em;
                     width: 1.2em;
-                    background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xOSA2LjQxTDE3LjU5IDUgMTIgMTAuNTkgNi40MSA1IDUgNi40MSAxMC41OSAxMiA1IDE3LjU5IDYuNDEgMTkgMTIgMTMuNDEgMTcuNTkgMTkgMTkgMTcuNTkgMTMuNDEgMTJ6Ii8+CiAgICA8cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==);
+                    background-image: url(data:image/svg+xml;base64, PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xOSA2LjQxTDE3LjU5IDUgMTIgMTAuNTkgNi40MSA1IDUgNi40MSAxMC41OSAxMiA1IDE3LjU5IDYuNDEgMTkgMTIgMTMuNDEgMTcuNTkgMTkgMTkgMTcuNTkgMTMuNDEgMTJ6Ii8+CiAgICA8cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==);
                     background-repeat: no-repeat;
                     background-position: center;
                     background-size: contain;
                     cursor: pointer;
                     &:hover {
-                        background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNTQpIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xOSA2LjQxTDE3LjU5IDUgMTIgMTAuNTkgNi40MSA1IDUgNi40MSAxMC41OSAxMiA1IDE3LjU5IDYuNDEgMTkgMTIgMTMuNDEgMTcuNTkgMTkgMTkgMTcuNTkgMTMuNDEgMTJ6Ii8+CiAgICA8cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo=);
+                        background-image: url(data:image/svg+xml;base64, PHN2ZyBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuNTQpIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xOSA2LjQxTDE3LjU5IDUgMTIgMTAuNTkgNi40MSA1IDUgNi40MSAxMC41OSAxMiA1IDE3LjU5IDYuNDEgMTkgMTIgMTMuNDEgMTcuNTkgMTkgMTkgMTcuNTkgMTMuNDEgMTJ6Ii8+CiAgICA8cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo=);
                     }
                 }
                 z-index: 2020;
@@ -71,11 +71,11 @@ $space: 2.2em;
                 max-width: 90vw;
                 overflow: auto;
                 -webkit-overflow-scrolling: touch;
-                font-size: 1.0em;
+                font-size: 1.0;
                 z-index: 2010;
                 margin: auto;
                 & .content {
-                    padding: ($space + 1.0em) 1.0em;
+                    padding: ($space + 1.0) 1.0;
                 }
             }
             &-footer {
@@ -84,9 +84,9 @@ $space: 2.2em;
                 right: 0; bottom: 0;
                 padding: .2em;
                 text-align: right;
-                background-color: #FFF;
+                background-color: #fff;
                 white-space: nowrap;
-                border-top: 05em solid rgba(0,0,0,.1);
+                border-top: 05em solid rgba(0, 0, 0, .1);
                 border-radius: 0 0 .1em .1em;
                 z-index: 2020;
                 & .modal-btns {
@@ -96,19 +96,19 @@ $space: 2.2em;
                     & .modal-btn {
                         outline: none;
                         border: none;
-                        padding: .5em 2.0em;
+                        padding: .5em 2.0;
                         border-radius: .2em;
                         background-color: #273043;
-                        color: #FFF;
+                        color: #fff;
                         font-size: .75em;
                         cursor: pointer;
-                        box-shadow: 0 .1em .2em .1em rgba(0,0,0,.1);
+                        box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
                         &:hover {
-                            box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
+                            box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
                         }
                         &:active {
-                            color: rgba(255,255,255,.54);
-                            box-shadow: 0 .1em 0 0 rgba(0,0,0,.75);
+                            color: rgba(255, 255, 255, .54);
+                            box-shadow: 0 .1em 0 0 rgba(0, 0, 0, .75);
                         }
                     }
                 }

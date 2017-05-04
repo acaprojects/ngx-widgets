@@ -5,8 +5,8 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:29 AM
 
-$green: #23CE6B;
-$red: #F64740;
+$green: #23ce6b;
+$red: #f64740;
 
 .aca {
     &.input {
@@ -24,30 +24,30 @@ $red: #F64740;
             padding: .2em 0 .1em 0;
             user-select: none;
             &.light {
-                color: rgba(0,0,0,.4);
-                border-bottom: .1em solid rgba(0,0,0,.4);
+                color: rgba(0, 0, 0, .4);
+                border-bottom: .1em solid rgba(0, 0, 0, .4);
                 &.disabled {
-                    border-bottom: .1em dotted rgba(0,0,0,.4);
+                    border-bottom: .1em dotted rgba(0, 0, 0, .4);
                 }
                 &.readonly {
-                    border-bottom: .1em dashed rgba(0,0,0,.4);
+                    border-bottom: .1em dashed rgba(0, 0, 0, .4);
                 }
 
                 & input.text {
-                    color: rgba(0,0,0,.8);
+                    color: rgba(0, 0, 0, .8);
                     width: 100%;
                 }
             }
             &.dark {
-                color: rgba(255,255,255,.4);
-                border-bottom: .1em solid rgba(255,255,255,.4);
+                color: rgba(255, 255, 255, .4);
+                border-bottom: .1em solid rgba(255, 255, 255, .4);
                 &.disabled {
-                    border-bottom: .1em dotted rgba(255,255,255,.4);
+                    border-bottom: .1em dotted rgba(255, 255, 255, .4);
                 }
                 &.readonly {
-                    border-bottom: .1em dashed rgba(255,255,255,.4) !important;
+                    border-bottom: .1em dashed rgba(255, 255, 255, .4) !important;
                 }
-                & input.text { color: rgba(255,255,255,.8); }
+                & input.text { color: rgba(255, 255, 255, .8); }
             }
             cursor: text;
             &.disabled {
@@ -57,7 +57,7 @@ $red: #F64740;
                 position: absolute;
                 top: .2em;
                 left: 0;
-                font-size: 1.0em;
+                font-size: 1.0;
                 &.left {
                     left: 1.5em;
                 }
@@ -65,10 +65,10 @@ $red: #F64740;
             & .input {
                 flex-grow: 1;
                 display: flex;
-                width: 12.0em;
+                width: 12.0;
                 max-width: 100%;
                 & input.text {
-                    font-size: 1.0em;
+                    font-size: 1.0;
                     flex-grow: 1;
                     outline: none;
                     border: none;

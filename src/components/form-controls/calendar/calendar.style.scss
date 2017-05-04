@@ -10,15 +10,15 @@
     position: relative;
     max-width: 100%;
     height: 22.9em;
-    font-size: 1.0em;
+    font-size: 1.0;
     & .calendar-space {
         display: inline-block;
         height: 100%;
         width: 25.6em;
-        border: 1px solid rgba(0,0,0,.2);
+        border: 1px solid rgba(0, 0, 0, .2);
         border-radius: .1em;
-        background-color: #FFF;
-        box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
+        background-color: #fff;
+        box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
         user-select: none;
         cursor: default;
         & .header {
@@ -26,9 +26,9 @@
             display: flex;
             width: 100%;
             height: 11.111111%;
-            border-bottom: 05em solid rgba(0,0,0,.2);
+            border-bottom: 05em solid rgba(0, 0, 0, .2);
             background-color: #666;
-            color: #FFF;
+            color: #fff;
             font-size: 1.2em;
 
             & .month {
@@ -41,26 +41,26 @@
                 cursor: pointer;
                 padding: 0 .5em;
                 &:hover {
-                    color: rgba(255,255,255,.54) !important;
+                    color: rgba(255, 255, 255, .54) !important;
                 }
             }
             & .arrow {
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: contain;
-                height: 1.0em;
-                width: 1.0em;
+                height: 1.0;
+                width: 1.0;
                 font-size: 1.6em;
                 &.left {
-                    background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS40MSAxNi4wOWwtNC41OC00LjU5IDQuNTgtNC41OUwxNCA1LjVsLTYgNiA2IDZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNWgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
+                    background-image: url(data:image/svg+xml;base64, PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS40MSAxNi4wOWwtNC41OC00LjU5IDQuNTgtNC41OUwxNCA1LjVsLTYgNiA2IDZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNWgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
                     &.dark {
-                        background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS40MSAxNi4wOWwtNC41OC00LjU5IDQuNTgtNC41OUwxNCA1LjVsLTYgNiA2IDZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNWgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
+                        background-image: url(data:image/svg+xml;base64, PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS40MSAxNi4wOWwtNC41OC00LjU5IDQuNTgtNC41OUwxNCA1LjVsLTYgNiA2IDZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNWgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
                     }
                 }
                 &.right {
-                    background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik04LjU5IDE2LjM0bDQuNTgtNC41OS00LjU4LTQuNTlMMTAgNS43NWw2IDYtNiA2eiIvPgogICAgPHBhdGggZD0iTTAtLjI1aDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==);
+                    background-image: url(data:image/svg+xml;base64, PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik04LjU5IDE2LjM0bDQuNTgtNC41OS00LjU4LTQuNTlMMTAgNS43NWw2IDYtNiA2eiIvPgogICAgPHBhdGggZD0iTTAtLjI1aDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==);
                     &.dark {
-                        background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik04LjU5IDE2LjM0bDQuNTgtNC41OS00LjU4LTQuNTlMMTAgNS43NWw2IDYtNiA2eiIvPgogICAgPHBhdGggZD0iTTAtLjI1aDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==);
+                        background-image: url(data:image/svg+xml;base64, PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik04LjU5IDE2LjM0bDQuNTgtNC41OS00LjU4LTQuNTlMMTAgNS43NWw2IDYtNiA2eiIvPgogICAgPHBhdGggZD0iTTAtLjI1aDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==);
                     }
                 }
             }
@@ -69,7 +69,7 @@
             display: flex;
             flex-direction: row;
             height: 11.111111%;
-            padding: 1.0em 0;
+            padding: 1.0 0;
             & .weekday {
                 width: 3.65em;
                 &.even{
@@ -85,7 +85,7 @@
             & .inner {
                 height: 1px;
                 width: 100%;
-                background-color: rgba(0,0,0,.2);
+                background-color: rgba(0, 0, 0, .2);
             }
         }
         & .month-days {
@@ -98,7 +98,7 @@
                     height: 2.7em;
                     width: 3.55em;
                     margin: .1em;
-                    padding: 1.0em .5em;
+                    padding: 1.0 .5em;
                     flex-grow: 0;
                     & .date {
                         position: absolute;
@@ -110,17 +110,17 @@
                     &.valid {
                         cursor: pointer;
                         &:hover {
-                            background-color: rgba(0,0,0,.3);
-                            color: rgba(0,0,0,.54);
+                            background-color: rgba(0, 0, 0, .3);
+                            color: rgba(0, 0, 0, .54);
                         }
 
                         &.today {
-                            color: #0EAD69;
+                            color: #0ead69;
                             font-weight: bold;
                         }
 
                         &.past {
-                            background-color: rgba(0,0,0,05);
+                            background-color: rgba(0, 0, 0, 05);
                         }
 
                         &.active {
@@ -128,7 +128,7 @@
                         }
 
                         &.disabled {
-                            color: rgba(0,0,0,.1);
+                            color: rgba(0, 0, 0, .1);
                             cursor: not-allowed;
                         }
 

@@ -38,12 +38,12 @@ div.tooltip {
                 position: relative;
                 top: .25em;
                 left: .25em;
-                width: 1.0em;
-                height: 1.0em;
+                width: 1.0;
+                height: 1.0;
                 border-radius: .1em;
-                box-shadow: 05em 05em .35em 05em rgba(0,0,0,.2);
+                box-shadow: 05em 05em .35em 05em rgba(0, 0, 0, .2);
                 transform: rotate(45deg);
-                border: 1px solid rgba(0,0,0,.1);
+                border: 1px solid rgba(0, 0, 0, .1);
             }
         }
 
@@ -52,8 +52,8 @@ div.tooltip {
             top: 100%;
             min-height: 1.5em;
             min-width: 1.5em;
-            box-shadow: 0 .1em .2em .1em rgba(0,0,0,.1);
-            border: 1px solid rgba(0,0,0,.1);
+            box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
+            border: 1px solid rgba(0, 0, 0, .1);
             border-radius: .1em;
         }
     }
@@ -61,11 +61,11 @@ div.tooltip {
     &.default {
         & .block {
             & .square {
-                background-color: #FFFFFF;
+                background-color: #ffffff;
             }
             & .contents {
-                background-color: #FFFFFF;
-                color: rgba(0,0,0,.87);
+                background-color: #ffffff;
+                color: rgba(0, 0, 0, .87);
             }
         }
         &.dark {
@@ -75,7 +75,7 @@ div.tooltip {
                 }
                 & .contents {
                     background-color: #000000;
-                    color: rgba(0,0,0,.87);
+                    color: rgba(0, 0, 0, .87);
                 }
             }
         }

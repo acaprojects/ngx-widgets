@@ -5,7 +5,7 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
 
-$sm-height: 20em;
+$sm-height: 20;
 $space: 1.5em;
 
 .modal {
@@ -14,7 +14,7 @@ $space: 1.5em;
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0, 0, 0, .3);
     font-size: 15px;
     z-index: 9999999;
     opacity: 0;
@@ -29,7 +29,7 @@ $space: 1.5em;
         @media screen and (max-width: 720px) {
             min-height: $sm-height / 5 * 6;
         }
-        background-color: #FFF;
+        background-color: #fff;
         border-radius: .1em;
         max-height: 95vh;
         max-width: 95vw;
@@ -38,34 +38,34 @@ $space: 1.5em;
             &-header {
                 position: absolute;
                 top: 0; left: 0;
-                right: 0; height: 3.0em;
+                right: 0; height: 3.0;
                 padding: .5em;
                 font-size: 1.5em;
-                background-color: #EB8C00;
-                color: #FFFFFF;
+                background-color: #eb8c00;
+                color: #ffffff;
                 border-radius: .1em .1em 0 0;
             }
             &-body {
                 max-height: 90vh;
                 max-width: 90vw;
                 overflow: auto;
-                font-size: 1.0em;
+                font-size: 1.0;
                 user-select: none;
                 cursor: default;
-                padding: 5.0em .5em 3.0em .5em;
+                padding: 5.0 .5em 3.0 .5em;
                 text-align: center;
                 & .header {
                     position: relative;
                     width: 100%;
                     height: 11.111111%;
-                    border-bottom: 1px solid #EEE;
+                    border-bottom: 1px solid #eee;
                     font-size: 1.2em;
                     padding: .5em;
                     & .arrow {
                         position: absolute;
                         font-size: 1.3em;
                         cursor: pointer;
-                        color: rgba(0,0,0,.87);
+                        color: rgba(0, 0, 0, .87);
                         &.left {
                             top: .1em;
                             left: .5em;
@@ -79,7 +79,7 @@ $space: 1.5em;
                 & .week-days {
                     display: flex;
                     height: 11.111111%;
-                    padding: 1.0em 0;
+                    padding: 1.0 0;
                     & .weekday {
                         width: 3.65em;
                         &.even{ font-weight: bold; }
@@ -109,10 +109,10 @@ $space: 1.5em;
                             &.valid {
                                 cursor: pointer;
                                 &:hover { background-color: #ddd; }
-                                &.today { color: #0EAD69; font-weight: bold; }
+                                &.today { color: #0ead69; font-weight: bold; }
                                 &.past { background-color: #eee; }
                                 &.active { color: rgba(255, 255, 255, .8); border-radius: 100%; }
-                                &.disabled { color: rgba(0,0,0,.1); cursor: not-allowed; }
+                                &.disabled { color: rgba(0, 0, 0, .1); cursor: not-allowed; }
                             }
 
                             &.active {
