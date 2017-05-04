@@ -37,7 +37,7 @@ const PRIVATE_PARAMS = ['id', 'type', 'service', 'data', 'dataChange', 'openEven
         ]),
     ],
 })
-export class Modal implements OnInit, OnChanges, OnDestroy {
+export class Modal implements OnChanges, OnDestroy {
     @Input() public id: string = '';
     @Input() public service: any = null;
     @Input() public component: any = null;

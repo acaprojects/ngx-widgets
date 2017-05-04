@@ -20,7 +20,7 @@ const PLACEHOLDER = '-';
     styleUrls: [ './notification.style.css' ],
     templateUrl: './notification.template.html',
 })
-export class Notification implements OnInit {
+export class Notification {
     @Input() public timeout: number = 2000;
     @Input() public cssClass: any;
     @Input() public canClose: boolean = false;

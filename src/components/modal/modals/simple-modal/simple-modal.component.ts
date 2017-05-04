@@ -35,9 +35,6 @@ const PLACEHOLDER = '-';
     ],
 })
 export class SimpleModal extends Modal {
-    @Input() colors: any = { fg: '#fff', bg: '#000' };
-
-    @ViewChild('modal') public modal: ElementRef;
-    @ViewChild('content', { read: ViewContainerRef }) public _content: ViewContainerRef;
+    @Input() public colors: any = { fg: '#fff', bg: '#000' };
 
 }

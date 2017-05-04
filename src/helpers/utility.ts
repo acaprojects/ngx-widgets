@@ -25,7 +25,7 @@ export class Utility {
      */
     public static escape(value: string) {
         const str = String(value);
-        const length = string.length;
+        const length = str.length;
         let index = -1;
         let codeUnit: any;
         let result = '';

@@ -31,7 +31,7 @@ export class StepperStep {
 
     public index: number = 1;
     public ordered: boolean = true;
-    private parent: any = null;
+    public parent: any = null;
 
     private contents: string;
 

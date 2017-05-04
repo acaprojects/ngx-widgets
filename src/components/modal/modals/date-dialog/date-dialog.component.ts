@@ -50,7 +50,7 @@ export class DateDialog extends Modal {
     days_short = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
     ready: boolean = false;
 
-    @ViewChild('content') content: ElementRef;
+    @ViewChild('content') private content: ElementRef;
 
     _date: any = moment();
     _min_date: any = moment();

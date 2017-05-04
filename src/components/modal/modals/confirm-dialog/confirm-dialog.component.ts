@@ -33,10 +33,10 @@ const PLACEHOLDER = '-';
     ],
 })
 export class ConfirmDialog extends Modal {
-    msg: string = 'Are you sure?';
-    confirm: string = 'Ok';
+    private msg: string = 'Are you sure?';
+    private confirm: string = 'Ok';
 
-    @ViewChild('content') content: ElementRef;
+    @ViewChild('content') private content: ElementRef;
 
     setParams(data: any) {
         super.setParams(data);

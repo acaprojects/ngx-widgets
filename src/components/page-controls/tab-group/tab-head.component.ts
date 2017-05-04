@@ -51,8 +51,9 @@ export class TabHead {
     }
 
     public show() {
-        this.visible = true;
-        return true;
+        setTimeout(() => {
+            this.visible = true;
+        }, 100);
     }
 
     public hide() {
