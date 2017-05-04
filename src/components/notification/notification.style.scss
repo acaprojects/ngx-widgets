@@ -15,11 +15,13 @@
     height: 0;
     width: 0;
     overflow: visible;
-    & .notify-space {
+
+    .notify-space {
         padding: .5em;
         height: 100%;
         width: 100%;
-        & .notification-list {
+
+        .notification-list {
             height: 100%;
             width: 100%;
         }

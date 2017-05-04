@@ -14,10 +14,13 @@ div.aca.time-picker {
     @media screen and (max-device-width: 720px) {
         font-size: 2.5em;
     }
-    & .arrow {
+
+    .arrow {
+
         &.down {
             background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDcuODRMMTIgMTIuNDJsNC41OS00LjU4TDE4IDkuMjVsLTYgNi02LTZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNzVoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
         }
+
         &.up {
             background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDE1LjQxTDEyIDEwLjgzbDQuNTkgNC41OEwxOCAxNGwtNi02LTYgNnoiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
         }
@@ -28,19 +31,23 @@ div.aca.time-picker {
         width: 1.0;
         margin: auto;
     }
-    & .time-space {
+
+    .time-space {
         display: inline-block;
         margin: auto;
-        & .header {
+
+        .header {
             font-size: .7em;
         }
 
-        & .picker {
+        .picker {
             display: flex;
-            & .pick {
+
+            .pick {
                 padding: .2em;
                 width: 3.0;
-                & .display-arrow {
+
+                .display-arrow {
                     position: relative;
                     font-weight: bolder;
                     text-align: center;
@@ -49,14 +56,16 @@ div.aca.time-picker {
                     cursor: pointer;
                 }
 
-                & .set {
+                .set {
                     border: 2px solid #ddd;
                     border-radius: 4px;
                     outline: none;
+
                     &:active {
                         box-shadow: 1px 1px 5px 2px #ddd;
                     }
-                    & input{
+
+                    input{
                         height: 100%;
                         width: 100%;
                         font-size: .8em;
@@ -65,11 +74,13 @@ div.aca.time-picker {
                         text-align: center;
                     }
                 }
-                & .btn {
+
+                .btn {
                     display: flex;
                     align-items: center;
                     height: 100%;
-                    & button {
+
+                    button {
                         font-size: .8em;
                         border: none;
                         padding: .25em 1.0;
@@ -80,16 +91,20 @@ div.aca.time-picker {
             }
         }
     }
+
     &.default {
         color: rgba(0, 0, 0, .87);
-        & .arrow {
+
+        .arrow {
             color: rgba(0, 0, 0, .87);
         }
 
-        & .btn {
-            & button {
+        .btn {
+
+            button {
                 color: #fff;
                 background-color: rgba(0, 0, 0, .54);
+
                 &:hover {
                     background-color: rgba(0, 0, 0, .87);
                 }

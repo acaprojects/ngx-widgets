@@ -24,17 +24,17 @@ div.tooltip {
         transform: translateY(-50%);
         left: 100%;
     }
-    & .block {
+    .block {
         position: relative;
         height: .5em;
         width: 1.5em;
-        & .triangle{
+        .triangle{
             position: absolute;
             left: 0;
             width: 1.5em;
             height: .5em;
             overflow: hidden;
-            & .square {
+            .square {
                 position: relative;
                 top: .25em;
                 left: .25em;
@@ -47,7 +47,7 @@ div.tooltip {
             }
         }
 
-        & .contents {
+        .contents {
             position: absolute;
             top: 100%;
             min-height: 1.5em;
@@ -59,21 +59,21 @@ div.tooltip {
     }
 
     &.default {
-        & .block {
-            & .square {
+        .block {
+            .square {
                 background-color: #ffffff;
             }
-            & .contents {
+            .contents {
                 background-color: #ffffff;
                 color: rgba(0, 0, 0, .87);
             }
         }
         &.dark {
-            & .block {
-                & .square {
+            .block {
+                .square {
                     background-color: #000000;
                 }
-                & .contents {
+                .contents {
                     background-color: #000000;
                     color: rgba(0, 0, 0, .87);
                 }

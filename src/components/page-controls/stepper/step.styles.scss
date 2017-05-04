@@ -10,11 +10,12 @@
     flex-grow: 1;
     display: flex;
     width: 100%;
-    & .step-icons {
+
+    .step-icons {
 
     }
 
-    & .step-number {
+    .step-number {
         position: relative;
         height: 2.0;
         width: 2.0;
@@ -25,17 +26,19 @@
         border-radius: 100%;
         color: rgba(0, 0, 0, .87);
         cursor: pointer;
+
         &.active {
             background-color: #ff9800;
             color: #ffffff;
         }
+
         &.error {
             background-color: #f44336 !important;
             color: #ffffff;
         }
     }
 
-    & .step-bar {
+    .step-bar {
         position: relative;
         flex: 1 1 auto;
         padding: .25em 1.2em;
@@ -43,7 +46,8 @@
         max-width: 2.0;
         min-height: 2.0;
         //height: 100%;
-        & .bar {
+
+        .bar {
             position: absolute;
             top: 0;
             left: 50%;
@@ -54,16 +58,18 @@
             background-color: rgba(0, 0, 0, .2);
         }
     }
-    & .step-desc {
+
+    .step-desc {
         flex-grow: 1;
         padding: .75em 1.2em;
     }
 
-    & .step-content {
+    .step-content {
         flex-grow: 1;
         padding: .5em .5em 1.0 .5em;
         text-align: center;
         overflow: hidden;
+
         @media all and (max-width: 720px) {
             padding: .75em .2em .75em .5em;
         }

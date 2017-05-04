@@ -12,7 +12,8 @@
     user-select: none;
     cursor: pointer;
     color: #000;
-    & .map-contents{
+
+    .map-contents{
         position: relative;
         width:100%;
         height:100%;
@@ -20,17 +21,20 @@
         touch-action: pan;
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
-        & .pins {
+
+        .pins {
             position: absolute;
             top: 0; left: 0;
             bottom: 0; right: 0;
             font-size: 1.2em;
-            & .pin {
+
+            .pin {
                 position: absolute;
                 height: 3.0;
                 width: 2.5em;
                 z-index: 1000;
-                & .text {
+
+                .text {
                     position: absolute;
                     top: 0;
                     left: 50%;
@@ -45,7 +49,8 @@
                 }
             }
         }
-        & .map-area{
+
+        .map-area{
             position: absolute;
             margin:auto;
             min-width:100%;
@@ -58,7 +63,7 @@
         }
     }
 
-    & .map-loading-space {
+    .map-loading-space {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -72,14 +77,15 @@
         transform: translate(-50%, -50%);
     }
 
-    & .map-controls {
+    .map-controls {
         position: absolute;
         bottom:5px;
         left:5px;
         font-size: 1.0;
         text-align: center;
         z-index: 100;
-        & .zoom-btn{
+
+        .zoom-btn{
             padding: .3em .6em;
             min-width:.8em;
             border-radius: .1em;

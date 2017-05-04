@@ -10,7 +10,7 @@ div.btn-group {
     border-radius: .1em;
     box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
     margin: .5em;
-    & .btn-obj {
+    .btn-obj {
         min-width: 8.0;
         padding: .5em 1.0;
         cursor: pointer;
@@ -37,7 +37,7 @@ div.btn-group {
         }
     }
 
-    & .default {
+    .default {
 
     }
 }

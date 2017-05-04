@@ -2,7 +2,7 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-29 09:30:47
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-04 14:20:08
+ * @Last Modified time: 2017-05-04 17:11:12
  */
 
 $circle-background: #cfd8dc;
@@ -18,8 +18,10 @@ div.radial-progress {
       width: $circle-size;
       border-radius: 50%;
       margin: .25em auto;
-      & .circle {
-          & .fill, & .mask {
+
+      .circle {
+          .fill, .mask {
+
             position: absolute;
               border-radius: 50%;
               height: $circle-size;
@@ -28,29 +30,29 @@ div.radial-progress {
             -webkit-backface-visibility: hidden;
           }
 
-          & .fill {
+          .fill {
             background-color: $circle-color;
           }
 
-          & .mask {
+          .mask {
               background-color: $circle-background;
           }
 
-          & .mask.half {
+          .mask.half {
               clip: rect(0, $circle-size, $circle-size, $circle-size/2);
-              & .fill {
+              .fill {
                 clip: rect(0, $circle-size, $circle-size, 0);
               }
           }
           //*
-          & .mask.full {
+          .mask.full {
             clip: rect(0, $circle-size/2, $circle-size, 0);
-              & .fill {
+              .fill {
                   clip: rect(0, $circle-size, $circle-size, $circle-size/2);
               }
           }
           //*/
-          & .shadow {
+          .shadow {
             position: absolute;
               border-radius: 50%;
               height: $circle-size;
@@ -58,7 +60,7 @@ div.radial-progress {
           }
       }
 
-      & .inset {
+      .inset {
           height: $circle-size - 1.0;
           width: $circle-size - 1.0;
         position: absolute;

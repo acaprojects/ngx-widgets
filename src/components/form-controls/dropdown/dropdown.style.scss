@@ -14,22 +14,25 @@
     border-radius: .1em;
     margin: .5em;
     text-align: center;
-    & .item {
+
+    .item {
         cursor: pointer;
         padding: .4em;
         text-align: left;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        & .field {
+
+        .field {
             padding: 0 .5em;
         }
+
         &.active {
             text-align: center;
         }
     }
 
-    & .list {
+    .list {
         position: absolute;
         top: 0;
         left: 0;
@@ -38,7 +41,7 @@
         border-radius: .1em;
         //opacity: 0;
 
-        & .items {
+        .items {
             max-height: 30vh;
             overflow: auto;
         }
@@ -48,24 +51,31 @@
         box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
         background-color: #fff;
         color: #000;
+
         &:hover {
             box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
         }
-        & .item {
+
+        .item {
+
             &:hover {
                 color: #fff;
                 background-color: #2196f3;
             }
+
             &.active {
 
             }
         }
-        & .list {
+
+        .list {
             box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
             background-color: #fff;
             color: #000;
             overflow: hidden;
-            & .item {
+
+            .item {
+
                 &.active {
                     cursor: default;
                     background-color: #fff;

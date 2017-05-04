@@ -14,18 +14,21 @@
     border-radius: .1em;
     margin: .5em;
     text-align: center;
-    & .item {
+
+    .item {
         cursor: pointer;
         padding: .25em;
-        & .field {
+
+        .field {
 
         }
+
         &.active {
 
         }
     }
 
-    & .list {
+    .list {
         position: absolute;
         top: 0;
         left: 0;
@@ -33,17 +36,20 @@
         z-index: 1999;
         border-radius: .1em;
         opacity: 0;
-        & .search {
+
+        .search {
             margin: .25em 1.0;
             display: flex;
             align-items: center;
             border: 1px solid rgba(0, 0, 0, .1);
             border-radius: .1em;
             height: 1.5em;
-            & .input {
+
+            .input {
                 padding: .2em .5em;
                 flex-grow: 1;
-                & input {
+
+                input {
                     width: 100%;
                     border: none;
                     outline: none;
@@ -51,9 +57,11 @@
                     background: none;
                 }
             }
-            & .icon {
+
+            .icon {
                 margin: .25em;
-                & .search {
+
+                .search {
                     height: 1.0;
                     width: 1.0;
                     border: none;
@@ -62,7 +70,7 @@
             }
         }
 
-        & .items {
+        .items {
             max-height: 30vh;
             overflow: auto;
         }
@@ -72,24 +80,31 @@
         box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
         background-color: #fff;
         color: #000;
+
         &:hover {
             box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
         }
-        & .item {
+
+        .item {
+
             &:hover {
                 color: #fff;
                 background-color: #2196f3;
             }
+
             &.active {
 
             }
         }
-        & .list {
+
+        .list {
             box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
             background-color: #fff;
             color: #000;
             overflow: hidden;
-            & .item {
+
+            .item {
+
                 &.active {
                     cursor: default;
                     background-color: #fff;

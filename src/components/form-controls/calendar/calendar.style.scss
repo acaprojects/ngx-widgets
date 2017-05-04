@@ -11,7 +11,8 @@
     max-width: 100%;
     height: 22.9em;
     font-size: 1.0;
-    & .calendar-space {
+
+    .calendar-space {
         display: inline-block;
         height: 100%;
         width: 25.6em;
@@ -21,7 +22,8 @@
         box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
         user-select: none;
         cursor: default;
-        & .header {
+
+        .header {
             position: relative;
             display: flex;
             width: 100%;
@@ -31,12 +33,13 @@
             color: #fff;
             font-size: 1.2em;
 
-            & .month {
+            .month {
                 flex-grow: 1;
                 text-align: center;
                 padding: .2em;
             }
-            & .change-arrow {
+
+            .change-arrow {
                 font-size: 1.3em;
                 cursor: pointer;
                 padding: 0 .5em;
@@ -44,63 +47,75 @@
                     color: rgba(255, 255, 255, .54) !important;
                 }
             }
-            & .arrow {
+
+            .arrow {
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: contain;
                 height: 1.0;
                 width: 1.0;
                 font-size: 1.6em;
+
                 &.left {
                     background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS40MSAxNi4wOWwtNC41OC00LjU5IDQuNTgtNC41OUwxNCA1LjVsLTYgNiA2IDZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNWgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
+
                     &.dark {
                         background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS40MSAxNi4wOWwtNC41OC00LjU5IDQuNTgtNC41OUwxNCA1LjVsLTYgNiA2IDZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNWgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
                     }
                 }
+
                 &.right {
                     background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik04LjU5IDE2LjM0bDQuNTgtNC41OS00LjU4LTQuNTlMMTAgNS43NWw2IDYtNiA2eiIvPgogICAgPHBhdGggZD0iTTAtLjI1aDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==);
+
                     &.dark {
                         background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik04LjU5IDE2LjM0bDQuNTgtNC41OS00LjU4LTQuNTlMMTAgNS43NWw2IDYtNiA2eiIvPgogICAgPHBhdGggZD0iTTAtLjI1aDI0djI0SDB6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPg==);
                     }
                 }
             }
         }
-        & .week-days {
+        .week-days {
             display: flex;
             flex-direction: row;
             height: 11.111111%;
             padding: 1.0 0;
-            & .weekday {
+
+            .weekday {
                 width: 3.65em;
+
                 &.even{
                     font-weight: bold;
                 }
             }
         }
 
-        & .divider {
+        .divider {
             height: 1px;
             width: 100%;
             padding: 0 .5em .2em .5em;
-            & .inner {
+
+            .inner {
                 height: 1px;
                 width: 100%;
                 background-color: rgba(0, 0, 0, .2);
             }
         }
-        & .month-days {
-            & .week {
+
+        .month-days {
+
+            .week {
                 display: flex;
                 flex-direction: row;
                 height: 11.111111%;
-                & .day {
+
+                .day {
                     position: relative;
                     height: 2.7em;
                     width: 3.55em;
                     margin: .1em;
                     padding: 1.0 .5em;
                     flex-grow: 0;
-                    & .date {
+
+                    .date {
                         position: absolute;
                         top: 50%;
                         left: 50%;
@@ -109,6 +124,7 @@
 
                     &.valid {
                         cursor: pointer;
+
                         &:hover {
                             background-color: rgba(0, 0, 0, .3);
                             color: rgba(0, 0, 0, .54);

@@ -10,7 +10,7 @@
         font-family: Roboto;
     }
 
-    & .center {
+    .center {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -30,7 +30,7 @@
         text-align: center;
         cursor: pointer;
         user-select: none;
-        & .action {
+        .action {
             padding: 0;
             & button {
                 height: 4.0;
@@ -43,7 +43,7 @@
                 }
             }
         }
-        & .mini-action {
+        .mini-action {
             padding: 0;
             & button {
                 height: 3.0;
@@ -56,7 +56,7 @@
                 }
             }
         }
-        & .raised {
+        .raised {
             & button {
                 min-width: 7.0;
                 &.disabled {
@@ -86,7 +86,7 @@
                 opacity: .25;
             }
         }
-        & .circle{
+        .circle{
             position: absolute;
             width: 4.0;
             height: 4.0;

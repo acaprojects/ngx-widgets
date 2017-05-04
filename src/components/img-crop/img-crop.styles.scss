@@ -12,12 +12,13 @@ div.img-crop {
     text-align: center;
 
 
-    & .loading {
+    .loading {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         font-size: 1.0;
+
         &.save {
             top: 15%;
             padding: .5em 1.0;
@@ -29,14 +30,15 @@ div.img-crop {
         }
     }
 
-    & .drop-zone {
+    .drop-zone {
         width: 100%;
         height: 100%;
         font-size: 1.6em;
         border-radius: .2em;
         background-color: rgba(0, 0, 0, .3);
         white-space: nowrap;
-        & .material-icons {
+
+        .material-icons {
             font-size: 1.5em;
         }
 
@@ -45,7 +47,7 @@ div.img-crop {
         }
     }
 
-    & .img-space {
+    .img-space {
         position: relative;
         display: inline-block;
         width: 300px;
@@ -55,12 +57,14 @@ div.img-crop {
         overflow: hidden;
         border-radius: .2em;
         background-color: #ddd;
-        & canvas {
+
+        canvas {
             display: none;
             width: 0;
             height: 0;
         }
-        & img-cropper {
+
+        img-cropper {
             position: absolute;
             top: 0;
             left: 0;
@@ -70,7 +74,7 @@ div.img-crop {
             max-height: 99vmin;
         }
 
-        & .image-error {
+        .image-error {
             position: absolute;
             top: 50%;
             left: 50%;

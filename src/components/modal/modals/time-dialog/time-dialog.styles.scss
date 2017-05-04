@@ -21,7 +21,7 @@ $clock_i_size: 16.0;
     font-size: 15px;
     z-index: 9999999;
 
-    & .modal-space {
+    .modal-space {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -32,7 +32,9 @@ $clock_i_size: 16.0;
         border-radius: .1em;
         max-height: 95vh;
         max-width: 95vw;
-        & .dialog {
+
+        .dialog {
+
             &-header {
                 position: absolute;
                 top: 0; left: 0;
@@ -40,15 +42,18 @@ $clock_i_size: 16.0;
                 padding: .5em;
                 font-size: 1.5em;
             }
+
             &-body {
                 max-height: 90vh;
                 max-width: 90vw;
                 overflow: auto;
                 font-size: 1.0;
                 text-align: center;
-                & .content {
+
+                .content {
                     padding: ($space + 1.0) 1.0;
-                    & .clock {
+
+                    .clock {
                         position: relative;
                         display: inline-block;
                         height: 18.0;
@@ -57,20 +62,26 @@ $clock_i_size: 16.0;
                         background-color: rgba(0, 0, 0, .1);
                         color: rgba(0, 0, 0, .87);
                         border-radius: 100%;
-                        & .inner {
+
+                        .inner {
                             position: absolute;
                             height: 16.0;
                             width: 16.0;
                             top: 1.0;
                             left: 1.0;
-                            & .time {
+
+                            .time {
                                 position: absolute;
                                 height: 2.0;
                                 width: 2.0;
                                 padding: .5em;
                                 text-align: center;
                                 transform: translate(-50%, -50%);
-                                &.p12 { top:      0; left: $clock_i_size/2; }
+                                &.p12 {
+                                    top: 0;
+                                    left: $clock_i_size/2;
+                                }
+
                                 &.p3 { top:    $clock_i_size/2; right:   0;}
                                 &.p6 { bottom:   0; left:  $clock_i_size/2;}
                                 &.p9 { top:   $clock_i_size/2; left:    0;}
@@ -89,6 +100,7 @@ $clock_i_size: 16.0;
                     }
                 }
             }
+
             &-footer {
                 position: absolute;
                 height: $space + 1.0; left: 0;

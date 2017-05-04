@@ -14,12 +14,15 @@ $width: 25.0;
         background-color: #fff;
         box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
         word-wrap: normal;
+
         & div {
             flex-grow: 1;
             flex-shrink: 1;
         }
-        & .close-btn {
+
+        .close-btn {
             color: #444;
+
             &:hover {
                 color: #aaa;
             }
@@ -37,11 +40,13 @@ $width: 25.0;
     right: .5em;
     opacity: 1;
     overflow: hidden;
-    & .contents {
+
+    .contents {
         display: flex;
         align-items: center;
     }
-    & .close-btn {
+
+    .close-btn {
         position: absolute;
         right: .2em;
         padding: 0;

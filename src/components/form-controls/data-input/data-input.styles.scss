@@ -9,26 +9,32 @@ $green: #23ce6b;
 $red: #f64740;
 
 .aca {
+
     &.input {
         position: relative;
         display: inline-block;
         padding: .1em;
         font-size: 1.2em;
         user-select: none;
-        & .error { color: $red; border-color: $red; }
-        & .valid { color: $green; border-color: $green; }
-        & .input-space {
+
+        .error { color: $red; border-color: $red; }
+        .valid { color: $green; border-color: $green; }
+
+        .input-space {
             position: relative;
             display: flex;
             align-items: center;
             padding: .2em 0 .1em 0;
             user-select: none;
+
             &.light {
                 color: rgba(0, 0, 0, .4);
                 border-bottom: .1em solid rgba(0, 0, 0, .4);
+
                 &.disabled {
                     border-bottom: .1em dotted rgba(0, 0, 0, .4);
                 }
+
                 &.readonly {
                     border-bottom: .1em dashed rgba(0, 0, 0, .4);
                 }
@@ -38,35 +44,44 @@ $red: #f64740;
                     width: 100%;
                 }
             }
+
             &.dark {
                 color: rgba(255, 255, 255, .4);
                 border-bottom: .1em solid rgba(255, 255, 255, .4);
+
                 &.disabled {
                     border-bottom: .1em dotted rgba(255, 255, 255, .4);
                 }
+
                 &.readonly {
                     border-bottom: .1em dashed rgba(255, 255, 255, .4) !important;
                 }
+
                 & input.text { color: rgba(255, 255, 255, .8); }
             }
             cursor: text;
+
             &.disabled {
                 cursor: not-allowed;
             }
-            & .placeholder {
+
+            .placeholder {
                 position: absolute;
                 top: .2em;
                 left: 0;
                 font-size: 1.0;
+
                 &.left {
                     left: 1.5em;
                 }
             }
-            & .input {
+
+            .input {
                 flex-grow: 1;
                 display: flex;
                 width: 12.0;
                 max-width: 100%;
+
                 & input.text {
                     font-size: 1.0;
                     flex-grow: 1;
@@ -77,23 +92,26 @@ $red: #f64740;
                     background: none;
                 }
             }
-            & .icon {
+
+            .icon {
                 flex-grow: 0;
                 height: 1.2em;
                 width: 1.2em;
             }
         }
-        & .info-space {
+
+        .info-space {
             padding: .2em 0;
             font-size: .6em;
-            & .message {
+
+            .message {
                 display: inline-block;
                 float: left;
                 width: 69%;
                 text-align: left;
             }
 
-            & .counter {
+            .counter {
                 display: inline-block;
                 float: right;
                 text-align: right;

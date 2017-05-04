@@ -13,14 +13,14 @@
         left: 50%;
         transform: translateX(-50%);
     }
-    & .topbar {
+    .topbar {
         text-align: right;
         padding: .25em .5em .5em .5em;
         cursor: grab;
         &:active {
             cursor: grabbing;
         }
-        & .close {
+        .close {
             display: inline-block;
             cursor: pointer;
             &:hover {
@@ -29,7 +29,7 @@
         }
     }
 
-    & .keyboard {
+    .keyboard {
         background-color: #ffffff;
         box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
         border-radius: .2em;
@@ -54,11 +54,12 @@
             right: 0;
             top: 30%;
         }
-        & .row {
+        .row {
             display: flex;
             align-items: center;
             justify-content: center;
-            & .key {
+
+            .key {
                 background-color: #ffffff;
                 box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
                 border-radius: .2em;
@@ -67,16 +68,20 @@
                 height: 2.2em;
                 font-size: 1.0;
                 cursor: pointer;
+
                 &.normal {
                     width: 2.5em;
                     padding: .5em .75em;
                 }
+
                 &:hover {
                     background-color: #dddddd;
                 }
+
                 &:active {
                     box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
                 }
+
                 &.active {
                     background-color: #4caf50;
                     color: #ffffff;

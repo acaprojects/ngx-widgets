@@ -15,14 +15,14 @@
     @media screen and (max-width: 720px) {
         font-size: 2.0;
     }
-    & .options {
+    .options {
         position: absolute;
         transform: translateX(-50%);
         text-align: left;
         min-width: 100%;
         top: 100%;
 
-        & ul {
+        ul {
             position: absolute;
             transform: translateX(-50%);
             list-style: none;
@@ -39,7 +39,7 @@
             z-index: 1000;
         }
 
-        & .option {
+        .option {
             padding: .8em 1.5em;
             background-color: #fff;
             color: #000;
@@ -49,37 +49,42 @@
             z-index: 1000;
             display: flex;
             cursor: pointer;
+
             &.default {
                 background-color: #fff;
                 color: #000;
+
                 &:hover{
                     background-color: rgb(251, 136,   0);
                     color: #fff;
-                    & .desc {
+
+                    .desc {
                         color: rgba(0, 0, 0, .54);
                     }
                 }
 
-                & .desc{
+                .desc{
                     color: rgba(0, 0, 0, .2);
                 }
             }
 
-            & .name {
+            .name {
                 flex-grow: 1;
                 text-align: left;
                 padding-right: 2.0;
             }
 
-            & .desc {
+            .desc {
                 flex-grow: 1;
                 text-align: right;
                 padding-left: 2.0;
             }
+
             &:hover {
                 background-color: rgb(251, 136,   0);
                 color: #fff;
             }
+
             &.other {
                 border-top: 05em solid rgba(0, 0, 0, 05);
             }

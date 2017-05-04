@@ -18,7 +18,8 @@ $space: 2.2em;
     font-size: 20px;
     z-index: 2000;
     opacity: 0;
-    & .tap-space {
+
+    .tap-space {
         position: absolute;
         top: 0;
         left: 0;
@@ -26,7 +27,7 @@ $space: 2.2em;
         right: 0;
     }
 
-    & .modal-space {
+    .modal-space {
         position: relative;
         top: 50%;
         left: 50%;
@@ -36,6 +37,7 @@ $space: 2.2em;
         min-height: 10;
         max-height: 90vh;
         max-width: 95vw;
+
         @media screen and (max-width: 720px) {
             width: 101% !important;
             height: 101% !important;
@@ -43,7 +45,9 @@ $space: 2.2em;
             max-height: 101vh;
             border-radius: 0;
         }
-        & .modal {
+
+        .modal {
+
             &-header {
                 position: absolute;
                 top: 0; left: 0;
@@ -51,26 +55,30 @@ $space: 2.2em;
                 padding: .5em 1.0;
                 font-size: 1.5em;
                 border-radius: .1em .1em 0 0;
-                //text-align: center;
-                & .close-btn {
+
+                .close-btn {
                     position: absolute;
                     top: .25em;
                     right: .5em;
                     color: #fff;
                     cursor: pointer;
+
                     &:hover {
                         color: #ccc;
                     }
                 }
                 z-index: 2020;
             }
+
             &-body {
                 overflow: auto;
                 font-size: 1.0;
                 z-index: 2010;
-                & .content {
+
+                .content {
                 }
             }
+
             &-footer {
                 position: absolute;
                 height: $space + .5em; left: 0;
@@ -82,11 +90,13 @@ $space: 2.2em;
                 border-top: .1em solid rgba(0, 0, 0, .1);
                 border-radius: 0 0 .1em .1em;
                 z-index: 2020;
-                & .modal-btns {
+
+                .modal-btns {
                     display: inline-block;
                     text-align: center;
                     padding: .2em;
-                    & .modal-btn {
+
+                    .modal-btn {
                         outline: none;
                         border: none;
                         padding: .5em 2.0;
@@ -95,6 +105,7 @@ $space: 2.2em;
                         color: #fff;
                         font-size: .75em;
                         cursor: pointer;
+
                         &:hover {
 
                         }
