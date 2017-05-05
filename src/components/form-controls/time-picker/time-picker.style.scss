@@ -10,7 +10,7 @@ div.aca.time-picker {
     text-align: center;
     position: relative;
     max-width: 100%;
-    font-size: 2.0;
+    font-size: 2em;
     @media screen and (max-device-width: 720px) {
         font-size: 2.5em;
     }
@@ -28,7 +28,7 @@ div.aca.time-picker {
         background-position: center;
         background-size: contain;
         height: .8em;
-        width: 1.0;
+        width: 1em;
         margin: auto;
     }
 
@@ -45,7 +45,7 @@ div.aca.time-picker {
 
             .pick {
                 padding: .2em;
-                width: 3.0;
+                width: 3em;
 
                 .display-arrow {
                     position: relative;
@@ -83,7 +83,7 @@ div.aca.time-picker {
                     button {
                         font-size: .8em;
                         border: none;
-                        padding: .25em 1.0;
+                        padding: .25em 1;
                         border-radius: .1em;
                         outline: none;
                     }

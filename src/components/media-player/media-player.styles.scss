@@ -2,13 +2,13 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-05-02 16:56:23
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-04 17:14:56
+ * @Last Modified time: 2017-05-05 12:35:56
  */
 
 div.media-player {
     position: relative;
-    min-width: 16.0;
-    min-height: 10;
+    min-width: 16em;
+    min-height: 10em;
     height: 100%;
     width: 100%;
     background-color: rgba(0, 0, 0, .4);
@@ -54,7 +54,7 @@ div.media-player {
         bottom: 0;
         left: 0;
         right: 0;
-        height: 2.0;
+        height: 2em;
         padding: .25em .5em;
         background-color: #111111;
         color: #ffffff;

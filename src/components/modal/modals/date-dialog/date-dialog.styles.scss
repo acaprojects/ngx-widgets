@@ -39,8 +39,10 @@ $space: 1.5em;
 
             &-header {
                 position: absolute;
-                top: 0; left: 0;
-                right: 0; height: 3.0;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3em;
                 padding: .5em;
                 font-size: 1.5em;
                 background-color: #eb8c00;
@@ -52,10 +54,10 @@ $space: 1.5em;
                 max-height: 90vh;
                 max-width: 90vw;
                 overflow: auto;
-                font-size: 1.0;
+                font-size: 1;
                 user-select: none;
                 cursor: default;
-                padding: 5.0 .5em 3.0 .5em;
+                padding: 5em .5em 3em .5em;
                 text-align: center;
 
                 .header {
@@ -87,7 +89,7 @@ $space: 1.5em;
                 .week-days {
                     display: flex;
                     height: 11.111111%;
-                    padding: 1.0 0;
+                    padding: 1em 0;
 
                     .weekday {
                         width: 3.65em;

@@ -17,8 +17,8 @@
 
     .step-number {
         position: relative;
-        height: 2.0;
-        width: 2.0;
+        height: 2em;
+        width: 2em;
         margin: .25em;
         padding: .5em;
         text-align: center;
@@ -42,9 +42,9 @@
         position: relative;
         flex: 1 1 auto;
         padding: .25em 1.2em;
-        width: 2.0;
-        max-width: 2.0;
-        min-height: 2.0;
+        width: 2em;
+        max-width: 2em;
+        min-height: 2em;
         // height: 100%;
 
         .bar {
@@ -66,7 +66,7 @@
 
     .step-content {
         flex-grow: 1;
-        padding: .5em .5em 1.0 .5em;
+        padding: .5em .5em 1em .5em;
         text-align: center;
         overflow: hidden;
 

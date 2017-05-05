@@ -5,7 +5,7 @@
 // @Last modified by:   alex.sorafumo
 // @Last modified time: 23/01/2017 12:23 PM
 
-$dim: 2.0;
+$dim: 2;
 $border-color: #ababab;
 $green: #23ce6b;
 $red: #f64740;
@@ -16,7 +16,7 @@ $bg-color: #ffffff;
 
     .tab-header {
         position: relative;
-        padding: 0 1.0;
+        padding: 0 1em;
         margin-bottom: 0;
         padding-top: .5em;
         list-style: none;

@@ -5,7 +5,7 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:30 AM
 
-$sm-height: 15.0;
+$sm-height: 15em;
 $space: 2.2em;
 
 .modal {
@@ -34,7 +34,7 @@ $space: 2.2em;
         transform: translate(-50%, -50%) scale(0);
         background-color: #fff;
         border-radius: .1em;
-        min-height: 10;
+        min-height: 10em;
         max-height: 90vh;
         max-width: 95vw;
 
@@ -52,7 +52,7 @@ $space: 2.2em;
                 position: absolute;
                 top: 0; left: 0;
                 right: 0; height: $space;
-                padding: .5em 1.0;
+                padding: .5em 1em;
                 font-size: 1.5em;
                 border-radius: .1em .1em 0 0;
 
@@ -72,7 +72,7 @@ $space: 2.2em;
 
             &-body {
                 overflow: auto;
-                font-size: 1.0;
+                font-size: 1;
                 z-index: 2010;
 
                 .content {
@@ -99,7 +99,7 @@ $space: 2.2em;
                     .modal-btn {
                         outline: none;
                         border: none;
-                        padding: .5em 2.0;
+                        padding: .5em 2em;
                         border-radius: .2em;
                         background-color: #273043;
                         color: #fff;

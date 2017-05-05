@@ -35,11 +35,11 @@
             padding: 0;
 
             button {
-                height: 4.0;
-                width: 4.0;
+                height: 4em;
+                width: 4em;
                 padding: 0;
                 border-radius: 100%;
-                min-width: 4.0;
+                min-width: 4em;
 
                 &.hover {
 
@@ -51,9 +51,9 @@
             padding: 0;
 
             button {
-                height: 3.0;
-                width: 3.0;
-                min-width: 3.0;
+                height: 3em;
+                width: 3em;
+                min-width: 3em;
                 padding: 0;
                 border-radius: 100%;
 
@@ -87,8 +87,8 @@
                 }
 
                 &.hover{
-                    margin-top: 05em;
-                    box-shadow: 0px .1em 0px 0px rgba(0, 0, 0, .75);
+                    margin-top: .5em;
+                    box-shadow: 0 .1em 0 0 rgba(0, 0, 0, .75);
                 }
 
                 &.active {
@@ -103,7 +103,7 @@
 
             button {
                 background: none;
-                min-width: 6.0;
+                min-width: 6em;
 
                 &.hover {
                     background: #ccc;
@@ -115,7 +115,7 @@
             }
         }
         button {
-            font-size: 1.0;
+            font-size: 1;
             padding: .5em .75em;
             position: relative;
             outline: none;
@@ -123,7 +123,7 @@
             border: none;
             cursor: pointer;
             overflow: hidden;
-            min-width: 6.0;
+            min-width: 6em;
 
             &.disabled {
                 opacity: .25;
@@ -136,8 +136,8 @@
 
         .circle{
             position: absolute;
-            width: 4.0;
-            height: 4.0;
+            width: 4em;
+            height: 4em;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);

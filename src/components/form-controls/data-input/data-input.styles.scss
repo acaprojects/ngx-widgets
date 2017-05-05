@@ -69,7 +69,7 @@ $red: #f64740;
                 position: absolute;
                 top: .2em;
                 left: 0;
-                font-size: 1.0;
+                font-size: 1em;
 
                 &.left {
                     left: 1.5em;
@@ -79,11 +79,11 @@ $red: #f64740;
             .input {
                 flex-grow: 1;
                 display: flex;
-                width: 12.0;
+                width: 12em;
                 max-width: 100%;
 
                 & input.text {
-                    font-size: 1.0;
+                    font-size: 1em;
                     flex-grow: 1;
                     outline: none;
                     border: none;

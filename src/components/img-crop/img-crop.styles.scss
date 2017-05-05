@@ -17,11 +17,11 @@ div.img-crop {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 1.0;
+        font-size: 1em;
 
         &.save {
             top: 15%;
-            padding: .5em 1.0;
+            padding: .5em 1em;
             background-color: #fff;
             color: rgba(0, 0, 0, .87);
             white-space: nowrap;
@@ -68,8 +68,8 @@ div.img-crop {
             position: absolute;
             top: 0;
             left: 0;
-            width: 16.0;
-            height: 16.0;
+            width: 16em;
+            height: 16em;
             max-width: 99vmin;
             max-height: 99vmin;
         }

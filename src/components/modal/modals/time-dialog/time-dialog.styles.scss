@@ -5,11 +5,11 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
 
-$sm-height: 20;
+$sm-height: 20em;
 $space: 2.5em;
 
-$clock_size: 18.0;
-$clock_i_size: 16.0;
+$clock-size: 18em;
+$clock-i-size: 16em;
 
 .modal {
     position: fixed;
@@ -37,8 +37,10 @@ $clock_i_size: 16.0;
 
             &-header {
                 position: absolute;
-                top: 0; left: 0;
-                right: 0; height: $space;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: $space;
                 padding: .5em;
                 font-size: 1.5em;
             }
@@ -47,17 +49,17 @@ $clock_i_size: 16.0;
                 max-height: 90vh;
                 max-width: 90vw;
                 overflow: auto;
-                font-size: 1.0;
+                font-size: 1em;
                 text-align: center;
 
                 .content {
-                    padding: ($space + 1.0) 1.0;
+                    padding: ($space + 1) 1em;
 
                     .clock {
                         position: relative;
                         display: inline-block;
-                        height: 18.0;
-                        width: 18.0;
+                        height: 18em;
+                        width: 18em;
                         padding: .5em;
                         background-color: rgba(0, 0, 0, .1);
                         color: rgba(0, 0, 0, .87);
@@ -65,36 +67,36 @@ $clock_i_size: 16.0;
 
                         .inner {
                             position: absolute;
-                            height: 16.0;
-                            width: 16.0;
-                            top: 1.0;
-                            left: 1.0;
+                            height: 16em;
+                            width: 16em;
+                            top: 1;
+                            left: 1;
 
                             .time {
                                 position: absolute;
-                                height: 2.0;
-                                width: 2.0;
+                                height: 2em;
+                                width: 2em;
                                 padding: .5em;
                                 text-align: center;
                                 transform: translate(-50%, -50%);
                                 &.p12 {
                                     top: 0;
-                                    left: $clock_i_size/2;
+                                    left: $clock-i-size/2;
                                 }
 
-                                &.p3 { top:    $clock_i_size/2; right:   0;}
-                                &.p6 { bottom:   0; left:  $clock_i_size/2;}
-                                &.p9 { top:   $clock_i_size/2; left:    0;}
+                                &.p3 { top:    $clock-i-size/2; right:   0;}
+                                &.p6 { bottom:   0; left:  $clock-i-size/2;}
+                                &.p9 { top:   $clock-i-size/2; left:    0;}
 
-                                &.p1 { top:    $clock_i_size/10; right: $clock_i_size/4; }
-                                &.p5 { bottom: $clock_i_size/10; right: $clock_i_size/4; }
-                                &.p7 { bottom: $clock_i_size/10; left:  $clock_i_size/4; }
-                                &.p11 { top:    $clock_i_size/10; left:  $clock_i_size/4; }
+                                &.p1 { top:    $clock-i-size/10; right: $clock-i-size/4; }
+                                &.p5 { bottom: $clock-i-size/10; right: $clock-i-size/4; }
+                                &.p7 { bottom: $clock-i-size/10; left:  $clock-i-size/4; }
+                                &.p11 { top:    $clock-i-size/10; left:  $clock-i-size/4; }
 
-                                &.p2 { top:    $clock_i_size/4; right: $clock_i_size/10; }
-                                &.p4 { bottom: $clock_i_size/4; right: $clock_i_size/10; }
-                                &.p8 { bottom: $clock_i_size/4; left:  $clock_i_size/10; }
-                                &.p10 { top:    $clock_i_size/4; left:  $clock_i_size/10; }
+                                &.p2 { top:    $clock-i-size/4; right: $clock-i-size/10; }
+                                &.p4 { bottom: $clock-i-size/4; right: $clock-i-size/10; }
+                                &.p8 { bottom: $clock-i-size/4; left:  $clock-i-size/10; }
+                                &.p10 { top:    $clock-i-size/4; left:  $clock-i-size/10; }
                             }
                         }
                     }
@@ -103,8 +105,10 @@ $clock_i_size: 16.0;
 
             &-footer {
                 position: absolute;
-                height: $space + 1.0; left: 0;
-                right: 0; bottom: 0;
+                height: $space + 1em;
+                left: 0;
+                right: 0;
+                bottom: 0;
                 padding: .5em;
                 text-align: right;
                 white-space: nowrap;

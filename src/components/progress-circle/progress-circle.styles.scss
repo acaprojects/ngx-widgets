@@ -2,7 +2,7 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-29 09:30:47
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-05 10:19:43
+ * @Last Modified time: 2017-05-05 12:18:28
  */
 
 $circle-background: #cfd8dc;
@@ -61,8 +61,8 @@ div.radial-progress {
       }
 
       .inset {
-          height: $circle-size - 1.0;
-          width: $circle-size - 1.0;
+          height: $circle-size - 1;
+          width: $circle-size - 1;
         position: absolute;
         margin: .5em;
         border-radius: 50%;

@@ -8,8 +8,8 @@
 .dropdown-typeahead {
     position: relative;
     min-width: 12em;
-    min-height: 2.0;
-    font-size: 1.0;
+    min-height: 2em;
+    font-size: 1em;
     z-index: 100;
     border-radius: .1em;
     margin: .5em;
@@ -38,7 +38,7 @@
         opacity: 0;
 
         .search {
-            margin: .25em 1.0;
+            margin: .25em 1;
             display: flex;
             align-items: center;
             border: 1px solid rgba(0, 0, 0, .1);
@@ -53,7 +53,7 @@
                     width: 100%;
                     border: none;
                     outline: none;
-                    font-size: 1.0;
+                    font-size: 1;
                     background: none;
                 }
             }
@@ -62,8 +62,8 @@
                 margin: .25em;
 
                 .search {
-                    height: 1.0;
-                    width: 1.0;
+                    height: 1em;
+                    width: 1em;
                     border: none;
                     background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS41IDE0aC0uNzlsLS4yOC0uMjdDMTUuNDEgMTIuNTkgMTYgMTEuMTEgMTYgOS41IDE2IDUuOTEgMTMuMDkgMyA5LjUgM1MzIDUuOTEgMyA5LjUgNS45MSAxNiA5LjUgMTZjMS42MSAwIDMuMDktLjU5IDQuMjMtMS41N2wuMjcuMjh2Ljc5bDUgNC45OUwyMC40OSAxOWwtNC45OS01em0tNiAwQzcuMDEgMTQgNSAxMS45OSA1IDkuNVM3LjAxIDUgOS41IDUgMTQgNy4wMSAxNCA5LjUgMTEuOTkgMTQgOS41IDE0eiIvPgogICAgPHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
                 }

@@ -5,7 +5,7 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:29 AM
 
-$dim: 2.0;
+$dim: 2;
 $border-color: #ababab;
 $green: #23ce6b;
 $red: #f64740;
@@ -61,11 +61,11 @@ $bg-color: #ffffff;
             transform: translateY(-50%);
 
             &.active {
-                left: 0;
+                left: 0em;
             }
 
             &.inactive {
-                right:0;
+                right:0em;
             }
         }
         &.active {
@@ -79,11 +79,11 @@ $bg-color: #ffffff;
         .toggle-knob{
             position:absolute;
             width:50%;
-            top: 0;
-            bottom: 0;
+            top: 0em;
+            bottom: 0em;
             border-radius: .18em;
             background-color: $bg-color;
-            left: 0;
+            left: 0em;
         }
     }
 
@@ -155,12 +155,12 @@ $bg-color: #ffffff;
 
     .ios-toggle {
         position:relative;
-        width: $dim*1.5;
-        height: $dim / 2;
+        width: $dim*1.5em;
+        height: $dim / 2em;
         border-radius: $dim;
         box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
         background-color: $bg-color;
-        margin: 1.0;
+        margin: 1em;
         cursor: pointer;
 
         .toggle-knob {

@@ -5,7 +5,7 @@
 // @Last modified by:   Alex Sorafumo
 // @Last modified time: 20/12/2016 10:12 AM
 
-$sm-height: 15.0;
+$sm-height: 15;
 $space: 2.2em;
 
 .modal {
@@ -15,7 +15,7 @@ $space: 2.2em;
     bottom: 0;
     right: 0;
     background-color: rgba(0, 0, 0, .3);
-    font-size: 1.0;
+    font-size: 1em;
     z-index: 2000;
     opacity: 0;
     overflow: auto;
@@ -36,7 +36,7 @@ $space: 2.2em;
         transform: translate(-50%, -50%) scale(0);
         background-color: #fff;
         border-radius: .1em;
-        min-height: 12.0;
+        min-height: 12em;
         max-height: 95vh;
         max-width: 95vw;
 
@@ -46,7 +46,7 @@ $space: 2.2em;
                 position: absolute;
                 top: 0; left: 0;
                 right: 0; height: $space;
-                padding: .5em 1.0;
+                padding: .5em 1em;
                 font-size: 1.5em;
                 border-radius: .1em .1em 0 0;
                 display: flex;
@@ -77,12 +77,12 @@ $space: 2.2em;
                 max-width: 90vw;
                 overflow: auto;
                 -webkit-overflow-scrolling: touch;
-                font-size: 1.0;
+                font-size: 1em;
                 z-index: 2010;
                 margin: auto;
 
                 .content {
-                    padding: ($space + 1.0) 1.0;
+                    padding: ($space + 1) 1;
                 }
             }
 
@@ -94,7 +94,7 @@ $space: 2.2em;
                 text-align: right;
                 background-color: #fff;
                 white-space: nowrap;
-                border-top: 05em solid rgba(0, 0, 0, .1);
+                border-top: .5em solid rgba(0, 0, 0, .1);
                 border-radius: 0 0 .1em .1em;
                 z-index: 2020;
 
@@ -106,7 +106,7 @@ $space: 2.2em;
                     .modal-btn {
                         outline: none;
                         border: none;
-                        padding: .5em 2.0;
+                        padding: .5em 2em;
                         border-radius: .2em;
                         background-color: #273043;
                         color: #fff;

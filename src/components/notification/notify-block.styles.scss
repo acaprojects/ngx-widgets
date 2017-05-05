@@ -5,8 +5,8 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
 
-$height: 4.0;
-$width: 25.0;
+$height: 4;
+$width: 25;
 
 .notification {
     user-select: none;
@@ -28,7 +28,7 @@ $width: 25.0;
             }
         }
     }
-    margin-top: 1.0;
+    margin-top: 1em;
     position: fixed;
     height: $height;
     width: $width;

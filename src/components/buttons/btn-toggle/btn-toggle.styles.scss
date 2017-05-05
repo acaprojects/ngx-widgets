@@ -33,11 +33,11 @@
         .action {
             padding: 0;
             & button {
-                height: 4.0;
-                width: 4.0;
+                height: 4em;
+                width: 4em;
                 padding: 0;
                 border-radius: 100%;
-                min-width: 4.0;
+                min-width: 4em;
                 &.hover {
 
                 }
@@ -46,9 +46,9 @@
         .mini-action {
             padding: 0;
             & button {
-                height: 3.0;
-                width: 3.0;
-                min-width: 3.0;
+                height: 3em;
+                width: 3em;
+                min-width: 3em;
                 padding: 0;
                 border-radius: 100%;
                 &.hover {
@@ -58,7 +58,7 @@
         }
         .raised {
             & button {
-                min-width: 7.0;
+                min-width: 7em;
                 &.disabled {
                     background-color: rgba(0, 0, 0, .5);
                     color: #000;
@@ -73,7 +73,7 @@
             }
         }
         & button {
-            font-size: 1.0;
+            font-size: 1em;
             padding: .5em .75em;
             position: relative;
             outline: none;
@@ -81,15 +81,15 @@
             border: none;
             cursor: pointer;
             overflow: hidden;
-            min-width: 6.0;
+            min-width: 6em;
             &.disabled {
                 opacity: .25;
             }
         }
         .circle{
             position: absolute;
-            width: 4.0;
-            height: 4.0;
+            width: 4em;
+            height: 4em;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0);
