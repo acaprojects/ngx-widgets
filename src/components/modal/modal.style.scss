@@ -4,6 +4,8 @@
 // @Filename: modal.style.scss
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:30 AM
+//
+@import '../../shared/ui-vars';
 
 $sm-height: 15em;
 $space: 2.2em;
@@ -50,8 +52,10 @@ $space: 2.2em;
 
             &-header {
                 position: absolute;
-                top: 0; left: 0;
-                right: 0; height: $space;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: $space;
                 padding: .5em 1em;
                 font-size: 1.5em;
                 border-radius: .1em .1em 0 0;
@@ -60,7 +64,7 @@ $space: 2.2em;
                     position: absolute;
                     top: .25em;
                     right: .5em;
-                    color: #fff;
+                    color: $white;
                     cursor: pointer;
 
                     &:hover {
@@ -85,7 +89,7 @@ $space: 2.2em;
                 right: 0; bottom: 0;
                 padding: .5em;
                 text-align: right;
-                background-color: #fff;
+                background-color: $white;
                 white-space: nowrap;
                 border-top: .1em solid rgba(0, 0, 0, .1);
                 border-radius: 0 0 .1em .1em;
@@ -102,7 +106,7 @@ $space: 2.2em;
                         padding: .5em 2em;
                         border-radius: .2em;
                         background-color: #273043;
-                        color: #fff;
+                        color: $white;
                         font-size: .75em;
                         cursor: pointer;
 

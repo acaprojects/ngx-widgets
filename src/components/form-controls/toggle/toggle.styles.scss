@@ -5,7 +5,7 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:29 AM
 
-$dim: 2;
+$dim: 2em;
 $border-color: #ababab;
 $green: #23ce6b;
 $red: #f64740;
@@ -44,7 +44,7 @@ $bg-color: #ffffff;
     .text-toggle{
         position: relative;
         height: $dim;
-        width: $dim*3;
+        width: $dim * 3;
         box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
         border-radius: .2em;
         box-sizing: content-box;
@@ -155,8 +155,8 @@ $bg-color: #ffffff;
 
     .ios-toggle {
         position:relative;
-        width: $dim*1.5em;
-        height: $dim / 2em;
+        width: $dim * 1.5;
+        height: $dim / 2;
         border-radius: $dim;
         box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
         background-color: $bg-color;

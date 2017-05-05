@@ -24,7 +24,7 @@ export * from './directives';
 export * from './pipes';
 export * from './services';
 export * from './components';
-export * from './helpers';
+export * from './shared';
 
 @NgModule({
     declarations: [

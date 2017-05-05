@@ -1,101 +1,75 @@
 // @Author: Alex Sorafumo
 // @Date:   21/09/2016 1:10 PM
 // @Email:  alex@yuion.net
-// @Filename: btn.styles.scss
+// @Filename: btn-toggle.styles.scss
 // @Last modified by:   alex.sorafumo
 // @Last modified time: 06/01/2017 4:43 PM
+//
+@import '../../../shared/ui-vars';
 
-.aca {
-    &.default {
-        font-family: Roboto;
-    }
 
-    .center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
+.default {
+    font-family: Roboto;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+button {
+    background-color: $white;
+    border-radius: 0.1em;
+    box-shadow: 0 0.1em 0.2em 0.1em $black-light;
+    cursor: pointer;
+    display: inline-block;
+    min-width: 3.0em;
+    padding: .5em .25em;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    user-select: none;
+
     &.disabled {
-        & button {
-            cursor: not-allowed !important;
-            background-color: rgba(255, 255, 255, .2) !important;
-            color: rgba(0, 0, 0, .54) !important;
-        }
+        color: $black-hover;
+        cursor: not-allowed;
+        background-color: $black-hover;
     }
-    &.btn {
-        position: relative;
-        display: inline-block;
-        padding: .5em .75em;
-        text-align: center;
-        cursor: pointer;
-        user-select: none;
-        .action {
-            padding: 0;
-            & button {
-                height: 4em;
-                width: 4em;
-                padding: 0;
-                border-radius: 100%;
-                min-width: 4em;
-                &.hover {
 
-                }
-            }
-        }
-        .mini-action {
-            padding: 0;
-            & button {
-                height: 3em;
-                width: 3em;
-                min-width: 3em;
-                padding: 0;
-                border-radius: 100%;
-                &.hover {
-
-                }
-            }
-        }
-        .raised {
-            & button {
-                min-width: 7em;
-                &.disabled {
-                    background-color: rgba(0, 0, 0, .5);
-                    color: #000;
-                }
-                &.is-off {
-                    background-color: #e0e0e0 !important;
-                    color: #000 !important;
-                    &:hover {
-                        background-color: #bdbdbd !important;
-                    }
-                }
-            }
-        }
-        & button {
-            font-size: 1em;
-            padding: .5em .75em;
-            position: relative;
-            outline: none;
-            border-radius: .1em;
-            border: none;
-            cursor: pointer;
-            overflow: hidden;
-            min-width: 6em;
-            &.disabled {
-                opacity: .25;
-            }
-        }
-        .circle{
-            position: absolute;
-            width: 4em;
-            height: 4em;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background-color: #000;
-            opacity: 0;
-            border-radius: 100%;
-        }
+    &.action {
+        height: 4em;
+        width: 4em;
+        padding: 0;
+        border-radius: 100%;
+        min-width: 4em;
     }
+
+    &.mini-action {
+        height: 3em;
+        width: 3em;
+        padding: 0;
+        border-radius: 100%;
+    }
+
+    &.raised-3d {
+
+    }
+
+    &.flat {
+        min-width: 6em;
+    }
+}
+
+.circle{
+    position: absolute;
+    width: 4em;
+    height: 4em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background-color: #000;
+    opacity: 0;
+    border-radius: 100%;
 }

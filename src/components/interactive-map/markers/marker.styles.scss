@@ -5,6 +5,13 @@
 // @Last modified by:   alex.sorafumo
 // @Last modified time: 12/01/2017 10:49 AM
 
+@import '../../../shared/ui-vars';
+
+@keyframes ring-scaleout {
+      0% { transform: scale(1); }
+      100% { transform: scale(2); opacity: 0; }
+}
+
 div.map-marker {
     position: absolute;
     height: 1px;
@@ -22,7 +29,6 @@ div.map-marker {
             height: 3em;
             width: 2.5em;
         }
-        z-index: 20;
     }
 
     .marker-display {
@@ -30,43 +36,22 @@ div.map-marker {
         height: 1em;
         width: 1em;
         transform: translate(-50%, -50%);
+        z-index: 20;
 
         .marker {
             height: 1em;
             width: 1em;
             border-radius: 100%;
-
-            .marker-ring {
-                height: 1em;
-                width: 1em;
-                border-radius: 100%;
-                border: .1em solid #4caf50;
-                -webkit-animation: ring-scaleout 1s infinite ease-in-out;
-                animation: ring-scaleout 1s infinite ease-in-out;
-            }
-
-            @-webkit-keyframes ring-scaleout {
-                  0% {
-                    -webkit-transform: scale(1);
-                }
-                  100% {
-                    -webkit-transform: scale(1.5);
-                    opacity: 0;
-                  }
-            }
-
-            @keyframes ring-scaleout {
-                  0% {
-                    -webkit-transform: scale(1);
-                    transform: scale(1);
-                  } 100% {
-                    -webkit-transform: scale(1.5);
-                    transform: scale(2);
-                    opacity: 0;
-                  }
-            }
         }
-        z-index: 20;
+
+        .marker-ring {
+            height: 1em;
+            width: 1em;
+            border-radius: 100%;
+            border: .1em solid $green;
+            -webkit-animation: ring-scaleout 1s infinite ease-in-out;
+            animation: ring-scaleout 1s infinite ease-in-out;
+        }
     }
 
     .radius-display {
@@ -78,8 +63,8 @@ div.map-marker {
             width: 1em;
             transform: translate(-50%, -50%);
             border-radius: 100%;
-            background-color: rgba(219, 83, 106, .2);
-            border: .3em dashed rgba(219, 83, 106, 1);
+            background-color: rgba($blue, .2);
+            border: .3em dashed rgba($blue, 1);
             box-shadow: 0px .1em .2em .1em rgba(0, 0, 0, .2);
             z-index: 20;
         }
@@ -91,7 +76,7 @@ div.map-marker {
         left: 50%;
         transform: translate(-50%, -120%);
         padding: .5em;
-        background-color: #fff;
+        background-color: $white;
         // border: 2px solid #ddd;
         border-radius: 4px;
         width: auto;

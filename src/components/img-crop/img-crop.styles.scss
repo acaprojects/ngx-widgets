@@ -4,6 +4,8 @@
 // @Filename: img-crop.styles.scss
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:30 AM
+//
+@import '../../shared/ui-vars';
 
 div.img-crop {
     position: relative;
@@ -22,8 +24,8 @@ div.img-crop {
         &.save {
             top: 15%;
             padding: .5em 1em;
-            background-color: #fff;
-            color: rgba(0, 0, 0, .87);
+            background-color: $white;
+            color: $black;
             white-space: nowrap;
             border-radius: .1em;
             box-shadow: 0 0 1px 1px rgba(0, 0, 0, .5);
@@ -43,7 +45,7 @@ div.img-crop {
         }
 
         &.hover {
-            background-color: #123456;
+            background-color: $black-hover;
         }
     }
 
@@ -56,7 +58,7 @@ div.img-crop {
         max-height: 99vmin;
         overflow: hidden;
         border-radius: .2em;
-        background-color: #ddd;
+        background-color: $white-hover;
 
         canvas {
             display: none;

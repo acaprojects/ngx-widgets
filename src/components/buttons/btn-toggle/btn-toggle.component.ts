@@ -41,7 +41,9 @@
      @Output() public tapped = new EventEmitter();
      @Output() public modelChange = new EventEmitter();
 
-     public  btn_class = `aca btn`;
+     public btn_class = `aca btn`;
+     public hover: boolean = false;
+     public active: boolean = false;
 
      // Template Elements
      @ViewChild('btnContainer') private container: ElementRef;
@@ -50,8 +52,6 @@
      private click_state: string = 'show';
      private action_btn: boolean = false;
      private last_styles: string = '';
-     private hover: boolean = false;
-     private active: boolean = false;
      private base_class: string = 'aca btn';
 
      constructor(private renderer: Renderer) {

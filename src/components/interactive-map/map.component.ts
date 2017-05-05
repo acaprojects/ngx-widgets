@@ -10,10 +10,10 @@
 import { Component, ElementRef, EventEmitter, Input, Output, Pipe, Renderer, ViewChild } from '@angular/core';
 import { animate, group, keyframes, state, style, transition, trigger } from '@angular/core';
 
-import { Utility } from '../../helpers';
 import { MapService } from '../../services';
 import { Animate } from '../../services/animate.service';
 import { WIDGETS } from '../../settings';
+import { Utility } from '../../shared';
 
 const ZOOM_LIMIT = 1000;
 const FADE_TIME = 700;
@@ -600,12 +600,16 @@ export class InteractiveMap {
         if (this.self) {
             // Check if the map area is visiable
             const bb = this.self.nativeElement.getBoundingClientRect();
-            /*
-            let body = this.renderer.selectRootElement('body');
-            if(bb.left + bb.width < 0) return false;
-            else if(bb.top + bb.height < 0) return false;
-            else if(bb.top > body.innerHeight) return false;
-            else if(bb.left > body.innerWidth) return false;
+            const body = this.renderer.selectRootElement('body');
+            if (bb.left + bb.width < 0) {
+                return false;
+            } else if (bb.top + bb.height < 0) {
+                return false;
+            } else if (bb.top > body.innerHeight) {
+                return false;
+            } else if (bb.left > body.innerWidth) {
+                return false;
+            }
 
             return true;
         }
