@@ -76,6 +76,26 @@ export class MapMarkerGroupComponent {
         }
     }
     /**
+     * Creates the markers to be display
+     * @return {void}
+     */
+    public setupMarkers() {
+        if (!this.disable && this.markers) {
+            this.count = this.markers.length;
+            setTimeout(() => {
+                for (const marker of this.markers) {
+                    if (!marker.x) {
+                        marker.x = 0;
+                    }
+                    if (!marker.y) {
+                        marker.y = 0;
+                    }
+                }
+                this.updateMarkers();
+            }, 200);
+        }
+    }
+    /**
      * Updates the size of the maker and its contents
      * @return {void}
      */
@@ -86,30 +106,14 @@ export class MapMarkerGroupComponent {
         this.radius_size = size;
     }
     /**
-     * Creates the markers to be display
-     * @return {void}
-     */
-    public setupMarkers() {
-        if (!this.disable && this.markers) {
-            this.count = this.markers.length;
-            setTimeout(() => {
-                for (let i = 0; i < this.markers.length; i++) {
-                    const marker = this.markers[i];
-                    if (!marker.x) marker.x = 0;
-                    if (!marker.y) marker.y = 0;
-                }
-                this.updateMarkers();
-            }, 200);
-        }
-    }
-    /**
      * Updates the position of the markers
      * @return {void}
      */
     private updateMarkers() {
-        if (!this.main || !this.markers) return;
-        for (let i = 0;  i < this.markers.length; i++) {
-            const marker = this.markers[i];
+        if (!this.main || !this.markers) {
+            return;
+        }
+        for (const marker of this.markers) {
             if (!marker.show_fn) {
                 marker.show = false;
                 marker.show_fn = setTimeout(() => {
@@ -133,7 +137,7 @@ export class MapMarkerGroupComponent {
                     case 1:
                     case 90:
                         tmp = x; x = y; y = tmp;
-                        //y = this.map.dim.y - y;
+                        // y = this.map.dim.y - y;
                         x = this.map.dim.x - x;
                         break;
                     case 180:
@@ -144,7 +148,7 @@ export class MapMarkerGroupComponent {
                     case 270:
                     case 3:
                         tmp = x; x = y; y = tmp;
-                        //x = this.map.dim.x - x;
+                        // x = this.map.dim.x - x;
                         y = this.map.dim.y - y;
                         break;
                 }

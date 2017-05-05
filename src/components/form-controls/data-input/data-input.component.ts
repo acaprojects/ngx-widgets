@@ -24,75 +24,76 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 })
 export class DataInput {
         // Input Variables
-    @Input() type: string = 'text';
-    @Input() name: string = '';
-    @Input() model: string = '';
-    @Input() placeholder: string = '';
-    @Input() format: string = '';
-    @Input() color: string = 'blue';
-    @Input() primary: string = 'C500';
-    @Input() min: number = 0;
-    @Input() max: number = 0;
-    @Input() step: number = 1;
-    @Input() icon: boolean = false;
-    @Input() iconSide: string = 'left';
-    @Input() lockValue: boolean = false;
-    @Input() error: boolean = false;
-    @Input() view: boolean = false;
-    @Input() regex: any = null;
-    @Input() errorMsg: string = 'Input not valid';
-    @Input() infoMsg: string = '';
-    @Input() disabled: boolean = false;
-    @Input() required: boolean = false;
-    @Input() validation: boolean = true;
-    @Input() decimals: boolean = true;
-    @Input() theme: string = 'light';
-    @Input() width: number = null;
-    @Input() readonly: boolean = false;
+    @Input() public type: string = 'text';
+    @Input() public name: string = '';
+    @Input() public model: string = '';
+    @Input() public placeholder: string = '';
+    @Input() public format: string = '';
+    @Input() public color: string = 'blue';
+    @Input() public primary: string = 'C500';
+    @Input() public min: number = 0;
+    @Input() public max: number = 0;
+    @Input() public step: number = 1;
+    @Input() public icon: boolean = false;
+    @Input() public iconSide: string = 'left';
+    @Input() public lockValue: boolean = false;
+    @Input() public error: boolean = false;
+    @Input() public view: boolean = false;
+    @Input() public regex: any = null;
+    @Input() public errorMsg: string = 'Input not valid';
+    @Input() public infoMsg: string = '';
+    @Input() public disabled: boolean = false;
+    @Input() public required: boolean = false;
+    @Input() public validation: boolean = true;
+    @Input() public decimals: boolean = true;
+    @Input() public theme: string = 'light';
+    @Input() public width: number = null;
+    @Input() public readonly: boolean = false;
 
         // Output Variables
-    @Output() modelChange = new EventEmitter();
-    @Output() errorChange = new EventEmitter();
-    @Output() validate = new EventEmitter();
-    @Output() cardType = new EventEmitter();
-    @Output() onBlur = new EventEmitter();
-    @Output() onFocus = new EventEmitter();
+    @Output() public modelChange = new EventEmitter();
+    @Output() public errorChange = new EventEmitter();
+    @Output() public validate = new EventEmitter();
+    @Output() public cardType = new EventEmitter();
+    @Output() public onBlur = new EventEmitter();
+    @Output() public onFocus = new EventEmitter();
+
+    public display_text: string = '';
+    public clean_text: string = '';
+    public info_display: string = '';
+    public focus: boolean = false;
+    public card_type: string = 'None';
+    public success: boolean = false;
+    public caret: number = 0;
+    public no_validate: boolean = false;
+    public focus_timer: any = null;
+    public validate_timer: any = null;
+    public backspace: boolean = false;
+    public fresh: boolean = true;
+    public _width: number = 12;
+    public is_password: boolean = false;
+    public is_number: boolean = false;
+
         // Input Field
-    @ViewChild('input') input: ElementRef;
+    @ViewChild('input') private input: ElementRef;
 
-    display_text: string = '';
-    clean_text: string = '';
-    info_display: string = '';
-    focus: boolean = false;
-    card_type: string = 'None';
-    success: boolean = false;
-    caret: number = 0;
-    no_validate: boolean = false;
-    focus_timer: any = null;
-    validate_timer: any = null;
-    backspace: boolean = false;
-    fresh: boolean = true;
-    _width: number = 12;
-    is_password: boolean = false;
-    is_number: boolean = false;
-
-    numbers: string = '1234567890';
-    alphabet: string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    alphanumeric: string = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    private numbers: string = '1234567890';
+    private alphabet: string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    private alphanumeric: string = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     constructor(private renderer: Renderer) {
 
     }
 
-    ngOnInit() {
+    public ngOnInit() {
         this.fresh = true;
     }
 
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         setTimeout(() => {
             if (changes.model) {
                 this.display_text = this.model;
-                //this.validateInput();
+                // this.validateInput();
             }
             if (changes.type) {
                 this.is_password = false;
@@ -120,8 +121,11 @@ export class DataInput {
                         this.is_password = true;
                         break;
                 }
-                if (this._width > 30) this._width = 30;
-                else if (this._width < 3) this._width = 3;
+                if (this._width > 30) {
+                    this._width = 30;
+                } else if (this._width < 3) {
+                    this._width = 3;
+                }
             }
             if (changes.infoMsg) {
                 this.info_display = this.infoMsg;
@@ -139,7 +143,7 @@ export class DataInput {
      * Focuses on the input field if the field is not disabled or readonly
      * @return {void}
      */
-    focusInput() {
+    public focusInput() {
         if (this.input && !this.disabled && !this.readonly) {
             this.renderer.invokeElementMethod(this.input.nativeElement, 'focus', []);
             if (this.focus_timer) {
@@ -156,7 +160,7 @@ export class DataInput {
      * Blurs the input field
      * @return {void}
      */
-    blurInput() {
+    public blurInput() {
         if (!this.focus_timer) {
             this.focus_timer = setTimeout(() => {
                 this.focus = false;
@@ -169,23 +173,31 @@ export class DataInput {
      * @param  {any}    e Key press event
      * @return {void}
      */
-    keypress(e: any) {
+    public keypress(e: any) {
         if (e) {
-            if (e.keyCode == '38' && this.type === 'number') { // Up Arrow
-                let number = parseInt(this.display_text);
-                if (isNaN(number)) number = this.min ? this.min : 0;
-                number += this.step ? this.step : 1;
-                if (this.max && number > this.max) number = this.max;
-                this.display_text = number.toString();
-            } else if (e.keyCode == '40' && this.type === 'number') { // Down Arrow
-                let number = parseInt(this.display_text);
-                if (isNaN(number)) number = typeof this.min === 'number' ? this.min : 0;
-                number -= this.step ? this.step : 1;
-                if (this.min && number < this.min) number = this.min;
-                this.display_text = (number < 0 ? '-' : '') + number.toString();
-            } else if (e.keyCode == '37' || e.keyCode == '39') { // Left & Right Arrow
+            if (e.keyCode === '38' && this.type === 'number') { // Up Arrow
+                let value = parseInt(this.display_text, 10);
+                if (isNaN(value)) {
+                    value = this.min ? this.min : 0;
+                }
+                value += this.step ? this.step : 1;
+                if (this.max && value > this.max) {
+                    value = this.max;
+                }
+                this.display_text = value.toString();
+            } else if (e.keyCode === '40' && this.type === 'number') { // Down Arrow
+                let value = parseInt(this.display_text, 10);
+                if (isNaN(value)) {
+                    value = typeof this.min === 'number' ? this.min : 0;
+                }
+                value -= this.step ? this.step : 1;
+                if (this.min && value < this.min) {
+                    value = this.min;
+                }
+                this.display_text = (value < 0 ? '-' : '') + value.toString();
+            } else if (e.keyCode === '37' || e.keyCode === '39') { // Left & Right Arrow
                 this.no_validate = true;
-            } else if (e.keyCode == '8') {
+            } else if (e.keyCode === '8') {
                 this.backspace = true;
             }
         }
@@ -202,7 +214,7 @@ export class DataInput {
      * Gets the focus status of the input field
      * @return {string} Returns focus if the input field is focused else blur is returned
      */
-    checkFocus() {
+    public checkFocus() {
         return (this.focus || (this.display_text && this.display_text !== '') ? 'focus' : 'blur');
     }
     /**
@@ -210,8 +222,10 @@ export class DataInput {
      * @param  {number} caretPos Index in the text to set the cursor
      * @return {void}
      */
-    setCaretPosition(caretPos: number) {
-        if (!this.input) return;
+    public setCaretPosition(caretPos: number) {
+        if (!this.input) {
+            return;
+        }
         const elem = this.input.nativeElement;
         if (elem != null) {
             if (elem.createTextRange) {
@@ -228,7 +242,7 @@ export class DataInput {
      * Checks the validity of the input field content based of the set type
      * @return {void}
      */
-    validateInput() {
+    private validateInput() {
         if (this.no_validate) {
             this.no_validate = false;
             return;
@@ -274,7 +288,9 @@ export class DataInput {
             this.error = false;
             this.info_display = this.infoMsg;
         }
-        if (this.clean_text && this.clean_text.length > 1) this.fresh = false;
+        if (this.clean_text && this.clean_text.length > 1) {
+            this.fresh = false;
+        }
         this.validate.emit(data);
         this.modelChange.emit(this.clean_text);
     }
@@ -282,7 +298,7 @@ export class DataInput {
      * Validate text field input value
      * @return {string} Returns the valid input value
      */
-    validateText() {
+    private validateText() {
             // Check field validity
         if (this.max && this.max > 0 && this.display_text && this.display_text.length > this.max) {
             this.error = true;
@@ -298,8 +314,10 @@ export class DataInput {
      * Validate an email address input value
      * @return {string} Returns a valid input value
      */
-    validateEmail() {
-        if (!this.display_text || this.display_text === '' || this.display_text.length < 5) return '';
+    private validateEmail() {
+        if (!this.display_text || this.display_text === '' || this.display_text.length < 5) {
+            return '';
+        }
         const email = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         if (!email.test(this.display_text)) {
             this.error = true;
@@ -313,8 +331,10 @@ export class DataInput {
      * Validate an password input value
      * @return {string} Returns a valid input value
      */
-    validatePassword() {
-        if (!this.display_text || this.display_text === '' || this.display_text.length < 8) return '';
+    private validatePassword() {
+        if (!this.display_text || this.display_text === '' || this.display_text.length < 8) {
+            return '';
+        }
         const passCheck = this.regex ? this.regex : /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,24}$/;
         if (!passCheck.test(this.display_text)) {
             this.error = true;
@@ -331,15 +351,17 @@ export class DataInput {
      * Validate an date input value
      * @return {string} Returns a valid input value
      */
-    validateDate() {
+    private validateDate() {
         return this.display_text;
     }
     /**
      * Validate numerical value
      * @return {void}
      */
-    validateNumber() {
-        if (!this.display_text || this.display_text === '') return '';
+    private validateNumber() {
+        if (!this.display_text || this.display_text === '') {
+            return '';
+        }
         const valid_numbers = this.numbers + '.';
         this.display_text = (this.display_text[0] === '-' ? '-' : '') + this.removeInvalidChars(this.display_text, this.decimals ? valid_numbers : this.numbers);
         const decimal = this.display_text[this.display_text.length - 1] === '.';
@@ -352,12 +374,16 @@ export class DataInput {
             this.error = true;
             this.info_display = 'Too small(<' + this.min + ')';
             this.errorChange.emit(true);
-            if (this.lockValue) num = this.min;
+            if (this.lockValue) {
+                num = this.min;
+            }
         } else if (this.max && num > this.max) {
             this.error = true;
             this.info_display = 'Too big(>' + this.max + ')';
             this.errorChange.emit(true);
-            if (this.lockValue) num = this.max;
+            if (this.lockValue) {
+                num = this.max;
+            }
         }
         this.display_text = (isNaN(num) ? '' : num.toString()) + (decimal ? '.' : '');
         return this.display_text;
@@ -367,8 +393,10 @@ export class DataInput {
      * Validate Credit/Debit card input value
      * @return {string} Returns a valid input value
      */
-    validateCard() {
-        if (!this.display_text || this.display_text === '') return '';
+    private validateCard() {
+        if (!this.display_text || this.display_text === '') {
+            return '';
+        }
         this.caret = this.input.nativeElement.selectionStart;
         const len = this.display_text.length;
         let num = this.removeInvalidChars(this.display_text, this.numbers);
@@ -376,7 +404,9 @@ export class DataInput {
             this.display_text = '';
             return '';
         }
-        if (num.length > 16) num = num.slice(0, 16);
+        if (num.length > 16) {
+            num = num.slice(0, 16);
+        }
         if (this.checkLuhn(num)) {
             this.card_type = this.getCardType(num);
             this.cardType.emit(this.card_type);
@@ -396,7 +426,7 @@ export class DataInput {
             let diff = len_new - len;
             const caretDiff = len_new - this.caret;
             const sep_cnt = this.display_text.split('-').length - 1;
-            if (caretDiff > 1 && diff != 0) {
+            if (caretDiff > 1 && diff !== 0) {
                 diff = (((this.caret - sep_cnt) / 4) < sep_cnt) ? 0 : diff;
             } else if (diff === 0 && caretDiff > 1 && (this.caret % 5) === 0 && !this.backspace) {
                 diff = 1;
@@ -412,18 +442,19 @@ export class DataInput {
      * @return {string} Returns the named type of the card
      */
     private getCardType(num: string) {
-            //Visa
-        if (/^4[0-9]{6,}$/.test(num)) return 'Visa';
-            //Mastercard
-        else if (/^5[1-5][0-9]{5,}$/.test(num)) return 'MasterCard';
-            //American Express
-        else if (/^3[47][0-9]{5,}$/.test(num)) return 'American Express';
-            //Diners Club
-        else if (/^3(?:0[0-5]|[68][0-9])[0-9]{4,}$/.test(num)) return 'Diners Club';
-            //Discover
-        else if (/^6(?:011|5[0-9]{2})[0-9]{3,}$/.test(num)) return 'Discover';
-            //JCB
-        else if (/^(?:2131|1800|35[0-9]{3})[0-9]{3,}$/.test(num)) return 'JBC';
+        if (/^4[0-9]{6,}$/.test(num)) { // Visa
+            return 'Visa';
+        } else if (/^5[1-5][0-9]{5,}$/.test(num)) {  // Mastercard
+            return 'MasterCard';
+        } else if (/^3[47][0-9]{5,}$/.test(num)) { // American Express
+            return 'American Express';
+        } else if (/^3(?:0[0-5]|[68][0-9])[0-9]{4,}$/.test(num)) { // Diners Club
+            return 'Diners Club';
+        } else if (/^6(?:011|5[0-9]{2})[0-9]{3,}$/.test(num)) { // Discover
+            return 'Discover';
+        } else if (/^(?:2131|1800|35[0-9]{3})[0-9]{3,}$/.test(num)) {  // Discover
+            return 'JBC';
+        }
         return 'None';
     }
     /**
@@ -436,12 +467,16 @@ export class DataInput {
         const numdigits = input.length;
         const parity = numdigits % 2;
         for (let i = 0; i < numdigits; i++) {
-            let digit = parseInt(input.charAt(i));
-            if (i % 2 == parity) digit *= 2;
-            if (digit > 9) digit -= 9;
+            let digit = parseInt(input.charAt(i), 10);
+            if (i % 2 === parity) {
+                digit *= 2;
+            }
+            if (digit > 9) {
+                digit -= 9;
+            }
             sum += digit;
         }
-        return (sum % 10) == 0;
+        return (sum % 10) === 0;
     }
     /**
      * Removes invalid characters from the given string
@@ -449,8 +484,10 @@ export class DataInput {
      * @param  {string} valid String of valid characters
      * @return {string}       Returns a string with all the invalid characters removed
      */
-    removeInvalidChars(str: string, valid: string) {
-        if (!str) return '';
+    private removeInvalidChars(str: string, valid: string) {
+        if (!str) {
+            return '';
+        }
         let clean_str = '';
         for (let i = 0; i < str.length; i++) {
             if (valid.indexOf(str[i]) >= 0) {

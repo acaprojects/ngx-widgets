@@ -38,7 +38,7 @@ const MARKER_TYPES = ['Pin', 'Marker', 'Radius'];
 export class MapMarkerComponent {
 
     private static pin_html: string = `
-    <?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 53 65.7" style="enable-background:new 0 0 53 65.7;" xml:space="preserve"><style type="text/css">.aca-st0{fill:#FFFFFF;} .aca-st1{fill:#DC6900;stroke:#FFFFFF;stroke-width:2.5;stroke-miterlimit:10;}</style><g><circle class="aca-st0" cx="27.6" cy="21.8" r="13.1"/><path class="aca-st1" d="M27.6,4c9.9,0,18,8.1,18,18s-17.1,38.2-18,39.6c-0.9-1.5-18-29.7-18-39.6S17.7,4,27.6,4z M27.6,32.8 c6,0,10.8-4.8,10.8-10.8s-4.8-10.8-10.8-10.8S16.8,16,16.8,22S21.6,32.8,27.6,32.8"/></g></svg>
+    <?xml version="1.0" encoding="utf-8"?><svg version="1.1" xmlns="http:// www.w3.org/2000/svg" xmlns:xlink="http:// www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 53 65.7" style="enable-background:new 0 0 53 65.7;" xml:space="preserve"><style type="text/css">.aca-st0{fill:#FFFFFF;} .aca-st1{fill:#DC6900;stroke:#FFFFFF;stroke-width:2.5;stroke-miterlimit:10;}</style><g><circle class="aca-st0" cx="27.6" cy="21.8" r="13.1"/><path class="aca-st1" d="M27.6,4c9.9,0,18,8.1,18,18s-17.1,38.2-18,39.6c-0.9-1.5-18-29.7-18-39.6S17.7,4,27.6,4z M27.6,32.8 c6,0,10.8-4.8,10.8-10.8s-4.8-10.8-10.8-10.8S16.8,16,16.8,22S21.6,32.8,27.6,32.8"/></g></svg>
     `;
 
     @Input() public type: string = 'Pin';
@@ -70,21 +70,36 @@ export class MapMarkerComponent {
 
     public ngOnChanges(changes: any) {
         if ((changes.color || changes.highlight || changes.stroke)) {
-            if (!this.color) this.color = DEFAULT_COLORS.main;
-            if (!this.highlight) this.highlight = DEFAULT_COLORS.active;
-            if (!this.stroke) this.stroke = DEFAULT_COLORS.stroke;
+            if (!this.color) {
+                this.color = DEFAULT_COLORS.main;
+            }
+            if (!this.highlight) {
+                this.highlight = DEFAULT_COLORS.active;
+            }
+            if (!this.stroke) {
+                this.stroke = DEFAULT_COLORS.stroke;
+            }
             this.init();
         }
         if (changes.type) {
-            if (!this.type) this.type = 'Pin';
-            else if (MARKER_TYPES.indexOf(this.type) < 0) this.type = 'Pin';
+            if (!this.type) {
+                this.type = 'Pin';
+            } else if (MARKER_TYPES.indexOf(this.type) < 0) {
+                this.type = 'Pin';
+            }
         }
         if (changes.x || changes.y) {
-            if (!this.x) this.x = -9999;
-            if (!this.y) this.y = -9999;
+            if (!this.x) {
+                this.x = -9999;
+            }
+            if (!this.y) {
+                this.y = -9999;
+            }
         }
         if (changes.show && this.show && this.shown !== this.show) {
-            if (this.show_timer) clearTimeout(this.show_timer);
+            if (this.show_timer) {
+                clearTimeout(this.show_timer);
+            }
             this.show_timer = setTimeout(() => {
                 this.shown = this.show;
                 this.show_timer = null;

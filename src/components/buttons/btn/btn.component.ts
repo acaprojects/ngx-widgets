@@ -17,7 +17,7 @@ import { Observable } from 'rxjs/Rx';
     templateUrl: './btn.template.html',
     animations : [
         trigger('clickResp', [
-            //state('hide',   style({'transform':'translate(-50%, -50%) scale(0)', opacity: 0})),
+            // state('hide',   style({'transform':'translate(-50%, -50%) scale(0)', opacity: 0})),
             transition('void => *', animate('50ms ease-out')),
             transition('* => *', animate('0.5s ease-out', keyframes([
                 style({transform: 'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0}),
@@ -62,7 +62,7 @@ export class Button {
     }
 
     public ngAfterViewInit() {
-        //this.updateClasses();
+        // this.updateClasses();
     }
     /**
      * Sets the hover state of the button
@@ -98,7 +98,9 @@ export class Button {
             const btn = this.button.nativeElement;
             this.last_styles = s;
             for (const p in this.styles) {
-                this.renderer.setStyle(btn, p, this.styles[p]);
+                if (!(this.styles[p] instanceof Function)) {
+                    this.renderer.setStyle(btn, p, this.styles[p]);
+                }
             }
         }
     }
@@ -108,7 +110,9 @@ export class Button {
      * @return {void}
      */
     public clicked() {
-        if (this.disabled) return;
+        if (this.disabled) {
+            return;
+        }
         this.click_state = (this.click_state === 'show' ? 'hide' : 'show');
         this.tapped.emit();
     }

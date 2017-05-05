@@ -20,7 +20,9 @@ export class Spinner {
     @Input() public cssClass: string = 'default';
 
     public ngOnChanges(changes: any) {
-        if (this.type === null || this.type === undefined) this.type = 'plane';
+        if (this.type === null || this.type === undefined) {
+            this.type = 'plane';
+        }
     }
 
 }

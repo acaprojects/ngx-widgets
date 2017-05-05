@@ -29,31 +29,29 @@ import { StepperStep } from './step.component';
 })
 export class Stepper implements AfterContentInit, DoCheck, OnChanges  {
 
-    @Input() type: string = 'ordered';
-    @Input() direction: string = 'vertical';
-    @Input() steps: any = { count: 0, change: false, states: [] };
-    @Output() stepsChange = new EventEmitter();
-    last_change: any = null;
+    @Input() public type: string = 'ordered';
+    @Input() public direction: string = 'vertical';
+    @Input() public steps: any = { count: 0, change: false, states: [] };
+    @Output() public stepsChange = new EventEmitter();
 
-    @ContentChildren(StepperStep) stepList: QueryList<StepperStep>;
+    public last_change: any = null;
 
-    constructor() {
-    }
+    @ContentChildren(StepperStep) private stepList: QueryList<StepperStep>;
 
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (changes.steps && this.steps && this.stepList) {
             this.updateStates();
         }
     }
 
-    ngDoCheck() {
+    public ngDoCheck() {
         if (this.steps && this.steps.change !== this.last_change && this.stepList) {
             this.last_change = this.steps.change;
             this.updateStates();
         }
     }
 
-    updateStates() {
+    public updateStates() {
         const step_list = this.stepList.toArray();
         for (let i = 0; i < step_list.length; i++) {
             if (this.steps.states[i]) {
@@ -62,15 +60,19 @@ export class Stepper implements AfterContentInit, DoCheck, OnChanges  {
         }
     }
 
-    ngAfterContentInit() {
+    public ngAfterContentInit() {
         this.initElements();
     }
 
-    initElements() {
-        if (!this.steps) return;
+    public initElements() {
+        if (!this.steps) {
+            return;
+        }
         const step_list = this.stepList.toArray();
         for (let i = 0; i < step_list.length; i++) {
-            if (i > this.steps.states.length) this.steps.states.push({ open: false, active: false, error: false });
+            if (i > this.steps.states.length) {
+                this.steps.states.push({ open: false, active: false, error: false });
+            }
             step_list[i].index = i;
             step_list[i].parent = this;
             if (this.type !== 'ordered') {
@@ -82,7 +84,7 @@ export class Stepper implements AfterContentInit, DoCheck, OnChanges  {
         this.stepsChange.emit(this.steps);
     }
 
-    open(index: number) {
+    public open(index: number) {
         const step_list = this.stepList.toArray();
         this.steps.states[index].open = true;
         for (let i = 0; i < step_list.length; i++) {
@@ -99,7 +101,7 @@ export class Stepper implements AfterContentInit, DoCheck, OnChanges  {
         this.stepsChange.emit(this.steps);
     }
 
-    close(index: number) {
+    public close(index: number) {
         this.steps.states[index].open = false;
         this.stepsChange.emit(this.steps);
     }

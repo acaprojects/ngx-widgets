@@ -45,8 +45,11 @@ export class StepperStep {
         if (this.ordered) {
             this.show();
         } else {
-            if (this.open) this.hide();
-            else this.show();
+            if (this.open) {
+                this.hide();
+            } else {
+                this.show();
+            }
         }
     }
 

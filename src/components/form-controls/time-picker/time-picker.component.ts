@@ -31,15 +31,16 @@ export class TimePicker {
     @Input() public minuteStep: number = 5;
     @Input() public select: boolean = false;
     @Input() public cssClass: string = 'default';
+
     @Output() public timeChange = new EventEmitter();
     @Output() public enter = new EventEmitter();
-
-    @ViewChild('hourPick') hour_input: ElementRef;
-    @ViewChild('minutePick') minute_input: ElementRef;
 
     public display_hour: string = '11';
     public display_minutes: string = '59';
     public display_period: string = 'PM';
+
+    @ViewChild('hourPick') private hour_input: ElementRef;
+    @ViewChild('minutePick') private minute_input: ElementRef;
 
     constructor(private renderer: Renderer) {
     }
@@ -48,28 +49,6 @@ export class TimePicker {
         if (changes.time) {
             this.setDisplayTime();
         }
-    }
-    /**
-     * Updates the time displayed by the component
-     * @return {void}
-     */
-    private setDisplayTime() {
-        setTimeout(() => {
-            const time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
-                // Setup display hours
-            this.display_hour = (this.time.h % 12).toString();
-            if (parseInt(this.display_hour) === 0) this.display_hour = '12';
-                // Setup display minutes
-            this.display_minutes = (this.time.m % 60).toString();
-                // Setup display period
-            this.display_period = ((this.time.h / 12 >= 1) ? 'PM' : 'AM');
-            this.checkHour();
-            this.checkMinute();
-            const new_time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
-            if (time !== new_time) {
-                this.timeChange.emit(this.time);
-            }
-        }, 20);
     }
     /**
      * Adds one hour to the time
@@ -88,7 +67,9 @@ export class TimePicker {
     public minusHour() {
         this.time.h--;
             // Make sure hours a with the 24 of a day
-        if (this.time.h < 0) this.time.h = 23;
+        if (this.time.h < 0) {
+            this.time.h = 23;
+        }
         this.setDisplayTime();
     }
     /**
@@ -132,10 +113,15 @@ export class TimePicker {
      */
     public validateHour() {
         this.display_hour = this.checkNumber(this.display_hour);
-        if (this.display_hour === '') return;
-        const hour = parseInt(this.display_hour);
-        if (hour < 0 || hour > 23) this.display_hour = '12';
-        else if (hour === NaN) this.display_hour = '';
+        if (this.display_hour === '') {
+            return;
+        }
+        const hour = parseInt(this.display_hour, 10);
+        if (hour < 0 || hour > 23) {
+            this.display_hour = '12';
+        } else if (isNaN(hour)) {
+            this.display_hour = '';
+        }
     }
     /**
      * Validates the minute value of the component
@@ -143,9 +129,12 @@ export class TimePicker {
      */
     public validateMinute() {
         this.display_minutes = this.checkNumber(this.display_minutes);
-        const minutes = parseInt(this.display_minutes);
-        if (minutes < 0 || minutes > 60) this.display_minutes = '00';
-        else if (minutes === NaN) this.display_minutes = '';
+        const minutes = parseInt(this.display_minutes, 10);
+        if (minutes < 0 || minutes > 60) {
+            this.display_minutes = '00';
+        } else if (isNaN(minutes)) {
+            this.display_minutes = '';
+        }
     }
     /**
      * Checks if a key press a been made and updates the hour if an up/down arrow key has been pressed
@@ -154,12 +143,16 @@ export class TimePicker {
      */
     public keyupHour(e: any) {
         if (e) {
-            if (e.keyCode == '38') { // Up Arrow
+            if (e.keyCode === '38') { // Up Arrow
                 this.addHour();
-            } else if (e.keyCode == '40') { // Up Arrow
+            } else if (e.keyCode === '40') { // Up Arrow
                 this.minusHour();
-            } else this.validateHour();
-        } else this.validateHour();
+            } else {
+                this.validateHour();
+            }
+        } else {
+            this.validateHour();
+        }
     }
 
     /**
@@ -169,12 +162,16 @@ export class TimePicker {
      */
     public keyupMinutes(e: any) {
         if (e) {
-            if (e.keyCode == '38') { // Up Arrow
+            if (e.keyCode === '38') { // Up Arrow
                 this.addMinute();
-            } else if (e.keyCode == '40') { // Up Arrow
+            } else if (e.keyCode === '40') { // Up Arrow
                 this.minusMinute();
-            } else this.validateMinute();
-        } else this.validateMinute();
+            } else {
+                this.validateMinute();
+            }
+        } else {
+            this.validateMinute();
+        }
     }
     /**
      * Change input focus from hours to minutes
@@ -200,6 +197,30 @@ export class TimePicker {
             // Update time value
         this.timeChange.emit(this.time);
         this.enter.emit(this.time);
+    }
+    /**
+     * Updates the time displayed by the component
+     * @return {void}
+     */
+    private setDisplayTime() {
+        setTimeout(() => {
+            const time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
+                // Setup display hours
+            this.display_hour = (this.time.h % 12).toString();
+            if (parseInt(this.display_hour, 10) === 0) {
+                this.display_hour = '12';
+            }
+                // Setup display minutes
+            this.display_minutes = (this.time.m % 60).toString();
+                // Setup display period
+            this.display_period = ((this.time.h / 12 >= 1) ? 'PM' : 'AM');
+            this.checkHour();
+            this.checkMinute();
+            const new_time = `${this.display_hour}:${this.display_minutes} ${this.display_period}`;
+            if (time !== new_time) {
+                this.timeChange.emit(this.time);
+            }
+        }, 20);
     }
     /**
      * Initialises the time to the current time
@@ -243,16 +264,23 @@ export class TimePicker {
     private checkHour() {
         setTimeout(() => {
                 // Check for value
-            if (!this.display_hour) this.display_hour = '12';
+            if (!this.display_hour) {
+                this.display_hour = '12';
+            }
                 // Check length
-            if (this.display_hour.length > 2) this.display_hour = this.display_hour.slice(0, 2);
+            if (this.display_hour.length > 2) {
+                this.display_hour = this.display_hour.slice(0, 2);
+            }
                 // Check for valid characters
             this.validateHour();
                 // Check number is valid
-            if (parseInt(this.display_hour) === NaN || parseInt(this.display_hour) > 12 || parseInt(this.display_hour) < 0 || this.display_hour === '')
+            if (isNaN(parseInt(this.display_hour, 10)) || parseInt(this.display_hour, 10) > 12
+                || parseInt(this.display_hour, 10) < 0 || this.display_hour === '') {
+
                 this.display_hour = '12';
+            }
                 // Update hours
-            this.time.h = (parseInt(this.display_hour) % 12) + (this.display_period === 'AM' ? 0 : 12);
+            this.time.h = (parseInt(this.display_hour, 10) % 12) + (this.display_period === 'AM' ? 0 : 12);
         }, 20);
     }
 
@@ -263,17 +291,25 @@ export class TimePicker {
     private checkMinute() {
         setTimeout(() => {
                 // Check for value
-            if (!this.display_minutes) this.display_minutes = '00';
+            if (!this.display_minutes) {
+                this.display_minutes = '00';
+            }
                 // Check length
-            if (this.display_minutes.length > 2) this.display_minutes = this.display_minutes.slice(0, 2);
+            if (this.display_minutes.length > 2) {
+                this.display_minutes = this.display_minutes.slice(0, 2);
+            }
                 // Check for valid characters
             this.validateMinute();
                 // Check number is valid
-            if (parseInt(this.display_minutes) === NaN || parseInt(this.display_minutes) > 59 || parseInt(this.display_minutes) < 0 || this.display_minutes === '')
-                this.display_minutes = '00';
-            if (parseInt(this.display_minutes) < 10)  this.display_minutes = '0' + parseInt(this.display_minutes);
+            if (isNaN(parseInt(this.display_minutes, 10)) || parseInt(this.display_minutes, 10) > 59
+                || parseInt(this.display_minutes, 10) < 0 || this.display_minutes === '') {
+                    this.display_minutes = '00';
+            }
+            if (parseInt(this.display_minutes, 10) < 10) {
+                this.display_minutes = '0' + parseInt(this.display_minutes, 10);
+            }
                 // Update minutes
-            this.time.m = parseInt(this.display_minutes);
+            this.time.m = parseInt(this.display_minutes, 10);
         }, 20);
     }
 }

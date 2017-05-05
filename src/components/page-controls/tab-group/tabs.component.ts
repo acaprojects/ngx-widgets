@@ -29,8 +29,7 @@ export class TabGroup implements AfterContentInit  {
     @Input() public disabled: string[] = [];
     @Output() public stateChange = new EventEmitter();
 
-    //*
-        //Toggle Knob
+        // Toggle Knob
     @ContentChildren(TabHead) private tabHeaders: QueryList<TabHead>;
     @ContentChildren(TabBody) private tabBodies: QueryList<TabBody>;
     @ViewChild('header') private header: ElementRef;
@@ -46,7 +45,11 @@ export class TabGroup implements AfterContentInit  {
 
     private head_cnt: number = 0;
 
-    constructor(private loc : Location, private route: ActivatedRoute, private _router: Router, private renderer: Renderer) {
+    constructor(
+            private loc: Location, private route: ActivatedRoute,
+            private _router: Router, private renderer: Renderer
+        ) {
+
         this.route.params.map((params) => params[this.routeParam]).subscribe((params) => {
             this.rvalue = params;
         });
@@ -58,7 +61,9 @@ export class TabGroup implements AfterContentInit  {
         if (this.routableValid()) {
                 // Get Route Value
             setTimeout(() => {
-                if (this.routeValue && this.routeValue !== this.state) this.setActiveTab(this.routeValue);
+                if (this.routeValue && this.routeValue !== this.state) {
+                    this.setActiveTab(this.routeValue);
+                }
             }, 100);
         }
     }
@@ -83,22 +88,26 @@ export class TabGroup implements AfterContentInit  {
         const path = this.loc.path();
         if (path.indexOf('?') >= 0) {
             const query = path.substring(path.indexOf('?') + 1, path.length);
-            const q = query.split('&');
+            const q: any = query.split('&');
             for (const i in q) {
-                const param = q[i].split('=');
-                if (param[0] === this.routeParam) {
-                    this.qvalue = param[1];
-                    break;
+                if (!(q[i] instanceof Function)) {
+                    const param = q[i].split('=');
+                    if (param[0] === this.routeParam) {
+                        this.qvalue = param[1];
+                        break;
+                    }
                 }
             }
         } else if (path.indexOf('#') >= 0) {
             const hash = path.substring(path.indexOf('#') + 1, path.length);
-            const h = hash.split('&');
+            const h: any = hash.split('&');
             for (const i in h) {
-                const param = h[i].split('=');
-                if (param[0] === this.routeParam) {
-                    this.hvalue = param[1];
-                    break;
+                if (!(h[i] instanceof Function)) {
+                    const param = h[i].split('=');
+                    if (param[0] === this.routeParam) {
+                        this.hvalue = param[1];
+                        break;
+                    }
                 }
             }
 
@@ -131,19 +140,29 @@ export class TabGroup implements AfterContentInit  {
     }
 
     public setActiveTab(id: string, init: boolean = false) {
-        if (this.disabled.indexOf(id) >= 0) return;
-        if (!this.tabBodies || !this.tabHeaders) return;
+        if (this.disabled.indexOf(id) >= 0) {
+            return;
+        }
+        if (!this.tabBodies || !this.tabHeaders) {
+            return;
+        }
         this.state = id;
 
         const tabs = this.tabHeaders.toArray();
         for (let i = 0; i < this.tabHeaders.length; i++) {
-            if (tabs[i].id === id) tabs[i].active();
-            else tabs[i].inactive();
+            if (tabs[i].id === id) {
+                tabs[i].active();
+            } else {
+                tabs[i].inactive();
+            }
         }
         const content = this.tabBodies.toArray();
         for (let i = 0; i < this.tabBodies.length; i++) {
-            if (content[i].id === id) this.active = content[i];
-            else content[i].hide();
+            if (content[i].id === id) {
+                this.active = content[i];
+            } else {
+                content[i].hide();
+            }
         }
         if (this.active) {
             this.active.show();
@@ -164,14 +183,17 @@ export class TabGroup implements AfterContentInit  {
         } else {
             const tabs = this.tabHeaders.toArray();
             for (let i = 0; i < this.tabHeaders.length; i++) {
-                if (this.disabled.indexOf(tabs[i].id) >= 0) tabs[i].hide();
-                else tabs[i].show();
+                if (this.disabled.indexOf(tabs[i].id) >= 0) {
+                    tabs[i].hide();
+                } else {
+                    tabs[i].show();
+                }
             }
                 // Set active tab to the first available tab if the current tab is disabled
             if (this.disabled.indexOf(this.state) >= 0) {
-                for (let i = 0; i < tabs.length; i++) {
-                    if (this.disabled.indexOf(tabs[i].id) < 0) {
-                        this.setActiveTab(tabs[i].id);
+                for (const tab of tabs) {
+                    if (this.disabled.indexOf(tab.id) < 0) {
+                        this.setActiveTab(tab.id);
                         break;
                     }
                 }
@@ -196,10 +218,12 @@ export class TabGroup implements AfterContentInit  {
     private initElements() {
             // Setup Tabs Header
         if (!this.state) {
-            if (this.tabHeaders.first) this.state = this.tabHeaders.first.id;
+            if (this.tabHeaders.first) {
+                this.state = this.tabHeaders.first.id;
+            }
         }
         this.injectContents();
-            //Setup active tab
+            // Setup active tab
         this.setActiveTab(this.state, true);
         this.content_init = true;
     }
@@ -219,7 +243,9 @@ export class TabGroup implements AfterContentInit  {
 
     private addHeadNode(node: any) {
         const root = this.header;
-        if (!root || !node || this.node_list.indexOf(node.id) >= 0) return;
+        if (!root || !node || this.node_list.indexOf(node.id) >= 0) {
+            return;
+        }
 
         this.renderer.projectNodes(root.nativeElement, [node.nativeElement()]);
         this.listeners[node.id] = node.listen().subscribe((id: string) => {
@@ -230,7 +256,9 @@ export class TabGroup implements AfterContentInit  {
 
     private addBodyNode(node: any) {
         const root = this.body;
-        if (!root || !node || this.node_list.indexOf(node.id) >= 0) return;
+        if (!root || !node || this.node_list.indexOf(node.id) >= 0) {
+            return;
+        }
 
         this.renderer.projectNodes(root.nativeElement, [node.nativeElement()]);
         this.node_list.push(`body-${node.id}`);

@@ -57,7 +57,6 @@ export class TooltipComponent {
         }
     }
 
-
     public ngOnChanges(changes: any) {
            // Component changes or state of show changes to true
         if (changes.cmp) {

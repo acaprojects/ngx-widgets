@@ -70,7 +70,9 @@ export class Toggle {
             this.initElements();
         }
         if (changes.state) {
-            if (this.state === undefined || this.state === null) this.state = false;
+            if (this.state === undefined || this.state === null) {
+                this.state = false;
+            }
             this._state = (typeof this.state === 'boolean' ? this.state : this._state);
         }
     }
@@ -80,10 +82,14 @@ export class Toggle {
      * @return {void}
      */
     public changeState(event: any) {
-        console.log(this.state);
-        if (this.disabled) return;
-        if (event.stopPropagation) event.stopPropagation();
-        else event.cancelBubble = true;
+        if (this.disabled) {
+            return;
+        }
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        } else {
+            event.cancelBubble = true;
+        }
         this._state = !this._state;
         this.state = this._state;
         setTimeout(() => {

@@ -57,7 +57,7 @@ export class Utility {
                     firstCodeUnit === 0x002D
                 )
             ) {
-                // https://drafts.csswg.org/cssom/#escape-a-character-as-code-point
+                // https:// drafts.csswg.org/cssom/#escape-a-character-as-code-point
                 result += '\\' + codeUnit.toString(16) + ' ';
                 continue;
             }
@@ -91,7 +91,7 @@ export class Utility {
             }
 
             // Otherwise, the escaped character.
-            // https://drafts.csswg.org/cssom/#escape-a-character
+            // https:// drafts.csswg.org/cssom/#escape-a-character
             result += '\\' + str.charAt(index);
 
         }

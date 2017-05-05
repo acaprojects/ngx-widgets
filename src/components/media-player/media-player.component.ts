@@ -2,7 +2,7 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-05-02 16:51:45
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-03 14:56:49
+ * @Last Modified time: 2017-05-05 11:07:01
  */
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
@@ -97,7 +97,9 @@ export class MediaPlayerComponent {
     }
 
     public updateTimer() {
-        if (!this.player) return;
+        if (!this.player) {
+            return;
+        }
         const time = this.player.nativeElement.currentTime;
         const secs = Math.floor(time % 60);
         const mins = Math.floor(time / 60);
@@ -117,7 +119,9 @@ export class MediaPlayerComponent {
     }
 
     public setDuration() {
-        if (!this.player) return;
+        if (!this.player) {
+            return;
+        }
         const time = this.player.nativeElement.duration;
         const secs = Math.floor(time % 60);
         const mins = Math.floor(time / 60);
@@ -135,12 +139,18 @@ export class MediaPlayerComponent {
         const doc: any = window.document;
         const docEl: any = this.video.nativeElement;
 
-        const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-        const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+        const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen
+            || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+        const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen
+            || doc.webkitExitFullscreen || doc.msExitFullscreen;
 
-        if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+        if (!doc.fullscreenElement && !doc.mozFullScreenElement
+            && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+
             requestFullScreen.call(docEl);
-        } else cancelFullScreen.call(doc);
+        } else {
+            cancelFullScreen.call(doc);
+        }
     }
 
     private init() {

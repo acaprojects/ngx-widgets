@@ -2,7 +2,7 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-29 09:24:29
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-03 14:44:11
+ * @Last Modified time: 2017-05-05 10:46:34
  */
 
 import { Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
@@ -29,10 +29,6 @@ export class ProgressCircleComponent {
 
     }
 
-    public ngAfterViewInit() {
-
-    }
-
     public ngOnChanges(changes: any) {
         if (changes.progress) {
             this.update();
@@ -45,8 +41,11 @@ export class ProgressCircleComponent {
 
     public update() {
         this.progress = Math.round(this.progress);
-        if (this.progress < 0) this.progress = 0;
-        else if (this.progress > 1000) this.progress = 1000;
+        if (this.progress < 0) {
+            this.progress = 0;
+        } else if (this.progress > 1000) {
+            this.progress = 1000;
+        }
         if (this.main) {
             this.renderer.setAttribute(this.main.nativeElement, 'data-progress', this.progress.toString());
         }
@@ -54,7 +53,8 @@ export class ProgressCircleComponent {
             this.renderer.setStyle(this.full.nativeElement, 'transform', `rotate(${180 / 1000 * this.progress}deg)`);
         }
         if (this.mask_full) {
-            this.renderer.setStyle(this.mask_full.nativeElement, 'transform', `rotate(${180 + 180 / 1000 * this.progress}deg)`);
+            const rotate = `rotate(${180 + 180 / 1000 * this.progress}deg)`;
+            this.renderer.setStyle(this.mask_full.nativeElement, 'transform', rotate);
         }
         if (this.fix) {
             this.renderer.setStyle(this.fix.nativeElement, 'transform', `rotate(${180 / 1000 * this.progress * 2}deg)`);

@@ -7,60 +7,60 @@
  * @Last modified time: 07/02/2017 11:51 AM
  */
 
-import { Component, ElementRef, EventEmitter, Input, Output, Renderer, ViewChild } from '@angular/core';
-import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+ import { Component, ElementRef, EventEmitter, Input, Output, Renderer, ViewChild } from '@angular/core';
+ import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
+ import { Observable } from 'rxjs/Rx';
 
-@Component({
-    selector: 'btn-toggle',
-    styleUrls: [ './btn-toggle.styles.css', '../../material-styles/material-styles.css' ],
-    templateUrl: './btn-toggle.template.html',
-    animations : [
-        trigger('clickResp', [
-            //state('hide',   style({'transform':'translate(-50%, -50%) scale(0)', opacity: 0})),
-            transition('void => *', animate('50ms ease-out')),
-            transition('* => *', animate('0.5s ease-out', keyframes([
-                style({transform: 'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0}),
-                style({transform: 'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0}),
-            ]))),
-        ]),
-    ],
-})
-export class ButtonToggle {
-    // Component Inputs
-    @Input() public model: boolean = false;
-    @Input() public cssClass: string = '';
-    @Input() public color: string = 'blue';
-    @Input() public primary: string = 'C500';
-    @Input() public secondary: string = 'C600';
-    @Input() public type: string = '';
-    @Input() public btnType: string = 'flat';
-    @Input() public styles: any = {};
-    @Input() public disabled: boolean = false;
-    // Output emitters
-    @Output() public tapped = new EventEmitter();
-    @Output() public modelChange = new EventEmitter();
+ @Component({
+     selector: 'btn-toggle',
+     styleUrls: [ './btn-toggle.styles.css', '../../material-styles/material-styles.css' ],
+     templateUrl: './btn-toggle.template.html',
+     animations : [
+     trigger('clickResp', [
+             // state('hide',   style({'transform':'translate(-50%, -50%) scale(0)', opacity: 0})),
+             transition('void => *', animate('50ms ease-out')),
+             transition('* => *', animate('0.5s ease-out', keyframes([
+                     style({transform: 'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0}),
+                     style({transform: 'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0}),
+                 ]))),
+             ]),
+     ],
+ })
+ export class ButtonToggle {
+     // Component Inputs
+     @Input() public model: boolean = false;
+     @Input() public cssClass: string = '';
+     @Input() public color: string = 'blue';
+     @Input() public primary: string = 'C500';
+     @Input() public secondary: string = 'C600';
+     @Input() public type: string = '';
+     @Input() public btnType: string = 'flat';
+     @Input() public styles: any = {};
+     @Input() public disabled: boolean = false;
+     // Output emitters
+     @Output() public tapped = new EventEmitter();
+     @Output() public modelChange = new EventEmitter();
 
-    public  btn_class = `aca btn`;
+     public  btn_class = `aca btn`;
 
-    // Template Elements
-    @ViewChild('btnContainer') private container: ElementRef;
-    @ViewChild('btn') private button: ElementRef;
+     // Template Elements
+     @ViewChild('btnContainer') private container: ElementRef;
+     @ViewChild('btn') private button: ElementRef;
 
-    private click_state: string = 'show';
-    private action_btn: boolean = false;
-    private last_styles: string = '';
-    private hover: boolean = false;
-    private active: boolean = false;
-    private base_class: string = 'aca btn';
+     private click_state: string = 'show';
+     private action_btn: boolean = false;
+     private last_styles: string = '';
+     private hover: boolean = false;
+     private active: boolean = false;
+     private base_class: string = 'aca btn';
 
-    constructor(private renderer: Renderer) {
-    }
+     constructor(private renderer: Renderer) {
+     }
 
-    public ngAfterViewInit() {
-        this.base_class = `aca btn ${this.cssClass}`;
-        this.updateClasses();
-    }
+     public ngAfterViewInit() {
+         this.base_class = `aca btn ${this.cssClass}`;
+         this.updateClasses();
+     }
     /**
      * Sets the hover state of the button
      * @return {void}
@@ -96,12 +96,18 @@ export class ButtonToggle {
              const btn = this.button.nativeElement;
              this.last_styles = s;
              for (const p in this.styles) {
-                 let name: any = p.split('-');
-                 name.forEach((str, index) => { if (index > 0) str[0] = str[0].toUpperCase(); });
-                 name = name.join('');
-                 const style = this.button.nativeElement.style;
-                 if (name in style) {
-                     this.renderer.setElementStyle(btn, name, this.styles[name]);
+                 if (p) {
+                     let name: any = p.split('-');
+                     name.forEach((str, index) => {
+                         if (index > 0) {
+                             str[0] = str[0].toUpperCase();
+                         }
+                     });
+                     name = name.join('');
+                     const style = this.button.nativeElement.style;
+                     if (name in style) {
+                         this.renderer.setElementStyle(btn, name, this.styles[name]);
+                     }
                  }
              }
          }
@@ -112,7 +118,9 @@ export class ButtonToggle {
      * @return {void}
      */
      public clicked() {
-         if (this.disabled) return;
+         if (this.disabled) {
+             return;
+         }
          this.click_state = (this.click_state === 'show' ? 'hide' : 'show');
          this.toggle();
          this.tapped.emit(this.model);

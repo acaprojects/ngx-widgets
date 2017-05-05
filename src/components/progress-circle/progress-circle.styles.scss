@@ -2,7 +2,7 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-29 09:30:47
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-04 17:11:12
+ * @Last Modified time: 2017-05-05 10:19:43
  */
 
 $circle-background: #cfd8dc;
@@ -44,14 +44,14 @@ div.radial-progress {
                 clip: rect(0, $circle-size, $circle-size, 0);
               }
           }
-          //*
+
           .mask.full {
             clip: rect(0, $circle-size/2, $circle-size, 0);
               .fill {
                   clip: rect(0, $circle-size, $circle-size, $circle-size/2);
               }
           }
-          //*/
+
           .shadow {
             position: absolute;
               border-radius: 50%;

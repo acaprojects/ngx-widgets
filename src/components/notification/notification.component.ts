@@ -8,9 +8,9 @@
  */
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import { ComponentFactoryResolver, ComponentRef, ViewContainerRef }  from '@angular/core';
+import { ComponentFactoryResolver, ComponentRef, ViewContainerRef } from '@angular/core';
 import { AfterViewInit, OnChanges, OnDestroy, OnInit, SimpleChange } from '@angular/core';
-import { animate, keyframes, state, style, transition, trigger }      from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 import { NotifyBlock } from './notify-block.component';
 
 const PLACEHOLDER = '-';
@@ -53,11 +53,12 @@ export class Notification {
         this.canClose = state;
         this.timeout = timeout;
         for (let i = 0; i < this.content_timers[i]; i++) {
-            if (this.content_timers[i]) clearTimeout(this.content_timers[i]);
+            if (this.content_timers[i]) {
+                clearTimeout(this.content_timers[i]);
+            }
         }
         this.content_timers = [];
-        for (let i = 0; i < this.content_instance.length; i++) {
-            const inst = this.content_instance[i];
+        for (const inst of this.content_instance) {
             if (this.canClose) {
                 if (!this.canClose) {
                     this.content_timers.push(setTimeout(() => {
@@ -74,8 +75,11 @@ export class Notification {
     public updatePositions() {
         const len = this.content_instance.length;
         for (let i = 0; i < len; i++) {
-            if (i < 16) this.content_instance[(len - 1) - i].position = (i).toString();
-            else this.content_instance[(len - 1) - i].position = 'hidden';
+            if (i < 16) {
+                this.content_instance[(len - 1) - i].position = (i).toString();
+            } else {
+                this.content_instance[(len - 1) - i].position = 'hidden';
+            }
         }
     }
 
@@ -84,51 +88,53 @@ export class Notification {
     }
 
     public add(msg: string, cssClass: string, options: any) {
-        if (options) this.setOptions(options);
+        if (options) {
+            this.setOptions(options);
+        }
 
         const ref = this.render(msg, cssClass);
     }
 
     public close(id: string) {
-        if (this.last_closed === id) return;
+        if (this.last_closed === id) {
+            return;
+        }
         this.last_closed = id;
-        for (let i = 0; i < this.content_instance.length; i++) {
-            if (this.content_instance[i] && this.content_instance[i].id === id) {
-                if (this.content_instance[i].id) {
-                    const id = this.content_instance[i].id;
-                    setTimeout(() => {
-                        if (this.content_instance[i]) {
-                            this.content_instance[i].remove = true;
-                                // Remove notification from variables and DOM
-                            this.content_instance.splice(i, 1);
-                        } else {
-                            const el = document.getElementById(id);
-                            if (el && el.parentNode) {
-                                el.parentNode.removeChild(el);
-                            }
+        for (const inst of this.content_instance) {
+            if (inst && inst.id && inst.id === id) {
+                setTimeout(() => {
+                    if (inst) {
+                        inst.remove = true;
+                            // Remove notification from variables and DOM
+                        this.content_instance.splice(this.content_instance.indexOf(inst), 1);
+                    } else {
+                        const el = document.getElementById(id);
+                        if (el && el.parentNode) {
+                            el.parentNode.removeChild(el);
                         }
-                        const ref = this.contentRef.splice(i, 1)[0];
-                        if (ref) ref.destroy();
-                        this.updatePositions();
-                    }, 500);
-                    break;
-                }
+                    }
+                    const ref = this.contentRef.splice(this.content_instance.indexOf(inst), 1)[0];
+                    if (ref) {
+                        ref.destroy();
+                    }
+                    this.updatePositions();
+                }, 500);
+                break;
             }
         }
     }
 
     public clear() {
-        for (let i = 0; i < this.content_instance.length; i++) {
+        for (const inst of this.content_instance) {
                 // Remove notification from variables and DOM
-            this.close(this.content_instance[i].id);
+            this.close(inst.id);
         }
     }
 
     private render(html: string, cssClass: string) {
         let found = false;
-            //Check that message exists
-        for (let i = 0; i < this.content_instance.length; i++) {
-            const inst = this.content_instance[i];
+            // Check that message exists
+        for (const inst of this.content_instance) {
             if (inst.entity.html === html) {
                 found = true;
                 break;

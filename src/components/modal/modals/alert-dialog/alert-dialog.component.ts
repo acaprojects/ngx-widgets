@@ -7,7 +7,8 @@
  * @Last modified time: 19/12/2016 4:39 PM
  */
 
-import { Component, ComponentFactoryResolver, ElementRef, EventEmitter, Input, Output, Renderer, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ComponentFactoryResolver, Renderer } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 import { ModalService } from '../../../../services';
 import { Modal } from '../../modal.component';
@@ -33,21 +34,9 @@ const PLACEHOLDER = '-';
     ],
 })
 export class AlertDialog extends Modal {
-    confirm: any = { text: 'OK', fn: null };
-    cancel:  any = { text: 'CANCEL', fn: null };
 
-    setParams(data: any) {
+    public setParams(data: any) {
         super.setParams(data);
         this.canClose = true;
-        if (data && data.options) {
-            for (let i = 0; i < data.options; i++) {
-                const option = data.options[i];
-                if (option.type === 'confirm') {
-                    this.confirm = option;
-                } else if (option.type === 'cancel') {
-                    this.cancel = option;
-                }
-            }
-        }
     }
 }

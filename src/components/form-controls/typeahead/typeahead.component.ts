@@ -7,7 +7,8 @@
  * @Last modified time: 30/01/2017 5:19 PM
  */
 
-import { ComponentFactoryResolver, ComponentRef, Injectable, ReflectiveInjector, Renderer, ResolvedReflectiveProvider, Type, ViewContainerRef } from '@angular/core';
+import { ComponentRef, Injectable, ReflectiveInjector, ResolvedReflectiveProvider, Type } from '@angular/core';
+import { ComponentFactoryResolver, Renderer, ViewContainerRef } from '@angular/core';
 import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
@@ -36,7 +37,7 @@ import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, 
     styleUrls : [ './typeahead-list.styles.css' ],
 })
 export class TypeaheadList {
-    public app : any = null;
+    public app: any = null;
     public parent: any = null;
     public items: any[] = [];
     public filtered_list: any[] = [];
@@ -57,16 +58,11 @@ export class TypeaheadList {
     private mousedown: any = null;
     private mouseup: any = null;
 
-    @ViewChild('list') private list : ElementRef;
-    @ViewChild('contents') private contents : ElementRef;
-    @ViewChild('listView') private list_contents : ElementRef;
+    @ViewChild('list') private list: ElementRef;
+    @ViewChild('contents') private contents: ElementRef;
+    @ViewChild('listView') private list_contents: ElementRef;
 
     constructor(private renderer: Renderer) {
-    }
-
-    public ngOnInit() {
-        setTimeout(() => {
-        }, 100);
     }
     /**
      * Sets the values for the typeahead list
@@ -80,7 +76,11 @@ export class TypeaheadList {
      * @param  {boolean = false} force_top Force typeahead above element
      * @return {void}
      */
-    public setupList(ta: any, items: any[], filterFields: string[], filter: string, num_results: number, cssClass: string, auto: boolean = false, force_top: boolean = false) {
+    public setupList(
+            ta: any, items: any[], filterFields: string[], filter: string, num_results: number,
+            cssClass: string, auto: boolean = false, force_top: boolean = false,
+        ) {
+
         this.parent = ta;
         this.items = items;
         this.filter = filter;
@@ -98,7 +98,9 @@ export class TypeaheadList {
      * @return {void}
      */
     public moveList(main: any, event?: any) {
-        if (!main || !this.contents) return;
+        if (!main || !this.contents) {
+            return;
+        }
         const main_box = main.nativeElement.getBoundingClientRect();
         const c_el = this.contents.nativeElement;
         this.renderer.setElementStyle(c_el, 'width', '1px');
@@ -122,8 +124,12 @@ export class TypeaheadList {
      */
     public setItem(e: any, i: number) {
         if (e) { // Prevent clicking through typeahead
-            if (e.preventDefault) e.preventDefault();
-            if (e.stopPropagation) e.stopPropagation();
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
         }
         this.clicked();
         setTimeout(() => {
@@ -147,23 +153,24 @@ export class TypeaheadList {
     private filterList() {
         let added = 0;
         if (!this.filter || this.filter === '') {
-            this.filtered_list = JSON.parse(JSON.stringify(this.items.length > this.results ? this.items.slice(0, this.results) : this.items));
+            const items = this.items.length > this.results ? this.items.slice(0, this.results) : this.items;
+            this.filtered_list = JSON.parse(JSON.stringify(items));
             return;
         }
         this.filtered_list = [];
         const filter = this.filter.toLowerCase();
-        for (let i = 0; i < this.items.length; i++) {
-            const item = this.items[i];
-            if (typeof item !== 'object') continue;
+        for (const item of this.items) {
+            if (typeof item !== 'object') {
+                continue;
+            }
             const keys = this.filterFields.length > 0 ? this.filterFields : Object.keys(item);
-            for (let k = 0; k < keys.length; k++) {
-                const f = keys[k];
+            for (const f of keys) {
                 if (item[f] && typeof item[f] === 'string') {
                     const data = item[f].toLowerCase();
                     if (data.indexOf(filter) >= 0) {
                         let found = false;
-                        for (let i = 0; i < this.filtered_list.length; i++) {
-                            if (item && item.id === this.filtered_list[i].id) {
+                        for (const f_item of this.filtered_list) {
+                            if (item && item.id === f_item.id) {
                                 found = true;
                                 break;
                             }
@@ -176,7 +183,9 @@ export class TypeaheadList {
                     }
                 }
             }
-            if (added >= this.results) break;
+            if (added >= this.results) {
+                break;
+            }
         }
     }
     /**
@@ -185,7 +194,9 @@ export class TypeaheadList {
      * @return {void}
      */
     private positionList(tries?: number) {
-        if (!tries) tries = 0;
+        if (!tries) {
+            tries = 0;
+        }
         if (this.list && this.contents) {
             const h = document.documentElement.clientHeight;
             const content_box = this.contents.nativeElement.getBoundingClientRect();
@@ -245,12 +256,17 @@ export class Typeahead {
 
     public ngOnChanges(changes: any) {
         if (changes.filter) {
-            if (this.list_view) this.list_view.updateFilter(this.filter);
+            if (this.list_view) {
+                this.list_view.updateFilter(this.filter);
+            }
         }
         if (changes.show && !this.clicked) {
             setTimeout(() => {
-                if (!this.show) this.close();
-                else this.open();
+                if (!this.show) {
+                    this.close();
+                } else {
+                    this.open();
+                }
             }, 200);
         } else if (changes.show) {
             setTimeout(() => {
@@ -270,9 +286,13 @@ export class Typeahead {
      * @return {void}
      */
     public open() {
-        if (this.list_ref) return;
+        if (this.list_ref) {
+            return;
+        }
         const now = (new Date()).getTime();
-        if (now - this.last_change < 100) return;
+        if (now - this.last_change < 100) {
+            return;
+        }
         if (!this.shown) {
             this.render();
             this.shown = true;
@@ -285,12 +305,15 @@ export class Typeahead {
      * @return {void}
      */
     public close() {
-        if (!this.list_ref) return;
+        if (!this.list_ref) {
+            return;
+        }
         this.closing = true;
         this.shown = false;
         if (this.list_ref) {
-            if (this.list_ref.location.nativeElement.parent)
-            this.list_ref.location.nativeElement.parent.removeChild(this.list_ref.location.nativeElement);
+            if (this.list_ref.location.nativeElement.parent) {
+                this.list_ref.location.nativeElement.parent.removeChild(this.list_ref.location.nativeElement);
+            }
             this.list_ref.destroy();
             this.list_ref = null;
         }

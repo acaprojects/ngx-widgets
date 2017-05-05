@@ -33,15 +33,12 @@ const PLACEHOLDER = '-';
     ],
 })
 export class TimeDialog extends Modal {
-    @Input() time: { h: number, m: number } = { h: 12, m: 15 };
+    @Input() public time: { h: number, m: number } = { h: 12, m: 15 };
 
-    confirm: any = { text: 'OK', fn: null };
-    cancel:  any = { text: 'CANCEL', fn: null };
+    public hours: number[] = [];
+    public minutes: number[] = [];
 
-    hours: number[] = [];
-    minutes: number[] = [];
-
-    ngOnInit() {
+    public ngOnInit() {
         this.hours = [];
         this.minutes = [];
         for (let i = 0; i < 12; i++) {
@@ -50,19 +47,11 @@ export class TimeDialog extends Modal {
         }
     }
 
-    setParams(data: any) {
+    public setParams(data: any) {
         super.setParams(data);
-        if (data && data.data && data.data.time) this.time = data.data.time;
-        this.canClose = true;
-        if (data && data.options) {
-            for (let i = 0; i < data.options.length; i++) {
-                const option = data.options[i];
-                if (option.type === 'confirm') {
-                    this.confirm = option;
-                } else if (option.type === 'cancel') {
-                    this.cancel = option;
-                }
-            }
+        if (data && data.data && data.data.time) {
+            this.time = data.data.time;
         }
+        this.canClose = true;
     }
 }

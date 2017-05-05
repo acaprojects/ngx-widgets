@@ -38,13 +38,12 @@ export class Dropdown {
     @Output() public modelChange: any = new EventEmitter();
     @Output() public indexChange: any = new EventEmitter();
 
-    private type: string = 'string';
-
-    @ViewChild('list') private list: ElementRef;
-
     public display_items: any = [];
     public current_item: any = null;
     public shown: boolean = false;
+    private type: string = 'string';
+
+    @ViewChild('list') private list: ElementRef;
 
     public ngOnChanges(changes: any) {
         if (changes.items) {

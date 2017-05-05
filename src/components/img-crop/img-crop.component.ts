@@ -33,8 +33,8 @@ export class ImageCrop {
     public data: any = {};
     public image: any = null;
 
-    @ViewChild('cropper') private image_cropper : ImageCropperComponent;
-    @ViewChild('image') private canvas : ElementRef;
+    @ViewChild('cropper') private image_cropper: ImageCropperComponent;
+    @ViewChild('image') private canvas: ElementRef;
 
     private stream: any = null;
     private sub: any = null;
@@ -49,7 +49,7 @@ export class ImageCrop {
         this.data = {};
     }
 
-    ngOnChanges(changes: any) {
+    public ngOnChanges(changes: any) {
         if (changes.file) {
             this.loadImage(this.file);
         }
@@ -58,16 +58,20 @@ export class ImageCrop {
         }
     }
 
-    ngAfterViewInit() {
-        if (this.id === '') this.id = 'zero';
-        if (!this.stream) this.stream = this.drop_service.getStream('img-crop' + (this.id !== '' ? '-' + this.id : ''));
+    public ngAfterViewInit() {
+        if (this.id === '') {
+            this.id = 'zero';
+        }
+        if (!this.stream) {
+            this.stream = this.drop_service.getStream('img-crop' + (this.id !== '' ? '-' + this.id : ''));
+        }
         this.sub = this.stream.subscribe((obj: any) => {
             if (obj.data && obj.event === 'drop') {
                 obj.data.promise.then((data: any) => {
                     // At this point all file data has been collected
                     this.loadImage(data.files[0]);
                 }, (err: any) => {
-                    console.error(err);
+                    return;
                 });
             }
         });
@@ -83,7 +87,7 @@ export class ImageCrop {
      * Sets up the size of the cropped image
      * @return {void}
      */
-    setupSize() {
+    public setupSize() {
         const ratio: { x: any, y: any } = { x: this.ratio.split(':')[0], y: this.ratio.split(':')[1] };
         this.cropperSettings.width = this.width;
         this.cropperSettings.height = this.width * ratio.y / ratio.x;
@@ -95,8 +99,10 @@ export class ImageCrop {
      * @param  {File} Image file from file input field
      * @return {void}
      */
-    loadImage(file: File) {
-        if (!file) return;
+    public loadImage(file: File) {
+        if (!file) {
+            return;
+        }
         this.loading = true;
         this.image = new Image();
         const myReader: FileReader = new FileReader();
@@ -114,7 +120,7 @@ export class ImageCrop {
      * Emits the cropped image data.
      * @return {void}
      */
-    saveImage() {
+    public saveImage() {
         this.saving = true;
         this.completed.emit(this.data.image);
         setTimeout(() => {
@@ -122,7 +128,9 @@ export class ImageCrop {
         }, 100);
     }
 
-    ngOnDestroy() {
-        if (this.sub) this.sub.unsubscribe();
+    public ngOnDestroy() {
+        if (this.sub) {
+            this.sub.unsubscribe();
+        }
     }
 }

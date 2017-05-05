@@ -8,7 +8,7 @@
  */
 
 import { Component, Input, Output } from '@angular/core';
-import { animate, keyframes, state, style, transition, trigger }      from '@angular/core';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 
 @Component({
     selector: 'notify-block',
@@ -37,8 +37,14 @@ import { animate, keyframes, state, style, transition, trigger }      from '@ang
             state('13', style({ bottom: '59em' })),
             state('hidden', style({ opacity: 0, display: 'none' })),
             state('close', style({ opacity: 0, display: 'none' })),
-            transition('void => *', [ style({ right: '10.0em',  opacity: 0}), animate('400ms ease-out', style({ right: '0.5em', opacity: 1})) ]),
-            transition('* => close', [ style({ right: '0.5em',  opacity: 1}), animate('400ms ease-out', style({ right: '-10.0em', opacity: 0})) ]),
+            transition('void => *', [
+                style({ right: '10.0em',  opacity: 0}),
+                animate('400ms ease-out', style({ right: '0.5em', opacity: 1})),
+            ]),
+            transition('* => close', [
+                style({ right: '0.5em',  opacity: 1}),
+                animate('400ms ease-out', style({ right: '-10.0em', opacity: 0})),
+            ]),
             transition('* <=> *', animate('400ms ease-out') ),
         ]),
     ],
@@ -59,7 +65,9 @@ export class NotifyBlock {
             if (this.remove) {
                 this.position = 'close';
                 setTimeout(() => {
-                    if (this.parent) this.parent.close(this.id);
+                    if (this.parent) {
+                        this.parent.close(this.id);
+                    }
                 }, 420);
             }
         }, 200);
@@ -71,7 +79,9 @@ export class NotifyBlock {
     }
 
     public ngOnDestroy() {
-        if (this.remove_check) clearInterval(this.remove_check);
+        if (this.remove_check) {
+            clearInterval(this.remove_check);
+        }
         this.position = 'close';
     }
 }

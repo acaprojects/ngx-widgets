@@ -27,10 +27,6 @@ export class ButtonGroup {
     public btn_class: string = '';
     public hover: boolean = false;
 
-    constructor() {
-
-    }
-
     public ngOnInit() {
         this.loadClasses();
     }
@@ -39,13 +35,6 @@ export class ButtonGroup {
         if (changes.color || changes.primary || changes.secondary) {
             this.loadClasses();
         }
-        if (changes.model) {
-
-        }
-    }
-
-    public ngAfterViewChecked() {
-
     }
 
     public setHover(state: boolean) {
