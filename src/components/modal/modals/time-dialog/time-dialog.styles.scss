@@ -5,6 +5,8 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
 
+@import '../../../../shared/ui-vars';
+
 $sm-height: 20em;
 $space: 2.5em;
 
@@ -12,91 +14,133 @@ $clock-size: 18em;
 $clock-i-size: 16em;
 
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
+    background-color: $black-light;
     bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, .3);
     font-size: 15px;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
     z-index: 9999999;
 
     .modal-space {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: $sm-height;
-        min-height: $sm-height / 2;
-        background-color: #fff;
+        background-color: $white;
         border-radius: .1em;
+        left: 50%;
         max-height: 95vh;
         max-width: 95vw;
+        min-height: $sm-height / 2;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: $sm-height;
 
         .dialog {
 
             &-header {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: $space;
-                padding: .5em;
                 font-size: 1.5em;
+                height: $space;
+                left: 0;
+                position: absolute;
+                padding: .5em;
+                right: 0;
+                top: 0;
             }
 
             &-body {
+                font-size: 1em;
                 max-height: 90vh;
                 max-width: 90vw;
                 overflow: auto;
-                font-size: 1em;
                 text-align: center;
 
                 .content {
                     padding: ($space + 1) 1em;
 
                     .clock {
-                        position: relative;
+                        background-color: $black-light;
+                        border-radius: 100%;
+                        color: $black;
                         display: inline-block;
                         height: 18em;
-                        width: 18em;
                         padding: .5em;
-                        background-color: rgba(0, 0, 0, .1);
-                        color: rgba(0, 0, 0, .87);
-                        border-radius: 100%;
+                        position: relative;
+                        width: 18em;
 
                         .inner {
-                            position: absolute;
                             height: 16em;
+                            left: 1em;
+                            position: absolute;
+                            top: 1em;
                             width: 16em;
-                            top: 1;
-                            left: 1;
 
                             .time {
-                                position: absolute;
                                 height: 2em;
-                                width: 2em;
                                 padding: .5em;
+                                position: absolute;
                                 text-align: center;
                                 transform: translate(-50%, -50%);
+                                width: 2em;
+
                                 &.p12 {
+                                    left: $clock-i-size / 2;
                                     top: 0;
-                                    left: $clock-i-size/2;
                                 }
 
-                                &.p3 { top:    $clock-i-size/2; right:   0;}
-                                &.p6 { bottom:   0; left:  $clock-i-size/2;}
-                                &.p9 { top:   $clock-i-size/2; left:    0;}
+                                &.p3 {
+                                    right: 0;
+                                    top: $clock-i-size / 2;
+                                }
 
-                                &.p1 { top:    $clock-i-size/10; right: $clock-i-size/4; }
-                                &.p5 { bottom: $clock-i-size/10; right: $clock-i-size/4; }
-                                &.p7 { bottom: $clock-i-size/10; left:  $clock-i-size/4; }
-                                &.p11 { top:    $clock-i-size/10; left:  $clock-i-size/4; }
+                                &.p6 {
+                                    bottom: 0;
+                                    left: $clock-i-size / 2;
+                                }
 
-                                &.p2 { top:    $clock-i-size/4; right: $clock-i-size/10; }
-                                &.p4 { bottom: $clock-i-size/4; right: $clock-i-size/10; }
-                                &.p8 { bottom: $clock-i-size/4; left:  $clock-i-size/10; }
-                                &.p10 { top:    $clock-i-size/4; left:  $clock-i-size/10; }
+                                &.p9 {
+                                    left: 0;
+                                    top: $clock-i-size / 2;
+                                }
+
+                                &.p1 {
+                                    right: $clock-i-size / 4;
+                                    top: $clock-i-size / 10;
+                                }
+
+                                &.p5 {
+                                    bottom: $clock-i-size / 10;
+                                    right: $clock-i-size / 4;
+                                }
+
+                                &.p7 {
+                                    bottom: $clock-i-size / 10;
+                                    left: $clock-i-size / 4;
+                                }
+
+                                &.p11 {
+                                    left: $clock-i-size / 4;
+                                    top: $clock-i-size / 10;
+                                }
+
+                                &.p2 {
+                                    right: $clock-i-size / 10;
+                                    top: $clock-i-size / 4;
+                                }
+
+                                &.p4 {
+                                    bottom: $clock-i-size / 4;
+                                    right: $clock-i-size / 10;
+                                }
+
+                                &.p8 {
+                                    bottom: $clock-i-size / 4;
+                                    left: $clock-i-size / 10;
+                                }
+
+                                &.p10 {
+                                    left: $clock-i-size / 10;
+                                    top: $clock-i-size / 4;
+                                }
                             }
                         }
                     }
@@ -104,12 +148,12 @@ $clock-i-size: 16em;
             }
 
             &-footer {
-                position: absolute;
+                bottom: 0;
                 height: $space + 1em;
                 left: 0;
-                right: 0;
-                bottom: 0;
                 padding: .5em;
+                position: absolute;
+                right: 0;
                 text-align: right;
                 white-space: nowrap;
             }
