@@ -4,160 +4,166 @@
 // @Filename: date-dialog.styles.scss
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
+//
+@import '../../../../shared/ui-vars';
 
-$sm-height: 20;
+$sm-height: 20em;
 $space: 1.5em;
 
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
+    background-color: $black-light;
     bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, .3);
     font-size: 15px;
-    z-index: 9999999;
+    left: 0;
+    position: fixed;
     opacity: 0;
+    right: 0;
+    top: 0;
+    z-index: 9999999;
 
-    .modal-space {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        width: $sm-height;
-        min-height: $sm-height / 2 * 3;
-        background-color: #fff;
-        border-radius: .1em;
-        max-height: 95vh;
-        max-width: 95vw;
+    @media only screen and (max-width: 720px) {
+        font-size: 15px;
+    }
+}
 
-        @media screen and (max-width: 720px) {
-            min-height: $sm-height / 5 * 6;
+.modal-space {
+    background-color: $white;
+    border-radius: .1em;
+    height: $sm-height / 2 * 3;
+    position: absolute;
+    left: 50%;
+    max-height: 95vh;
+    max-width: 95vw;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: $sm-height;
+
+    @media screen and (max-width: 720px) {
+        min-height: $sm-height / 5 * 6;
+    }
+}
+
+.dialog-header {
+    background-color: $orange;
+    border-radius: .1em .1em 0 0;
+    color: $white;
+    font-size: 1.5em;
+    height: 3em;
+    left: 0;
+    padding: .5em;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.dialog-body {
+    cursor: default;
+    font-size: 1;
+    max-height: 90vh;
+    max-width: 90vw;
+    padding: 5em .5em 3em .5em;
+    overflow: auto;
+    text-align: center;
+    user-select: none;
+
+    .header {
+        border-bottom: 1px solid $black-light;
+        position: relative;
+        font-size: 1.2em;
+        height: 11.111111%;
+        padding: .5em;
+        width: 100%;
+
+        .arrow {
+            color: $black;
+            cursor: pointer;
+            font-size: 1.3em;
+            position: absolute;
+
+            &.left {
+                left: .5em;
+                top: .1em;
+            }
+
+            &.right {
+                right: .5em;
+                top: .1em;
+            }
         }
+    }
 
-        .dialog {
+    .divider {
+        height: 1px;
+        padding: 0 .5em .2em .5em;
+        width: 100%;
 
-            &-header {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 3em;
-                padding: .5em;
-                font-size: 1.5em;
-                background-color: #eb8c00;
-                color: #ffffff;
-                border-radius: .1em .1em 0 0;
-            }
-
-            &-body {
-                max-height: 90vh;
-                max-width: 90vw;
-                overflow: auto;
-                font-size: 1;
-                user-select: none;
-                cursor: default;
-                padding: 5em .5em 3em .5em;
-                text-align: center;
-
-                .header {
-                    position: relative;
-                    width: 100%;
-                    height: 11.111111%;
-                    border-bottom: 1px solid #eee;
-                    font-size: 1.2em;
-                    padding: .5em;
-
-                    .arrow {
-                        position: absolute;
-                        font-size: 1.3em;
-                        cursor: pointer;
-                        color: rgba(0, 0, 0, .87);
-
-                        &.left {
-                            top: .1em;
-                            left: .5em;
-                        }
-
-                        &.right {
-                            top: .1em;
-                            right: .5em;
-                        }
-                    }
-                }
-
-                .week-days {
-                    display: flex;
-                    height: 11.111111%;
-                    padding: 1em 0;
-
-                    .weekday {
-                        width: 3.65em;
-
-                        &.even{ font-weight: bold; }
-                    }
-                }
-
-                .divider {
-                    height: 1px;
-                    width: 100%;
-                    padding: 0 .5em .2em .5em;
-
-                    .inner {
-                        height: 1px;
-                        width: 100%;
-                        background-color: #eee;
-                    }
-                }
-                .month-days {
-
-                    .week {
-                        display: flex;
-                        height: 11.111111%;
-
-                        .day {
-                            height: 2.5em;
-                            width: 2.5em;
-                            margin: .1em;
-                            padding: .75em .5em;
-                            flex-grow: 0;
-
-                            &.valid {
-                                cursor: pointer;
-
-                                &:hover { background-color: #ddd; }
-                                &.today { color: #0ead69; font-weight: bold; }
-                                &.past { background-color: #eee; }
-                                &.active { color: rgba(255, 255, 255, .8); border-radius: 100%; }
-                                &.disabled { color: rgba(0, 0, 0, .1); cursor: not-allowed; }
-                            }
-
-                            &.active {
-
-                                .overlay {
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            &-footer {
-                position: absolute;
-                height: $space * 2 + 1em; left: 0;
-                right: 0; bottom: 0;
-                padding: .5em;
-                text-align: center;
-                white-space: nowrap;
-            }
+        .inner {
+            background-color: $black-light;
+            height: 1px;
+            width: 100%;
         }
     }
 }
 
+.week-days {
+    display: flex;
+    height: 11.111111%;
+    padding: 1em 0;
 
-@media only screen and (max-device-width: 720px) {
-    .modal {
-        font-size:15px;
+    .weekday {
+        width: 3.65em;
+
+        &.even{ font-weight: bold; }
     }
 }
+
+.week {
+    display: flex;
+    height: 11.111111%;
+}
+
+.day {
+    flex-grow: 0;
+    height: 2.5em;
+    margin: .1em;
+    padding: .75em .5em;
+    width: 2.5em;
+
+    &.valid {
+        cursor: pointer;
+
+        &:hover {
+            background-color: $black-light;
+        }
+    }
+
+    &.today {
+        color: $green;
+        font-weight: bold;
+    }
+
+    &.past {
+        background-color: $black-light;
+    }
+
+    &.active {
+        border-radius: 100%;
+        color: rgba($white, .8);
+    }
+
+    &.disabled {
+        color: $black-light;
+        cursor: not-allowed;
+    }
+}
+
+.dialog-footer {
+    bottom: 0;
+    height: $space * 2 + 1em; left: 0;
+    padding: .5em;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    white-space: nowrap;
+}
+

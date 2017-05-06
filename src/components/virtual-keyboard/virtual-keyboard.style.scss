@@ -8,85 +8,95 @@
 .virtual-keyboard {
     position: fixed;
     z-index: 9999;
+
     &.standard {
         // top: 1;
         left: 50%;
         transform: translateX(-50%);
     }
-    .topbar {
-        text-align: right;
-        padding: .25em .5em .5em .5em;
-        cursor: grab;
-        &:active {
-            cursor: grabbing;
-        }
-        .close {
-            display: inline-block;
-            cursor: pointer;
-            &:hover {
-                color: rgba(0, 0, 0, .54);
-            }
-        }
+}
+
+.topbar {
+    cursor: grab;
+    padding: .25em .5em .5em .5em;
+    text-align: right;
+
+    &:active {
+        cursor: grabbing;
+    }
+}
+
+.close {
+    display: inline-block;
+    cursor: pointer;
+
+    &:hover {
+        color: $black-hover;
+    }
+}
+
+.keyboard {
+    background-color: $white;
+    border-radius: .2em;
+    box-shadow: 0 .1em .2em .1em $black-light;
+    font-size: 1.2em;
+    padding: .25em;
+    margin: .5em;
+    text-align: center;
+    z-index: 9999;
+
+    @media screen and (max-width: 720px) {
+        font-size: 1.5em;
     }
 
-    .keyboard {
-        background-color: #ffffff;
-        box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
-        border-radius: .2em;
-        padding: .25em;
-        margin: .5em;
-        z-index: 9999;
-        text-align: center;
-        font-size: 1.2em;
-        @media screen and (max-width: 720px) {
-            font-size: 1.5em;
-        }
-        &.simple {
-            box-shadow: none;
-        }
-        &.left {
-            position: fixed;
-            left: 0;
-            top: 30%;
-        }
-        &.right {
-            position: fixed;
-            right: 0;
-            top: 30%;
-        }
-        .row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    &.simple {
+        box-shadow: none;
+    }
 
-            .key {
-                background-color: #ffffff;
-                box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
-                border-radius: .2em;
-                padding: .5em 1;
-                margin: .25em;
-                height: 2.2em;
-                font-size: 1;
-                cursor: pointer;
+    &.left {
+        left: 0;
+        position: fixed;
+        top: 30%;
+    }
 
-                &.normal {
-                    width: 2.5em;
-                    padding: .5em .75em;
-                }
+    &.right {
+        position: fixed;
+        right: 0;
+        top: 30%;
+    }
 
-                &:hover {
-                    background-color: #dddddd;
-                }
+    .row {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+}
 
-                &:active {
-                    box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
-                }
+.key {
+    background-color: $white;
+    border-radius: .2em;
+    box-shadow: 0 .1em .2em .1em $black-light;
+    cursor: pointer;
+    font-size: 1em;
+    height: 2.2em;
+    margin: .25em;
+    padding: .5em 1em;
 
-                &.active {
-                    background-color: #4caf50;
-                    color: #ffffff;
-                }
-            }
-        }
+    &.normal {
+        padding: .5em .75em;
+        width: 2.5em;
+    }
+
+    &:hover {
+        background-color: $black-light;
+    }
+
+    &:active {
+        box-shadow: 0 .1em .2em .1em $black-light;
+    }
+
+    &.active {
+        background-color: $green;
+        color: $white;
     }
 }

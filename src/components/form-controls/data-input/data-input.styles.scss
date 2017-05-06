@@ -8,115 +8,120 @@
 $green: #23ce6b;
 $red: #f64740;
 
-.aca {
+.input {
+    display: inline-block;
+    font-size: 1.2em;
+    padding: .1em;
+    position: relative;
+    user-select: none;
 
-    &.input {
-        position: relative;
-        display: inline-block;
-        padding: .1em;
-        font-size: 1.2em;
-        user-select: none;
+}
 
-        .error { color: $red; border-color: $red; }
-        .valid { color: $green; border-color: $green; }
+.error {
+    color: $red;
+    border-color: $red;
+}
 
-        .input-space {
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding: .2em 0 .1em 0;
-            user-select: none;
+.valid {
+    color: $green;
+    border-color: $green;
+}
 
-            &.light {
-                color: rgba(0, 0, 0, .4);
-                border-bottom: .1em solid rgba(0, 0, 0, .4);
+.input-space {
+    align-items: center;
+    cursor: text;
+    display: flex;
+    padding: .2em 0 .1em 0;
+    position: relative;
+    user-select: none;
 
-                &.disabled {
-                    border-bottom: .1em dotted rgba(0, 0, 0, .4);
-                }
+    &.light {
+        border-bottom: .1em solid $white-hover;
+        color: $black-hover;
 
-                &.readonly {
-                    border-bottom: .1em dashed rgba(0, 0, 0, .4);
-                }
-
-                & input.text {
-                    color: rgba(0, 0, 0, .8);
-                    width: 100%;
-                }
-            }
-
-            &.dark {
-                color: rgba(255, 255, 255, .4);
-                border-bottom: .1em solid rgba(255, 255, 255, .4);
-
-                &.disabled {
-                    border-bottom: .1em dotted rgba(255, 255, 255, .4);
-                }
-
-                &.readonly {
-                    border-bottom: .1em dashed rgba(255, 255, 255, .4) !important;
-                }
-
-                & input.text { color: rgba(255, 255, 255, .8); }
-            }
-            cursor: text;
-
-            &.disabled {
-                cursor: not-allowed;
-            }
-
-            .placeholder {
-                position: absolute;
-                top: .2em;
-                left: 0;
-                font-size: 1em;
-
-                &.left {
-                    left: 1.5em;
-                }
-            }
-
-            .input {
-                flex-grow: 1;
-                display: flex;
-                width: 12em;
-                max-width: 100%;
-
-                & input.text {
-                    font-size: 1em;
-                    flex-grow: 1;
-                    outline: none;
-                    border: none;
-                    margin: 0;
-                    padding: 0;
-                    background: none;
-                }
-            }
-
-            .icon {
-                flex-grow: 0;
-                height: 1.2em;
-                width: 1.2em;
-            }
+        &.disabled {
+            border-bottom: .1em dotted $white-hover;
         }
 
-        .info-space {
-            padding: .2em 0;
-            font-size: .6em;
+        &.readonly {
+            border-bottom: .1em dashed $white-hover;
+        }
 
-            .message {
-                display: inline-block;
-                float: left;
-                width: 69%;
-                text-align: left;
-            }
-
-            .counter {
-                display: inline-block;
-                float: right;
-                text-align: right;
-                width: 30%;
-            }
+        & input.text {
+            color: $black;
+            width: 100%;
         }
     }
+
+    &.dark {
+        border-bottom: .1em solid $white-hover;
+        color: $white-hover;
+
+        &.disabled {
+            border-bottom: .1em dotted $white-hover;
+        }
+
+        &.readonly {
+            border-bottom: .1em dashed $white-hover;
+        }
+
+        & input.text { color: rgba($white, .8); }
+    }
+    &.disabled {
+        cursor: not-allowed;
+    }
+
+    .placeholder {
+        font-size: 1em;
+        left: 0;
+        position: absolute;
+        top: .2em;
+
+        &.left {
+            left: 1.5em;
+        }
+    }
+
+    .input {
+        display: flex;
+        flex-grow: 1;
+        max-width: 100%;
+        width: 12em;
+
+        & input.text {
+            background: none;
+            border: none;
+            font-size: 1em;
+            flex-grow: 1;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+    }
+
+    .icon {
+        flex-grow: 0;
+        height: 1.2em;
+        width: 1.2em;
+    }
 }
+
+.info-space {
+    font-size: .6em;
+    padding: .2em 0;
+
+    .message {
+        display: inline-block;
+        float: left;
+        width: 69%;
+        text-align: left;
+    }
+
+    .counter {
+        display: inline-block;
+        float: right;
+        text-align: right;
+        width: 30%;
+    }
+}
+

@@ -5,78 +5,93 @@
 // @Last modified by:   Alex Sorafumo
 // @Last modified time: 07/02/2017 4:06 PM
 
+@import '../../shared/ui-vars';
+
 div.tooltip {
-    position: absolute;
-    z-index: 1000;
-    top: 100%;
     left: 50%;
+    position: absolute;
+    top: 100%;
     transform: translateX(-50%);
+    z-index: 1000;
+
     &.top {
         top: -100%;
     }
+
     &.left {
         top: 50%;
         transform: translateY(-50%);
         left: -100%;
     }
+
     &.right {
         top: 50%;
         transform: translateY(-50%);
         left: 100%;
     }
-    .block {
-        position: relative;
-        height: .5em;
-        width: 1.5em;
-        .triangle{
-            position: absolute;
-            left: 0;
-            width: 1.5em;
-            height: .5em;
-            overflow: hidden;
-            .square {
-                position: relative;
-                top: .25em;
-                left: .25em;
-                width: 1;
-                height: 1;
-                border-radius: .1em;
-                box-shadow: 05em 05em .35em 05em rgba(0, 0, 0, .2);
-                transform: rotate(45deg);
-                border: 1px solid rgba(0, 0, 0, .1);
-            }
-        }
+}
 
-        .contents {
-            position: absolute;
-            top: 100%;
-            min-height: 1.5em;
-            min-width: 1.5em;
-            box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
-            border: 1px solid rgba(0, 0, 0, .1);
+.block {
+    position: relative;
+    height: .5em;
+    width: 1.5em;
+
+    .triangle{
+        position: absolute;
+        height: .5em;
+        left: 0;
+        overflow: hidden;
+        width: 1.5em;
+
+        .square {
+            border: 1px solid $black-light;
             border-radius: .1em;
+            box-shadow: 05em 05em .35em 05em $black-light;
+            height: 1;
+            left: .25em;
+            position: relative;
+            top: .25em;
+            transform: rotate(45deg);
+            width: 1;
         }
     }
 
-    &.default {
-        .block {
-            .square {
-                background-color: #ffffff;
-            }
-            .contents {
-                background-color: #ffffff;
-                color: rgba(0, 0, 0, .87);
-            }
+    .contents {
+        border: 1px solid $black-light;
+        border-radius: .1em;
+        box-shadow: 0 .1em .2em .1em $black-light;
+        min-height: 1.5em;
+        min-width: 1.5em;
+        position: absolute;
+        top: 100%;
+    }
+}
+
+.default {
+
+    .block {
+
+        .square {
+            background-color: $white;
         }
-        &.dark {
-            .block {
-                .square {
-                    background-color: #000000;
-                }
-                .contents {
-                    background-color: #000000;
-                    color: rgba(0, 0, 0, .87);
-                }
+
+        .contents {
+            background-color: $white;
+            color: $black;
+        }
+    }
+
+    &.dark {
+
+        .block {
+
+            .square {
+                background-color: $black;
+            }
+
+            .contents {
+                background-color: $black;
+                color: $black;
             }
         }
     }
