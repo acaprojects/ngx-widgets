@@ -5,71 +5,67 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
 
+@import '../../../../shared/ui-vars';
+
 $sm-height: 15em;
 $space: 2.5em;
 
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
+    background-color: $black-light;
     bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, .3);
     font-size: 4mm;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
     z-index: 9999999;
 
-    .modal-space {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: $sm-height;
-        min-height: $sm-height / 2em;
-        background-color: #fff;
-        border-radius: .1em;
-        max-height: 95vh;
-        max-width: 95vw;
-
-        .dialog {
-
-            &-header {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: $space;
-                padding: .5em;
-                font-size: 1.5em;
-            }
-
-            &-body {
-                max-height: 90vh;
-                max-width: 90vw;
-                overflow: auto;
-                font-size: 1em;
-
-                .content {
-                    padding: ($space + 1) 1;
-                }
-            }
-
-            &-footer {
-                position: absolute;
-                height: $space + 1em;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                padding: .5em;
-                text-align: right;
-                white-space: nowrap;
-            }
-        }
+    @media only screen and (max-width: 720px) {
+        font-size:20px;
     }
 }
 
+.modal-space {
+    background-color: $white;
+    border-radius: .1em;
+    left: 50%;
+    max-height: 95vh;
+    max-width: 95vw;
+    min-height: $sm-height / 2em;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: $sm-height;
+}
 
-@media only screen and (max-device-width: 720px) {
-    .modal {
-        font-size:20px;
+.dialog-header {
+    font-size: 1.5em;
+    height: $space;
+    left: 0;
+    padding: .5em;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.dialog-body {
+    font-size: 1em;
+    max-height: 90vh;
+    max-width: 90vw;
+    overflow: auto;
+
+    .content {
+        padding: ($space + 1) 1;
     }
+}
+
+.dialog-footer {
+    bottom: 0;
+    height: $space + 1em;
+    left: 0;
+    padding: .5em;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    white-space: nowrap;
 }

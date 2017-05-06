@@ -8,81 +8,80 @@
 @import '../../shared/ui-vars';
 
 div.img-crop {
-    position: relative;
     font-size: 16px;
     padding: .5em;
+    position: relative;
     text-align: center;
+}
 
+.loading {
+    font-size: 1em;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
 
-    .loading {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 1em;
-
-        &.save {
-            top: 15%;
-            padding: .5em 1em;
-            background-color: $white;
-            color: $black;
-            white-space: nowrap;
-            border-radius: .1em;
-            box-shadow: 0 0 1px 1px rgba(0, 0, 0, .5);
-        }
-    }
-
-    .drop-zone {
-        width: 100%;
-        height: 100%;
-        font-size: 1.6em;
-        border-radius: .2em;
-        background-color: rgba(0, 0, 0, .3);
+    &.save {
+        background-color: $white;
+        border-radius: .1em;
+        box-shadow: 0 0 1px 1px $black-hover;
+        color: $black;
+        padding: .5em 1em;
         white-space: nowrap;
+        top: 15%;
+    }
+}
 
-        .material-icons {
-            font-size: 1.5em;
-        }
+.drop-zone {
+    background-color: $black-light;
+    border-radius: .2em;
+    font-size: 1.6em;
+    height: 100%;
+    white-space: nowrap;
+    width: 100%;
 
-        &.hover {
-            background-color: $black-hover;
-        }
+    .material-icons {
+        font-size: 1.5em;
     }
 
-    .img-space {
-        position: relative;
-        display: inline-block;
-        width: 300px;
-        height: 300px;
-        max-width: 99vmin;
+    &.hover {
+        background-color: $black-hover;
+    }
+}
+
+.img-space {
+    background-color: $white-hover;
+    border-radius: .2em;
+    display: inline-block;
+    height: 300px;
+    max-width: 99vmin;
+    max-height: 99vmin;
+    overflow: hidden;
+    position: relative;
+    width: 300px;
+
+    canvas {
+        display: none;
+        height: 0;
+        width: 0;
+    }
+
+    img-cropper {
+        height: 16em;
+        left: 0;
         max-height: 99vmin;
-        overflow: hidden;
-        border-radius: .2em;
-        background-color: $white-hover;
+        max-width: 99vmin;
+        position: absolute;
+        top: 0;
+        width: 16em;
+    }
 
-        canvas {
-            display: none;
-            width: 0;
-            height: 0;
-        }
-
-        img-cropper {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 16em;
-            height: 16em;
-            max-width: 99vmin;
-            max-height: 99vmin;
-        }
-
-        .image-error {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            max-width: 75%;
-        }
+    .image-error {
+        left: 50%;
+        max-width: 75%;
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
 }

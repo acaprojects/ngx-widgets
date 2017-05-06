@@ -2,36 +2,43 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-21 15:12:59
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-05 12:41:14
+ * @Last Modified time: 2017-05-06 11:05:48
  */
 
+@import '../../../../shared/ui-vars';
+
 div.tab-head {
-    position: relative;
+    border-radius: .15em .15em 0 0;
     bottom: 0;
     margin-bottom: -1px;
-    padding: .5em 1.5em;
     margin-right: .15em;
-    border-radius: .15em .15em 0 0;
+    padding: .5em 1.5em;
+    position: relative;
+
     &.active {
         border-bottom: none;
     }
-    &.default {
-        background-color: rgba(0, 0, 0, .1);
-        border: 1px solid rgba(0, 0, 0, .2);
-        border-bottom: none;
-        min-width: 4em;
-        cursor: pointer;
-        &.active {
-            background-color: #ffffff;
-            border: 1px solid rgba(0, 0, 0, .2);
-            border-bottom: .1em solid #ffffff;
-            &:hover {
-                background-color: #ffffff;
-                color: rgba(0, 0, 0, .87);
-            }
+}
+
+.default {
+    background-color: $black-light;
+    border: 1px solid $black-light;
+    border-bottom: none;
+    cursor: pointer;
+    min-width: 4em;
+
+    &.active {
+        background-color: $white;
+        border: 1px solid $black-light;
+        border-bottom: .1em solid $white;
+
+        &:hover {
+            background-color: $white;
+            color: $black;
         }
-        &:hover{
-            color: rgba(0, 0, 0, .54);
-        }
+    }
+
+    &:hover{
+        color: $black-hover;
     }
 }

@@ -5,39 +5,41 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:28 AM
 
+@import '../../../../shared/ui-vars';
+
 div.btn-group {
-    display: inline-flex;
     border-radius: .1em;
-    box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
+    box-shadow: 0 .1em .2em .1em $black-light;
+    display: inline-flex;
     margin: .5em;
-    .btn-obj {
-        min-width: 8em;
-        padding: .5em 1em;
-        cursor: pointer;
-        border-left: 1px solid rgba(0, 0, 0, .2);
-        border-right: 1px solid rgba(0, 0, 0, .2);
-        &.active {
+}
 
-        }
-        &.inactive {
-            background-color: #e0e0e0;
-            &:hover {
-                background-color: #bdbdbd;
-            }
-        }
+.btn-obj {
+    border-left: 1px solid $black-light;
+    border-right: 1px solid $black-light;
+    cursor: pointer;
+    min-width: 8em;
+    padding: .5em 1em;
 
-        &:first-child {
-            border-radius: .1em 0 0 .1em;
-            border-left: none;
-        }
+    &.active {
 
-        &:last-child {
-            border-radius: 0 .1em .1em 0;
-            border-right: none;
+    }
+
+    &.inactive {
+        background-color: $black-light;
+
+        &:hover {
+            background-color: #bdbdbd;
         }
     }
 
-    .default {
+    &:first-child {
+        border-left: none;
+        border-radius: .1em 0 0 .1em;
+    }
 
+    &:last-child {
+        border-radius: 0 .1em .1em 0;
+        border-right: none;
     }
 }

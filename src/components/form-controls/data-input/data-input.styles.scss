@@ -5,8 +5,7 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:29 AM
 
-$green: #23ce6b;
-$red: #f64740;
+@import '../../../shared/ui-vars';
 
 .input {
     display: inline-block;
@@ -14,7 +13,6 @@ $red: #f64740;
     padding: .1em;
     position: relative;
     user-select: none;
-
 }
 
 .error {
@@ -94,8 +92,8 @@ $red: #f64740;
             font-size: 1em;
             flex-grow: 1;
             margin: 0;
-            padding: 0;
             outline: none;
+            padding: 0;
         }
     }
 
@@ -113,8 +111,8 @@ $red: #f64740;
     .message {
         display: inline-block;
         float: left;
-        width: 69%;
         text-align: left;
+        width: 69%;
     }
 
     .counter {

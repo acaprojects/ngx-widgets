@@ -6,21 +6,83 @@
 // @Last modified time: 15/12/2016 11:29 AM
 
 .dropdown-typeahead {
-    position: relative;
+    border-radius: .1em;
+    font-size: 1em;
+    margin: .5em;
     min-width: 12em;
     min-height: 2em;
-    font-size: 1em;
-    z-index: 100;
-    border-radius: .1em;
-    margin: .5em;
+    position: relative;
     text-align: center;
+    z-index: 100;
+}
+
+.item {
+    cursor: pointer;
+    padding: .25em;
+}
+
+.items {
+    max-height: 30vh;
+    overflow: auto;
+}
+
+.list {
+    border-radius: .1em;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1999;
+}
+
+.search {
+    align-items: center;
+    border: 1px solid $black-light;
+    border-radius: .1em;
+    display: flex;
+    height: 1.5em;
+    margin: .25em 1em;
+
+    .input {
+        flex-grow: 1;
+        padding: .2em .5em;
+
+        input {
+            background: none;
+            border: none;
+            font-size: 1em;
+            outline: none;
+            width: 100%;
+        }
+    }
+
+    .icon {
+        margin: .25em;
+
+        .search {
+            background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS41IDE0aC0uNzlsLS4yOC0uMjdDMTUuNDEgMTIuNTkgMTYgMTEuMTEgMTYgOS41IDE2IDUuOTEgMTMuMDkgMyA5LjUgM1MzIDUuOTEgMyA5LjUgNS45MSAxNiA5LjUgMTZjMS42MSAwIDMuMDktLjU5IDQuMjMtMS41N2wuMjcuMjh2Ljc5bDUgNC45OUwyMC40OSAxOWwtNC45OS01em0tNiAwQzcuMDEgMTQgNSAxMS45OSA1IDkuNVM3LjAxIDUgOS41IDUgMTQgNy4wMSAxNCA5LjUgMTEuOTkgMTQgOS41IDE0eiIvPgogICAgPHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
+            border: none;
+            height: 1em;
+            width: 1em;
+        }
+    }
+}
+
+.default {
+    box-shadow: 0 .1em .2em .1em ;
+    background-color: $white;
+    color: $black;
+
+    &:hover {
+        box-shadow: 0 .1em .2em .1em $black-light;
+    }
 
     .item {
-        cursor: pointer;
-        padding: .25em;
 
-        .field {
-
+        &:hover {
+            background-color: $blue;
+            color: #white;
         }
 
         &.active {
@@ -29,87 +91,17 @@
     }
 
     .list {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1999;
-        border-radius: .1em;
-        opacity: 0;
-
-        .search {
-            margin: .25em 1;
-            display: flex;
-            align-items: center;
-            border: 1px solid rgba(0, 0, 0, .1);
-            border-radius: .1em;
-            height: 1.5em;
-
-            .input {
-                padding: .2em .5em;
-                flex-grow: 1;
-
-                input {
-                    width: 100%;
-                    border: none;
-                    outline: none;
-                    font-size: 1;
-                    background: none;
-                }
-            }
-
-            .icon {
-                margin: .25em;
-
-                .search {
-                    height: 1em;
-                    width: 1em;
-                    border: none;
-                    background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0xNS41IDE0aC0uNzlsLS4yOC0uMjdDMTUuNDEgMTIuNTkgMTYgMTEuMTEgMTYgOS41IDE2IDUuOTEgMTMuMDkgMyA5LjUgM1MzIDUuOTEgMyA5LjUgNS45MSAxNiA5LjUgMTZjMS42MSAwIDMuMDktLjU5IDQuMjMtMS41N2wuMjcuMjh2Ljc5bDUgNC45OUwyMC40OSAxOWwtNC45OS01em0tNiAwQzcuMDEgMTQgNSAxMS45OSA1IDkuNVM3LjAxIDUgOS41IDUgMTQgNy4wMSAxNCA5LjUgMTEuOTkgMTQgOS41IDE0eiIvPgogICAgPHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4=);
-                }
-            }
-        }
-
-        .items {
-            max-height: 30vh;
-            overflow: auto;
-        }
-    }
-
-    &.default {
-        box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
-        background-color: #fff;
-        color: #000;
-
-        &:hover {
-            box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
-        }
+        background-color: $white;
+        box-shadow: 0 .1em .2em .1em $black-light;
+        color: $black;
+        overflow: hidden;
 
         .item {
 
-            &:hover {
-                color: #fff;
-                background-color: #2196f3;
-            }
-
             &.active {
-
-            }
-        }
-
-        .list {
-            box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
-            background-color: #fff;
-            color: #000;
-            overflow: hidden;
-
-            .item {
-
-                &.active {
-                    cursor: default;
-                    background-color: #fff;
-                    color: #000;
-                }
+                background-color: $white;
+                color: $black;
+                cursor: default;
             }
         }
     }

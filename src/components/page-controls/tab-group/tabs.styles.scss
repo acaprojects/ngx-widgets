@@ -5,52 +5,43 @@
 // @Last modified by:   alex.sorafumo
 // @Last modified time: 23/01/2017 12:23 PM
 
-$dim: 2;
-$border-color: #ababab;
-$green: #23ce6b;
-$red: #f64740;
-$bg-color: #ffffff;
+@import '../../../shared/ui-vars';
 
 .tab-group {
     z-index: inherit;
+}
 
-    .tab-header {
-        position: relative;
-        padding: 0 1em;
-        margin-bottom: 0;
-        padding-top: .5em;
-        list-style: none;
-        white-space: nowrap;
-        display:flex;
-        text-align: center;
+.tab-header {
+    display:flex;
+    list-style: none;
+    margin-bottom: 0;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 0 1em;
+    padding-top: .5em;
+    position: relative;
+    text-align: center;
+    user-select: none;
+    white-space: nowrap;
 
-        overflow-x: auto;
-        overflow-y: visible;
-        user-select: none;
-
-        .border {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 1px;
-            border-bottom: 1px solid rgba(0, 0, 0, .2);
-        }
-
-        .empty {
-            position:relative;
-            width: 1px !important;
-            padding: .5em !important;
-            opacity:1;
-            bottom: -1px !important;
-            border-top: none !important;
-            border-left: none !important;
-            border-right: none !important;
-            background: none !important;
-        }
+    .border {
+        border-bottom: 1px solid $black-light;
+        bottom: 1px;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
     }
 
-    .contents {
-        // display: none;
+    .empty {
+        background: none;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        bottom: -1px;
+        opacity:1;
+        padding: .5em;
+        position:relative;
+        width: 1px;
     }
 }

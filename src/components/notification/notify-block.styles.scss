@@ -5,53 +5,56 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
 
-$height: 4;
-$width: 25;
+@import '../../shared/ui-vars';
+
+$height: 4em;
+$width: 25em;
 
 .notification {
-    user-select: none;
-    &.defaultClass {
-        background-color: #fff;
-        box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
-        word-wrap: normal;
-
-        & div {
-            flex-grow: 1;
-            flex-shrink: 1;
-        }
-
-        .close-btn {
-            color: #444;
-
-            &:hover {
-                color: #aaa;
-            }
-        }
-    }
-    margin-top: 1em;
-    position: fixed;
-    height: $height;
-    width: $width;
-    max-width: 96vw;
-    padding: .75em;
-    font-size: 1.5em;
     border-radius: .15em;
     bottom: .5em;
-    right: .5em;
+    font-size: 1.5em;
+    height: $height;
+    margin-top: 1em;
+    max-width: 96vw;
     opacity: 1;
     overflow: hidden;
+    padding: .75em;
+    position: fixed;
+    right: .5em;
+    user-select: none;
+    width: $width;
+}
 
-    .contents {
-        display: flex;
-        align-items: center;
+.defaultClass {
+    background-color: $white;
+    box-shadow: 0 .1em .2em .1em $black-light;
+    word-wrap: normal;
+
+    & div {
+        flex-grow: 1;
+        flex-shrink: 1;
     }
 
     .close-btn {
-        position: absolute;
-        right: .2em;
-        padding: 0;
-        top: .2em;
-        font-size: 1.2em;
-        cursor: pointer;
+        color: $black;
+
+        &:hover {
+            color: $black-hover;
+        }
     }
+}
+
+.contents {
+    align-items: center;
+    display: flex;
+}
+
+.close-btn {
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 0;
+    position: absolute;
+    right: .2em;
+    top: .2em;
 }

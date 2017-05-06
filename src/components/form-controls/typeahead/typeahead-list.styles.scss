@@ -5,98 +5,102 @@
 // @Last modified by:   alex.sorafumo
 // @Last modified time: 17/01/2017 4:25 PM
 
+@import '../../../shared/ui-vars';
+
 .contents {
-    position: fixed;
-    width: 20em;
     height: .1em;
-    z-index: 99999;
-    user-select: none;
     font-size: 1em;
+    position: fixed;
+    user-select: none;
+    width: 20em;
+    z-index: 99999;
+
     @media screen and (max-width: 720px) {
         font-size: 2em;
     }
-    .options {
-        position: absolute;
-        transform: translateX(-50%);
-        text-align: left;
-        min-width: 100%;
-        top: 100%;
+}
 
-        ul {
-            position: absolute;
-            transform: translateX(-50%);
-            list-style: none;
-            padding: 0;
-            margin: .2em 0;
-            background-color: #fff;
-            border-radius: .1em;
-            box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .2);
-            max-height: 35vh;
-            max-width: 90vw;
-            min-width: 100%;
-            white-space: nowrap;
-            overflow: auto;
-            z-index: 1000;
-        }
+.options {
+    min-width: 100%;
+    position: absolute;
+    transform: translateX(-50%);
+    text-align: left;
+    top: 100%;
+}
 
-        .option {
-            padding: .8em 1.5em;
-            background-color: #fff;
-            color: #000;
-            max-width: 90vw;
-            min-width: 100%;
-            word-wrap: nowrap;
-            z-index: 1000;
-            display: flex;
-            cursor: pointer;
+ul {
+    background-color: $white;
+    border-radius: .1em;
+    box-shadow: 0 .1em .2em .1em $black-light;
+    list-style: none;
+    margin: .2em 0;
+    max-height: 35vh;
+    max-width: 90vw;
+    min-width: 100%;
+    overflow: auto;
+    padding: 0;
+    position: absolute;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    z-index: 1000;
+}
 
-            &.default {
-                background-color: #fff;
-                color: #000;
+.default {
+    background-color: $white;
+    color: $black;
 
-                &:hover{
-                    background-color: rgb(251, 136,   0);
-                    color: #fff;
+    &:hover{
+        background-color: $orange;
+        color: $white;
 
-                    .desc {
-                        color: rgba(0, 0, 0, .54);
-                    }
-                }
-
-                .desc{
-                    color: rgba(0, 0, 0, .2);
-                }
-            }
-
-            .name {
-                flex-grow: 1;
-                text-align: left;
-                padding-right: 2em;
-            }
-
-            .desc {
-                flex-grow: 1;
-                text-align: right;
-                padding-left: 2em;
-            }
-
-            &:hover {
-                background-color: rgb(251, 136, 0);
-                color: #fff;
-            }
-
-            &.other {
-                border-top: .5em solid rgba(0, 0, 0, .5);
-            }
-
-            &.first {
-                border-radius: .1em .1em 0 0;
-            }
-
-            &.last {
-                border-radius: 0 0 .1em .1em;
-            }
-
+        .desc {
+            color: $black-hover;
         }
     }
+
+    .desc{
+        color: $black-light;
+    }
+}
+
+.option {
+    background-color: $white;
+    color: $black;
+    cursor: pointer;
+    display: flex;
+    max-width: 90vw;
+    min-width: 100%;
+    padding: .8em 1.5em;
+    word-wrap: nowrap;
+    z-index: 1000;
+
+    .name {
+        flex-grow: 1;
+        padding-right: 2em;
+        text-align: left;
+    }
+
+    .desc {
+        flex-grow: 1;
+        padding-left: 2em;
+        text-align: right;
+    }
+
+    &:hover {
+        background-color: $orange;
+        color: $white;
+    }
+
+    &.other {
+        border-top: .5em solid $black-hover;
+    }
+
+    &.first {
+        border-radius: .1em .1em 0 0;
+    }
+
+    &.last {
+        border-radius: 0 0 .1em .1em;
+    }
+
 }

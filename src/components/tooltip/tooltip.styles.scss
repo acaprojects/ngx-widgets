@@ -32,15 +32,15 @@ div.tooltip {
 }
 
 .block {
-    position: relative;
     height: .5em;
+    position: relative;
     width: 1.5em;
 
     .triangle{
-        position: absolute;
         height: .5em;
         left: 0;
         overflow: hidden;
+        position: absolute;
         width: 1.5em;
 
         .square {
@@ -81,18 +81,15 @@ div.tooltip {
         }
     }
 
-    &.dark {
+    &.dark .block {
 
-        .block {
+        .square {
+            background-color: $black;
+        }
 
-            .square {
-                background-color: $black;
-            }
-
-            .contents {
-                background-color: $black;
-                color: $black;
-            }
+        .contents {
+            background-color: $black;
+            color: $black;
         }
     }
 }

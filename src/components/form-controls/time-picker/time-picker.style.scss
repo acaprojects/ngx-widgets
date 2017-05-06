@@ -5,109 +5,111 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:29 AM
 
+@import '../../../shared/ui-vars';
 
 div.aca.time-picker {
-    text-align: center;
-    position: relative;
-    max-width: 100%;
     font-size: 2em;
-    @media screen and (max-device-width: 720px) {
+    max-width: 100%;
+    position: relative;
+    text-align: center;
+
+    @media screen and (max-width: 720px) {
         font-size: 2.5em;
     }
+}
+
+.arrow {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    height: .8em;
+    margin: auto;
+    width: 1em;
+
+    &.down {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDcuODRMMTIgMTIuNDJsNC41OS00LjU4TDE4IDkuMjVsLTYgNi02LTZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNzVoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
+    }
+
+    &.up {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDE1LjQxTDEyIDEwLjgzbDQuNTkgNC41OEwxOCAxNGwtNi02LTYgNnoiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
+    }
+}
+
+.time-space {
+    display: inline-block;
+    margin: auto;
+}
+
+.header {
+    font-size: .7em;
+}
+
+.picker {
+    display: flex;
+}
+
+.pick {
+    padding: .2em;
+    width: 3em;
+
+    .display-arrow {
+        cursor: pointer;
+        font-size: 1.7em;
+        font-weight: bolder;
+        position: relative;
+        text-align: center;
+        width: 100%;
+    }
+
+    .set {
+        border: 2px solid $black-hover;
+        border-radius: 4px;
+        outline: none;
+
+        &:active {
+            box-shadow: 1px 1px 5px 2px $black-light;
+        }
+
+        input {
+            border: none;
+            font-size: .8em;
+            height: 100%;
+            padding: .2em;
+            text-align: center;
+            width: 100%;
+        }
+    }
+
+    .btn {
+        align-items: center;
+        display: flex;
+        height: 100%;
+
+        button {
+            border: none;
+            border-radius: .1em;
+            font-size: .8em;
+            outline: none;
+            padding: .25em 1;
+        }
+    }
+}
+
+.default {
+    color: $black;
 
     .arrow {
-
-        &.down {
-            background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDcuODRMMTIgMTIuNDJsNC41OS00LjU4TDE4IDkuMjVsLTYgNi02LTZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNzVoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
-        }
-
-        &.up {
-            background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDE1LjQxTDEyIDEwLjgzbDQuNTkgNC41OEwxOCAxNGwtNi02LTYgNnoiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
-        }
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        height: .8em;
-        width: 1em;
-        margin: auto;
+        color: $black;
     }
 
-    .time-space {
-        display: inline-block;
-        margin: auto;
+    .btn {
 
-        .header {
-            font-size: .7em;
-        }
+        button {
+            background-color: $black-hover;
+            color: $white;
 
-        .picker {
-            display: flex;
-
-            .pick {
-                padding: .2em;
-                width: 3em;
-
-                .display-arrow {
-                    position: relative;
-                    font-weight: bolder;
-                    text-align: center;
-                    width: 100%;
-                    font-size: 1.7em;
-                    cursor: pointer;
-                }
-
-                .set {
-                    border: 2px solid #ddd;
-                    border-radius: 4px;
-                    outline: none;
-
-                    &:active {
-                        box-shadow: 1px 1px 5px 2px #ddd;
-                    }
-
-                    input{
-                        height: 100%;
-                        width: 100%;
-                        font-size: .8em;
-                        padding: .2em;
-                        border: none;
-                        text-align: center;
-                    }
-                }
-
-                .btn {
-                    display: flex;
-                    align-items: center;
-                    height: 100%;
-
-                    button {
-                        font-size: .8em;
-                        border: none;
-                        padding: .25em 1;
-                        border-radius: .1em;
-                        outline: none;
-                    }
-                }
-            }
-        }
-    }
-
-    &.default {
-        color: rgba(0, 0, 0, .87);
-
-        .arrow {
-            color: rgba(0, 0, 0, .87);
-        }
-
-        .btn {
-
-            button {
-                color: #fff;
-                background-color: rgba(0, 0, 0, .54);
-
-                &:hover {
-                    background-color: rgba(0, 0, 0, .87);
-                }
+            &:hover {
+                background-color: $black;
             }
         }
     }

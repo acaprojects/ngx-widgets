@@ -5,73 +5,71 @@
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
 
+@import '../../../shared/ui-vars';
+
 .step {
-    text-align: left;
-    flex-grow: 1;
     display: flex;
+    flex-grow: 1;
+    text-align: left;
     width: 100%;
+}
 
-    .step-icons {
+.step-number {
+    background-color: $black-light;
+    border-radius: 100%;
+    color: $black;
+    cursor: pointer;
+    height: 2em;
+    margin: .25em;
+    padding: .5em;
+    position: relative;
+    text-align: center;
+    width: 2em;
 
+    &.active {
+        background-color: $orange;
+        color: $white;
     }
 
-    .step-number {
-        position: relative;
-        height: 2em;
-        width: 2em;
-        margin: .25em;
-        padding: .5em;
-        text-align: center;
-        background-color: #efefef;
-        border-radius: 100%;
-        color: rgba(0, 0, 0, .87);
-        cursor: pointer;
-
-        &.active {
-            background-color: #ff9800;
-            color: #ffffff;
-        }
-
-        &.error {
-            background-color: #f44336 !important;
-            color: #ffffff;
-        }
+    &.error {
+        background-color: $red;
+        color: $white;
     }
+}
 
-    .step-bar {
-        position: relative;
-        flex: 1 1 auto;
-        padding: .25em 1.2em;
-        width: 2em;
-        max-width: 2em;
-        min-height: 2em;
-        // height: 100%;
+.step-bar {
+    flex: 1 1 auto;
+    max-width: 2em;
+    min-height: 2em;
+    padding: .25em 1.2em;
+    position: relative;
+    width: 2em;
+    // height: 100%;
 
-        .bar {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: .1em;
-            transform: translateX(-50%);
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, .2);
-        }
+    .bar {
+        background-color: $black-light;
+        bottom: 0;
+        left: 50%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transform: translateX(-50%);
+        width: .1em;
     }
+}
 
-    .step-desc {
-        flex-grow: 1;
-        padding: .75em 1.2em;
-    }
+.step-desc {
+    flex-grow: 1;
+    padding: .75em 1.2em;
+}
 
-    .step-content {
-        flex-grow: 1;
-        padding: .5em .5em 1em .5em;
-        text-align: center;
-        overflow: hidden;
+.step-content {
+    flex-grow: 1;
+    overflow: hidden;
+    padding: .5em .5em 1em .5em;
+    text-align: center;
 
-        @media all and (max-width: 720px) {
-            padding: .75em .2em .75em .5em;
-        }
+    @media all and (max-width: 720px) {
+        padding: .75em .2em .75em .5em;
     }
 }
