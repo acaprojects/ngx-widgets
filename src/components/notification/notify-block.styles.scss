@@ -26,12 +26,12 @@ $width: 25em;
     width: $width;
 }
 
-.defaultClass {
+.default {
     background-color: $white;
     box-shadow: 0 .1em .2em .1em $black-light;
     word-wrap: normal;
 
-    & div {
+    div {
         flex-grow: 1;
         flex-shrink: 1;
     }

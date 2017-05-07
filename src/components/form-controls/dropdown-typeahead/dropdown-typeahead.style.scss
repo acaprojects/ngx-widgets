@@ -70,8 +70,8 @@
 }
 
 .default {
-    box-shadow: 0 .1em .2em .1em;
     background-color: $white;
+    box-shadow: 0 .1em .2em .1em $black-light;
     color: $black;
 
     &:hover {

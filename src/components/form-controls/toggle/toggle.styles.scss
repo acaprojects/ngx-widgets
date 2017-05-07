@@ -10,17 +10,17 @@
 $dim: 2em;
 
 .center {
+    left: 50%;
     position: absolute;
     top: 50%;
-    left: 50%;
     transform: translate(-50%, -50%);
 }
 
 .toggle {
     box-sizing: content-box;
     display: inline-block;
-    position: relative;
     padding: .5em;
+    position: relative;
     user-select: none;
 }
 
@@ -29,7 +29,8 @@ $dim: 2em;
     .text-toggle {
         background-color: $black-light;
 
-        &.active, &.inactive {
+        &.active,
+        &.inactive {
             background-color: $black-light;
         }
     }
@@ -37,7 +38,8 @@ $dim: 2em;
     .ios-toggle {
         background-color: $black-light;
 
-        &.active, &.inactive {
+        &.active,
+        &.inactive {
             background-color: $black-light;
         }
     }
@@ -47,7 +49,7 @@ $dim: 2em;
     background-color: $white - #222222;
     border-radius: .2em;
     box-sizing: content-box;
-    box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
+    box-shadow: 0 .1em .2em .1em $black-light;
     color: $white;
     cursor: pointer;
     height: $dim;
@@ -60,14 +62,14 @@ $dim: 2em;
         text-align: center;
         top: 50%;
         transform: translateY(-50%);
-        width:49%;
+        width: 49%;
 
         &.active {
             left: 0;
         }
 
         &.inactive {
-            right:0em;
+            right: 0;
         }
     }
 
@@ -84,9 +86,9 @@ $dim: 2em;
         border-radius: .18em;
         bottom: 0;
         left: 0;
-        position:absolute;
+        position: absolute;
         top: 0;
-        width:50%;
+        width: 50%;
     }
 }
 
@@ -109,35 +111,35 @@ $dim: 2em;
 
     .toggle-icon {
         border: .15em solid $black-light;
-        position: relative;
         height: 100%;
+        position: relative;
         width: 100%;
+    }
 
-        &.bg {
-            border: none;
-            border-radius: 100%;
-            font-size: .8em;
+    .bg {
+        border: none;
+        border-radius: 100%;
+        font-size: .8em;
+
+        &:hover { background-color: $black-hover; }
+
+        &:active { background-color: $black; }
+
+        &.active {
+            background-color: $black-light;
 
             &:hover { background-color: $black-hover; }
 
             &:active { background-color: $black; }
-
-            &.active {
-                background-color: $black-light;
-
-                &:hover { background-color: $black-hover; }
-
-                &:active { background-color: $black; }
-            }
         }
+    }
 
-        &.circle {
-            border-radius: 100%;
-        }
+    .circle {
+        border-radius: 100%;
+    }
 
-        &.square {
-            border-radius: .2em;
-        }
+    .square {
+        border-radius: .2em;
     }
 
     .icon {
@@ -159,21 +161,21 @@ $dim: 2em;
 .ios-toggle {
     background-color: $white;
     border-radius: $dim;
-    box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
+    box-shadow: 0 .1em .2em .1em $black-light;
     cursor: pointer;
-    margin: 1em;
-    position:relative;
     height: $dim / 2;
+    margin: 1em;
+    position: relative;
     width: $dim * 1.5;
 
     .toggle-knob {
         background-color: $white;
         border-radius: $dim;
         bottom: 0;
-        box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
-        left: 0;
+        box-shadow: 0 .1em .2em .1em $black-light;
         height: $dim;
-        position:absolute;
+        left: 0;
+        position: absolute;
         top: 50%;
         transform: translate(-50%, -50%);
         width: $dim;

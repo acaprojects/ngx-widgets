@@ -63,7 +63,7 @@ $space: 1.5em;
     max-height: 90vh;
     max-width: 90vw;
     overflow: auto;
-    padding: 5em .5em 3em .5em;
+    padding: 5em .5em 3em;
     text-align: center;
     user-select: none;
 }
@@ -96,7 +96,7 @@ $space: 1.5em;
 
 .divider {
     height: 1px;
-    padding: 0 .5em .2em .5em;
+    padding: 0 .5em .2em;
     width: 100%;
 
     .inner {

@@ -22,7 +22,7 @@
     cursor: default;
     padding: 1em 1.5em;
     touch-action: pan-y;
-    width:100%;
+    width: 100%;
 }
 
 .bar {
@@ -77,21 +77,21 @@
         min-height: 1em;
         touch-action: pan-x;
         width: 1em;
+    }
 
-        .knob-container {
-            left: 50%;
-            top: auto;
+    .knob-container {
+        left: 50%;
+        top: auto;
 
-            .knob {
-                touch-action: pan-x;
-            }
-        }
-
-        .progress {
-            bottom: 0;
-            top: auto;
+        .knob {
             touch-action: pan-x;
-            width: 100%;
         }
+    }
+
+    .progress {
+        bottom: 0;
+        top: auto;
+        touch-action: pan-x;
+        width: 100%;
     }
 }

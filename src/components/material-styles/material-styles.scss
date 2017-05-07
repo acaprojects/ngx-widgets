@@ -146,19 +146,19 @@ $colors: (
 @each $name, $list in $colors {
     @each $sel, $color in $list {
 
-        &.bg-# {$name}-# {$sel} { background-color: $color; }
+        &.bg-#{$name}-#{$sel} { background-color: $color; }
 
-        &.font-# {$name}-# {$sel} { color: $color; }
+        &.font-#{$name}-#{$sel} { color: $color; }
 
-        &.border-# {$name}-# {$sel} { border-color: $color; }
+        &.border-#{$name}-#{$sel} { border-color: $color; }
     }
 }
 
 @each $name, $colour in ('white':#fff, 'black':#000) {
 
-    &.bg-# {$name} { background-color: $color; }
+    &.bg-#{$name} { background-color: $color; }
 
-    &.font-# {$name} { color: $color; }
+    &.font-#{$name} { color: $color; }
 
-    &.border-# {$name} { border-color: $color; }
+    &.border-#{$name} { border-color: $color; }
 }
