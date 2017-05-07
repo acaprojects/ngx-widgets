@@ -9,8 +9,8 @@
     border-radius: .1em;
     font-size: 1em;
     margin: .5em;
-    min-width: 12em;
     min-height: 2em;
+    min-width: 12em;
     position: relative;
     text-align: center;
     z-index: 100;
@@ -70,7 +70,7 @@
 }
 
 .default {
-    box-shadow: 0 .1em .2em .1em ;
+    box-shadow: 0 .1em .2em .1em;
     background-color: $white;
     color: $black;
 
@@ -82,11 +82,7 @@
 
         &:hover {
             background-color: $blue;
-            color: #white;
-        }
-
-        &.active {
-
+            color: $white;
         }
     }
 
@@ -96,13 +92,10 @@
         color: $black;
         overflow: hidden;
 
-        .item {
-
-            &.active {
-                background-color: $white;
-                color: $black;
-                cursor: default;
-            }
+        .active {
+            background-color: $white;
+            color: $black;
+            cursor: default;
         }
     }
 }

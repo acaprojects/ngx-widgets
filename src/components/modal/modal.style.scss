@@ -56,10 +56,10 @@ $space: 2.2em;
 
 .modal-header {
     border-radius: .1em .1em 0 0;
-    padding: .5em 1em;
     font-size: 1.5em;
     height: $space;
     left: 0;
+    padding: .5em 1em;
     position: absolute;
     right: 0;
     top: 0;
@@ -86,8 +86,8 @@ $space: 2.2em;
 
 .modal-footer {
     background-color: $white;
-    border-top: .1em solid $black-light;
     border-radius: 0 0 .1em .1em;
+    border-top: .1em solid $black-light;
     bottom: 0;
     height: $space + .5em;
     left: 0;
@@ -108,9 +108,9 @@ $space: 2.2em;
         background-color: $blue;
         border: none;
         border-radius: .2em;
-        font-size: .75em;
         color: $white;
         cursor: pointer;
+        font-size: .75em;
         outline: none;
         padding: .5em 2em;
     }

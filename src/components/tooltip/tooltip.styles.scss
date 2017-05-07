@@ -7,7 +7,7 @@
 
 @import '../../shared/ui-vars';
 
-div.tooltip {
+.tooltip {
     left: 50%;
     position: absolute;
     top: 100%;
@@ -19,15 +19,15 @@ div.tooltip {
     }
 
     &.left {
+        left: -100%;
         top: 50%;
         transform: translateY(-50%);
-        left: -100%;
     }
 
     &.right {
+        left: 100%;
         top: 50%;
         transform: translateY(-50%);
-        left: 100%;
     }
 }
 
@@ -36,7 +36,7 @@ div.tooltip {
     position: relative;
     width: 1.5em;
 
-    .triangle{
+    .triangle {
         height: .5em;
         left: 0;
         overflow: hidden;

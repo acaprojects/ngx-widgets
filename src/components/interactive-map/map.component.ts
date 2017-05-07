@@ -217,7 +217,8 @@ export class InteractiveMap {
             ];
             /*
             if(!this.animations[this.o_zoom]) {
-                this.animations[this.o_zoom] = this.renderer.animate(this.map_display, startingStyles, keyframes, 100, 0, 'ease-out');
+                cosnt anim = this.renderer.animate(this.map_display, startingStyles, keyframes, 100, 0, 'ease-out');
+                this.animations[this.o_zoom] = anim;
             }
             this.zooming = true;
             this.animations[this.o_zoom].play();
@@ -767,7 +768,8 @@ export class InteractiveMap {
                 const map_x = Math.ceil(dir ? this.mapSize : (this.mapSize * (mb.width / mb.height)));
                 const map_y = Math.ceil(!dir ? this.mapSize : (this.mapSize * (mb.height / mb.width)));
 
-                const p_y = Math.round((this.focus.y ? Math.min(map_y, this.focus.y) / map_y : mb.width / mb.height) * mb.height);
+                const f_x = (this.focus.y ? Math.min(map_y, this.focus.y) / map_y : mb.width / mb.height) * mb.height;
+                const p_y = Math.round(f_x);
                 const p_x = Math.round((this.focus.x ? Math.min(map_x, this.focus.x) / map_x : 1) * mb.width);
                 // Get bounding rectangle of pin location
                 const ccbb = {

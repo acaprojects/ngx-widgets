@@ -27,8 +27,8 @@
 }
 
 .close {
-    display: inline-block;
     cursor: pointer;
+    display: inline-block;
 
     &:hover {
         color: $black-hover;
@@ -40,8 +40,8 @@
     border-radius: .2em;
     box-shadow: 0 .1em .2em .1em $black-light;
     font-size: 1.2em;
-    padding: .25em;
     margin: .5em;
+    padding: .25em;
     text-align: center;
     z-index: 9999;
 

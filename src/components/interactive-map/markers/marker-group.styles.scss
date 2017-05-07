@@ -5,11 +5,12 @@
 // @Last modified by:   alex.sorafumo
 // @Last modified time: 10/01/2017 10:05 AM
 
-div.marker-group {
-    position: absolute;
-    top: 0; left: 0;
-    height: 1px;
-    width: 1px;
+.marker-group {
     font-size: 1.2em;
+    height: 1px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 1px;
     z-index: 11;
 }

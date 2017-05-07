@@ -1,10 +1,11 @@
+
 // @Author: Alex Sorafumo <Yuion>
 // @Date:   13/09/2016 2:55 PM
 // @Email:  alex@yuion.net
 // @Filename: date-dialog.styles.scss
 // @Last modified by:   Yuion
 // @Last modified time: 15/12/2016 11:31 AM
-//
+
 @import '../../../../shared/ui-vars';
 
 $sm-height: 20em;
@@ -69,10 +70,10 @@ $space: 1.5em;
 
 .header {
     border-bottom: 1px solid $black-light;
-    position: relative;
     font-size: 1.2em;
     height: 11.111111%;
     padding: .5em;
+    position: relative;
     width: 100%;
 
     .arrow {
@@ -159,7 +160,8 @@ $space: 1.5em;
 
 .dialog-footer {
     bottom: 0;
-    height: $space * 2 + 1em; left: 0;
+    height: $space * 2 + 1em;
+    left: 0;
     padding: .5em;
     position: absolute;
     right: 0;

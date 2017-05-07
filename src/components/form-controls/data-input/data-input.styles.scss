@@ -16,13 +16,13 @@
 }
 
 .error {
-    color: $red;
     border-color: $red;
+    color: $red;
 }
 
 .valid {
-    color: $green;
     border-color: $green;
+    color: $green;
 }
 
 .input-space {
@@ -45,7 +45,7 @@
             border-bottom: .1em dashed $white-hover;
         }
 
-        & input.text {
+        input {
             color: $black;
             width: 100%;
         }
@@ -63,8 +63,9 @@
             border-bottom: .1em dashed $white-hover;
         }
 
-        & input.text { color: rgba($white, .8); }
+        input { color: rgba($white, .8); }
     }
+
     &.disabled {
         cursor: not-allowed;
     }
@@ -86,11 +87,11 @@
         max-width: 100%;
         width: 12em;
 
-        & input.text {
+        input {
             background: none;
             border: none;
-            font-size: 1em;
             flex-grow: 1;
+            font-size: 1em;
             margin: 0;
             outline: none;
             padding: 0;

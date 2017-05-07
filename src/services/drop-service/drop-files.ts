@@ -135,7 +135,8 @@ export class DropFiles {
                     // first layer of DnD folders require you to getAsEntry
                     if (item.path.length === 0) {
                         obj = items[i];
-                        obj.getAsEntry = obj.getAsEntry || obj.webkitGetAsEntry || obj.mozGetAsEntry || obj.msGetAsEntry;
+                        const entry_fn = obj.getAsEntry || obj.webkitGetAsEntry || obj.mozGetAsEntry || obj.msGetAsEntry;
+                        obj.getAsEntry = entry_fn;
                         if (obj.getAsEntry) {
                             entry = obj.getAsEntry();
                             processEntry(entry, item.path);

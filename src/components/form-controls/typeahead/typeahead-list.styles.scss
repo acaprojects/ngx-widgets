@@ -8,8 +8,8 @@
 @import '../../../shared/ui-vars';
 
 .contents {
-    height: .1em;
     font-size: 1em;
+    height: .1em;
     position: fixed;
     user-select: none;
     width: 20em;
@@ -23,9 +23,9 @@
 .options {
     min-width: 100%;
     position: absolute;
-    transform: translateX(-50%);
     text-align: left;
     top: 100%;
+    transform: translateX(-50%);
 }
 
 ul {
@@ -49,7 +49,7 @@ ul {
     background-color: $white;
     color: $black;
 
-    &:hover{
+    &:hover {
         background-color: $orange;
         color: $white;
 
@@ -58,7 +58,7 @@ ul {
         }
     }
 
-    .desc{
+    .desc {
         color: $black-light;
     }
 }

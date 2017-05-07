@@ -1,0 +1,20 @@
+
+<div #contents class="contents">
+    <div #list class="options">
+        <ul #listView>
+            <li [class]="'option ' + cssClass"
+                *ngFor="let item of filtered_list; let i = index"
+                [class.first]="i==0"
+                [class.last]="i==filtered_list.length - 1"
+                [class.other]="i > 0"
+                [class.odd]="i%2===1"
+                [class.even]="i%2===0"
+                (tap)="setItem($event, i)">
+
+                <div class="name">{{item.name}}</div>
+                <div class="desc">{{item.description}}</div>
+            </li>
+            <li class="option" *ngIf="filtered_list.length <= 0">{{ none_msg && none_msg !== '' ? none_msg : 'No results'}}</li>
+        </ul>
+    </div>
+</div>

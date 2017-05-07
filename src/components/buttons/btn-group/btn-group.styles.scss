@@ -7,7 +7,7 @@
 
 @import '../../../../shared/ui-vars';
 
-div.btn-group {
+.btn-group {
     border-radius: .1em;
     box-shadow: 0 .1em .2em .1em $black-light;
     display: inline-flex;
@@ -21,15 +21,11 @@ div.btn-group {
     min-width: 8em;
     padding: .5em 1em;
 
-    &.active {
-
-    }
-
     &.inactive {
         background-color: $black-light;
 
         &:hover {
-            background-color: #bdbdbd;
+            background-color: $black-hover;
         }
     }
 

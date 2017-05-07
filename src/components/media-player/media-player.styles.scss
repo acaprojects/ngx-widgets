@@ -1,13 +1,13 @@
-/*
- * @Author: Alex Sorafumo
- * @Date:   2017-05-02 16:56:23
- * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-06 10:55:24
- */
+//
+// @Author: Alex Sorafumo
+// @Date:   2017-05-02 16:56:23
+// @Last Modified by:   Alex Sorafumo
+// @Last Modified time: 2017-05-06 10:55:24
+//
 
 @import '../../shared/ui-vars';
 
-div.media-player {
+.media-player {
     background-color: $black-hover;
     height: 100%;
     min-height: 10em;

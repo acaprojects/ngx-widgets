@@ -107,7 +107,10 @@ export class DataInput {
                         if (this.width) {
                             this._width = this.width + (this.icon ? 2 : 0);
                         } else {
-                            this._width = (this.max && this.max > 0 ? this.max.toString().length / 2 + 1.5 : 12) + (this.icon ? 2 : 0);
+                            this._width = (
+                                this.max && this.max > 0 ?
+                                    this.max.toString().length / 2 + 1.5 :
+                                    12) + (this.icon ? 2 : 0);
                         }
                         this.is_number = true;
                         break;
@@ -335,7 +338,10 @@ export class DataInput {
         if (!this.display_text || this.display_text === '' || this.display_text.length < 8) {
             return '';
         }
-        const passCheck = this.regex ? this.regex : /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,24}$/;
+        let passCheck = this.regex;
+        if (!passCheck) {
+            passCheck = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,24}$/;
+        }
         if (!passCheck.test(this.display_text)) {
             this.error = true;
             this.info_display = 'Invalid password';
@@ -363,7 +369,8 @@ export class DataInput {
             return '';
         }
         const valid_numbers = this.numbers + '.';
-        this.display_text = (this.display_text[0] === '-' ? '-' : '') + this.removeInvalidChars(this.display_text, this.decimals ? valid_numbers : this.numbers);
+        this.display_text = (this.display_text[0] === '-' ? '-' : '');
+        this.display_text += this.removeInvalidChars(this.display_text, this.decimals ? valid_numbers : this.numbers);
         const decimal = this.display_text[this.display_text.length - 1] === '.';
         let num: number = +(this.display_text);
         if (isNaN(num)) {

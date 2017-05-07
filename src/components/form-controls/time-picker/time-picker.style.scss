@@ -7,7 +7,7 @@
 
 @import '../../../shared/ui-vars';
 
-div.aca.time-picker {
+.time-picker {
     font-size: 2em;
     max-width: 100%;
     position: relative;
@@ -19,8 +19,8 @@ div.aca.time-picker {
 }
 
 .arrow {
-    background-repeat: no-repeat;
     background-position: center;
+    background-repeat: no-repeat;
     background-size: contain;
     height: .8em;
     margin: auto;
@@ -102,15 +102,12 @@ div.aca.time-picker {
         color: $black;
     }
 
-    .btn {
+    button {
+        background-color: $black-hover;
+        color: $white;
 
-        button {
-            background-color: $black-hover;
-            color: $white;
-
-            &:hover {
-                background-color: $black;
-            }
+        &:hover {
+            background-color: $black;
         }
     }
 }

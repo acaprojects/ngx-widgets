@@ -7,7 +7,7 @@
 
 @import '../../../shared/ui-vars';
 
-div.slider {
+.slider {
     box-sizing: border-box;
     height: 100%;
     width: 100%;
@@ -25,7 +25,7 @@ div.slider {
     width:100%;
 }
 
-.bar{
+.bar {
     background-color: $black-hover;
     border-radius: .5em;
     cursor: pointer;
@@ -36,7 +36,7 @@ div.slider {
     width: 100%;
 }
 
-.knob-container{
+.knob-container {
     height: 0;
     position: absolute;
     top: 50%;
@@ -49,14 +49,14 @@ div.slider {
         height: 2em;
         left: 0;
         position: absolute;
-        width: 2em;
         top: 0;
         touch-action: pan-y;
         transform: translate(-50%, -50%);
+        width: 2em;
     }
 }
 
-.progress{
+.progress {
     background-color: $blue;
     border-radius: .5em;
     height: 100%;
@@ -69,16 +69,16 @@ div.slider {
 .vertical {
     height: 100%;
     padding: 1.5em 1em;
-    width: auto;
     touch-action: pan-x;
+    width: auto;
 
-    .bar{
+    .bar {
         height: 100%;
         min-height: 1em;
         touch-action: pan-x;
         width: 1em;
 
-        .knob-container{
+        .knob-container {
             left: 50%;
             top: auto;
 
@@ -87,11 +87,11 @@ div.slider {
             }
         }
 
-        .progress{
+        .progress {
             bottom: 0;
             top: auto;
             touch-action: pan-x;
-            width:100%;
+            width: 100%;
         }
     }
 }

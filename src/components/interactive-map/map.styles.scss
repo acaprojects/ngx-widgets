@@ -12,8 +12,8 @@
     cursor: pointer;
     height: 100%;
     position: relative;
-    width: 100%;
     user-select: none;
+    width: 100%;
 }
 
 .map {
@@ -60,8 +60,8 @@
         border-radius: 4px;
         box-shadow: 0 .1em .2em .1em $black-light;
         left: 50%;
-        position: absolute;
         padding: .5em;
+        position: absolute;
         top: 0;
         transform: translate(-50%, -120%);
         width: auto;

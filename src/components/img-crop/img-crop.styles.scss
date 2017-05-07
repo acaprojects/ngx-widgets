@@ -7,7 +7,7 @@
 //
 @import '../../shared/ui-vars';
 
-div.img-crop {
+.img-crop {
     font-size: 16px;
     padding: .5em;
     position: relative;
@@ -27,8 +27,8 @@ div.img-crop {
         box-shadow: 0 0 1px 1px $black-hover;
         color: $black;
         padding: .5em 1em;
-        white-space: nowrap;
         top: 15%;
+        white-space: nowrap;
     }
 }
 
@@ -54,8 +54,8 @@ div.img-crop {
     border-radius: .2em;
     display: inline-block;
     height: 300px;
-    max-width: 99vmin;
     max-height: 99vmin;
+    max-width: 99vmin;
     overflow: hidden;
     position: relative;
     width: 300px;

@@ -8,10 +8,10 @@
 .dropdown {
     border-radius: .1em;
     font-size: 1em;
-    position: relative;
     margin: .5em;
     min-width: 12em;
     min-height: 2em;
+    position: relative;
     text-align: center;
     // z-index: 100;
 }
@@ -64,7 +64,10 @@
         }
 
         &.active {
-
+            background-color: $white;
+            border-bottom: 1px solid $black-light;
+            color: $black;
+            cursor: default;
         }
     }
 
@@ -75,13 +78,4 @@
         overflow: hidden;
     }
 
-    .item {
-
-        &.active {
-            background-color: $white;
-            border-bottom: 1px solid $black-light;
-            color: $black;
-            cursor: default;
-        }
-    }
 }

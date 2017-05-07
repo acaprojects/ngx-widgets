@@ -1,13 +1,13 @@
-/*
- * @Author: Alex Sorafumo
- * @Date:   2017-03-21 15:12:59
- * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-06 11:05:48
- */
+//
+// @Author: Alex Sorafumo
+// @Date:   2017-03-21 15:12:59
+// @Last Modified by:   Alex Sorafumo
+// @Last Modified time: 2017-05-06 11:05:48
+//
 
 @import '../../../../shared/ui-vars';
 
-div.tab-head {
+.tab-head {
     border-radius: .15em .15em 0 0;
     bottom: 0;
     margin-bottom: -1px;
@@ -38,7 +38,7 @@ div.tab-head {
         }
     }
 
-    &:hover{
+    &:hover {
         color: $black-hover;
     }
 }

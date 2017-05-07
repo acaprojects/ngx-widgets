@@ -2,7 +2,7 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-08 11:23:08
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-04 12:59:51
+ * @Last Modified time: 2017-05-07 11:54:38
  */
 
 import { Observable } from 'rxjs/Observable';
@@ -50,10 +50,11 @@ export class WIDGETS {
     public static log(type: string, msg: string, args?: any, out: string = 'debug', color?: string) {
         if (WIDGETS.data && WIDGETS.data.debug) {
             const clr = color ? color : '#009688';
+            const COLOURS = ['color: #673ab7', `color:${clr}`, 'color:rgba(0,0,0,0.87)'];
             if (args) {
-                console[out](`%c[WIDGETS]%c[${type}] %c${msg}`, 'color: #0288D1', `color:${clr}`, 'color:rgba(0,0,0,0.87)', args);
+                console[out](`%c[WIDGETS]%c[${type}] %c${msg}`, ...COLOURS, args);
             } else {
-                console[out](`%c[WIDGETS]%c[${type}] %c${msg}`, 'color:#0288D1', `color:${clr}`, 'color:rgba(0,0,0,0.87)');
+                console[out](`%c[WIDGETS]%c[${type}] %c${msg}`, ...COLOURS);
             }
         }
     }
@@ -63,7 +64,8 @@ export class WIDGETS {
     }
 
     public static version(version: string, build: string, out: any = 'debug') {
-        console[out](`%c[ACA][LIBRARY] %cWidgets - Version: ${version} | Build: ${build}`, 'color: #F44336', 'color: rgba(0,0,0,0.87)');
+        const COLOURS = ['color: #F44336', 'color:rgba(0,0,0,0.87)'];
+        console[out](`%c[ACA][LIBRARY] %cWidgets - Version: ${version} | Build: ${build}`, ...COLOURS);
     }
 
     private static var_list: string[] = ['debug'];

@@ -28,8 +28,8 @@
 }
 
 .header {
-    border-bottom: .5em solid $black-light;
     background-color: $black-hover;
+    border-bottom: .5em solid $black-light;
     color: $white;
     display: flex;
     font-size: 1.2em;
@@ -89,7 +89,7 @@
     .weekday {
         width: 3.65em;
 
-        &.even{
+        &.even {
             font-weight: bold;
         }
     }
@@ -117,8 +117,8 @@
     flex-grow: 0;
     height: 2.7em;
     margin: .1em;
-    position: relative;
     padding: 1 .5em;
+    position: relative;
     width: 3.55em;
 
     .date {

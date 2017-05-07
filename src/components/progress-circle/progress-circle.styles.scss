@@ -1,9 +1,9 @@
-/*
- * @Author: Alex Sorafumo
- * @Date:   2017-03-29 09:30:47
- * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-06 10:50:07
- */
+//
+// @Author: Alex Sorafumo
+// @Date:   2017-03-29 09:30:47
+// @Last Modified by:   Alex Sorafumo
+// @Last Modified time: 2017-05-06 10:50:07
+//
 
 @import '../../shared/ui-vars';
 
@@ -13,7 +13,7 @@ $circle-size: 10;
 $transition-length: 1s;
 $increment: 180deg / 1000;
 
-div.radial-progress {
+.radial-progress {
     background-color: $circle-background;
     border-radius: 50%;
     height: $circle-size;
@@ -23,13 +23,15 @@ div.radial-progress {
 }
 
 .circle {
-    .fill, .mask {
+
+    .fill,
+    .mask {
+        -webkit-backface-visibility: hidden;
         border-radius: 50%;
         height: $circle-size;
         position: absolute;
         transition: transform $transition-length;
         width: $circle-size;
-        -webkit-backface-visibility: hidden;
     }
 
     .fill {
@@ -37,11 +39,12 @@ div.radial-progress {
     }
 
     .mask {
-          background-color: $circle-background;
+        background-color: $circle-background;
     }
 
     .mask.half {
         clip: rect(0, $circle-size, $circle-size, $circle-size/2);
+
         .fill {
             clip: rect(0, $circle-size, $circle-size, 0);
         }
@@ -49,6 +52,7 @@ div.radial-progress {
 
     .mask.full {
         clip: rect(0, $circle-size/2, $circle-size, 0);
+
         .fill {
             clip: rect(0, $circle-size, $circle-size, $circle-size/2);
         }

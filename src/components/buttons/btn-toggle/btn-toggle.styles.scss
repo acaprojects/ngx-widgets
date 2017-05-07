@@ -1,13 +1,11 @@
-/* @Author: Alex Sorafumo
- * @Date:   21/09/2016 1:10 PM
- * @Email:  alex@yuion.net
- * @Filename: btn-toggle.styles.scss
- * @Last modified by:   alex.sorafumo
- * @Last modified time: 06/01/2017 4:43 PM
- */
+// @Author: Alex Sorafumo
+// @Date:   21/09/2016 1:10 PM
+// @Email:  alex@yuion.net
+// @Filename: btn-toggle.styles.scss
+// @Last modified by:   alex.sorafumo
+// @Last modified time: 06/01/2017 4:43 PM
 
 @import '../../../shared/ui-vars';
-
 
 .default {
     font-family: Roboto;
@@ -22,11 +20,11 @@
 
 button {
     background-color: $white;
-    border-radius: 0.1em;
-    box-shadow: 0 0.1em 0.2em 0.1em $black-light;
+    border-radius: .1em;
+    box-shadow: 0 .1em .2em .1em $black-light;
     cursor: pointer;
     display: inline-block;
-    min-width: 3.0em;
+    min-width: 3em;
     overflow: hidden;
     padding: .5em .25em;
     position: relative;
@@ -51,7 +49,7 @@ button {
         border-radius: 100%;
         height: 3em;
         padding: 0;
-        width: 3em;
+        width: 3em;å
     }
 
     &.raised-3d {
@@ -63,7 +61,7 @@ button {
     }
 }
 
-.circle{
+.circle {
     background-color: $black;
     border-radius: 100%;
     position: absolute;
