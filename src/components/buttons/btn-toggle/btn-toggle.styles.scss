@@ -1,11 +1,14 @@
+
 // @Author: Alex Sorafumo
 // @Date:   21/09/2016 1:10 PM
 // @Email:  alex@yuion.net
-// @Filename: btn-toggle.styles.scss
+// @Filename: btn.styles.scss
 // @Last modified by:   alex.sorafumo
 // @Last modified time: 06/01/2017 4:43 PM
+//
 
 @import '../../../shared/ui-vars';
+
 
 .default {
     font-family: Roboto;
@@ -18,42 +21,48 @@
     transform: translate(-50%, -50%);
 }
 
+.btn {
+    display: inline-block;
+}
+
 button {
     background-color: $white;
+    border: none;
     border-radius: .1em;
     box-shadow: 0 .1em .2em .1em $black-light;
     cursor: pointer;
     display: inline-block;
+    font-size: 1.0em;
+    margin: 0.2em 0.3em;
     min-width: 3em;
+    outline: none;
     overflow: hidden;
-    padding: .5em .25em;
+    padding: .5em .75em;
     position: relative;
     text-align: center;
     user-select: none;
 
+    &.raised {
+        min-width: 6.0em;
+    }
+
     &.disabled {
-        background-color: $black-hover;
-        color: $black-hover;
+        background-color: $black-light;
+        color: $black-light;
         cursor: not-allowed;
     }
 
-    &.action {
-        border-radius: 100%;
-        height: 4em;
-        min-width: 4em;
-        padding: 0;
-        width: 4em;
-    }
-
+    &.action,
     &.mini-action {
         border-radius: 100%;
+        font-size: 1.0em;
         height: 3em;
         padding: 0;
         width: 3em;
     }
 
-    &.raised-3d {
-
+    &.mini-action {
+        font-size: 0.8em;
     }
 
     &.flat {
@@ -64,10 +73,10 @@ button {
 .circle {
     background-color: $black;
     border-radius: 100%;
-    position: absolute;
     height: 4em;
     left: 50%;
     opacity: 0;
+    position: absolute;
     top: 50%;
     transform: translate(-50%, -50%) scale(0);
     width: 4em;

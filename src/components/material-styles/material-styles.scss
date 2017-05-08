@@ -154,7 +154,7 @@ $colors: (
     }
 }
 
-@each $name, $colour in ('white':#fff, 'black':#000) {
+@each $name, $color in ('white':#fff, 'black':#000) {
 
     &.bg-#{$name} { background-color: $color; }
 

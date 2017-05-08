@@ -21,38 +21,48 @@
     transform: translate(-50%, -50%);
 }
 
+.btn {
+    display: inline-block;
+}
+
 button {
     background-color: $white;
+    border: none;
     border-radius: .1em;
     box-shadow: 0 .1em .2em .1em $black-light;
     cursor: pointer;
     display: inline-block;
+    font-size: 1.0em;
+    margin: 0.2em 0.3em;
     min-width: 3em;
+    outline: none;
     overflow: hidden;
-    padding: .5em .25em;
+    padding: .5em .75em;
     position: relative;
     text-align: center;
     user-select: none;
 
+    &.raised {
+        min-width: 6.0em;
+    }
+
     &.disabled {
-        background-color: $black-hover;
-        color: $black-hover;
+        background-color: $black-light;
+        color: $black-light;
         cursor: not-allowed;
     }
 
-    &.action {
-        border-radius: 100%;
-        height: 4em;
-        min-width: 4em;
-        padding: 0;
-        width: 4em;
-    }
-
+    &.action,
     &.mini-action {
         border-radius: 100%;
+        font-size: 1.0em;
         height: 3em;
         padding: 0;
         width: 3em;
+    }
+
+    &.mini-action {
+        font-size: 0.8em;
     }
 
     &.flat {

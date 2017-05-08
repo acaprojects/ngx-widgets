@@ -27,28 +27,25 @@
 
 .input-space {
     align-items: center;
+    border-bottom: .1em solid $black-light;
+    color: $black-hover;
     cursor: text;
     display: flex;
     padding: .2em 0 .1em;
     position: relative;
     user-select: none;
 
-    &.light {
-        border-bottom: .1em solid $white-hover;
-        color: $black-hover;
+    &.disabled {
+        border-bottom: .1em dotted $black-light;
+    }
 
-        &.disabled {
-            border-bottom: .1em dotted $white-hover;
-        }
+    &.readonly {
+        border-bottom: .1em dashed $black-light;
+    }
 
-        &.readonly {
-            border-bottom: .1em dashed $white-hover;
-        }
-
-        input {
-            color: $black;
-            width: 100%;
-        }
+    input {
+        color: $black;
+        width: 100%;
     }
 
     &.dark {
@@ -108,6 +105,7 @@
 .info-space {
     font-size: .6em;
     padding: .2em 0;
+    white-space: nowrap;
 
     .message {
         display: inline-block;

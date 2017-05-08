@@ -29,7 +29,7 @@
 
 .header {
     background-color: $black-hover;
-    border-bottom: .5em solid $black-light;
+    border-bottom: .1em solid $black-light;
     color: $white;
     display: flex;
     font-size: 1.2em;
@@ -83,7 +83,6 @@
 .week-days {
     display: flex;
     flex-direction: row;
-    height: 11.111111%;
     padding: 1em 0;
 
     .weekday {
@@ -107,19 +106,18 @@
     }
 }
 
-.week {
+.month-days {
     display: flex;
-    flex-direction: row;
-    height: 11.111111%;
+    flex-wrap: wrap;
 }
 
 .day {
-    flex-grow: 0;
-    height: 2.7em;
+    flex-grow: 1;
+    height: 2.5em;
     margin: .1em;
     padding: 1 .5em;
     position: relative;
-    width: 3.55em;
+    width: 3.25em;
 
     .date {
         left: 50%;
@@ -144,10 +142,11 @@
     }
 
     &.past {
-        background-color: $black-hover;
+        background-color: $black-light;
     }
 
     &.active {
+        background-color: $black-hover;
         color: rgba($white, .8);
     }
 

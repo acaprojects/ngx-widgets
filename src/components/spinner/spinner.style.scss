@@ -22,7 +22,7 @@ $space: .5em;
 
     .plane {
         animation: sk-rotateplane 1.2s infinite ease-in-out;
-        background-color: $white;
+        background-color: $black-hover;
         height: 4em;
         width: 4em;
 
@@ -38,7 +38,7 @@ $space: .5em;
     width: 4em;
 
     .circle {
-        background-color: $white;
+        background-color: $black-hover;
 
         &.one,
         &.two {
@@ -65,14 +65,14 @@ $space: .5em;
 
     .rect {
         animation: sk-stretchdelay 1.3s infinite ease-in-out;
-        background-color: $white;
+        background-color: $black-hover;
         display: inline-block;
         height: 3em;
-        margin-right: 5em;
+        margin-right: .2em;
         width: .5em;
-        @for $i from 0 to 5 {
-            &.state-# {$i + 1} {
-                animation-delay: -1.2s - $i / 10;
+        @for $i from 1 to 6 {
+            &.state-#{$i + 1} {
+                animation-delay: -1.2s + $i / 10;
             }
         }
     }
@@ -84,7 +84,7 @@ $space: .5em;
 
     .cube {
         animation: sk-cubemove 1.8s infinite ease-in-out;
-        background-color: $white;
+        background-color: $black-hover;
         height: 1em;
         left: 0;
         position: absolute;
@@ -103,7 +103,7 @@ $space: .5em;
 
     .circle {
         animation: sk-scaleout 1s infinite ease-in-out;
-        background-color: $white;
+        background-color: $black-hover;
         border-radius: 100%;
         height: 4em;
         width: 4em;
@@ -116,8 +116,8 @@ $space: .5em;
 
     .circle {
         animation: sk-scaleout 1s infinite ease-in-out;
-        border: .5em solid $white;
-        border-color: $white;
+        border: .5em solid $black-hover;
+        border-color: $black-hover;
         border-radius: 100%;
         height: 4em;
         width: 4em;
@@ -130,9 +130,9 @@ $space: .5em;
     width: 4em;
 
     .circle {
-        border-bottom: .2em solid $white;
-        border-color: $white;
-        border-left: .2em solid $white;
+        border-bottom: .2em solid $black-hover;
+        border-color: $black-hover;
+        border-left: .2em solid $black-hover;
         border-radius: 100%;
         height: 4em;
         left: 50%;
@@ -140,7 +140,7 @@ $space: .5em;
         top: 50%;
         width: 4em;
         @for $i from 1 to 4 {
-            &.state-# {$i} {
+            &.state-#{$i} {
                 animation: sk-rotate 1s infinite ease-in-out;
                 animation-delay: -1s * $i / 4;
                 height: 5em - $i;
@@ -156,8 +156,8 @@ $space: .5em;
 
     .circle {
         animation: sk-scaleout-in 2s infinite ease-in-out;
-        border: .5em solid $white;
-        border-color: $white;
+        border: .5em solid $black-hover;
+        border-color: $black-hover;
         border-radius: 100%;
         height: 4em;
         left: 0;
@@ -179,19 +179,19 @@ $space: .5em;
 
     .circle {
         animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-        background-color: $white;
+        background-color: $black-hover;
         border-radius: 100%;
         display: inline-block;
         height: 1.8em;
         margin-right: .25em;
         width: 1.8em;
 
-        &.one {
-            animation-delay: -.32s;
+        &.state-1 {
+            animation-delay: -320ms;
         }
 
-        &.two {
-            animation-delay: -.16s;
+        &.state-2 {
+            animation-delay: -160ms;
         }
     }
 }
@@ -210,7 +210,7 @@ $space: .5em;
 
         .inner {
             animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
-            background-color: $black;
+            background-color: $black-hover;
             border-radius: 100%;
             content: '';
             display: block;
@@ -220,9 +220,9 @@ $space: .5em;
         }
     }
 
-    @for $i from 1 to 11 {
-        &.state-# {$i} {
-            tranform: rotate(30deg * $i);
+    @for $i from 1 to 12 {
+        .dot.state-#{$i} {
+            transform: rotate(30deg * $i);
 
             .inner {
                 animation-delay: -$i * 100ms;
@@ -233,7 +233,7 @@ $space: .5em;
 
 .dot-circle-scale {
     @for $i from 1 to 12 {
-        &.dot-circle .state-# {$i} {
+        .dot.state-#{$i} {
             transform: rotate(30deg * $i);
 
             .inner {
@@ -249,7 +249,7 @@ $space: .5em;
 
     .cube {
         animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
-        background-color: $black;
+        background-color: $black-hover;
         float: left;
         height: 33%;
         width: 33%;

@@ -24,7 +24,7 @@ $dim: 2em;
     user-select: none;
 }
 
-&[override] .disabled {
+[override] .disabled {
 
     .text-toggle {
         background-color: $black-light;

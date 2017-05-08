@@ -8,6 +8,7 @@
  */
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, NgZone, ChangeDetectorRef } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 
 import * as moment from 'moment';
@@ -18,6 +19,7 @@ const PLACEHOLDER = '-';
     selector: 'calendar',
     styleUrls: [ './calendar.style.css' ],
     templateUrl: './calendar.template.html',
+    // changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [],
 })
 export class Calendar {
@@ -45,11 +47,12 @@ export class Calendar {
     public days: any[] = [];
     public months: any[] = [];
 
-    constructor() {
+    constructor(private cdr: ChangeDetectorRef, private zone: NgZone) {
         this.setDate(new Date());
     }
 
     public ngOnInit() {
+        this.generateMonth();
         if (this.futureOnly && (this.minDate === null || this.minDate === undefined)) {
             this.minDate = new Date();
         }
@@ -72,12 +75,18 @@ export class Calendar {
             }
         }
     }
+
+    public change() {
+        this.zone.run(() => {
+            this.cdr.markForCheck();
+        });
+    }
     /**
      * Sets the date to the given date and updates the display
      * @param  {Date}   date Date to set
      * @return {void}
      */
-    public setDate(date: Date) {
+    public setDate(date: Date, emit?: boolean) {
         if (!(date instanceof Date)) {
             date = new Date();
         }
@@ -86,58 +95,56 @@ export class Calendar {
         new_date.minute(0);
         new_date.second(0);
         this.model = new_date.toDate();
-        this.modelChange.emit(this.model);
-        this.generateMonth();
+        if (emit) {
+            this.modelChange.emit(this.model);
+            this.generateMonth();
+        }
     }
     /**
      * Check if given day is in the past
      * @param  {number} day [description]
      * @return {boolean} Returns if the given day is in the past
      */
-    public isPast(day: number) {
-        const date = moment();
-        date.add(this.month, 'months');
-        date.date(day);
-        return date.isSameOrAfter(moment());
+    public isPast(day: string) {
+        const date = moment(day);
+        return moment().format('YYYY-MM-DD').localeCompare(date.format('YYYY-MM-DD')) > 0;
     }
     /**
      * Check if given day is after the mininum allowed date
      * @param  {number} day Day of month to check
      * @return {boolean} Returns if the given day is before the set minimum date
      */
-    public isBeforeMinDate(day: number) {
+    public isBeforeMinDate(day: string) {
         if (this.minDate === null) {
             return false;
         }
         const min = moment(this.minDate);
-        const date = moment();
-        date.add(this.month, 'months');
-        date.date(day);
-        return date.isBefore(min, 'day');
+        const date = moment(day);
+        return min.format('YYYY-MM-DD').localeCompare(date.format('YYYY-MM-DD')) > 0;
     }
     /**
      * Checks if given date is Today
      * @param  {number} day Day of the month to check
      * @return {boolean} Returns if day is today
      */
-    public isToday(day: number) {
+    public isToday(day: string) {
         const now = moment();
-        const date = moment();
-        date.add(this.month, 'months');
-        date.date(day);
-        return date.isSame(now, 'day');
+        const date = moment(day);
+        return now.format('YYYY-MM-DD') === date.format('YYYY-MM-DD');
     }
     /**
      * Check if the given date is the selected one
      * @param  {number} day Day of the month to check
      * @return {boolean} Returns if day is selected
      */
-    public isActive(day: number) {
+    public isActive(day: string) {
         const now = moment(this.model);
-        const date = moment();
-        date.add(this.month, 'months');
-        date.date(day);
-        return date.isSame(now, 'day');
+        const date = moment(day);
+        return now.format('YYYY-MM-DD') === date.format('YYYY-MM-DD');
+    }
+
+    public isValid(day: string) {
+        return !this.isBeforeMinDate(day) && !this.isPast(day);
     }
     /**
      * Changes calendar display to the next month
@@ -165,17 +172,17 @@ export class Calendar {
      * @param  {number} day  Day of the week
      * @return {boolean} Returns whether or not the date is valid to select
      */
-    public selectDate(date: number) {
-        if (!this.month_node[date].valid) {
+    public selectDate(date: any) {
+        if (!date.valid) {
             return false;
         }
         const new_date = moment();
         new_date.add(this.month, 'months');
-        new_date.date(date);
-        if (this.isBeforeMinDate(+date)) {
+        new_date.date(date.date);
+        if (this.isBeforeMinDate(new_date.format('YYYY-MM-DD'))) {
             return false;
         }
-        this.setDate(new_date.toDate());
+        this.setDate(new_date.toDate(), true);
         return true;
     }
     /**
@@ -200,17 +207,20 @@ export class Calendar {
             this.month_node.push({
                 date: i + 1,
                 current: false,
-                events: [],
             });
         }
+        now.add(1, 'months');
             // Generate current month's data
         for (let i = 0; i < length; i++) {
             const today = this.month === 0 && i + 1 === current_day;
             now.date(i + 1);
+            const date_moment = now.format('YYYY-MM') + '-' + (i + 1).toString();
             this.month_node.push({
                 date: i + 1,
                 current: true,
-                today,
+                today: this.isToday(date_moment),
+                active: this.isActive(date_moment),
+                valid: this.isValid(date_moment),
             });
         }
             // Generate next month's data
@@ -218,7 +228,6 @@ export class Calendar {
             this.month_node.push({
                 date: i + 1,
                 current: false,
-                events: [],
             });
         }
     }

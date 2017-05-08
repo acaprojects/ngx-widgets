@@ -20,9 +20,9 @@
              // state('hide',   style({'transform':'translate(-50%, -50%) scale(0)', opacity: 0})),
              transition('void => *', animate('50ms ease-out')),
              transition('* => *', animate('0.5s ease-out', keyframes([
-                     style({transform: 'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0}),
-                     style({transform: 'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0}),
-                 ]))),
+                                                                     style({transform: 'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0}),
+                                                                     style({transform: 'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0}),
+                                                                     ]))),
              ]),
      ],
  })
@@ -41,7 +41,9 @@
      @Output() public tapped = new EventEmitter();
      @Output() public modelChange = new EventEmitter();
 
+     public action_btn: boolean = false;
      public btn_class = `aca btn`;
+     public click_state: string = 'show';
      public hover: boolean = false;
      public active: boolean = false;
 
@@ -49,8 +51,6 @@
      @ViewChild('btnContainer') private container: ElementRef;
      @ViewChild('btn') private button: ElementRef;
 
-     private click_state: string = 'show';
-     private action_btn: boolean = false;
      private last_styles: string = '';
      private base_class: string = 'aca btn';
 
@@ -133,17 +133,21 @@
      }
 
      private updateClasses() {
-         setTimeout(() => {
-             if (this.cssClass && this.cssClass !== '') {
-                 const el_class = `${this.base_class}`;
-             } else {
-                 const el_class_c_p = `color bg-${this.color}-${this.primary} font-white`;
-                 const el_class_c_s = `color bg-${this.color}-${this.secondary} font-white`;
-                 const el_class_step = `step-${this.active ? 'two' : 'one'}`;
-                 const el_class_color = this.hover ? el_class_c_s : el_class_c_p ;
-                 this.btn_class = `${this.base_class} ${this.model ? el_class_color : ''} ${el_class_step}`;
-             }
-         }, 10);
+         if (this.disabled) {
+             return;
+         }
+
+         if (this.cssClass && this.cssClass !== '') {
+             const el_class = `${this.base_class} ${this.btnType}`;
+             this.btn_class = el_class;
+         } else {
+             const el_class_c_p = `color bg-${this.color}-${this.primary} font-white`;
+             const el_class_c_s = `color bg-${this.color}-${this.secondary} font-white`;
+             const el_class_step = this.btnType === 'flat' ? `` : `step-${this.active ? 'two' : 'one'}`;
+             const el_class_color = this.hover ? el_class_c_s : el_class_c_p ;
+             const base = `${this.base_class} ${this.btnType}`;
+             this.btn_class = `${base} ${this.disabled || !this.model ? '' : el_class_color} ${el_class_step}`;
+         }
      }
 
  }

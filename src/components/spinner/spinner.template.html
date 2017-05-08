@@ -8,7 +8,7 @@
 -->
 
 <div [class]="'aca spinner ' + cssClass + ' ' + type">
-    <div [class]="'spin' + id">
+    <div class="spin">
         <div *ngIf="type=='plane'" class="plane">
             <div class="box" [style.background-color]="color"></div>
         </div>
@@ -32,7 +32,7 @@
             <div class="circle two" [style.background-color]="color"></div>
         </div>
         <div *ngIf="type=='bars'" class="bars">
-            <div [class]="'rect state-'+i" *ngFor="let i of [1,2,3,4,5,6]" >
+            <div [class]="'rect state-'+i" *ngFor="let i of [1,2,3,4,5,6]" [style.background-color]="color" >
                 <div class="inner" [style.background-color]="color"></div>
             </div>
         </div>
@@ -51,12 +51,12 @@
             </div>
         </div>
         <div *ngIf="type=='dot-circle'" class="dot-circle">
-            <div [class]="'dot state-'+i" *ngFor="let i of [1,2,3,4,5,6,7,8,9.10,11,12]" >
+            <div [class]="'dot state-'+i" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" >
                 <div class="inner" [style.background-color]="color"></div>
             </div>
         </div>
         <div *ngIf="type=='dot-circle-scale'" class="dot-circle">
-            <div [class]="'dot state-'+i" *ngFor="let i of [1,2,3,4,5,6,7,8,9.10,11,12]" >
+            <div [class]="'dot state-'+i" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" >
                 <div class="inner" [style.background-color]="color"></div>
             </div>
         </div>

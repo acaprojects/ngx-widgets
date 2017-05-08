@@ -146,7 +146,15 @@ export class DataInput {
      * Focuses on the input field if the field is not disabled or readonly
      * @return {void}
      */
-    public focusInput() {
+    public focusInput(e: any) {
+        if (e && !this.focus) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+        }
         if (this.input && !this.disabled && !this.readonly) {
             this.renderer.invokeElementMethod(this.input.nativeElement, 'focus', []);
             if (this.focus_timer) {
@@ -245,7 +253,7 @@ export class DataInput {
      * Checks the validity of the input field content based of the set type
      * @return {void}
      */
-    private validateInput() {
+    public validateInput() {
         if (this.no_validate) {
             this.no_validate = false;
             return;
@@ -365,19 +373,25 @@ export class DataInput {
      * @return {void}
      */
     private validateNumber() {
+        console.log(this.display_text);
         if (!this.display_text || this.display_text === '') {
             return '';
         }
         const valid_numbers = this.numbers + '.';
-        this.display_text = (this.display_text[0] === '-' ? '-' : '');
-        this.display_text += this.removeInvalidChars(this.display_text, this.decimals ? valid_numbers : this.numbers);
+        const negative = (this.display_text[0] === '-' ? '-' : '');
+        console.log(this.decimals ? valid_numbers : this.numbers);
+        this.display_text = this.removeInvalidChars(this.display_text, this.decimals ? valid_numbers : this.numbers);
+        this.display_text = negative + this.display_text;
+        console.log(this.display_text);
         const decimal = this.display_text[this.display_text.length - 1] === '.';
         let num: number = +(this.display_text);
         if (isNaN(num)) {
+            console.log('NaN');
             this.error = true;
             this.info_display = 'Not a valid number';
             this.errorChange.emit(true);
         } else if (this.min && num < this.min) {
+            console.log('Out of range(Min)');
             this.error = true;
             this.info_display = 'Too small(<' + this.min + ')';
             this.errorChange.emit(true);
@@ -385,6 +399,7 @@ export class DataInput {
                 num = this.min;
             }
         } else if (this.max && num > this.max) {
+            console.log('Out of range(Max)');
             this.error = true;
             this.info_display = 'Too big(>' + this.max + ')';
             this.errorChange.emit(true);

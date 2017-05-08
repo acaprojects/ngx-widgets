@@ -16,28 +16,28 @@
     width: 100%;
 }
 
-.map {
+.map-contents {
+    backface-visibility: hidden;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    touch-action: pan;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 500ms;
+}
 
-    &-contents {
-        backface-visibility: hidden;
-        height: 100%;
-        overflow: hidden;
-        position: relative;
-        touch-action: pan;
-        width: 100%;
-    }
-
-    &-area {
-        left: 50%;
-        margin: auto;
-        min-height: 100%;
-        min-width: 100%;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%) scale(1);
-        will-change: width, height, top, left;
-        z-index: 10;
-    }
+.map-area {
+    left: 50%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    transition: all 200ms;
+    will-change: width, height, top, left;
+    z-index: 10;
 }
 
 .pins {
