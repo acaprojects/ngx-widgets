@@ -16,7 +16,7 @@
         (panend)="moveEnd($event)"
         (tap)="tapMap($event)">
 
-        <div #mapdisplay class="map-area" [style.transform]="'translate(-50%, -50%) scale('+(100+_zoom)/100+')'"></div>
+        <div #mapdisplay class="map-area" [style.transform]="transform"></div>
         <map-marker-group [markers]="marker_list" [rotate]="rotations" [radius]="6*((100+_zoom)/100)/map_scale" [disable]="false" [map]="map_details" [reset]="reset_markers"></map-marker-group>
     </div>
     <div *ngIf="loading && map !== ''" class="map-loading-space">

@@ -82,6 +82,7 @@ export class Dropdown {
     }
 
     public checkTap(e: any) {
+        console.log('Check tap');
         if (e) {
             const bb = this.list.nativeElement.getBoundingClientRect();
             const c = e.center;

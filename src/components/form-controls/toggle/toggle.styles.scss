@@ -53,6 +53,7 @@ $dim: 2em;
     color: $white;
     cursor: pointer;
     height: $dim;
+    overflow: hidden;
     position: relative;
     width: $dim * 3;
 
@@ -96,6 +97,7 @@ $dim: 2em;
     cursor: pointer;
     height: $dim;
     width: $dim;
+    overflow: hidden;
 
     .toggle-img {
         max-height: 100%;
@@ -106,6 +108,7 @@ $dim: 2em;
 .icon-toggle {
     cursor: pointer;
     height: $dim;
+    overflow: hidden;
     position: relative;
     width: $dim;
 
@@ -165,6 +168,7 @@ $dim: 2em;
     cursor: pointer;
     height: $dim / 2;
     margin: 1em;
+    overflow: hidden;
     position: relative;
     width: $dim * 1.5;
 

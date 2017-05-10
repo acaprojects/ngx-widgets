@@ -22,10 +22,10 @@
     padding: .5em 1em;
 
     &.inactive {
-        background-color: $black-light;
+        background-color: $white;
 
         &:hover {
-            background-color: $black-hover;
+            background-color: $black-light;
         }
     }
 

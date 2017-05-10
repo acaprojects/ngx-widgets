@@ -19,7 +19,7 @@ const PLACEHOLDER = '-';
     selector: 'calendar',
     styleUrls: [ './calendar.style.css' ],
     templateUrl: './calendar.template.html',
-    // changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [],
 })
 export class Calendar {

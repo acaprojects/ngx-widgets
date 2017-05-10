@@ -8,12 +8,14 @@
  */
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
 
 @Component({
     selector: 'toggle',
     templateUrl: './toggle.template.html',
     styleUrls: [ './toggle.styles.css' ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         trigger('toggleBg', [
             state('on', style({ 'background-color': '#23CE6B' })),
@@ -94,7 +96,7 @@ export class Toggle {
         this.state = this._state;
         setTimeout(() => {
             this.stateChange.emit(this._state);
-        }, 200);
+        }, 50);
     }
     /**
      * Sets the toggle knob

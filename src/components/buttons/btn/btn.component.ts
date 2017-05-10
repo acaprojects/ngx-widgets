@@ -8,6 +8,7 @@
  */
 
  import { Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild } from '@angular/core';
+ import { ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
  import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
  import { Observable } from 'rxjs/Rx';
 
@@ -15,15 +16,16 @@
      selector: 'btn',
      styleUrls: [ './btn.styles.css', '../../material-styles/material-styles.css' ],
      templateUrl: './btn.template.html',
+     changeDetection: ChangeDetectionStrategy.OnPush,
      animations : [
-     trigger('clickResp', [
+         trigger('clickResp', [
              // state('hide',   style({'transform':'translate(-50%, -50%) scale(0)', opacity: 0})),
              transition('void => *', animate('50ms ease-out')),
              transition('* => *', animate('0.5s ease-out', keyframes([
-                                                                     style({transform: 'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0}),
-                                                                     style({transform: 'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0}),
-                                                                     ]))),
-             ]),
+                     style({transform: 'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0}),
+                     style({transform: 'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0}),
+             ]))),
+         ]),
      ],
  })
  export class Button {

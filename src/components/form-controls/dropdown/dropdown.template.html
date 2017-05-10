@@ -29,9 +29,9 @@
         </div>
         <div hidden *ngIf="shown" (window:tap)="checkTap($event)"></div>
         <div class="items">
-            <div *ngFor="let item of display_items; let i = index " (tap)="select(i)">
+            <div *ngFor="let item of display_items; let i = index ">
                 <div class="item" *ngIf="item!==current_item">
-                    <div *ngIf="type==='object'">
+                    <div *ngIf="type==='object'" (tap)="select(i)">
                         <span *ngFor="let f of fields; let k = index " class="field" [id]="'dropdown-item'+i+'-field'+k">{{item[f]}}</span>
                     </div>
                     <div class="field" *ngIf="type!=='object'">{{item}}</div>
