@@ -168,9 +168,9 @@ $dim: 2em;
     cursor: pointer;
     height: $dim / 2;
     margin: 1em;
-    overflow: hidden;
     position: relative;
     width: $dim * 1.5;
+    transition: background-color 200ms;
 
     .toggle-knob {
         background-color: $white;
@@ -183,6 +183,7 @@ $dim: 2em;
         top: 50%;
         transform: translate(-50%, -50%);
         width: $dim;
+        transition: left 200ms, right 200ms;
     }
 
     &.active {

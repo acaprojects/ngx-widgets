@@ -24,7 +24,7 @@
      selector: 'interactive-map',
      templateUrl: './map.template.html',
      styleUrls: [ './map.styles.css' ],
-     changeDetection: ChangeDetectionStrategy.OnPush,
+     // changeDetection: ChangeDetectionStrategy.OnPush,
  })
  export class InteractiveMap {
      @Input() public map: string;
@@ -47,7 +47,6 @@
      @Output() public mapUpdated = new EventEmitter();
 
      public loading = true;
-     public zoom_state: string = '100w';
      public map_details: any = {
          pos: { x: 0, y: 0 },
          dim: { x: 100, y: 100 },
@@ -168,9 +167,7 @@
      }
 
      public change() {
-         this.zone.run(() => {
-             this.cdr.markForCheck();
-         });
+         this.cdr.markForCheck();
      }
 
      public refresh() {
@@ -282,7 +279,9 @@
                  }
                  const posX = ratio.x * dim.x;
                  const posY = ratio.y * dim.y;
-                 WIDGETS.log('MAP(C)', `Tapped: ${left.toFixed(2)}, ${top.toFixed(2)}(${posX.toFixed(0)}, ${posY.toFixed(0)})`);
+                 const real_pos = `${left.toFixed(2)}, ${top.toFixed(2)}`;
+                 const map_pos = `${posX.toFixed(0)}, ${posY.toFixed(0)}`;
+                 WIDGETS.log('MAP(C)', `Tapped: ${real_pos}(${map_pos})`);
              }
          }
          // Get list of element ids that the user has clicked on
@@ -485,6 +484,7 @@
                  }
              }
          }
+         this.change();
      }
     /**
      * Removes all the pins from the map
@@ -531,21 +531,21 @@
      * @return {void}
      */
      private initPins() {
+         const markers = JSON.parse(JSON.stringify(this.marker_list));
          for (let i = 0; i < this.pins.length; i++) {
-             if (i < this.marker_list.length && this.marker_list[i]) {
-                 this.marker_list[i] = JSON.parse(JSON.stringify(this.pins[i]));
+             if (i < markers.length && markers[i]) {
+                 markers[i] = JSON.parse(JSON.stringify(this.pins[i]));
              } else {
-                 this.marker_list.push(JSON.parse(JSON.stringify(this.pins[i])));
+                 markers.push(JSON.parse(JSON.stringify(this.pins[i])));
              }
-             if (this.marker_list[i].id && this.marker_list[i].id !== '') {
-                 this.marker_list[i].el = () => {
-                     return this.getElement(this.marker_list[i].id);
+             if (markers[i].id && markers[i].id !== '') {
+                 markers[i].el = () => {
+                     return this.getElement(markers[i].id);
                  };
              }
          }
-         setTimeout(() => {
-             this.change();
-         }, 100);
+         this.marker_list = markers;
+         this.change();
      }
     /**
      * Gets the element with the given ID from the map
@@ -765,13 +765,14 @@
              this.setupStyles();
              this.setupEvents();
              this.updateFocus();
-             // this.reset_markers = !this.reset_markers;
+             this.marker_list = [];
+             this.initPins();
              setTimeout(() => {
-                 this.refresh();
-                 this.marker_list = [];
-                 this.initPins();
                  this.loading = false;
                  this.mapUpdated.emit();
+                 this.delta = { x: 0.0001, y: 0.0001 };
+                 this.animatePosition();
+                 this.refresh();
                  this.change();
              }, 300);
          }
@@ -805,16 +806,17 @@
              this.checkValues(true);
          }, () => {
              this.animatePosition();
-             this.updateMapDetails();
-             this.change();
+             setTimeout(() => {
+                 this.updateMapDetails();
+             }, 50);
          });
          this.rezoom = this.a.animation(() => {
              this.checkValues(true);
          }, () => {
              this.animateZoom();
-             this.updateBoxes();
-             this.updateMapDetails();
-             this.change();
+             setTimeout(() => {
+                 this.updateBoxes();
+             }, 300);
          });
      }
 
@@ -838,12 +840,11 @@
      }
 
      private animateZoom() {
-         const scale = Math.round((1 / this.map_scale) * 1000) / 10 ;
+         const scale = Math.round((1 / this.map_scale) * 1000) / 1000 ;
          const m_el = this.map_display.nativeElement;
-         const zoom_scale = ((100 + this._zoom) / 100) * (scale < 1 ? scale : 1);
+         const zoom_scale = ((100 + this._zoom) / 100) * (scale);
          const transform = `translate(-50%, -50%) scale(${zoom_scale})`;
          this.renderer.setElementStyle(m_el, 'transform', transform);
-         this.updateMapDetails();
          if (this.isFocus) {
              this.finishFocus();
          }
@@ -917,16 +918,17 @@
              const x = (this.map_box.width - this.content_box.width) / this.map_box.width;
              const y = (this.map_box.height - this.content_box.height) / this.map_box.height;
              if (this.prev_height !== this.map_box.height) {
-                 const mh = this.map_box.height;
-                 const ch = this.content_box.height;
-                 const w_r = this.map_box.width / this.content_box.width;
-                 this.map_scale = Math.round(((mh / w_r) / ch) * 100) / 100;
-                 if (mh / w_r <= ch && this.map_scale < 1) {
+                 const m_s = this.map_box.width / this.map_box.height;
+                 const c_s = this.content_box.width / this.content_box.height;
+                 console.log(m_s, c_s);
+                 this.map_scale = Math.round((c_s / m_s) * 100) / 100;
+                 if (this.map_scale < 1) {
                      this.map_scale = 1;
                  }
                  this.prev_height = this.map_box.height;
                  this.prev_zoom = this._zoom;
              }
+             this.updateMapDetails();
          }
          if (!this.self || !this.map_box || !this.content_box) {
              setTimeout(() => {

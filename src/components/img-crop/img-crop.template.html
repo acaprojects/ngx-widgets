@@ -15,7 +15,7 @@
                  <i class="material-icons">system_update_alt</i>
              </div>
         </div >
-        <img-cropper *ngIf="!saving&&image_data" #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
+        <img-cropper *ngIf="!saving&&image_data&&image_data!==''" #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
         <div class="img-error" *ngIf="error"> File selected is not a valid image file</div>
         <div class="loading img" *ngIf="saving">
             <img [src]="data.image" > <br/>

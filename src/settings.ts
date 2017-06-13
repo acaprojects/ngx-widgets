@@ -2,7 +2,7 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-08 11:23:08
  * @Last Modified by:   Alex Sorafumo
- * @Last Modified time: 2017-05-07 11:54:38
+ * @Last Modified time: 2017-05-12 12:12:29
  */
 
 import { Observable } from 'rxjs/Observable';
@@ -64,8 +64,8 @@ export class WIDGETS {
     }
 
     public static version(version: string, build: string, out: any = 'debug') {
-        const COLOURS = ['color: #F44336', 'color:rgba(0,0,0,0.87)'];
-        console[out](`%c[ACA][LIBRARY] %cWidgets - Version: ${version} | Build: ${build}`, ...COLOURS);
+        const COLOURS = ['color: #f44336', 'color:#9c27b0', 'color:rgba(0,0,0,0.87)'];
+        console[out](`%c[ACA]%c[LIBRARY] %cWidgets - Version: ${version} | Build: ${build}`, ...COLOURS);
     }
 
     private static var_list: string[] = ['debug'];

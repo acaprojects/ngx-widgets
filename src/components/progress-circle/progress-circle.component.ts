@@ -53,7 +53,8 @@ export class ProgressCircleComponent {
             this.renderer.setStyle(this.full.nativeElement, 'transform', `rotate(${180 / 1000 * this.progress}deg)`);
         }
         if (this.mask_full) {
-            const rotate = `rotate(${180 + 180 / 1000 * this.progress}deg)`;
+            const transform = `translate(-50%, -50%)`;
+            const rotate = `${transform} rotate(${180 + 180 / 1000 * this.progress}deg)`;
             this.renderer.setStyle(this.mask_full.nativeElement, 'transform', rotate);
         }
         if (this.fix) {

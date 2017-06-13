@@ -42,15 +42,29 @@ $space: 2.2em;
     max-width: 95vw;
     min-height: 10em;
     position: relative;
-    top: 50%;
+    top: 50vh;
     transform: translate(-50%, -50%) scale(0);
+    transition: transform 200ms;
+    &.show {
+        transform: translate(-50%, -50%) scale(1);
+        @media screen and (max-width: 720px) {
+            transform: scale(1);
+        }
+    }
 
     @media screen and (max-width: 720px) {
         border-radius: 0;
-        height: 101%;
-        max-height: 101vh;
-        max-width: 101vw;
-        width: 101%;
+        height: 101vh !important;
+        width: auto !important;
+        transform: scale(0);
+        top: 0 !important;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+        border-radius: 0;
+        max-width: 101vw !important;
+        max-height: 101vh !important;
     }
 }
 
@@ -79,7 +93,7 @@ $space: 2.2em;
 }
 
 .modal-body {
-    font-size: 1;
+    font-size: 1em;
     overflow: auto;
     z-index: 2010;
 }

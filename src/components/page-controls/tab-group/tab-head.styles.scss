@@ -22,14 +22,14 @@
 
 .default {
     background-color: $black-light;
-    border: 1px solid $black-light;
+    border: 1px solid #ddd;
     border-bottom: none;
     cursor: pointer;
     min-width: 4em;
 
     &.active {
         background-color: $white;
-        border: 1px solid $black-light;
+        border: 1px solid #ddd;
         border-bottom: .1em solid $white;
 
         &:hover {

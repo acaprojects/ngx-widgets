@@ -8,6 +8,7 @@
  */
 
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 const DIM_LIMIT = 20000;
 
@@ -39,16 +40,6 @@ export class MapMarkerGroupComponent {
     private marker_timer: any = null;
     private prev_markers: string = '';
 
-    constructor() {
-        this.marker_timer = setInterval(() => {
-            const markers = JSON.stringify(this.markers);
-            if (this.prev_markers !== markers) {
-                this.prev_markers = markers;
-                this.updateMarkers();
-            }
-        }, 1000);
-    }
-
     public ngOnChanges(changes: any) {
         if (changes.markers) {
             this.setupMarkers();
@@ -70,11 +61,6 @@ export class MapMarkerGroupComponent {
         }
     }
 
-    public ngOnDestroy() {
-        if (this.marker_timer) {
-            clearTimeout(this.marker_timer);
-        }
-    }
     /**
      * Creates the markers to be display
      * @return {void}

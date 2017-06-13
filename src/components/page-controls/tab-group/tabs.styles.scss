@@ -16,7 +16,7 @@
     list-style: none;
     margin-bottom: 0;
     overflow-x: auto;
-    overflow-y: visible;
+    overflow-y: hidden;
     padding: 0 1em;
     padding-top: .5em;
     position: relative;
@@ -25,7 +25,7 @@
     white-space: nowrap;
 
     .border {
-        border-bottom: 1px solid $black-light;
+        border-bottom: 1px solid #ddd;
         bottom: 1px;
         left: 0;
         position: absolute;

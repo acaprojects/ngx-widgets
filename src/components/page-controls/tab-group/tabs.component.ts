@@ -8,7 +8,7 @@
  */
 
 import { Location } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, Output, Renderer } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, Renderer2 } from '@angular/core';
 import { AfterContentInit, ContentChildren, QueryList, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -42,18 +42,21 @@ export class TabGroup implements AfterContentInit  {
     private listeners: any = {};
     private node_list: string[] = [];
     private content_init: boolean = false;
+    private content_timer: any = null;
+    private child_cnt: number = 0;
+    private empty: any = null;
 
     private head_cnt: number = 0;
 
-    constructor(
-            private loc: Location, private route: ActivatedRoute,
-            private _router: Router, private renderer: Renderer
-        ) {
+    constructor(private loc: Location, private route: ActivatedRoute,
+                private _router: Router, private renderer: Renderer2) {
 
         this.route.params.map((params) => params[this.routeParam]).subscribe((params) => {
             this.rvalue = params;
         });
         this.processRoute();
+        this.empty = this.renderer.createElement('div');
+        this.renderer.addClass(this.empty, 'empty');
     }
 
     public ngAfterContentInit() {
@@ -66,6 +69,15 @@ export class TabGroup implements AfterContentInit  {
                 }
             }, 100);
         }
+        if (!this.content_timer) {
+            this.content_timer = setInterval(() => {
+                this.checkChildren();
+            }, 500);
+        }
+    }
+
+    public ngAfterViewInit() {
+        this.renderer.appendChild(this.header.nativeElement, this.empty);
     }
 
     public ngOnChanges(changes: any) {
@@ -215,6 +227,15 @@ export class TabGroup implements AfterContentInit  {
         this.processRoute();
     }
 
+    private checkChildren() {
+        if (this.tabHeaders && this.tabHeaders.length !== this.child_cnt) {
+            if (!this.child_cnt) {
+                this.initElements();
+            }
+            this.child_cnt = this.tabHeaders.length;
+        }
+    }
+
     private initElements() {
             // Setup Tabs Header
         if (!this.state) {
@@ -246,8 +267,7 @@ export class TabGroup implements AfterContentInit  {
         if (!root || !node || this.node_list.indexOf(node.id) >= 0) {
             return;
         }
-
-        this.renderer.projectNodes(root.nativeElement, [node.nativeElement()]);
+        this.renderer.insertBefore(root.nativeElement, node.nativeElement(), this.empty);
         this.listeners[node.id] = node.listen().subscribe((id: string) => {
             this.setActiveTab(id);
         });
@@ -259,8 +279,7 @@ export class TabGroup implements AfterContentInit  {
         if (!root || !node || this.node_list.indexOf(node.id) >= 0) {
             return;
         }
-
-        this.renderer.projectNodes(root.nativeElement, [node.nativeElement()]);
+        this.renderer.appendChild(root.nativeElement, node.nativeElement());
         this.node_list.push(`body-${node.id}`);
     }
 

@@ -7,7 +7,7 @@
  * @Last modified time: 15/12/2016 11:35 AM
  */
 
-import { ElementRef, Input, Renderer } from '@angular/core';
+import { ElementRef, Input, Renderer2 } from '@angular/core';
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { DropService } from '../services';
 
@@ -16,7 +16,7 @@ import { DropService } from '../services';
 })
 export class DropTarget implements OnInit, OnDestroy {
     private static _ref_cnt: number = 0;
-    private static listeners: any = {};
+    private lstn: any = {};
 
     @Input('drop-target') public target: string;     // defaults to self, otherwise you can define a valid querySelector
     @Input() public indicate: string = 'drop-indicate';  // defines the hover class to apply, defaults to: drop-indicate
@@ -25,37 +25,16 @@ export class DropTarget implements OnInit, OnDestroy {
     private _element: any;
     private _unreg: () => void;
 
-    constructor(elementRef: ElementRef, private _dropService: DropService, private renderer: Renderer) {
-        this._element = elementRef.nativeElement;
-        DropTarget._ref_cnt++;
-        if (!DropTarget.listeners.drop) {
-            DropTarget.listeners.drop = this.renderer.listenGlobal('window', 'drop', (e: Event) => {
-                this._dropService.event.drop(e);
-            });
-        }
-        if (!DropTarget.listeners.dragover) {
-            DropTarget.listeners.dragover = this.renderer.listenGlobal('window', 'dragover', (e: Event) => {
-                this._dropService.event.dragover(e);
-            });
-        }
-        if (!DropTarget.listeners.dragenter) {
-            DropTarget.listeners.dragenter = this.renderer.listenGlobal('window', 'dragenter', (e: Event) => {
-                this._dropService.event.drop(e);
-            });
-        }
-        if (!DropTarget.listeners.dragleave) {
-            DropTarget.listeners.dragleave = this.renderer.listenGlobal('window', 'dragleave', (e: Event) => {
-                this._dropService.event.dragleave(e);
-            });
-        }
+    constructor(private el: ElementRef, private _dropService: DropService, private renderer: Renderer2) {
     }
 
     // Register the element you want to recieve drop events
     public ngOnInit() {
+        this._element = this.el.nativeElement;
         if (this.target) {
             this._element = this.renderer.selectRootElement(this.target);
         }
-
+        this.listen();
         this._unreg = this._dropService.register(this.stream, this._element, this._doHighlight.bind(this));
     }
 
@@ -64,7 +43,8 @@ export class DropTarget implements OnInit, OnDestroy {
             if (changes.target && this.target) {
                 // Change the drop target
                 this._unreg();
-                this._element = document.querySelector(this.target);
+                this._element = this.renderer.selectRootElement(this.target);
+                this.listen();
                 this._unreg = this._dropService.register(this.stream, this._element, this._doHighlight.bind(this));
                 this._doHighlight(false);
             }
@@ -88,15 +68,31 @@ export class DropTarget implements OnInit, OnDestroy {
             return;
         }
     }
+    // Sets up  listeners for drop events on the target element
+    private listen() {
+        if (!this._element) {
+            return;
+        }
+        this.lstn.drop = this.renderer.listen(this._element, 'drop', (e: Event) => {
+            this._dropService.event.drop(e);
+        });
+        this.lstn.dragover = this.renderer.listen(this._element, 'dragover', (e: Event) => {
+            this._dropService.event.dragover(e);
+        });
+        this.lstn.dragenter = this.renderer.listen(this._element, 'dragenter', (e: Event) => {
+            this._dropService.event.dragenter(e);
+        });
+        this.lstn.dragleave = this.renderer.listen(this._element, 'dragleave', (e: Event) => {
+            this._dropService.event.dragleave(e);
+        });
+    }
 
     // Applies the hover class to the element
     private _doHighlight(state: boolean) {
         if (state) {
-            this.renderer.setElementClass(this._element, this.indicate, true);
+            this.renderer.addClass(this._element, this.indicate);
         } else {
-            let class_list: string = this._element.class;
-            class_list = class_list.replace(this.indicate, '');
-            this.renderer.setElementClass(this._element, class_list, false);
+            this.renderer.removeClass(this._element, this.indicate);
         }
     }
 }

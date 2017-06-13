@@ -33,7 +33,7 @@
                     <div *ngIf="type==='object'">
                         <span *ngFor="let f of fields; let k = index " class="field" [id]="'dropdown-item'+i+'-field'+k">{{item[f]}}</span>
                     </div>
-                    <div class="field" *ngIf="type!=='object'">{{item}}</div>
+                    <div class="field" *ngIf="type!=='object'" (tap)="select(i)">{{item}}</div>
                 </div>
             </div>
         </div>

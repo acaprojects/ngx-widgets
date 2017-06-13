@@ -18,14 +18,14 @@
      templateUrl: './btn.template.html',
      changeDetection: ChangeDetectionStrategy.OnPush,
      animations : [
-         trigger('clickResp', [
+     trigger('clickResp', [
              // state('hide',   style({'transform':'translate(-50%, -50%) scale(0)', opacity: 0})),
              transition('void => *', animate('50ms ease-out')),
              transition('* => *', animate('0.5s ease-out', keyframes([
-                     style({transform: 'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0}),
-                     style({transform: 'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0}),
-             ]))),
-         ]),
+                                                                     style({transform: 'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0}),
+                                                                     style({transform: 'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0}),
+                                                                     ]))),
+             ]),
      ],
  })
  export class Button {
@@ -71,8 +71,10 @@
      * @return {void}
      */
      public setHover(state: boolean = false) {
-         this.hover = state;
-         this.updateClasses();
+         if (!this.disabled) {
+             this.hover = state;
+             this.updateClasses();
+         }
      }
 
     /**
@@ -80,8 +82,10 @@
      * @return {void}
      */
      public setActive(state: boolean = false) {
-         this.active = state;
-         this.updateClasses();
+         if (!this.disabled) {
+             this.active = state;
+             this.updateClasses();
+         }
      }
 
      public ngOnChanges(changes: any) {

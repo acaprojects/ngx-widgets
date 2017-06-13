@@ -7,6 +7,9 @@
 
 @import '../../shared/ui-vars';
 
+$faded: rgba(0,0,0,0.1);
+$tri-size: 24px;
+
 .tooltip {
     left: 50%;
     position: absolute;
@@ -37,33 +40,31 @@
     width: 1.5em;
 
     .triangle {
-        height: .5em;
-        left: 0;
+        height: $tri-size / 2;
         overflow: hidden;
         position: absolute;
-        width: 1.5em;
+        width: $tri-size * 1.5;
 
         .square {
-            border: 1px solid $black-light;
+            border: 1px solid $faded;
             border-radius: .1em;
             box-shadow: 05em 05em .35em 05em $black-light;
-            height: 1;
-            left: .25em;
+            height: $tri-size;
+            left: $tri-size / 4;
             position: relative;
-            top: .25em;
+            top: $tri-size / 4;
             transform: rotate(45deg);
-            width: 1;
+            width: $tri-size;
         }
     }
 
     .contents {
-        border: 1px solid $black-light;
         border-radius: .1em;
         box-shadow: 0 .1em .2em .1em $black-light;
         min-height: 1.5em;
         min-width: 1.5em;
         position: absolute;
-        top: 100%;
+        top: $tri-size / 2;
     }
 }
 

@@ -50,8 +50,8 @@ export * from './shared';
 export class WidgetsModule {
     private static init: boolean = false;
 
-    private version: string = '0.8.0';
-    private build: string = '2017-05-02.v1';
+    private version: string = '0.8.6';
+    private build: string = '2017-06-08.v1';
 
     constructor() {
         if (!WidgetsModule.init) {

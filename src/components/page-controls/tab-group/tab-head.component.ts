@@ -44,6 +44,7 @@ export class TabHead {
 
     public active() {
         this.isActive = true;
+        this.el.nativeElement.scrollIntoView();
     }
 
     public inactive() {

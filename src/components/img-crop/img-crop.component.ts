@@ -32,6 +32,7 @@ export class ImageCrop {
     public saving = false;
     public data: any = {};
     public image: any = null;
+    public error: any = null;
 
     @ViewChild('cropper') private image_cropper: ImageCropperComponent;
     @ViewChild('image') private canvas: ElementRef;

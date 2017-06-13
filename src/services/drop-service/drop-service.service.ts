@@ -26,8 +26,10 @@ export class DropService {
     private _dropTargets:  HTMLScriptElement[] = [];
     private _currentTarget: HTMLScriptElement;
 
-    // This are our event observables
-    private _event_obs: any = {};
+    // This is our event observables
+    private _event_obs: any = {
+        dragover: null,
+    };
     private _listeners: any = {};
 
     // Tracks the number of dragenter events by tracking
@@ -41,7 +43,9 @@ export class DropService {
         this._event_obs.drop = new Observable((observer) => {
             this.event.drop = (event: Event) => {
                 const e = this._preventDefault(event);
-                observer.next(this._checkTarget(e));
+                if (this._checkTarget(e)) {
+                    observer.next(e);
+                }
             };
         });
         // Prevent default on all dragover events
@@ -55,7 +59,9 @@ export class DropService {
         this._event_obs.dragenter = new Observable((observer) => {
             this.event.dragenter = (event: Event) => {
                 const e = this._preventDefault(event);
-                observer.next(this._checkTarget(e));
+                if (this._checkTarget(e)) {
+                    observer.next(e);
+                }
             };
         });
         this._event_obs.dragleave = new Observable((observer) => {
@@ -79,16 +85,15 @@ export class DropService {
                 } else {
                     for (const drop_target of dropTargets) {
                         if (drop_target === target) {
-                            return observer.next(true);
+                            return observer.next(event);
                         }
                     }
                 }
-
-                return observer.next(false);
             };
         });
 
         // Start watching for the events
+        this._event_obs.dragover.subscribe();
         this._event_obs.dragenter.subscribe((obj: any) => {
             overFired = obj.target;
             this._updateClasses(obj);
@@ -228,6 +233,7 @@ export class DropService {
     // Returns the stream name for an element
     private _findStream(element: HTMLScriptElement) {
         const mapping = DropService._streamMapping;
+
         for (const prop in mapping) {
             if (mapping.hasOwnProperty(prop) && mapping[prop].indexOf(element) !== -1) {
                 return prop;
@@ -240,6 +246,7 @@ export class DropService {
     // Informs the element of its highlight state
     private _performCallback(target: HTMLScriptElement, state: boolean, stream: string = null) {
         stream = stream || this._findStream(target);
+        console.error('Callbacks', state, stream);
 
         DropService._callbacks[stream].forEach((cb: any) => {
             cb(state);

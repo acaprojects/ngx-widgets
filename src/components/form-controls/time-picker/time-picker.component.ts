@@ -188,6 +188,61 @@ export class TimePicker {
         setTimeout(() => { this.checkHour(); }, 50);
     }
     /**
+     * Checks if the display hour value is valid then updates the time hour value
+     * @return {void}
+     */
+    public checkHour() {
+        setTimeout(() => {
+                // Check for value
+            if (!this.display_hour) {
+                this.display_hour = '12';
+            }
+                // Check length
+            if (this.display_hour.length > 2) {
+                this.display_hour = this.display_hour.slice(0, 2);
+            }
+                // Check for valid characters
+            this.validateHour();
+                // Check number is valid
+            if (isNaN(parseInt(this.display_hour, 10)) || parseInt(this.display_hour, 10) > 12
+                || parseInt(this.display_hour, 10) < 0 || this.display_hour === '') {
+
+                this.display_hour = '12';
+            }
+                // Update hours
+            this.time.h = (parseInt(this.display_hour, 10) % 12) + (this.display_period === 'AM' ? 0 : 12);
+        }, 20);
+    }
+
+    /**
+     * Checks if the display minutes value is valid then updates the time minutes value
+     * @return {void}
+     */
+    public checkMinute() {
+        setTimeout(() => {
+                // Check for value
+            if (!this.display_minutes) {
+                this.display_minutes = '00';
+            }
+                // Check length
+            if (this.display_minutes.length > 2) {
+                this.display_minutes = this.display_minutes.slice(0, 2);
+            }
+                // Check for valid characters
+            this.validateMinute();
+                // Check number is valid
+            if (isNaN(parseInt(this.display_minutes, 10)) || parseInt(this.display_minutes, 10) > 59
+                || parseInt(this.display_minutes, 10) < 0 || this.display_minutes === '') {
+                    this.display_minutes = '00';
+            }
+            if (parseInt(this.display_minutes, 10) < 10) {
+                this.display_minutes = '0' + parseInt(this.display_minutes, 10);
+            }
+                // Update minutes
+            this.time.m = parseInt(this.display_minutes, 10);
+        }, 20);
+    }
+    /**
      * Called when the time changes
      * @return {void}
      */
@@ -256,60 +311,5 @@ export class TimePicker {
             }
         }
         return str;
-    }
-    /**
-     * Checks if the display hour value is valid then updates the time hour value
-     * @return {void}
-     */
-    private checkHour() {
-        setTimeout(() => {
-                // Check for value
-            if (!this.display_hour) {
-                this.display_hour = '12';
-            }
-                // Check length
-            if (this.display_hour.length > 2) {
-                this.display_hour = this.display_hour.slice(0, 2);
-            }
-                // Check for valid characters
-            this.validateHour();
-                // Check number is valid
-            if (isNaN(parseInt(this.display_hour, 10)) || parseInt(this.display_hour, 10) > 12
-                || parseInt(this.display_hour, 10) < 0 || this.display_hour === '') {
-
-                this.display_hour = '12';
-            }
-                // Update hours
-            this.time.h = (parseInt(this.display_hour, 10) % 12) + (this.display_period === 'AM' ? 0 : 12);
-        }, 20);
-    }
-
-    /**
-     * Checks if the display minutes value is valid then updates the time minutes value
-     * @return {void}
-     */
-    private checkMinute() {
-        setTimeout(() => {
-                // Check for value
-            if (!this.display_minutes) {
-                this.display_minutes = '00';
-            }
-                // Check length
-            if (this.display_minutes.length > 2) {
-                this.display_minutes = this.display_minutes.slice(0, 2);
-            }
-                // Check for valid characters
-            this.validateMinute();
-                // Check number is valid
-            if (isNaN(parseInt(this.display_minutes, 10)) || parseInt(this.display_minutes, 10) > 59
-                || parseInt(this.display_minutes, 10) < 0 || this.display_minutes === '') {
-                    this.display_minutes = '00';
-            }
-            if (parseInt(this.display_minutes, 10) < 10) {
-                this.display_minutes = '0' + parseInt(this.display_minutes, 10);
-            }
-                // Update minutes
-            this.time.m = parseInt(this.display_minutes, 10);
-        }, 20);
     }
 }

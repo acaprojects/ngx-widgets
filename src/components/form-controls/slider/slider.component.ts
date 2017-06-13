@@ -10,6 +10,8 @@
  import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
  import { Animate } from '../../../services/animate.service';
 
+ import { WIDGETS } from '../../../settings';
+
  @Component({
      selector: 'slider',
      templateUrl: './slider.template.html',
@@ -51,33 +53,14 @@
      }
 
      public ngOnChanges(changes: any) {
-         if (this.min > this.max) {
-             this.min = 0;
-             this.max = 100;
+         if (changes.min || changes.max || changes.value) {
+             this.validate();
          }
          if (!this.step) {
              this.step = 1;
          }
          if (!this.precision) {
              this.precision = 1;
-         }
-         if (this.min === undefined || this.min === null) {
-             this.min = 0;
-         }
-         if (this.min === undefined || this.min === null) {
-             this.max = 100;
-         }
-         if (!this.knob) {
-             this.refresh();
-         }
-         if (isNaN(this.min)) {
-             this.min = this.max < 0 ? this.max - this.step * 5 : 0;
-         }
-         if (isNaN(this.max)) {
-             this.max = this.min > 100 ? this.min + this.step * 5 : 100;
-         }
-         if (isNaN(this.value)) {
-             this.value = this.min;
          }
          if (changes.value && !this.user_action && !isNaN(this.value)) {
              if (this.value < this.min) {
@@ -89,6 +72,34 @@
              this.updateValue(true);
          }
      }
+
+     public validate() {
+         if (this.min > this.max) {
+             WIDGETS.log('Slider', 'Min > Max');
+             this.min = 0;
+             this.max = 100;
+         }
+         if (this.min === undefined || this.min === null) {
+             WIDGETS.log('Slider', 'Min Undefined');
+             this.min = 0;
+         }
+         if (this.min === undefined || this.min === null) {
+             WIDGETS.log('Slider', 'Max Undefined');
+             this.max = 100;
+         }
+         if (isNaN(this.min)) {
+             WIDGETS.log('Slider', 'Min NaN');
+             this.min = this.max < 0 ? this.max - this.step * 5 : 0;
+         }
+         if (isNaN(this.max)) {
+             WIDGETS.log('Slider', 'Max NaN');
+             this.max = this.min > 100 ? this.min + this.step * 5 : 100;
+         }
+         if (isNaN(this.value)) {
+            this.value = this.min;
+        }
+     }
+
     /**
      * Update value of the slider
      * @param  {boolean = false}       update Do we need to update the display

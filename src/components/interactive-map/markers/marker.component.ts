@@ -8,6 +8,7 @@
  */
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { animate, group, keyframes, state, style, transition, trigger } from '@angular/core';
 
 const DEFAULT_COLORS = {
@@ -78,6 +79,12 @@ export class MapMarkerComponent {
 
     constructor() {
         this.id = Math.floor(Math.random() * 89999999 + 10000000).toString();
+    }
+
+    public ngOnInit() {
+        setTimeout(() => {
+            this.shown = this.show;
+        }, 200);
     }
 
     public ngOnChanges(changes: any) {

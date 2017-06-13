@@ -44,10 +44,9 @@ export class DropdownTypeahead {
     public display_items: any = [];
     public current_item: any = null;
     public shown: boolean = false;
+    public type: string = 'string';
 
     @ViewChild('list') private list: ElementRef;
-
-    private type: string = 'string';
 
     public ngOnInit() {
         this.filter();
@@ -110,7 +109,7 @@ export class DropdownTypeahead {
     /**
      * Filters the items to be displayed based off the search string
      */
-    private filter() {
+    public filter() {
         this.searchChange.emit(this.search);
         let filtered: any[] = [];
         const items = JSON.parse(JSON.stringify(this.items));
