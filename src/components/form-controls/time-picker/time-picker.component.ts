@@ -31,6 +31,7 @@ export class TimePicker {
     @Input() public minuteStep: number = 5;
     @Input() public select: boolean = false;
     @Input() public cssClass: string = 'default';
+    @Input() public disabled: boolean = false;
 
     @Output() public timeChange = new EventEmitter();
     @Output() public enter = new EventEmitter();

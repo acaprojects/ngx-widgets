@@ -12,6 +12,7 @@
     max-width: 100%;
     position: relative;
     text-align: center;
+    width: 9em;
 
     @media screen and (max-width: 720px) {
         font-size: 2.5em;
@@ -49,8 +50,11 @@
 }
 
 .pick {
-    padding: .2em;
-    width: 3em;
+    margin: .2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     .display-arrow {
         cursor: pointer;
@@ -84,15 +88,18 @@
         align-items: center;
         display: flex;
         height: 100%;
-
-        button {
-            border: none;
-            border-radius: .1em;
-            font-size: .8em;
-            outline: none;
-            padding: .25em 1;
-        }
     }
+}
+
+button {
+    border: none;
+    border-radius: .1em;
+    background: none;
+    font-size: .8em;
+    outline: none;
+    height: 1.6em;
+    width: 3.2em;
+    padding: .2em .75em;
 }
 
 .default {
@@ -103,11 +110,12 @@
     }
 
     button {
-        background-color: $black-hover;
-        color: $white;
+        border: 1px solid $black-hover;
+        color: $black;
 
         &:hover {
             background-color: $black;
+            color: $white
         }
     }
 }

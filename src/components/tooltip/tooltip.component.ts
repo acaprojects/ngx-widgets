@@ -22,6 +22,7 @@ export class TooltipComponent {
     @Input() public offsetType: string = 'left';
     @Input() public size: string = '1.0em';
     @Input() public position: string = 'bottom';
+    @Input() public type: string = 'hover';
     @Input() public theme: string = 'light';
     @Input() public show: boolean = false;
     @Input() public cssClass: string = 'default';
@@ -126,6 +127,39 @@ export class TooltipComponent {
             data,
         };
         this.change.emit(odata);
+    }
+
+    /**
+     * () => void call when the element that this is attached to is tapped
+     * emits a ontap event
+     * @param  {any}    e Hammer Tap event returned by Angular 2
+     * @return {void}
+     */
+    @HostListener('mouseover', ['$event'])
+    private onHover(e: any) {
+        if (this.type === 'hover' && !this.show) {
+            this.show = true;
+            this.showChange.emit(this.show);
+            this.toggle_timer = setTimeout(() => {
+                this.toggle_timer = null;
+            }, 100);
+        }
+    }
+    /**
+     * () => void call when the element that this is attached to is tapped
+     * emits a ontap event
+     * @param  {any}    e Hammer Tap event returned by Angular 2
+     * @return {void}
+     */
+    @HostListener('mouseleave', ['$event'])
+    private onLeave(e: any) {
+        if (this.type === 'hover' && this.show) {
+            this.show = false;
+            this.showChange.emit(this.show);
+            this.toggle_timer = setTimeout(() => {
+                this.toggle_timer = null;
+            }, 100);
+        }
     }
 
     /**

@@ -17,6 +17,7 @@
                         type="text"
                         #hourPick
                         maxlength="2"
+                        [disabled]="disabled"
                         [(ngModel)]="display_hour"
                         (blur)="checkHour()"
                         (keyup)="keyupHour($event)"
@@ -31,6 +32,7 @@
                         type="text"
                         #minutePick
                         maxlength="2"
+                        [disabled]="disabled"
                         [(ngModel)]="display_minutes"
                         (blur)="checkMinute()"
                         (keyup)="keyupMinutes($event)"
