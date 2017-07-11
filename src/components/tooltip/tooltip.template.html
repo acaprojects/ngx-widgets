@@ -10,7 +10,7 @@
 <div [class]="'tooltip ' + position + ' ' + cssClass + ' ' + theme"
      [style.display]="show?'':'none'"
      [style.font-size]="size"
-     (window:tap)="checkTap($event)">
+     (window:click)="checkTap($event)">
     <div [class]="'block ' + position" >
         <div #area class="contents">
             <div #content [innerHTML]="html | safe"></div>

@@ -14,18 +14,6 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
     selector: 'dropdown',
     styleUrls: [ './dropdown.style.css' ],
     templateUrl: './dropdown.template.html',
-    animations : [
-        trigger('show', [
-            state('show',  style({ opacity: '1' })),
-            state('hide',  style({ opacity: '0' })),
-            transition('hide <=> show', animate('150ms ease-out')),
-        ]),
-        trigger('showlist', [
-            state('show',  style({ height: '*' })),
-            state('hide',  style({ height: '2.4em', display: 'none' })),
-            transition('hide <=> show', animate('750ms ease-out')),
-        ]),
-    ],
 })
 export class Dropdown {
     @Input() public items: any[] = [];
@@ -40,13 +28,14 @@ export class Dropdown {
 
     public display_items: any = [];
     public current_item: any = null;
-    public shown: boolean = false;
+    public shown: boolean = true;
     private type: string = 'string';
 
     @ViewChild('list') private list: ElementRef;
 
     public ngOnChanges(changes: any) {
         if (changes.items) {
+            this.shown = false;
             if (this.items && this.items.length > 0) {
                 setTimeout(() => {
                     this.display_items = this.items;

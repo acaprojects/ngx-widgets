@@ -26,6 +26,16 @@ export * from './services';
 export * from './components';
 export * from './shared';
 
+import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
+import * as hammer from 'hammerjs';
+
+export class MyHammerConfig extends HammerGestureConfig {
+    overrides = {
+        'pan': { direction: hammer.DIRECTION_ALL }
+    } as any;
+};
+
+
 @NgModule({
     declarations: [
         COMPONENTS,
@@ -45,13 +55,17 @@ export * from './shared';
     providers: [
         SERVICES,
         // COMPILER_PROVIDERS
+        {
+            provide: HAMMER_GESTURE_CONFIG,
+            useClass: MyHammerConfig
+        },
     ],
 })
 export class WidgetsModule {
     private static init: boolean = false;
 
     private version: string = '0.8.6';
-    private build: string = '2017-06-08.v1';
+    private build: string = '2017-07-05.v1';
 
     constructor() {
         if (!WidgetsModule.init) {

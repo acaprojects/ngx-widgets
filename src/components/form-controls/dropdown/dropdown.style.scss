@@ -36,28 +36,23 @@
 }
 
 .list {
-    border-radius: .1em;
+    border-radius: .2em;
     left: 0;
     position: absolute;
     right: 0;
     top: 0;
     z-index: 1999;
     margin-bottom: 0.5em;
-
+    transition: height 700ms;
+    max-height: 14.4em;
     .items {
-        max-height: 30vh;
+        max-height: 12em;
         overflow: auto;
     }
 }
 
 .default {
-    background-color: $white;
-    box-shadow: 0 .1em .2em .1em $black-light;
-    color: $black;
 
-    &:hover {
-        box-shadow: 0 .1em .2em .1em $black-hover;
-    }
 
     .item {
 
@@ -79,6 +74,9 @@
         box-shadow: 0 .1em .2em .1em $black-light;
         color: $black;
         overflow: hidden;
+        &:hover {
+            box-shadow: 0 .1em .2em .1em $black-hover;
+        }
     }
 
 }

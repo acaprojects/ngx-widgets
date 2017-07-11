@@ -39,12 +39,12 @@ export class TabGroup implements AfterContentInit  {
     private rvalue: string;
     private qvalue: string;
     private hvalue: string;
-    private listeners: any = {};
     private node_list: string[] = [];
     private content_init: boolean = false;
     private content_timer: any = null;
     private child_cnt: number = 0;
     private empty: any = null;
+    private head_timer: any = null;
 
     private head_cnt: number = 0;
 
@@ -152,16 +152,14 @@ export class TabGroup implements AfterContentInit  {
     }
 
     public setActiveTab(id: string, init: boolean = false) {
-        if (this.disabled.indexOf(id) >= 0) {
-            return;
-        }
-        if (!this.tabBodies || !this.tabHeaders) {
+        if (this.head_timer || this.disabled.indexOf(id) >= 0 || !this.tabBodies || !this.tabHeaders) {
             return;
         }
         this.state = id;
 
         const tabs = this.tabHeaders.toArray();
         for (let i = 0; i < this.tabHeaders.length; i++) {
+            tabs[i].parent = this;
             if (tabs[i].id === id) {
                 tabs[i].active();
             } else {
@@ -170,6 +168,7 @@ export class TabGroup implements AfterContentInit  {
         }
         const content = this.tabBodies.toArray();
         for (let i = 0; i < this.tabBodies.length; i++) {
+            tabs[i].parent = this;
             if (content[i].id === id) {
                 this.active = content[i];
             } else {
@@ -185,6 +184,9 @@ export class TabGroup implements AfterContentInit  {
                 this.updateRouteValue();
             }
         }, 20);
+        this.head_timer = setTimeout(() => {
+            this.head_timer = null;
+        }, 200);
     }
 
     public updateDisable() {
@@ -268,9 +270,6 @@ export class TabGroup implements AfterContentInit  {
             return;
         }
         this.renderer.insertBefore(root.nativeElement, node.nativeElement(), this.empty);
-        this.listeners[node.id] = node.listen().subscribe((id: string) => {
-            this.setActiveTab(id);
-        });
         this.node_list.push(`head-${node.id}`);
     }
 

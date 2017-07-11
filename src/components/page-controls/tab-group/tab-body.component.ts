@@ -22,6 +22,7 @@ export class TabBody {
     @Input() public id: string;
     @Input() public cssClass: string = 'default';
 
+    public parent: any = this;
     public visible: boolean = false;
 
     constructor(private el: ElementRef) {

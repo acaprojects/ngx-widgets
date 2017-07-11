@@ -8,17 +8,8 @@
 -->
 
 <div #main [class]="'aca dropdown ' + cssClass" >
-    <div class="item active" [@show]="shown ? 'hide': 'show'" (tap)="toggle()">
-        <div class="inner" *ngIf="model&&model!==''">
-            <div *ngIf="type==='object'">
-                <span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k">{{model[f]}}</span>
-            </div>
-            <div class="field" *ngIf="type!=='object'">{{model}}</div>
-        </div>
-        <div class="inner field" *ngIf="!model||model===''">{{placeholder}}</div>
-    </div>
-    <div #list class="list" [@showlist]="shown ? 'show': 'hide'">
-        <div class="item active" (tap)="shown=!shown">
+    <div #list class="list" [style.height]="shown ? (display_items.length < 6 ? display_items.length * 2.4 : '14.4') + 'em': '2.3em'">
+        <div class="item active" (tap)="toggle()">
             <div class="inner" *ngIf="model&&model!==''">
                 <div *ngIf="type==='object'">
                     <span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k">{{model[f]}}</span>

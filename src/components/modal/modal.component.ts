@@ -69,7 +69,7 @@ export class Modal implements OnChanges, OnDestroy {
     protected clean_fn: () => void = null;
     protected content_instance: any = null;
     protected contentRef: ComponentRef<any> = null;
-    protected state_obs: any = null;
+    protected state_obs: Observable<any> = null;
     protected obs: any = null;
 
     @ViewChild('modal') private modal: ElementRef;
@@ -77,15 +77,12 @@ export class Modal implements OnChanges, OnDestroy {
 
     constructor(private _cfr: ComponentFactoryResolver, private renderer: Renderer2) {
         this.id = (Math.round(Math.random() * 899999999 + 100000000)).toString();
-        this.state_obs = new Observable((observer: any) => {
-            this.obs = observer;
-        });
 
     }
 
     public ngAfterContentInit() {
         if (this.modal) {
-            this.buildContents();
+            //this.buildContents();
             this.modal_box = this.modal.nativeElement.getBoundingClientRect();
         }
     }
@@ -114,6 +111,7 @@ export class Modal implements OnChanges, OnDestroy {
         }
         if (this.obs) {
             this.obs.complete();
+            this.state_obs = null;
         }
     }
     /**
@@ -122,9 +120,10 @@ export class Modal implements OnChanges, OnDestroy {
      */
     public buildContents() {
         if (!this._cfr) {
-            return setTimeout(() => {
+            setTimeout(() => {
                 this.buildContents();
             }, 200);
+            return;
         }
         if (this.component !== undefined && this.component !== null) {
             const factory = this._cfr.resolveComponentFactory(this.component);
@@ -193,7 +192,7 @@ export class Modal implements OnChanges, OnDestroy {
             if (!this.data) {
                 this.data = {};
             }
-            this.data = (Object as any).assign(this.data, data);
+            this.data = Object.assign(this.data, data);
             if (this.content_instance) {
                 this.content_instance.entity = this.data;
             }
@@ -201,7 +200,7 @@ export class Modal implements OnChanges, OnDestroy {
                 this.width = data.width;
                 this.updateWidth();
             }
-            if (data.top !== undefined && data.top !== null) {
+            if (data.top || data.top === 0) {
                 setTimeout(() => {
                     this.display_top = (this.top && this.top > 0 ? this.top : '') + this.unit;
                     const mdl = this.modal.nativeElement;
@@ -212,12 +211,18 @@ export class Modal implements OnChanges, OnDestroy {
             }
             this.buildContents();
         }
+        return;
     }
     /**
      * Called when the modal is opened
      * @return {void}
      */
     public open() {
+        if (this.state_obs === null) {
+            this.state_obs = new Observable((observer: any) => {
+                this.obs = observer;
+            });
+        }
         this.state = true;
         setTimeout(() => { this.state_inner = true; }, 100);
         setTimeout(() => { this.openEvent.emit(); }, 500);
@@ -238,6 +243,10 @@ export class Modal implements OnChanges, OnDestroy {
             if (this.closeEvent) {
                 this.closeEvent.emit();
             }
+            if (this.obs) {
+                this.obs.complete();
+                this.state_obs = null;
+            }
         }, 500);
     }
     /**
@@ -252,7 +261,12 @@ export class Modal implements OnChanges, OnDestroy {
      * Get an Observable that posts event that occur within the modal
      * @return {void}
      */
-    get status() {
+    public status() {
+        if (this.state_obs === null) {
+            this.state_obs = new Observable((observer: any) => {
+                this.obs = observer;
+            });
+        }
         return this.state_obs;
     }
     /**
@@ -283,6 +297,7 @@ export class Modal implements OnChanges, OnDestroy {
                 close: () => { this.close(); },
             });
         } else {
+            WIDGETS.error('MODAL(C)', 'Event observable was deleted before modal event could occur.');
             this.close();
         }
     }
@@ -295,7 +310,7 @@ export class Modal implements OnChanges, OnDestroy {
     }
     /**
      * Creates the component and attaches it to the modal
-     * @param  {any} factory Anular 2 Component factory
+     * @param  {any} factory Angular 2 Component factory
      * @return {void}
      */
     private render(factory: any) {
@@ -307,6 +322,7 @@ export class Modal implements OnChanges, OnDestroy {
         // let's inject @Inputs to component instance
         this.content_instance = this.contentRef.instance;
         this.content_instance.entity = this.data.data;
+        this.content_instance.parent = this;
         if (!this.content_instance.entity) {
             this.content_instance.entity = {};
         }
@@ -315,6 +331,6 @@ export class Modal implements OnChanges, OnDestroy {
         if (this.content_instance.init) {
             this.content_instance.init();
         }
-
+        return;
     }
 }

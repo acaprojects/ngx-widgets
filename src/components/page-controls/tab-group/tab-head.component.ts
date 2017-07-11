@@ -24,7 +24,7 @@ import { Observable } from 'rxjs/Observable';
 export class TabHead {
     @Input() public id: string;
     @Input() public cssClass: string = 'default';
-
+    public parent: any = true;
     public visible: boolean = true;
 
     private contents: string;
@@ -67,7 +67,7 @@ export class TabHead {
     }
 
     public tapped() {
-        this.tap_obs.next(this.id);
+        this.parent.setActiveTab(this.id);
     }
 
     public listen() {
