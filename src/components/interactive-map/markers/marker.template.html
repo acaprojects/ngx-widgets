@@ -7,7 +7,7 @@
 @Last modified time: 13/01/2017 12:40 PM
 -->
 
-<div class="map-marker" [style.left]="x+'px'" [style.top]="y+'px'" [@show]="shown ? 'show' : 'hide'">
+<div class="map-marker" [style.left]="x+'px'" [style.top]="y+'px'" [style.opacity]="shown ? '1' : '0'">
     <div class="pin-display" *ngIf="!type||type==='Pin'" [@drop]="shown ? 'show' : 'hide'">
         <div *ngIf="text&&text!==''" class="text">{{text}}</div>
         <div class="pin" [innerHTML]="display_pin | safe"></div>

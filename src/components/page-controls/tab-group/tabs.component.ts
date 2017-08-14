@@ -45,6 +45,7 @@ export class TabGroup implements AfterContentInit  {
     private child_cnt: number = 0;
     private empty: any = null;
     private head_timer: any = null;
+    private added_empty: boolean = false;
 
     private head_cnt: number = 0;
 
@@ -57,6 +58,10 @@ export class TabGroup implements AfterContentInit  {
         this.processRoute();
         this.empty = this.renderer.createElement('div');
         this.renderer.addClass(this.empty, 'empty');
+    }
+
+    public ngInit() {
+        this.added_empty = false;
     }
 
     public ngAfterContentInit() {
@@ -77,7 +82,10 @@ export class TabGroup implements AfterContentInit  {
     }
 
     public ngAfterViewInit() {
-        this.renderer.appendChild(this.header.nativeElement, this.empty);
+        if (this.header) {
+            this.added_empty = true;
+            this.renderer.appendChild(this.header.nativeElement, this.empty);
+        }
     }
 
     public ngOnChanges(changes: any) {
@@ -255,11 +263,13 @@ export class TabGroup implements AfterContentInit  {
             // Inject Tab Headers into the page
         let tabs: any[] = this.tabHeaders.toArray();
         for (let i = 0; i < this.tabHeaders.length; i++) {
+            tabs[i].parent = this;
             this.addHeadNode(tabs[i]);
         }
             // Inject Tab Bodies into the page
         tabs = this.tabBodies.toArray();
         for (let i = 0; i < this.tabBodies.length; i++) {
+            tabs[i].parent = this;
             this.addBodyNode(tabs[i]);
         }
     }
@@ -267,7 +277,15 @@ export class TabGroup implements AfterContentInit  {
     private addHeadNode(node: any) {
         const root = this.header;
         if (!root || !node || this.node_list.indexOf(node.id) >= 0) {
+            console.log('No root');
+            setTimeout(() => {
+                this.addHeadNode(node);
+            }, 500);
             return;
+        }
+        if (!this.added_empty) {
+            this.added_empty = true;
+            this.renderer.appendChild(this.header.nativeElement, this.empty);
         }
         this.renderer.insertBefore(root.nativeElement, node.nativeElement(), this.empty);
         this.node_list.push(`head-${node.id}`);
@@ -276,6 +294,10 @@ export class TabGroup implements AfterContentInit  {
     private addBodyNode(node: any) {
         const root = this.body;
         if (!root || !node || this.node_list.indexOf(node.id) >= 0) {
+            console.log('No body');
+            setTimeout(() => {
+                this.addBodyNode(node);
+            }, 500);
             return;
         }
         this.renderer.appendChild(root.nativeElement, node.nativeElement());

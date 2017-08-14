@@ -43,7 +43,6 @@ export class MapService {
      * @return {Promise<string>} Returns the file of the specified map
      */
      public getMap(map_url: string) {
-         console.log('Getting map');
          if (this.map_promise[map_url] === undefined || this.map_promise[map_url] === null) {
              this.map_promise[map_url] = new Promise((resolve, reject) => {
                  // Check if map has already been loaded

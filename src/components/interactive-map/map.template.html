@@ -17,7 +17,23 @@
         (tap)="tapMap($event)">
 
         <div #mapdisplay class="map-area"></div>
-        <map-marker-group [markers]="marker_list" [rotate]="rotations" [radius]="6*((100+_zoom)/100)/map_scale" [disable]="false" [map]="map_details" [reset]="reset_markers"></map-marker-group>
+        <map-marker-group
+            [markers]="marker_list"
+            [rotate]="rotations"
+            [radius]="6*((100+_zoom)/100)/map_scale"
+            [disable]="false"
+            [map]="map_details"
+            [reset]="reset_markers">
+        </map-marker-group>
+        <map-info-group
+            [regions]="info_list"
+            [rotate]="rotations"
+            [radius]="6*((100+_zoom)/100)/map_scale"
+            [disable]="false"
+            [map]="map_details"
+            [reset]="reset_markers"
+            [update]="info_update">
+        </map-info-group>
     </div>
     <div *ngIf="loading && map !== ''" class="map-loading-space">
         <spinner type="dot-circle" color="#000"></spinner>

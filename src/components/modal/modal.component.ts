@@ -114,6 +114,10 @@ export class Modal implements OnChanges, OnDestroy {
             this.state_obs = null;
         }
     }
+
+    get loading() {
+        return this.content_instance && (this.content_instance.loading || (this.content_instance.entity && this.content_instance.entity.loading));
+    }
     /**
      * Resolves the factory for building the content component
      * @return {void}
@@ -145,7 +149,7 @@ export class Modal implements OnChanges, OnDestroy {
         } else {
             event.cancelBubble = true;
         }
-        if (!this.close || !this.modal) {
+        if (!this.close || !this.modal || this.loading) {
             return;
         }
         const c: { x: number, y: number } = event.center ? event.center : { x: event.clientX, y: event.clientY };

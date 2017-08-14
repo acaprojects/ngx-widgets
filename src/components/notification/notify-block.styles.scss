@@ -24,6 +24,8 @@ $width: 25em;
     right: .5em;
     user-select: none;
     width: $width;
+    display: flex;
+    align-items: center;
 }
 
 .default {

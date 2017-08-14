@@ -52,9 +52,17 @@ export class WIDGETS {
             const clr = color ? color : '#009688';
             const COLOURS = ['color: #673ab7', `color:${clr}`, 'color:rgba(0,0,0,0.87)'];
             if (args) {
-                console[out](`%c[WIDGETS]%c[${type}] %c${msg}`, ...COLOURS, args);
+                if (WIDGETS.hasColours()) {
+                    console[out](`%c[WIDGETS]%c[${type}] %c${msg}`, ...COLOURS, args);
+                } else {
+                    console[out](`[WIDGETS][${type}] ${msg}`, args);
+                }
             } else {
-                console[out](`%c[WIDGETS]%c[${type}] %c${msg}`, ...COLOURS);
+                if (WIDGETS.hasColours()) {
+                    console[out](`%c[WIDGETS]%c[${type}] %c${msg}`, ...COLOURS);
+                } else {
+                    console[out](`[WIDGETS][${type}] ${msg}`);
+                }
             }
         }
     }
@@ -65,13 +73,21 @@ export class WIDGETS {
 
     public static version(version: string, build: string, out: any = 'debug') {
         const COLOURS = ['color: #f44336', 'color:#9c27b0', 'color:rgba(0,0,0,0.87)'];
-        console[out](`%c[ACA]%c[LIBRARY] %cWidgets - Version: ${version} | Build: ${build}`, ...COLOURS);
+        if (WIDGETS.hasColours()) {
+            console[out](`%c[ACA]%c[LIBRARY] %cWidgets - Version: ${version} | Build: ${build}`, ...COLOURS);
+        } else {
+            console[out](`[ACA][LIBRARY] Widgets - Version: ${version} | Build: ${build}`);
+        }
     }
 
     private static var_list: string[] = ['debug'];
     private static data: any = {};
     private static obs: any = {};
     private static _obs: any = {};
+    private static hasColours() {
+        const doc = document as any;
+        return !(doc.documentMode || /Edge/.test(navigator.userAgent));
+    }
 }
 
 setTimeout(() => {

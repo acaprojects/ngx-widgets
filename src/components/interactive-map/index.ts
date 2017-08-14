@@ -8,12 +8,15 @@
  */
 import { InteractiveMap } from './map.component';
 import { MapMarkerComponent, MapMarkerGroupComponent } from './markers';
+import { MapInfoDisplayComponent, MapInfoDisplayGroupComponent } from './info-display';
 
 export * from './map.component';
 export * from './markers';
 
 export const MAP_COMPONENTS = [
     InteractiveMap,
+    MapInfoDisplayComponent,
+    MapInfoDisplayGroupComponent,
     MapMarkerGroupComponent,
     MapMarkerComponent,
 ];

@@ -8,19 +8,21 @@
 -->
 
 <div #main [class]="'aca dropdown ' + cssClass" >
-    <div #list class="list" [style.height]="shown ? (display_items.length < 6 ? display_items.length * 2.4 : '14.4') + 'em': '2.3em'">
-        <div class="item active" (tap)="toggle()">
-            <div class="inner" *ngIf="model&&model!==''">
-                <div *ngIf="type==='object'">
-                    <span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k">{{model[f]}}</span>
+    <div #list class="list" [style.height]="shown ? (display_items.length < 6 ? (display_items.length) * 2.5 : '15') + 'em': '2.45em'">
+        <div class="container active">
+            <div class="item active" (tap)="toggle()">
+                <div class="inner" *ngIf="model&&model!==''">
+                    <div *ngIf="type==='object'">
+                        <span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k">{{model[f]}}</span>
+                    </div>
+                    <div class="field" *ngIf="type!=='object'">{{model}}</div>
                 </div>
-                <div class="field" *ngIf="type!=='object'">{{model}}</div>
+                <div class="inner field" *ngIf="!model||model===''">{{placeholder}}</div>
             </div>
-            <div class="inner field" *ngIf="!model||model===''">{{placeholder}}</div>
         </div>
-        <div hidden *ngIf="shown" (window:tap)="checkTap($event)"></div>
+        <div hidden *ngIf="shown" (window:click)="checkTap($event)"></div>
         <div class="items">
-            <div *ngFor="let item of display_items; let i = index ">
+            <div class="container" *ngFor="let item of display_items; let i = index " [class.hide]="item===current_item">
                 <div class="item" *ngIf="item!==current_item">
                     <div *ngIf="type==='object'" (tap)="select(i)">
                         <span *ngFor="let f of fields; let k = index " class="field" [id]="'dropdown-item'+i+'-field'+k">{{item[f]}}</span>

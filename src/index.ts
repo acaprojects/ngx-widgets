@@ -64,8 +64,8 @@ export class MyHammerConfig extends HammerGestureConfig {
 export class WidgetsModule {
     private static init: boolean = false;
 
-    private version: string = '0.8.6';
-    private build: string = '2017-07-05.v1';
+    private version: string = '0.8.9';
+    private build: string = '2017-08-04.v1';
 
     constructor() {
         if (!WidgetsModule.init) {

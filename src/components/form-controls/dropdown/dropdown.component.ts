@@ -71,10 +71,9 @@ export class Dropdown {
     }
 
     public checkTap(e: any) {
-        console.log('Check tap');
         if (e) {
             const bb = this.list.nativeElement.getBoundingClientRect();
-            const c = e.center;
+            const c = e.center || { x: e.clientX, y: e.clientY };
             if (c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
                 this.shown = false;
             }

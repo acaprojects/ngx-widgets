@@ -246,7 +246,6 @@ export class DropService {
     // Informs the element of its highlight state
     private _performCallback(target: HTMLScriptElement, state: boolean, stream: string = null) {
         stream = stream || this._findStream(target);
-        console.error('Callbacks', state, stream);
 
         DropService._callbacks[stream].forEach((cb: any) => {
             cb(state);

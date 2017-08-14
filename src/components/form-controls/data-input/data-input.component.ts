@@ -373,25 +373,20 @@ export class DataInput {
      * @return {void}
      */
     private validateNumber() {
-        console.log(this.display_text);
         if (!this.display_text || this.display_text === '') {
             return '';
         }
         const valid_numbers = this.numbers + '.';
         const negative = (this.display_text[0] === '-' ? '-' : '');
-        console.log(this.decimals ? valid_numbers : this.numbers);
         this.display_text = this.removeInvalidChars(this.display_text, this.decimals ? valid_numbers : this.numbers);
         this.display_text = negative + this.display_text;
-        console.log(this.display_text);
         const decimal = this.display_text[this.display_text.length - 1] === '.';
         let num: number = +(this.display_text);
         if (isNaN(num)) {
-            console.log('NaN');
             this.error = true;
             this.info_display = 'Not a valid number';
             this.errorChange.emit(true);
         } else if (this.min && num < this.min) {
-            console.log('Out of range(Min)');
             this.error = true;
             this.info_display = 'Too small(<' + this.min + ')';
             this.errorChange.emit(true);
@@ -399,7 +394,6 @@ export class DataInput {
                 num = this.min;
             }
         } else if (this.max && num > this.max) {
-            console.log('Out of range(Max)');
             this.error = true;
             this.info_display = 'Too big(>' + this.max + ')';
             this.errorChange.emit(true);
