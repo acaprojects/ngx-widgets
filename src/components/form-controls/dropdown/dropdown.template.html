@@ -7,8 +7,9 @@
 @Last modified time: 15/12/2016 11:29 AM
 -->
 
-<div #main [class]="'aca dropdown ' + cssClass" >
-    <div #list class="list" [style.height]="shown ? (display_items.length < 6 ? (display_items.length) * 2.5 : '15') + 'em': '2.45em'">
+<div #main [class]="'aca dropdown ' + cssClass" (window:resize)="updateWidth()">
+    <div #listplaceholder class="list"></div>
+    <div #list class="list show" [style.height]="shown ? (display_items.length < 6 ? (display_items.length) * 2.5 : '15') + 'em': '2.45em'">
         <div class="container active">
             <div class="item active" (tap)="toggle()">
                 <div class="inner" *ngIf="model&&model!==''">

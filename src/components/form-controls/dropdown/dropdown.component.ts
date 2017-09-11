@@ -32,6 +32,7 @@ export class Dropdown {
     private type: string = 'string';
 
     @ViewChild('list') private list: ElementRef;
+    @ViewChild('listplaceholder') private list_placeholder: ElementRef;
 
     public ngOnChanges(changes: any) {
         if (changes.items) {
@@ -45,6 +46,7 @@ export class Dropdown {
                             this.model = this.items[0];
                         }
                     }
+                    this.updateWidth();
                 }, 200);
             }
         }
@@ -53,6 +55,10 @@ export class Dropdown {
                 this.current_item = this.model;
             }, 200);
         }
+    }
+
+    public ngOnViewInit() {
+        this.updateWidth();
     }
     /**
      * Selects the item with the given index
@@ -77,6 +83,19 @@ export class Dropdown {
             if (c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
                 this.shown = false;
             }
+        }
+    }
+    /**
+     * Update element's width to affect the DOM correctly
+     */
+    private updateWidth() {
+        if (this.list_placeholder && this.list) {
+            this.list_placeholder.nativeElement.style.width = this.list.nativeElement.clientWidth + 'px';
+            console.log(this.list.nativeElement.clientWidth);
+        } else {
+            setTimeout(() => {
+                this.updateWidth();
+            }, 300);
         }
     }
     /**

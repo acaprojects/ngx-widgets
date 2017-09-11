@@ -312,6 +312,7 @@ export class InteractiveMap {
         this.checkInfoTap(e);
         this.tap.emit(e);
     }
+
     /**
      * Updates the map position based off of user input
      * @param  {any} event Input Event
@@ -389,6 +390,16 @@ export class InteractiveMap {
         this.move_timer = setTimeout(() => {
             this.move.x = this.move.y = 0;
             this.min = 1;
+            if (this.map_area && this.map_item){
+                this.renderer.setElementStyle(this.map_area, 'will-change', '');
+                this.renderer.setElementStyle(this.map_item, 'will-change', '');
+            }
+            setTimeout(() => {
+                if (this.map_area && this.map_item){
+                    this.renderer.setElementStyle(this.map_area, 'will-change', 'transform');
+                    this.renderer.setElementStyle(this.map_item, 'will-change', 'transform');
+                }
+            }, 200);
         }, 20);
     }
     /**
@@ -816,6 +827,10 @@ export class InteractiveMap {
             this.renderer.setElementStyle(this.map_item, 'position', 'absolute');
             this.renderer.setElementStyle(this.map_item, 'top', '50%');
             this.renderer.setElementStyle(this.map_item, 'left', '50%');
+            if (this.map_area && this.map_area.nativeElement && this.map_item && this.map_item.nativeElement){
+                this.renderer.setElementStyle(this.map_area.nativeElement, 'will-change', 'transform');
+                this.renderer.setElementStyle(this.map_item.nativeElement, 'will-change', 'transform');
+            }
             this.setupDisabled();
             this.prev_map_styles = [];
             this.map_style_ids = [];
@@ -953,11 +968,7 @@ export class InteractiveMap {
     private updatePosition(dx: number, dy: number) {
         this.delta.x += dx;
         this.delta.y += dy;
-        if (!this.timers.redraw) {
-            this.timers.redraw = setTimeout(() => {
-                this.redraw.animate();
-            }, 50);
-        }
+        this.redraw.animate();
     }
     /**
      * Updates the zoom level of the map and redraws the map

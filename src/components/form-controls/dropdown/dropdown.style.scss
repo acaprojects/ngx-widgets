@@ -14,6 +14,7 @@
     min-height: 2em;
     position: relative;
     text-align: center;
+    min-width: 13em;
     // z-index: 100;
 }
 
@@ -47,16 +48,22 @@
 }
 
 .list {
+    position: relative;
     border-radius: .2em;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
     z-index: 1999;
     margin-bottom: 0.5em;
     transition: height 700ms;
     max-height: 15em;
     min-width: 12em;
+    height: 2.45em;
+
+    &.show {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
     .items {
         max-height: 12.5em;
         overflow: auto;
@@ -87,13 +94,13 @@
         }
     }
 
-    .list {
+    .list.show {
         background-color: $white;
-        box-shadow: 0 .1em .2em .1em $black-light;
+        box-shadow: 0 .1em .2em .1em rgba(0,0,0,.1);
         color: $black;
         overflow: hidden;
         &:hover {
-            box-shadow: 0 .1em .2em .1em $black-hover;
+            box-shadow: 0 .1em .2em .1em rgba(0,0,0,.2);
         }
     }
 

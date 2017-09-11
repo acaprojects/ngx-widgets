@@ -36,12 +36,8 @@
     top: 50%;
     transform: translate(-50%, -50%) scale(1);
     transition: all 200ms;
-    will-change: transform;
+    //will-change: transform;
     z-index: 10;
-}
-
-.map-area > svg {
-    will-change: transform;
 }
 
 .pins {
