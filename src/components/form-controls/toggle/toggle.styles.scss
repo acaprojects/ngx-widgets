@@ -27,20 +27,20 @@ $dim: 2em;
 [override] .disabled {
 
     .text-toggle {
-        background-color: $black-light;
+        background-color: $black-o20;
 
         &.active,
         &.inactive {
-            background-color: $black-light;
+            background-color: $black-o20;
         }
     }
 
     .ios-toggle {
-        background-color: $black-light;
+        background-color: $black-o20;
 
         &.active,
         &.inactive {
-            background-color: $black-light;
+            background-color: $black-o20;
         }
     }
 }
@@ -49,7 +49,7 @@ $dim: 2em;
     background-color: $white - #222222;
     border-radius: .2em;
     box-sizing: content-box;
-    box-shadow: 0 .1em .2em .1em $black-light;
+    box-shadow: 0 .1em .2em .1em $black-o20;
     color: $white;
     cursor: pointer;
     height: $dim;
@@ -113,7 +113,7 @@ $dim: 2em;
     width: $dim;
 
     .toggle-icon {
-        border: .15em solid $black-light;
+        border: .15em solid $black-o20;
         height: 100%;
         position: relative;
         width: 100%;
@@ -124,14 +124,14 @@ $dim: 2em;
         border-radius: 100%;
         font-size: .8em;
 
-        &:hover { background-color: $black-hover; }
+        &:hover { background-color: $black-o50; }
 
         &:active { background-color: $black; }
 
         &.active {
-            background-color: $black-light;
+            background-color: $black-o20;
 
-            &:hover { background-color: $black-hover; }
+            &:hover { background-color: $black-o50; }
 
             &:active { background-color: $black; }
         }
@@ -164,7 +164,7 @@ $dim: 2em;
 .ios-toggle {
     background-color: #23CE6B;
     border-radius: $dim;
-    box-shadow: 0 .1em .2em .1em $black-light;
+    box-shadow: 0 .1em .2em .1em $black-o20;
     cursor: pointer;
     height: $dim / 2;
     margin: 1em;
@@ -176,7 +176,7 @@ $dim: 2em;
         background-color: $white;
         border-radius: $dim;
         bottom: 0;
-        box-shadow: 0 .1em .2em .1em $black-light;
+        box-shadow: 0 .1em .2em .1em $black-o20;
         height: $dim;
         left: 0;
         position: absolute;

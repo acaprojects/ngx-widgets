@@ -17,9 +17,9 @@
 
 .calendar-space {
     background-color: $white;
-    border: 1px solid $black-light;
+    border: 1px solid $black-o20;
     border-radius: .1em;
-    box-shadow: 0 .1em .2em .1em $black-light;
+    box-shadow: 0 .1em .2em .1em $black-o20;
     cursor: default;
     display: inline-block;
     height: 100%;
@@ -28,8 +28,8 @@
 }
 
 .header {
-    background-color: $black-hover;
-    border-bottom: .1em solid $black-light;
+    background-color: $black-o50;
+    border-bottom: .1em solid $black-o20;
     color: $white;
     display: flex;
     font-size: 1.2em;
@@ -100,7 +100,7 @@
     width: 100%;
 
     .inner {
-        background-color: $black-light;
+        background-color: $black-o20;
         height: 1px;
         width: 100%;
     }
@@ -130,8 +130,8 @@
         cursor: pointer;
 
         &:hover {
-            background-color: $black-light;
-            color: $black-hover;
+            background-color: $black-o20;
+            color: $black-o50;
         }
 
     }
@@ -142,16 +142,16 @@
     }
 
     &.past {
-        background-color: $black-light;
+        background-color: $black-o20;
     }
 
     &.active {
-        background-color: $black-hover;
+        background-color: $black-o50;
         color: rgba($white, .8);
     }
 
     &.disabled {
-        color: $black-light;
+        color: $black-o20;
         cursor: not-allowed;
     }
 }

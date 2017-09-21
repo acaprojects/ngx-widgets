@@ -22,7 +22,7 @@ $space: .5em;
 
     .plane {
         animation: sk-rotateplane 1.2s infinite ease-in-out;
-        background-color: $black-hover;
+        background-color: $black-o50;
         height: 4em;
         width: 4em;
 
@@ -38,12 +38,12 @@ $space: .5em;
     width: 4em;
 
     .circle {
-        background-color: $black-hover;
+        background-color: $black-o50;
 
         &.one,
         &.two {
             animation: sk-bounce 2s infinite ease-in-out;
-            background-color: $black-hover;
+            background-color: $black-o50;
             border-radius: 50%;
             height: 4em;
             left: 0;
@@ -65,7 +65,7 @@ $space: .5em;
 
     .rect {
         animation: sk-stretchdelay 1.3s infinite ease-in-out;
-        background-color: $black-hover;
+        background-color: $black-o50;
         display: inline-block;
         height: 3em;
         margin-right: .2em;
@@ -84,7 +84,7 @@ $space: .5em;
 
     .cube {
         animation: sk-cubemove 1.8s infinite ease-in-out;
-        background-color: $black-hover;
+        background-color: $black-o50;
         height: 1em;
         left: 0;
         position: absolute;
@@ -103,7 +103,7 @@ $space: .5em;
 
     .circle {
         animation: sk-scaleout 1s infinite ease-in-out;
-        background-color: $black-hover;
+        background-color: $black-o50;
         border-radius: 100%;
         height: 4em;
         width: 4em;
@@ -116,8 +116,8 @@ $space: .5em;
 
     .circle {
         animation: sk-scaleout 1s infinite ease-in-out;
-        border: .5em solid $black-hover;
-        border-color: $black-hover;
+        border: .5em solid $black-o50;
+        border-color: $black-o50;
         border-radius: 100%;
         height: 4em;
         width: 4em;
@@ -130,9 +130,9 @@ $space: .5em;
     width: 4em;
 
     .circle {
-        border-bottom: .2em solid $black-hover;
-        border-color: $black-hover;
-        border-left: .2em solid $black-hover;
+        border-bottom: .2em solid $black-o50;
+        border-color: $black-o50;
+        border-left: .2em solid $black-o50;
         border-radius: 100%;
         height: 4em;
         left: 50%;
@@ -156,8 +156,8 @@ $space: .5em;
 
     .circle {
         animation: sk-scaleout-in 2s infinite ease-in-out;
-        border: .5em solid $black-hover;
-        border-color: $black-hover;
+        border: .5em solid $black-o50;
+        border-color: $black-o50;
         border-radius: 100%;
         height: 4em;
         left: 0;
@@ -179,7 +179,7 @@ $space: .5em;
 
     .circle {
         animation: sk-bouncedelay 1.4s infinite ease-in-out both;
-        background-color: $black-hover;
+        background-color: $black-o50;
         border-radius: 100%;
         display: inline-block;
         height: 1.8em;
@@ -210,7 +210,7 @@ $space: .5em;
 
         .inner {
             animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
-            background-color: $black-hover;
+            background-color: $black-o50;
             border-radius: 100%;
             content: '';
             display: block;
@@ -249,7 +249,7 @@ $space: .5em;
 
     .cube {
         animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
-        background-color: $black-hover;
+        background-color: $black-o50;
         float: left;
         height: 33%;
         width: 33%;

@@ -31,7 +31,7 @@
 ul {
     background-color: $white;
     border-radius: .1em;
-    box-shadow: 0 .1em .2em .1em $black-light;
+    box-shadow: 0 .1em .2em .1em $black-o20;
     list-style: none;
     margin: .2em 0;
     max-height: 35vh;
@@ -54,12 +54,12 @@ ul {
         color: $white;
 
         .desc {
-            color: $black-hover;
+            color: $black-o50;
         }
     }
 
     .desc {
-        color: $black-light;
+        color: $black-o20;
     }
 }
 
@@ -92,7 +92,7 @@ ul {
     }
 
     &.other {
-        border-top: .05em solid $black-hover;
+        border-top: .05em solid $black-o50;
     }
 
     &.first {

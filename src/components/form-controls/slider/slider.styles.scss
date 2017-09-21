@@ -26,7 +26,7 @@
 }
 
 .bar {
-    background-color: $black-hover;
+    background-color: $black-o50;
     border-radius: .5em;
     cursor: pointer;
     height: 1em;
@@ -45,7 +45,7 @@
     .knob {
         background-color: $white;
         border-radius: 100%;
-        box-shadow: 0 .1em .2em .1em $black-light;
+        box-shadow: 0 .1em .2em .1em $black-o20;
         height: 2em;
         left: 0;
         position: absolute;

@@ -8,7 +8,7 @@
 @import '../../shared/ui-vars';
 
 .media-player {
-    background-color: $black-hover;
+    background-color: $black-o50;
     height: 100%;
     min-height: 10em;
     min-width: 16em;
@@ -36,7 +36,7 @@ video {
     .status {
         background-color: $white;
         border-radius: 100%;
-        box-shadow: 0 .1em .2em .1em $black-light;
+        box-shadow: 0 .1em .2em .1em $black-o20;
         cursor: pointer;
         font-size: 3.5em;
         height: 1.25em;
@@ -48,7 +48,7 @@ video {
         }
 
         &:active {
-            box-shadow: 0 .1em .2em .1em $black-hover;
+            box-shadow: 0 .1em .2em .1em $black-o50;
         }
     }
 }

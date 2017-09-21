@@ -56,15 +56,15 @@
 
 .step {
 
-    &-zero { box-shadow: 0 0 0 1px $black-light; }
+    &-zero { box-shadow: 0 0 0 1px $black-o20; }
 
-    &-one { box-shadow: 0 .1em .1em 1px $black-light; }
+    &-one { box-shadow: 0 .1em .1em 1px $black-o20; }
 
-    &-two { box-shadow: 0 .2em .2em 1px $black-light; }
+    &-two { box-shadow: 0 .2em .2em 1px $black-o20; }
 
-    &-three { box-shadow: 0 .3em .3em 1px $black-light; }
+    &-three { box-shadow: 0 .3em .3em 1px $black-o20; }
 
-    &-four { box-shadow: 0 .4em .4em 1px $black-light; }
+    &-four { box-shadow: 0 .4em .4em 1px $black-o20; }
 }
 
 $colors: (

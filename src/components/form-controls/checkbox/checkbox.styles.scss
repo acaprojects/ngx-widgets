@@ -1,0 +1,55 @@
+
+@import '../../../shared/ui-vars';
+
+.checkbox {
+    display: flex;
+    align-items: center;
+}
+
+.box {
+    position: relative;
+    margin: .25em;
+    height: 1em;
+    width: 1em;
+    border-radius: .2em;
+    border: 2px solid #ccc;
+    & > div {
+        display: none;
+    }
+    &:hover {
+        background-color: #ccc;
+    }
+    &.active {
+        border-color: $blue;
+        background-color: $blue;
+        &:hover {
+            border-color: $blue - #111;
+            background-color: $blue - #111;
+        }
+    }
+}
+
+.active > div {
+    display: initial;
+}
+
+input {
+    display: none;
+}
+
+.check {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: .9em;
+    width: .9em;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkZGRkZGIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KICAgIDxwYXRoIGQ9Ik05IDE2LjJMNC44IDEybC0xLjQgMS40TDkgMTkgMjEgN2wtMS40LTEuNEw5IDE2LjJ6Ii8+Cjwvc3ZnPg==');
+}
+
+.label {
+    padding: .25em;
+}

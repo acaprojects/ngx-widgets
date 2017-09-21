@@ -63,7 +63,7 @@
         background-color: rgba($blue, .2);
         border: .3em dashed rgba($blue, 1);
         border-radius: 100%;
-        box-shadow: 0 .1em .2em .1em $black-light;
+        box-shadow: 0 .1em .2em .1em $black-o20;
         height: 1em;
         position: absolute;
         transform: translate(-50%, -50%);
@@ -76,7 +76,7 @@
     background-color: $white;
     // border: 2px solid #ddd;
     border-radius: 4px;
-    box-shadow: 0 .1em .2em .1em $black-light;
+    box-shadow: 0 .1em .2em .1em $black-o20;
     left: 50%;
     padding: .5em;
     position: absolute;

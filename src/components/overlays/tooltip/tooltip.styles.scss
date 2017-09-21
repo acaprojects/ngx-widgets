@@ -1,0 +1,220 @@
+
+@import '../../../shared/ui-vars';
+
+.container {
+    position: fixed;
+    z-index: 3000;
+    pointer-events: none;
+}
+
+.tooltip {
+    position: absolute;
+    z-index: 99;
+    pointer-events: auto;
+    &.no-triangle {
+        width: 0;
+        .triangle {
+            display: none;
+        }
+    }
+
+    &.left,
+    &.right {
+        top: 50%;
+        transform: translateY(-50%);
+        height: 2em;
+        width: .5em;
+        &.no-triangle {
+            width: 0;
+            @media screen and (max-width: $break-tablet) {
+                width: 2em;
+            }
+        }
+        @media screen and (max-width: $break-tablet) {
+            top: auto;
+            left: 50%;
+            transform: translateX(-50%);
+            height: .5em;
+            width: 2em;
+        }
+    }
+    &.left {
+        left: -.5rem;
+        @media screen and (max-width: $break-tablet) {
+            left: auto;
+            top: -.5rem;
+        }
+    }
+    &.right {
+        right: -.5rem;
+        @media screen and (max-width: $break-tablet) {
+            right: auto;
+            bottom: -.5rem;
+        }
+    }
+    &.top,
+    &.bottom {
+        left: 50%;
+        transform: translateX(-50%);
+        height: .5em;
+        width: 2em;
+        &.no-triangle {
+            height: 0;
+        }
+    }
+    &.top {
+        top: -.5rem;
+    }
+    &.bottom {
+        bottom: -.5rem;
+    }
+}
+
+.content {
+    position: absolute;
+    background-color: $white;
+    box-shadow: 0 .1em .2em .1em $black-o20;
+    min-height: 2em;
+    min-width: 2em;
+    border-radius: .2em;
+    .left & {
+        right: 0;
+        transform: translate(-.5rem, 0%);
+        @media screen and (max-width: $break-tablet) {
+            right: auto;
+            top: 0;
+            transform: translate(0, -.5rem);
+        }
+        &.middle {
+            top: 50%;
+            transform: translate(-.5rem, -50%);
+            @media screen and (max-width: $break-tablet) {
+                top: auto;
+                left: 50%;
+                transform: translate(-50%, -.5rem);
+            }
+        }
+    }
+    .right & {
+        left: 0;
+        transform: translate(.5rem, 0%);
+        @media screen and (max-width: $break-tablet) {
+            left: auto;
+            top: 0;
+            transform: translate(0, .5rem);
+        }
+        &.middle {
+            top: 50%;
+            transform: translate(.5rem, -50%);
+            @media screen and (max-width: $break-tablet) {
+                top: auto;
+                left: 50%;
+                transform: translate(-50%, .5rem);
+            }
+        }
+    }
+
+    .right &,
+    .left & {
+        &.start {
+            top: 0;
+            @media screen and (max-width: $break-tablet) {
+                top: auto;
+                left: 0;
+            }
+        }
+        &.end {
+            bottom: 0;
+            @media screen and (max-width: $break-tablet) {
+                bottom: auto;
+                right: 0;
+            }
+        }
+    }
+    .top & {
+        top: 1px;
+        transform: translate(0, -100%);
+        &.middle {
+            left: 50%;
+            transform: translate(-50%, -100%);
+        }
+    }
+    .bottom & {
+        bottom: 1px;
+        transform: translate(0, 100%);
+        &.middle {
+            left: 50%;
+            transform: translate(-50%, 100%);
+        }
+    }
+
+    .top &,
+    .bottom & {
+        &.start {
+            left: 0;
+        }
+        &.end {
+            right: 0;
+        }
+    }
+}
+
+.triangle {
+    position: relative;
+    overflow: hidden;
+
+    .left &,
+    .right & {
+        height: 2em;
+        width: .5em;
+        @media screen and (max-width: $break-tablet) {
+            height: .5em;
+            width: 2em;
+        }
+    }
+    .top &,
+    .bottom &{
+        height: .5em;
+        width: 2em;
+    }
+
+    .square {
+        position: absolute;
+        height: 2em;
+        width:  2em;
+        border-radius: .1em;
+        transform: rotate(45deg);
+        background-color: $white;
+        box-shadow: 0 .1em .2em .1em $black-o20;
+
+        .left & {
+            top: 0;
+            right: .5em;
+            @media screen and (max-width: $break-tablet) {
+                bottom: .5em;
+                left: 0;
+                top: auto;
+                right: auto;
+            }
+        }
+
+        .right & {
+            top: 0;
+            left: .5em;
+            @media screen and (max-width: $break-tablet) {
+                top: .5em;
+                left: 0;
+            }
+        }
+
+        .top & {
+            bottom: .5em;
+            left: 0;
+        }
+
+        .bottom & {
+            top: .5em;
+            left: 0;
+        }
+    }
+}

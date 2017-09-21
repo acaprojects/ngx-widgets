@@ -27,8 +27,8 @@
 
 .input-space {
     align-items: center;
-    border-bottom: .1em solid $black-light;
-    color: $black-hover;
+    border-bottom: .1em solid $black-o20;
+    color: $black-o50;
     cursor: text;
     display: flex;
     padding: .2em 0 .1em;
@@ -36,11 +36,11 @@
     user-select: none;
 
     &.disabled {
-        border-bottom: .1em dotted $black-light;
+        border-bottom: .1em dotted $black-o20;
     }
 
     &.readonly {
-        border-bottom: .1em dashed $black-light;
+        border-bottom: .1em dashed $black-o20;
     }
 
     input {
@@ -49,15 +49,15 @@
     }
 
     &.dark {
-        border-bottom: .1em solid $white-hover;
-        color: $white-hover;
+        border-bottom: .1em solid $white-o50;
+        color: $white-o50;
 
         &.disabled {
-            border-bottom: .1em dotted $white-hover;
+            border-bottom: .1em dotted $white-o50;
         }
 
         &.readonly {
-            border-bottom: .1em dashed $white-hover;
+            border-bottom: .1em dashed $white-o50;
         }
 
         input { color: rgba($white, .8); }

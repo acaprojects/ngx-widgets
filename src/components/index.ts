@@ -13,13 +13,11 @@ import { ImageCrop } from './img-crop';
 import { MAP_COMPONENTS } from './interactive-map';
 import { MaterialStyles } from './material-styles';
 import { MediaPlayerComponent } from './media-player';
-import { ACA_WIDGET_MODALS, Modal } from './modal';
-import { Notification, NotifyBlock } from './notification';
 import { PAGE_CONTROLS } from './page-controls';
 import { ProgressCircleComponent } from './progress-circle';
 import { Spinner } from './spinner';
-import { TooltipComponent } from './tooltip';
 import { VirtualKeyboard } from './virtual-keyboard';
+import { OVERLAY_COMPONENTS } from './overlays';
 
 export * from './buttons';
 export * from './form-controls';
@@ -27,11 +25,9 @@ export * from './img-crop';
 export * from './interactive-map';
 export * from './material-styles';
 export * from './media-player';
-export * from './modal';
-export * from './notification';
+export * from './overlays';
 export * from './page-controls';
 export * from './spinner';
-export * from './tooltip';
 export * from './virtual-keyboard';
 
 export let COMPONENTS: any[] = [
@@ -41,18 +37,13 @@ export let COMPONENTS: any[] = [
     ...MAP_COMPONENTS,
     MaterialStyles,
     MediaPlayerComponent,
-    NotifyBlock,
     ProgressCircleComponent,
-    TooltipComponent,
     ...PAGE_CONTROLS,
     Spinner,
 ];
 
 export let ENTRY_COMPONENTS: any[] = [
-    Modal,
-    ACA_WIDGET_MODALS,
-    Notification,
-    NotifyBlock,
+    ...OVERLAY_COMPONENTS,
     TypeaheadList,
     VirtualKeyboard,
 ];

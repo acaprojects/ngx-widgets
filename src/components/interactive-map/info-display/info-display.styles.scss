@@ -34,7 +34,7 @@ $tri-size: 24px;
     .square {
         border: 1px solid $faded;
         border-radius: .1em;
-        box-shadow: 05em 05em .35em 05em $black-light;
+        box-shadow: 05em 05em .35em 05em $black-o20;
         height: $tri-size;
         left: $tri-size / 4;
         position: relative;
@@ -55,6 +55,6 @@ $tri-size: 24px;
     background-color: $white;
     color: $black;
     border-radius: .1em;
-    box-shadow: 0 .1em .2em .1em $black-light;
+    box-shadow: 0 .1em .2em .1em $black-o20;
     font-size: .8em;
 }

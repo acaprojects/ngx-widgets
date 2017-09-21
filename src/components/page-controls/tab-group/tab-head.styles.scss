@@ -21,7 +21,7 @@
 }
 
 .default {
-    background-color: $black-light;
+    background-color: $black-o20;
     border: 1px solid #ddd;
     border-bottom: none;
     cursor: pointer;
@@ -39,6 +39,6 @@
     }
 
     &:hover {
-        color: $black-hover;
+        color: $black-o50;
     }
 }

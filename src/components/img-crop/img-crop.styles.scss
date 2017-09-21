@@ -24,7 +24,7 @@
     &.save {
         background-color: $white;
         border-radius: .1em;
-        box-shadow: 0 0 1px 1px $black-hover;
+        box-shadow: 0 0 1px 1px $black-o50;
         color: $black;
         padding: .5em 1em;
         top: 15%;
@@ -33,7 +33,7 @@
 }
 
 .drop-zone {
-    background-color: $black-light;
+    background-color: $black-o20;
     border-radius: .2em;
     font-size: 1.6em;
     height: 100%;
@@ -45,12 +45,12 @@
     }
 
     &.hover {
-        background-color: $black-hover;
+        background-color: $black-o50;
     }
 }
 
 .img-space {
-    background-color: $white-hover;
+    background-color: $white-o50;
     border-radius: .2em;
     display: inline-block;
     height: 300px;

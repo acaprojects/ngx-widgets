@@ -40,7 +40,7 @@
 
 .search {
     align-items: center;
-    border: 1px solid $black-light;
+    border: 1px solid $black-o20;
     border-radius: .1em;
     display: flex;
     height: 1.5em;
@@ -73,11 +73,11 @@
 
 .default {
     background-color: $white;
-    box-shadow: 0 .1em .2em .1em $black-light;
+    box-shadow: 0 .1em .2em .1em $black-o20;
     color: $black;
 
     &:hover {
-        box-shadow: 0 .1em .2em .1em $black-light;
+        box-shadow: 0 .1em .2em .1em $black-o20;
     }
 
     .item {
@@ -90,7 +90,7 @@
 
     .list {
         background-color: $white;
-        box-shadow: 0 .1em .2em .1em $black-light;
+        box-shadow: 0 .1em .2em .1em $black-o20;
         color: $black;
         overflow: hidden;
 

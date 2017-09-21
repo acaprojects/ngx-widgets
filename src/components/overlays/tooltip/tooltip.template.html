@@ -1,0 +1,19 @@
+<div class="container"
+    [style.top]="container?.top + 'px'"
+    [style.left]="container?.left + 'px'"
+    [style.width]="container?.width + 'px'"
+    [style.height]="container?.height + 'px'">
+
+    <div [class]="'tooltip ' + model.position + ' ' + model.name" widget
+        [class.no-triangle]="model.model && !model.triangle"
+        [@show] *ngIf="shown"
+        (window:click)="shown ? close() : ''"
+        (window:resize)="shown ? close() : ''"
+        (tap)="tap()">
+
+        <div [class]="'content ' + model.offset">
+            <div #content></div>
+        </div>
+        <div class="triangle"><div class="square"></div></div>
+    </div>
+</div>

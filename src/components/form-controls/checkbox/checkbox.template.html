@@ -1,0 +1,8 @@
+
+<div [class]="'checkbox ' + name" widget (tap)="toggle()">
+    <div class="box" [class.active]="model">
+        <input type="checkbox" [(ngModel)]="model" [name]="name">
+        <div class="check"><ng-content></ng-content></div>
+    </div>
+    <label class="label" [for]="name">{{label}}</label>
+</div>

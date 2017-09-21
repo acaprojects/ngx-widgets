@@ -9,14 +9,14 @@
 
 .btn-group {
     border-radius: .1em;
-    box-shadow: 0 .1em .2em .1em $black-light;
+    box-shadow: 0 .1em .2em .1em $black-o20;
     display: inline-flex;
     margin: .5em;
 }
 
 .btn-obj {
-    border-left: 1px solid $black-light;
-    border-right: 1px solid $black-light;
+    border-left: 1px solid $black-o20;
+    border-right: 1px solid $black-o20;
     cursor: pointer;
     min-width: 8em;
     padding: .5em 1em;
@@ -25,7 +25,7 @@
         background-color: $white;
 
         &:hover {
-            background-color: $black-light;
+            background-color: $black-o20;
         }
     }
 

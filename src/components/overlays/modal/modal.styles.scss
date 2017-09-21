@@ -1,0 +1,28 @@
+
+@import '../../../shared/ui-vars';
+
+.modal  {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    background-color: $black-o50;
+    z-index: 2000;
+    pointer-events: auto;
+}
+
+.body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 1em;
+    min-height: 1em;
+    max-height: 90vh;
+    max-width: 90vh;
+    background-color: #fff;
+    border-radius: .2em;
+    box-shadow: 0 .1em .2em .1em $black-o20;
+}

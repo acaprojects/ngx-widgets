@@ -66,12 +66,12 @@
     }
 
     .set {
-        border: 2px solid $black-hover;
+        border: 2px solid $black-o50;
         border-radius: 4px;
         outline: none;
 
         &:active {
-            box-shadow: 1px 1px 5px 2px $black-light;
+            box-shadow: 1px 1px 5px 2px $black-o20;
         }
 
         input {
@@ -110,7 +110,7 @@ button {
     }
 
     button {
-        border: 1px solid $black-hover;
+        border: 1px solid $black-o50;
         color: $black;
 
         &:hover {

@@ -8,6 +8,7 @@
  */
 
 import { Calendar } from './calendar';
+import { CheckboxComponent } from './checkbox';
 import { DataInput } from './data-input';
 import { Dropdown } from './dropdown';
 import { DropdownTypeahead } from './dropdown-typeahead';
@@ -17,6 +18,7 @@ import { Toggle } from './toggle';
 import { Typeahead, TypeaheadList } from './typeahead';
 
 export * from './calendar';
+export * from './checkbox';
 export * from './data-input';
 export * from './dropdown';
 export * from './dropdown-typeahead';
@@ -27,6 +29,7 @@ export * from './typeahead';
 
 export const FORM_CONTROLS: any[] = [
     Calendar,
+    CheckboxComponent,
     DataInput,
     Dropdown,
     DropdownTypeahead,

@@ -88,7 +88,7 @@ export class Dropdown {
     /**
      * Update element's width to affect the DOM correctly
      */
-    private updateWidth() {
+    public updateWidth() {
         if (this.list_placeholder && this.list) {
             this.list_placeholder.nativeElement.style.width = this.list.nativeElement.clientWidth + 'px';
             console.log(this.list.nativeElement.clientWidth);

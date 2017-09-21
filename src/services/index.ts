@@ -11,24 +11,19 @@ import { Animate, NextFrame } from './animate.service';
 import { DropService } from './drop-service';
 import { DynamicTypeBuilder } from './dynamic/type.builder';
 import { MapService } from './map.service';
-import { ModalService } from './modal.service';
-import { NotificationService } from './notification.service';
-import { WidgetThemeService } from './theme.service';
+import { OverlayService } from './overlay.service';
 
 export * from './animate.service';
 export * from './drop-service';
-export * from './modal.service';
 export * from './map.service';
-export * from './notification.service';
+export * from './overlay.service';
 export * from './dynamic/type.builder';
 
 export let SERVICES: any[] = [
     Animate,
     NextFrame,
     DropService,
-    ModalService,
     MapService,
-    NotificationService,
+    OverlayService,
     DynamicTypeBuilder,
-    WidgetThemeService,
 ];

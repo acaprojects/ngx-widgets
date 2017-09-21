@@ -58,7 +58,7 @@
     .text {
         background-color: $white;
         border-radius: 4px;
-        box-shadow: 0 .1em .2em .1em $black-light;
+        box-shadow: 0 .1em .2em .1em $black-o20;
         left: 50%;
         padding: .5em;
         position: absolute;
@@ -72,7 +72,7 @@
 .map-loading-space {
     background-color: $white;
     border-radius: .15em;
-    box-shadow: 0 .1em .2em .1em $black-light;
+    box-shadow: 0 .1em .2em .1em $black-o20;
     color: $black;
     left: 50%;
     padding: .5em;
@@ -94,15 +94,15 @@
     .zoom-btn {
         background-color: $white;
         border-radius: .1em;
-        box-shadow: 0 .1em .2em .1em $black-light;
-        color: $black-hover;
+        box-shadow: 0 .1em .2em .1em $black-o20;
+        color: $black-o50;
         display: inline-block;
         min-width: .8em;
         padding: .3em .6em;
 
         &:hover {
             background-color: rgba($white, .8);
-            color: $black-hover;
+            color: $black-o50;
         }
     }
 }

@@ -29,7 +29,7 @@ button {
     background-color: $white;
     border: none;
     border-radius: .1em;
-    box-shadow: 0 .1em .2em .1em $black-light;
+    box-shadow: 0 .1em .2em .1em $black-o20;
     cursor: pointer;
     display: inline-block;
     font-size: 1.0em;
@@ -47,8 +47,8 @@ button {
     }
 
     &.disabled {
-        background-color: $black-light;
-        color: $black-light;
+        background-color: $black-o20;
+        color: $black-o20;
         cursor: not-allowed;
     }
 
