@@ -9,14 +9,17 @@
 
 import { DropTarget } from './drop-target.directive';
 import { FileStream } from './file-stream.directive';
+import { MapInputDirective } from './map-input.directive';
 import { OVERLAY_DIRECTIVES } from './overlays';
 
 export * from './drop-target.directive';
 export * from './file-stream.directive';
+export * from './map-input.directive';
 export * from './overlays';
 
 export let DIRECTIVES: any[] = [
     DropTarget,
     FileStream,
+    MapInputDirective,
     ...OVERLAY_DIRECTIVES,
 ];

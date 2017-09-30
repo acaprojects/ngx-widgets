@@ -1,22 +1,20 @@
-/**
- * @Author: Alex Sorafumo <Yuion>
- * @Date:   13/09/2016 2:55 PM
- * @Email:  alex@yuion.net
- * @Filename: index.ts
- * @Last modified by:   alex.sorafumo
- * @Last modified time: 09/01/2017 3:27 PM
- */
-import { InteractiveMap } from './map.component';
-import { MapMarkerComponent, MapMarkerGroupComponent } from './markers';
-import { MapInfoDisplayComponent, MapInfoDisplayGroupComponent } from './info-display';
+
+import { MapOverlayComponent } from './map-overlay';
+import { MapOverlayContainerComponent } from './map-overlay-container';
+import { InteractiveMapComponent } from './map.component';
+import { MAP_OVERLAY_COMPONENTS } from './overlay-components';
 
 export * from './map.component';
-export * from './markers';
+export * from './map-overlay';
+export * from './map-overlay-container';
+export * from './overlay-components';
 
-export const MAP_COMPONENTS = [
-    InteractiveMap,
-    MapInfoDisplayComponent,
-    MapInfoDisplayGroupComponent,
-    MapMarkerGroupComponent,
-    MapMarkerComponent,
+export const MAP_COMPONENTS: any[] = [
+    InteractiveMapComponent,
+    MapOverlayContainerComponent,
+];
+
+export const MAP_ENTRY_COMPONENTS: any[] = [
+    MapOverlayComponent,
+    ...MAP_OVERLAY_COMPONENTS,
 ];

@@ -11,12 +11,6 @@ import * as moment from 'moment';
     selector: 'tooltip',
     templateUrl: './tooltip.template.html',
     styleUrls: ['./tooltip.styles.css'],
-    animations: [
-        trigger('show', [
-            transition(':enter', [style({ opacity: 0 }), animate(300, style({ opacity: 1 }))]),
-            transition(':leave', [style({ opacity: 1 }), animate(300, style({ opacity: 0 }))]),
-        ]),
-    ],
 })
 export class TooltipComponent extends DynamicBaseComponent {
     public container: any = {};

@@ -8,9 +8,9 @@
  */
 
 import { BUTTONS } from './buttons';
-import { FORM_CONTROLS, TypeaheadList } from './form-controls';
+import { FORM_CONTROLS, DropdownListComponent } from './form-controls';
 import { ImageCrop } from './img-crop';
-import { MAP_COMPONENTS } from './interactive-map';
+import { MAP_COMPONENTS, MAP_ENTRY_COMPONENTS } from './interactive-map';
 import { MaterialStyles } from './material-styles';
 import { MediaPlayerComponent } from './media-player';
 import { PAGE_CONTROLS } from './page-controls';
@@ -44,6 +44,8 @@ export let COMPONENTS: any[] = [
 
 export let ENTRY_COMPONENTS: any[] = [
     ...OVERLAY_COMPONENTS,
-    TypeaheadList,
+    ...MAP_ENTRY_COMPONENTS,
+    DropdownListComponent,
     VirtualKeyboard,
+
 ];

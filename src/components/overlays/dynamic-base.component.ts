@@ -16,6 +16,7 @@ export class DynamicBaseComponent {
     @Input() public cmp_ref: any = null;
     @Input() public parent: any = null;
     @Input() public state: any = { obs: null, sub: null };
+    @Input() public rendered: boolean = false;
 
     @ViewChild('content', { read: ViewContainerRef }) private _content: ViewContainerRef;
 
@@ -95,7 +96,6 @@ export class DynamicBaseComponent {
     }
 
     protected update(data: any) {
-        console.log(data);
         const cmp = this.model.cmp;
         for (const f in data) {
             if (data.hasOwnProperty(f)) {
@@ -133,6 +133,7 @@ export class DynamicBaseComponent {
                 if (factory) {
                     if (this.cmp_ref) {
                         this.cmp_ref.destroy();
+                        this.rendered = false;
                     }
                     this.cmp_ref = this._content.createComponent(factory);
 
@@ -151,6 +152,9 @@ export class DynamicBaseComponent {
                     if (inst.init) {
                         inst.init();
                     }
+                    setTimeout(() => {
+                        this.rendered = true;
+                    }, 100);
                 } else {
                     WIDGETS.error('DYN_CMP', 'Unable to find factory for: ', this.model.cmp);
                 }

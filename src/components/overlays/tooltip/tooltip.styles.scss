@@ -11,6 +11,8 @@
     position: absolute;
     z-index: 99;
     pointer-events: auto;
+    transition: opacity 300ms;
+    opacity: 0;
     &.no-triangle {
         width: 0;
         .triangle {

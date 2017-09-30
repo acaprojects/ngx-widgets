@@ -12,7 +12,6 @@ export class OverlayContentComponent {
     @Input() public fn: any = {};       // Overlay interaction functions
 
     public set(data: any) {
-        console.log(data);
         if (!this.model) {
             this.model = data;
         } else {

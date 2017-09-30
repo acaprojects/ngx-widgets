@@ -1,108 +1,82 @@
-// @Author: Alex Sorafumo <Yuion>
-// @Date:   21/09/2016 1:45 PM
-// @Email:  alex@yuion.net
-// @Filename: map.styles.scss
-// @Last modified by:   Yuion
-// @Last modified time: 15/12/2016 11:30 AM
-//
-@import '../../shared/ui-vars';
 
-.interactive-map {
-    color: $black;
-    cursor: pointer;
-    height: 100%;
+
+.map {
     position: relative;
-    user-select: none;
+    height: 100%;
     width: 100%;
 }
 
-.map-contents {
-    backface-visibility: hidden;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-    touch-action: pan;
-    width: 100%;
-    opacity: 0;
-    transition: opacity 500ms;
+.map-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .map-area {
-    left: 50%;
-    margin: auto;
-    min-height: 100%;
-    min-width: 100%;
     position: absolute;
     top: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    transition: all 200ms;
-    //will-change: transform;
-    z-index: 10;
-}
-
-.pins {
-    bottom: 0;
-    font-size: 1.2em;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.pin {
-    height: 3em;
-    position: absolute;
-    width: 2.5em;
-    z-index: 1000;
-
-    .text {
-        background-color: $white;
-        border-radius: 4px;
-        box-shadow: 0 .1em .2em .1em $black-o20;
-        left: 50%;
-        padding: .5em;
-        position: absolute;
-        top: 0;
-        transform: translate(-50%, -120%);
-        white-space: nowrap;
-        width: auto;
-    }
-}
-
-.map-loading-space {
-    background-color: $white;
-    border-radius: .15em;
-    box-shadow: 0 .1em .2em .1em $black-o20;
-    color: $black;
     left: 50%;
-    padding: .5em;
-    position: absolute;
-    text-align: center;
-    top: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2000;
+    transform-origin: 50% 50%;
+    height: 100%;
+    width: 100%;
+    transition: width 200ms, height 200ms;
 }
 
-.map-controls {
-    bottom: 5px;
-    font-size: 1em;
-    left: 5px;
+.map-img > * {
+    position: relative;
+    z-index: 200;
+}
+
+.focus-lock {
+    pointer-events: none;
+}
+
+.no-map {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: .5em .75em;
+    background-color: #fff;
+    border-radius: .2em;
+    width: 12em;
     text-align: center;
-    z-index: 100;
+}
 
-    .zoom-btn {
-        background-color: $white;
-        border-radius: .1em;
-        box-shadow: 0 .1em .2em .1em $black-o20;
-        color: $black-o50;
-        display: inline-block;
-        min-width: .8em;
-        padding: .3em .6em;
-
-        &:hover {
-            background-color: rgba($white, .8);
-            color: $black-o50;
-        }
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 4em;
+    width: 4em;
+    box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
+    background-color: #fff;
+    border-radius: .2em;
+    .icon {
+        height: 3em;
+        width: 3em;
+        background-image: url(data:image/svg+xml;base64,PCEtLSBHZW5lcmF0ZWQgYnkgSWNvTW9vbi5pbyAtLT4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiB2aWV3Qm94PSIwIDAgMzIgMzIiPgo8dGl0bGU+c3Bpbm5lcjM8L3RpdGxlPgo8cGF0aCBkPSJNMTYgOS40NzJjLTEuMDMwIDAtMS44NjUtMC44MzUtMS44NjUtMS44NjV2LTUuNTk2YzAtMS4wMzAgMC44MzUtMS44NjUgMS44NjUtMS44NjVzMS44NjUgMC44MzUgMS44NjUgMS44NjV2NS41OTZjMCAxLjAzMC0wLjgzNSAxLjg2NS0xLjg2NSAxLjg2NXoiPjwvcGF0aD4KPHBhdGggZD0iTTE2IDMxLjE1NWMtMC42NDQgMC0xLjE2Ni0wLjUyMi0xLjE2Ni0xLjE2NnYtNS41OTZjMC0wLjY0NCAwLjUyMi0xLjE2NiAxLjE2Ni0xLjE2NnMxLjE2NiAwLjUyMiAxLjE2NiAxLjE2NnY1LjU5NmMwIDAuNjQ0LTAuNTIyIDEuMTY2LTEuMTY2IDEuMTY2eiI+PC9wYXRoPgo8cGF0aCBkPSJNMTEuODA1IDEwLjQ4Yy0wLjYwNCAwLTEuMTkyLTAuMzE0LTEuNTE2LTAuODc1bC0yLjc5OC00Ljg0NmMtMC40ODMtMC44MzYtMC4xOTYtMS45MDYgMC42NC0yLjM4OXMxLjkwNi0wLjE5NiAyLjM4OSAwLjY0bDIuNzk4IDQuODQ2YzAuNDgzIDAuODM2IDAuMTk2IDEuOTA2LTAuNjQgMi4zODktMC4yNzUgMC4xNTktMC41NzYgMC4yMzUtMC44NzMgMC4yMzV6Ij48L3BhdGg+CjxwYXRoIGQ9Ik0yMi45OTUgMjkuMTY0Yy0wLjM2MyAwLTAuNzE1LTAuMTg4LTAuOTEtMC41MjVsLTIuNzk4LTQuODQ2Yy0wLjI5LTAuNTAyLTAuMTE4LTEuMTQzIDAuMzg0LTEuNDMzczEuMTQzLTAuMTE4IDEuNDMzIDAuMzg0bDIuNzk4IDQuODQ2YzAuMjkgMC41MDIgMC4xMTggMS4xNDMtMC4zODQgMS40MzMtMC4xNjUgMC4wOTUtMC4zNDYgMC4xNDEtMC41MjQgMC4xNDF6Ij48L3BhdGg+CjxwYXRoIGQ9Ik04LjcyOSAxMy40MzZjLTAuMjc3IDAtMC41NTctMC4wNzAtMC44MTQtMC4yMTlsLTQuODQ2LTIuNzk4Yy0wLjc4MS0wLjQ1MS0xLjA0OC0xLjQ0OS0wLjU5Ny0yLjIyOXMxLjQ0OS0xLjA0OCAyLjIyOS0wLjU5N2w0Ljg0NiAyLjc5OGMwLjc4MSAwLjQ1MSAxLjA0OCAxLjQ0OSAwLjU5NyAyLjIyOS0wLjMwMiAwLjUyNC0wLjg1MSAwLjgxNi0xLjQxNSAwLjgxNnoiPjwvcGF0aD4KPHBhdGggZD0iTTI4LjExNCAyMy45MjdjLTAuMTU4IDAtMC4zMTktMC4wNDAtMC40NjUtMC4xMjVsLTQuODQ2LTIuNzk4Yy0wLjQ0Ni0wLjI1OC0wLjU5OS0wLjgyOC0wLjM0MS0xLjI3NHMwLjgyOC0wLjU5OSAxLjI3NC0wLjM0MWw0Ljg0NiAyLjc5OGMwLjQ0NiAwLjI1OCAwLjU5OSAwLjgyOCAwLjM0MSAxLjI3NC0wLjE3MyAwLjI5OS0wLjQ4NiAwLjQ2Ni0wLjgwOSAwLjQ2NnoiPjwvcGF0aD4KPHBhdGggZD0iTTcuNjA3IDE3LjUxNWgtNS41OTZjLTAuODM3IDAtMS41MTYtMC42NzgtMS41MTYtMS41MTVzMC42NzgtMS41MTUgMS41MTYtMS41MTVoNS41OTZjMC44MzcgMCAxLjUxNiAwLjY3OCAxLjUxNiAxLjUxNXMtMC42NzggMS41MTUtMS41MTYgMS41MTV6Ij48L3BhdGg+CjxwYXRoIGQ9Ik0yOS45ODkgMTYuOTMzYy0wIDAgMCAwIDAgMGgtNS41OTZjLTAuNTE1LTAtMC45MzMtMC40MTgtMC45MzMtMC45MzNzMC40MTgtMC45MzMgMC45MzMtMC45MzNjMCAwIDAgMCAwIDBoNS41OTZjMC41MTUgMCAwLjkzMyAwLjQxOCAwLjkzMyAwLjkzM3MtMC40MTggMC45MzMtMC45MzMgMC45MzN6Ij48L3BhdGg+CjxwYXRoIGQ9Ik0zLjg4NiAyNC4zOTRjLTAuNDgzIDAtMC45NTQtMC4yNTEtMS4yMTMtMC43LTAuMzg2LTAuNjY5LTAuMTU3LTEuNTI1IDAuNTEyLTEuOTExbDQuODQ2LTIuNzk4YzAuNjY5LTAuMzg3IDEuNTI1LTAuMTU3IDEuOTExIDAuNTEyczAuMTU3IDEuNTI1LTAuNTEyIDEuOTExbC00Ljg0NiAyLjc5OGMtMC4yMiAwLjEyNy0wLjQ2MSAwLjE4OC0wLjY5OCAwLjE4OHoiPjwvcGF0aD4KPHBhdGggZD0iTTIzLjI3IDEyLjczNmMtMC4zMjIgMC0wLjYzNi0wLjE2Ny0wLjgwOS0wLjQ2Ni0wLjI1OC0wLjQ0Ni0wLjEwNS0xLjAxNiAwLjM0MS0xLjI3NGw0Ljg0Ni0yLjc5OGMwLjQ0Ni0wLjI1NyAxLjAxNi0wLjEwNSAxLjI3NCAwLjM0MXMwLjEwNSAxLjAxNi0wLjM0MSAxLjI3NGwtNC44NDYgMi43OThjLTAuMTQ3IDAuMDg1LTAuMzA3IDAuMTI1LTAuNDY1IDAuMTI1eiI+PC9wYXRoPgo8cGF0aCBkPSJNOS4wMDQgMjkuMzk3Yy0wLjIxOCAwLTAuNDM4LTAuMDU1LTAuNjQtMC4xNzItMC42MTMtMC4zNTQtMC44MjMtMS4xMzgtMC40NjktMS43NTJsMi43OTgtNC44NDZjMC4zNTQtMC42MTMgMS4xMzgtMC44MjMgMS43NTItMC40NjlzMC44MjMgMS4xMzggMC40NjkgMS43NTJsLTIuNzk4IDQuODQ2Yy0wLjIzNyAwLjQxMS0wLjY2OCAwLjY0MS0xLjExMiAwLjY0MXoiPjwvcGF0aD4KPHBhdGggZD0iTTIwLjE5NiA5LjY2NGMtMC4xNTggMC0wLjMxOS0wLjA0MC0wLjQ2NS0wLjEyNS0wLjQ0Ni0wLjI1OC0wLjU5OS0wLjgyOC0wLjM0MS0xLjI3NGwyLjc5OC00Ljg0NmMwLjI1OC0wLjQ0NiAwLjgyOC0wLjU5OSAxLjI3NC0wLjM0MXMwLjU5OSAwLjgyOCAwLjM0MSAxLjI3NGwtMi43OTggNC44NDZjLTAuMTczIDAuMjk5LTAuNDg2IDAuNDY2LTAuODA5IDAuNDY2eiI+PC9wYXRoPgo8L3N2Zz4K);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        transform-origin: 50% 50%;
+        animation: infinite rotate 1s steps(12, end);
+        margin: .5em;
     }
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg) }
+    100% { transform: rotate(360deg) }
 }

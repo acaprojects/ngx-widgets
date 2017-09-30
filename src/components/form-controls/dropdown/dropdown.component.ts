@@ -1,121 +1,54 @@
-/**
- * @Author: Alex Sorafumo
- * @Date:   20/09/2016 1:54 PM
- * @Email:  alex@yuion.net
- * @Filename: dropdown.component.ts
- * @Last modified by:   Alex Sorafumo
- * @Last modified time: 20/12/2016 9:37 AM
- */
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { DropdownListComponent } from './dropdown-list';
 
 @Component({
     selector: 'dropdown',
-    styleUrls: [ './dropdown.style.css' ],
     templateUrl: './dropdown.template.html',
+    styleUrls: ['./dropdown.styles.css'],
 })
-export class Dropdown {
-    @Input() public items: any[] = [];
-    @Input() public model: any = null;
-    @Input() public index: number = 0;
-    @Input() public fields: string[] = ['name'];
-    @Input() public cssClass: string = 'default';
+export class DropdownComponent {
+    @Input() public name: string = '';
+    @Input() public list: any[] = [];
+    @Input() public model: number = 0;
+    @Input() public filter: boolean = false;
     @Input() public placeholder: string = '';
-
+    @Input() public hideActive: boolean = false;
+    @Input() public html: string = '';
     @Output() public modelChange: any = new EventEmitter();
-    @Output() public indexChange: any = new EventEmitter();
 
-    public display_items: any = [];
-    public current_item: any = null;
-    public shown: boolean = true;
-    private type: string = 'string';
+    public id: any = {};
+    public data: any = {};
+    public show: boolean = false;
+    public cmp: any = DropdownListComponent;
 
-    @ViewChild('list') private list: ElementRef;
-    @ViewChild('listplaceholder') private list_placeholder: ElementRef;
+    constructor() {
+        this.id = `DD${Math.floor(Math.random() * 89999999 + 10000000).toString()}`;
+    }
 
     public ngOnChanges(changes: any) {
-        if (changes.items) {
-            this.shown = false;
-            if (this.items && this.items.length > 0) {
-                setTimeout(() => {
-                    this.display_items = this.items;
-                    this.type = typeof this.items[0];
-                    if (!this.placeholder || this.placeholder === '') {
-                        if (!this.model) {
-                            this.model = this.items[0];
-                        }
-                    }
-                    this.updateWidth();
-                }, 200);
-            }
-        }
-        if (changes.model) {
-            setTimeout(() => {
-                this.current_item = this.model;
-            }, 200);
+        this.update();
+    }
+
+    public select(e: any) {
+        if (e.type === 'Select') {
+            this.model = e.data.active;
+            this.modelChange.emit(this.model);
+            e.close();
+            this.show = false;
+            this.update();
         }
     }
 
-    public ngOnViewInit() {
-        this.updateWidth();
-    }
-    /**
-     * Selects the item with the given index
-     * @param {number} i Index of the selected item
-     * @return {void}
-     */
-    public select(i: number) {
-        this.model = this.display_items[i];
-        this.modelChange.emit(this.model);
-        this.indexChange.emit(i);
-        this.shown = false;
-    }
-
-    public toggle() {
-        this.shown = !this.shown;
-    }
-
-    public checkTap(e: any) {
-        if (e) {
-            const bb = this.list.nativeElement.getBoundingClientRect();
-            const c = e.center || { x: e.clientX, y: e.clientY };
-            if (c.x < bb.left || c.x > bb.left + bb.width || c.y < bb.top || c.y > bb.top + bb.height) {
-                this.shown = false;
-            }
-        }
-    }
-    /**
-     * Update element's width to affect the DOM correctly
-     */
-    public updateWidth() {
-        if (this.list_placeholder && this.list) {
-            this.list_placeholder.nativeElement.style.width = this.list.nativeElement.clientWidth + 'px';
-            console.log(this.list.nativeElement.clientWidth);
-        } else {
-            setTimeout(() => {
-                this.updateWidth();
-            }, 300);
-        }
-    }
-    /**
-     * Checks whether the given item contains a property containing the given string
-     * @param {any}    item   Item to search through
-     * @param {string} search String to search for within item
-     * @return {boolean} Returns whether or not the string is contained in the item
-     */
-    private itemContains(item: any, search: string) {
-        const s = search.toLowerCase();
-        for (const p in item) {
-            if (typeof item[p] === 'string' && item[p].toLowerCase().indexOf(s) >= 0) {
-                return true;
-            } else if (typeof item[p] === 'number' && item[p].toString().indexOf(s) >= 0) {
-                return true;
-            } else if (typeof item[p] === 'object' && this.itemContains(item[p], search)) {
-                return true;
-            }
-        }
-        return false;
+    private update() {
+        this.data = {
+            list: this.list,
+            active: this.model,
+            filter: this.filter,
+            hideActive: this.hideActive,
+            placeholder: this.placeholder,
+        };
     }
 
 }

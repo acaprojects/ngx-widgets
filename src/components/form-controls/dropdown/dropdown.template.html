@@ -1,36 +1,25 @@
-<!--
-@Author: Alex Sorafumo <Yuion>
-@Date:   16/09/2016 10:42 AM
-@Email:  alex@yuion.net
-@Filename: dropdown.template.html
-@Last modified by:   Yuion
-@Last modified time: 15/12/2016 11:29 AM
--->
 
-<div #main [class]="'aca dropdown ' + cssClass" (window:resize)="updateWidth()">
-    <div #listplaceholder class="list"></div>
-    <div #list class="list show" [style.height]="shown ? (display_items.length < 6 ? (display_items.length) * 2.5 : '15') + 'em': '2.45em'">
-        <div class="container active">
-            <div class="item active" (tap)="toggle()">
-                <div class="inner" *ngIf="model&&model!==''">
-                    <div *ngIf="type==='object'">
-                        <span *ngFor="let f of fields; let k = index " class="field" [id]="'active-dropdown-item-field'+k">{{model[f]}}</span>
-                    </div>
-                    <div class="field" *ngIf="type!=='object'">{{model}}</div>
-                </div>
-                <div class="inner field" *ngIf="!model||model===''">{{placeholder}}</div>
-            </div>
-        </div>
-        <div hidden *ngIf="shown" (window:click)="checkTap($event)"></div>
-        <div class="items">
-            <div class="container" *ngFor="let item of display_items; let i = index " [class.hide]="item===current_item">
-                <div class="item" *ngIf="item!==current_item">
-                    <div *ngIf="type==='object'" (tap)="select(i)">
-                        <span *ngFor="let f of fields; let k = index " class="field" [id]="'dropdown-item'+i+'-field'+k">{{item[f]}}</span>
-                    </div>
-                    <div class="field" *ngIf="type!=='object'" (tap)="select(i)">{{item}}</div>
-                </div>
-            </div>
+<div [class]="'dropdown ' + name + (show ? 'show' : '')" widget>
+    <div class="tooltip"
+        tooltip
+        [name]="dropdown-list"
+        [model]="data"
+        [cmp]="cmp"
+        [triangle]="false"
+        [(show)]="show"
+        (event)="select($event)">
+    </div>
+    <div class="item active" (tap)="show = true">
+        <div class="text">{{ model < 0 || !list || list.length <= model ? placeholder : list[model].name || list[model] }}</div>
+        <div class="icon">&#708;</div>
+    </div>
+    <div class="item placeholder">
+        <div class="text">{{placeholder}}</div>
+    </div>
+    <div class="list">
+        <div class="item" *ngFor="let item of list; let i = index" [class.hide]="hideActive&&i===model">
+            <div class="text">{{ item.name || item }}</div>
+            <div class="icon" *ngIf="model === i" [innerHTML]="(html || '&#10003;') | safe"></div>
         </div>
     </div>
 </div>

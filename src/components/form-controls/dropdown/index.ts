@@ -1,10 +1,3 @@
-/**
- * @Author: Alex Sorafumo <Yuion>
- * @Date:   26/07/2016 3:08 PM
- * @Email:  alex@yuion.net
- * @Filename: index.ts
- * @Last modified by:   Yuion
- * @Last modified time: 15/12/2016 11:29 AM
- */
 
 export * from './dropdown.component';
+export * from './dropdown-list';

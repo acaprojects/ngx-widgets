@@ -10,8 +10,7 @@
 import { Calendar } from './calendar';
 import { CheckboxComponent } from './checkbox';
 import { DataInput } from './data-input';
-import { Dropdown } from './dropdown';
-import { DropdownTypeahead } from './dropdown-typeahead';
+import { DropdownComponent } from './dropdown';
 import { Slider } from './slider';
 import { TimePicker } from './time-picker';
 import { Toggle } from './toggle';
@@ -21,7 +20,6 @@ export * from './calendar';
 export * from './checkbox';
 export * from './data-input';
 export * from './dropdown';
-export * from './dropdown-typeahead';
 export * from './slider';
 export * from './time-picker';
 export * from './toggle';
@@ -31,8 +29,7 @@ export const FORM_CONTROLS: any[] = [
     Calendar,
     CheckboxComponent,
     DataInput,
-    Dropdown,
-    DropdownTypeahead,
+    DropdownComponent,
     Slider,
     TimePicker,
     Toggle,

@@ -6,9 +6,9 @@
 
     <div [class]="'tooltip ' + model.position + ' ' + model.name" widget
         [class.no-triangle]="model.model && !model.triangle"
-        [@show] *ngIf="shown"
         (window:click)="shown ? close() : ''"
         (window:resize)="shown ? close() : ''"
+        [style.opacity]="rendered ? '1' : '0'"
         (tap)="tap()">
 
         <div [class]="'content ' + model.offset">

@@ -1,49 +1,18 @@
-<!--
-@Author: Alex Sorafumo
-@Date:   18/11/2016 4:31 PM
-@Email:  alex@yuion.net
-@Filename: map.template.html
-@Last modified by:   alex.sorafumo
-@Last modified time: 13/01/2017 12:45 PM
--->
 
-<div #displayarea class="aca interactive-map" (window:resize)="resize()">
-    <div #maparea class="map-contents" [style.opacity]="(!loading && map_data)?'1':'0'"
-        (pinchstart)="startScale($event)"
-        (pinch)="scaleMap($event)"
-        (pinchend)="finishScale()"
-        (panmove)="moveMap($event)"
-        (panend)="moveEnd($event)"
-        (tap)="tapMap($event)">
-
-        <div #mapdisplay class="map-area"></div>
-        <map-marker-group
-            [markers]="marker_list"
-            [rotate]="rotations"
-            [radius]="6*((100+_zoom)/100)/map_scale"
-            [disable]="false"
-            [map]="map_details"
-            [reset]="reset_markers">
-        </map-marker-group>
-        <map-info-group
-            [regions]="info_list"
-            [rotate]="rotations"
-            [radius]="6*((100+_zoom)/100)/map_scale"
-            [disable]="false"
-            [map]="map_details"
-            [reset]="reset_markers"
-            [update]="info_update">
-        </map-info-group>
-    </div>
-    <div *ngIf="loading && map !== ''" class="map-loading-space">
-        <spinner type="dot-circle" color="#000"></spinner>
-    </div>
-    <div *ngIf="!loading && !map_data && map !== ''" class="map-loading-space" [style.font-size]="'1.5em'">
-        Map not found!
-    </div>
-    <div class="map-controls" *ngIf="controls&&!loading">
-        <div class="zoom-btn" (tap)="zoomIn()" >+</div>
-        <div class="zoom-btn" syle="font-size:0.7em;" (tap)="resetZoom()">{{(100 + zoom) + '%'}}</div>
-        <div class="zoom-btn" (tap)="zoomOut()">-</div>
+<div [class]="'map ' + id" widget>
+    <div class="map-container" [class.focus-lock]="focus?.lock"
+        map-input [(scale)]="zoom" (scaleChange)="update()" [(center)]="center" (centerChange)="update()" (event)="userEvent($event)">
+        <div #map class="map-area"
+            [style.transform]="state.transform | safestyle"
+            [style.width]="(100 * state.scale) + '%'"
+            [style.height]="(100 * state.scale) + '%'"
+            [style.display]="state.loading ? 'none' : ''">
+            <div #img class="map-img" [innerHTML]="(state.map || '') | safe"></div>
+            <map-overlay-container [model]="interest_points" [el]="map" [state]="{ center: center, scale: (100 + zoom) / 100, ratio: map_ratio }" (event)="overlayEvent($event)" [resize]="zoom"></map-overlay-container>
+        </div>
+        <div class="no-map" *ngIf="!state.map&&!state.loading">No map loaded!</div>
+        <div class="loading-spinner" *ngIf="state.loading">
+            <div class="icon"></div>
+        </div>
     </div>
 </div>
