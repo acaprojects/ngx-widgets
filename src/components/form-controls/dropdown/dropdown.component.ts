@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 import { DropdownListComponent } from './dropdown-list';
 
@@ -18,17 +18,30 @@ export class DropdownComponent {
     @Input() public html: string = '';
     @Output() public modelChange: any = new EventEmitter();
 
+    @ViewChild('body') private body: ElementRef;
+
     public id: any = {};
     public data: any = {};
     public show: boolean = false;
     public cmp: any = DropdownListComponent;
+    public width: number = 200;
+    public list_items: any[] = [];
 
     constructor() {
         this.id = `DD${Math.floor(Math.random() * 89999999 + 10000000).toString()}`;
     }
 
+    public ngAfterViewInit() {
+    }
+
     public ngOnChanges(changes: any) {
+        if (changes.list) {
+            this.processList();
+        }
         this.update();
+        setTimeout(() => {
+            this.updateSize();
+        }, 300);
     }
 
     public select(e: any) {
@@ -41,14 +54,46 @@ export class DropdownComponent {
         }
     }
 
+    public updateSize(tries: number = 0) {
+        if (tries > 10) {
+            return;
+        }
+        if (this.body && this.body.nativeElement) {
+            this.width = this.body.nativeElement.offsetWidth;
+            this.update();
+        } else {
+            tries++;
+            setTimeout(() => {
+                this.updateSize(tries);
+            }, 200);
+        }
+    }
+
     private update() {
         this.data = {
-            list: this.list,
+            name: this.name,
+            list: this.list_items,
             active: this.model,
             filter: this.filter,
+            width: this.width,
             hideActive: this.hideActive,
             placeholder: this.placeholder,
         };
+    }
+
+    private processList() {
+        if (this.list) {
+            const list: any[] = [];
+            for (const item of this.list) {
+                if (typeof item === 'object') {
+                    list.push(item || { name: '' });
+                } else {
+                    list.push({ name: item });
+                }
+            }
+            this.list_items = list;
+        }
+        this.update();
     }
 
 }

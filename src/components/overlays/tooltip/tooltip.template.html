@@ -7,10 +7,12 @@
     <div [class]="'tooltip ' + model.position + ' ' + model.name" widget
         [class.no-triangle]="model.model && !model.triangle"
         (window:click)="shown ? close() : ''"
+        (window:mousedown)="shown ? mouseDown() : ''"
+        (window:mouseup)="shown ? mouseUp() : ''"
+        (window:mousemove)="shown ? mouseMove() : ''"
         (window:resize)="shown ? close() : ''"
         [style.opacity]="rendered ? '1' : '0'"
-        (tap)="tap()">
-
+        (click)="tap()">
         <div [class]="'content ' + model.offset">
             <div #content></div>
         </div>

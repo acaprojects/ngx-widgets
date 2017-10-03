@@ -25,7 +25,10 @@ export class InteractiveMapComponent {
     public interest_points: any[] = [];
     public state: any = {};
     public timers: any = {};
-    public map_ratio: any = {};
+    public ratio: any = {
+        map: {},
+        container: {},
+    };
 
     @ViewChild('map') private area: ElementRef;
     @ViewChild('img') private img: ElementRef;
@@ -39,37 +42,37 @@ export class InteractiveMapComponent {
     }
 
     public ngOnChanges(changes: any) {
-        if (changes.poi) {
-            this.loadPointsOfInterest();
-        }
-        if (changes.src) {
-            this.loadMap();
-        }
-        if (changes.reset) {
-            setTimeout(() => {
-                this.zoom = 0;
-                this.center = { x: .5, y: .5 };
-                this.zoomChange.emit(this.zoom);
-                this.centerChange.emit(this.center);
-                this.update();
-            }, 10);
-        }
-        if (changes.zoom || changes.center) {
-            setTimeout(() => {
-                if (this.focus && this.focus.lock) {
-                    this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
-                    this.center = changes.center ? changes.changes.previousValue : this.center;
-                }
-                this.update();
-            }, 10);
-        }
-        if (changes.styles) {
-            this.updateStyles();
-        }
+        setTimeout(() => {
+            if (changes.poi) {
+                this.loadPointsOfInterest();
+            }
+            if (changes.src) {
+                this.loadMap();
+            }
+            if (changes.reset) {
+                    this.zoom = 0;
+                    this.center = { x: .5, y: .5 };
+                    this.zoomChange.emit(this.zoom);
+                    this.centerChange.emit(this.center);
+                    this.update();
+            }
+            if (changes.zoom || changes.center) {
+                setTimeout(() => {
+                    if (this.focus && this.focus.lock) {
+                        this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
+                        this.center = changes.center ? changes.changes.previousValue : this.center;
+                    }
+                    this.update();
+                }, 10);
+            }
+            if (changes.styles) {
+                this.updateStyles();
+            }
 
-        if (changes.focus) {
-            this.focusEvent();
-        }
+            if (changes.focus) {
+                this.focusEvent();
+            }
+        }, 10);
     }
 
     public update() {
@@ -77,7 +80,7 @@ export class InteractiveMapComponent {
         const x = Math.floor((100 * this.center.x) * 100) / 100;
         const y = Math.floor((100 * this.center.y) * 100) / 100;
         this.state.position = `${x}%, ${y}%`;
-        this.state.scale = `${Math.round((100 + this.zoom) * 10) / 1000}`;
+        this.state.scale = `${Math.round((100 + this.zoom) * 10 * ( this.ratio.map.height / this.ratio.container.height )) / 1000}`;
         this.state.transform = `translate(${x - 100}%, ${y - 100}%)`;
     }
 
@@ -127,8 +130,8 @@ export class InteractiveMapComponent {
             if (this.focus.coordinates) {
                 const c = this.focus.coordinates;
                 this.center = {
-                    x: 1 - (c.x / this.units / this.map_ratio.width),
-                    y: 1 - (c.y / this.units / this.map_ratio.height),
+                    x: 1 - (c.x / this.units / this.ratio.map.width),
+                    y: 1 - (c.y / this.units / this.ratio.map.height),
                 };
                 this.zoom = this.focus.zoom || 100;
             } else if (this.focus.id) {
@@ -138,7 +141,6 @@ export class InteractiveMapComponent {
                     if (el) {
                         const box = el.getBoundingClientRect();
                         const map_box = this.area.nativeElement.getBoundingClientRect();
-                        console.log(box, map_box);
                         const location = {
                             x: 1 - (((box.left - map_box.left) + box.width / 2) / map_box.width),
                             y: 1 - (((box.top - map_box.top) + box.height / 2) / map_box.height),
@@ -146,7 +148,6 @@ export class InteractiveMapComponent {
                         const zoom = (((map_box.width / box.width) / 4) * 100) - 100;
                         this.center = location;
                         this.zoom = this.focus.zoom || Math.min(zoom, 700) || 100;
-                        console.log('Details', this.center, this.zoom + 100);
                     }
                 } else {
                     setTimeout(() => {
@@ -215,20 +216,20 @@ export class InteractiveMapComponent {
         if (this.state.map_el) {
             this.state.map_box = this.state.map_el.getBoundingClientRect();
             this.state.area_box = this.img.nativeElement.getBoundingClientRect();
-            let scale = 1;
-            if (this.state.map_box.height > this.state.area_box.height) {
-                scale = 1 / (this.state.map_box.height / this.state.area_box.height);
-                this.state.map_el.style.width = `${Math.floor(10000 * scale) / 100}%`;
-            }
             this.state.map_el.style.position = 'absolute';
             this.state.map_el.style.top = '50%';
             this.state.map_el.style.left = '50%';
             this.state.map_el.style.transform = `translate(-50%, -50%)`;
-            this.map_ratio = {
+            this.ratio.map = {
                 width: 1,
                 height: this.state.map_box.height / this.state.map_box.width,
             };
+            this.ratio.container = {
+                width: 1,
+                height: this.state.area_box.height / this.state.area_box.width,
+            };
             this.focusEvent();
         }
+        this.state.map_id = `${this.src}_${Math.floor(Math.random() * 89999999 + 10000000)}`;
     }
 }

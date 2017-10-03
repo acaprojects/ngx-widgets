@@ -14,7 +14,6 @@ import { DropdownComponent } from './dropdown';
 import { Slider } from './slider';
 import { TimePicker } from './time-picker';
 import { Toggle } from './toggle';
-import { Typeahead, TypeaheadList } from './typeahead';
 
 export * from './calendar';
 export * from './checkbox';
@@ -23,7 +22,6 @@ export * from './dropdown';
 export * from './slider';
 export * from './time-picker';
 export * from './toggle';
-export * from './typeahead';
 
 export const FORM_CONTROLS: any[] = [
     Calendar,
@@ -33,6 +31,4 @@ export const FORM_CONTROLS: any[] = [
     Slider,
     TimePicker,
     Toggle,
-    Typeahead,
-    TypeaheadList,
 ];

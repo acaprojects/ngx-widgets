@@ -277,7 +277,6 @@ export class TabGroup implements AfterContentInit  {
     private addHeadNode(node: any) {
         const root = this.header;
         if (!root || !node || this.node_list.indexOf(node.id) >= 0) {
-            console.log('No root');
             setTimeout(() => {
                 this.addHeadNode(node);
             }, 500);
@@ -294,7 +293,6 @@ export class TabGroup implements AfterContentInit  {
     private addBodyNode(node: any) {
         const root = this.body;
         if (!root || !node || this.node_list.indexOf(node.id) >= 0) {
-            console.log('No body');
             setTimeout(() => {
                 this.addBodyNode(node);
             }, 500);

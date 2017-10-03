@@ -27,6 +27,7 @@ export class TooltipDirective {
     public sub: any = null;
 
     private data: any = {};
+    private instance: any;
 
     @HostListener('mouseenter', ['$event.target']) public onEnter(btn) {
         if (this.hover) {
@@ -55,8 +56,30 @@ export class TooltipDirective {
         } else if (changes.show && !this.show) {
             this.removeTooltip();
         }
+        if (changes.model) {
+                this.update();
+        }
         if (changes.hover) {
             this.removeTooltip();
+        }
+    }
+
+    private update() {
+        if (this.instance) {
+            this.data = {
+                name: this.name,
+                position: this.position,
+                offset: this.offset,
+                offsetBy: this.offsetBy,
+                triangle: this.triangle,
+                html: this.html,
+                hover: this.hover,
+                show: this.show,
+                cmp: this.cmp,
+                el: this.el,
+                data: this.model,
+            };
+            this.instance.set(this.data);
         }
     }
 
@@ -85,6 +108,7 @@ export class TooltipDirective {
             this.data.data.html = this.html;
         }
         this.overlay.add(this.id, TooltipComponent, this.data).then((cmp: any) => {
+            this.instance = cmp;
             this.sub = cmp.watch((event) => {
                 this.processEvent(event);
             });
@@ -102,7 +126,7 @@ export class TooltipDirective {
     }
 
     private processEvent(event: any) {
-        console.log('Tooltip Event', event);
+        // console.log('Tooltip Event', event);
         if (event.type === 'close') {
             this.show = false;
             this.showChange.emit(false);

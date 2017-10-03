@@ -22,27 +22,21 @@ export class MapOverlayContainerComponent {
 
     }
 
+    public ngOnDestory() {
+        this.clear();
+    }
+
     public ngOnChanges(changes: any) {
         if (changes.model) {
             this.clear();
-            console.log(this.model);
             setTimeout(() => {
                 for (const item of this.model) {
                     if (item.id) {
-                        this.add(item.id, MapOverlayComponent).then((inst: any) => {
-                            item.map = this.el;
-                            if (this.el) {
-                                const clean_id = item.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
-                                const el = this.el.querySelector(`#${clean_id}`);
-                                if (el) { item.el = el; }
-                                else { item.el = null; }
-                            }
-                            item.map_state = this.state;
-                            if (item.data) {
-                                item.data.map_state = this.state;
-                            } else {
-                                item.data = { map_state: this.state };
-                            }
+                        let name = '';
+                        if (typeof item.cmp === 'string') { name = item.cmp; }
+                        else { name = item.cmp.name }
+                        const id = `${item.prefix ? item.prefix + '-' : ''}${item.id}`;
+                        this.add(id, MapOverlayComponent).then((inst: any) => {
                             inst.set(item);
                             inst.subscribe((event) => {
                                 event.id = item.id;
@@ -53,9 +47,12 @@ export class MapOverlayContainerComponent {
                         });
                     }
                 }
+                setTimeout(() => {
+                    this.resizeEvent();
+                }, 200);
             }, 100);
         }
-        if (changes.state) {
+        if (changes.state || changes.el) {
             this.resizeEvent();
         }
     }
@@ -83,8 +80,17 @@ export class MapOverlayContainerComponent {
 
     private resizeEvent() {
         for (const id in this.cmp_refs) {
-            if (this.cmp_refs.hasOwnProperty(id)) {
+            if (this.cmp_refs.hasOwnProperty(id) && this.cmp_refs[id]) {
                 const item = this.getComponent(id);
+                // if (item.map !== this.el) {
+                    item.map = this.el;
+                    if (this.el && item.id) {
+                        const clean_id = item.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
+                        const el = this.el.querySelector(`#${clean_id}`);
+                        if (el) { item.el = el; }
+                        else { item.el = null; }
+                    }
+                // }
                 item.map_state = this.state;
                 if (item.data) {
                     item.data.map_state = this.state;
@@ -98,7 +104,7 @@ export class MapOverlayContainerComponent {
 
     private getComponent(id: string) {
         for (const item of this.model) {
-            if (item.id === id) {
+            if (`${item.prefix ? item.prefix + '-' : ''}${item.id}` === id) {
                 return item;
             }
         }

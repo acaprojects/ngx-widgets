@@ -8,7 +8,7 @@ import { DynamicBaseComponent } from '../../overlays/dynamic-base.component';
                     [style.top]="container?.top + '%'"
                     [style.left]="container?.left + '%'"
                     [style.width]="container?.width + '%'"
-                    [style.height]="container?.height + '%'">
+                    [style.height]="container?.height + '%'" [class.hide]="!this.model.el && !this.model.coordinates">
                         <div #content></div>
                 </div>`,
     styleUrls: ['./map-overlay.styles.css'],

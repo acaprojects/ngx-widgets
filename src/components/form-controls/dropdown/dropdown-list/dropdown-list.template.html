@@ -1,8 +1,8 @@
 
-<div [class]="'dropdown list' + name" widget>
-    <div class="item active" (tap)="show = true">
+<div [class]="'dropdown list ' + model?.name" widget [style.width]="model.width ? model.width + 'px' : ''">
+    <div class="item active">
         <div class="text">
-            {{ model.active < 0 || !model.list || model.list.length <= model ? model.placeholder : model.list[model.active].name || model.list[model.active] }}
+            {{ model.active < 0 || !model.list || model.list.length <= model.active || !model.list[model.active] ? model.placeholder : model.list[model.active].name || model.list[model.active] }}
         </div>
         <div class="icon">&#709;</div>
     </div>
@@ -16,12 +16,15 @@
     <div class="list" [class.filter]="model.filter">
 
         <div class="item"
-            *ngFor="let item of filtered_list; let i = index"
-            [class.hide]="model.hideActive&&(item.i || i)===model.active"
-            (tap)="select(item.i || i)">
+            *ngFor="let item of model.list; let i = index"
+            [class.hide]="(model.hideActive&&(item.i || i)===model.active) || filtered_list.indexOf(item) < 0"
+            (click)="select(item.i || i)">
 
             <div class="text">{{ item.name || item }}</div>
-            <div class="icon" *ngIf="model.active === (item.i || i)" [innerHTML]="(model.html || '&#10003;') | safe"></div>
+            <div class="icon"
+                [style.opacity]="model.active === (item.i || i) ? 1 : 0"
+                [innerHTML]="(model.html || '&#10003;') | safe">
+            </div>
         </div>
     </div>
 </div>

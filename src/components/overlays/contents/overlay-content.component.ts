@@ -12,14 +12,16 @@ export class OverlayContentComponent {
     @Input() public fn: any = {};       // Overlay interaction functions
 
     public set(data: any) {
-        if (!this.model) {
-            this.model = data;
-        } else {
-            for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                    this.model[key] = data[key];
+        setTimeout(() => {
+            if (!this.model) {
+                this.model = data;
+            } else {
+                for (const key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        this.model[key] = data[key];
+                    }
                 }
             }
-        }
+        }, 10);
     }
 }

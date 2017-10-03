@@ -16,7 +16,9 @@ export class DropdownListComponent extends OverlayContentComponent {
 
     public set(data: any) {
         super.set(data);
-        this.filter();
+        setTimeout(() => {
+            this.filter();
+        }, 20);
     }
 
     public filter() {

@@ -1,6 +1,6 @@
 
-import { Component, Input, Type, ViewChild, ViewContainerRef } from '@angular/core';
-import { ComponentFactoryResolver, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Input, Type, ViewChild } from '@angular/core';
+import { ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { WIDGETS } from '../../settings';
@@ -19,6 +19,7 @@ export class DynamicBaseComponent {
     @Input() public rendered: boolean = false;
 
     @ViewChild('content', { read: ViewContainerRef }) private _content: ViewContainerRef;
+    @ViewChild('body') protected body: ElementRef;
 
     constructor(private _cfr: ComponentFactoryResolver, public renderer: Renderer2) {
     }
@@ -47,7 +48,17 @@ export class DynamicBaseComponent {
         }, 100);
     }
 
-    public close() {
+    public close(e?: any) {
+        if (e && this.body && this.body.nativeElement) {
+            const c = { x: e.clientX, y: e.clientY };
+            const box = this.body.nativeElement.getBoundingClientRect();
+            if (c.x >= box.left && c.y >= box.top && c.x <= box.left + box.width && c.y <= box.top + box.height) {
+                this.model.tapped = true;
+                setTimeout(() => {
+                    this.model.tapped = false;
+                }, 100);
+            }
+        }
         setTimeout(() => {
             if (!this.model.tapped) {
                 this.model.show = false;
@@ -102,11 +113,21 @@ export class DynamicBaseComponent {
                 this.model[f] = data[f];
             }
         }
-        if (this.cmp_ref) {
-            this.cmp_ref.instance.set(data);
-        }
         if (cmp !== this.model.cmp) {
             this.render();
+        } else {
+            this.updateComponent(data);
+        }
+    }
+
+    protected updateComponent(data: any, tries: number = 0) {
+        if (this.cmp_ref){
+            this.cmp_ref.instance.set(data);
+        } else {
+            tries++;
+            setTimeout(() => {
+                this.updateComponent(data, tries);
+            }, 200 * tries);
         }
     }
 

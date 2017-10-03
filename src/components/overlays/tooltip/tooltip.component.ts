@@ -15,6 +15,8 @@ import * as moment from 'moment';
 export class TooltipComponent extends DynamicBaseComponent {
     public container: any = {};
     public shown: boolean = false;
+    public mouse_state: string = 'up';
+    public box: any = null;
 
     public init(parent?: any, id?: string) {
         super.init(parent, id);
@@ -22,12 +24,17 @@ export class TooltipComponent extends DynamicBaseComponent {
             if (this.shown && !this.model.hover) {
                 this.close();
             }
-        })
+        });
+    }
+
+    public initBox() {
+        if (this.body && this.body.nativeElement) {
+            this.box = this.body.nativeElement.getBoundingClientRect();
+        }
     }
 
     public resize() {
         this.shown = false;
-        console.log(this.model);
         setTimeout(() => {
             const el = this.model.el;
             if (el && el.nativeElement) {
@@ -37,6 +44,29 @@ export class TooltipComponent extends DynamicBaseComponent {
                 this.shown = true;
             }, 100);
         }, 100);
+    }
+
+    public mouseDown(e?: any) {
+        this.mouse_state = 'down';
+        if (e && this.box) {
+            const c = { x: e.clientX, y: e.clientY };
+            if (c.x >= this.box.left && c.y >= this.box.top && c.x <= this.box.left + this.box.width && c.y <= this.box.top + this.box.height) {
+                this.model.tapped = true;
+            }
+        }
+    }
+
+    public mouseUp() {
+        this.mouse_state = 'up';
+        setTimeout(() => {
+            this.model.tapped = false;
+        }, 100);
+    }
+
+    public mouseMove(e?: any) {
+        if (this.mouse_state === 'down') {
+            this.close();
+        }
     }
 
     protected update(data: any) {

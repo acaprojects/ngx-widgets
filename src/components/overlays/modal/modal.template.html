@@ -1,5 +1,5 @@
-<div [class]="'modal ' + model.name" widget [@show] (window:click)="close()">
-    <div class="body" (tap)="tap()">
+<div [class]="'modal ' + model.name" widget [@show] (window:click)="close($event)">
+    <div #body class="body" (click)="tap()">
         <div #content class="contents"></div>
     </div>
 </div>
