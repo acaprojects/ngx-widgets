@@ -1,5 +1,5 @@
 
-import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, Type } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, TemplateRef, Type } from '@angular/core';
 
 import { OverlayService } from '../../services/overlay.service';
 
@@ -11,11 +11,11 @@ import { WIDGETS } from '../../settings';
 })
 export class TooltipDirective {
     @Input() public name: string = '';
-    @Input() public position: string = 'below'; // top, bottom, left, right
+    @Input() public position: string = 'bottom'; // top, bottom, left, right
     @Input() public offset: string = 'middle'; // start, middle, end
     @Input() public offsetBy: string = '';
-    @Input() public html: string = '';
     @Input() public cmp: Type<any> = null;
+    @Input() public template: TemplateRef<any> = null;
     @Input() public model: any = {};
     @Input() public triangle: boolean = true;
     @Input() public show: boolean = false;
@@ -56,8 +56,8 @@ export class TooltipDirective {
         } else if (changes.show && !this.show) {
             this.removeTooltip();
         }
-        if (changes.model) {
-                this.update();
+        if (changes.model || changes.template) {
+            this.update();
         }
         if (changes.hover) {
             this.removeTooltip();
@@ -72,7 +72,7 @@ export class TooltipDirective {
                 offset: this.offset,
                 offsetBy: this.offsetBy,
                 triangle: this.triangle,
-                html: this.html,
+                template: this.template,
                 hover: this.hover,
                 show: this.show,
                 cmp: this.cmp,
@@ -97,16 +97,13 @@ export class TooltipDirective {
             offset: this.offset,
             offsetBy: this.offsetBy,
             triangle: this.triangle,
-            html: this.html,
+            template: this.template,
             hover: this.hover,
             show: this.show,
             cmp: this.cmp,
             el: this.el,
             data: this.model,
         };
-        if (this.html) {
-            this.data.data.html = this.html;
-        }
         this.overlay.add(this.id, TooltipComponent, this.data).then((cmp: any) => {
             this.instance = cmp;
             this.sub = cmp.watch((event) => {

@@ -1,5 +1,6 @@
 <div [class]="'modal ' + model.name" widget [@show] (window:click)="close($event)">
     <div #body class="body" (click)="tap()">
-        <div #content class="contents"></div>
+        <ng-container #content></ng-container>
+        <ng-container *ngTemplateOutlet="model.template"></ng-container>
     </div>
 </div>

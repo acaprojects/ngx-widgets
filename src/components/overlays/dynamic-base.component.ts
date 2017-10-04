@@ -107,6 +107,7 @@ export class DynamicBaseComponent {
     }
 
     protected update(data: any) {
+        console.log(data);
         const cmp = this.model.cmp;
         for (const f in data) {
             if (data.hasOwnProperty(f)) {

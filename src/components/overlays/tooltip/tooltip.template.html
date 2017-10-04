@@ -11,10 +11,11 @@
         (window:mouseup)="shown ? mouseUp() : ''"
         (window:mousemove)="shown ? mouseMove() : ''"
         (window:resize)="shown ? close() : ''"
-        [style.opacity]="rendered ? '1' : '0'"
+        [style.opacity]="rendered || model.template ? '1' : '0'"
         (click)="tap()">
         <div [class]="'content ' + model.offset">
-            <div #content></div>
+            <ng-container #content></ng-container>
+            <ng-container *ngTemplateOutlet="model.template"></ng-container>
         </div>
         <div class="triangle"><div class="square"></div></div>
     </div>
