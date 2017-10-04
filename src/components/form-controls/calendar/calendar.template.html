@@ -1,39 +1,28 @@
-<!--
-@Author: Alex Sorafumo <Yuion>
-@Date:   20/09/2016 11:07 AM
-@Email:  alex@yuion.net
-@Filename: calendar.template.html
-@Last modified by:   Alex Sorafumo
-@Last modified time: 27/01/2017 1:35 PM
--->
 
-<div class="aca calendar">
-    <div class="calendar-space">
-        <div class="header" [style.color]="color2" [style.background-color]="color1">
-            <div class="change-arrow" [style.color]="color2" (tap)="prevMonth()">
-                <div class="arrow left"></div>
-            </div>
-            <div class="month">{{display}}</div>
-            <div class="change-arrow" [style.color]="color2" (tap)="nextMonth()">
-                <div class="arrow right"></div>
-            </div>
+<div [class]="'calendar ' + name" widget>
+    <div class="header">
+        <div class="display">
+            <div class="change previous" (click)="changeMonth(-1)">&#706;</div>
+            <div class="month" (dblclick)="changeMonth(-model.offset)">{{display}}</div>
+            <div class="change next" (click)="changeMonth(1)">&#707;</div>
         </div>
-        <div class="week-days">
-            <div class="weekday" *ngFor="let day of days;let i = index" [class.even]="i%2==0">{{day}}</div>
+        <div class="week">
+            <div class="day" *ngFor="let day of model.weekdays">{{day}}</div>
         </div>
-        <div class="divider"><div class="inner"></div></div>
-        <div class="month-days">
-            <div class="day" *ngFor="let day of month_node"
-                [style.background-color]="day.active?color1:''"
-                [style.color]="day.active?color2:''"
-                [class.past]="day.valid===false"
-                [class.valid]="day.valid"
-                [class.today]="day.today"
-                [class.active]="day.active"
-                [class.disabled]="day.disabled||!day.current"
-                (tap)="selectDate(day);">
-
-                <div class="date">{{day.date}}</div>
+    </div>
+    <div class="body">
+        <div class="month">
+            <div class="week" *ngFor="let week of model.month">
+                <div class="day" *ngFor="let day of week">
+                    <div class="content"
+                        [class.today]="day.today"
+                        [class.past]="day.past"
+                        [class.active]="day.active"
+                        [class.non-month]="!day.this_month"
+                        (click)="day.this_month ? setDate(day) : ''">
+                        {{day.date}}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

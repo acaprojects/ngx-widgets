@@ -7,7 +7,7 @@
  * @Last modified time: 15/12/2016 11:30 AM
  */
 
-import { Calendar } from './calendar';
+import { CalendarComponent } from './calendar';
 import { CheckboxComponent } from './checkbox';
 import { DataInput } from './data-input';
 import { DropdownComponent } from './dropdown';
@@ -24,7 +24,7 @@ export * from './time-picker';
 export * from './toggle';
 
 export const FORM_CONTROLS: any[] = [
-    Calendar,
+    CalendarComponent,
     CheckboxComponent,
     DataInput,
     DropdownComponent,
