@@ -18,9 +18,12 @@ import { OverlayContentComponent } from '../../../overlays/contents/overlay-cont
 export class MapRangeComponent extends OverlayContentComponent {
 
     public init() {
-        if (this.model.bg) {
-            this.model.bg_alpha = this.hexToRGB(this.model.bg, .2);
-        }
+        setTimeout(() => {
+            console.log(this.model);
+            if (this.model.bg) {
+                this.model.bg_alpha = this.hexToRGB(this.model.bg, .2);
+            }
+        }, 100);
     }
 
     public set(data: any) {

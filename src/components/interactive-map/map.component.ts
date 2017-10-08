@@ -30,6 +30,7 @@ export class InteractiveMapComponent {
         container: {},
     };
 
+    @ViewChild('container') private container: ElementRef;
     @ViewChild('map') private area: ElementRef;
     @ViewChild('img') private img: ElementRef;
 
@@ -50,11 +51,11 @@ export class InteractiveMapComponent {
                 this.loadMap();
             }
             if (changes.reset) {
-                    this.zoom = 0;
-                    this.center = { x: .5, y: .5 };
-                    this.zoomChange.emit(this.zoom);
-                    this.centerChange.emit(this.center);
-                    this.update();
+                this.zoom = 0;
+                this.center = { x: .5, y: .5 };
+                this.zoomChange.emit(this.zoom);
+                this.centerChange.emit(this.center);
+                this.update();
             }
             if (changes.zoom || changes.center) {
                 setTimeout(() => {
@@ -80,17 +81,17 @@ export class InteractiveMapComponent {
         const x = Math.floor((100 * this.center.x) * 100) / 100;
         const y = Math.floor((100 * this.center.y) * 100) / 100;
         this.state.position = `${x}%, ${y}%`;
-        this.state.scale = `${Math.round((100 + this.zoom) * 10 * ( this.ratio.map.height / this.ratio.container.height )) / 1000}`;
+        this.state.scale = `${Math.round((100 + this.zoom) * 10 * (this.ratio.container.height / this.ratio.map.height)) / 1000}`;
         this.state.transform = `translate(${x - 100}%, ${y - 100}%)`;
     }
 
     public checkBounds() {
-            // Check position is valid
+        // Check position is valid
         if (this.center.x < 0) { this.center.x = 0; }
         else if (this.center.x > 1) { this.center.x = 1; }
         if (this.center.y < 0) { this.center.y = 0; }
         else if (this.center.y > 1) { this.center.y = 1; }
-            // Check zoom is valid
+        // Check zoom is valid
         if (this.zoom < -50) { this.zoom = -50; }
         else if (this.zoom > 1900) { this.zoom = 1900; }
     }
@@ -101,6 +102,44 @@ export class InteractiveMapComponent {
 
     public overlayEvent(e: any) {
         this.event.emit({ type: 'Overlay', event: e });
+    }
+
+    public initMap(update: boolean = false) {
+        for (const el of this.img.nativeElement.children) {
+            if (el.nodeName.toLowerCase() === 'svg') {
+                this.state.map_el = el;
+                break;
+            }
+        }
+        if (this.state.map_el) {
+            this.state.map_box = this.state.map_el.getBoundingClientRect();
+            this.state.cnt_box = this.container.nativeElement.getBoundingClientRect();
+            this.state.map_el.style.position = 'absolute';
+            this.state.map_el.style.top = '50%';
+            this.state.map_el.style.left = '50%';
+            this.state.map_el.style.transform = `translate(-50%, -50%)`;
+            this.ratio.map = {
+                width: 1,
+                height: this.state.map_box.height / this.state.map_box.width,
+            };
+            this.ratio.container = {
+                width: 1,
+                height: this.state.cnt_box.height / this.state.cnt_box.width,
+            };
+            console.log('Ratio', this.ratio);
+            this.focusEvent();
+        }
+        this.state.map_id = `${this.src}_${Math.floor(Math.random() * 89999999 + 10000000)}`;
+        if (update) {
+            if (this.timers.update) {
+                clearTimeout(this.timers.update);
+                this.timers.update = null;
+            }
+            this.timers.update = setTimeout(() => {
+                this.update();
+                this.timers.update = null;
+            }, 200);
+        }
     }
 
     private loadMap(tries: number = 0) {
@@ -204,32 +243,5 @@ export class InteractiveMapComponent {
             style.innerHTML = this.state.styles;
             head.appendChild(style);
         }
-    }
-
-    private initMap() {
-        for (const el of this.img.nativeElement.children) {
-            if (el.nodeName.toLowerCase() === 'svg') {
-                this.state.map_el = el;
-                break;
-            }
-        }
-        if (this.state.map_el) {
-            this.state.map_box = this.state.map_el.getBoundingClientRect();
-            this.state.area_box = this.img.nativeElement.getBoundingClientRect();
-            this.state.map_el.style.position = 'absolute';
-            this.state.map_el.style.top = '50%';
-            this.state.map_el.style.left = '50%';
-            this.state.map_el.style.transform = `translate(-50%, -50%)`;
-            this.ratio.map = {
-                width: 1,
-                height: this.state.map_box.height / this.state.map_box.width,
-            };
-            this.ratio.container = {
-                width: 1,
-                height: this.state.area_box.height / this.state.area_box.width,
-            };
-            this.focusEvent();
-        }
-        this.state.map_id = `${this.src}_${Math.floor(Math.random() * 89999999 + 10000000)}`;
     }
 }

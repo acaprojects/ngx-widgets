@@ -1,6 +1,6 @@
 
 import { Component, ElementRef, Input, Type, ViewChild } from '@angular/core';
-import { ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { WIDGETS } from '../../settings';
@@ -11,6 +11,8 @@ import { WIDGETS } from '../../settings';
     styles: [''],
 })
 export class DynamicBaseComponent {
+    protected static instance_stack: any = {};
+
     @Input() public id: string = '';
     @Input() public model: any = {};
     @Input() public cmp_ref: any = null;
@@ -18,18 +20,28 @@ export class DynamicBaseComponent {
     @Input() public state: any = { obs: null, sub: null };
     @Input() public rendered: boolean = false;
 
-    @ViewChild('content', { read: ViewContainerRef }) private _content: ViewContainerRef;
-    @ViewChild('body') protected body: ElementRef;
+    protected stack_id: string = '';
+    protected type = 'Dynamic';
 
-    constructor(private _cfr: ComponentFactoryResolver, public renderer: Renderer2) {
+    @ViewChild('body') protected body: ElementRef;
+    @ViewChild('content', { read: ViewContainerRef }) private _content: ViewContainerRef;
+
+    constructor(private _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, public renderer: Renderer2) {
+        this.stack_id = Math.floor(Math.random() * 89999999 + 10000000).toString();
     }
     public ngOnInit() {
+        if (!DynamicBaseComponent.instance_stack[this.type]) {
+            DynamicBaseComponent.instance_stack[this.type] = [];
+        }
+        DynamicBaseComponent.instance_stack[this.type].push(this.stack_id);
+
         this.state.sub = new Observable((observer: any) => {
             this.state.obs = observer;
         });
     }
 
     public init(parent?: any, id?: string) {
+        console.log('Init');
         this.parent = parent || this.parent;
         this.id = id || this.id;
     }
@@ -38,6 +50,10 @@ export class DynamicBaseComponent {
         if (this.cmp_ref) {
             this.cmp_ref.destroy();
             this.cmp_ref = null;
+        }
+        const index = DynamicBaseComponent.instance_stack[this.type] ? DynamicBaseComponent.instance_stack[this.type].indexOf(this.stack_id) : -1;
+        if (index >= 0) {
+            DynamicBaseComponent.instance_stack[this.type].splice(index, 1);
         }
     }
 
@@ -107,7 +123,7 @@ export class DynamicBaseComponent {
     }
 
     protected update(data: any) {
-        console.log(data);
+        console.log('Update');
         const cmp = this.model.cmp;
         for (const f in data) {
             if (data.hasOwnProperty(f)) {
@@ -119,6 +135,7 @@ export class DynamicBaseComponent {
         } else {
             this.updateComponent(data);
         }
+        this._cdr.markForCheck();
     }
 
     protected updateComponent(data: any, tries: number = 0) {
@@ -143,6 +160,7 @@ export class DynamicBaseComponent {
      * @return {void}
      */
     private render() {
+        this.rendered = false;
         if (!this._cfr || !this._content) {
             setTimeout(() => {
                 this.render();
@@ -155,7 +173,6 @@ export class DynamicBaseComponent {
                 if (factory) {
                     if (this.cmp_ref) {
                         this.cmp_ref.destroy();
-                        this.rendered = false;
                     }
                     this.cmp_ref = this._content.createComponent(factory);
 
@@ -171,11 +188,13 @@ export class DynamicBaseComponent {
                     }
                     inst.fn.close = (cb: () => void) => { this.event('close', 'Component'); };
                     inst.fn.event = (option: string) => { this.event(option, 'Component'); };
-                    if (inst.init) {
-                        inst.init();
-                    }
                     setTimeout(() => {
-                        this.rendered = true;
+                        if (inst.init) {
+                            inst.init();
+                        }
+                        setTimeout(() => {
+                            this.rendered = true;
+                        }, 100);
                     }, 100);
                 } else {
                     WIDGETS.error('DYN_CMP', 'Unable to find factory for: ', this.model.cmp);

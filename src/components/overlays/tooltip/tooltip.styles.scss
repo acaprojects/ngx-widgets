@@ -28,30 +28,18 @@
         width: .5em;
         &.no-triangle {
             width: 0;
-            @media screen and (max-width: $break-tablet) {
-                width: 2em;
-            }
-        }
-        @media screen and (max-width: $break-tablet) {
-            top: auto;
-            left: 50%;
-            transform: translateX(-50%);
-            height: .5em;
-            width: 2em;
         }
     }
     &.left {
         left: -.5rem;
-        @media screen and (max-width: $break-tablet) {
-            left: auto;
-            top: -.5rem;
+        &.no-triangle {
+            left: 0;
         }
     }
     &.right {
         right: -.5rem;
-        @media screen and (max-width: $break-tablet) {
-            right: auto;
-            bottom: -.5rem;
+        &.no-triangle {
+            right: 0;
         }
     }
     &.top,
@@ -66,9 +54,15 @@
     }
     &.top {
         top: -.5rem;
+        &.no-triangle {
+            top: 0;
+        }
     }
     &.bottom {
         bottom: -.5rem;
+        &.no-triangle {
+            bottom: 0;
+        }
     }
 }
 
@@ -82,37 +76,17 @@
     .left & {
         right: 0;
         transform: translate(-.5rem, 0%);
-        @media screen and (max-width: $break-tablet) {
-            right: auto;
-            top: 0;
-            transform: translate(0, -.5rem);
-        }
         &.middle {
             top: 50%;
             transform: translate(-.5rem, -50%);
-            @media screen and (max-width: $break-tablet) {
-                top: auto;
-                left: 50%;
-                transform: translate(-50%, -.5rem);
-            }
         }
     }
     .right & {
         left: 0;
         transform: translate(.5rem, 0%);
-        @media screen and (max-width: $break-tablet) {
-            left: auto;
-            top: 0;
-            transform: translate(0, .5rem);
-        }
         &.middle {
             top: 50%;
             transform: translate(.5rem, -50%);
-            @media screen and (max-width: $break-tablet) {
-                top: auto;
-                left: 50%;
-                transform: translate(-50%, .5rem);
-            }
         }
     }
 
@@ -120,17 +94,9 @@
     .left & {
         &.start {
             top: 0;
-            @media screen and (max-width: $break-tablet) {
-                top: auto;
-                left: 0;
-            }
         }
         &.end {
             bottom: 0;
-            @media screen and (max-width: $break-tablet) {
-                bottom: auto;
-                right: 0;
-            }
         }
     }
     .top & {
@@ -169,10 +135,6 @@
     .right & {
         height: 2em;
         width: .5em;
-        @media screen and (max-width: $break-tablet) {
-            height: .5em;
-            width: 2em;
-        }
     }
     .top &,
     .bottom &{
@@ -192,21 +154,11 @@
         .left & {
             top: 0;
             right: .5em;
-            @media screen and (max-width: $break-tablet) {
-                bottom: .5em;
-                left: 0;
-                top: auto;
-                right: auto;
-            }
         }
 
         .right & {
             top: 0;
             left: .5em;
-            @media screen and (max-width: $break-tablet) {
-                top: .5em;
-                left: 0;
-            }
         }
 
         .top & {

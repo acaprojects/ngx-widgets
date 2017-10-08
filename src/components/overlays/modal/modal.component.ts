@@ -35,6 +35,8 @@ import * as moment from 'moment';
 export class ModalComponent extends DynamicBaseComponent {
     public container: any = {};
 
+    protected type: string = 'Modal';
+
     public resize() {
         setTimeout(() => {
             const el = this.model.el;
@@ -42,6 +44,17 @@ export class ModalComponent extends DynamicBaseComponent {
                 this.container = el.nativeElement.getBoundingClientRect();
             }
         }, 100);
+    }
+
+    public close(e?: any) {
+        if (DynamicBaseComponent.instance_stack[this.type]) {
+            const length = DynamicBaseComponent.instance_stack[this.type].length;
+            if (DynamicBaseComponent.instance_stack[this.type][length - 1] === this.stack_id) {
+                super.close(e);
+            }
+        } else {
+            super.close(e);
+        }
     }
 
     protected update(data: any) {

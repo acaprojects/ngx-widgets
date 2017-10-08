@@ -1,13 +1,13 @@
 
 <div class="map-range" widget [@show]>
     <div class="range"
-        [style.height]="((model.diameter || 8) * model.map_state.scale) + 'em'"
-        [style.width]="((model.diameter || 8) * model.map_state.scale) + 'em'"
+        [style.height]="((model.diameter || 8) * (model.map_state ? model.map_state.scale : 1)) + 'em'"
+        [style.width]="((model.diameter || 8) * (model.map_state ? model.map_state.scale: 1)) + 'em'"
         [style.background-color]="model.bg_alpha || 'rgba(3, 169, 244, .54)'"
         [style.border-color]="model.bg || '#03A9F4'">
     </div>
     <div class="details"
-        [style.bottom]="(((model.diameter / 2 || 4) * model.map_state.scale) + 0.5) + 'em'" >
+        [style.bottom]="(((model.diameter / 2 || 4) * (model.map_state ? model.map_state.scale: 1)) + 0.5) + 'em'" >
         {{model.text}}
     </div>
 </div>

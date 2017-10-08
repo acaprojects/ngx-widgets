@@ -4,14 +4,14 @@
     [style.width]="container?.width + 'px'"
     [style.height]="container?.height + 'px'">
 
-    <div [class]="'tooltip ' + model.position + ' ' + model.name" widget
-        [class.no-triangle]="model.model && !model.triangle"
+    <div [class]="'tooltip ' + model.position + ' ' + model.name + (!model.triangle ? ' no-triangle': '')" widget
+        [class.no-triangle]="!model.triangle"
         (window:click)="shown ? close() : ''"
         (window:mousedown)="shown ? mouseDown() : ''"
         (window:mouseup)="shown ? mouseUp() : ''"
         (window:mousemove)="shown ? mouseMove() : ''"
         (window:resize)="shown ? close() : ''"
-        [style.opacity]="rendered || model.template ? '1' : '0'"
+        [style.opacity]="(rendered || model.template) && shown ? '1' : '0'"
         (click)="tap()">
         <div [class]="'content ' + model.offset">
             <ng-container #content></ng-container>

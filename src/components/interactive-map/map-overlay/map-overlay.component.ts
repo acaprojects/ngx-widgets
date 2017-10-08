@@ -17,6 +17,12 @@ export class MapOverlayComponent extends DynamicBaseComponent {
     public container: any = {};
 
     public resize() {
+        if (!this.model.map_state) {
+            setTimeout(() => {
+                this.resize();
+            }, 200);
+            return;
+        }
         setTimeout(() => {
             const el = this.model.el;
             if (this.model.coordinates) {

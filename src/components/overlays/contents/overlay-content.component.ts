@@ -1,5 +1,5 @@
 
-import { Component, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'overlay-content',
@@ -11,17 +11,18 @@ export class OverlayContentComponent {
     @Input() public model: any = {};    // Overlay data
     @Input() public fn: any = {};       // Overlay interaction functions
 
+    constructor(protected _cdr: ChangeDetectorRef) {}
+
     public set(data: any) {
-        setTimeout(() => {
-            if (!this.model) {
-                this.model = data;
-            } else {
-                for (const key in data) {
-                    if (data.hasOwnProperty(key)) {
-                        this.model[key] = data[key];
-                    }
+        if (!this.model) {
+            this.model = data;
+        } else {
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    this.model[key] = data[key];
                 }
             }
-        }, 10);
+        }
+        this._cdr.markForCheck();
     }
 }

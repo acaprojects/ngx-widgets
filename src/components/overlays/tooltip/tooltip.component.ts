@@ -18,6 +18,8 @@ export class TooltipComponent extends DynamicBaseComponent {
     public mouse_state: string = 'up';
     public box: any = null;
 
+    protected type: string = 'Tooltip';
+
     public init(parent?: any, id?: string) {
         super.init(parent, id);
         this.renderer.listen('window', 'wheel', () => {
@@ -39,10 +41,10 @@ export class TooltipComponent extends DynamicBaseComponent {
             const el = this.model.el;
             if (el && el.nativeElement) {
                 this.container = el.nativeElement.getBoundingClientRect();
+                setTimeout(() => {
+                    this.shown = true;
+                }, 100);
             }
-            setTimeout(() => {
-                this.shown = true;
-            }, 100);
         }, 100);
     }
 

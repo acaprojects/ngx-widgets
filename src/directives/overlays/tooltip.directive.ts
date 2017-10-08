@@ -65,22 +65,24 @@ export class TooltipDirective {
     }
 
     private update() {
-        if (this.instance) {
-            this.data = {
-                name: this.name,
-                position: this.position,
-                offset: this.offset,
-                offsetBy: this.offsetBy,
-                triangle: this.triangle,
-                template: this.template,
-                hover: this.hover,
-                show: this.show,
-                cmp: this.cmp,
-                el: this.el,
-                data: this.model,
-            };
-            this.instance.set(this.data);
-        }
+        setTimeout(() => {
+            if (this.instance) {
+                this.data = {
+                    name: this.name,
+                    position: this.position,
+                    offset: this.offset,
+                    offsetBy: this.offsetBy,
+                    triangle: this.triangle,
+                    template: this.template,
+                    hover: this.hover,
+                    show: this.show,
+                    cmp: this.cmp,
+                    el: this.el,
+                    data: this.model,
+                };
+                this.instance.set(this.data);
+            }
+        }, 50);
     }
 
     private createTooltip() {

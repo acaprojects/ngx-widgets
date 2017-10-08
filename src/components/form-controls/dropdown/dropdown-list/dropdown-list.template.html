@@ -18,7 +18,7 @@
         <div class="item"
             *ngFor="let item of model.list; let i = index"
             [class.hide]="(model.hideActive&&(item.i || i)===model.active) || filtered_list.indexOf(item) < 0"
-            (click)="select(item.i || i)">
+            (tap)="select(item.i || i)">
 
             <div class="text">{{ item.name || item }}</div>
             <div class="icon"

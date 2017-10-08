@@ -21,6 +21,8 @@ import * as moment from 'moment';
 export class NotificationComponent extends DynamicBaseComponent {
     public container: any = {};
 
+    protected type: string = 'Notify';
+
     public resize() {
         setTimeout(() => {
             const el = this.model.el;
