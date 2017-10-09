@@ -1,7 +1,26 @@
 
-import { Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, Renderer2, Type, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapService } from '../../services/map.service';
+
+export interface IPointOfInterest {
+    id?: string; // CSS Selector ID of element with map
+    coordinates?: { // Coordinates of the point of interest on the map
+        x: number, // X position with the difin
+        y: number
+    };
+    cmp: Type<any> | string; // Component to render inside at the given location
+    data: any // Data to be bound to the model of the given component
+}
+
+export interface IFocusItem {
+    id?: string; // CSS Selector ID of element with map
+    coordinates?: { // Coordinates of the point of interest on the map
+        x: number, // X position with the difin
+        y: number
+    };
+    lock?: boolean; // Fix the position and zoom of the map
+}
 
 @Component({
     selector: 'map',
@@ -10,14 +29,14 @@ import { MapService } from '../../services/map.service';
 })
 export class InteractiveMapComponent {
     @Input() public id: string = '';
-    @Input() public src: string = '';
-    @Input() public styles: any = {};
-    @Input() public poi: any[] = [];
-    @Input() public zoom: number = 0;
-    @Input() public reset: any;
-    @Input() public focus: any;
-    @Input() public units: number = 10000;
-    @Input() public center: { x: number, y: number } = { x: .5, y: .5 };
+    @Input() public src: string = ''; // File location of the map SVG.
+    @Input() public styles: any = {}; // Map of CSS Selector IDs to their respective styles
+    @Input() public poi: IPointOfInterest[] | any[] = [];
+    @Input() public zoom: number = 0; // Zoom Value of the map
+    @Input() public reset: any; // Resets center and zoom on value change
+    @Input() public focus: IFocusItem; // Element with map to focus on
+    @Input() public units: number = 10000; // Width of the map, coordinates are relative to this
+    @Input() public center: { x: number, y: number } = { x: .5, y: .5 }; // Origin of the map display
     @Output() public zoomChange: any = new EventEmitter();
     @Output() public centerChange: any = new EventEmitter();
     @Output() public event: any = new EventEmitter();
