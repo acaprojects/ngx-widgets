@@ -19,6 +19,7 @@ export class DynamicBaseComponent {
     @Input() public parent: any = null;
     @Input() public state: any = { obs: null, sub: null };
     @Input() public rendered: boolean = false;
+    public box: any = null;
 
     protected stack_id: string = '';
     protected type = 'Dynamic';
@@ -29,7 +30,9 @@ export class DynamicBaseComponent {
     constructor(private _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, public renderer: Renderer2) {
         this.stack_id = Math.floor(Math.random() * 89999999 + 10000000).toString();
     }
+
     public ngOnInit() {
+        this.renderer.listen('window', 'resize', () => { this.resize(); });
         if (!DynamicBaseComponent.instance_stack[this.type]) {
             DynamicBaseComponent.instance_stack[this.type] = [];
         }
@@ -44,6 +47,20 @@ export class DynamicBaseComponent {
         console.log('Init');
         this.parent = parent || this.parent;
         this.id = id || this.id;
+        this.initBox();
+    }
+
+    public initBox(tries: number = 0) {
+        if (!this.box){
+            if (this.body && this.body.nativeElement) {
+                this.box = this.body.nativeElement.getBoundingClientRect();
+            } else {
+                tries++;
+                setTimeout(() => {
+                    this.initBox(tries);
+                }, 200);
+            }
+        }
     }
 
     public ngOnDestroy() {
@@ -65,22 +82,22 @@ export class DynamicBaseComponent {
     }
 
     public close(e?: any) {
+        console.log('Close', this.body, e);
         if (e && this.body && this.body.nativeElement) {
             const c = { x: e.clientX, y: e.clientY };
-            const box = this.body.nativeElement.getBoundingClientRect();
-            if (c.x >= box.left && c.y >= box.top && c.x <= box.left + box.width && c.y <= box.top + box.height) {
-                this.model.tapped = true;
-                setTimeout(() => {
-                    this.model.tapped = false;
-                }, 100);
+            this.initBox();
+            console.log(this.box, c);
+            if (this.box) {
+                if (c.x < this.box.left || c.y < this.box.top ||
+                    c.x > this.box.left + this.box.width || c.y > this.box.top + this.box.height) {
+                    setTimeout(() => {
+                        console.log('Close');
+                        this.model.show = false;
+                        this.event('close');
+                    }, 20);
+                }
             }
         }
-        setTimeout(() => {
-            if (!this.model.tapped) {
-                this.model.show = false;
-                this.event('close');
-            }
-        }, 20);
     }
     /**
      * Posts an event to the Observable.
@@ -116,6 +133,11 @@ export class DynamicBaseComponent {
         } else {
             return null;
         }
+    }
+
+    public resize() {
+        this.box = null;
+        this.initBox();
     }
 
     public set(data: any) {
@@ -194,6 +216,7 @@ export class DynamicBaseComponent {
                         }
                         setTimeout(() => {
                             this.rendered = true;
+                            this.resize();
                         }, 100);
                     }, 100);
                 } else {

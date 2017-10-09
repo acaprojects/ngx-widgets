@@ -1,5 +1,5 @@
 
-import { Directive, ElementRef, EventEmitter, forwardRef, Inject, Input, Output, Type } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, forwardRef, Inject, Input, Output, TemplateRef, Type } from '@angular/core';
 
 import { OverlayService } from '../../services/overlay.service';
 
@@ -14,6 +14,7 @@ export class ModalDirective {
     @Input() public name: string = '';
     @Input() public cmp: Type<any> = null;
     @Input() public model: any = {};
+    @Input() public template: TemplateRef<any> = null;
     @Input() public show: boolean = false;
     @Output() public showChange: any = new EventEmitter();
     @Output() public event: any = new EventEmitter();
@@ -52,6 +53,7 @@ export class ModalDirective {
             cmp: this.cmp,
             el: this.el,
             data: this.model,
+            template: this.template,
         };
         this.overlay.add(this.id, ModalComponent, this.data).then((cmp: any) => {
             this.sub = cmp.watch((event) => {

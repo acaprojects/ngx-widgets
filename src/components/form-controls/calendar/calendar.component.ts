@@ -28,8 +28,11 @@ export class CalendarComponent {
 
     public ngOnChanges(changes: any) {
         if (changes.date) {
-            const duration = moment.duration(moment(this.date).diff(moment()));
+            const now = moment().date(1).hours(0).minutes(0).seconds(0).millisecond(0);
+            const duration = moment.duration(moment(this.date).diff(now));
             this.model.offset = duration.months();
+            console.log(duration);
+            console.log('Changes');
             this.generateMonth();
         }
         if (changes.options) {
@@ -41,6 +44,7 @@ export class CalendarComponent {
         console.log(day);
         this.date = day.timestamp;
         this.dateChange.emit(this.date);
+        console.log('Set', this.date);
         this.generateMonth();
     }
 
@@ -58,6 +62,7 @@ export class CalendarComponent {
                 this.model.offset = 0;
             }
         }
+        console.log('Change Month');
         this.generateMonth();
     }
 

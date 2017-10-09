@@ -1,5 +1,5 @@
 
-import { Directive, ElementRef, EventEmitter, forwardRef, Inject, Input, Output, Type } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, forwardRef, Inject, Input, Output, TemplateRef, Type } from '@angular/core';
 
 import { OverlayService } from '../../services/overlay.service';
 
@@ -14,7 +14,7 @@ export class NotifyDirective {
     @Input() public name: string = '';
     @Input() public type: string = '';
     @Input() public model: any = {};
-    @Input() public html: string = '';
+    @Input() public template: TemplateRef<any> = null;
     @Input() public cmp: Type<any> = null;
     @Input() public show: boolean = false;
     @Output() public showChange: any = new EventEmitter();
@@ -53,6 +53,7 @@ export class NotifyDirective {
             cmp: this.cmp,
             el: this.el,
             data: this.model,
+            template: this.template,
         };
         this.overlay.add(this.id, NotificationComponent, this.data).then((cmp: any) => {
             this.sub = cmp.watch((event) => {

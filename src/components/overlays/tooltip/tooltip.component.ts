@@ -16,7 +16,6 @@ export class TooltipComponent extends DynamicBaseComponent {
     public container: any = {};
     public shown: boolean = false;
     public mouse_state: string = 'up';
-    public box: any = null;
 
     protected type: string = 'Tooltip';
 
@@ -29,13 +28,8 @@ export class TooltipComponent extends DynamicBaseComponent {
         });
     }
 
-    public initBox() {
-        if (this.body && this.body.nativeElement) {
-            this.box = this.body.nativeElement.getBoundingClientRect();
-        }
-    }
-
     public resize() {
+        super.resize();
         this.shown = false;
         setTimeout(() => {
             const el = this.model.el;

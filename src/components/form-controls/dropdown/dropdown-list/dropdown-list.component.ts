@@ -27,12 +27,15 @@ export class DropdownListComponent extends OverlayContentComponent {
             this.filtered_list = [];
             let index = 0;
             for (const i of this.model.list) {
-                if ((typeof i === 'string' && i.toLowerCase().indexOf(s) >= 0) ||
-                    (i.name && i.name.toLowerCase().indexOf(s) >= 0)) {
-
+                if (typeof i === 'string' && i.toLowerCase().indexOf(s) >= 0) {
                     this.filtered_list.push({
                         i: index,
-                        name: (i.name || i),
+                        name: i,
+                    });
+                } else if (i.name && i.name.toLowerCase().indexOf(s) >= 0) {
+                    this.filtered_list.push({
+                        i: index,
+                        name: i.name,
                     });
                 }
                 index++;

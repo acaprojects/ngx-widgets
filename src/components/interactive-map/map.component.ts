@@ -4,22 +4,23 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MapService } from '../../services/map.service';
 
 export interface IPointOfInterest {
-    id?: string; // CSS Selector ID of element with map
-    coordinates?: { // Coordinates of the point of interest on the map
-        x: number, // X position with the difin
-        y: number
+    id?: string;        // CSS Selector ID of element with map
+    coordinates?: {     // Coordinates of the point of interest on the map
+        x: number,      // X position with the map
+        y: number       // Y position with the map
     };
     cmp: Type<any> | string; // Component to render inside at the given location
-    data: any // Data to be bound to the model of the given component
+    data: any                // Data to be bound to the model of the given component
 }
 
 export interface IFocusItem {
-    id?: string; // CSS Selector ID of element with map
-    coordinates?: { // Coordinates of the point of interest on the map
-        x: number, // X position with the difin
-        y: number
+    id?: string;        // CSS Selector ID of element with map
+    coordinates?: {     // Coordinates of the point of interest on the map
+        x: number,      // X position with the map
+        y: number       // Y position with the map
     };
-    lock?: boolean; // Fix the position and zoom of the map
+    zoom?: number;      // Zoom value to focus on the item.
+    lock?: boolean;     // Fix the position and zoom of the map
 }
 
 @Component({

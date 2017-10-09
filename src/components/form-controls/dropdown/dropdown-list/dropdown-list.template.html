@@ -14,9 +14,8 @@
         <div class="text">{{model.placeholder}}</div>
     </div>
     <div class="list" [class.filter]="model.filter">
-
         <div class="item"
-            *ngFor="let item of model.list; let i = index"
+            *ngFor="let item of filtered_list; let i = index"
             [class.hide]="(model.hideActive&&(item.i || i)===model.active) || filtered_list.indexOf(item) < 0"
             (tap)="select(item.i || i)">
 

@@ -6,14 +6,14 @@
 
     <div [class]="'tooltip ' + model.position + ' ' + model.name + (!model.triangle ? ' no-triangle': '')" widget
         [class.no-triangle]="!model.triangle"
-        (window:click)="shown ? close() : ''"
+        (window:click)="shown ? close($event) : ''"
         (window:mousedown)="shown ? mouseDown() : ''"
         (window:mouseup)="shown ? mouseUp() : ''"
         (window:mousemove)="shown ? mouseMove() : ''"
-        (window:resize)="shown ? close() : ''"
+        (window:resize)="shown ? close($event) : ''"
         [style.opacity]="(rendered || model.template) && shown ? '1' : '0'"
         (click)="tap()">
-        <div [class]="'content ' + model.offset">
+        <div #body [class]="'content ' + model.offset">
             <ng-container #content></ng-container>
             <ng-container *ngTemplateOutlet="model.template"></ng-container>
         </div>
