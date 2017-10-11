@@ -1,0 +1,32 @@
+
+$color: #E91E63;
+
+.radio-button {
+    display: flex;
+    align-items: center;
+    margin: .5em;
+}
+
+.toggle {
+    background-color: #f2f2f2;
+    border: .2em solid #f2f2f2;
+    height: .8em;
+    width: .8em;
+    margin: .2em;
+    border-radius: 100%;
+    cursor: pointer;
+    &:hover {
+        background-color: #ccc;
+    }
+    &.on {
+        background-color: $color;
+        &:hover {
+            background-color: $color - #111;
+        }
+    }
+}
+
+.label {
+    cursor: pointer;
+    margin: 0 .25em;
+}

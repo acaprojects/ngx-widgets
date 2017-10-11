@@ -56,7 +56,7 @@ export class TooltipDirective {
         } else if (changes.show && !this.show) {
             this.removeTooltip();
         }
-        if (changes.model || changes.template) {
+        if (changes.model || changes.template || changes.position || changes.offset || changes.name) {
             this.update();
         }
         if (changes.hover) {
@@ -125,7 +125,6 @@ export class TooltipDirective {
     }
 
     private processEvent(event: any) {
-        // console.log('Tooltip Event', event);
         if (event.type === 'close') {
             this.show = false;
             this.showChange.emit(false);

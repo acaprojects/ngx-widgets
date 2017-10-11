@@ -13,11 +13,14 @@
     pointer-events: auto;
 }
 
-.body {
+.container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.body {
     min-width: 1em;
     min-height: 1em;
     max-height: 90vh;

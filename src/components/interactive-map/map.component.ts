@@ -146,7 +146,6 @@ export class InteractiveMapComponent {
                 width: 1,
                 height: this.state.cnt_box.height / this.state.cnt_box.width,
             };
-            console.log('Ratio', this.ratio);
             this.focusEvent();
         }
         this.state.map_id = `${this.src}_${Math.floor(Math.random() * 89999999 + 10000000)}`;

@@ -19,7 +19,6 @@ export class MapRangeComponent extends OverlayContentComponent {
 
     public init() {
         setTimeout(() => {
-            console.log(this.model);
             if (this.model.bg) {
                 this.model.bg_alpha = this.hexToRGB(this.model.bg, .2);
             }

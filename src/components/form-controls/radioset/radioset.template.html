@@ -1,0 +1,6 @@
+
+<div [class]="'radioset ' + name" widget>
+    <div class="radio-btn" *ngFor="let btn of list; let i = index" [class.inline]="inline">
+        <radio-btn [name]="name" [model]="model===i" [label]="btn" (modelChange)="update(i)"></radio-btn>
+    </div>
+</div>

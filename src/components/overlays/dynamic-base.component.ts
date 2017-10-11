@@ -41,10 +41,12 @@ export class DynamicBaseComponent {
         this.state.sub = new Observable((observer: any) => {
             this.state.obs = observer;
         });
+        setTimeout(() => {
+            this.model.initialised = true;
+        }, 300);
     }
 
     public init(parent?: any, id?: string) {
-        console.log('Init');
         this.parent = parent || this.parent;
         this.id = id || this.id;
         this.initBox();
@@ -68,10 +70,12 @@ export class DynamicBaseComponent {
             this.cmp_ref.destroy();
             this.cmp_ref = null;
         }
-        const index = DynamicBaseComponent.instance_stack[this.type] ? DynamicBaseComponent.instance_stack[this.type].indexOf(this.stack_id) : -1;
-        if (index >= 0) {
-            DynamicBaseComponent.instance_stack[this.type].splice(index, 1);
-        }
+        setTimeout(() => {
+            const index = DynamicBaseComponent.instance_stack[this.type] ? DynamicBaseComponent.instance_stack[this.type].indexOf(this.stack_id) : -1;
+            if (index >= 0) {
+                DynamicBaseComponent.instance_stack[this.type].splice(index, 1);
+            }
+        }, 350);
     }
 
     public tap() {
@@ -82,16 +86,13 @@ export class DynamicBaseComponent {
     }
 
     public close(e?: any) {
-        console.log('Close', this.body, e);
-        if (e && this.body && this.body.nativeElement) {
+        if (e && this.body && this.body.nativeElement && this.model.initialised) {
             const c = { x: e.clientX, y: e.clientY };
             this.initBox();
-            console.log(this.box, c);
             if (this.box) {
                 if (c.x < this.box.left || c.y < this.box.top ||
                     c.x > this.box.left + this.box.width || c.y > this.box.top + this.box.height) {
                     setTimeout(() => {
-                        console.log('Close');
                         this.model.show = false;
                         this.event('close');
                     }, 20);
@@ -145,7 +146,6 @@ export class DynamicBaseComponent {
     }
 
     protected update(data: any) {
-        console.log('Update');
         const cmp = this.model.cmp;
         for (const f in data) {
             if (data.hasOwnProperty(f)) {

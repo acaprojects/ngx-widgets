@@ -1,5 +1,5 @@
 
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
 
@@ -13,22 +13,24 @@ import * as moment from 'moment';
     styleUrls: ['./modal.styles.css'],
     animations: [
         trigger('show', [
+            transition(':enter', [ style({ opacity: 0 }), animate(300, style({ opacity: 1 })) ]),
+            transition(':leave', [ style({ opacity: 1 }), animate(300, style({ opacity: 0 })) ]),
+        ]),
+        trigger('enter', [
             transition(':enter', [
-                style({
-                    top: '50%', left: '50%', right: '50%', bottom: '50%', opacity: 0, transform: 'scale(0)'
-                }), animate(300,
-                    style({
-                        top: '0', left: '0', right: '0', bottom: '0', opacity: 1, transform: 'scale(1)'
-                    }))
-                ]
-            ),
+                animate(200, keyframes([
+                    style({ transform: 'translateX(-200%)', offset: 0 }),
+                    style({ transform: 'translateX(10%)', offset: .9 }),
+                    style({ transform: 'translateX(0%)', offset: 1})
+                ]))
+            ]),
             transition(':leave', [
-                style({
-                    top: '0', left: '0', right: '0', bottom: '0', opacity: 1, transform: 'scale(1)'
-                }), animate(300, style({
-                    top: '50%', left: '50%', right: '50%', bottom: '50%', opacity: 0, transform: 'scale(0)'}))
-                ]
-            ),
+                animate(200, keyframes([
+                    style({ transform: 'translateX(0%)', offset: 0 }),
+                    style({ transform: 'translateX(-10%)', offset: .1 }),
+                    style({ transform: 'translateX(200%)', offset: 1})
+                ]))
+            ]),
         ]),
     ],
 })

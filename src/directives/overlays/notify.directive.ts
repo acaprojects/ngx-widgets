@@ -73,7 +73,6 @@ export class NotifyDirective {
     }
 
     private processEvent(event: any) {
-        // console.log('Tooltip Event', event);
         if (event.type === 'close') {
             this.show = false;
             this.showChange.emit(false);

@@ -1,0 +1,5 @@
+
+<div [class]="'radio-button ' + name">
+    <div class="toggle" [class.on]="model" (tap)="select()"></div>
+    <div class="label" (tap)="select()">{{label}}</div>
+</div>

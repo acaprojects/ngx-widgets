@@ -11,6 +11,7 @@ import { CalendarComponent } from './calendar';
 import { CheckboxComponent } from './checkbox';
 import { DataInput } from './data-input';
 import { DropdownComponent } from './dropdown';
+import { RadioButtonComponent, RadiosetComponent } from './radioset';
 import { Slider } from './slider';
 import { TimePicker } from './time-picker';
 import { Toggle } from './toggle';
@@ -19,6 +20,7 @@ export * from './calendar';
 export * from './checkbox';
 export * from './data-input';
 export * from './dropdown';
+export * from './radioset';
 export * from './slider';
 export * from './time-picker';
 export * from './toggle';
@@ -28,6 +30,8 @@ export const FORM_CONTROLS: any[] = [
     CheckboxComponent,
     DataInput,
     DropdownComponent,
+    RadioButtonComponent,
+    RadiosetComponent,
     Slider,
     TimePicker,
     Toggle,
