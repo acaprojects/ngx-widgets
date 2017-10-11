@@ -1,23 +1,40 @@
 
-<div [class]="'dropdown list ' + model?.name" widget [style.width]="model.width ? model.width + 'px' : ''">
-    <div class="item active">
+<div [class]="'dropdown list-tooltip' + model?.name" widget [style.width]="model.width ? model.width + 'px' : ''">
+    <div class="list" *ngIf="model.bottom" [class.filter]="model.filter">
+        <div class="item"
+            *ngFor="let item of filtered_list; let i = index"
+            [class.hide]="(model.hideActive&&(item.i || i)===model.active) || filtered_list.indexOf(item) < 0"
+            (click)="select(item.i || i)">
+
+            <div class="text">{{ item.name || item }}</div>
+            <div class="icon"
+                [style.opacity]="model.active === (item.i || i) ? 1 : 0"
+                [innerHTML]="(model.html || '&#10003;') | safe">
+            </div>
+        </div>
+    </div>
+    <div class="search" *ngIf="model.filter&&model.bottom" (tap)="focus()">
+        <div class="icon"><div class="search-icon"></div></div>
+        <div class="input"><input #input [(ngModel)]="search" (ngModelChange)="filter()"></div>
+    </div>
+    <div class="item active" [class.bottom]="model?.bottom">
         <div class="text">
             {{ model.active < 0 || !model.list || model.list.length <= model.active || !model.list[model.active] ? model.placeholder : model.list[model.active].name || model.list[model.active] }}
         </div>
         <div class="icon">&#709;</div>
     </div>
-    <div class="search" *ngIf="model.filter" (tap)="focus()">
+    <div class="search" *ngIf="model.filter&&!model.bottom" (tap)="focus()">
         <div class="icon"><div class="search-icon"></div></div>
         <div class="input"><input #input [(ngModel)]="search" (ngModelChange)="filter()"></div>
     </div>
     <div class="item placeholder">
         <div class="text">{{model.placeholder}}</div>
     </div>
-    <div class="list" [class.filter]="model.filter">
+    <div class="list" *ngIf="!model.bottom"  [class.filter]="model.filter">
         <div class="item"
             *ngFor="let item of filtered_list; let i = index"
             [class.hide]="(model.hideActive&&(item.i || i)===model.active) || filtered_list.indexOf(item) < 0"
-            (tap)="select(item.i || i)">
+            (click)="select(item.i || i)">
 
             <div class="text">{{ item.name || item }}</div>
             <div class="icon"

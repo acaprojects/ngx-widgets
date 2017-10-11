@@ -19,6 +19,7 @@ export class DropdownComponent {
     @Output() public modelChange: any = new EventEmitter();
 
     @ViewChild('body') private body: ElementRef;
+    @ViewChild('active') private active: ElementRef;
 
     public id: any = {};
     public data: any = {};
@@ -26,6 +27,7 @@ export class DropdownComponent {
     public cmp: any = DropdownListComponent;
     public width: number = 200;
     public list_items: any[] = [];
+    public bottom: boolean = false;
 
     constructor() {
         this.id = `DD${Math.floor(Math.random() * 89999999 + 10000000).toString()}`;
@@ -40,7 +42,7 @@ export class DropdownComponent {
         }
         this.update();
         setTimeout(() => {
-            this.updateSize();
+            this.resize();
         }, 300);
     }
 
@@ -69,9 +71,21 @@ export class DropdownComponent {
         }
     }
 
+    public resize() {
+        this.updateSize();
+        if (this.active && this.active.nativeElement) {
+            const box = this.active.nativeElement.getBoundingClientRect();
+            const top = box.top + box.height / 2;
+            const height = window.innerHeight || document.body.clientHeight;
+            this.bottom = top > height / 2;
+            this.update();
+        }
+    }
+
     private update() {
         this.data = {
-            name: this.name,
+            name: this.name + (this.bottom ? ' bottom' : ''),
+            bottom: this.bottom,
             list: this.list_items,
             active: this.model,
             filter: this.filter,

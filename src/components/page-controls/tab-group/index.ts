@@ -9,10 +9,9 @@
 
 export * from './tabs.component';
 
-import { TabBody } from './tab-body.component';
 import { TabHead } from './tab-head.component';
 import { TabGroup } from './tabs.component';
 
 export let TABS_COMPONENTS = [
-    TabGroup, TabHead, TabBody,
+    TabGroup, TabHead,
 ];

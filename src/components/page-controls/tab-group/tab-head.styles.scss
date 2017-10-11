@@ -7,38 +7,34 @@
 
 @import '../../../shared/ui-vars';
 
-.tab-head {
+.tab {
+    position: relative;
     border-radius: .15em .15em 0 0;
-    bottom: 0;
-    margin-bottom: -1px;
-    margin-right: .15em;
+    bottom: -2px;
+    margin: 0 .1em;
     padding: .5em 1.5em;
     position: relative;
-
-    &.active {
-        border-bottom: none;
-    }
-}
-
-.default {
-    background-color: $black-o20;
-    border: 1px solid #ddd;
+    background-color: #f2f2f2;
+    color: $black;
     border-bottom: none;
     cursor: pointer;
     min-width: 4em;
-
-    &.active {
-        background-color: $white;
-        border: 1px solid #ddd;
-        border-bottom: .1em solid $white;
-
-        &:hover {
-            background-color: $white;
-            color: $black;
-        }
-    }
+    transition: color 300ms, background-color 300ms;
+    border: 1px solid #f2f2f2;
 
     &:hover {
-        color: $black-o50;
+        background-color: #e6e6e6;
+    }
+}
+
+.active {
+    border-bottom: none;
+    background-color: $white;
+    border-bottom: .1em solid $white;
+    color: $black;
+
+    &:hover {
+        background-color: $white;
+        color: $black;
     }
 }

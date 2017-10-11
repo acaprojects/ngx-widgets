@@ -28,7 +28,8 @@ export class TooltipComponent extends DynamicBaseComponent {
         });
     }
 
-    public resize() {
+    public resize(tries: number = 0) {
+        if (tries > 5) { return; }
         super.resize();
         this.shown = false;
         setTimeout(() => {
@@ -37,7 +38,12 @@ export class TooltipComponent extends DynamicBaseComponent {
                 this.container = el.nativeElement.getBoundingClientRect();
                 setTimeout(() => {
                     this.shown = true;
-                }, 100);
+                }, 50);
+            }
+            if (!el || !this.container || ((this.container.height <= 0 || this.container.width <= 0) && this.container.top <= 0)) {
+                setTimeout(() => {
+                    this.resize(tries+1);
+                }, 200);
             }
         }, 100);
     }

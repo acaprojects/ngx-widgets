@@ -9,10 +9,9 @@
 
 import { Location } from '@angular/common';
 import { Component, ElementRef, EventEmitter, Input, Output, Renderer2 } from '@angular/core';
-import { AfterContentInit, ContentChildren, QueryList, ViewChild } from '@angular/core';
+import { AfterContentInit, ContentChildren, QueryList, ViewChild, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { TabBody } from './tab-body.component';
 import { TabHead } from './tab-head.component';
 
 @Component({
@@ -20,88 +19,90 @@ import { TabHead } from './tab-head.component';
     templateUrl: './tabs.template.html',
     styleUrls: [ './tabs.styles.css' ],
 })
-export class TabGroup implements AfterContentInit  {
+export class TabGroup {
 
     @Input() public state: string = '0';
     @Input() public routable: string = ''; // Search, Query, Hash, Route
     @Input() public routeParam: string = 'tab'; //
-    @Input() public cssClass: string = 'default';
+    @Input() public name: string = '';
     @Input() public disabled: string[] = [];
     @Output() public stateChange = new EventEmitter();
 
-        // Toggle Knob
-    @ContentChildren(TabHead) private tabHeaders: QueryList<TabHead>;
-    @ContentChildren(TabBody) private tabBodies: QueryList<TabBody>;
-    @ViewChild('header') private header: ElementRef;
-    @ViewChild('body') private body: ElementRef;
+    public model: any = {};
 
-    private active: TabBody;
+    @ContentChildren(TabHead) private tabHeaders: QueryList<TabHead>;
+
     private rvalue: string;
     private qvalue: string;
     private hvalue: string;
-    private node_list: string[] = [];
-    private content_init: boolean = false;
-    private content_timer: any = null;
-    private child_cnt: number = 0;
-    private empty: any = null;
-    private head_timer: any = null;
-    private added_empty: boolean = false;
+    private check: number = 0;
 
-    private head_cnt: number = 0;
-
-    constructor(private loc: Location, private route: ActivatedRoute,
-                private _router: Router, private renderer: Renderer2) {
-
+    constructor(private loc: Location, private route: ActivatedRoute, private _router: Router) {
         this.route.params.map((params) => params[this.routeParam]).subscribe((params) => {
             this.rvalue = params;
         });
         this.processRoute();
-        this.empty = this.renderer.createElement('div');
-        this.renderer.addClass(this.empty, 'empty');
-    }
-
-    public ngInit() {
-        this.added_empty = false;
-    }
-
-    public ngAfterContentInit() {
-        this.initElements();
-        if (this.routableValid()) {
-                // Get Route Value
-            setTimeout(() => {
-                if (this.routeValue && this.routeValue !== this.state) {
-                    this.setActiveTab(this.routeValue);
-                }
-            }, 100);
-        }
-        if (!this.content_timer) {
-            this.content_timer = setInterval(() => {
-                this.checkChildren();
-            }, 500);
-        }
-    }
-
-    public ngAfterViewInit() {
-        if (this.header) {
-            this.added_empty = true;
-            this.renderer.appendChild(this.header.nativeElement, this.empty);
-        }
     }
 
     public ngOnChanges(changes: any) {
-        if (changes.disabled) {
-            this.updateDisable();
+        if (changes.tabHeaders) {
+            this.processNodes();
         }
         if (changes.state) {
-            this.setActiveTab(this.state);
+            this.active = this.state;
         }
     }
 
     public ngDoCheck() {
-        if (this.content_init && this.tabHeaders && this.tabHeaders.toArray().length !== this.head_cnt) {
-            this.head_cnt = this.tabHeaders.toArray().length;
-            this.injectContents();
+        if (this.tabHeaders) {
+            const headers = this.tabHeaders.toArray() || [];
+            this.check = (this.check + 1) % ( headers ? headers.length || 1 : 1 );
+            if (headers && headers.length > 0 && (!this.model.headers || this.model.headers.length !== headers.length || this.model.headers[this.check] !== headers[this.check])) {
+                this.processNodes();
+            }
         }
+    }
+
+    public processNodes() {
+        if (this.tabHeaders) {
+            this.model.headers = this.tabHeaders.toArray();
+            for (const head of this.model.headers) {
+                head.parent = this;
+            }
+            this.active = this.state;
+        }
+    }
+
+    set active(state: string) {
+        if (this.model.headers) {
+            for (const head of this.model.headers) {
+                if (head.id === state) {
+                    this.model.active = head;
+                    head.active = true;
+                } else {
+                    head.active = false;
+                }
+            }
+        }
+        this.state = state;
+        this.stateChange.emit(state);
+    }
+
+    public setHeadTemplate(id: string, template: TemplateRef<any>) {
+        if (!this.model.headers) {
+            this.model.headers = [];
+        }
+        this.model.headers.push({
+            id,
+            template,
+        });
+    }
+
+    public setBodyTemplate(id: string, template: TemplateRef<any>) {
+        if (!this.model.bodies) {
+            this.model.bodies = {};
+        }
+        this.model.bodies[id] = template;
     }
 
     public processRoute() {
@@ -159,70 +160,6 @@ export class TabGroup implements AfterContentInit  {
                  this.routable.toLowerCase() === 'route' );
     }
 
-    public setActiveTab(id: string, init: boolean = false) {
-        if (this.head_timer || this.disabled.indexOf(id) >= 0 || !this.tabBodies || !this.tabHeaders) {
-            return;
-        }
-        this.state = id;
-
-        const tabs = this.tabHeaders.toArray();
-        for (let i = 0; i < this.tabHeaders.length; i++) {
-            tabs[i].parent = this;
-            if (tabs[i].id === id) {
-                tabs[i].active();
-            } else {
-                tabs[i].inactive();
-            }
-        }
-        const content = this.tabBodies.toArray();
-        for (let i = 0; i < this.tabBodies.length; i++) {
-            tabs[i].parent = this;
-            if (content[i].id === id) {
-                this.active = content[i];
-            } else {
-                content[i].hide();
-            }
-        }
-        if (this.active) {
-            this.active.show();
-        }
-        setTimeout(() => {
-            this.stateChange.emit(this.state);
-            if (this.routableValid() && !init) {
-                this.updateRouteValue();
-            }
-        }, 20);
-        this.head_timer = setTimeout(() => {
-            this.head_timer = null;
-        }, 200);
-    }
-
-    public updateDisable() {
-        if (!this.tabHeaders || !this.tabBodies) {
-            setTimeout(() => {
-                this.updateDisable();
-            }, 200);
-        } else {
-            const tabs = this.tabHeaders.toArray();
-            for (let i = 0; i < this.tabHeaders.length; i++) {
-                if (this.disabled.indexOf(tabs[i].id) >= 0) {
-                    tabs[i].hide();
-                } else {
-                    tabs[i].show();
-                }
-            }
-                // Set active tab to the first available tab if the current tab is disabled
-            if (this.disabled.indexOf(this.state) >= 0) {
-                for (const tab of tabs) {
-                    if (this.disabled.indexOf(tab.id) < 0) {
-                        this.setActiveTab(tab.id);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
     public updateRouteValue() {
         let route = this.loc.path();
         if (this.routable.toLowerCase() === 'route') {
@@ -235,71 +172,6 @@ export class TabGroup implements AfterContentInit  {
         }
         this.loc.replaceState(route);
         this.processRoute();
-    }
-
-    private checkChildren() {
-        if (this.tabHeaders && this.tabHeaders.length !== this.child_cnt) {
-            if (!this.child_cnt) {
-                this.initElements();
-            }
-            this.child_cnt = this.tabHeaders.length;
-        }
-    }
-
-    private initElements() {
-            // Setup Tabs Header
-        if (!this.state) {
-            if (this.tabHeaders.first) {
-                this.state = this.tabHeaders.first.id;
-            }
-        }
-        this.injectContents();
-            // Setup active tab
-        this.setActiveTab(this.state, true);
-        this.content_init = true;
-    }
-
-    private injectContents() {
-            // Inject Tab Headers into the page
-        let tabs: any[] = this.tabHeaders.toArray();
-        for (let i = 0; i < this.tabHeaders.length; i++) {
-            tabs[i].parent = this;
-            this.addHeadNode(tabs[i]);
-        }
-            // Inject Tab Bodies into the page
-        tabs = this.tabBodies.toArray();
-        for (let i = 0; i < this.tabBodies.length; i++) {
-            tabs[i].parent = this;
-            this.addBodyNode(tabs[i]);
-        }
-    }
-
-    private addHeadNode(node: any) {
-        const root = this.header;
-        if (!root || !node || this.node_list.indexOf(node.id) >= 0) {
-            setTimeout(() => {
-                this.addHeadNode(node);
-            }, 500);
-            return;
-        }
-        if (!this.added_empty) {
-            this.added_empty = true;
-            this.renderer.appendChild(this.header.nativeElement, this.empty);
-        }
-        this.renderer.insertBefore(root.nativeElement, node.nativeElement(), this.empty);
-        this.node_list.push(`head-${node.id}`);
-    }
-
-    private addBodyNode(node: any) {
-        const root = this.body;
-        if (!root || !node || this.node_list.indexOf(node.id) >= 0) {
-            setTimeout(() => {
-                this.addBodyNode(node);
-            }, 500);
-            return;
-        }
-        this.renderer.appendChild(root.nativeElement, node.nativeElement());
-        this.node_list.push(`body-${node.id}`);
     }
 
 }

@@ -7,10 +7,13 @@
 @Last modified time: 15/12/2016 11:32 AM
 -->
 
-<div class="aca tab-group" >
-    <div #header class="tab-header">
+<div class="tabs" widget>
+    <div #header class="header">
         <div class="border"></div>
+        <ng-content></ng-content>
+        <div class="empty">e</div>
     </div>
-    <div #body class="tab-body">
+    <div #body class="body">
+        <ng-container *ngTemplateOutlet="model.active?.template"></ng-container>
     </div>
 </div>
