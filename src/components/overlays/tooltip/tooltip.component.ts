@@ -51,6 +51,9 @@ export class TooltipComponent extends DynamicBaseComponent {
     public mouseDown(e?: any) {
         this.mouse_state = 'down';
         if (e && this.box) {
+            if (e.touches) {
+                e = e.touches[0];
+            }
             const c = { x: e.clientX, y: e.clientY };
             if (c.x >= this.box.left && c.y >= this.box.top && c.x <= this.box.left + this.box.width && c.y <= this.box.top + this.box.height) {
                 this.model.tapped = true;
@@ -58,8 +61,11 @@ export class TooltipComponent extends DynamicBaseComponent {
         }
     }
 
-    public mouseUp() {
+    public mouseUp(e?: any) {
         this.mouse_state = 'up';
+        if (!this.model.tapped) {
+            this.close(e);
+        }
         setTimeout(() => {
             this.model.tapped = false;
         }, 100);
@@ -67,7 +73,7 @@ export class TooltipComponent extends DynamicBaseComponent {
 
     public mouseMove(e?: any) {
         if (this.mouse_state === 'down') {
-            this.close();
+            this.close(e);
         }
     }
 

@@ -36,6 +36,7 @@ import * as moment from 'moment';
 })
 export class ModalComponent extends DynamicBaseComponent {
     public container: any = {};
+    public top: boolean;
 
     protected type: string = 'Modal';
 
@@ -46,6 +47,12 @@ export class ModalComponent extends DynamicBaseComponent {
                 this.container = el.nativeElement.getBoundingClientRect();
             }
         }, 100);
+    }
+
+    public updateState(state: any) {
+        setTimeout(() => {
+            this.top = state === this.stack_id;
+        });
     }
 
     public close(e?: any) {

@@ -8,9 +8,14 @@
     right: 0;
     bottom: 0;
     overflow: auto;
-    background-color: $black-o50;
+    background-color: rgba(0,0,0,0);
     z-index: 2000;
     pointer-events: auto;
+    transition: background-color 200ms;
+}
+
+.top {
+    background-color: $black-o50;
 }
 
 .container {
@@ -21,11 +26,11 @@
 }
 
 .body {
-    min-width: 1em;
-    min-height: 1em;
     max-height: 90vh;
     max-width: 90vw;
     background-color: #fff;
     border-radius: .2em;
-    box-shadow: 0 .1em .2em .1em $black-o20;
+    &.top {
+        box-shadow: 0 .1em .2em .1em $black-o20;
+    }
 }

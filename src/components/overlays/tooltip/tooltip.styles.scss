@@ -13,6 +13,7 @@
     pointer-events: auto;
     transition: opacity 300ms;
     opacity: 0;
+    display: initial;
     &.no-triangle {
         width: 0;
         .triangle {

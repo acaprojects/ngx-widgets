@@ -7,9 +7,12 @@
     <div [class]="'tooltip ' + model.position + ' ' + model.name + (!model.triangle ? ' no-triangle': '')" widget
         [class.no-triangle]="!model.triangle"
         (window:click)="shown ? close($event) : ''"
-        (window:mousedown)="shown ? mouseDown() : ''"
-        (window:mouseup)="shown ? mouseUp() : ''"
-        (window:mousemove)="shown ? mouseMove() : ''"
+        (window:mousedown)="shown ? mouseDown($event) : ''"
+        (window:mouseup)="shown ? mouseUp($event) : ''"
+        (window:mousemove)="shown ? mouseMove($event) : ''"
+        (window:touchstart)="shown ? mouseDown($event) : ''"
+        (window:touchend)="shown ? mouseUp($event) : ''"
+        (window:touchmove)="shown ? mouseMove($event) : ''"
         (window:resize)="shown ? close($event) : ''"
         [style.opacity]="(rendered || model.template) && shown ? '1' : '0'"
         (click)="tap()">

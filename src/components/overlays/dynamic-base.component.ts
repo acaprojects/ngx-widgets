@@ -1,7 +1,7 @@
 
 import { Component, ElementRef, Input, Type, ViewChild } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { WIDGETS } from '../../settings';
 
@@ -21,6 +21,8 @@ export class DynamicBaseComponent {
     @Input() public rendered: boolean = false;
     public box: any = null;
 
+    protected static internal_state: any = {};
+    protected sub: any = null
     protected stack_id: string = '';
     protected type = 'Dynamic';
 
@@ -32,15 +34,19 @@ export class DynamicBaseComponent {
     }
 
     public ngOnInit() {
+        if (!DynamicBaseComponent.internal_state[this.type]) {
+            DynamicBaseComponent.internal_state[this.type] = new BehaviorSubject('');
+        }
         this.renderer.listen('window', 'resize', () => { this.resize(); });
         if (!DynamicBaseComponent.instance_stack[this.type]) {
             DynamicBaseComponent.instance_stack[this.type] = [];
         }
         DynamicBaseComponent.instance_stack[this.type].push(this.stack_id);
-
+        DynamicBaseComponent.internal_state[this.type].next(this.stack_id);
         this.state.sub = new Observable((observer: any) => {
             this.state.obs = observer;
         });
+        this.listenState();
         setTimeout(() => {
             this.model.initialised = true;
         }, 300);
@@ -52,8 +58,22 @@ export class DynamicBaseComponent {
         this.initBox();
     }
 
+    public listenState(tries: number = 0) {
+        if (tries > 10) { return; };
+        if (DynamicBaseComponent.internal_state[this.type]) {
+            this.sub = DynamicBaseComponent.internal_state[this.type]
+                .subscribe((value: any) => {
+                    this.updateState(value);
+                });
+        } else {
+            setTimeout(() => {
+                this.listenState(++tries);
+            }, 300);
+        }
+    }
+
     public initBox(tries: number = 0) {
-        if (!this.box){
+        if (!this.box) {
             if (this.body && this.body.nativeElement) {
                 this.box = this.body.nativeElement.getBoundingClientRect();
             } else {
@@ -70,12 +90,23 @@ export class DynamicBaseComponent {
             this.cmp_ref.destroy();
             this.cmp_ref = null;
         }
-        setTimeout(() => {
-            const index = DynamicBaseComponent.instance_stack[this.type] ? DynamicBaseComponent.instance_stack[this.type].indexOf(this.stack_id) : -1;
-            if (index >= 0) {
-                DynamicBaseComponent.instance_stack[this.type].splice(index, 1);
+        if (this.sub) {
+            this.sub.unsubscribe();
+        }
+        const index = DynamicBaseComponent.instance_stack[this.type] ? DynamicBaseComponent.instance_stack[this.type].indexOf(this.stack_id) : -1;
+        if (index >= 0) {
+            DynamicBaseComponent.instance_stack[this.type].splice(index, 1);
+            if (DynamicBaseComponent.internal_state[this.type]) {
+                const length = DynamicBaseComponent.instance_stack[this.type].length;
+                DynamicBaseComponent.internal_state[this.type].next(
+                    DynamicBaseComponent.instance_stack[this.type][length - 1]
+                );
             }
-        }, 350);
+        }
+    }
+
+    public updateState(state: any) {
+
     }
 
     public tap() {
@@ -87,7 +118,10 @@ export class DynamicBaseComponent {
 
     public close(e?: any) {
         if (e && this.body && this.body.nativeElement && this.model.initialised) {
-            const c = { x: e.clientX, y: e.clientY };
+            if (e.touches && e.touches.length > 0) {
+                e = e.touches[0];
+            }
+            const c = { x: e.clientX || e.pageX, y: e.clientY || e.pageY };
             this.initBox();
             if (this.box) {
                 if (c.x < this.box.left || c.y < this.box.top ||
@@ -161,7 +195,7 @@ export class DynamicBaseComponent {
     }
 
     protected updateComponent(data: any, tries: number = 0) {
-        if (this.cmp_ref){
+        if (this.cmp_ref) {
             this.cmp_ref.instance.set(data);
         } else {
             tries++;
@@ -217,8 +251,8 @@ export class DynamicBaseComponent {
                         setTimeout(() => {
                             this.rendered = true;
                             this.resize();
-                        }, 100);
-                    }, 100);
+                        }, 20);
+                    }, 50);
                 } else {
                     WIDGETS.error('DYN_CMP', 'Unable to find factory for: ', this.model.cmp);
                 }
