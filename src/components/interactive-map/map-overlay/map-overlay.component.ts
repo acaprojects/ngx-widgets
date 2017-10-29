@@ -9,7 +9,7 @@ import { DynamicBaseComponent } from '../../overlays/dynamic-base.component';
                     [style.left]="container?.left + '%'"
                     [style.width]="container?.width + '%'"
                     [style.height]="container?.height + '%'" [class.hide]="!this.model.el && !this.model.coordinates">
-                        <div #content></div>
+                        <ng-container #content></ng-container>
                 </div>`,
     styleUrls: ['./map-overlay.styles.css'],
 })

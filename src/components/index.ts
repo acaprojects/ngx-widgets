@@ -8,7 +8,7 @@
  */
 
 import { BUTTONS } from './buttons';
-import { FORM_CONTROLS, DropdownListComponent } from './form-controls';
+import { FORM_CONTROLS, DropdownListComponent, CustomDropdownListComponent } from './form-controls';
 import { ImageCrop } from './img-crop';
 import { MAP_COMPONENTS, MAP_ENTRY_COMPONENTS } from './interactive-map';
 import { MaterialStyles } from './material-styles';
@@ -45,6 +45,7 @@ export let COMPONENTS: any[] = [
 export let ENTRY_COMPONENTS: any[] = [
     ...OVERLAY_COMPONENTS,
     ...MAP_ENTRY_COMPONENTS,
+    CustomDropdownListComponent,
     DropdownListComponent,
     VirtualKeyboard,
 

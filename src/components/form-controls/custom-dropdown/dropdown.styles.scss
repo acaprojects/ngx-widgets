@@ -1,0 +1,80 @@
+
+
+.dropdown {
+    position: relative;
+    min-width: 10em;
+    display: inline-block;
+    margin: .25em;
+    background-color: #fff;
+    border-radius: .2em;
+    box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, 0);
+    transition: box-shadow 300ms, background-color 300ms;
+    border: 1px solid #f2f2f2;
+    cursor: pointer;
+    * {
+        user-select: none;
+    }
+    &:hover {
+        background-color: #f2f2f2;
+        box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
+    }
+    &:active {
+        background-color: #fff;
+    }
+}
+
+.tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    overflow: hidden;
+    box-sizing: content-box;
+    opacity: 0;
+    display: block;
+    &.bottom {
+        top: auto;
+        bottom: 0;
+    }
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    padding: .5em .75em;
+    height: 2em;
+    .text {
+        flex: 1;
+        width: 50%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    .icon {
+        padding: 0 0 0 .5em;
+        min-height: .5em;
+        width: 1.5em;
+    }
+    &.active {
+        text-align: center;
+        border-bottom: 1px solid #f2f2f2;
+        &:hover {
+            background-color: #fff;
+        }
+    }
+    &:hover {
+        background-color: #f2f2f2;
+    }
+}
+
+.placeholder {
+    height: 0 !important;
+    overflow: hidden;
+    padding: 0 .75em;
+}
+
+.list {
+    height: 0;
+    overflow: hidden;
+}

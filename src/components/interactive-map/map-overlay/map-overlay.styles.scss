@@ -1,9 +1,7 @@
 
 .map-overlay {
     position: absolute;
-    & > * {
-        pointer-events: auto;
-    }
+    pointer-events: auto;
 }
 
 .hide {

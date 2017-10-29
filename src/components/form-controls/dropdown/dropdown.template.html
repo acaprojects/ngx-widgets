@@ -10,6 +10,7 @@
         [position]="bottom ? 'top' : 'bottom'"
         [triangle]="false"
         [(show)]="show"
+        [autoclose]="false"
         (event)="select($event)">
     </div>
     <div #active class="item active" (tap)="show = true">

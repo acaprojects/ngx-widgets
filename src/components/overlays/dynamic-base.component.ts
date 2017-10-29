@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, Input, Type, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, Type, ViewChild } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -19,6 +19,7 @@ export class DynamicBaseComponent {
     @Input() public parent: any = null;
     @Input() public state: any = { obs: null, sub: null };
     @Input() public rendered: boolean = false;
+    @Output() public events: any = new EventEmitter();
     public box: any = null;
 
     protected static internal_state: any = {};
@@ -48,6 +49,7 @@ export class DynamicBaseComponent {
         });
         this.listenState();
         setTimeout(() => {
+            this.init();
             this.model.initialised = true;
         }, 300);
     }
@@ -55,7 +57,12 @@ export class DynamicBaseComponent {
     public init(parent?: any, id?: string) {
         this.parent = parent || this.parent;
         this.id = id || this.id;
-        this.initBox();
+    }
+
+    public ngAfterViewInit() {
+        setTimeout(() => {
+            this.initBox();
+        }, 300);
     }
 
     public listenState(tries: number = 0) {
@@ -73,15 +80,13 @@ export class DynamicBaseComponent {
     }
 
     public initBox(tries: number = 0) {
-        if (!this.box) {
-            if (this.body && this.body.nativeElement) {
-                this.box = this.body.nativeElement.getBoundingClientRect();
-            } else {
-                tries++;
-                setTimeout(() => {
-                    this.initBox(tries);
-                }, 200);
-            }
+        if (tries > 5) { return; }
+        if (this.body && this.body.nativeElement) {
+            this.box = this.body.nativeElement.getBoundingClientRect();
+        } else {
+            setTimeout(() => {
+                this.initBox(++tries);
+            }, 300 * ((tries / 2) + 1));
         }
     }
 
@@ -110,29 +115,32 @@ export class DynamicBaseComponent {
     }
 
     public tap() {
+        WIDGETS.log('DYN_BASE', `Tap called on component ${this.id}`);
         this.model.tapped = true;
         setTimeout(() => {
             this.model.tapped = false;
-        }, 100);
+        }, 300);
     }
 
     public close(e?: any) {
-        if (e && this.body && this.body.nativeElement && this.model.initialised) {
-            if (e.touches && e.touches.length > 0) {
-                e = e.touches[0];
-            }
-            const c = { x: e.clientX || e.pageX, y: e.clientY || e.pageY };
-            this.initBox();
-            if (this.box) {
-                if (c.x < this.box.left || c.y < this.box.top ||
-                    c.x > this.box.left + this.box.width || c.y > this.box.top + this.box.height) {
-                    setTimeout(() => {
+        setTimeout(() => {
+            if (e && this.body && this.body.nativeElement && this.model.initialised) {
+                if (e.touches && e.touches.length > 0) {
+                    e = e.touches[0];
+                }
+                const c = { x: e.clientX || e.pageX, y: e.clientY || e.pageY };
+                this.initBox();
+                if (this.box) {
+                    if (c.x < this.box.left || c.y < this.box.top ||
+                        c.x > this.box.left + this.box.width || c.y > this.box.top + this.box.height) {
+
                         this.model.show = false;
-                        this.event('close');
-                    }, 20);
+                        WIDGETS.log('DYN_BASE', `Closing component ${this.id} from external click.`);
+                        this.event('close', 'Outside');
+                    }
                 }
             }
-        }
+        }, 200);
     }
     /**
      * Posts an event to the Observable.
@@ -141,21 +149,27 @@ export class DynamicBaseComponent {
      * @return {void}
      */
     public event(type: string, location: string = 'Code') {
-        if (this.cmp_ref) {
-            this.model.data = this.cmp_ref.instance.model;
-        }
-        if (this.state.obs) {
-            this.state.obs.next({
-                type,
-                location,
-                data: this.model.data,
-                update: (form: any) => { this.set({ data: form }); },
-                close: () => { this.parent.remove(this.id); },
-            });
-        } else {
-            WIDGETS.error('DYN_CMP', `Event observable was deleted before overlay's event could occur.`);
-            this.remove();
-        }
+        setTimeout(() => {
+            if (this.cmp_ref) {
+                this.model.data = this.cmp_ref.instance.model;
+            }
+            if (this.state.obs) {
+                WIDGETS.log('DYN_BASE', `Event on component ${this.id} of type '${type}' from '${location.toLowerCase()}'`);
+                const event = {
+                    id: this.id,
+                    type,
+                    location,
+                    data: this.model.data,
+                    update: (form: any) => { this.set({ data: form }); },
+                    close: () => { this.parent.remove(this.id); },
+                };
+                this.state.obs.next(event);
+                this.events.emit(event);
+            } else {
+                WIDGETS.error('DYN_CMP', `Event observable was deleted before overlay's event could occur.`);
+                this.remove();
+            }
+        }, 300);
     }
 
     public subscribe(next: () => void, error?: () => void, complete?: () => void) {
@@ -244,6 +258,7 @@ export class DynamicBaseComponent {
                     }
                     inst.fn.close = (cb: () => void) => { this.event('close', 'Component'); };
                     inst.fn.event = (option: string) => { this.event(option, 'Component'); };
+                    WIDGETS.log('DYN_BASE', `Created component with id '${this.id}'`);
                     setTimeout(() => {
                         if (inst.init) {
                             inst.init();

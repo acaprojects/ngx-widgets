@@ -5,7 +5,7 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 @Component({
     selector: 'overlay-container',
     template: `
-        <div class="overlay-container"><div #content></div></div>
+        <div class="overlay-container"><ng-container #content></ng-container></div>
     `,
     styleUrls: ['./overlay-container.styles.css'],
 })

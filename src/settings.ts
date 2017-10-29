@@ -9,6 +9,20 @@ import { Observable } from 'rxjs/Observable';
 
 export class WIDGETS {
 
+    public static init() {
+        setTimeout(() => {
+            WIDGETS.loadSettings();
+            WIDGETS.timer = setInterval(() => {
+                WIDGETS.load_count++;
+                WIDGETS.loadSettings();
+                if (WIDGETS.load_count > 10) {
+                    clearInterval(WIDGETS.timer);
+                    WIDGETS.timer = null;
+                }
+            }, 1000);
+        }, 50);
+    }
+
     public static get(name: string) {
         return this.data[name];
     }
@@ -84,15 +98,13 @@ export class WIDGETS {
     private static data: any = {};
     private static obs: any = {};
     private static _obs: any = {};
+    private static timer: any = null;
+    private static load_count: number = 0
+    ;
     private static hasColours() {
         const doc = document as any;
         return !(doc.documentMode || /Edge/.test(navigator.userAgent));
     }
 }
 
-setTimeout(() => {
-    WIDGETS.loadSettings();
-    setInterval(() => {
-        WIDGETS.loadSettings();
-    }, 500);
-}, 100);
+WIDGETS.init();

@@ -1,15 +1,16 @@
 
-import { Component, ElementRef, EventEmitter, Input, Output, Renderer2, Type, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, Renderer2, Type, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapService } from '../../services/map.service';
 
 export interface IPointOfInterest {
     id?: string;        // CSS Selector ID of element with map
+    name: string;       // Identifier for the point of interest
     coordinates?: {     // Coordinates of the point of interest on the map
         x: number,      // X position with the map
         y: number       // Y position with the map
     };
-    cmp: Type<any> | string; // Component to render inside at the given location
+    cmp: Type<any> | string; // Component to render inside container at the given location
     data: any                // Data to be bound to the model of the given component
 }
 
@@ -27,6 +28,7 @@ export interface IFocusItem {
     selector: 'map',
     templateUrl: './map.template.html',
     styleUrls: ['./map.styles.css'],
+    // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InteractiveMapComponent {
     @Input() public id: string = '';
@@ -90,7 +92,10 @@ export class InteractiveMapComponent {
                 this.updateStyles();
             }
 
-            if (changes.focus) {
+            if (changes.focus && this.focus) {
+                if (this.focus.lock && !this.focus.zoom) {
+                    this.focus.zoom = this.zoom;
+                }
                 this.focusEvent();
             }
         }, 10);
@@ -138,6 +143,8 @@ export class InteractiveMapComponent {
             this.state.map_el.style.top = '50%';
             this.state.map_el.style.left = '50%';
             this.state.map_el.style.transform = `translate(-50%, -50%)`;
+            this.state.map_el.style.maxWidth = `100%`;
+            this.state.map_el.style.maxHeight = `100%`;
             this.ratio.map = {
                 width: 1,
                 height: this.state.map_box.height / this.state.map_box.width,
@@ -199,11 +206,12 @@ export class InteractiveMapComponent {
                     if (el) {
                         const box = el.getBoundingClientRect();
                         const map_box = this.area.nativeElement.getBoundingClientRect();
+                        const scale = box.width > box.height ? map_box.width / box.width : map_box.height / box.height;
                         const location = {
                             x: 1 - (((box.left - map_box.left) + box.width / 2) / map_box.width),
                             y: 1 - (((box.top - map_box.top) + box.height / 2) / map_box.height),
                         };
-                        const zoom = (((map_box.width / box.width) / 4) * 100) - 100;
+                        const zoom = ((scale / 3) * 100) - 100;
                         this.center = location;
                         this.zoom = this.focus.zoom || Math.min(zoom, 700) || 100;
                     }

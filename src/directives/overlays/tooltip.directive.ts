@@ -19,6 +19,7 @@ export class TooltipDirective {
     @Input() public model: any = {};
     @Input() public triangle: boolean = true;
     @Input() public show: boolean = false;
+    @Input() public autoclose: any = true;
     @Input() public hover: boolean = false;
     @Output() public showChange: any = new EventEmitter();
     @Output() public event: any = new EventEmitter();
@@ -125,7 +126,7 @@ export class TooltipDirective {
     }
 
     private processEvent(event: any) {
-        if (event.type === 'close') {
+        if (event.type === 'Close' && this.autoclose !== undefined) {
             this.show = false;
             this.showChange.emit(false);
             this.removeTooltip();

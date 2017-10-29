@@ -219,7 +219,6 @@ module.exports = function(options) {
         /angular(\\|\/)core(\\|\/)(esm(\\|\/)_build|_build)(\\|\/)linker/,
         helpers.root('_build') // location of your _build
       ),
-
       /*
        * Plugin: CopyWebpackPlugin
        * Description: Copy files and directories in webpack.

@@ -5,6 +5,8 @@ import { ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/
 
 import { DynamicBaseComponent } from '../dynamic-base.component';
 
+import { WIDGETS } from '../../../settings';
+
 import * as moment from 'moment';
 
 @Component({
@@ -23,7 +25,7 @@ export class TooltipComponent extends DynamicBaseComponent {
         super.init(parent, id);
         this.renderer.listen('window', 'wheel', () => {
             if (this.shown && !this.model.hover) {
-                this.close();
+                this.resize();
             }
         });
     }
@@ -50,12 +52,13 @@ export class TooltipComponent extends DynamicBaseComponent {
 
     public mouseDown(e?: any) {
         this.mouse_state = 'down';
-        if (e && this.box) {
+        if (e && this.box && !this.model.tapped) {
             if (e.touches) {
                 e = e.touches[0];
             }
             const c = { x: e.clientX, y: e.clientY };
             if (c.x >= this.box.left && c.y >= this.box.top && c.x <= this.box.left + this.box.width && c.y <= this.box.top + this.box.height) {
+                WIDGETS.log('T_TIP', `['${this.id}'] Mouse down event inside tooltip`);
                 this.model.tapped = true;
             }
         }
@@ -64,7 +67,8 @@ export class TooltipComponent extends DynamicBaseComponent {
     public mouseUp(e?: any) {
         this.mouse_state = 'up';
         if (!this.model.tapped) {
-            this.close(e);
+            WIDGETS.log('T_TIP', `['${this.id}'] Mouse up event`);
+            this.event('Close', 'Click');
         }
         setTimeout(() => {
             this.model.tapped = false;
@@ -72,8 +76,9 @@ export class TooltipComponent extends DynamicBaseComponent {
     }
 
     public mouseMove(e?: any) {
-        if (this.mouse_state === 'down') {
-            this.close(e);
+        if (this.mouse_state === 'down' && !this.model.tapped) {
+            WIDGETS.log('T_TIP', `['${this.id}'] Mouse move event after mouse down outside`);
+            this.event('Close', 'MouseMove');
         }
     }
 

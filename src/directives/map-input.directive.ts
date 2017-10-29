@@ -81,6 +81,15 @@ export class MapInputDirective {
         this.delta.scale = 0;
     }
 
+    @HostListener('wheel', ['$event']) private wheelScale(e: any) {
+        const value = 1 + (0.01 * e.deltaY) / 2;
+        this.scale = Math.round((this.scale + 100) * value - 100);
+        if (this.scale < -50) {
+            this.scale = -50;
+        }
+        this.scaleChange.emit(this.scale);
+    }
+
     @HostListener('tap', ['$event']) private tap(e: any) {
         this.event.emit({ type: 'Tap', event: e });
     }

@@ -1,0 +1,21 @@
+
+<div [class]="'dropdown custom ' + name + (show ? ' show' : '')" widget
+    #body
+    (window:resize)="resize()">
+    <div class="tooltip" [class.bottom]="bottom"
+        tooltip
+        name="custom-dropdown-list"
+        [model]="data"
+        [cmp]="cmp"
+        [position]="bottom ? 'top' : 'bottom'"
+        [triangle]="false"
+        [(show)]="show"
+        (event)="select($event)">
+    </div>
+    <div #active class="item active" (tap)="show = true">
+        <ng-content></ng-content>
+    </div>
+    <div class="list">
+        <ng-container *ngTemplateOutlet="template"></ng-container>
+    </div>
+</div>

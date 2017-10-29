@@ -1,8 +1,9 @@
 
-<div [class]="'dropdown list-tooltip' + model?.name" widget [style.width]="model.width ? model.width + 'px' : ''">
+<div [class]="'dropdown list-tooltip ' + model?.name" widget [style.width]="model.width ? model.width + 'px' : ''">
     <div class="list" *ngIf="model.bottom" [class.filter]="model.filter">
         <div class="item"
             *ngFor="let item of filtered_list; let i = index"
+            [class.selected]="model.active === (item.i || i)"
             [class.hide]="(model.hideActive&&(item.i || i)===model.active) || filtered_list.indexOf(item) < 0"
             (click)="select(item.i || i)">
 
@@ -33,6 +34,7 @@
     <div class="list" *ngIf="!model.bottom"  [class.filter]="model.filter">
         <div class="item"
             *ngFor="let item of filtered_list; let i = index"
+            [class.selected]="model.active === (item.i || i)"
             [class.hide]="(model.hideActive&&(item.i || i)===model.active) || filtered_list.indexOf(item) < 0"
             (click)="select(item.i || i)">
 

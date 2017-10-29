@@ -13,10 +13,10 @@
         (window:touchstart)="shown ? mouseDown($event) : ''"
         (window:touchend)="shown ? mouseUp($event) : ''"
         (window:touchmove)="shown ? mouseMove($event) : ''"
-        (window:resize)="shown ? close($event) : ''"
+        (window:resize)="shown ? resize($event) : ''"
         [style.opacity]="(rendered || model.template) && shown ? '1' : '0'"
         (click)="tap()">
-        <div #body [class]="'content ' + model.offset">
+        <div #body [class]="'content ' + model.offset" (click)="tap()">
             <ng-container #content></ng-container>
             <ng-container *ngTemplateOutlet="model.template"></ng-container>
         </div>
