@@ -99,8 +99,8 @@ export class WIDGETS {
     private static obs: any = {};
     private static _obs: any = {};
     private static timer: any = null;
-    private static load_count: number = 0
-    ;
+    private static load_count: number = 0;
+    
     private static hasColours() {
         const doc = document as any;
         return !(doc.documentMode || /Edge/.test(navigator.userAgent));

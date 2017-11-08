@@ -2,9 +2,9 @@
 <div [class]="'calendar ' + name" widget>
     <div class="header">
         <div class="display">
-            <div class="change previous" (click)="changeMonth(-1)">&#706;</div>
+            <div class="change previous" [class.disabled]="(options && options.past && model.offset <= (-options.limit || 0)) || model.offset <= 0" (click)="changeMonth(-1)">&#706;</div>
             <div class="month" (dblclick)="changeMonth(-model.offset)">{{display}}</div>
-            <div class="change next" (click)="changeMonth(1)">&#707;</div>
+            <div class="change next" [class.disabled]="model.offset >= (options.limit || 12)" (click)="changeMonth(1)">&#707;</div>
         </div>
         <div class="week">
             <div class="day" *ngFor="let day of model.weekdays">{{day}}</div>

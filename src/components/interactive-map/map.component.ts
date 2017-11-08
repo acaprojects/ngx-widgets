@@ -106,7 +106,8 @@ export class InteractiveMapComponent {
         const x = Math.floor((100 * this.center.x) * 100) / 100;
         const y = Math.floor((100 * this.center.y) * 100) / 100;
         this.state.position = `${x}%, ${y}%`;
-        this.state.scale = `${Math.round((100 + this.zoom) * 10 * (this.ratio.container.height / this.ratio.map.height)) / 1000}`;
+        const ratio = this.ratio.container.height / this.ratio.map.height;
+        this.state.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
         this.state.transform = `translate(${x - 100}%, ${y - 100}%)`;
     }
 
@@ -143,8 +144,8 @@ export class InteractiveMapComponent {
             this.state.map_el.style.top = '50%';
             this.state.map_el.style.left = '50%';
             this.state.map_el.style.transform = `translate(-50%, -50%)`;
-            this.state.map_el.style.maxWidth = `100%`;
-            this.state.map_el.style.maxHeight = `100%`;
+            // this.state.map_el.style.maxWidth = `100%`;
+            // this.state.map_el.style.maxHeight = `100%`;
             this.ratio.map = {
                 width: 1,
                 height: this.state.map_box.height / this.state.map_box.width,

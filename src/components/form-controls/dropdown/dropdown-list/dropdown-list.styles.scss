@@ -52,10 +52,14 @@ input {
 }
 
 .item {
+    position: relative;
     display: flex;
     align-items: center;
     padding: .5em .75em;
     height: 2em;
+    & > * {
+        z-index: 999;
+    }
     .text {
         flex: 1;
         width: 50%;

@@ -5,6 +5,8 @@ import { ApplicationRef, ComponentFactoryResolver, Injector } from '@angular/cor
 import { OverlayContainerComponent } from '../components';
 import { ModalComponent, NotificationComponent, TooltipComponent } from '../components';
 
+import { WIDGETS } from '../settings';
+
 @Injectable()
 export class OverlayService {
 
@@ -70,6 +72,7 @@ export class OverlayService {
     }
 
     public register(id: string, cmp: Type<any>, data?: any) {
+        WIDGETS.log('OVERLAY(S)', `Registering overlay ${id} with component:`, cmp.name);
         this.cmp_reg[id] = data;
     }
 
@@ -170,6 +173,7 @@ export class OverlayService {
      * @return {any} Returns a promise which returns the component instance
      */
     private render(id: string, type: Type<any>, data?: any) {
+        WIDGETS.log('OVERLAY][S', `Rendering overlay ${id} with component:`, [type.name, data]);
         return new Promise((resolve, reject) => {
             if (this.container) {
                 this.container.instance.add(id, type).then((inst) => {

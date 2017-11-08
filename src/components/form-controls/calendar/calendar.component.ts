@@ -20,11 +20,17 @@ export interface ICalOptions {
 export class CalendarComponent {
     @Input() public name: string = '';
     @Input() public date: number = 0; // Unix timestamp with milliseconds
-    @Input() public options: ICalOptions;
+    @Input() public options: ICalOptions | any;
     @Output() public dateChange: any = new EventEmitter();
 
     public model: any = {};
     public display: string;
+
+    public ngOnInit() {
+        if (!this.options) {
+            this.options = {};
+        }
+    }
 
     public ngOnChanges(changes: any) {
         if (changes.date) {
@@ -34,6 +40,9 @@ export class CalendarComponent {
             this.generateMonth();
         }
         if (changes.options) {
+            if (!this.options) {
+                this.options = {};
+            }
             this.changeMonth();
         }
     }

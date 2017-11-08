@@ -60,7 +60,7 @@ export class NotifyDirective {
                 this.processEvent(event);
             });
         }, () => {
-            WIDGETS.error('Notify(D)', 'Failed to create notification');
+            WIDGETS.error('Notify][D', 'Failed to create notification');
         });
     }
 

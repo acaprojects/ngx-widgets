@@ -113,7 +113,7 @@ export class TooltipDirective {
                 this.processEvent(event);
             });
         }, () => {
-            WIDGETS.error('Tooltip(D)', 'Failed to create tooltip');
+            WIDGETS.error('Tooltip][D', 'Failed to create tooltip');
         });
     }
 

@@ -166,7 +166,7 @@ export class DynamicBaseComponent {
                 this.state.obs.next(event);
                 this.events.emit(event);
             } else {
-                WIDGETS.error('DYN_CMP', `Event observable was deleted before overlay's event could occur.`);
+                WIDGETS.log('DYN_BASE', `Event observable was deleted before overlay's event could occur.`, null, 'warn');
                 this.remove();
             }
         }, 300);
@@ -269,9 +269,11 @@ export class DynamicBaseComponent {
                         }, 20);
                     }, 50);
                 } else {
-                    WIDGETS.error('DYN_CMP', 'Unable to find factory for: ', this.model.cmp);
+                    WIDGETS.error('DYN_BASE', 'Unable to find factory for: ', this.model.cmp.name);
                 }
             }, 10);
+        } else {
+            WIDGETS.error('DYN_BASE', 'No component set to render ', this.id);
         }
     }
 }

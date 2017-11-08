@@ -1,5 +1,7 @@
 
 $color: #E91E63;
+$gap: .1em;
+$size: .7em;
 
 .radio-button {
     display: flex;
@@ -7,23 +9,34 @@ $color: #E91E63;
     margin: .5em;
 }
 
-.toggle {
-    background-color: #f2f2f2;
-    border: .2em solid #f2f2f2;
-    height: .8em;
-    width: .8em;
+.box {
+    position: relative;
+    border: $gap solid $color;
+    height: $size + $gap;
+    width: $size + $gap;
     margin: .2em;
     border-radius: 100%;
     cursor: pointer;
     &:hover {
-        background-color: #ccc;
+        background-color: #f2f2f2;
     }
-    &.on {
-        background-color: $color;
-        &:hover {
-            background-color: $color - #111;
-        }
+}
+
+.toggle.on {
+    background-color: $color;
+    &:hover {
+        opacity: .8;
     }
+}
+
+.toggle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: $size - $gap * 3;
+    width: $size - $gap * 3;
+    border-radius: 100%;
 }
 
 .label {

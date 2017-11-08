@@ -60,7 +60,7 @@ export class ModalDirective {
                 this.processEvent(event);
             });
         }, () => {
-            WIDGETS.error('Modal(D)', 'Failed to create modal');
+            WIDGETS.error('Modal][D', 'Failed to create modal');
         });
     }
 

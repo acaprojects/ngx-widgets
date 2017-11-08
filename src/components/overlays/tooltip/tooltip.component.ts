@@ -25,15 +25,15 @@ export class TooltipComponent extends DynamicBaseComponent {
         super.init(parent, id);
         this.renderer.listen('window', 'wheel', () => {
             if (this.shown && !this.model.hover) {
-                this.resize();
+                this.resize(true);
             }
         });
     }
 
-    public resize(tries: number = 0) {
+    public resize(show: boolean = false, tries: number = 0) {
         if (tries > 5) { return; }
         super.resize();
-        this.shown = false;
+        if (!show) { this.shown = false; }
         setTimeout(() => {
             const el = this.model.el;
             if (el && el.nativeElement) {
@@ -44,7 +44,7 @@ export class TooltipComponent extends DynamicBaseComponent {
             }
             if (!el || !this.container || ((this.container.height <= 0 || this.container.width <= 0) && this.container.top <= 0)) {
                 setTimeout(() => {
-                    this.resize(tries+1);
+                    this.resize(show, tries+1);
                 }, 200);
             }
         }, 100);
