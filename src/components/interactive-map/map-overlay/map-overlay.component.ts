@@ -16,6 +16,10 @@ import { DynamicBaseComponent } from '../../overlays/dynamic-base.component';
 export class MapOverlayComponent extends DynamicBaseComponent {
     public container: any = {};
 
+    public ngOnInit() {
+        this.id = `map-overlay-${Math.floor(Math.random() * 8999999 + 1000000)}`;
+    }
+
     public resize() {
         if (!this.model.map_state) {
             setTimeout(() => {

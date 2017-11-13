@@ -65,50 +65,50 @@ export class InteractiveMapComponent {
     }
 
     public ngOnChanges(changes: any) {
-        setTimeout(() => {
-            if (changes.poi) {
-                this.loadPointsOfInterest();
-            }
-            if (changes.src) {
-                this.loadMap();
-            }
-            if (changes.reset) {
-                this.zoom = 0;
-                this.center = { x: .5, y: .5 };
-                this.zoomChange.emit(this.zoom);
-                this.centerChange.emit(this.center);
-                this.update();
-            }
-            if (changes.zoom || changes.center) {
-                setTimeout(() => {
-                    if (this.focus && this.focus.lock) {
-                        this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
-                        this.center = changes.center ? changes.changes.previousValue : this.center;
-                    }
-                    this.update();
-                }, 10);
-            }
-            if (changes.styles) {
-                this.updateStyles();
-            }
-
-            if (changes.focus && this.focus) {
-                if (this.focus.lock && !this.focus.zoom) {
-                    this.focus.zoom = this.zoom;
+        if (changes.poi) {
+            this.loadPointsOfInterest();
+        }
+        if (changes.src) {
+            this.loadMap();
+        }
+        if (changes.reset) {
+            this.zoom = 0;
+            this.center = { x: .5, y: .5 };
+            this.zoomChange.emit(this.zoom);
+            this.centerChange.emit(this.center);
+            this.update();
+        }
+        if (changes.zoom || changes.center) {
+            setTimeout(() => {
+                if (this.focus && this.focus.lock) {
+                    this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
+                    this.center = changes.center ? changes.changes.previousValue : this.center;
                 }
-                this.focusEvent();
+            }, 20);
+            this.update();
+        }
+        if (changes.styles) {
+            this.updateStyles();
+        }
+
+        if (changes.focus && this.focus) {
+            if (this.focus.lock && !this.focus.zoom) {
+                this.focus.zoom = this.zoom;
             }
-        }, 10);
+            this.focusEvent();
+        }
     }
 
     public update() {
-        this.checkBounds();
-        const x = Math.floor((100 * this.center.x) * 100) / 100;
-        const y = Math.floor((100 * this.center.y) * 100) / 100;
-        this.state.position = `${x}%, ${y}%`;
-        const ratio = this.ratio.container.height / this.ratio.map.height;
-        this.state.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
-        this.state.transform = `translate(${x - 100}%, ${y - 100}%)`;
+        setTimeout(() => {
+            this.checkBounds();
+            const x = Math.floor((100 * this.center.x) * 100) / 100;
+            const y = Math.floor((100 * this.center.y) * 100) / 100;
+            this.state.position = `${x}%, ${y}%`;
+            const ratio = this.ratio.container.height / this.ratio.map.height;
+            this.state.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
+            this.state.transform = `translate(${x - 100}%, ${y - 100}%)`;
+        }, 10);
     }
 
     public checkBounds() {

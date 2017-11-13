@@ -1,6 +1,9 @@
 
 import { Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
+import { Animate } from '../services';
+
+
 @Directive({
     selector: '[map-input]',
 })
@@ -12,13 +15,19 @@ export class MapInputDirective {
     @Output() public scaleChange: any = new EventEmitter();
     @Output() public event: any = new EventEmitter();
 
+    private model: any = {};
     private delta: any = {};
     private move: any = { x: 0, y: 0 };
     private timer: any = {};
     private min: number = 0;
     private box: any = null;
+    private animations: any = {
+        center: null,
+        scale: null,
+        angle: null,
+    };
 
-    constructor(private el: ElementRef) {
+    constructor(private el: ElementRef, private animate: Animate) {
 
     }
 
@@ -34,34 +43,33 @@ export class MapInputDirective {
             return;
         }
         this.box = this.el.nativeElement.getBoundingClientRect();
+        if (!this.animations.center) {
+            this.animations.center = this.animate.animation(() => {}, () => {
+                this.centerChange.emit(this.center);
+            })
+        }
+        if (!this.animations.scale) {
+            this.animations.scale = this.animate.animation(() => {}, () => {
+                this.scaleChange.emit(this.scale);
+            })
+        }
     }
 
-    @HostListener('pan', ['$event']) private moveEvent(e: any) {
-        if (this.move.x === 0) { this.move.x = +e.deltaX; }
-        if (this.move.y === 0) { this.move.y = +e.deltaY; }
-        let dX = +e.deltaX - +this.move.x;
-        dX = (Math.min(this.min, +Math.abs(dX)) * (dX < 0 ? -1 : 1));
-        let dY = +e.deltaY - +this.move.y;
-        dY = (Math.min(this.min, +Math.abs(dY)) * (dY < 0 ? -1 : 1));
+    @HostListener('panstart', ['$event']) private moveStart(e: any) {
+        this.model.center = this.center;
+    }
+
+    @HostListener('panmove', ['$event']) private moveEvent(e: any) {
         const scale = (100 + this.scale) / 100;
         this.center = {
-            x: this.center.x + (dX / this.box.width) / scale,
-            y: this.center.y + (dY / this.box.height) / scale,
+            x: this.model.center.x + (e.deltaX / this.box.width) / scale,
+            y: this.model.center.y + (e.deltaY / this.box.height) / scale,
         };
-        this.move.x = e.deltaX;
-        this.move.y = e.deltaY;
-        if (this.min < 100) {
-            this.min += 10;
-        }
         if (this.center.x > 1) { this.center.x = 1; }
         else if (this.center.x < 0) { this.center.x = 0; }
         if (this.center.y > 1) { this.center.y = 1; }
         else if (this.center.y < 0) { this.center.y = 0; }
-        this.centerChange.emit(this.center);
-    }
-
-    @HostListener('panend', ['$event']) private moveEnd(e: any) {
-        this.move = { x: 0, y: 0 };
+        this.animations.center.animate();
     }
 
     @HostListener('pinchstart', ['$event']) private scaleStart(e: any) {
@@ -74,7 +82,7 @@ export class MapInputDirective {
         const value = 1 + dir * Math.max(Math.abs(scale), 0.01) / 2;
         this.scale = Math.round((this.scale + 100) * value - 100);
         this.delta.scale += scale;
-        this.scaleChange.emit(this.scale);
+        this.animations.scale.animate();
     }
 
     @HostListener('pinchend', ['$event']) private scaleEnd(e: any) {
@@ -82,12 +90,12 @@ export class MapInputDirective {
     }
 
     @HostListener('wheel', ['$event']) private wheelScale(e: any) {
-        const value = 1 + (0.01 * e.deltaY) / 2;
+        const value = 1 + -(0.01 * e.deltaY) / 2;
         this.scale = Math.round((this.scale + 100) * value - 100);
         if (this.scale < -50) {
             this.scale = -50;
         }
-        this.scaleChange.emit(this.scale);
+        this.animations.scale.animate();
     }
 
     @HostListener('tap', ['$event']) private tap(e: any) {
