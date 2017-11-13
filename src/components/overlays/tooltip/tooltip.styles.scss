@@ -3,13 +3,12 @@
 
 .container {
     position: fixed;
-    z-index: 3000;
     pointer-events: none;
 }
 
 .tooltip {
     position: absolute;
-    z-index: 99;
+    z-index: 3000;
     pointer-events: auto;
     transition: opacity 300ms;
     opacity: 0;

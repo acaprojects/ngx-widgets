@@ -2,7 +2,8 @@
     [style.top]="container?.top + 'px'"
     [style.left]="container?.left + 'px'"
     [style.width]="container?.width + 'px'"
-    [style.height]="container?.height + 'px'">
+    [style.height]="container?.height + 'px'"
+    [style.z-index]="model?.data?.zIndex || 3000">
 
     <div [class]="'tooltip ' + model.position + ' ' + model.name + (!model.triangle ? ' no-triangle': '')" widget
         [class.no-triangle]="!model.triangle"
