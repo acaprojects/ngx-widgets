@@ -1,6 +1,8 @@
 
 # Angular 2 - Widgets
 
+THIS DOCUMENTATION IS OUT OF DATE.
+
 General collection of widgets for use with Angular 2
 
 ## Source Documentation
