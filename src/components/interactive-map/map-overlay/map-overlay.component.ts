@@ -17,6 +17,7 @@ export class MapOverlayComponent extends DynamicBaseComponent {
     public container: any = {};
 
     public ngOnInit() {
+        super.ngOnInit();
         this.id = `map-overlay-${Math.floor(Math.random() * 8999999 + 1000000)}`;
     }
 
@@ -24,7 +25,7 @@ export class MapOverlayComponent extends DynamicBaseComponent {
         if (!this.model.map_state) {
             setTimeout(() => {
                 this.resize();
-            }, 200);
+            }, 50);
             return;
         }
         setTimeout(() => {
@@ -46,7 +47,7 @@ export class MapOverlayComponent extends DynamicBaseComponent {
                     left: ((box.left - map_box.left) / map_box.width) * 100,
                 };
             }
-        }, 100);
+        }, 20);
     }
 
     protected update(data: any) {

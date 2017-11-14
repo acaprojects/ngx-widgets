@@ -1,6 +1,6 @@
 {
   "name": "@acaprojects/a2-widgets",
-  "version": "0.13.10",
+  "version": "0.13.11",
   "description": "Angular 2 Widgets Library",
   "main": "index.js",
   "scripts": {

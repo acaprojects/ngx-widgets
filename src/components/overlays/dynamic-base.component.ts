@@ -1,7 +1,7 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, Type, ViewChild } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { WIDGETS } from '../../settings';
 
@@ -17,13 +17,13 @@ export class DynamicBaseComponent {
     @Input() public model: any = {};
     @Input() public cmp_ref: any = null;
     @Input() public parent: any = null;
-    @Input() public state: any = { obs: null, sub: null };
     @Input() public rendered: boolean = false;
     @Output() public events: any = new EventEmitter();
     public box: any = null;
 
     protected static internal_state: any = {};
-    protected sub: any = null
+    protected sub: any = null;
+    protected state: any = {};
     protected stack_id: string = '';
     protected type = 'Dynamic';
 
@@ -44,9 +44,8 @@ export class DynamicBaseComponent {
         }
         DynamicBaseComponent.instance_stack[this.type].push(this.stack_id);
         DynamicBaseComponent.internal_state[this.type].next(this.stack_id);
-        this.state.sub = new Observable((observer: any) => {
-            this.state.obs = observer;
-        });
+        this.state.sub = new BehaviorSubject({});
+        this.state.obs = this.state.sub.asObservable();
         this.listenState();
         setTimeout(() => {
             this.init();
@@ -153,23 +152,23 @@ export class DynamicBaseComponent {
             if (this.cmp_ref) {
                 this.model.data = this.cmp_ref.instance.model;
             }
-            if (this.state.obs) {
-                WIDGETS.log('DYN_BASE', `Event on component ${this.id} of type '${type}' from '${location.toLowerCase()}'`);
-                const event = {
-                    id: this.id,
-                    type,
-                    location,
-                    data: this.model.data,
-                    update: (form: any) => { this.set({ data: form }); },
-                    close: () => { this.parent.remove(this.id); },
-                };
-                this.state.obs.next(event);
-                this.events.emit(event);
+            WIDGETS.log('DYN_BASE', `Event on component ${this.id} of type '${type}' from '${location.toLowerCase()}'`);
+            const event = {
+                id: this.id,
+                type,
+                location,
+                data: this.model.data,
+                update: (form: any) => { this.set({ data: form }); },
+                close: () => { this.parent.remove(this.id); },
+            };
+            this.events.emit(event);
+            if (this.state.sub) {
+                this.state.sub.next(event);
             } else {
                 WIDGETS.log('DYN_BASE', `Event observable was deleted before overlay's event could occur.`, null, 'warn');
                 this.remove();
             }
-        }, 300);
+        }, 20);
     }
 
     public subscribe(next: () => void, error?: () => void, complete?: () => void) {
@@ -177,8 +176,8 @@ export class DynamicBaseComponent {
     }
 
     public watch(next: () => void, error?: () => void, complete?: () => void) {
-        if (this.state.sub) {
-            return this.state.sub.subscribe(next, error, complete);
+        if (this.state.obs) {
+            return this.state.obs.subscribe(next, error, complete);
         } else {
             return null;
         }
@@ -237,7 +236,7 @@ export class DynamicBaseComponent {
             }, 200);
             return;
         }
-        if (this.model.cmp !== undefined && this.model.cmp !== null) {
+        if (this.model.cmp) {
             setTimeout(() => {
                 const factory = this._cfr.resolveComponentFactory(this.model.cmp);
                 if (factory) {

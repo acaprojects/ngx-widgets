@@ -79,12 +79,12 @@ export class InteractiveMapComponent {
             this.update();
         }
         if (changes.zoom || changes.center) {
-            setTimeout(() => {
                 if (this.focus && this.focus.lock) {
-                    this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
-                    this.center = changes.center ? changes.changes.previousValue : this.center;
+                    setTimeout(() => {
+                        this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
+                        this.center = changes.center ? changes.changes.previousValue : this.center;
+                    }, 20);
                 }
-            }, 20);
             this.update();
         }
         if (changes.styles) {
@@ -93,7 +93,9 @@ export class InteractiveMapComponent {
 
         if (changes.focus && this.focus) {
             if (this.focus.lock && !this.focus.zoom) {
-                this.focus.zoom = this.zoom;
+                setTimeout(() => {
+                    this.focus.zoom = this.zoom;
+                }, 20);
             }
             this.focusEvent();
         }

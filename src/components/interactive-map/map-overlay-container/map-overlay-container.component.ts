@@ -5,7 +5,10 @@ import { MapOverlayComponent } from '../map-overlay';
 
 @Component({
     selector: 'map-overlay-container',
-    template: '<div class="overlay-container"><div #content></div></div>',
+    template: `
+        <div class="overlay-container">
+            <div #content></div>
+        </div>`,
     styleUrls: ['./map-overlay-container.styles.css'],
 })
 export class MapOverlayContainerComponent {
