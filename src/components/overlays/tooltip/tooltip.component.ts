@@ -44,7 +44,7 @@ export class TooltipComponent extends DynamicBaseComponent {
             }
             if (!el || !this.container || ((this.container.height <= 0 || this.container.width <= 0) && this.container.top <= 0)) {
                 setTimeout(() => {
-                    this.resize(show, tries+1);
+                    this.resize(true, tries+1);
                 }, 200);
             }
         }, 100);
