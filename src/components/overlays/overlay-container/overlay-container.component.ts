@@ -1,21 +1,31 @@
 
+
+import { OverlayService } from '../../../services';
 import { ComponentFactoryResolver, Type } from '@angular/core';
-import { Component, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild, ViewContainerRef } from '@angular/core';
+import { ElementRef } from '@angular/core';
 
 @Component({
     selector: 'overlay-container',
     template: `
-        <div class="overlay-container"><ng-container #content></ng-container></div>
+        <div #el class="overlay-container"><ng-container #content></ng-container></div>
     `,
     styleUrls: ['./overlay-container.styles.css'],
 })
 export class OverlayContainerComponent {
-    private cmp_refs: any = {};
+    public id: string = `overlay-container-${Math.floor(Math.random() * 8999999 + 1000000)}`;
+    public ng: any = null; // Angular component created from componentFactory
+    @Output() public event: any = new EventEmitter();
+    @Output() public idChange: any = new EventEmitter();
+    protected cmp_refs: any = {};
 
-    @ViewChild('content', { read: ViewContainerRef }) private content: ViewContainerRef;
+    @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
+    @ViewChild('el') public root: ElementRef;
 
-    constructor(private _cfr: ComponentFactoryResolver) {
+    constructor(protected _cfr: ComponentFactoryResolver, protected service: OverlayService) { }
 
+    public ngOnInit() {
+        this.idChange.emit(this.id);
     }
 
     public add(id: string, cmp: Type<any>) {
@@ -31,7 +41,20 @@ export class OverlayContainerComponent {
         }, 50);
     }
 
-    private render(id: string, type: Type<any>, tries: number = 0) {
+    public setID(id: string) {
+        this.id = id;
+        this.idChange.emit(id);
+    }
+
+    protected clear() {
+        for (const id in this.cmp_refs) {
+            if (this.cmp_refs.hasOwnProperty(id)) {
+                this.remove(id);
+            }
+        }
+    }
+
+    protected render(id: string, type: Type<any>, tries: number = 0) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 if (this.content && type) {
@@ -42,6 +65,7 @@ export class OverlayContainerComponent {
                     const cmp = this.content.createComponent(factory);
                     this.cmp_refs[id] = cmp;
                     const inst: any = cmp.instance;
+                    inst.parent = this;
                     setTimeout(() => {
                         resolve(inst);
                     }, 50);

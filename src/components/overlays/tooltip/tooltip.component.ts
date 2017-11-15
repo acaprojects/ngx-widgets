@@ -37,7 +37,24 @@ export class TooltipComponent extends DynamicBaseComponent {
         setTimeout(() => {
             const el = this.model.el;
             if (el && el.nativeElement) {
-                this.container = el.nativeElement.getBoundingClientRect();
+                const cnt = el.nativeElement.getBoundingClientRect();
+                this.container = {
+                    height: cnt.height,
+                    width: cnt.width,
+                    top: cnt.top,
+                    left: cnt.left,
+                };
+                    // Add offset for container location
+                if (this.parent.root && this.parent.root.nativeElement) {
+                    const box = this.parent.root.nativeElement.getBoundingClientRect();
+                    this.container.top -= box.top;
+                    this.container.left -= box.left;
+                } else if (this.parent.id !== 'root') {
+                    setTimeout(() => {
+                        this.resize(true, tries+1);
+                    }, 200);
+                    return;
+                }
                 setTimeout(() => {
                     this.shown = true;
                 }, 50);

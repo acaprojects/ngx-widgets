@@ -17,7 +17,8 @@
                 [el]="map"
                 [state]="{ center: center, scale: (100 + zoom) / 100, ratio: ratio.map }"
                 [resize]="zoom + state.map_id"
-                (event)="overlayEvent($event)">
+                (event)="overlayEvent($event)"
+                (idChange)="state.container_id = $event">
             </map-overlay-container>
         </div>
         <div class="no-map" *ngIf="!state.map&&!state.loading">No map loaded!</div>

@@ -12,6 +12,7 @@ import { WIDGETS } from '../../settings';
 })
 export class ModalDirective {
     @Input() public name: string = '';
+    @Input() public container: string = 'root';
     @Input() public cmp: Type<any> = null;
     @Input() public model: any = {};
     @Input() public template: TemplateRef<any> = null;
@@ -55,7 +56,7 @@ export class ModalDirective {
             data: this.model,
             template: this.template,
         };
-        this.overlay.add(this.id, ModalComponent, this.data).then((cmp: any) => {
+        this.overlay.add(this.container, this.id, ModalComponent, this.data).then((cmp: any) => {
             this.sub = cmp.watch((event) => {
                 this.processEvent(event);
             });
@@ -69,7 +70,7 @@ export class ModalDirective {
             this.sub.unsubscribe();
             this.sub = null;
         }
-        this.overlay.remove(this.id);
+        this.overlay.remove(this.container, this.id);
     }
 
     private processEvent(event: any) {

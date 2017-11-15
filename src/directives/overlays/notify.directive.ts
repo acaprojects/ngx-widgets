@@ -12,6 +12,7 @@ import { WIDGETS } from '../../settings';
 })
 export class NotifyDirective {
     @Input() public name: string = '';
+    @Input() public container: string = 'root';
     @Input() public type: string = '';
     @Input() public model: any = {};
     @Input() public template: TemplateRef<any> = null;
@@ -55,7 +56,7 @@ export class NotifyDirective {
             data: this.model,
             template: this.template,
         };
-        this.overlay.add(this.id, NotificationComponent, this.data).then((cmp: any) => {
+        this.overlay.add(this.container, this.id, NotificationComponent, this.data).then((cmp: any) => {
             this.sub = cmp.watch((event) => {
                 this.processEvent(event);
             });
@@ -69,7 +70,7 @@ export class NotifyDirective {
             this.sub.unsubscribe();
             this.sub = null;
         }
-        this.overlay.remove(this.id);
+        this.overlay.remove(this.container, this.id);
     }
 
     private processEvent(event: any) {

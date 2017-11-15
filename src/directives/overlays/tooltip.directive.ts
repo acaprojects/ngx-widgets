@@ -11,6 +11,7 @@ import { WIDGETS } from '../../settings';
 })
 export class TooltipDirective {
     @Input() public name: string = '';
+    @Input() public container: string = 'root';
     @Input() public position: string = 'bottom'; // top, bottom, left, right
     @Input() public offset: string = 'middle'; // start, middle, end
     @Input() public offsetBy: string = '';
@@ -107,7 +108,7 @@ export class TooltipDirective {
             el: this.el,
             data: this.model,
         };
-        this.overlay.add(this.id, TooltipComponent, this.data).then((cmp: any) => {
+        this.overlay.add(this.container, this.id, TooltipComponent, this.data).then((cmp: any) => {
             this.instance = cmp;
             this.sub = cmp.watch((event) => {
                 this.processEvent(event);
@@ -122,7 +123,7 @@ export class TooltipDirective {
             this.sub.unsubscribe();
             this.sub = null;
         }
-        this.overlay.remove(this.id);
+        this.overlay.remove(this.container, this.id);
     }
 
     private processEvent(event: any) {

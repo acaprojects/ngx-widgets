@@ -194,6 +194,7 @@ export class DynamicBaseComponent {
 
     protected update(data: any) {
         const cmp = this.model.cmp;
+        data.container = this.parent ? this.parent.id : 'root';
         for (const f in data) {
             if (data.hasOwnProperty(f)) {
                 this.model[f] = data[f];

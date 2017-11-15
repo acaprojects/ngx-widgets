@@ -9,10 +9,8 @@ import { WIDGETS } from '../settings';
 
 @Injectable()
 export class OverlayService {
-
-    private cmp_inst: any = {};
     private cmp_reg: any = {};
-    private container: any = null;
+    private containers: any = {};
     private default_vc: ViewContainerRef = null;
     private _view: ViewContainerRef = null;
 
@@ -28,10 +26,10 @@ export class OverlayService {
     set view(view: ViewContainerRef) {
         if (view) {
             this._view = view;
-            if (this.container) {
+            if (this.containers && this.containers['root']) {
                 this.clearContainer();
             }
-            this.renderContainer();
+            this.renderRootContainer();
         } else {
             return;
         }
@@ -50,7 +48,7 @@ export class OverlayService {
             if (this.default_vc) {
                 this._view = this.default_vc;
             }
-            this.renderContainer();
+            this.renderRootContainer();
         } else if (tries < 10) {
             tries++;
             setTimeout(() => {
@@ -59,129 +57,104 @@ export class OverlayService {
         }
     }
 
+    /**
+     * Function to define a component that can be rendered on the overlay
+     * @param  {string} id ID of the component
+     * @param  {Type<any>} type Component Type
+     * @param  {any} data Initial data to pass to the component
+     * @return {void}
+     */
     public setup(id: string, cmp: Type<any>, data?: any) {
         this.register(id, cmp, data);
     }
 
+    /**
+     * Function to define a modal that can be rendered on the overlay
+     * @param  {string} id ID of the modal
+     * @param  {any} data Initial data to pass to the modal
+     * @return {void}
+     */
     public setupModal(id: string, data?: any) {
         this.register(id, ModalComponent, data);
     }
 
+    /**
+     * Function to define a tooltip that can be rendered on the overlay
+     * @param  {string} id ID of the tooltip
+     * @param  {any} data Initial data to pass to the tooltip
+     * @return {void}
+     */
     public setupTooltip(id: string, data?: any) {
         this.register(id, TooltipComponent, data);
     }
 
+    /**
+     * Function to register a component that can be rendered on the overlay
+     * @param  {string} id ID of the component
+     * @param  {Type<any>} type Component Type
+     * @param  {any} data Initial data to pass to the component
+     * @return {void}
+     */
     public register(id: string, cmp: Type<any>, data?: any) {
         WIDGETS.log('OVERLAY(S)', `Registering overlay ${id} with component:`, cmp.name);
         this.cmp_reg[id] = data;
     }
 
+    /**
+     * Open predefined modal with the given data
+     * @param  {string} id ID of the component
+     * @param  {any} data Initial data to pass to the component
+     * @return {Promise<Observable>} returns a promise which returns an observable for events on the component
+     */
     public openModal(id: string, data?: any) {
-        return this.add(id, ModalComponent, data);
+        return this.add('root', id, ModalComponent, data);
     }
 
+    /**
+     * Open predefined notify popup with the given data
+     * @param  {string} id ID of the popup
+     * @param  {any} data Initial data to pass to the popup
+     * @return {Promise<Observable>} returns a promise which returns an observable for events on the component
+     */
     public notify(id: string, data?: any) {
-        return this.add(id, NotificationComponent, data);
+        return this.add('root', id, NotificationComponent, data);
     }
 
+    /**
+     * Open predefined tooltip with the given data
+     * @param  {string} id ID of the component
+     * @param  {any} data Initial data to pass to the component
+     * @return {Promise<Observable>} returns a promise which returns an observable for events on the component
+     */
     public openTooltip(id: string, data?: any) {
-        return this.add(id, TooltipComponent, data);
+        return this.add('root', id, TooltipComponent, data);
     }
 
-    public add(id: string, cmp: Type<any>, data?: any) {
+
+    /**
+     * Create/Open component on the overlay
+     * @param  {string} c_id ID of the container to render the component
+     * @param  {string} id ID of the component
+     * @param  {Type<any>} type Component Type
+     * @param  {any} data Initial data to pass to the component
+     * @return {Promise<Observable>} returns a promise which returns an observable for events on the component
+     */
+    public add(c_id: string = 'root', id: string, cmp: Type<any>, data?: any) {
         for (const item in this.cmp_reg) {
             if (this.cmp_reg.hasOwnProperty(item) && item === id) {
                 data = this.merge(this.cmp_reg[item], data);
             }
         }
-        return this.render(id, cmp, data);
-    }
-
-    public remove(id: string) {
-        if (this.container) {
-            this.container.instance.remove(id);
-            this.cmp_inst[id] = null;
-        }
-    }
-
-    public set(id: string, data: any) {
-        if (this.cmp_inst[id] &&
-            this.cmp_inst[id].set) {
-            this.cmp_inst[id].set(data);
-        }
-    }
-
-    /**
-     * Closes all components in the overlay space
-     * @return {void}
-     */
-    public clear() {
-        for (const id in this.cmp_inst) {
-            if (this.cmp_inst.hasOwnProperty(id)) {
-                this.remove(id);
-            }
-        }
-    }
-    private merge(obj: any, src: any) {
-        for (const key in src) {
-            if (src.hasOwnProperty(key)) {
-                obj[key] = src[key];
-            }
-        }
-        return obj;
-    }
-
-    private clearContainer() {
-        for (const id in this.cmp_inst) {
-            if (this.cmp_inst.hasOwnProperty(id)) {
-                this.remove(id);
-            }
-        }
-        this.container.destroy();
-        this.container = null;
-    }
-    /**
-     * Render container component on the given view
-     * @param  {string}    id   Component ID
-     * @param  {Type<any>} type Component Type
-     * @return {any} Returns a promise which returns the component instance
-     */
-    private renderContainer() {
-        if (this.container) {
-            return;
-        } else if (this._view) {
-            const factory = this._cfr.resolveComponentFactory(OverlayContainerComponent);
-            if (this.container) {
-                this.container.destroy();
-            }
-
-            const cmp = this._view.createComponent(factory);
-            this.container = cmp;
-            return;
-        } else if (!this._view && this.default_vc) {
-            this._view = this.default_vc;
-            if (this.default_vc) {
-                this.renderContainer();
-            }
-            return;
-        }
-    }
-    /**
-     * Render component inside container's view
-     * @param  {string}    id   Component ID
-     * @param  {Type<any>} type Component Type
-     * @return {any} Returns a promise which returns the component instance
-     */
-    private render(id: string, type: Type<any>, data?: any) {
-        WIDGETS.log('OVERLAY][S', `Rendering overlay ${id} with component:`, [type.name, data]);
+        WIDGETS.log('OVERLAY][S', `Rendering overlay ${id} with component:`, [cmp.name, data]);
         return new Promise((resolve, reject) => {
-            if (this.container) {
-                this.container.instance.add(id, type).then((inst) => {
+            const container = c_id ? this.containers[c_id] : (this.containers.root ? this.containers.root : null);
+            if (container) {
+                container.add(id, cmp).then((inst) => {
                     // let's inject @Inputs to component instance
                     inst.id = id;
-                    inst.parent = this;
+                    // inst.parent = this;
+                    inst.container = c_id || 'root';
                     inst.set(data);
-                    this.cmp_inst[id] = inst;
                     resolve(inst);
                 }, () => {
                     reject();
@@ -190,5 +163,124 @@ export class OverlayService {
                 reject();
             }
         });
+    }
+
+    /**
+     * Removes the component with the given id from the container
+     * @param  {string} c_id ID of the container
+     * @param  {string} id ID of the component
+     * @return {void}
+     */
+    public remove(c_id: string = 'root', id: string) {
+        console.log('Removing overlay element', id, 'from', c_id);
+        console.log(this.containers);
+        if (c_id && this.containers[c_id]) {
+            this.containers[c_id].remove(id);
+        }
+    }
+
+    /**
+     * Updates the model of the component with the given ID on the container
+     * @param  {string} c_id ID of the container
+     * @param  {string} id ID of the component
+     * @param  {any} data New data to pass to the component
+     * @return {void}
+     */
+    public set(c_id: string = 'root', id: string, data: any) {
+        if (c_id && this.containers[c_id]) {
+            const inst = this.containers[c_id].set(data);
+        }
+    }
+
+    /**
+     * Get the component instance with the given id from the container
+     * @param  {string} c_id ID of the container
+     * @param  {string} id ID of the component
+     * @return {void}
+     */
+    public get(c_id: string = 'root', id: string) {
+        if (c_id && this.containers[c_id]){
+            return this.containers[c_id].get(id);
+        }
+        return null;
+    }
+
+    /**
+     * Get the component instance with the given id from the container
+     * @param  {string} c_id ID of the container
+     * @param  {string} id ID of the component
+     * @return {void}
+     */
+    public listen(c_id: string = 'root', id: string, next: (event: any) => {}) {
+        if (c_id && this.containers[c_id]){
+            return this.containers[c_id].get(id).watch(next);
+        }
+        return null;
+    }
+
+    /**
+     * Closes all components in the overlay space
+     * @return {void}
+     */
+    public clear(id?: string) {
+        for (const k in this.containers) {
+            if (this.containers.hasOwnProperty(k)) {
+                this.containers[k].clear();
+            }
+        }
+    }
+
+    public registerContainer(id: string, container: any) {
+        this.clearContainer(id);
+        this.containers[id] = container;
+    }
+
+    public clearContainer(id?: string) {
+        if (id && this.containers[id]) {
+            this.containers[id].clear();
+            // this.containers[id].destroy();
+            this.containers[id] = null;
+        } else if (!id && this.containers.root) {
+            this.containers.root.clear();
+            this.containers.root.destroy();
+            this.containers.root = null;
+        }
+    }
+
+    private merge(obj: any, src: any) {
+        for (const key in src) {
+            if (src.hasOwnProperty(key)) {
+                obj[key] = src[key];
+            }
+        }
+        return obj;
+    }
+    /**
+     * Render container component on the given view
+     * @param  {string}    id   Component ID
+     * @param  {Type<any>} type Component Type
+     * @return {any} Returns a promise which returns the component instance
+     */
+    private renderRootContainer() {
+        if (this.containers.root) {
+            return;
+        } else if (this._view) {
+            const factory = this._cfr.resolveComponentFactory(OverlayContainerComponent);
+            if (this.containers.root) {
+                this.containers.root.clear();
+                this.containers.root.destroy();
+            }
+
+            const cmp = this._view.createComponent(factory);
+            this.containers.root = cmp.instance;
+            this.containers.root.ng = cmp;
+            return;
+        } else if (!this._view && this.default_vc) {
+            this._view = this.default_vc;
+            if (this.default_vc) {
+                this.renderRootContainer();
+            }
+            return;
+        }
     }
 }
