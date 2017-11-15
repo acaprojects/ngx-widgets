@@ -172,8 +172,6 @@ export class OverlayService {
      * @return {void}
      */
     public remove(c_id: string = 'root', id: string) {
-        console.log('Removing overlay element', id, 'from', c_id);
-        console.log(this.containers);
         if (c_id && this.containers[c_id]) {
             this.containers[c_id].remove(id);
         }

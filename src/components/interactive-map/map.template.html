@@ -8,8 +8,8 @@
             [style.display]="state.loading ? 'none' : ''">
             <div #img class="map-img" [innerHTML]="(state.map || '') | safe"></div>
             <div class="input-area"
-                map-input [(scale)]="zoom" (scaleChange)="update()"
-                [(center)]="center" (centerChange)="update()"
+                map-input [(scale)]="zoom" (scaleChange)="update(true)"
+                [(center)]="center" (centerChange)="update(true)"
                 (event)="userEvent($event)">
             </div>
             <map-overlay-container

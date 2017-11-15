@@ -31,7 +31,11 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
     public ngOnChanges(changes: any) {
         if (changes.model) {
             this.clear();
-            setTimeout(() => {
+            if (this.timers.render) {
+                clearTimeout(this.timers.render);
+                this.timers.render = null;
+            }
+            this.timers.render = setTimeout(() => {
                 for (const item of this.model) {
                     if (item.id) {
                         let name = '';
@@ -41,8 +45,10 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                         this.add(id, MapOverlayComponent).then((inst: any) => {
                             inst.set(item);
                             inst.subscribe((event) => {
-                                event.id = item.id;
-                                this.event.emit(event);
+                                if (event && !(Object.keys(event).length === 0 && event.constructor === Object)) {
+                                    event.id = item.id;
+                                    this.event.emit(event);
+                                }
                             });
                         }, () => {
 

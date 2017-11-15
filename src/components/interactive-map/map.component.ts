@@ -72,19 +72,21 @@ export class InteractiveMapComponent {
             this.loadMap();
         }
         if (changes.reset) {
-            this.zoom = 0;
-            this.center = { x: .5, y: .5 };
-            this.zoomChange.emit(this.zoom);
-            this.centerChange.emit(this.center);
-            this.update();
+            setTimeout(() => {
+                this.zoom = 0;
+                this.center = { x: .5, y: .5 };
+                this.zoomChange.emit(this.zoom);
+                this.centerChange.emit(this.center);
+                this.update();
+            }, 20);
         }
         if (changes.zoom || changes.center) {
-                if (this.focus && this.focus.lock) {
-                    setTimeout(() => {
-                        this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
-                        this.center = changes.center ? changes.changes.previousValue : this.center;
-                    }, 20);
-                }
+            if (this.focus && this.focus.lock) {
+                setTimeout(() => {
+                    this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
+                    this.center = changes.center ? changes.changes.previousValue : this.center;
+                }, 20);
+            }
             this.update();
         }
         if (changes.styles) {
@@ -92,16 +94,16 @@ export class InteractiveMapComponent {
         }
 
         if (changes.focus && this.focus) {
-            if (this.focus.lock && !this.focus.zoom) {
-                setTimeout(() => {
-                    this.focus.zoom = this.zoom;
-                }, 20);
-            }
-            this.focusEvent();
+            setTimeout(() => {
+                if (this.focus.lock && !this.focus.zoom) {
+                        this.focus.zoom = this.zoom;
+                }
+                this.focusEvent();
+            }, 20);
         }
     }
 
-    public update() {
+    public update(post: boolean = false) {
         setTimeout(() => {
             this.checkBounds();
             const x = Math.floor((100 * this.center.x) * 100) / 100;
@@ -110,6 +112,10 @@ export class InteractiveMapComponent {
             const ratio = this.ratio.container.height / this.ratio.map.height;
             this.state.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
             this.state.transform = `translate(${x - 100}%, ${y - 100}%)`;
+            if (post) {
+                this.zoomChange.emit(this.zoom);
+                this.centerChange.emit(this.zoom);
+            }
         }, 10);
     }
 

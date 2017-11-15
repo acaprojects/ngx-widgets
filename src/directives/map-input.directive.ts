@@ -77,7 +77,7 @@ export class MapInputDirective {
     }
 
     @HostListener('pinch', ['$event']) private scaleEvent(e: any) {
-        const scale = e.scale - this.delta.scale;
+        const scale = (e.scale - this.delta.scale) / 10;
         const dir = scale > 0 ? 1 : -1;
         const value = 1 + dir * Math.max(Math.abs(scale), 0.01) / 2;
         this.scale = Math.round((this.scale + 100) * value - 100);
