@@ -24,6 +24,13 @@ export interface IFocusItem {
     lock?: boolean;     // Fix the position and zoom of the map
 }
 
+export interface IMapHandler {
+    id: string;       // Selector of the element to handle the event for
+    state: string;    // State of the element
+    event: string;    // Event to listen for on the given element
+    poi?: IPointOfInterest;
+}
+
 @Component({
     selector: 'map',
     templateUrl: './map.template.html',
@@ -40,6 +47,7 @@ export class InteractiveMapComponent {
     @Input() public focus: IFocusItem; // Element with map to focus on
     @Input() public units: number = 10000; // Width of the map, coordinates are relative to this
     @Input() public center: { x: number, y: number } = { x: .5, y: .5 }; // Origin of the map display
+    @Input() public handlers: IMapHandler[] | any[] = [];
     @Output() public zoomChange: any = new EventEmitter();
     @Output() public centerChange: any = new EventEmitter();
     @Output() public event: any = new EventEmitter();
@@ -47,6 +55,7 @@ export class InteractiveMapComponent {
     public interest_points: any[] = [];
     public state: any = {};
     public timers: any = {};
+    public tree: any = {};
     public ratio: any = {
         map: {},
         container: {},
@@ -79,6 +88,10 @@ export class InteractiveMapComponent {
                 this.centerChange.emit(this.center);
                 this.update();
             }, 20);
+        }
+        if (changes.handlers) {
+            this.clearHandlers();
+            this.setupHandlers();
         }
         if (changes.zoom || changes.center) {
             if (this.focus && this.focus.lock) {
@@ -119,6 +132,37 @@ export class InteractiveMapComponent {
         }, 10);
     }
 
+    public clearHandlers() {
+        if (this.state.old_handlers) {
+            for(const handler of this.state.old_handlers) {
+                if (handler.unhandle) { handler.unhandle(); }
+            }
+        }
+    }
+
+    public setupHandlers() {
+        if (this.handlers) {
+            for (const handler of this.handlers) {
+                if (handler.id) {
+                    const clean_id = handler.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
+                    const el = this.area.nativeElement.querySelector(`#${clean_id}`);
+                    if (el) {
+                        handler.unhandle = this.renderer.listen(el, handler.event || 'click', () => {
+                            this.overlayEvent({
+                                type: handler.event || 'click',
+                                location: 'Handler',
+                                id: handler.id,
+                                handler,
+                                element: el,
+                            });
+                        });
+                    }
+                }
+            }
+            this.state.old_handlers = this.handlers;
+        }
+    }
+
     public checkBounds() {
         // Check position is valid
         if (this.center.x < 0) { this.center.x = 0; }
@@ -131,6 +175,10 @@ export class InteractiveMapComponent {
     }
 
     public userEvent(e: any) {
+        if (e.type === 'Tap') {
+            const pos = this.getMapPosition(e.event.center || { x: e.event.clientX, y: e.event.clientY });
+            e.elements = this.getTapIDs(pos);
+        }
         this.event.emit({ type: 'User', event: e });
     }
 
@@ -162,6 +210,14 @@ export class InteractiveMapComponent {
                 width: 1,
                 height: this.state.cnt_box.height / this.state.cnt_box.width,
             };
+            setTimeout(() => {
+                let tree = this.service.getMapTree(this.src);
+                if (!tree) {
+                    tree = this.createElementTree(this.state.map_el, this.state.map_box);
+                    this.service.setMapTree(this.src, tree);
+                }
+                this.tree = tree;
+            }, 100);
             this.focusEvent();
         }
         this.state.map_id = `${this.src}_${Math.floor(Math.random() * 89999999 + 10000000)}`;
@@ -175,6 +231,56 @@ export class InteractiveMapComponent {
                 this.timers.update = null;
             }, 200);
         }
+    }
+
+    private createElementTree(el: Element, container: ClientRect) {
+        const tree: any = {};
+        if (el) {
+            tree.id = el.id;
+            tree.children = [];
+            tree.position = {};
+            if (el.getBoundingClientRect instanceof Function && el.id){
+                const rect = el.getBoundingClientRect();
+                const position: any = {
+                    top: +(((rect.top - container.top) / container.height).toFixed(5)),
+                    left: +(((rect.left - container.left) / container.width).toFixed(5)),
+                }
+                position.width = +((rect.width / container.width).toFixed(5));
+                position.height = +((rect.height / container.height).toFixed(5));
+                position.right = +((position.left + position.width).toFixed(5));
+                position.bottom = +((position.top + position.height).toFixed(5));
+                tree.position = position;
+            }
+            if (el.hasChildNodes()) {
+                var children = el.childNodes;
+                for (const element of (children as any)) {
+                    tree.children.push(this.createElementTree(element, container));
+                }
+            }
+        }
+        return tree;
+    }
+
+    private getMapPosition(pos: { x: number, y: number }) {
+        const position = { x: 0, y: 0 };
+        const rect = this.state.map_el.getBoundingClientRect();
+        position.x = (pos.x - rect.left) / rect.width;
+        position.y = (pos.y - rect.top) / rect.height;
+        return position;
+    }
+
+    private getTapIDs(pos: { x: number, y: number }, el_list?: any[]) {
+        let list: any[] = [];
+        if (!el_list) {
+            el_list = this.tree ? this.tree.children : [];
+        }
+        for (const el of el_list) {
+            if (pos.x >= el.position.left && pos.x <= el.position.right && pos.y >= el.position.top && pos.y <= el.position.bottom) {
+                list.push(el.id);
+            }
+            list = list.concat(this.getTapIDs(pos, el.children));
+        }
+        return list;
     }
 
     private loadMap(tries: number = 0) {

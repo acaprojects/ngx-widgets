@@ -7,6 +7,7 @@ const MAP_EXPIRY = 7 * 24 * 60 * 60 * 1000;
 @Injectable()
 export class MapService {
     private maps: any = {};
+    private map_trees: any = {};
 
     constructor(private http: Http) {
 
@@ -19,6 +20,7 @@ export class MapService {
                 resolve(this.maps[url].data);
             } else {
                 let map: any = null;
+                this.map_trees[url] = null;
                 this.http.get(url).subscribe((data) => {
                     map = data.text();
                 },
@@ -36,6 +38,14 @@ export class MapService {
                 });
             }
         });
+    }
+
+    public getMapTree(url: string) {
+        return this.map_trees[url];
+    }
+
+    public setMapTree(url: string, tree: any) {
+        this.map_trees[url] = tree;
     }
 
     public clear() {

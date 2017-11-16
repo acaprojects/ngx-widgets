@@ -98,7 +98,7 @@ export class MapInputDirective {
         this.animations.scale.animate();
     }
 
-    @HostListener('tap', ['$event']) private tap(e: any) {
+    @HostListener('click', ['$event']) private tap(e: any) {
         this.event.emit({ type: 'Tap', event: e });
     }
 }

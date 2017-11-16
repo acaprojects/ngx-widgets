@@ -18,6 +18,7 @@ export class OverlayContainerComponent {
     @Output() public event: any = new EventEmitter();
     @Output() public idChange: any = new EventEmitter();
     protected cmp_refs: any = {};
+    protected timers: any = {};
 
     @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
     @ViewChild('el') public root: ElementRef;

@@ -5,13 +5,18 @@
             [style.transform]="state.transform | safestyle"
             [style.width]="(100 * state.scale - 10) + '%'"
             [style.height]="(100 * state.scale - 10) + '%'"
-            [style.display]="state.loading ? 'none' : ''">
-            <div #img class="map-img" [innerHTML]="(state.map || '') | safe"></div>
-            <div class="input-area"
+            [style.display]="state.loading ? 'none' : ''"
+            map-input [(scale)]="zoom" (scaleChange)="update(true)"
+            [(center)]="center" (centerChange)="update(true)"
+            (event)="userEvent($event)">
+
+            <div #img class="map-img" [innerHTML]="(state.map || '') | safe">
+            </div>
+            <!--div class="input-area"
                 map-input [(scale)]="zoom" (scaleChange)="update(true)"
                 [(center)]="center" (centerChange)="update(true)"
                 (event)="userEvent($event)">
-            </div>
+            </div-->
             <map-overlay-container
                 [model]="interest_points"
                 [el]="map"
