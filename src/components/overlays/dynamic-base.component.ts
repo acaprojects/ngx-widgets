@@ -1,7 +1,7 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, Type, ViewChild } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { WIDGETS } from '../../settings';
 
@@ -44,7 +44,7 @@ export class DynamicBaseComponent {
         }
         DynamicBaseComponent.instance_stack[this.type].push(this.stack_id);
         DynamicBaseComponent.internal_state[this.type].next(this.stack_id);
-        this.state.sub = new BehaviorSubject({});
+        this.state.sub = new Subject();
         this.state.obs = this.state.sub.asObservable();
         this.listenState();
         setTimeout(() => {
