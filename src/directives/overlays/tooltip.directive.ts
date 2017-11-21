@@ -123,11 +123,11 @@ export class TooltipDirective {
             this.sub.unsubscribe();
             this.sub = null;
         }
-        this.overlay.remove(this.container, this.id);
+        this.overlay.remove(this.container, `${this.id}|TooltipComponent`);
     }
 
     private processEvent(event: any) {
-        if (event.type === 'Close' && this.autoclose !== undefined) {
+        if (event.type.toLowerCase() === 'close' && this.autoclose !== undefined) {
             this.show = false;
             this.showChange.emit(false);
             this.removeTooltip();

@@ -2,6 +2,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, Renderer2, Type, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapService } from '../../services/map.service';
+import { Animate } from '../../../index';
 
 export interface IPointOfInterest {
     id?: string;        // CSS Selector ID of element with map
@@ -61,12 +62,23 @@ export class InteractiveMapComponent {
         container: {},
     };
 
+    private animations: any = {};
+
     @ViewChild('container') private container: ElementRef;
     @ViewChild('map') private area: ElementRef;
     @ViewChild('img') private img: ElementRef;
 
-    constructor(private service: MapService, private renderer: Renderer2, private sanitizer: DomSanitizer) {
+    constructor(private service: MapService, private renderer: Renderer2, private sanitizer: DomSanitizer, private animate: Animate) {
         this.id = `M${Math.floor(Math.random() * 89999999 + 10000000).toString()}`;
+        this.animations.render = animate.animation(() => {
+            this.zoom = 0;
+            this.center = { x: .5, y: .5 };
+            this.zoomChange.emit(this.zoom);
+            this.centerChange.emit(this.center);
+            this.checkBounds();
+        }, () => {
+            this.update();
+        })
     }
 
     public ngOnInit() {
@@ -81,26 +93,20 @@ export class InteractiveMapComponent {
             this.loadMap();
         }
         if (changes.reset) {
-            setTimeout(() => {
-                this.zoom = 0;
-                this.center = { x: .5, y: .5 };
-                this.zoomChange.emit(this.zoom);
-                this.centerChange.emit(this.center);
-                this.update();
-            }, 20);
         }
         if (changes.handlers) {
             this.clearHandlers();
             this.setupHandlers();
         }
         if (changes.zoom || changes.center) {
-            if (this.focus && this.focus.lock) {
-                setTimeout(() => {
-                    this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
-                    this.center = changes.center ? changes.changes.previousValue : this.center;
-                }, 20);
-            }
-            this.update();
+            this.animate.animation(() => {
+                if (this.focus && this.focus.lock) {
+                        this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
+                        this.center = changes.center ? changes.changes.previousValue : this.center;
+                }
+            }, () => {
+                this.update();
+            }).animate();
         }
         if (changes.styles) {
             this.updateStyles();
@@ -117,19 +123,16 @@ export class InteractiveMapComponent {
     }
 
     public update(post: boolean = false) {
-        setTimeout(() => {
-            this.checkBounds();
-            const x = Math.floor((100 * this.center.x) * 100) / 100;
-            const y = Math.floor((100 * this.center.y) * 100) / 100;
-            this.state.position = `${x}%, ${y}%`;
-            const ratio = this.ratio.container.height / this.ratio.map.height;
-            this.state.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
-            this.state.transform = `translate(${x - 100}%, ${y - 100}%)`;
-            if (post) {
-                this.zoomChange.emit(this.zoom);
-                this.centerChange.emit(this.zoom);
-            }
-        }, 10);
+        const x = Math.floor((100 * this.center.x) * 100) / 100;
+        const y = Math.floor((100 * this.center.y) * 100) / 100;
+        this.state.position = `${x}%, ${y}%`;
+        const ratio = this.ratio.container.height / this.ratio.map.height;
+        this.state.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
+        this.state.transform = `translate(${x - 100}%, ${y - 100}%)`;
+        if (post) {
+            this.zoomChange.emit(this.zoom);
+            this.centerChange.emit(this.zoom);
+        }
     }
 
     public clearHandlers() {
@@ -342,7 +345,8 @@ export class InteractiveMapComponent {
         }
     }
 
-    private loadPointsOfInterest() {
+    private loadPointsOfInterest(tries: number = 0) {
+        if (tries > 10) { return; }
         if (this.state.map_el) {
             if (this.poi) {
                 this.interest_points = [];
@@ -352,7 +356,7 @@ export class InteractiveMapComponent {
             }
         } else {
             setTimeout(() => {
-                this.loadPointsOfInterest();
+                this.loadPointsOfInterest(++tries);
             }, 200);
         }
     }

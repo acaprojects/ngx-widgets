@@ -24,7 +24,7 @@
      @Input() public value: number = 0;
      @Input() public step: number = 1;
      @Input() public precision: number = 1;
-     @Input() public cssClass: string = '';
+     @Input() public name: string = '';
      @Output() public valueChange = new EventEmitter();
 
      public available: boolean = false;
@@ -34,8 +34,6 @@
 
      @ViewChild('space') private space: any;
      @ViewChild('bar') private bar: any;
-     @ViewChild('knob') private knob: any;
-     @ViewChild('prog') private prog: any;
 
      private previous: number = null;
      private bb: any;
@@ -106,7 +104,7 @@
      * @return {void}
      */
      public updateValue(update: boolean = false) {
-         if (!this.knob || !this.bar || !this.prog) {
+         if (!this.bar) {
              setTimeout(() => { this.updateValue(update); }, 20);
          } else if (update) {
              this.a.animation(() => {

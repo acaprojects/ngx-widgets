@@ -30,7 +30,18 @@ export class OverlayContainerComponent {
     }
 
     public add(id: string, cmp: Type<any>) {
-        return this.render(id, cmp);
+        const cmp_id = `${id}|${cmp.name}`;
+        if (!this.cmp_refs[cmp_id] || !(this.cmp_refs[cmp_id].instance instanceof cmp)) {
+            return this.render(cmp_id, cmp);
+        } else {
+            return new Promise((resolve, reject) => {
+                reject('Item with ID and Component Exist')
+            });
+        }
+    }
+
+    public exists(id: string) {
+        return !!(this.cmp_refs[id]);
     }
 
     public remove(id: string) {
@@ -67,6 +78,7 @@ export class OverlayContainerComponent {
                     this.cmp_refs[id] = cmp;
                     const inst: any = cmp.instance;
                     inst.parent = this;
+                    inst.uid = `${id}|${type.name}`;
                     setTimeout(() => {
                         resolve(inst);
                     }, 50);

@@ -21,10 +21,11 @@ export class MapOverlayComponent extends DynamicBaseComponent {
         this.id = `map-overlay-${Math.floor(Math.random() * 8999999 + 1000000)}`;
     }
 
-    public resize() {
+    public resize(tries: number = 0) {
+        if (tries > 10) { return; }
         if (!this.model.map_state) {
             setTimeout(() => {
-                this.resize();
+                this.resize(++tries);
             }, 50);
             return;
         }
@@ -51,7 +52,9 @@ export class MapOverlayComponent extends DynamicBaseComponent {
     }
 
     protected update(data: any) {
-        this.resize();
+        if (data.coordinates !== this.model.coordinates || data.el !== this.model.el) {
+            this.resize();
+        }
         super.update(data);
     }
 }

@@ -11,7 +11,9 @@ export class OverlayContentComponent {
     @Input() public model: any = {};    // Overlay data
     @Input() public fn: any = {};       // Overlay interaction functions
 
-    constructor(protected _cdr: ChangeDetectorRef) {}
+    constructor(protected _cdr: ChangeDetectorRef) {
+        this.id = `overlay-${Math.floor(Math.random() * 8999999 + 1000000)}`;
+    }
 
     public set(data: any) {
         if (!this.model) {

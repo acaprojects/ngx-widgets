@@ -41,19 +41,19 @@
     position: absolute;
     top: 50%;
     width: 0;
+}
 
-    .knob {
-        background-color: $white;
-        border-radius: 100%;
-        box-shadow: 0 .1em .2em .1em $black-o20;
-        height: 2em;
-        left: 0;
-        position: absolute;
-        top: 0;
-        touch-action: pan-y;
-        transform: translate(-50%, -50%);
-        width: 2em;
-    }
+.knob {
+    background-color: $white;
+    border-radius: 100%;
+    box-shadow: 0 .1em .2em .1em $black-o20;
+    height: 2em;
+    left: 0;
+    position: absolute;
+    top: 0;
+    touch-action: pan-y;
+    transform: translate(-50%, -50%);
+    width: 2em;
 }
 
 .progress {
@@ -82,10 +82,10 @@
     .knob-container {
         left: 50%;
         top: auto;
+    }
 
-        .knob {
-            touch-action: pan-x;
-        }
+    .knob {
+        touch-action: pan-x;
     }
 
     .progress {

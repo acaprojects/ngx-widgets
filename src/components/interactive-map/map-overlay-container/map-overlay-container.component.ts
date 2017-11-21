@@ -4,12 +4,14 @@ import { ComponentFactoryResolver, Type, ViewContainerRef } from '@angular/core'
 
 import { MapOverlayComponent } from '../map-overlay';
 import { OverlayContainerComponent } from '../../overlays';
+import { SimpleChange } from '@angular/core/src/change_detection/change_detection_util';
+import { setTimeout } from 'timers';
 
 @Component({
     selector: 'map-overlay-container',
     template: `
         <div #el class="overlay-container">
-            <div #content></div>
+            <ng-container #content></ng-container>
         </div>`,
     styleUrls: ['./map-overlay-container.styles.css'],
 })
@@ -18,6 +20,8 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
     @Input() public el: any = null;
     @Input() public state: any = null;
     @Input() public resize: any = null;
+
+    private previous: any[] = [];
 
     public ngOnInit() {
         super.ngOnInit();
@@ -29,40 +33,73 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
     }
 
     public ngOnChanges(changes: any) {
-        if (changes.model) {
-            this.clear();
+        if (changes.model && this.model) {
             if (this.timers.render) {
                 clearTimeout(this.timers.render);
                 this.timers.render = null;
             }
             this.timers.render = setTimeout(() => {
-                for (const item of this.model) {
-                    if (item.id) {
-                        let name = '';
-                        if (typeof item.cmp === 'string') { name = item.cmp; }
-                        else { name = item.cmp.name }
-                        const id = `${item.prefix ? item.prefix + '-' : ''}${item.id}`;
-                        this.add(id, MapOverlayComponent).then((inst: any) => {
-                            inst.set(item);
-                            inst.subscribe((event) => {
-                                if (event && !(Object.keys(event).length === 0 && event.constructor === Object)) {
-                                    event.id = item.id;
-                                    this.event.emit(event);
-                                }
-                            });
-                        }, () => {
-
-                        });
-                    }
-                }
-                setTimeout(() => {
-                    this.resizeEvent();
-                }, 200);
+                // Remove component that don't exist anymore
+                this.previous = changes.model.previousValue;
+                this.updateOverlays();
             }, 100);
         }
         if (changes.state || changes.el) {
             this.resizeEvent();
         }
+    }
+
+    private updateOverlays() {
+        if (!this.el) {
+            setTimeout(() => {
+                this.updateOverlays();
+            }, 200);
+            return;
+        }
+        // Remove old components and update existing
+        if (this.previous) {
+            for (const i of this.previous) {
+                let found = false;
+                for (const item of this.model) {
+                    if (i.id === item.id && (i.cmp === item.cmp || i.template === item.template)) {
+                        found = true;
+                        if (i.inst) {
+                            i.inst.set(item);
+                            item.inst = i.inst;
+                        }
+                        break;
+                    }
+                }
+                if (!found) {
+                    this.remove(`${i.id}|${i.cmp.name}|MapOverlayComponent`);
+                }
+            }
+        }
+        // Add new components
+        for (const item of this.model) {
+            if (item.id && !this.exists(`${item.id}|${item.cmp.name}|MapOverlayComponent`)) {
+                let name = '';
+                if (typeof item.cmp === 'string') { name = item.cmp; }
+                else { name = item.cmp.name }
+                const clean_id = item.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
+                item.el = this.el.querySelector(`#${clean_id}`);
+                this.add(`${item.id}|${name}`, MapOverlayComponent).then((inst: any) => {
+                    item.inst = inst;
+                    inst.set(item);
+                    inst.subscribe((event) => {
+                        if (event && !(Object.keys(event).length === 0 && event.constructor === Object)) {
+                            event.id = item.id;
+                            this.event.emit(event);
+                        }
+                    });
+                }, () => {
+
+                });
+            }
+        }
+        setTimeout(() => {
+            this.resizeEvent();
+        }, 200);
     }
 
     private resizeEvent() {
@@ -91,7 +128,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
 
     private getComponent(id: string) {
         for (const item of this.model) {
-            if (`${item.prefix ? item.prefix + '-' : ''}${item.id}` === id) {
+            if (`${item.id}|${item.cmp.name}|MapOverlayComponent` === id) {
                 return item;
             }
         }

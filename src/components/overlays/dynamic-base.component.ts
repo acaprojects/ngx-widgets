@@ -200,7 +200,7 @@ export class DynamicBaseComponent {
                 this.model[f] = data[f];
             }
         }
-        if (cmp !== this.model.cmp) {
+        if (cmp !== this.model.cmp || !this.cmp_ref) {
             this.render();
         } else {
             this.updateComponent(data);
@@ -209,6 +209,7 @@ export class DynamicBaseComponent {
     }
 
     protected updateComponent(data: any, tries: number = 0) {
+        if (tries > 10) { return; }
         if (this.cmp_ref) {
             this.cmp_ref.instance.set(data);
         } else {
@@ -229,7 +230,11 @@ export class DynamicBaseComponent {
      * Resolves the factory, then creates the content component
      * @return {void}
      */
-    private render() {
+    private render(tries: number = 0) {
+        if (tries > 10) {
+            WIDGETS.error('DYN_BASE', 'No component/template set to render ', [this.id, this.model.cmp]);
+            return;
+        }
         this.rendered = false;
         if (!this._cfr || !this._content) {
             setTimeout(() => {
@@ -258,7 +263,7 @@ export class DynamicBaseComponent {
                     }
                     inst.fn.close = (cb: () => void) => { this.event('close', 'Component'); };
                     inst.fn.event = (option: string) => { this.event(option, 'Component'); };
-                    WIDGETS.log('DYN_BASE', `Created component with id '${this.id}'`);
+                    // WIDGETS.log('DYN_BASE', `Created component with id '${this.id}'`);
                     setTimeout(() => {
                         if (inst.init) {
                             inst.init();
@@ -272,8 +277,10 @@ export class DynamicBaseComponent {
                     WIDGETS.error('DYN_BASE', 'Unable to find factory for: ', this.model.cmp.name);
                 }
             }, 10);
-        } else {
-            WIDGETS.error('DYN_BASE', 'No component set to render ', this.id);
+        } else if (!this.model.template) {
+            setTimeout(() => {
+                this.render(++tries);
+            }, 200);
         }
     }
 }
