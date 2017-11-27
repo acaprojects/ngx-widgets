@@ -23,6 +23,7 @@ export class DynamicBaseComponent {
 
     protected static internal_state: any = {};
     protected sub: any = null;
+    protected uid: string = '';
     protected state: any = {};
     protected stack_id: string = '';
     protected type = 'Dynamic';
@@ -159,7 +160,10 @@ export class DynamicBaseComponent {
                 location,
                 data: this.model.data,
                 update: (form: any) => { this.set({ data: form }); },
-                close: () => { this.parent.remove(this.id); },
+                close: () => {
+                    console.log('Close:', this.uid, ',', `${this.id}|${this.model.cmp.name}`)
+                    this.parent.remove(this.uid || `${this.id}|${this.model.cmp.name}`);
+                },
             };
             this.events.emit(event);
             if (this.state.sub) {

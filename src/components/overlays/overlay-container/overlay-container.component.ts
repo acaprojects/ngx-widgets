@@ -78,7 +78,7 @@ export class OverlayContainerComponent {
                     this.cmp_refs[id] = cmp;
                     const inst: any = cmp.instance;
                     inst.parent = this;
-                    inst.uid = `${id}|${type.name}`;
+                    inst.uid = `${id}`;
                     setTimeout(() => {
                         resolve(inst);
                     }, 50);
