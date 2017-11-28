@@ -3,14 +3,14 @@
     <div #container class="map-container" [class.focus-lock]="focus?.lock">
         <div #map class="map-area"
             [style.transform]="state.transform | safestyle"
-            [style.width]="(100 * state.scale - 10) + '%'"
-            [style.height]="(100 * state.scale - 10) + '%'"
             [style.display]="state.loading ? 'none' : ''"
+            [style.width]="(100 + zoom) + '%'"
+            [style.height]="(100 + zoom) + '%'"
             map-input [(scale)]="zoom" (scaleChange)="update(true)"
             [(center)]="center" (centerChange)="update(true)"
             (event)="userEvent($event)">
 
-            <div #img class="map-img" [innerHTML]="(state.map || '') | safe">
+            <div #img class="map-img" [innerHTML]="(state.map || '') | safe" [style.width]="(state.scale * 100 - 7) + '%'">
             </div>
             <!--div class="input-area"
                 map-input [(scale)]="zoom" (scaleChange)="update(true)"

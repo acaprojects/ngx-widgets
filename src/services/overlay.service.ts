@@ -10,6 +10,7 @@ import { WIDGETS } from '../settings';
 @Injectable()
 export class OverlayService {
     private cmp_reg: any = {};
+    private cmp_list: any = {};
     private containers: any = {};
     private default_vc: ViewContainerRef = null;
     private _view: ViewContainerRef = null;
@@ -101,6 +102,17 @@ export class OverlayService {
     }
 
     /**
+     * Function to register a component attached to an overlay
+     * @param  {string} id ID of the component
+     * @param  {Type<any>} type Component Type
+     * @return {void}
+     */
+    public registerComponent(id: string, cmp: Type<any>) {
+        WIDGETS.log('OVERLAY(S)', `Registering component ${cmp.name} with ${id}`);
+        this.cmp_list[id] = cmp;
+    }
+
+    /**
      * Open predefined modal with the given data
      * @param  {string} id ID of the component
      * @param  {any} data Initial data to pass to the component
@@ -139,13 +151,22 @@ export class OverlayService {
      * @param  {any} data Initial data to pass to the component
      * @return {Promise<Observable>} returns a promise which returns an observable for events on the component
      */
-    public add(c_id: string = 'root', id: string, cmp: Type<any>, data?: any) {
+    public add(c_id: string = 'root', id: string, cmp: Type<any> | string, data?: any) {
         for (const item in this.cmp_reg) {
             if (this.cmp_reg.hasOwnProperty(item) && item === id) {
                 data = this.merge(this.cmp_reg[item], data);
             }
         }
-        WIDGETS.log('OVERLAY][S', `Rendering overlay ${id} with component:`, [cmp.name, data]);
+        if (typeof cmp === 'string') {
+            const component = this.cmp_list[cmp];
+            if (component) {
+                data.cmp_id = cmp;
+                cmp = component;
+            }
+        } else {
+            data.cmp_id = cmp.name;
+        }
+        WIDGETS.log('OVERLAY][S', `Rendering overlay ${id} with component:`, [data.cmp_id, data]);
         return new Promise((resolve, reject) => {
             const container = c_id ? this.containers[c_id] : (this.containers.root ? this.containers.root : null);
             if (container) {
@@ -197,7 +218,7 @@ export class OverlayService {
      * @return {void}
      */
     public get(c_id: string = 'root', id: string) {
-        if (c_id && this.containers[c_id]){
+        if (c_id && this.containers[c_id]) {
             return this.containers[c_id].get(id);
         }
         return null;
@@ -210,7 +231,7 @@ export class OverlayService {
      * @return {void}
      */
     public listen(c_id: string = 'root', id: string, next: (event: any) => {}) {
-        if (c_id && this.containers[c_id]){
+        if (c_id && this.containers[c_id]) {
             return this.containers[c_id].get(id).watch(next);
         }
         return null;

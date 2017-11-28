@@ -123,7 +123,7 @@ export class TooltipDirective {
             this.sub.unsubscribe();
             this.sub = null;
         }
-        this.overlay.remove(this.container, `${this.id}|TooltipComponent`);
+        this.overlay.remove(this.container, `${this.id}`);
     }
 
     private processEvent(event: any) {

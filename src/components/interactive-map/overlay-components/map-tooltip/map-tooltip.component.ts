@@ -16,6 +16,6 @@ import { OverlayContentComponent } from '../../../overlays/contents/overlay-cont
     ],
 })
 export class MapTooltipComponent extends OverlayContentComponent {
-
-    // TODO
+    public static className() { return 'MapTooltipComponent'; }
+    public className() { MapTooltipComponent.className; }
 }

@@ -135,7 +135,7 @@ export class DynamicBaseComponent {
                         c.x > this.box.left + this.box.width || c.y > this.box.top + this.box.height) {
 
                         this.model.show = false;
-                        WIDGETS.log('DYN_BASE', `Closing component ${this.id} from external click.`);
+                        // WIDGETS.log('DYN_BASE', `Closing component ${this.id} from external click.`);
                         this.event('close', 'Outside');
                     }
                 }
@@ -153,7 +153,9 @@ export class DynamicBaseComponent {
             if (this.cmp_ref) {
                 this.model.data = this.cmp_ref.instance.model;
             }
-            WIDGETS.log('DYN_BASE', `Event on component ${this.id} of type '${type}' from '${location.toLowerCase()}'`);
+            if (type.toLowerCase() !== 'close') {
+                WIDGETS.log('DYN_BASE', `Event on component ${this.id} of type '${type}' from '${location.toLowerCase()}'`);
+            }
             const event = {
                 id: this.id,
                 type,

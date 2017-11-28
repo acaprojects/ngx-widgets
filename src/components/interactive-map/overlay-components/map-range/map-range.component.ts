@@ -16,6 +16,8 @@ import { OverlayContentComponent } from '../../../overlays/contents/overlay-cont
     ],
 })
 export class MapRangeComponent extends OverlayContentComponent {
+    public static className() { return 'MapRangeComponent'; }
+    public className() { MapRangeComponent.className; }
 
     public init() {
         setTimeout(() => {

@@ -19,9 +19,6 @@ import { OverlayContentComponent } from '../../../overlays/contents/overlay-cont
     ],
 })
 export class MapPinComponent extends OverlayContentComponent {
-
-    public init() {
-
-    }
-
+    public static className() { return 'MapPinComponent'; }
+    public className() { MapPinComponent.className; }
 }

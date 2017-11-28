@@ -30,9 +30,8 @@ export class OverlayContainerComponent {
     }
 
     public add(id: string, cmp: Type<any>) {
-        const cmp_id = `${id}|${cmp.name}`;
-        if (!this.cmp_refs[cmp_id] || !(this.cmp_refs[cmp_id].instance instanceof cmp)) {
-            return this.render(cmp_id, cmp);
+        if (!this.cmp_refs[id] || !(this.cmp_refs[id].instance instanceof cmp)) {
+            return this.render(id, cmp);
         } else {
             return new Promise((resolve, reject) => {
                 reject('Item with ID and Component Exist')

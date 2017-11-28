@@ -32,6 +32,8 @@ export interface IMapHandler {
     poi?: IPointOfInterest;
 }
 
+const POS_OFFSET = .5;
+
 @Component({
     selector: 'map',
     templateUrl: './map.template.html',
@@ -127,7 +129,7 @@ export class InteractiveMapComponent {
         const y = Math.floor((100 * this.center.y) * 100) / 100;
         this.state.position = `${x}%, ${y}%`;
         const ratio = this.ratio.container.height / this.ratio.map.height;
-        this.state.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
+        // this.state.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
         this.state.transform = `translate(${x - 100}%, ${y - 100}%)`;
         if (post) {
             this.zoomChange.emit(this.zoom);
@@ -168,10 +170,10 @@ export class InteractiveMapComponent {
 
     public checkBounds() {
         // Check position is valid
-        if (this.center.x < 0) { this.center.x = 0; }
-        else if (this.center.x > 1) { this.center.x = 1; }
-        if (this.center.y < 0) { this.center.y = 0; }
-        else if (this.center.y > 1) { this.center.y = 1; }
+        if (this.center.x < 0 - POS_OFFSET) { this.center.x = -POS_OFFSET; }
+        else if (this.center.x > 1 + POS_OFFSET) { this.center.x = 1 + POS_OFFSET; }
+        if (this.center.y < 0 - POS_OFFSET) { this.center.y = -POS_OFFSET; }
+        else if (this.center.y > 1 + POS_OFFSET) { this.center.y = 1 + POS_OFFSET; }
         // Check zoom is valid
         if (this.zoom < -50) { this.zoom = -50; }
         else if (this.zoom > 1900) { this.zoom = 1900; }
@@ -213,6 +215,7 @@ export class InteractiveMapComponent {
                 width: 1,
                 height: this.state.cnt_box.height / this.state.cnt_box.width,
             };
+            this.state.scale = this.ratio.container.height / this.ratio.map.height;
             setTimeout(() => {
                 let tree = this.service.getMapTree(this.src);
                 if (!tree) {
@@ -220,6 +223,7 @@ export class InteractiveMapComponent {
                     this.service.setMapTree(this.src, tree);
                 }
                 this.tree = tree;
+                this.loadPointsOfInterest();
             }, 100);
             this.focusEvent();
         }
@@ -351,6 +355,10 @@ export class InteractiveMapComponent {
             if (this.poi) {
                 this.interest_points = [];
                 for (const item of this.poi) {
+                    if (!item.map_id) {
+                        item.map_id = item.id;
+                        item.id = `${item.cmp ? item.cmp.className() || 'map-cmp-' : 'map-cmp-'}${item.id}`;
+                    }
                     this.interest_points.push(item);
                 }
             }
