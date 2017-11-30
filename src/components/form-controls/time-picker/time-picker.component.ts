@@ -14,7 +14,7 @@ const PLACEHOLDER = '-';
 
 @Component({
     selector: 'time-picker',
-    styleUrls: [ './time-picker.style.css' ],
+    styleUrls: [ './time-picker.style.scss' ],
     templateUrl: './time-picker.template.html',
     animations: [
         trigger('dateTime', [

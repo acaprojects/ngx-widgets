@@ -5,7 +5,6 @@ import { ComponentFactoryResolver, Type, ViewContainerRef } from '@angular/core'
 import { MapOverlayComponent } from '../map-overlay';
 import { OverlayContainerComponent } from '../../overlays';
 import { SimpleChange } from '@angular/core/src/change_detection/change_detection_util';
-import { setTimeout } from 'timers';
 import { WIDGETS } from '../../../settings';
 
 @Component({
@@ -14,7 +13,7 @@ import { WIDGETS } from '../../../settings';
         <div #el class="overlay-container">
             <ng-container #content></ng-container>
         </div>`,
-    styleUrls: ['./map-overlay-container.styles.css'],
+    styleUrls: ['./map-overlay-container.styles.scss'],
 })
 export class MapOverlayContainerComponent extends OverlayContainerComponent {
     @Input() public model: any[] = [];

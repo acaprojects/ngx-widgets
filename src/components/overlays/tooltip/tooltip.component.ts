@@ -7,12 +7,13 @@ import { DynamicBaseComponent } from '../dynamic-base.component';
 
 import { WIDGETS } from '../../../settings';
 
-import * as moment from 'moment';
+import * as moment_api from 'moment';
+const moment = moment_api;
 
 @Component({
     selector: 'tooltip',
     templateUrl: './tooltip.template.html',
-    styleUrls: ['./tooltip.styles.css'],
+    styleUrls: ['./tooltip.styles.scss'],
 })
 export class TooltipComponent extends DynamicBaseComponent {
     public container: any = {};

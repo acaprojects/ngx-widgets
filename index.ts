@@ -7,4 +7,4 @@
  * @Last modified time: 24/01/2017 4:58 PM
  */
 
-export * from './_build';
+export * from './_build/widgets.module';

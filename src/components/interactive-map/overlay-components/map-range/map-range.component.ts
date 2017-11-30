@@ -7,7 +7,7 @@ import { OverlayContentComponent } from '../../../overlays/contents/overlay-cont
 @Component({
     selector: 'map-range',
     templateUrl: './map-range.template.html',
-    styleUrls: ['./map-range.styles.css'],
+    styleUrls: ['./map-range.styles.scss'],
     animations: [
         trigger('show', [
             transition(':enter', [ style({ opacity: 0 }), animate(300, style({ opacity: 1 })) ]),

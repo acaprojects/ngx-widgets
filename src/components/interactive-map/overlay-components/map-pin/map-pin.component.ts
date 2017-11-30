@@ -7,7 +7,7 @@ import { OverlayContentComponent } from '../../../overlays/contents/overlay-cont
 @Component({
     selector: 'map-pin',
     templateUrl: './map-pin.template.html',
-    styleUrls: ['./map-pin.styles.css'],
+    styleUrls: ['./map-pin.styles.scss'],
     animations: [
         trigger('show', [
             transition(':enter', [

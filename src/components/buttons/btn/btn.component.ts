@@ -10,11 +10,11 @@
 import { Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'btn',
-    styleUrls: ['./btn.styles.css', '../../material-styles/material-styles.css'],
+    styleUrls: ['./btn.styles.scss', '../../material-styles/material-styles.scss'],
     templateUrl: './btn.template.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [

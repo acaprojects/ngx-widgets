@@ -12,7 +12,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 @Component({
     selector: 'material-styles',
     encapsulation: ViewEncapsulation.None,
-    styleUrls: [ './material-styles.css' ],
+    styleUrls: [ './material-styles.scss' ],
     template: ``,
 })
 export class MaterialStyles {

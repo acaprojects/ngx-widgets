@@ -12,7 +12,7 @@ import { Component, Input, TemplateRef} from '@angular/core';
 @Component({
     selector: 'tab-head',
     template: `<div class="tab" [class.active]="active" (click)="setActive()"><ng-content></ng-content></div>`,
-    styleUrls: ['./tab-head.styles.css'],
+    styleUrls: ['./tab-head.styles.scss'],
 })
 export class TabHead {
     @Input() public id: string;

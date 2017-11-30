@@ -11,7 +11,7 @@ import { DynamicBaseComponent } from '../../overlays/dynamic-base.component';
                     [style.height]="container?.height + '%'" [class.hide]="!this.model.el && !this.model.coordinates">
                         <ng-container #content></ng-container>
                 </div>`,
-    styleUrls: ['./map-overlay.styles.css'],
+    styleUrls: ['./map-overlay.styles.scss'],
 })
 export class MapOverlayComponent extends DynamicBaseComponent {
     public container: any = {};

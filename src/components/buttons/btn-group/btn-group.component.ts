@@ -12,7 +12,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 @Component({
     selector: 'btn-group',
     templateUrl: './btn-group.template.html',
-    styleUrls: [ './btn-group.styles.css', '../../material-styles/material-styles.css'  ],
+    styleUrls: [ './btn-group.styles.scss', '../../material-styles/material-styles.scss'  ],
     // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonGroup {

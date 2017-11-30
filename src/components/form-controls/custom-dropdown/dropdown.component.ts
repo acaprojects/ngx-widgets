@@ -6,7 +6,7 @@ import { CustomDropdownListComponent } from './custom-dropdown-list';
 @Component({
     selector: 'custom-dropdown',
     templateUrl: './dropdown.template.html',
-    styleUrls: ['./dropdown.styles.css'],
+    styleUrls: ['./dropdown.styles.scss'],
 })
 export class CustomDropdownComponent {
     @Input() public name: string = '';

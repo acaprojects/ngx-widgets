@@ -44,12 +44,12 @@ export class MapInputDirective {
         }
         this.box = this.el.nativeElement.getBoundingClientRect();
         if (!this.animations.center) {
-            this.animations.center = this.animate.animation(() => {}, () => {
+            this.animations.center = this.animate.animation(() => { }, () => {
                 this.centerChange.emit(this.center);
             })
         }
         if (!this.animations.scale) {
-            this.animations.scale = this.animate.animation(() => {}, () => {
+            this.animations.scale = this.animate.animation(() => { }, () => {
                 this.scaleChange.emit(this.scale);
             })
         }
@@ -74,12 +74,23 @@ export class MapInputDirective {
 
     @HostListener('pinchstart', ['$event']) private scaleStart(e: any) {
         this.delta.scale = e.scale;
+        console.log('Pinch Start:', e.scale.toFixed(5), this.scale);
     }
 
-    @HostListener('pinch', ['$event']) private scaleEvent(e: any) {
+    @HostListener('pinchin', ['$event']) private pinchInEvent(e: any) {
+        this.updateScale(e);
+        console.log('Pinch In:', e.scale.toFixed(5), this.scale);
+    }
+
+    @HostListener('pinchout', ['$event']) private pinchOutEvent(e: any) {
+        this.updateScale(e);
+        console.log('Pinch Out:', e.scale.toFixed(5), this.scale);
+    }
+
+    private updateScale(e: any) {
         const scale = (e.scale - this.delta.scale) / 10;
         const dir = scale > 0 ? 1 : -1;
-        const value = 1 + dir * Math.max(Math.abs(scale), 0.01) / 2;
+        const value = 1 + dir * Math.max(Math.abs(scale), 0.08);
         this.scale = Math.round((this.scale + 100) * value - 100);
         this.delta.scale += scale;
         this.animations.scale.animate();
@@ -87,6 +98,7 @@ export class MapInputDirective {
 
     @HostListener('pinchend', ['$event']) private scaleEnd(e: any) {
         this.delta.scale = 0;
+        console.log('Pinch End:', e.scale.toFixed(5), this.scale);
     }
 
     @HostListener('wheel', ['$event']) private wheelScale(e: any) {

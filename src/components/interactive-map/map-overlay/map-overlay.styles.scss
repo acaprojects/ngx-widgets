@@ -2,6 +2,7 @@
 .map-overlay {
     position: absolute;
     pointer-events: auto;
+    will-change: top, left, width, height;
 }
 
 .hide {

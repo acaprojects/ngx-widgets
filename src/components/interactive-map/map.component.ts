@@ -2,7 +2,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, Renderer2, Type, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapService } from '../../services/map.service';
-import { Animate } from '../../../index';
+import { Animate } from '../../services/animate.service';
 
 export interface IPointOfInterest {
     id?: string;        // CSS Selector ID of element with map
@@ -37,7 +37,7 @@ const POS_OFFSET = .5;
 @Component({
     selector: 'map',
     templateUrl: './map.template.html',
-    styleUrls: ['./map.styles.css'],
+    styleUrls: ['./map.styles.scss'],
     // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InteractiveMapComponent {

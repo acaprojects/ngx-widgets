@@ -14,7 +14,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 @Component({
     selector: 'step',
     templateUrl: './step.template.html',
-    styleUrls: ['./step.styles.css'],
+    styleUrls: ['./step.styles.scss'],
     animations: [
         trigger('showstep', [
             state('show',   style({ 'height': '*', 'padding-bottom' : '1.5em', 'overflow': 'visible' })),

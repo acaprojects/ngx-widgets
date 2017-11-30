@@ -14,7 +14,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 @Component({
     selector: 'toggle',
     templateUrl: './toggle.template.html',
-    styleUrls: [ './toggle.styles.css' ],
+    styleUrls: [ './toggle.styles.scss' ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         trigger('toggleBg', [

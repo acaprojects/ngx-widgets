@@ -5,12 +5,13 @@ import { ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/
 
 import { DynamicBaseComponent } from '../dynamic-base.component';
 
-import * as moment from 'moment';
+import * as moment_api from 'moment';
+const moment = moment_api;
 
 @Component({
     selector: 'modal',
     templateUrl: './modal.template.html',
-    styleUrls: ['./modal.styles.css'],
+    styleUrls: ['./modal.styles.scss'],
     animations: [
         trigger('show', [
             transition(':enter', [ style({ opacity: 0 }), animate(300, style({ opacity: 1 })) ]),

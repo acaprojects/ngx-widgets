@@ -9,7 +9,7 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs/Observable';
 
 const KEY_LIST = {
     QWERTY : {
@@ -38,7 +38,7 @@ const KEY_LIST = {
 
 @Component({
   selector: 'keyboard-display',
-  styleUrls: [ './virtual-keyboard.style.css' ],
+  styleUrls: [ './virtual-keyboard.style.scss' ],
   templateUrl: './virtual-keyboard.template.html',
   animations: [
       trigger('keyboard', [

@@ -17,7 +17,7 @@ import { TabHead } from './tab-head.component';
 @Component({
     selector: 'tab-group',
     templateUrl: './tabs.template.html',
-    styleUrls: [ './tabs.styles.css' ],
+    styleUrls: [ './tabs.styles.scss' ],
 })
 export class TabGroup {
 

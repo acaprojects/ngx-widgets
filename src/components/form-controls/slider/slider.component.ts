@@ -15,7 +15,7 @@
  @Component({
      selector: 'slider',
      templateUrl: './slider.template.html',
-     styleUrls: [ './slider.styles.css' ],
+     styleUrls: [ './slider.styles.scss' ],
  })
  export class Slider {
      @Input() public align: string = 'horizontal';

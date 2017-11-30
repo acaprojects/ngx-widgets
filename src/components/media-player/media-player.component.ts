@@ -12,7 +12,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 @Component({
     selector: 'media-player',
     templateUrl: './media-player.template.html',
-    styleUrls: ['./media-player.styles.css'],
+    styleUrls: ['./media-player.styles.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
         trigger('controls', [

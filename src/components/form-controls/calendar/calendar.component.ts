@@ -1,7 +1,8 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import * as moment from 'moment';
+import * as moment_api from 'moment';
+const moment = moment_api;
 
 export interface ICalOptions {
     limit: number; // Number of month that the user can move forward and back
@@ -15,7 +16,7 @@ export interface ICalOptions {
 @Component({
     selector: 'calendar',
     templateUrl: './calendar.template.html',
-    styleUrls: ['./calendar.styles.css'],
+    styleUrls: ['./calendar.styles.scss'],
 })
 export class CalendarComponent {
     @Input() public name: string = '';

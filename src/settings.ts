@@ -22,11 +22,11 @@ export class WIDGETS {
             }, 1000);
         }, 50);
     }
-
-    public static get(name: string) {
+    /*
+    public static state(name: string) {
         return this.data[name];
     }
-
+    */
     public static observe(var_name: string) {
         if (!WIDGETS.obs[var_name]) {
             WIDGETS.obs[var_name] = new Observable((observer) => {
@@ -88,9 +88,9 @@ export class WIDGETS {
     public static version(version: string, build: string, out: any = 'debug') {
         const COLOURS = ['color: #f44336', 'color:#9c27b0', 'color:rgba(0,0,0,0.87)'];
         if (WIDGETS.hasColours()) {
-            console[out](`%c[ACA]%c[LIBRARY] %cWidgets - Version: ${version} | Build: ${build}`, ...COLOURS);
+            console[out](`%c[ACA]%c[LIBRARY] %cWidgets - v${version} | b${build}`, ...COLOURS);
         } else {
-            console[out](`[ACA][LIBRARY] Widgets - Version: ${version} | Build: ${build}`);
+            console[out](`[ACA][LIBRARY] Widgets - v${version} | b${build}`);
         }
     }
 
@@ -100,7 +100,7 @@ export class WIDGETS {
     private static _obs: any = {};
     private static timer: any = null;
     private static load_count: number = 0;
-    
+
     private static hasColours() {
         const doc = document as any;
         return !(doc.documentMode || /Edge/.test(navigator.userAgent));
