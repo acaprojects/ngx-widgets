@@ -13,7 +13,7 @@ import { DropService } from '../../services';
 @Component({
     selector: 'img-crop',
     templateUrl: './img-crop.template.html',
-    styleUrls: [ './img-crop.styles.scss' ],
+    styleUrls: [ './img-crop.styles.css' ],
 })
 export class ImageCrop {
     @Input() public id: string  = 'zero';

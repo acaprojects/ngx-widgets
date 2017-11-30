@@ -10,7 +10,7 @@ import { ElementRef } from '@angular/core';
     template: `
         <div #el class="overlay-container"><ng-container #content></ng-container></div>
     `,
-    styleUrls: ['./overlay-container.styles.scss'],
+    styleUrls: ['./overlay-container.styles.css'],
 })
 export class OverlayContainerComponent {
     public id: string = `overlay-container-${Math.floor(Math.random() * 8999999 + 1000000)}`;

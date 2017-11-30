@@ -13,7 +13,7 @@ const moment = moment_api;
 @Component({
     selector: 'tooltip',
     templateUrl: './tooltip.template.html',
-    styleUrls: ['./tooltip.styles.scss'],
+    styleUrls: ['./tooltip.styles.css'],
 })
 export class TooltipComponent extends DynamicBaseComponent {
     public container: any = {};

@@ -14,7 +14,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'btn',
-    styleUrls: ['./btn.styles.scss', '../../material-styles/material-styles.scss'],
+    styleUrls: ['./btn.styles.css', '../../material-styles/material-styles.css'],
     templateUrl: './btn.template.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [

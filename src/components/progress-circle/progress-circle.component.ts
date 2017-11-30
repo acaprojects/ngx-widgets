@@ -10,7 +10,7 @@ import { Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/cor
 @Component({
     selector: 'progress-circle',
     templateUrl: './progress-circle.template.html',
-    styleUrls: ['./progress-circle.styles.scss'],
+    styleUrls: ['./progress-circle.styles.css'],
 })
 export class ProgressCircleComponent {
     @Input() public progress: number = 0; // Number between 0 and 1000

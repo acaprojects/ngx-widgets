@@ -11,7 +11,7 @@ const moment = moment_api;
 @Component({
     selector: 'notification',
     templateUrl: './notification.template.html',
-    styleUrls: ['./notification.styles.scss'],
+    styleUrls: ['./notification.styles.css'],
     animations: [
         trigger('show', [
             transition(':enter', [style({ opacity: 0, transform: 'translateX(100%)' }), animate(300, style({ opacity: 1, transform: 'translateX(100%)' }))]),

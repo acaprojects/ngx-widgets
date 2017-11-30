@@ -13,7 +13,7 @@ import { WIDGETS } from '../../../settings';
         <div #el class="overlay-container">
             <ng-container #content></ng-container>
         </div>`,
-    styleUrls: ['./map-overlay-container.styles.scss'],
+    styleUrls: ['./map-overlay-container.styles.css'],
 })
 export class MapOverlayContainerComponent extends OverlayContainerComponent {
     @Input() public model: any[] = [];

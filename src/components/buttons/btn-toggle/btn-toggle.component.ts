@@ -13,7 +13,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'btn-toggle',
-    styleUrls: ['./btn-toggle.styles.scss', '../../material-styles/material-styles.scss'],
+    styleUrls: ['./btn-toggle.styles.css', '../../material-styles/material-styles.css'],
     templateUrl: './btn-toggle.template.html',
     animations: [
         trigger('clickResp', [

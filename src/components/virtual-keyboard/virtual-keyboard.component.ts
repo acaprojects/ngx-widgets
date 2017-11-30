@@ -38,7 +38,7 @@ const KEY_LIST = {
 
 @Component({
   selector: 'keyboard-display',
-  styleUrls: [ './virtual-keyboard.style.scss' ],
+  styleUrls: [ './virtual-keyboard.style.css' ],
   templateUrl: './virtual-keyboard.template.html',
   animations: [
       trigger('keyboard', [

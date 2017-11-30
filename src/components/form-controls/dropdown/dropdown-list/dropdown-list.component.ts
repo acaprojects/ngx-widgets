@@ -6,7 +6,7 @@ import { OverlayContentComponent } from '../../../overlays/contents';
 @Component({
     selector: 'dropdown-list',
     templateUrl: './dropdown-list.template.html',
-    styleUrls: ['./dropdown-list.styles.scss'],
+    styleUrls: ['./dropdown-list.styles.css'],
 })
 export class DropdownListComponent extends OverlayContentComponent {
     public search: string = '';

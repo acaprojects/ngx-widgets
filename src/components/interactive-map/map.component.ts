@@ -37,7 +37,7 @@ const POS_OFFSET = .5;
 @Component({
     selector: 'map',
     templateUrl: './map.template.html',
-    styleUrls: ['./map.styles.scss'],
+    styleUrls: ['./map.styles.css'],
     // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InteractiveMapComponent {
@@ -116,7 +116,7 @@ export class InteractiveMapComponent {
 
         if (changes.focus && this.focus) {
             setTimeout(() => {
-                if (this.focus.lock && !this.focus.zoom) {
+                if (this.focus && this.focus.lock && !this.focus.zoom) {
                         this.focus.zoom = this.zoom;
                 }
                 this.focusEvent();
@@ -357,7 +357,7 @@ export class InteractiveMapComponent {
                 for (const item of this.poi) {
                     if (!item.map_id) {
                         item.map_id = item.id;
-                        item.id = `${item.cmp ? item.cmp.className() || 'map-cmp-' : 'map-cmp-'}${item.id}`;
+                        item.id = `${item.cmp && item.cmp.className ? item.cmp.className() || 'map-cmp-' : 'map-cmp-'}${item.id}`;
                     }
                     this.interest_points.push(item);
                 }

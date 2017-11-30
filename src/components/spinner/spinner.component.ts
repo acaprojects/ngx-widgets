@@ -11,7 +11,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 
 @Component({
     selector: 'spinner',
-    styleUrls: [ './spinner.style.scss' ],
+    styleUrls: [ './spinner.style.css' ],
     templateUrl: './spinner.template.html',
 })
 export class Spinner {

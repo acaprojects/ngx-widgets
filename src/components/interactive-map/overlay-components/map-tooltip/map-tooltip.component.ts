@@ -7,7 +7,7 @@ import { OverlayContentComponent } from '../../../overlays/contents/overlay-cont
 @Component({
     selector: 'map-tooltip',
     templateUrl: './map-tooltip.template.html',
-    styleUrls: ['./map-tooltip.styles.scss'],
+    styleUrls: ['./map-tooltip.styles.css'],
     animations: [
         trigger('show', [
             transition(':enter', [ style({ opacity: 0 }), animate(300, style({ opacity: 1 })) ]),

@@ -16,7 +16,7 @@ export interface ICalOptions {
 @Component({
     selector: 'calendar',
     templateUrl: './calendar.template.html',
-    styleUrls: ['./calendar.styles.scss'],
+    styleUrls: ['./calendar.styles.css'],
 })
 export class CalendarComponent {
     @Input() public name: string = '';

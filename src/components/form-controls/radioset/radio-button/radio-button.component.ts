@@ -4,7 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
     selector: 'radio-btn',
     templateUrl: './radio-button.template.html',
-    styleUrls: ['./radio-button.styles.scss'],
+    styleUrls: ['./radio-button.styles.css'],
 })
 export class RadioButtonComponent {
     @Input() public name: string = '';

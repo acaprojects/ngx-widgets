@@ -11,7 +11,7 @@ const moment = moment_api;
 @Component({
     selector: 'modal',
     templateUrl: './modal.template.html',
-    styleUrls: ['./modal.styles.scss'],
+    styleUrls: ['./modal.styles.css'],
     animations: [
         trigger('show', [
             transition(':enter', [ style({ opacity: 0 }), animate(300, style({ opacity: 1 })) ]),
