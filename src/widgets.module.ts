@@ -48,8 +48,8 @@ export * from './services';
 })
 export class WidgetsModule {
     private static init: boolean = false;
-    private version: string = '0.14.0-beta.1';
-    private build: string = '2017-10-30.v1';
+    private version: string = '0.14.0-beta.2';
+    private build: string = '2017-12-01.v1';
 
     constructor() {
         if (!WidgetsModule.init) {

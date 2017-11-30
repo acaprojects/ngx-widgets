@@ -73,6 +73,9 @@ export class MapInputDirective {
     }
 
     @HostListener('pinchstart', ['$event']) private scaleStart(e: any) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
         this.delta.scale = e.scale;
         console.log('Pinch Start:', e.scale.toFixed(5), this.scale);
     }
@@ -88,6 +91,9 @@ export class MapInputDirective {
     }
 
     private updateScale(e: any) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
         const scale = (e.scale - this.delta.scale) / 10;
         const dir = scale > 0 ? 1 : -1;
         const value = 1 + dir * Math.max(Math.abs(scale), 0.08);
@@ -97,11 +103,17 @@ export class MapInputDirective {
     }
 
     @HostListener('pinchend', ['$event']) private scaleEnd(e: any) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
         this.delta.scale = 0;
         console.log('Pinch End:', e.scale.toFixed(5), this.scale);
     }
 
     @HostListener('wheel', ['$event']) private wheelScale(e: any) {
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
         const value = 1 + -(0.01 * e.deltaY) / 2;
         this.scale = Math.round((this.scale + 100) * value - 100);
         if (this.scale < -50) {
