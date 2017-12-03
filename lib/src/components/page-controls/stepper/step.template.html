@@ -1,0 +1,21 @@
+<!--
+@Author: Alex Sorafumo <Yuion>
+@Date:   24/11/2016 3:43 PM
+@Email:  alex@yuion.net
+@Filename: step.template.html
+@Last modified by:   Yuion
+@Last modified time: 15/12/2016 11:32 AM
+-->
+
+<div class="step">
+    <div class="step-number" [class.active]="active||open" [class.error]="error" (tap)="toggle()">
+        <i class="material-icons">{{ ordered ? index : (!error ? ( active || open ? 'done':'add') : 'close') }}</i>
+    </div>
+    <div class="step-desc"><strong (tap)="toggle()">{{ title }}</strong></div>
+</div>
+<div class="step content">
+    <div class="step-bar"><div class="bar"></div></div>
+    <div class="step-content" [@showstep]="open?'show':'hide'">
+        <ng-content></ng-content>
+    </div>
+</div>

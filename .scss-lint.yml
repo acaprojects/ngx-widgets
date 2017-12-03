@@ -1,8 +1,0 @@
-scss_files: 'src/**/*.scss'
-
-linters:
-  BorderZero:
-    enabled: false
-
-  Indentation:
-    width: 4

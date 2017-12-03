@@ -1,0 +1,12 @@
+{
+    "name": "@acaprojects/ngx-widgets",
+    "version": "0.14.0",
+    "repository": "https://github.com/acaprojects/ngx-widgets.git",
+    "author": "Alex Sorafumo <alex@yuion.net>",
+    "license": "MIT",
+    "private": false,
+    "peerDependencies": {
+        "@angular/core": "^5.0.0",
+        "@angular/common": "^5.0.0"
+    }
+}

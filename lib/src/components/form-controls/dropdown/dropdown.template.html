@@ -1,0 +1,31 @@
+
+<div [class]="'dropdown ' + name + (show ? ' show' : '')" widget
+    #body
+    (window:resize)="resize()">
+    <div class="tooltip" [class.bottom]="bottom"
+        tooltip
+        name="dropdown-list"
+        [model]="data"
+        [cmp]="cmp"
+        [position]="bottom ? 'top' : 'bottom'"
+        [triangle]="false"
+        [(show)]="show"
+        [autoclose]="false"
+        (event)="select($event)">
+    </div>
+    <div #active class="item active" (tap)="show = true">
+        <div class="text">
+            {{ model < 0 || !list_items || list_items.length <= model || !list_items[model] ? placeholder : list_items[model].name || list_items[model] }}
+        </div>
+        <div class="icon">&#708;</div>
+    </div>
+    <div class="item placeholder">
+        <div class="text">{{ placeholder }}</div>
+    </div>
+    <div class="list">
+        <div class="item" *ngFor="let item of list_items; let i = index" [class.hide]="hideActive&&i===model">
+            <div class="text">{{ item.name || item }}</div>
+            <div class="icon" [style.opacity]="model === i ? 1 : 0" [innerHTML]="(html || '&#10003;') | safe"></div>
+        </div>
+    </div>
+</div>

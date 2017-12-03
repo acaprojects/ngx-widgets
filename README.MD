@@ -1,51 +1,27 @@
+# NgxWidgets
 
-# Angular 2 - Widgets
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.5.
 
-THIS DOCUMENTATION IS OUT OF DATE.
+## Development server
 
-General collection of widgets for use with Angular 2
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Source Documentation
+## Code scaffolding
 
-## [Components](./src/components/README.md)
-- [Buttons](./src/components/buttons/README.md)
- - [Buttons](./src/components/buttons/README.md)
- - [Button Groups](./src/components/buttons/README.md)
- - [Button Toggles](./src/components/buttons/README.md)
-- [Form Controls](./src/components/form-controls/README.md)
- - [Calendars](./src/components/form-controls/README.md)
- - [Data Inputs](./src/components/form-controls/README.md)
- - [Dropdowns](./src/components/form-controls/README.md)
- - [Sliders](./src/components/form-controls/README.md)
- - [Time Pickers](./src/components/form-controls/README.md)
- - [Toggles](./src/components/form-controls/README.md)
- - [Typeaheads](./src/components/form-controls/README.md)
-- [Page Controls](./src/components/page-controls/README.md)
- - [Steppers](./src/components/page-controls/README.md)
- - [Tab Groups](./src/components/page-controls/README.md)
-- [Modals](./src/components/modals/README.md)
-- [Other](./src/components/README.md)
- - [Image Cropper](./src/components/README.md)
- - [Interactive Maps](./src/components/README.md)
- - [Spinners](./src/components/README.md)
- - [Tooltips](./src/components/README.md)
- - [Virtual Keyboard](./src/components/README.md)
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## [Directives](./src/components/directives/README.md)
-- [Drop Targets](./src/components/directives/README.md)
-- [File Streams](./src/components/directives/README.md)
-- [Modals](./src/components/directives/README.md)
-- [Notifications](./src/components/directives/README.md)
-- [Virtual Keyboards](./src/components/directives/README.md)
+## Build
 
-## [Pipes](./src/components/pipes/README.md)
-- [Keys](./src/components/pipes/README.md)
-- [Safe URLs](./src/components/pipes/README.md)
-- [Safe HTML](./src/components/pipes/README.md)
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## [Services](./src/components/services/README.md)
-- [File Drop](./src/components/services/README.md)
-- [Animate](./src/components/services/README.md)
-- [Maps](./src/components/services/README.md)
-- [Modal](./src/components/services/README.md)
-- [Notification](./src/components/services/README.md)
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
