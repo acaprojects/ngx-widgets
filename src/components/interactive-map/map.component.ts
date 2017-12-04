@@ -95,6 +95,12 @@ export class InteractiveMapComponent {
             this.loadMap();
         }
         if (changes.reset) {
+            this.animate.animation(() => {
+                this.zoom = 0;
+                this.center = { x: .5, y: .5 };
+            }, () => {
+                this.update();
+            }).animate();
         }
         if (changes.handlers) {
             this.clearHandlers();
