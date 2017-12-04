@@ -6,7 +6,9 @@
     "lib": {
         "entryFile": "src/public_api.ts",
         "externals": {
-            "moment": "moment"
+            "moment": "moment",
+            "hammerjs": "hammerjs",
+            "cropperjs": "cropperjs"
         }
     }
 }
