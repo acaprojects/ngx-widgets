@@ -95,6 +95,12 @@ export class InteractiveMapComponent {
             this.loadMap();
         }
         if (changes.reset) {
+            this.animate.animation(() => {
+                this.zoom = 0;
+                this.center = { x: .5, y: .5 };
+            }, () => {
+                this.update();
+            }).animate();
         }
         if (changes.handlers) {
             this.clearHandlers();
@@ -103,8 +109,8 @@ export class InteractiveMapComponent {
         if (changes.zoom || changes.center) {
             this.animate.animation(() => {
                 if (this.focus && this.focus.lock) {
-                        this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
-                        this.center = changes.center ? changes.changes.previousValue : this.center;
+                    this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
+                    this.center = changes.center ? changes.changes.previousValue : this.center;
                 }
             }, () => {
                 this.update();
@@ -117,7 +123,7 @@ export class InteractiveMapComponent {
         if (changes.focus && this.focus) {
             setTimeout(() => {
                 if (this.focus.lock && !this.focus.zoom) {
-                        this.focus.zoom = this.zoom;
+                    this.focus.zoom = this.zoom;
                 }
                 this.focusEvent();
             }, 20);
@@ -246,7 +252,7 @@ export class InteractiveMapComponent {
             tree.id = el.id;
             tree.children = [];
             tree.position = {};
-            if (el.getBoundingClientRect instanceof Function && el.id){
+            if (el.getBoundingClientRect instanceof Function && el.id) {
                 const rect = el.getBoundingClientRect();
                 const position: any = {
                     top: +(((rect.top - container.top) / container.height).toFixed(5)),
