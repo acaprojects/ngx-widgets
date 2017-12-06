@@ -38,8 +38,10 @@ export class TabGroup {
     private check: number = 0;
 
     constructor(private loc: Location, private route: ActivatedRoute, private _router: Router) {
-        this.route.params.map((params) => params[this.routeParam]).subscribe((params) => {
-            this.rvalue = params;
+        this.route.params.subscribe((params) => {
+            if (params[this.routeParam]) {
+                this.rvalue = params[this.routeParam];
+            }
         });
         this.processRoute();
     }
