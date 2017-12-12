@@ -3,6 +3,7 @@ import { Directive, ElementRef, EventEmitter, HostListener, Input, Output } from
 
 import { Animate } from '../services';
 
+const POS_OFFSET = .5;
 
 @Directive({
     selector: '[map-input]',
@@ -44,15 +45,23 @@ export class MapInputDirective {
         }
         this.box = this.el.nativeElement.getBoundingClientRect();
         if (!this.animations.center) {
-            this.animations.center = this.animate.animation(() => { }, () => {
+            this.animations.center = this.animate.animation(() => {
+                this.checkBounds();
+            }, () => {
                 this.centerChange.emit(this.center);
             })
         }
         if (!this.animations.scale) {
-            this.animations.scale = this.animate.animation(() => { }, () => {
+            this.animations.scale = this.animate.animation(() => {
+                this.checkBounds();
+            }, () => {
                 this.scaleChange.emit(this.scale);
             })
         }
+    }
+
+    @HostListener('document:touchmove', ['$event']) private preventZoom(e: any) {
+        if (e.scale !== 1 && e.preventDefault) { e.preventDefault(); }
     }
 
     @HostListener('panstart', ['$event']) private moveStart(e: any) {
@@ -65,17 +74,11 @@ export class MapInputDirective {
             x: this.model.center.x + (e.deltaX / this.box.width) / scale,
             y: this.model.center.y + (e.deltaY / this.box.height) / scale,
         };
-        if (this.center.x > 1) { this.center.x = 1; }
-        else if (this.center.x < 0) { this.center.x = 0; }
-        if (this.center.y > 1) { this.center.y = 1; }
-        else if (this.center.y < 0) { this.center.y = 0; }
         this.animations.center.animate();
     }
 
     @HostListener('pinchstart', ['$event']) private scaleStart(e: any) {
-        if (e.preventDefault) {
-            e.preventDefault();
-        }
+        if (e.preventDefault) { e.preventDefault(); }
         this.delta.scale = e.scale;
         console.log('Pinch Start:', e.scale.toFixed(5), this.scale);
     }
@@ -91,15 +94,24 @@ export class MapInputDirective {
     }
 
     private updateScale(e: any) {
-        if (e.preventDefault) {
-            e.preventDefault();
-        }
+        if (e.preventDefault) { e.preventDefault(); }
         const scale = (e.scale - this.delta.scale) / 10;
         const dir = scale > 0 ? 1 : -1;
         const value = 1 + dir * Math.max(Math.abs(scale), 0.08);
         this.scale = Math.round((this.scale + 100) * value - 100);
         this.delta.scale += scale;
         this.animations.scale.animate();
+    }
+
+    public checkBounds() {
+        // Check position is valid
+        if (this.center.x < 0 - POS_OFFSET) { this.center.x = -POS_OFFSET; }
+        else if (this.center.x > 1 + POS_OFFSET) { this.center.x = 1 + POS_OFFSET; }
+        if (this.center.y < 0 - POS_OFFSET) { this.center.y = -POS_OFFSET; }
+        else if (this.center.y > 1 + POS_OFFSET) { this.center.y = 1 + POS_OFFSET; }
+        // Check zoom is valid
+        if (this.scale < 0) { this.scale = 0; }
+        else if (this.scale > 1900) { this.scale = 1900; }
     }
 
     @HostListener('pinchend', ['$event']) private scaleEnd(e: any) {
@@ -116,9 +128,6 @@ export class MapInputDirective {
         }
         const value = 1 + -(0.01 * e.deltaY) / 2;
         this.scale = Math.round((this.scale + 100) * value - 100);
-        if (this.scale < -50) {
-            this.scale = -50;
-        }
         this.animations.scale.animate();
     }
 

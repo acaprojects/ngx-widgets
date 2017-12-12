@@ -181,7 +181,7 @@ export class InteractiveMapComponent {
         if (this.center.y < 0 - POS_OFFSET) { this.center.y = -POS_OFFSET; }
         else if (this.center.y > 1 + POS_OFFSET) { this.center.y = 1 + POS_OFFSET; }
         // Check zoom is valid
-        if (this.zoom < -50) { this.zoom = -50; }
+        if (this.zoom < 0) { this.zoom = 0; }
         else if (this.zoom > 1900) { this.zoom = 1900; }
     }
 
