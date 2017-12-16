@@ -83,8 +83,10 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                 let name = '';
                 if (typeof item.cmp === 'string') { name = item.cmp; }
                 else { name = item.cmp.name }
-                const clean_id = item.map_id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
-                item.el = this.el.querySelector(`#${clean_id}`);
+                if (item.map_id) {
+                    const clean_id = item.map_id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
+                    item.el = this.el.querySelector(`#${clean_id}`);
+                }
                 this.add(`${item.id}`, MapOverlayComponent).then((inst: any) => {
                     item.inst = inst;
                     inst.set(item);
@@ -109,7 +111,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                 const item = this.getComponent(id);
                 // if (item.map !== this.el) {
                     item.map = this.el;
-                    if (this.el && item.id) {
+                    if (this.el && item.map_id) {
                         const clean_id = item.map_id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
                         const el = this.el.querySelector(`#${clean_id}`);
                         if (el) { item.el = el; }
