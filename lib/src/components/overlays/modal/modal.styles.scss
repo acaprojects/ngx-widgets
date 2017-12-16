@@ -12,10 +12,9 @@
     z-index: 2000;
     pointer-events: auto;
     transition: background-color 200ms;
-}
-
-.top {
-    background-color: $black-o50;
+    &.top {
+        background-color: $black-o50;
+    }
 }
 
 .container {
@@ -28,9 +27,5 @@
 .body {
     max-height: 90vh;
     max-width: 90vw;
-    background-color: #fff;
     border-radius: .2em;
-    &.top {
-        box-shadow: 0 .1em .2em .1em $black-o20;
-    }
 }

@@ -1,14 +1,15 @@
 
 <div [class]="'map ' + id" widget (window:resize)="initMap(true)">
-    <div #container class="map-container" [class.focus-lock]="focus?.lock">
+    <div #container class="map-container" [class.focus-lock]="focus?.lock"
+    map-input [(scale)]="zoom" (scaleChange)="update(true)"
+    [(center)]="center" (centerChange)="update(true)"
+    (event)="userEvent($event)">
+
         <div #map class="map-area"
             [style.transform]="state.transform | safestyle"
             [style.display]="state.loading ? 'none' : ''"
             [style.width]="(100 + zoom) + '%'"
-            [style.height]="(100 + zoom) + '%'"
-            map-input [(scale)]="zoom" (scaleChange)="update(true)"
-            [(center)]="center" (centerChange)="update(true)"
-            (event)="userEvent($event)">
+            [style.height]="(100 + zoom) + '%'">
 
             <div #img class="map-img" [innerHTML]="(state.map || '') | safe" [style.width]="(state.scale * 100 - 7) + '%'">
             </div>
