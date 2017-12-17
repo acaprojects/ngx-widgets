@@ -12,7 +12,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 
 @Component({
     selector: 'data-input',
-    styleUrls: [ './data-input.styles.scss', '../../material-styles/material-styles.scss' ],
+    styleUrls: [ './data-input.styles.scss'/*, '../../material-styles/material-styles.scss'*/ ],
     templateUrl: './data-input.template.html',
     animations : [
         trigger('fieldText', [

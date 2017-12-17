@@ -14,7 +14,7 @@ import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'btn',
-    styleUrls: ['./btn.styles.scss', '../../material-styles/material-styles.scss'],
+    styleUrls: ['./btn.styles.scss'/* , '../../material-styles/material-styles.scss' */],
     templateUrl: './btn.template.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [
@@ -23,10 +23,10 @@ import { Observable } from 'rxjs/Observable';
             transition('void => *', animate('50ms ease-out')),
             transition('* => *', animate('0.5s ease-out', keyframes([
                 style({ transform: 'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0 }),
-                style({ transform: 'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0 }),
-            ]))),
-        ]),
-    ],
+                style({ transform: 'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0 })
+            ])))
+        ])
+    ]
 })
 export class ButtonComponent {
     // Component Inputs

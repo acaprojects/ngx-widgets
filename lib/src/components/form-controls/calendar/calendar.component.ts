@@ -107,7 +107,6 @@ export class CalendarComponent {
         date.date(1);
         if (date.day() > 0) {
             date.date(date.date() - date.day());
-
         }
         const month: any[] = [];
         for (let i = 0; i < 6; i++) {

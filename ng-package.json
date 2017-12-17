@@ -4,7 +4,7 @@
     "dest": "dist",
     "workingDirectory": ".ng_build",
     "lib": {
-        "entryFile": "src/public_api.ts",
+        "entryFile": "lib/src/public_api.ts",
         "externals": {
             "moment": "moment",
             "hammerjs": "hammerjs",
