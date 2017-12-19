@@ -380,7 +380,7 @@ export class InteractiveMapComponent {
         for (const id in this.styles) {
             if (this.styles.hasOwnProperty(id)) {
                 const clean_id = id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
-                const name = `.map[widget].${this.id} #${clean_id}`;
+                const name = `.map[widget].${this.id} ${id && (/^[\#\.\[]{1}.*/g).test(id) ? id : '#' + clean_id}`;
                 let properties = '';
                 for (const prop in this.styles[id]) {
                     if (this.styles[id].hasOwnProperty(prop)) {
