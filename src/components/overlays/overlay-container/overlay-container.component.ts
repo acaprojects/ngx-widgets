@@ -4,6 +4,7 @@ import { OverlayService } from '../../../services';
 import { ComponentFactoryResolver, Type } from '@angular/core';
 import { Component, EventEmitter, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { ElementRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'overlay-container',
@@ -23,7 +24,7 @@ export class OverlayContainerComponent {
     @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
     @ViewChild('el') public root: ElementRef;
 
-    constructor(protected _cfr: ComponentFactoryResolver, protected service: OverlayService) { }
+    constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, protected service: OverlayService) { }
 
     public ngOnInit() {
         this.idChange.emit(this.id);
@@ -67,6 +68,9 @@ export class OverlayContainerComponent {
 
     protected render(id: string, type: Type<any>, tries: number = 0) {
         return new Promise((resolve, reject) => {
+            if (tries > 10) {
+                return reject(!this.content ? 'No view to render to' : `No component to render`);
+            }
             setTimeout(() => {
                 if (this.content && type) {
                     const factory = this._cfr.resolveComponentFactory(type);
@@ -78,17 +82,12 @@ export class OverlayContainerComponent {
                     const inst: any = cmp.instance;
                     inst.parent = this;
                     inst.uid = `${id}`;
-                    setTimeout(() => {
-                        resolve(inst);
-                    }, 50);
+                    setTimeout(() => resolve(inst), 50);
+                    this._cdr.markForCheck();
                 } else {
-                    if (tries < 10) {
-                        setTimeout(() => {
-                            this.render(id, type, ++tries).then((inst) => resolve(inst), () => reject());
-                        }, 200);
-                    } else {
-                        reject();
-                    }
+                    setTimeout(() => {
+                        this.render(id, type, ++tries).then((inst) => resolve(inst), (err) => reject(err));
+                    }, 200);
                 }
             }, 10);
         });

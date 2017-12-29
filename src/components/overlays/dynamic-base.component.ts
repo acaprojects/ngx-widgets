@@ -51,6 +51,7 @@ export class DynamicBaseComponent {
         setTimeout(() => {
             this.init();
             this.model.initialised = true;
+            this._cdr.markForCheck();
         }, 300);
     }
 
@@ -238,15 +239,11 @@ export class DynamicBaseComponent {
      */
     private render(tries: number = 0) {
         if (tries > 10) {
-            WIDGETS.error('DYN_BASE', 'No component/template set to render ', [this.id, this.model.cmp]);
-            return;
+            return WIDGETS.error('DYN_BASE', 'No component/template set to render ', [this.id, this.model.cmp]);
         }
         this.rendered = false;
         if (!this._cfr || !this._content) {
-            setTimeout(() => {
-                this.render();
-            }, 200);
-            return;
+            return setTimeout(() => this.render(++tries), 200);
         }
         if (this.model.cmp) {
             setTimeout(() => {
@@ -284,9 +281,7 @@ export class DynamicBaseComponent {
                 }
             }, 10);
         } else if (!this.model.template) {
-            setTimeout(() => {
-                this.render(++tries);
-            }, 200);
+            setTimeout(() => this.render(++tries), 200);
         }
     }
 }

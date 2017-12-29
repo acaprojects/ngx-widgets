@@ -177,9 +177,7 @@ export class OverlayService {
                     inst.container = c_id || 'root';
                     inst.set(data);
                     resolve(inst);
-                }, () => {
-                    reject();
-                });
+                }, (err) => reject(err));
             } else {
                 reject();
             }

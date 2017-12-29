@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Ou
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapService } from '../../services/map.service';
 import { Animate } from '../../services/animate.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 export interface IPointOfInterest {
     id?: string;        // CSS Selector ID of element with map
@@ -38,7 +39,7 @@ const POS_OFFSET = .5;
     selector: 'map',
     templateUrl: './map.template.html',
     styleUrls: ['./map.styles.css'],
-    // changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InteractiveMapComponent {
     @Input() public id: string = '';
@@ -70,7 +71,7 @@ export class InteractiveMapComponent {
     @ViewChild('map') private area: ElementRef;
     @ViewChild('img') private img: ElementRef;
 
-    constructor(private service: MapService, private renderer: Renderer2, private sanitizer: DomSanitizer, private animate: Animate) {
+    constructor(private service: MapService, private _cdr: ChangeDetectorRef, private renderer: Renderer2, private sanitizer: DomSanitizer, private animate: Animate) {
         this.id = `M${Math.floor(Math.random() * 89999999 + 10000000).toString()}`;
         this.animations.render = animate.animation(() => {
             this.zoom = 0;
@@ -244,6 +245,7 @@ export class InteractiveMapComponent {
                 this.timers.update = null;
             }, 200);
         }
+        this._cdr.markForCheck();
     }
 
     private createElementTree(el: Element, container: ClientRect) {
@@ -373,6 +375,7 @@ export class InteractiveMapComponent {
                 this.loadPointsOfInterest(++tries);
             }, 200);
         }
+        this._cdr.markForCheck();
     }
 
     private updateStyles() {
