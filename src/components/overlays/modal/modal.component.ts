@@ -1,6 +1,6 @@
 
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, HostListener } from '@angular/core';
 import { ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { DynamicBaseComponent } from '../dynamic-base.component';
