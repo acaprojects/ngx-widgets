@@ -1,5 +1,5 @@
 
-import { ChangeDetectorRef, Component, Input, Output, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, Output, OnInit, HostListener } from '@angular/core';
 
 @Component({
     selector: 'overlay-content',
@@ -14,6 +14,10 @@ export class OverlayContentComponent implements OnInit {
 
     public static className() { return 'OverlayContentComponent'; }
     public className() { return OverlayContentComponent.className; }
+
+    @HostListener('window:resize') public resize() {
+        this._cdr.markForCheck();
+    }
 
     constructor(protected _cdr: ChangeDetectorRef) {
         this.id = `overlay-${Math.floor(Math.random() * 8999999 + 1000000)}`;

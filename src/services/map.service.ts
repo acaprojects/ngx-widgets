@@ -23,10 +23,12 @@ export class MapService {
                 this.map_trees[url] = null;
                 this.http.get(url).subscribe((data) => {
                     map = data.text();
+                        // Prevent non SVG files from being used
+                    if (!map.match(/<\/svg>/g)) { map = ''; }
+                        // Prevent Adobe generic style names from being used
+                    map = map.replace(/cls-/g, `map-${Object.keys(this.maps).length}-`);
                 },
-                (err) => {
-                    reject(err);
-                },
+                (err) => reject(err),
                 () => {
                     if (map) {
                         this.maps[url] = {
