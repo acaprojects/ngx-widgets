@@ -2,6 +2,8 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
+import * as moment from 'moment';
+
 const MAP_EXPIRY = 7 * 24 * 60 * 60 * 1000;
 
 @Injectable()
@@ -10,7 +12,18 @@ export class MapService {
     private map_trees: any = {};
 
     constructor(private http: Http) {
-
+        if (sessionStorage) {
+            for (var i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                if (key.includes('WIDGETS.map.tree.')) {
+                    const url = key.replace('WIDGETS.map.tree.', '').split('.').join('/') + '.svg';
+                    const tree = JSON.parse(sessionStorage.getItem(key));
+                    if (tree && tree.expiry && moment().isBefore(moment(tree.expiry))) {
+                        this.map_trees[url] = tree;
+                    }
+                }
+            }
+        }
     }
 
     public loadMap(url: string) {
@@ -43,11 +56,17 @@ export class MapService {
     }
 
     public getMapTree(url: string) {
-        return this.map_trees[url];
+        return this.map_trees[url] ? this.map_trees[url].tree : null;
     }
 
     public setMapTree(url: string, tree: any) {
-        this.map_trees[url] = tree;
+        this.map_trees[url] = {
+            expiry: moment().add(1, 'days').valueOf(),
+            tree
+        };
+        if (sessionStorage) {
+            sessionStorage.setItem(`WIDGETS.maps.tree.${url.split('.')[0].split('/').join('.')}`, JSON.stringify(this.map_trees[url]));
+        }
     }
 
     public clear() {

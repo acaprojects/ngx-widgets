@@ -224,12 +224,7 @@ export class InteractiveMapComponent {
             };
             this.state.scale = this.ratio.container.height / this.ratio.map.height;
             setTimeout(() => {
-                let tree = this.service.getMapTree(this.src);
-                if (!tree) {
-                    tree = this.createElementTree(this.state.map_el, this.state.map_box);
-                    this.service.setMapTree(this.src, tree);
-                }
-                this.tree = tree;
+                this.initElementTree();
                 this.loadPointsOfInterest();
             }, 100);
             this.focusEvent();
@@ -248,6 +243,20 @@ export class InteractiveMapComponent {
         this._cdr.markForCheck();
     }
 
+    private initElementTree() {
+        const map = this.state.map_el.getBoundingClientRect();
+        if (map.width === 0) {
+            return setTimeout(() => this.initElementTree(), 200);
+        }
+        let tree = this.service.getMapTree(this.src);
+        if (!tree) {
+            tree = this.createElementTree(this.state.map_el, map);
+            this.service.setMapTree(this.src, tree);
+            console.log('Tree:', tree);
+        }
+        this.tree = tree;
+    }
+
     private createElementTree(el: Element, container: ClientRect) {
         const tree: any = {};
         if (el) {
@@ -255,15 +264,17 @@ export class InteractiveMapComponent {
             tree.children = [];
             tree.position = {};
             if (el.getBoundingClientRect instanceof Function && el.id){
+                const scale = 10000;
+                const ratio = container.height / container.width;
                 const rect = el.getBoundingClientRect();
                 const position: any = {
-                    top: +(((rect.top - container.top) / container.height).toFixed(5)),
-                    left: +(((rect.left - container.left) / container.width).toFixed(5)),
+                    top: Math.floor(((rect.top - container.top) / container.height) * (scale * ratio)),
+                    left: Math.floor(((rect.left - container.left) / container.width) * scale)
                 }
-                position.width = +((rect.width / container.width).toFixed(5));
-                position.height = +((rect.height / container.height).toFixed(5));
-                position.right = +((position.left + position.width).toFixed(5));
-                position.bottom = +((position.top + position.height).toFixed(5));
+                position.width = Math.floor((rect.width / container.width) * scale);
+                position.height = Math.floor((rect.height / container.height) * (scale * ratio));
+                position.right = position.left + position.width;
+                position.bottom = position.top + position.height;
                 tree.position = position;
             }
             if (el.hasChildNodes()) {
@@ -278,9 +289,18 @@ export class InteractiveMapComponent {
 
     private getMapPosition(pos: { x: number, y: number }) {
         const position = { x: 0, y: 0 };
-        const rect = this.state.map_el.getBoundingClientRect();
-        position.x = (pos.x - rect.left) / rect.width;
-        position.y = (pos.y - rect.top) / rect.height;
+        let rect = this.state.map_el.getBoundingClientRect();
+        if (rect.width === 0) {
+            for (const el of this.img.nativeElement.children) {
+                if (el.nodeName.toLowerCase() === 'svg') {
+                    this.state.map_el = el;
+                    break;
+                }
+            }
+            rect = this.state.map_el.getBoundingClientRect();
+        }
+        position.x = Math.floor(((pos.x - rect.left) / rect.width) * 10000);
+        position.y = Math.floor(((pos.y - rect.top) / rect.height) * (10000 * (rect.height / rect.width)));
         return position;
     }
 
