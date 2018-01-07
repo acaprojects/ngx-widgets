@@ -142,6 +142,7 @@ export class InteractiveMapComponent {
             this.zoomChange.emit(this.zoom);
             this.centerChange.emit(this.zoom);
         }
+        this._cdr.markForCheck();
     }
 
     public clearHandlers() {
@@ -192,6 +193,7 @@ export class InteractiveMapComponent {
             e.elements = this.getTapIDs(pos);
         }
         this.event.emit({ type: 'User', event: e });
+        this._cdr.markForCheck();
     }
 
     public overlayEvent(e: any) {
@@ -390,12 +392,12 @@ export class InteractiveMapComponent {
                     this.interest_points.push(item);
                 }
             }
+            this._cdr.markForCheck();
         } else {
             setTimeout(() => {
                 this.loadPointsOfInterest(++tries);
             }, 200);
         }
-        this._cdr.markForCheck();
     }
 
     private updateStyles() {
@@ -426,5 +428,6 @@ export class InteractiveMapComponent {
             style.innerHTML = this.state.styles;
             head.appendChild(style);
         }
+        this._cdr.markForCheck();
     }
 }
