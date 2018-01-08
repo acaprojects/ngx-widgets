@@ -24,10 +24,7 @@ export class MapOverlayComponent extends DynamicBaseComponent {
     public resize(tries: number = 0) {
         if (tries > 10) { return; }
         if (!this.model.map_state) {
-            setTimeout(() => {
-                this.resize(++tries);
-            }, 50);
-            return;
+            return setTimeout(() => this.resize(++tries), 50);
         }
         setTimeout(() => {
             const el = this.model.el;
@@ -48,6 +45,7 @@ export class MapOverlayComponent extends DynamicBaseComponent {
                     left: ((box.left - map_box.left) / map_box.width) * 100,
                 };
             }
+            this._cdr.markForCheck();
         }, 20);
     }
 

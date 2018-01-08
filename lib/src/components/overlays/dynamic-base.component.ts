@@ -13,19 +13,19 @@ import { WIDGETS } from '../../settings';
 export class DynamicBaseComponent {
     protected static instance_stack: any = {};
 
-    @Input() public id = '';
+    @Input() public id: string = '';
     @Input() public model: any = {};
     @Input() public cmp_ref: any = null;
     @Input() public parent: any = null;
-    @Input() public rendered = false;
+    @Input() public rendered: boolean = false;
     @Output() public events: any = new EventEmitter();
     public box: any = null;
 
     protected static internal_state: any = {};
     protected sub: any = null;
-    protected uid = '';
+    protected uid: string = '';
     protected state: any = {};
-    protected stack_id = '';
+    protected stack_id: string = '';
     protected type = 'Dynamic';
 
     @ViewChild('body') protected body: ElementRef;
@@ -51,6 +51,7 @@ export class DynamicBaseComponent {
         setTimeout(() => {
             this.init();
             this.model.initialised = true;
+            this._cdr.markForCheck();
         }, 300);
     }
 
@@ -66,7 +67,7 @@ export class DynamicBaseComponent {
     }
 
     public listenState(tries: number = 0) {
-        if (tries > 10) { return; }
+        if (tries > 10) { return; };
         if (DynamicBaseComponent.internal_state[this.type]) {
             this.sub = DynamicBaseComponent.internal_state[this.type]
                 .subscribe((value: any) => {
@@ -163,7 +164,7 @@ export class DynamicBaseComponent {
                 data: this.model.data,
                 update: (form: any) => { this.set({ data: form }); },
                 close: () => {
-                    console.log('Close:', this.uid, ',', `${this.id}|${this.model.cmp.name}`);
+                    console.log('Close:', this.uid, ',', `${this.id}|${this.model.cmp.name}`)
                     this.parent.remove(this.uid || `${this.id}|${this.model.cmp.name}`);
                 },
             };
@@ -238,15 +239,11 @@ export class DynamicBaseComponent {
      */
     private render(tries: number = 0) {
         if (tries > 10) {
-            WIDGETS.error('DYN_BASE', 'No component/template set to render ', [this.id, this.model.cmp]);
-            return;
+            return WIDGETS.error('DYN_BASE', 'No component/template set to render ', [this.id, this.model.cmp]);
         }
         this.rendered = false;
         if (!this._cfr || !this._content) {
-            setTimeout(() => {
-                this.render();
-            }, 200);
-            return;
+            return setTimeout(() => this.render(++tries), 200);
         }
         if (this.model.cmp) {
             setTimeout(() => {
@@ -284,9 +281,7 @@ export class DynamicBaseComponent {
                 }
             }, 10);
         } else if (!this.model.template) {
-            setTimeout(() => {
-                this.render(++tries);
-            }, 200);
+            setTimeout(() => this.render(++tries), 200);
         }
     }
 }

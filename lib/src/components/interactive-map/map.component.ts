@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Ou
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapService } from '../../services/map.service';
 import { Animate } from '../../services/animate.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 export interface IPointOfInterest {
     id?: string;        // CSS Selector ID of element with map
@@ -12,7 +13,7 @@ export interface IPointOfInterest {
         y: number       // Y position with the map
     };
     cmp: Type<any> | string; // Component to render inside container at the given location
-    data: any;                // Data to be bound to the model of the given component
+    data: any                // Data to be bound to the model of the given component
 }
 
 export interface IFocusItem {
@@ -38,17 +39,17 @@ const POS_OFFSET = .5;
     selector: 'map',
     templateUrl: './map.template.html',
     styleUrls: ['./map.styles.scss'],
-    // changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InteractiveMapComponent {
-    @Input() public id = '';
-    @Input() public src = ''; // File location of the map SVG.
+    @Input() public id: string = '';
+    @Input() public src: string = ''; // File location of the map SVG.
     @Input() public styles: any = {}; // Map of CSS Selector IDs to their respective styles
     @Input() public poi: IPointOfInterest[] | any[] = [];
-    @Input() public zoom = 0; // Zoom Value of the map
+    @Input() public zoom: number = 0; // Zoom Value of the map
     @Input() public reset: any; // Resets center and zoom on value change
     @Input() public focus: IFocusItem; // Element with map to focus on
-    @Input() public units = 10000; // Width of the map, coordinates are relative to this
+    @Input() public units: number = 10000; // Width of the map, coordinates are relative to this
     @Input() public center: { x: number, y: number } = { x: .5, y: .5 }; // Origin of the map display
     @Input() public handlers: IMapHandler[] | any[] = [];
     @Output() public zoomChange: any = new EventEmitter();
@@ -70,7 +71,7 @@ export class InteractiveMapComponent {
     @ViewChild('map') private area: ElementRef;
     @ViewChild('img') private img: ElementRef;
 
-    constructor(private service: MapService, private renderer: Renderer2, private sanitizer: DomSanitizer, private animate: Animate) {
+    constructor(private service: MapService, private _cdr: ChangeDetectorRef, private renderer: Renderer2, private sanitizer: DomSanitizer, private animate: Animate) {
         this.id = `M${Math.floor(Math.random() * 89999999 + 10000000).toString()}`;
         this.animations.render = animate.animation(() => {
             this.zoom = 0;
@@ -80,7 +81,7 @@ export class InteractiveMapComponent {
             this.checkBounds();
         }, () => {
             this.update();
-        });
+        })
     }
 
     public ngOnInit() {
@@ -109,8 +110,8 @@ export class InteractiveMapComponent {
         if (changes.zoom || changes.center) {
             this.animate.animation(() => {
                 if (this.focus && this.focus.lock) {
-                    this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
-                    this.center = changes.center ? changes.changes.previousValue : this.center;
+                        this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
+                        this.center = changes.center ? changes.changes.previousValue : this.center;
                 }
             }, () => {
                 this.update();
@@ -122,8 +123,8 @@ export class InteractiveMapComponent {
 
         if (changes.focus && this.focus) {
             setTimeout(() => {
-                if (this.focus.lock && !this.focus.zoom) {
-                    this.focus.zoom = this.zoom;
+                if (this.focus && this.focus.lock && !this.focus.zoom) {
+                        this.focus.zoom = this.zoom;
                 }
                 this.focusEvent();
             }, 20);
@@ -141,11 +142,12 @@ export class InteractiveMapComponent {
             this.zoomChange.emit(this.zoom);
             this.centerChange.emit(this.zoom);
         }
+        this._cdr.markForCheck();
     }
 
     public clearHandlers() {
         if (this.state.old_handlers) {
-            for (const handler of this.state.old_handlers) {
+            for(const handler of this.state.old_handlers) {
                 if (handler.unhandle) { handler.unhandle(); }
             }
         }
@@ -155,7 +157,7 @@ export class InteractiveMapComponent {
         if (this.handlers) {
             for (const handler of this.handlers) {
                 if (handler.id) {
-                    const clean_id = handler.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, '\\$&');
+                    const clean_id = handler.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
                     const el = this.area.nativeElement.querySelector(`#${clean_id}`);
                     if (el) {
                         handler.unhandle = this.renderer.listen(el, handler.event || 'click', () => {
@@ -191,6 +193,7 @@ export class InteractiveMapComponent {
             e.elements = this.getTapIDs(pos);
         }
         this.event.emit({ type: 'User', event: e });
+        this._cdr.markForCheck();
     }
 
     public overlayEvent(e: any) {
@@ -223,12 +226,7 @@ export class InteractiveMapComponent {
             };
             this.state.scale = this.ratio.container.height / this.ratio.map.height;
             setTimeout(() => {
-                let tree = this.service.getMapTree(this.src);
-                if (!tree) {
-                    tree = this.createElementTree(this.state.map_el, this.state.map_box);
-                    this.service.setMapTree(this.src, tree);
-                }
-                this.tree = tree;
+                this.initElementTree();
                 this.loadPointsOfInterest();
             }, 100);
             this.focusEvent();
@@ -244,6 +242,21 @@ export class InteractiveMapComponent {
                 this.timers.update = null;
             }, 200);
         }
+        this._cdr.markForCheck();
+    }
+
+    private initElementTree() {
+        const map = this.state.map_el.getBoundingClientRect();
+        if (map.width === 0) {
+            return setTimeout(() => this.initElementTree(), 200);
+        }
+        let tree = this.service.getMapTree(this.src);
+        if (!tree) {
+            tree = this.createElementTree(this.state.map_el, map);
+            this.service.setMapTree(this.src, tree);
+            console.log('Tree:', tree);
+        }
+        this.tree = tree;
     }
 
     private createElementTree(el: Element, container: ClientRect) {
@@ -252,20 +265,22 @@ export class InteractiveMapComponent {
             tree.id = el.id;
             tree.children = [];
             tree.position = {};
-            if (el.getBoundingClientRect instanceof Function && el.id) {
+            if (el.getBoundingClientRect instanceof Function && el.id){
+                const scale = 10000;
+                const ratio = container.height / container.width;
                 const rect = el.getBoundingClientRect();
                 const position: any = {
-                    top: +(((rect.top - container.top) / container.height).toFixed(5)),
-                    left: +(((rect.left - container.left) / container.width).toFixed(5)),
-                };
-                position.width = +((rect.width / container.width).toFixed(5));
-                position.height = +((rect.height / container.height).toFixed(5));
-                position.right = +((position.left + position.width).toFixed(5));
-                position.bottom = +((position.top + position.height).toFixed(5));
+                    top: Math.floor(((rect.top - container.top) / container.height) * (scale * ratio)),
+                    left: Math.floor(((rect.left - container.left) / container.width) * scale)
+                }
+                position.width = Math.floor((rect.width / container.width) * scale);
+                position.height = Math.floor((rect.height / container.height) * (scale * ratio));
+                position.right = position.left + position.width;
+                position.bottom = position.top + position.height;
                 tree.position = position;
             }
             if (el.hasChildNodes()) {
-                let children = el.childNodes;
+                var children = el.childNodes;
                 for (const element of (children as any)) {
                     tree.children.push(this.createElementTree(element, container));
                 }
@@ -276,9 +291,18 @@ export class InteractiveMapComponent {
 
     private getMapPosition(pos: { x: number, y: number }) {
         const position = { x: 0, y: 0 };
-        const rect = this.state.map_el.getBoundingClientRect();
-        position.x = (pos.x - rect.left) / rect.width;
-        position.y = (pos.y - rect.top) / rect.height;
+        let rect = this.state.map_el.getBoundingClientRect();
+        if (rect.width === 0) {
+            for (const el of this.img.nativeElement.children) {
+                if (el.nodeName.toLowerCase() === 'svg') {
+                    this.state.map_el = el;
+                    break;
+                }
+            }
+            rect = this.state.map_el.getBoundingClientRect();
+        }
+        position.x = Math.floor(((pos.x - rect.left) / rect.width) * 10000);
+        position.y = Math.floor(((pos.y - rect.top) / rect.height) * (10000 * (rect.height / rect.width)));
         return position;
     }
 
@@ -329,7 +353,7 @@ export class InteractiveMapComponent {
                 this.zoom = this.focus.zoom || 100;
             } else if (this.focus.id) {
                 if (this.area && this.state.map_el) {
-                    const clean_id = this.focus.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, '\\$&');
+                    const clean_id = this.focus.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
                     const el = this.area.nativeElement.querySelector(`#${clean_id}`);
                     if (el) {
                         const box = el.getBoundingClientRect();
@@ -363,11 +387,12 @@ export class InteractiveMapComponent {
                 for (const item of this.poi) {
                     if (!item.map_id) {
                         item.map_id = item.id;
-                        item.id = `${item.cmp ? item.cmp.className() || 'map-cmp-' : 'map-cmp-'}${item.id}`;
+                        item.id = `${item.cmp && item.cmp.className ? item.cmp.className() || 'map-cmp-' : 'map-cmp-'}${item.id}`;
                     }
                     this.interest_points.push(item);
                 }
             }
+            this._cdr.markForCheck();
         } else {
             setTimeout(() => {
                 this.loadPointsOfInterest(++tries);
@@ -379,8 +404,8 @@ export class InteractiveMapComponent {
         this.state.styles = '';
         for (const id in this.styles) {
             if (this.styles.hasOwnProperty(id)) {
-                const clean_id = id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, '\\$&');
-                const name = `.map[widget].${this.id} #${clean_id}`;
+                const clean_id = id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
+                const name = `.map[widget].${this.id} ${id && (/^[\#\.\[]{1}.*/g).test(id) ? id : '#' + clean_id}`;
                 let properties = '';
                 for (const prop in this.styles[id]) {
                     if (this.styles[id].hasOwnProperty(prop)) {
@@ -403,5 +428,6 @@ export class InteractiveMapComponent {
             style.innerHTML = this.state.styles;
             head.appendChild(style);
         }
+        this._cdr.markForCheck();
     }
 }
