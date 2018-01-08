@@ -4,7 +4,6 @@ import { ComponentFactoryResolver, Type, ViewContainerRef } from '@angular/core'
 
 import { MapOverlayComponent } from '../map-overlay';
 import { OverlayContainerComponent } from '../../overlays';
-import { SimpleChange } from '@angular/core/src/change_detection/change_detection_util';
 import { WIDGETS } from '../../../settings';
 
 @Component({

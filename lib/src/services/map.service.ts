@@ -2,7 +2,8 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import * as moment from 'moment';
+import * as moment_api from 'moment';
+const moment = moment_api;
 
 const MAP_EXPIRY = 7 * 24 * 60 * 60 * 1000;
 
