@@ -10,6 +10,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 
@@ -147,7 +148,7 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         NotificationComponent
     ],
     imports: [
-        CommonModule,
+        BrowserModule,
         HttpClientModule,
         FormsModule
     ],

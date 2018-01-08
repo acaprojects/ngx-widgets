@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 import * as moment_api from 'moment';
 const moment = moment_api;
@@ -12,7 +12,7 @@ export class MapService {
     private maps: any = {};
     private map_trees: any = {};
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         if (sessionStorage) {
             for (var i = 0; i < sessionStorage.length; i++) {
                 const key = sessionStorage.key(i);
@@ -35,8 +35,8 @@ export class MapService {
             } else {
                 let map: any = null;
                 this.map_trees[url] = null;
-                this.http.get(url).subscribe((data) => {
-                    map = data.text();
+                this.http.get(url, { responseType: 'text' }).subscribe((data) => {
+                    map = data;
                         // Prevent non SVG files from being used
                     if (!map.match(/<\/svg>/g)) { map = ''; }
                         // Prevent Adobe generic style names from being used
