@@ -19,7 +19,7 @@
                 [(center)]="center" (centerChange)="update(true)"
                 (event)="userEvent($event)">
             </div-->
-            <map-overlay-container
+            <map-overlay-container #overlay
                 [model]="interest_points"
                 [el]="map"
                 [state]="{ center: center, scale: (100 + zoom) / 100, ratio: ratio.map }"

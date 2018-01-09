@@ -8,7 +8,8 @@ import { ChangeDetectorRef, Component, Input, Output, OnInit, HostListener } fro
 })
 export class OverlayContentComponent implements OnInit {
     @Input() public id: string = '';    // Overlay ID
-    @Input() public name: string = '';    // Overlay ID
+    @Input() public service: any;       // Overlay Data Service
+    @Input() public name: string = '';  // Overlay Name
     @Input() public model: any = {};    // Overlay data
     @Input() public fn: any = {};       // Overlay interaction functions
 

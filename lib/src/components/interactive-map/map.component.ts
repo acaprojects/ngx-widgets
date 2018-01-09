@@ -4,6 +4,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MapService } from '../../services/map.service';
 import { Animate } from '../../services/animate.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { MapOverlayContainerComponent } from './map-overlay-container/map-overlay-container.component';
+import { OverlayService } from '../../services/overlay.service';
 
 export interface IPointOfInterest {
     id?: string;        // CSS Selector ID of element with map
@@ -70,8 +72,15 @@ export class InteractiveMapComponent {
     @ViewChild('container') private container: ElementRef;
     @ViewChild('map') private area: ElementRef;
     @ViewChild('img') private img: ElementRef;
+    @ViewChild('overlay') private overlay: MapOverlayContainerComponent;
 
-    constructor(private service: MapService, private _cdr: ChangeDetectorRef, private renderer: Renderer2, private sanitizer: DomSanitizer, private animate: Animate) {
+    constructor(private service: MapService,
+                private _cdr: ChangeDetectorRef,
+                private renderer: Renderer2,
+                private sanitizer: DomSanitizer,
+                private animate: Animate,
+                private o_service: OverlayService) {
+
         this.id = `M${Math.floor(Math.random() * 89999999 + 10000000).toString()}`;
         this.animations.render = animate.animation(() => {
             this.zoom = 0;
@@ -82,10 +91,6 @@ export class InteractiveMapComponent {
         }, () => {
             this.update();
         })
-    }
-
-    public ngOnInit() {
-
     }
 
     public ngOnChanges(changes: any) {
@@ -128,6 +133,19 @@ export class InteractiveMapComponent {
                 }
                 this.focusEvent();
             }, 20);
+        }
+    }
+
+    public ngAfterViewInit() {
+        this.initOverlay();
+    }
+
+    public initOverlay(tries: number = 0) {
+        if (tries > 20) { return; }
+        if (this.overlay) {
+            this.o_service.registerContainer(this.overlay.id, this.overlay);
+        } else {
+            setTimeout(() => this.initOverlay(++tries), 200);
         }
     }
 

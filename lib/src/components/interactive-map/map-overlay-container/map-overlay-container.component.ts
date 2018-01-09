@@ -1,17 +1,14 @@
 
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ComponentFactoryResolver, Type, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, ComponentFactoryResolver, ElementRef, Type, ViewContainerRef } from '@angular/core';
 
-import { MapOverlayComponent } from '../map-overlay';
-import { OverlayContainerComponent } from '../../overlays';
+import { MapOverlayComponent } from '../map-overlay/map-overlay.component';
+import { OverlayContainerComponent } from '../../overlays/overlay-container/overlay-container.component';
 import { WIDGETS } from '../../../settings';
 
 @Component({
     selector: 'map-overlay-container',
-    template: `
-        <div #el class="overlay-container">
-            <ng-container #content></ng-container>
-        </div>`,
+    template: `<div #el class="overlay-container"><ng-container #content></ng-container></div>`,
     styleUrls: ['./map-overlay-container.styles.scss'],
 })
 export class MapOverlayContainerComponent extends OverlayContainerComponent {
@@ -20,11 +17,20 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
     @Input() public state: any = null;
     @Input() public resize: any = null;
 
+    @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
+    @ViewChild('el') public root: ElementRef;
+
     private previous: any[] = [];
+
+    constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef) {
+        super(_cfr, _cdr);
+    }
 
     public ngOnInit() {
         super.ngOnInit();
-        this.service.registerContainer(this.id, this);
+        if (this.service) {
+            this.service.registerContainer(this.id, this);
+        }
     }
 
     public ngOnDestroy() {
@@ -76,6 +82,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                 }
             }
         }
+        console.log('Update map overlay:', this.model);
         // Add new components
         for (const item of this.model) {
             if (item.id && !this.exists(`${item.id}`)) {

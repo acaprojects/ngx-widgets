@@ -12,6 +12,7 @@ export class OverlayService {
     private cmp_reg: any = {};
     private cmp_list: any = {};
     private containers: any = {};
+    private container_services: any = {};
     private default_vc: ViewContainerRef = null;
     private _view: ViewContainerRef = null;
 
@@ -250,6 +251,18 @@ export class OverlayService {
     public registerContainer(id: string, container: any) {
         this.clearContainer(id);
         this.containers[id] = container;
+        this.containers[id].service = this;
+    }
+
+    public registerService(service: any, id: string = 'global') {
+        this.container_services[id] = service;
+    }
+
+    public getService(id: string = 'global') {
+        if (this.container_services[id]) {
+            return this.container_services[id]
+        }
+        return null;
     }
 
     public clearContainer(id?: string) {
@@ -291,6 +304,7 @@ export class OverlayService {
             const cmp = this._view.createComponent(factory);
             this.containers.root = cmp.instance;
             this.containers.root.ng = cmp;
+            this.containers.root.service = this;
             return;
         } else if (!this._view && this.default_vc) {
             this._view = this.default_vc;
