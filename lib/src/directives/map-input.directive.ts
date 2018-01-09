@@ -79,17 +79,14 @@ export class MapInputDirective {
 
     @HostListener('pinchstart', ['$event']) private scaleStart(e: any) {
         this.delta.scale = e.scale;
-        console.log('Pinch Start:', e.scale.toFixed(5), this.scale);
     }
 
     @HostListener('pinchin', ['$event']) private pinchInEvent(e: any) {
         this.updateScale(e);
-        console.log('Pinch In:', e.scale.toFixed(5), this.scale);
     }
 
     @HostListener('pinchout', ['$event']) private pinchOutEvent(e: any) {
         this.updateScale(e);
-        console.log('Pinch Out:', e.scale.toFixed(5), this.scale);
     }
 
     private updateScale(e: any) {
@@ -103,7 +100,6 @@ export class MapInputDirective {
 
     @HostListener('pinchend', ['$event']) private scaleEnd(e: any) {
         this.delta.scale = 0;
-        console.log('Pinch End:', e.scale.toFixed(5), this.scale);
     }
 
     @HostListener('wheel', ['$event']) private wheelScale(e: any) {

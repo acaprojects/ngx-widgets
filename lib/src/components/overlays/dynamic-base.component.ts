@@ -164,7 +164,6 @@ export class DynamicBaseComponent {
                 data: this.model.data,
                 update: (form: any) => { this.set({ data: form }); },
                 close: () => {
-                    console.log('Close:', this.uid, ',', `${this.id}|${this.model.cmp.name}`)
                     this.parent.remove(this.uid || `${this.id}|${this.model.cmp.name}`);
                 },
             };

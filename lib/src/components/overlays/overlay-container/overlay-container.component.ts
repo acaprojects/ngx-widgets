@@ -32,12 +32,9 @@ export class OverlayContainerComponent {
     }
 
     public add(id: string, cmp: Type<any>) {
-        console.log(`Adding ${id} of type:`, cmp.name);
         if (!this.cmp_refs[id] || !(this.cmp_refs[id].instance instanceof cmp)) {
-            console.log(`Rendering component for ${id}`);
             return this.render(id, cmp);
         } else {
-            console.log(`Item with ID and Component exists`);
             return new Promise((resolve, reject) => {
                 reject('Item with ID and Component Exist')
             });
@@ -73,11 +70,9 @@ export class OverlayContainerComponent {
     protected render(id: string, type: Type<any>, tries: number = 0) {
         return new Promise((resolve, reject) => {
             if (tries > 10) {
-                console.log(!this.content ? 'No view to render to' : `No component to render`);
                 return reject(!this.content ? 'No view to render to' : `No component to render`);
             }
             setTimeout(() => {
-                console.log(`Rendering ${(type as any).className || type.name} to container ${this.id}`);
                 if (this.content && type) {
                     const factory = this._cfr.resolveComponentFactory(type);
                     if (this.cmp_refs[id]) {
@@ -90,10 +85,8 @@ export class OverlayContainerComponent {
                     inst.service = this.service.getService();
                     inst.uid = `${id}`;
                     setTimeout(() => resolve(inst), 50);
-                    console.log(`Rendered ${(type as any).className || type} to container ${this.id}`);
                     this._cdr.markForCheck();
                 } else {
-                    console.log(`No content view or type for rendering.`, this.content);
                     setTimeout(() => {
                         this.render(id, type, ++tries).then((inst) => resolve(inst), (err) => reject(err));
                     }, 200);

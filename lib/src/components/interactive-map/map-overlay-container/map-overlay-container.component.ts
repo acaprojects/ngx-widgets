@@ -82,7 +82,6 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                 }
             }
         }
-        console.log('Update map overlay:', this.model);
         // Add new components
         for (const item of this.model) {
             if (item.id && !this.exists(`${item.id}`)) {

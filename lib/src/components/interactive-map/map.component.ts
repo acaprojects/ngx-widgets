@@ -272,7 +272,6 @@ export class InteractiveMapComponent {
         if (!tree) {
             tree = this.createElementTree(this.state.map_el, map);
             this.service.setMapTree(this.src, tree);
-            console.log('Tree:', tree);
         }
         this.tree = tree;
     }
