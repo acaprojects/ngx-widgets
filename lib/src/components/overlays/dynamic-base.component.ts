@@ -17,6 +17,7 @@ export class DynamicBaseComponent {
     @Input() public model: any = {};
     @Input() public cmp_ref: any = null;
     @Input() public parent: any = null;
+    @Input() public service: any = null;
     @Input() public rendered: boolean = false;
     @Output() public events: any = new EventEmitter();
     public box: any = null;
@@ -257,6 +258,7 @@ export class DynamicBaseComponent {
                     const inst = this.cmp_ref.instance;
                     inst.set(this.model.data);
                     inst.parent = this;
+                    inst.service = this.service || this.parent.getService();
                     if (!inst.model) {
                         inst.model = {};
                     }

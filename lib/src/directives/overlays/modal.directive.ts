@@ -1,5 +1,5 @@
 
-import { Directive, ElementRef, EventEmitter, forwardRef, Inject, Input, Output, TemplateRef, Type } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, Output, TemplateRef, Type } from '@angular/core';
 
 import { OverlayService } from '../../services/overlay.service';
 

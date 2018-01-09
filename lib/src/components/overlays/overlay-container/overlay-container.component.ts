@@ -67,6 +67,10 @@ export class OverlayContainerComponent {
         }
     }
 
+    protected getService() {
+        return this.service ? this.service.getService() : {};
+    }
+
     protected render(id: string, type: Type<any>, tries: number = 0) {
         return new Promise((resolve, reject) => {
             if (tries > 10) {
