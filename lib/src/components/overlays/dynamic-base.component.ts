@@ -118,15 +118,23 @@ export class DynamicBaseComponent {
 
     public tap() {
         WIDGETS.log('DYN_BASE', `Tap called on component ${this.id}`);
-        this.model.tapped = true;
+        this.preventClose();
         setTimeout(() => {
-            this.model.tapped = false;
+            this.allowClose();
         }, 300);
+    }
+
+    public preventClose() {
+        this.model.preventClose = true;
+    }
+
+    public allowClose() {
+        this.model.preventClose = false;
     }
 
     public close(e?: any) {
         setTimeout(() => {
-            if (e && this.body && this.body.nativeElement && this.model.initialised) {
+            if (e && this.body && this.body.nativeElement && this.model.initialised && !this.model.preventClose) {
                 if (e.touches && e.touches.length > 0) {
                     e = e.touches[0];
                 }

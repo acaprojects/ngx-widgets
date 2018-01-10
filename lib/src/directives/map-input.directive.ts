@@ -28,9 +28,7 @@ export class MapInputDirective {
         angle: null,
     };
 
-    constructor(private el: ElementRef, private animate: Animate) {
-
-    }
+    constructor(private el: ElementRef, private animate: Animate) { }
 
     public ngOnInit() {
         this.init();
@@ -38,10 +36,7 @@ export class MapInputDirective {
 
     public init() {
         if (!this.el && !this.el.nativeElement) {
-            setTimeout(() => {
-                this.init();
-            }, 200);
-            return;
+            return setTimeout(() => this.init(), 200);
         }
         this.box = this.el.nativeElement.getBoundingClientRect();
         if (!this.animations.center) {
