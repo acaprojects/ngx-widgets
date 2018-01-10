@@ -16,7 +16,7 @@ export class MapService {
         if (sessionStorage) {
             for (var i = 0; i < sessionStorage.length; i++) {
                 const key = sessionStorage.key(i);
-                if (key.includes('WIDGETS.map.tree.')) {
+                if (key.indexOf('WIDGETS.map.tree.') >= 0) {
                     const url = key.replace('WIDGETS.map.tree.', '').split('.').join('/') + '.svg';
                     const tree = JSON.parse(sessionStorage.getItem(key));
                     if (tree && tree.expiry && moment().isBefore(moment(tree.expiry))) {
