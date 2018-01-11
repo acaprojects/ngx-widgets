@@ -209,9 +209,10 @@ export class InteractiveMapComponent {
         if (e.type === 'Tap') {
             const pos = this.getMapPosition(e.event.center || { x: e.event.clientX, y: e.event.clientY });
             e.elements = this.getTapIDs(pos);
+            e.map = this.id;
         }
         this.event.emit({ type: 'User', event: e });
-        this._cdr.markForCheck();
+        // this._cdr.markForCheck();
     }
 
     public overlayEvent(e: any) {
@@ -303,7 +304,7 @@ export class InteractiveMapComponent {
                 }
             }
         }
-        return tree;
+        return tree.id || tree.children.length > 0 ? tree : {};
     }
 
     private getMapPosition(pos: { x: number, y: number }) {
@@ -329,10 +330,12 @@ export class InteractiveMapComponent {
             el_list = this.tree ? this.tree.children : [];
         }
         for (const el of el_list) {
-            if (pos.x >= el.position.left && pos.x <= el.position.right && pos.y >= el.position.top && pos.y <= el.position.bottom) {
+            if (el && el.position && pos.x >= el.position.left && pos.x <= el.position.right && pos.y >= el.position.top && pos.y <= el.position.bottom) {
                 list.push(el.id);
             }
-            list = list.concat(this.getTapIDs(pos, el.children));
+            if (el.children && el.children.length > 0) {
+                list = list.concat(this.getTapIDs(pos, el.children));
+            }
         }
         return list;
     }

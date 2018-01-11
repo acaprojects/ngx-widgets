@@ -49,10 +49,30 @@ export class MapService {
                             expiry: now + MAP_EXPIRY,
                             data: map,
                         };
+                        // if (!this.map_trees[url] || moment().isAfter(moment(this.map_trees[url].expiry))) {
+                        //     this.loadMapTree(url);
+                        // }
                         resolve(map);
+                    } else {
+                        reject('Invalid SVG map');
                     }
                 });
             }
+        });
+    }
+
+    public loadMapTree(url: string) {
+        return new Promise((resolve, reject) => {
+            let tree = null;
+            this.http.get(`${url}.maptree.json`).subscribe(
+                (data) => tree = data,
+                (err) => reject(err),
+                () => {
+                    if (tree) {
+                        this.setMapTree(url, tree, false);
+                    }
+                }
+            )
         });
     }
 
@@ -60,11 +80,12 @@ export class MapService {
         return this.map_trees[url] ? this.map_trees[url].tree : null;
     }
 
-    public setMapTree(url: string, tree: any) {
-        this.map_trees[url] = {
-            expiry: moment().add(1, 'days').valueOf(),
-            tree
-        };
+    public setMapTree(url: string, tree: any, expire: boolean = true) {
+        let expiry = moment().add(1, 'days').valueOf();
+        if (!expire) {
+            expiry = Math.floor(expiry + 365 * 24 * 60 * 60 * 1000);
+        }
+        this.map_trees[url] = { expiry, tree };
         if (sessionStorage) {
             sessionStorage.setItem(`WIDGETS.maps.tree.${url.split('.')[0].split('/').join('.')}`, JSON.stringify(this.map_trees[url]));
         }
