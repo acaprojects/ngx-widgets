@@ -209,10 +209,32 @@ export class InteractiveMapComponent {
         if (e.type === 'Tap') {
             const pos = this.getMapPosition(e.event.center || { x: e.event.clientX, y: e.event.clientY });
             e.elements = this.getTapIDs(pos);
+            if (!!(window as any).MSInputMethodContext && !!(document as any).documentMode) {
+                const elems = this.getElementIDs(e.event.target);
+                if (elems && elems.length > 0) {
+                    e.elements = e.elements.concat(elems);
+                }
+            }
             e.map = this.id;
         }
         this.event.emit({ type: 'User', event: e });
         // this._cdr.markForCheck();
+    }
+
+    public getElementIDs(el: any): string[] {
+        let list: string[] = [];
+        if (el) {
+            if (el.id) {
+                list.push(el.id);
+            }
+            if (el.parent) {
+                const ids = this.getElementIDs(el.parent);
+                if (ids && ids.length > 0) {
+                    list = list.concat(ids);
+                }
+            }
+        }
+        return list;
     }
 
     public overlayEvent(e: any) {

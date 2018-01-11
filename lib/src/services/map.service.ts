@@ -41,6 +41,7 @@ export class MapService {
                     if (!map.match(/<\/svg>/g)) { map = ''; }
                         // Prevent Adobe generic style names from being used
                     map = map.replace(/cls-/g, `map-${Object.keys(this.maps).length}-`);
+                    map = map.replace(/\.map/g, `svg .map`);
                 },
                 (err) => reject(err),
                 () => {
