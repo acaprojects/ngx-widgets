@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 
 import { OverlayContentComponent } from '../../../overlays/contents';
 
@@ -13,6 +13,11 @@ export class DropdownListComponent extends OverlayContentComponent {
     public filtered_list: any[] = [];
 
     @ViewChild('input') private input: ElementRef;
+
+
+    constructor(protected _cdr: ChangeDetectorRef) {
+        super(_cdr);
+    }
 
     public set(data: any) {
         super.set(data);

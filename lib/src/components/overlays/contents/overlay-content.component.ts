@@ -1,12 +1,12 @@
 
-import { ChangeDetectorRef, Component, Input, Output, OnInit, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, Output, HostListener } from '@angular/core';
 
 @Component({
     selector: 'overlay-content',
     template: '',
     styles: [''],
 })
-export class OverlayContentComponent implements OnInit {
+export class OverlayContentComponent {
     @Input() public id: string = '';    // Overlay ID
     @Input() public service: any;       // Overlay Data Service
     @Input() public name: string = '';  // Overlay Name
@@ -22,12 +22,6 @@ export class OverlayContentComponent implements OnInit {
 
     constructor(protected _cdr: ChangeDetectorRef) {
         this.id = `overlay-${Math.floor(Math.random() * 8999999 + 1000000)}`;
-    }
-
-    public ngOnInit() {
-        setTimeout(() => {
-            this._cdr.markForCheck();
-        }, 300);
     }
 
     public set(data: any) {
