@@ -207,7 +207,16 @@ export class InteractiveMapComponent {
 
     public userEvent(e: any) {
         if (e.type === 'Tap') {
-            const pos = this.getMapPosition(e.event.center || { x: e.event.clientX, y: e.event.clientY });
+            let center = e.event.center;
+            if (!center) {
+                if (e.event.changedTouches) {
+                    const touch = e.event.changedTouches[0];
+                    center = { x: touch.clientX, y: touch.clientY };
+                } else {
+                    center = { x: e.event.clientX, y: e.event.clientY };
+                }
+            }
+            const pos = this.getMapPosition(center);
             e.elements = this.getTapIDs(pos);
             if (!!(window as any).MSInputMethodContext && !!(document as any).documentMode) {
                 const elems = this.getElementIDs(e.event.target);

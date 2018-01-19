@@ -103,7 +103,11 @@ export class MapInputDirective {
         this.animations.scale.animate();
     }
 
-    @HostListener('click', ['$event']) private tap(e: any) {
+    @HostListener('mouseup', ['$event']) private click(e: any) {
+        this.event.emit({ type: 'Tap', event: e });
+    }
+
+    @HostListener('touchend', ['$event']) private touch(e: any) {
         this.event.emit({ type: 'Tap', event: e });
     }
 
