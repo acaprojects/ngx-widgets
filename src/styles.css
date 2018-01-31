@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+
+.center, [center] {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

@@ -14,6 +14,27 @@
     background-color: $color1;
     border-bottom: 1px solid rgba(#000, .12);
     box-shadow: 0 0 5px 0 rgba(#000, .35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.title {
+    font-size: 1.5em;
+    flex: 1;
+    font-family: $heading-font;
+    text-align: center;
+}
+
+.icon {
+    position: relative;
+    font-size: 1.5em;
+    width: 1.2em;
+    padding: .5em;
+    i {
+        cursor: pointer;
+    }
 }
 
 .contents {
