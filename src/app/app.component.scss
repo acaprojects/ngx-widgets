@@ -1,0 +1,32 @@
+
+
+@import 'shared.styles';
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100%;
+    height: auto;
+    background-color: #eee;
+    font-size: $desktop-font-size;
+    @include respond-to(mobile) {
+        font-size: $tablet-font-size;
+    }
+    @include respond-to(mobile) {
+        font-size: $mobile-font-size;
+    }
+}
+
+* {
+    font-family: $main-font;
+}
+
+code, code * {
+    font-family: Courier, monospace;
+}
+

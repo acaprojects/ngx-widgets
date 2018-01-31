@@ -17,7 +17,6 @@ import { OverlayService } from '../../../lib/src/public_api';
 
 import { SettingsService } from './settings.service';
 import { Utils } from '../shared/utility.class';
-import { SwUpdate } from '@angular/service-worker';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
@@ -31,7 +30,6 @@ export class AppService {
     private model: any = {};
 
     constructor(private _title: Title,
-        private version: SwUpdate,
         private router: Router,
         private location: Location,
         private route: ActivatedRoute,
@@ -73,15 +71,8 @@ export class AppService {
 
     public init() {
         if (!this.settings.setup) {
-            setTimeout(() => {
-                this.init();
-            }, 500);
-            return;
+            return setTimeout(() => this.init(), 500);
         }
-        this.version.available.subscribe(event => {
-            this.settings.log('SYSTEM', `Update available: current version is ${event.current} available version is ${event.available}`);
-            this.info('Newer version of the app is available', 'Refresh');
-        });
         this.model.title = this.settings.get('app.title') || 'Angular Application';
     }
 

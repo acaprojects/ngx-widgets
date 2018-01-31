@@ -36,11 +36,9 @@ gulp.task('clean', () => ((...globs: string[]) => del(globs))('dist/', 'compiled
 
 gulp.task('default', ['build']);
 
-gulp.task('prebuild', () => {
-    return 'Hurray!!!';
-});
+gulp.task('prebuild', () => 'Hurray!!!');
 
-gulp.task('postbuild', () => runSequence('version'));
+gulp.task('postbuild', (next) => runSequence('version', next));
 
 gulp.task('bump', () => {
     const argv = yargs.argv;

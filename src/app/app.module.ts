@@ -6,20 +6,25 @@ import { WidgetsModule } from '../../lib/src/widgets.module';
 
 import { AppComponent } from './app.component';
 import { APP_COMPONENTS } from './shell';
+import { SHARED_COMPONENTS } from './shared/components';
+import { SERVICES } from './services';
 
 import { ROUTES } from './app.routes';
 
 @NgModule({
     declarations: [
         AppComponent,
-        ...APP_COMPONENTS
+        ...APP_COMPONENTS,
+        ...SHARED_COMPONENTS
     ],
     imports: [
         BrowserModule,
         RouterModule.forRoot(ROUTES, { useHash: true }),
-        WidgetsModule
+        WidgetsModule.forRoot(),
     ],
-    providers: [],
+    providers: [
+        ...SERVICES
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

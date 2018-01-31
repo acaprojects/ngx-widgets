@@ -13,9 +13,9 @@ const argv = yargs.argv;
 
 Dashboard.show(argv.prod ? 'prod' : 'dev');
 
-gulp.task('build', () => runSequence('prebuild', 'ng:build', 'postbuild'));
+gulp.task('build', (next) => runSequence('prebuild', 'ng:build', 'postbuild', next));
 
-gulp.task('serve', () => runSequence('prebuild', 'ng:serve'));
+gulp.task('serve', (next) => runSequence('ng:serve', next));
 
 gulp.task('ng:build', (next) => {
     const prod = argv.prod !== undefined || argv.production !== undefined;
@@ -41,7 +41,7 @@ gulp.task('ng:serve', (next: any) => {
 });
 
 
-gulp.task('package', () => runSequence('build', 'install', 'package-app'));
+gulp.task('package', (next) => runSequence('build', 'install', 'package-app', next));
 
 gulp.task('install', () => {
     return gulp.src('./dist/package.json').pipe(install({ production: true }));

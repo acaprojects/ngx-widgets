@@ -1,0 +1,29 @@
+
+<div class="showcase">
+    <div class="divider">
+        <div class="heading">{{model.title}}</div>
+        <div class="preview">
+            <ng-content></ng-content>
+        </div>
+    </div>
+    <div class="divider popout">
+        <div #tablist class="tabs">
+            <div #tab class="tab" *ngFor="let cat of state.category_list" [class.active]="cat === state.category" (tap)="setCategory(cat)">
+                {{cat}}
+            </div>
+            <div class="bar" [style.left]="state.tab?.left + 'px'" [style.width]="state.tab?.width + 'px'">
+            </div>
+        </div>
+        <div class="content">
+            <div class="overview">
+                <div class="before">You can inject a <span class="lower">{{model.title}}</span> component using the below HTML</div>
+                <div class="inject">
+                    <pre><code class="html" [innerHTML]="model.inject | safe"></code></pre>
+                </div>
+                <div class="details">
+                    <pre>{{model.overview}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
