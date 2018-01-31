@@ -1,10 +1,19 @@
 
 import { Component, ElementRef, Input, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
+import * as hljs from 'highlight.js';
 
 @Component({
     selector: 'showcase',
     templateUrl: './showcase.template.html',
-    styleUrls: ['./showcase.styles.scss']
+    styleUrls: ['./showcase.styles.scss'],
+    animations: [
+        trigger('show', [
+            transition(':enter', [style({ opacity: 0 }), animate('300ms ease-in', style({ opacity: 1 }))]),
+            transition(':leave', [style({ opacity: 1 }), animate('300ms ease-out', style({ opacity: 0 }))])
+        ])
+    ]
 })
 export class ShowcaseComponent {
     @Input() public model: any = {};
@@ -14,9 +23,11 @@ export class ShowcaseComponent {
     @ViewChild('tablist') private tabs: ElementRef;
     @ViewChildren('tab') private tab_list: QueryList<ElementRef>;
 
+    @ViewChild('inject') private inject_block: ElementRef;
+
     public ngOnInit() {
         this.state.category_list = ['overview', 'bindings', 'playground'];
-        setTimeout(() => this.setCategory(this.state.category_list[0]));
+        setTimeout(() => this.setCategory(this.state.category_list[0]), 50);
     }
 
     public setCategory(value: string) {
@@ -30,6 +41,14 @@ export class ShowcaseComponent {
                 left: rect.left - root_rect.left,
                 width: rect.width,
             };
+        }
+        setTimeout(() => this.highlight(), 50);
+    }
+
+    public highlight() {
+        if (this.inject_block && this.inject_block.nativeElement) {
+            console.log('Highlight element');
+            hljs.highlightBlock(this.inject_block.nativeElement);
         }
     }
 }

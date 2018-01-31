@@ -15,10 +15,10 @@
             </div>
         </div>
         <div class="content">
-            <div class="overview">
+            <div class="overview" [@show] *ngIf="!state.category || state.category === 'overview'">
                 <div class="before">You can inject a <span class="lower">{{model.title}}</span> component using the below HTML</div>
                 <div class="inject">
-                    <pre><code class="html" [innerHTML]="model.inject | safe"></code></pre>
+                    <pre #inject class="html"><code [innerHTML]="model.inject | safe"></code></pre>
                 </div>
                 <div class="details">
                     <pre>{{model.overview}}</pre>
