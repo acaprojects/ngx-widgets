@@ -26,11 +26,15 @@ body {
     font-family: $main-font;
 }
 
-code, code * {
+code, code *, .mono {
     font-family: Courier, monospace;
 }
 
 .material-icons {
     font-size: 1em;
+}
+
+.caps {
+    text-transform: capitalize;
 }
 

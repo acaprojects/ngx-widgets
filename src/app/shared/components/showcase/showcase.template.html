@@ -1,4 +1,3 @@
-
 <div class="showcase">
     <div class="divider">
         <div class="heading">{{model.title}}</div>
@@ -16,12 +15,48 @@
         </div>
         <div class="content">
             <div class="overview" [@show] *ngIf="!state.category || state.category === 'overview'">
-                <div class="before">You can inject a <span class="lower">{{model.title}}</span> component using the below HTML</div>
+                <div class="before">You can inject a
+                    <span class="lower">{{model.title}}</span> component using the below HTML</div>
                 <div class="inject">
                     <pre #inject class="html"><code [innerHTML]="model.inject | safe"></code></pre>
                 </div>
                 <div class="details">
                     <pre>{{model.overview}}</pre>
+                </div>
+            </div>
+            <div class="bindings" [@show] *ngIf="state.category === 'bindings'">
+                <div class="list" [@show] *ngIf="model.bindings&&!state.binding">
+                    <table>
+                        <thead>
+                            <td>Name</td>
+                            <td>Direction</td>
+                            <td>Type</td>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let binding of model.bindings" (tap)="selectBinding(binding)">
+                                <td class="mono">{{binding.type === 'both' ? '[(' + binding.name + ')]' : (binding.type === 'output' ? '('
+                                    + binding.name + ')' : '[' + binding.name + ']')}}</td>
+                                <td class="caps">{{binding.type}}</td>
+                                <td class="mono caps">{{binding.data}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="binding" [@show] *ngIf="state.binding">
+                    <div class="header">
+                        <div class="text">
+                            <span class="mono">{{state.binding.type === 'both' ? '[(' + state.binding.name + ')]' : (state.binding.type ===
+                                'output' ? '(' + state.binding.name + ')' : '[' + state.binding.name + ']')}}</span>
+                            Details
+                        </div>
+                        <div class="back" (tap)="state.binding = null">
+                            <i center class="material-icons">close</i>
+                        </div>
+                    </div>
+                    <div class="description">{{state.binding.description}}</div>
+                    <div class="data-desc">
+                        <pre #binding class="js"><code [innerHTML]="state.binding.data_desc | safe"></code></pre>
+                    </div>
                 </div>
             </div>
         </div>

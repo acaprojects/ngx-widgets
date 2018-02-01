@@ -61,6 +61,10 @@
     transition: left 200ms, width 200ms;
 }
 
+.content {
+    position: relative;
+}
+
 .lower {
     text-transform: lowercase;
 }
@@ -71,4 +75,57 @@
 
 .details {
     padding: 0 1em 1em;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    font-size: 1.2em;
+    margin-bottom: .4em;
+    padding: 1em 1em 0;
+    .text {
+        flex: 1;
+    }
+}
+
+.description {
+
+    padding: 0 1em;
+}
+
+.back {
+    position: relative;
+    height: 1.2em;
+    width: 1.2em;
+    cursor: pointer;
+}
+
+.bindings {
+    .list {
+        padding: 1em;
+    }
+    table {
+        width: 100%;
+        border: none;
+        border-collapse: collapse;
+    }
+
+    thead {
+        background-color: $color1;
+        color: #fff;
+    }
+
+    td {
+        padding: .5em .5em;
+        border: none;
+    }
+
+    tbody tr {
+        &:nth-child(2n) {
+            background-color: rgba(#000, .05);
+        }
+        &:hover {
+            background-color: rgba(#000, .1);
+        }
+    }
 }
