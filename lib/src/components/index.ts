@@ -11,7 +11,6 @@
 import { /* FORM_CONTROLS, */ DropdownListComponent, CustomDropdownListComponent } from './form-controls';
 import { ImageCropComponent } from './img-crop';
 // import { MAP_COMPONENTS, MAP_ENTRY_COMPONENTS } from './interactive-map';
-import { MaterialStyles } from './material-styles';
 import { MediaPlayerComponent } from './media-player';
 // import { PAGE_CONTROLS } from './page-controls';
 import { ProgressCircleComponent } from './progress-circle';
@@ -23,7 +22,6 @@ export * from './buttons';
 export * from './form-controls';
 export * from './img-crop';
 export * from './interactive-map';
-export * from './material-styles';
 export * from './media-player';
 export * from './overlays';
 export * from './page-controls';

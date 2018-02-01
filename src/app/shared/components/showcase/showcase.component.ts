@@ -25,6 +25,7 @@ export class ShowcaseComponent {
 
     @ViewChild('inject') private inject_block: ElementRef;
     @ViewChild('binding') private binding_block: ElementRef;
+    @ViewChild('example') private example_block: ElementRef;
 
     public ngOnInit() {
         this.state.category_list = ['overview', 'bindings', 'playground'];
@@ -54,12 +55,13 @@ export class ShowcaseComponent {
 
     public highlight() {
         if (this.inject_block && this.inject_block.nativeElement) {
-            console.log('Highlight element');
             hljs.highlightBlock(this.inject_block.nativeElement);
         }
         if (this.binding_block && this.binding_block.nativeElement) {
-            console.log('Highlight element');
             hljs.highlightBlock(this.binding_block.nativeElement);
+        }
+        if (this.example_block && this.example_block.nativeElement) {
+            hljs.highlightBlock(this.example_block.nativeElement);
         }
     }
 }

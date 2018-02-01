@@ -54,8 +54,13 @@
                         </div>
                     </div>
                     <div class="description">{{state.binding.description}}</div>
-                    <div class="data-desc">
-                        <pre #binding class="js"><code [innerHTML]="state.binding.data_desc | safe"></code></pre>
+                    <div class="data-desc" *ngIf="state.binding.data_desc">
+                        <div class="title">Data Definition</div>
+                        <pre #binding class="typescript"><code [innerHTML]="state.binding.data_desc | safe"></code></pre>
+                    </div>
+                    <div class="data-desc" *ngIf="state.binding.example">
+                        <div class="title">Example</div>
+                        <pre #example class="typescript"><code [innerHTML]="state.binding.example | safe"></code></pre>
                     </div>
                 </div>
             </div>

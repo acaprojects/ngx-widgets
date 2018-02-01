@@ -28,7 +28,7 @@
 
 .preview {
     height: 20em;
-    width: 20em;
+    width: 100%;
     max-width: 100%;
     margin: auto;
 }
@@ -63,6 +63,8 @@
 
 .content {
     position: relative;
+    max-height: 20rem;
+    overflow: auto;
 }
 
 .lower {
@@ -89,7 +91,12 @@
 }
 
 .description {
+    color: rgba(0,0,0,.87);
+    font-size: .9em;
+    padding: 0 2rem 1rem;
+}
 
+.title {
     padding: 0 1em;
 }
 
