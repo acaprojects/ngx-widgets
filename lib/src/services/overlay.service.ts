@@ -2,8 +2,10 @@
 import { ComponentRef, Inject, Injectable, Type, ViewContainerRef } from '@angular/core';
 import { ApplicationRef, ComponentFactoryResolver, Injector } from '@angular/core';
 
-import { OverlayContainerComponent } from '../components';
-import { ModalComponent, NotificationComponent, TooltipComponent } from '../components';
+import { OverlayContainerComponent } from '../components/overlays/overlay-container/overlay-container.component';
+import { ModalComponent } from '../components/overlays/modal/modal.component';
+import { NotificationComponent } from '../components/overlays/notification/notification.component';
+import { TooltipComponent } from '../components/overlays/tooltip/tooltip.component';
 
 import { WIDGETS } from '../settings';
 
