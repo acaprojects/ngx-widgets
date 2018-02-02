@@ -29,6 +29,8 @@ export class ShowcaseComponent {
 
     public ngOnInit() {
         this.state.category_list = ['overview', 'bindings', 'playground'];
+        this.state.bindings = {};
+        this.state.playground = 'bindings';
         setTimeout(() => this.setCategory(this.state.category_list[0]), 50);
     }
 

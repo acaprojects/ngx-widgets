@@ -1,8 +1,6 @@
 
 import { Component } from '@angular/core';
 
-import * as Remarkable from 'remarkable';
-
 @Component({
     selector: 'map-showcase',
     templateUrl: './map-showcase.template.html',

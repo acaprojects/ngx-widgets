@@ -7,14 +7,12 @@
 @Last modified time: 20/01/2017 2:45 PM
 -->
 
-<div class="aca btn">
-    <div #btnContainer
-        (mouseover)="setHover(true)" (mouseout)="setHover()"
-        (mousedown)="setActive(true)" (mouseup)="setActive()" [class]="btnType" >
+<div [class]="'aca btn ' + name">
+    <div #btnContainer (mouseover)="setHover(true)" (mouseout)="setHover()" (mousedown)="setActive(true)" (mouseup)="setActive()"
+        [class]="format">
 
-        <button #btn
-            [type]="type" [class]="btn_class" [class.active]="active"
-            [class.hover]="hover" [class.disabled]="disabled" (tap)="clicked()">
+        <button #btn [type]="type" [class]="btn_class" [class.active]="active" [class.hover]="hover" [class.disabled]="disabled"
+            (tap)="clicked()">
 
             <div [class.center]="action_btn">
                 <ng-content></ng-content>

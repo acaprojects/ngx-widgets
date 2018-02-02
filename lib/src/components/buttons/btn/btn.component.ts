@@ -30,13 +30,12 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ButtonComponent {
     // Component Inputs
-    @Input() public cssClass = '';
+    @Input() public name = '';
     @Input() public color = 'blue';
     @Input() public primary = 'C500';
     @Input() public secondary = 'C600';
     @Input() public type = '';
-    @Input() public btnType = 'raised';
-    @Input() public styles: any = {};
+    @Input() public format = 'raised';
     @Input() public disabled = false;
     // Output emitters
     @Output() public tapped = new EventEmitter();
@@ -52,15 +51,12 @@ export class ButtonComponent {
     @ViewChild('btn') private button: ElementRef;
 
     private base_class = 'aca btn';
-    private last_styles = '';
 
     constructor(private renderer: Renderer2) {
     }
 
     public ngOnInit() {
-        setTimeout(() => {
-            this.updateClasses();
-        }, 20);
+        setTimeout(() => this.updateClasses(), 20);
     }
 
     public ngAfterViewInit() {
@@ -89,26 +85,13 @@ export class ButtonComponent {
     }
 
     public ngOnChanges(changes: any) {
-        if (changes.color || changes.primary || changes.secondary || changes.btnType || changes.disabled) {
-            this.action_btn = this.btnType ? this.btnType.indexOf('action') >= 0 : false;
+        if (changes.color || changes.primary || changes.secondary || changes.format || changes.disabled) {
+            this.action_btn = this.format ? this.format.indexOf('action') >= 0 : false;
         }
-        if (changes.cssClass || changes.btnType) {
-            this.base_class = `aca btn ${this.btnType} ${this.cssClass}`;
+        if (changes.name || changes.format) {
+            this.base_class = `aca btn ${this.format} ${this.name}`;
         }
         this.updateClasses();
-    }
-
-    public ngDoCheck() {
-        const s = JSON.stringify(this.styles);
-        if (this.button && this.styles && this.last_styles !== s) {
-            const btn = this.button.nativeElement;
-            this.last_styles = s;
-            for (const p in this.styles) {
-                if (!(this.styles[p] instanceof Function)) {
-                    this.renderer.setStyle(btn, p, this.styles[p]);
-                }
-            }
-        }
     }
 
     /**
@@ -124,12 +107,12 @@ export class ButtonComponent {
     }
 
     private updateClasses() {
-        if (this.cssClass && this.cssClass !== '') {
+        if (this.name && this.name !== '') {
             this.btn_class = `${this.base_class}`;
         } else {
             const el_class_c_p = `color bg-${this.color}-${this.primary} font-white`;
             const el_class_c_s = `color bg-${this.color}-${this.secondary} font-white`;
-            const el_class_step = this.btnType === 'flat' ? `` : `step-${this.active ? 'two' : 'one'}`;
+            const el_class_step = this.format === 'flat' ? `` : `step-${this.active ? 'two' : 'one'}`;
             const el_class_color = this.hover ? el_class_c_s : el_class_c_p;
             this.btn_class = `${this.base_class} ${this.disabled ? '' : el_class_color} ${el_class_step}`;
         }

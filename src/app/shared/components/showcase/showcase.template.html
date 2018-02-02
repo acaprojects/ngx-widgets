@@ -64,6 +64,34 @@
                     </div>
                 </div>
             </div>
+            <div class="playground" [@show] *ngIf="state.category === 'playground'">
+                <div class="options">
+                    <div class="option" [class.active]="state.playground === 'bindings'" (tap)="state.playground = 'bindings'">Bindings</div>
+                    <div class="option" [class.active]="state.playground === 'styles'" (tap)="state.playground = 'styles'">Styles</div>
+                </div>
+                <div class="pg-bindings" *ngIf="state.playground === 'bindings'">
+                    <div class="field" *ngFor="let binding of model.bindings">
+                        <div class="label mono">{{binding.name}}</div>
+                        <div class="value">
+                            <input *ngIf="binding.type !== 'output' && !binding.data.includes('object') " [(ngModel)]="state.bindings[binding.name]">
+                            <div *ngIf="binding.type === 'output'" #output>
+                                <pre #example class="typescript"><code [innerHTML]="state.bindings[binding.name] | safe"></code></pre>
+                            </div>
+                            <textarea *ngIf="binding.type !== 'output' && binding.data.includes('object')" [(ngModel)]="state.bindings[binding.name]">
+                            </textarea>
+                        </div>
+                        <div class="emitter">
+                            <button class="inverse" *ngIf="binding.type === 'both'">Emit</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pg-styles" *ngIf="state.playground === 'styles'">
+                    <textarea [(ngModel)]="state.styles" style="min-height: 17.2em;resize: none"></textarea>
+                </div>
+            </div>
+            <div class="in-dev" [@show] *ngIf="state.category === 'playground'">
+                <div center class="text">This feature is in development</div>
+            </div>
         </div>
     </div>
 </div>

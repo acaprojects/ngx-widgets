@@ -9,6 +9,7 @@
 }
 
 .divider {
+    position: relative;
     flex: 1;
     width: 480px;
     max-width: 90vw;
@@ -27,6 +28,7 @@
 }
 
 .preview {
+    position: relative;
     height: 20em;
     width: 100%;
     max-width: 100%;
@@ -63,8 +65,8 @@
 
 .content {
     position: relative;
-    max-height: 20rem;
-    overflow: auto;
+    height: 20em;
+    overflow: hidden;
 }
 
 .lower {
@@ -107,7 +109,14 @@
     cursor: pointer;
 }
 
+.overview {
+    height: 20em;
+    overflow: auto;
+}
+
 .bindings {
+    height: 20em;
+    overflow: auto;
     .list {
         padding: 1em;
     }
@@ -128,11 +137,87 @@
     }
 
     tbody tr {
+        cursor: pointer;
         &:nth-child(2n) {
             background-color: rgba(#000, .05);
         }
         &:hover {
             background-color: rgba(#000, .1);
         }
+    }
+}
+
+.playground {
+    position: relative;
+    height: 20em;
+    overflow: auto;
+    .options {
+        display: flex;
+        border-bottom: 1px solid rgba(#000, .1);
+        margin-top: .5em;
+        padding: 0 .25em;
+    }
+
+    .option {
+        padding: .5em 1em;
+        background-color: #fff;
+        color: rgba(0,0,0,.2);
+        transition: color 300ms;
+        margin: 0 .25em 0 .25em;
+        border: 1px solid rgba(0,0,0,0);
+        border-bottom: 1px solid #fff;
+        border-radius: .5em .5em 0 0;
+        &.active {
+            margin-bottom: -1px;
+            border: 1px solid rgba(#000, .1);
+            border-bottom: 1px solid #fff;
+            color: rgba(0,0,0,.87);
+        }
+        &:hover {
+            color: rgba(0,0,0,.87);
+        }
+    }
+
+    pre {
+        margin: 0;
+    }
+
+    .pg-bindings {
+        padding: 1em;
+    }
+
+    .field {
+        display: flex;
+        align-items: center;
+        min-height: 2em;
+        width: 100%;
+    }
+
+    .label {
+        width: 5em;
+        min-width: 5em;
+    }
+
+    .value {
+        flex: 1;
+    }
+}
+
+.in-dev {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(#000, .54);
+    color: #fff;
+    .text {
+        color: rgba(0,0,0,.87);
+        padding: 1em;
+        background-color: #fff;
+        max-width: 35%;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+        text-align: center;
     }
 }
