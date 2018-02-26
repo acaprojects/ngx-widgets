@@ -7,12 +7,6 @@ import { Component } from '@angular/core';
     styleUrls: ['./button-showcase.styles.scss']
 })
 export class ButtonShowcaseComponent {
-    // @Input() public cssClass = '';
-    // @Input() public type = '';
-    // @Input() public format = 'raised';
-    // @Input() public disabled = false;
-    // // Output emitters
-    // @Output() public tapped = new EventEmitter();
     public model: any = {
         title: 'Button',
         bindings: [
@@ -30,6 +24,14 @@ export class ButtonShowcaseComponent {
                 example: `'raised'`
             }, {
                 name: 'disabled', type: 'input', description: 'Sets the disabled state of the button', data: 'boolean',
+                data_desc: ``,
+                example: `false`
+            }, {
+                name: 'model', type: 'both', description: 'Toggle state of the button', data: 'boolean',
+                data_desc: '',
+                example: `false`
+            }, {
+                name: 'toggle', type: 'input', description: 'Sets if the button is togglable', data: 'boolean',
                 data_desc: ``,
                 example: `false`
             }, {

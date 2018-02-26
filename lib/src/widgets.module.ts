@@ -24,7 +24,7 @@ import 'hammerjs';
     // Components
 import { ButtonComponent } from './components/buttons/btn/btn.component';
 import { ButtonGroupComponent } from './components/buttons/btn-group/btn-group.component';
-import { ButtonToggleComponent } from './components/buttons/btn-toggle/btn-toggle.component';
+import { ClickResponderComponent } from './components/click-responder/click-responder.component';
 import { CalendarComponent } from './components/form-controls/calendar/calendar.component';
 import { CheckboxComponent } from './components/form-controls/checkbox/checkbox.component';
 import { CustomDropdownComponent } from './components/form-controls/custom-dropdown/dropdown.component';
@@ -95,7 +95,7 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         // ...COMPONENTS,
         ButtonComponent,
         ButtonGroupComponent,
-        ButtonToggleComponent,
+        ClickResponderComponent,
         CalendarComponent,
         CheckboxComponent,
         CustomDropdownComponent,
@@ -156,7 +156,6 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         // ...COMPONENTS,
         ButtonComponent,
         ButtonGroupComponent,
-        ButtonToggleComponent,
         CalendarComponent,
         CheckboxComponent,
         CustomDropdownComponent,

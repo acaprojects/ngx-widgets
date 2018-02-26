@@ -7,54 +7,35 @@
  * @Last modified time: 15/12/2016 11:28 AM
  */
 
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'btn-group',
     templateUrl: './btn-group.template.html',
     styleUrls: [ './btn-group.styles.scss'/*, '../../material-styles/material-styles.scss' */ ],
-    // changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonGroupComponent {
     @Input() public items: any;
     @Input() public model = 0;
-    @Input() public color = 'blue';
-    @Input() public primary = 'C500';
-    @Input() public secondary = 'C600';
-    @Input() public cssClass = '';
+    @Input() public name = '';
     @Output() public modelChange = new EventEmitter();
 
-    public btn_class = '';
-    public hover = false;
+    public state: any = {};
 
-    public ngOnInit() {
-        this.loadClasses();
-    }
-
-    public ngOnChanges(changes: any) {
-        if (changes.color || changes.primary || changes.secondary) {
-            this.loadClasses();
-        }
-    }
-
-    public setHover(state: boolean) {
-        this.hover = state;
-        this.loadClasses();
+    constructor(private _cdr: ChangeDetectorRef) {
+        this.state[0] = true;
     }
 
     public toggle(index: number) {
         this.model = index;
-        this.modelChange.emit(this.model);
-    }
-
-    private loadClasses() {
-        this.btn_class = '';
-        if (this.cssClass === '') {
-            if (!this.hover) {
-                this.btn_class = `color bg-${this.color}-${this.primary} font-white`;
-            } else {
-                this.btn_class = `color bg-${this.color}-${this.secondary} font-white`;
+        for (const s in this.state) {
+            if(this.state.hasOwnProperty(s)) {
+                this.state[s] = +s === +index;
             }
         }
+        this.modelChange.emit(this.model);
+        this._cdr.markForCheck();
     }
 }

@@ -7,13 +7,7 @@
 @Last modified time: 15/12/2016 11:28 AM
 -->
 
-<div [class]="'aca btn-group ' + cssClass">
-    <div *ngFor="let item of items; let i = index"
-        [class]="'aca btn-obj ' + (i===model ? 'active ' + btn_class : 'inactive')"
-        (tap)="toggle(i)"
-        (mouseover)="i===model?setHover(true):''"
-        (mouseout)="setHover()"
-        >
-        <div [class]="'btn-'+i">{{ item }}</div>
-    </div>
+<div [class]="'btn group ' + name" widget>
+    <btn *ngFor="let item of items; let i = index" [name]="'group-item n' + (i + 1 === items.length ? 'l' : i + 1)"
+        [(model)]="state[i]" (modelChange)="toggle(i)" [toggle]="true" [disabled]="disabled">{{ item }}</btn>
 </div>

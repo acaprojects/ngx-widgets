@@ -21,7 +21,7 @@ export * from './pipes/safe.pipe';
     // Export Library Components
 export * from './components/buttons/btn/btn.component';
 export * from './components/buttons/btn-group/btn-group.component';
-export * from './components/buttons/btn-toggle/btn-toggle.component';
+export * from './components/click-responder/click-responder.component';
 export * from './components/form-controls/calendar/calendar.component';
 export * from './components/form-controls/checkbox/checkbox.component';
 export * from './components/form-controls/custom-dropdown/dropdown.component';

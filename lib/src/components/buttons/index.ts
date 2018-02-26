@@ -9,11 +9,9 @@
 
 import { ButtonComponent } from './btn';
 import { ButtonGroupComponent } from './btn-group';
-import { ButtonToggleComponent } from './btn-toggle';
 
 export * from './btn';
 export * from './btn-group';
-export * from './btn-toggle';
 
 // export const BUTTONS: any[] = [
 //     ButtonComponent,

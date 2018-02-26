@@ -5,7 +5,8 @@
     font-size: 1rem;
     padding: 1em;
     display: flex;
-    max-width: 1080px;
+    width: 1080px;
+    max-width: 100vh;
 }
 
 .divider {
@@ -33,6 +34,12 @@
     width: 100%;
     max-width: 100%;
     margin: auto;
+}
+
+.info {
+    padding: 0 .5em .5em .5em;
+    font-size: .8em;
+    text-align: center;
 }
 
 .tabs {

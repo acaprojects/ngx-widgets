@@ -26,6 +26,7 @@
             </div>
             <div class="bindings" [@show] *ngIf="state.category === 'bindings'">
                 <div class="list" [@show] *ngIf="model.bindings&&!state.binding">
+                    <div class="info">Click a binding to see more details</div>
                     <table>
                         <thead>
                             <td>Name</td>

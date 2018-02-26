@@ -8,114 +8,32 @@
  */
 
 import { Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild } from '@angular/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'btn',
     styleUrls: ['./btn.styles.scss'/* , '../../material-styles/material-styles.scss' */],
     templateUrl: './btn.template.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [
-        trigger('clickResp', [
-            // state('hide',   style({'transform':'translate(-50%, -50%) scale(0)', opacity: 0})),
-            transition('void => *', animate('50ms ease-out')),
-            transition('* => *', animate('0.5s ease-out', keyframes([
-                style({ transform: 'translate(-50%, -50%) scale(0)', opacity: 0.5, offset: 0 }),
-                style({ transform: 'translate(-50%, -50%) scale(1)', opacity: 0, offset: 1.0 })
-            ])))
-        ])
-    ]
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonComponent {
     // Component Inputs
     @Input() public name = '';
-    @Input() public color = 'blue';
-    @Input() public primary = 'C500';
-    @Input() public secondary = 'C600';
+    @Input() public model = false;
     @Input() public type = '';
     @Input() public format = 'raised';
     @Input() public disabled = false;
+    @Input() public toggle = false;
     // Output emitters
+    @Output() public modelChange = new EventEmitter();
     @Output() public tapped = new EventEmitter();
 
-    public action_btn = false;
-    public active = false;
-    public hover = false;
-    public click_state = 'show';
-    public btn_class = 'aca btn color';
-
-    // Template Elements
-    @ViewChild('btnContainer') private container: ElementRef;
-    @ViewChild('btn') private button: ElementRef;
-
-    private base_class = 'aca btn';
-
-    constructor(private renderer: Renderer2) {
-    }
-
-    public ngOnInit() {
-        setTimeout(() => this.updateClasses(), 20);
-    }
-
-    public ngAfterViewInit() {
-        // this.updateClasses();
-    }
-    /**
-     * Sets the hover state of the button
-     * @return {void}
-     */
-    public setHover(state: boolean = false) {
-        if (!this.disabled) {
-            this.hover = state;
-            this.updateClasses();
+    public tap(e: any) {
+        if (this.toggle) {
+            this.model = !this.model;
+            this.modelChange.emit(this.model);
         }
+        this.tapped.emit(e);
     }
-
-    /**
-     * Sets the hover state of the button
-     * @return {void}
-     */
-    public setActive(state: boolean = false) {
-        if (!this.disabled) {
-            this.active = state;
-            this.updateClasses();
-        }
-    }
-
-    public ngOnChanges(changes: any) {
-        if (changes.color || changes.primary || changes.secondary || changes.format || changes.disabled) {
-            this.action_btn = this.format ? this.format.indexOf('action') >= 0 : false;
-        }
-        if (changes.name || changes.format) {
-            this.base_class = `aca btn ${this.format} ${this.name}`;
-        }
-        this.updateClasses();
-    }
-
-    /**
-     * Called when the button is clicked
-     * @return {void}
-     */
-    public clicked() {
-        if (this.disabled) {
-            return;
-        }
-        this.click_state = (this.click_state === 'show' ? 'hide' : 'show');
-        this.tapped.emit();
-    }
-
-    private updateClasses() {
-        if (this.name && this.name !== '') {
-            this.btn_class = `${this.base_class}`;
-        } else {
-            const el_class_c_p = `color bg-${this.color}-${this.primary} font-white`;
-            const el_class_c_s = `color bg-${this.color}-${this.secondary} font-white`;
-            const el_class_step = this.format === 'flat' ? `` : `step-${this.active ? 'two' : 'one'}`;
-            const el_class_color = this.hover ? el_class_c_s : el_class_c_p;
-            this.btn_class = `${this.base_class} ${this.disabled ? '' : el_class_color} ${el_class_step}`;
-        }
-    }
-
 }

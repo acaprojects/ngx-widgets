@@ -14,33 +14,49 @@
     font-family: Roboto;
 }
 
-.center {
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
 .btn {
     display: inline-block;
 }
 
+.group-item {
+    button {
+        border-radius: 0;
+        margin: .5em 0;
+    }
+    &.n1 {
+        button {
+            border-radius: 4px 0 0 4px;
+            margin-left: .5em;
+        }
+    }
+
+    &.nl {
+        button {
+            border-radius: 0 4px 4px 0;
+            margin-right: .5em;
+        }
+    }
+}
+
 button {
-    background-color: $white;
     border: none;
-    border-radius: .1em;
-    box-shadow: 0 .1em .2em .1em $black-o20;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
     cursor: pointer;
-    display: inline-block;
     font-size: 1.0em;
-    margin: 0.2em 0.3em;
-    min-width: 3em;
+    margin: .5em .25em;
     outline: none;
     overflow: hidden;
     padding: .5em .75em;
     position: relative;
     text-align: center;
     user-select: none;
+    transition: color 200ms, background-color 200ms, box-shadow 200ms;
+    border: 1px solid #f0f0f0;
+
+    &:active {
+        box-shadow: 0 1px 3px 0 rgba(0,0,0,0), 0 1px 1px 0 rgba(0,0,0,0), 0 2px 1px -1px rgba(0,0,0,0);
+    }
 
     &.raised {
         min-width: 6.0em;
@@ -54,15 +70,24 @@ button {
 
     &.action,
     &.mini-action {
-        border-radius: 100%;
-        font-size: 1.0em;
-        height: 3em;
+        border-radius: .8em;
+        font-size: 2.0em;
+        height: 1.5em;
         padding: 0;
-        width: 3em;
+        width: 1.5em;
+        max-width: 1.5em;
+        max-height: 1.5em;
+        min-width: 1.5em;
+        min-height: 1.5em;
+        overflow: hidden;
+        & > * {
+            max-width: 1.5em;
+            overflow: hidden;
+        }
     }
 
     &.mini-action {
-        font-size: 0.8em;
+        font-size: 1.2em;
     }
 
     &.flat {
@@ -70,14 +95,8 @@ button {
     }
 }
 
-.circle {
-    background-color: $black;
-    border-radius: 100%;
-    height: 4em;
-    left: 50%;
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    width: 4em;
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

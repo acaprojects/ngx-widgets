@@ -2,7 +2,7 @@
 
 @import 'shared.styles';
 
-html, body {
+html, body, .app {
     height: 100%;
     width: 100%;
     margin: 0;
@@ -11,7 +11,7 @@ html, body {
 
 body {
     min-height: 100%;
-    height: auto;
+    overflow: hidden;
     background-color: #eee;
     font-size: $desktop-font-size;
     @include respond-to(mobile) {
@@ -103,7 +103,6 @@ button {
     transition: all ease-out 0.2s;
     position: relative;
     font-size: 1em;
-    height: 1.8em;
     min-width: 4em;
     // min-width: 6em;
     // height: 2.5em;
@@ -132,13 +131,26 @@ button {
             cursor: not-allowed;
         }
     }
-    &:hover {
+    &.active {
+        background-color: $color2 + #111111;
+        color: #fff;
 
+        &[disabled] {
+            color: #cccccc;
+            border-color: rgba(0, 0, 0, 0.1);
+            background-color: #f2f2f2;
+            cursor: not-allowed;
+        }
+    }
+    &:hover {
+        color: #fff;
+        background-color: $color2;
     }
     &:active {
         box-shadow: none;
+        color: #fff;
         background-color: $color2-dark;
-        border-color: $color2-dark;
+        box-shadow: 0 .1em .2em .1em rgba(0,0,0,0);
 
         @include respond-to(mobile) {
             color: #fff;

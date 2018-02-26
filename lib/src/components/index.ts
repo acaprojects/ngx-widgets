@@ -19,6 +19,7 @@ import { VirtualKeyboardComponent } from './virtual-keyboard';
 // import { OVERLAY_COMPONENTS } from './overlays';
 
 export * from './buttons';
+export * from './click-responder';
 export * from './form-controls';
 export * from './img-crop';
 export * from './interactive-map';
