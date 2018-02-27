@@ -2,15 +2,20 @@
 <div class="shell">
     <div class="header">
         <div class="icon">
-            <i center class="material-icons">menu</i>
+            <i center class="material-icons" (tap)="model.menu.show = !model.menu.show">{{model.menu.show ? 'close' : 'menu'}}</i>
         </div>
         <div class="title">Angular 5 Widgets</div>
         <div class="icon">
             <i center class="material-icons"></i>
         </div>
     </div>
-    <div class="sidebar">
-
+    <div class="sidebar" [class.show]="model.menu.show">
+        <div class="list">
+            <div class="category" *ngFor="let category of model.menu_items">
+                <div class="item">{{category}}</div>
+                <div class="sub-item" *ngFor="let item of model.menu[category]">{{item.name}}</div>
+            </div>
+        </div>
     </div>
     <div class="contents">
         <router-outlet></router-outlet>
