@@ -1,4 +1,4 @@
-<div #video  class="media-player" (mousemove)="showTools()" (tap)="changeMediaState();showTools()" (dblclick)="toggleFullScreen()">
+<div #video  [class]="'media-player ' + name" widget (mousemove)="showTools()" (tap)="changeMediaState();showTools()" (dblclick)="toggleFullScreen()">
     <video #player autoplay x-webkit-airplay="allow"><source [src]="src" type="video/mp4"/></video>
     <div class="status-buttons" *ngIf="!media_playing">
         <div class="status" *ngIf="!is_end">

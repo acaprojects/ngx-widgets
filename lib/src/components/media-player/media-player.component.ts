@@ -23,6 +23,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
     ],
 })
 export class MediaPlayerComponent {
+    @Input() public name: string = '';
     @Input() public src: any = null;
     @Input() public color = '#2196F3';
     @Input() public autoplay = false;
