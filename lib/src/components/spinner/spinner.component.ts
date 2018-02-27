@@ -17,7 +17,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 export class SpinnerComponent {
     @Input() public type = 'plane';
     @Input() public color = '#FFF';
-    @Input() public cssClass = 'default';
+    @Input() public name = 'default';
 
     public ngOnChanges(changes: any) {
         if (this.type === null || this.type === undefined) {

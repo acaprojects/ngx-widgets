@@ -2,6 +2,7 @@
 @import 'shared.styles';
 
 .showcase {
+    position: relative;
     font-size: 1rem;
     padding: 1em;
     display: flex;
@@ -226,5 +227,20 @@
         border-radius: 4px;
         box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
         text-align: center;
+    }
+}
+
+.in-dev-marker {
+    position: absolute;
+    top: -.3em;
+    left: -.5em;
+    color: #fff;
+    transform:  rotate(-10deg);
+    padding: .4em .8em;
+    border-radius: 4px;
+    background-color: $success;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+    &.dev {
+        background-color: $pending;
     }
 }

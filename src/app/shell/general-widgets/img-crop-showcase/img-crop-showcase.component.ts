@@ -45,6 +45,7 @@ export class ImageCropperShowcaseComponent {
             }
         ],
         inject: '',
+        dev: true,
         map: {
             src: 'assets/australia.svg'
         }

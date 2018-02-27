@@ -95,4 +95,7 @@
             </div>
         </div>
     </div>
+    <div class="in-dev-marker" [class.dev]="model.dev">
+        {{ model.dev ? 'In Dev' : 'Stable' }}
+    </div>
 </div>

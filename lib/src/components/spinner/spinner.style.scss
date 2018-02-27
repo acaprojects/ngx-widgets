@@ -232,6 +232,29 @@ $space: .5em;
 }
 
 .dot-circle-scale {
+    height: 4em;
+    position: relative;
+    width: 4em;
+
+    .dot {
+        height: 4em;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 4em;
+
+        .inner {
+            animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
+            background-color: $black-o50;
+            border-radius: 100%;
+            content: '';
+            display: block;
+            height: .6em;
+            margin: 0 auto;
+            width: .6em;
+        }
+    }
+
     @for $i from 1 to 12 {
         .dot.state-#{$i} {
             transform: rotate(30deg * $i);

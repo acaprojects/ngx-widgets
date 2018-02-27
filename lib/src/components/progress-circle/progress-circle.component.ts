@@ -13,6 +13,7 @@ import { Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/cor
     styleUrls: ['./progress-circle.styles.scss'],
 })
 export class ProgressCircleComponent {
+    @Input() public name = ''; // CSS class to add to the root element
     @Input() public progress = 0; // Number between 0 and 1000
     @Input() public bg = '#CFD8DC';
     @Input() public color = '#2196F3';
