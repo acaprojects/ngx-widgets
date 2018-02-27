@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, EventEmitter, Input, Output, Type, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, Input, Output, Type, ViewChild } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 
@@ -25,6 +25,9 @@ export class DynamicBaseComponent {
     protected static internal_state: any = {};
     protected sub: any = null;
     protected uid: string = '';
+    protected _cfr: ComponentFactoryResolver;
+    protected _cdr: ChangeDetectorRef;
+    protected renderer: Renderer2;
     protected state: any = {};
     protected stack_id: string = '';
     protected type = 'Dynamic';
@@ -32,7 +35,7 @@ export class DynamicBaseComponent {
     @ViewChild('body') protected body: ElementRef;
     @ViewChild('content', { read: ViewContainerRef }) private _content: ViewContainerRef;
 
-    constructor(private _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, public renderer: Renderer2) {
+    constructor() {
         this.stack_id = Math.floor(Math.random() * 89999999 + 10000000).toString();
     }
 
@@ -40,7 +43,8 @@ export class DynamicBaseComponent {
         if (!DynamicBaseComponent.internal_state[this.type]) {
             DynamicBaseComponent.internal_state[this.type] = new BehaviorSubject('');
         }
-        this.renderer.listen('window', 'resize', () => { this.resize(); });
+        console.log('DynamicBase:', this);
+        this.renderer.listen('window', 'resize', () => this.resize());
         if (!DynamicBaseComponent.instance_stack[this.type]) {
             DynamicBaseComponent.instance_stack[this.type] = [];
         }
@@ -50,7 +54,6 @@ export class DynamicBaseComponent {
         this.state.obs = this.state.sub.asObservable();
         this.listenState();
         setTimeout(() => {
-            this.init();
             this.model.initialised = true;
             this._cdr.markForCheck();
         }, 300);
@@ -62,9 +65,7 @@ export class DynamicBaseComponent {
     }
 
     public ngAfterViewInit() {
-        setTimeout(() => {
-            this.initBox();
-        }, 300);
+        setTimeout(() => this.initBox(), 300);
     }
 
     public listenState(tries: number = 0) {

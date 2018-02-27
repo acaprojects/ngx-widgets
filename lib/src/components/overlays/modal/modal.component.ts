@@ -1,7 +1,7 @@
 
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, Renderer2, Injector } from '@angular/core';
+import { ComponentFactoryResolver, ChangeDetectorRef, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { DynamicBaseComponent } from '../dynamic-base.component';
 
@@ -40,6 +40,13 @@ export class ModalComponent extends DynamicBaseComponent {
     public top: boolean;
 
     protected type = 'Modal';
+
+    constructor(private injector: Injector) {
+        super();
+        this._cfr = this.injector.get(ComponentFactoryResolver);
+        this._cdr = this.injector.get(ChangeDetectorRef);
+        this.renderer = this.injector.get(Renderer2);
+    }
 
     public resize() {
         setTimeout(() => {

@@ -1,7 +1,7 @@
 
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, Injector, Renderer2 } from '@angular/core';
+import { ComponentFactoryResolver, ChangeDetectorRef, ViewChild, ViewContainerRef } from '@angular/core';
 
 import { DynamicBaseComponent } from '../dynamic-base.component';
 
@@ -21,6 +21,13 @@ export class TooltipComponent extends DynamicBaseComponent {
     public mouse_state = 'up';
 
     protected type = 'Tooltip';
+
+    constructor(private injector: Injector) {
+        super();
+        this._cfr = this.injector.get(ComponentFactoryResolver);
+        this._cdr = this.injector.get(ChangeDetectorRef);
+        this.renderer = this.injector.get(Renderer2);
+    }
 
     public init(parent?: any, id?: string) {
         super.init(parent, id);
