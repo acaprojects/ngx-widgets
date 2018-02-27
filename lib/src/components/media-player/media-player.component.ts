@@ -25,6 +25,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 export class MediaPlayerComponent {
     @Input() public src: any = null;
     @Input() public color = '#2196F3';
+    @Input() public autoplay = false;
 
     @Output() public time: any = new EventEmitter();
     @Output() public length: any = new EventEmitter();
@@ -51,9 +52,7 @@ export class MediaPlayerComponent {
     }
 
     public change() {
-        this.zone.run(() => {
-            this.cdr.markForCheck();
-        });
+        this.zone.run(() => this.cdr.markForCheck());
     }
 
     public changeMediaState() {
@@ -68,9 +67,7 @@ export class MediaPlayerComponent {
         this.media_playing = true;
         this.player.nativeElement.play();
         this.setDuration();
-        setTimeout(() => {
-            this.updateTimer();
-        }, 400);
+        setTimeout(() => this.updateTimer(), 400);
     }
 
     public stopMedia() {
@@ -111,9 +108,7 @@ export class MediaPlayerComponent {
             this.stopMedia();
         }
         if (this.media_playing) {
-            setTimeout(() => {
-                this.updateTimer();
-            }, 400);
+            setTimeout(() => this.updateTimer(), 400);
         }
         this.change();
     }
@@ -126,10 +121,7 @@ export class MediaPlayerComponent {
         const secs = Math.floor(time % 60);
         const mins = Math.floor(time / 60);
         if (isNaN(secs) || isNaN(mins)) {
-            setTimeout(() => {
-                this.setDuration();
-            }, 200);
-            return;
+            return setTimeout(() => this.setDuration(), 200);
         }
         this.duration = `${mins < 10 ? '0' + mins : mins}:${secs < 10 ? '0' + secs : secs}`;
         this.length.emit(this.duration);
@@ -155,11 +147,13 @@ export class MediaPlayerComponent {
 
     private init() {
         if (!this.player) {
-            setTimeout(() => {
-                this.init();
-            }, 200);
+            setTimeout(() => this.init(), 200);
         } else {
-            this.playMedia();
+            if (this.autoplay) {
+                this.playMedia();
+            } else {
+                this.stopMedia();
+            }
         }
     }
 }

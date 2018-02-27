@@ -2,10 +2,10 @@
     <video #player autoplay x-webkit-airplay="allow"><source [src]="src" type="video/mp4"/></video>
     <div class="status-buttons" *ngIf="!media_playing">
         <div class="status" *ngIf="!is_end">
-            <div class="icon"><i class="material-icons">play_arrow</i></div>
+            <i class="material-icons">play_arrow</i>
         </div>
         <div class="status" *ngIf="is_end">
-            <div class="icon"><i class="material-icons">replay</i></div>
+            <i class="material-icons">replay</i>
         </div>
     </div>
     <div class="video-controls" [@controls]="controls_active ? 'show' : 'hide'">
