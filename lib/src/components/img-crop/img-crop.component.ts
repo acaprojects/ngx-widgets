@@ -72,15 +72,15 @@ export class ImageCropComponent {
     }
     /**
      * Sets up the size of the cropped image
-     * @return {void}
+     * @return
      */
     public setupSize() {
         const ratio: { x: any, y: any } = { x: this.ratio.split(':')[0], y: this.ratio.split(':')[1] };
     }
     /**
      * Loads the image and injects it into the image cropper component
-     * @param  {File} Image file from file input field
-     * @return {void}
+     * @param Image file from file input field
+     * @return
      */
     public loadImage(file: File) {
         if (!file) { return; }
@@ -104,7 +104,7 @@ export class ImageCropComponent {
     }
     /**
      * Emits the cropped image data.
-     * @return {void}
+     * @return
      */
     public saveImage() {
         this.model.saving = true;

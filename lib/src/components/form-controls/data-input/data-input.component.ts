@@ -144,7 +144,7 @@ export class DataInputComponent {
     }
     /**
      * Focuses on the input field if the field is not disabled or readonly
-     * @return {void}
+     * @return
      */
     public focusInput(e: any) {
         if (e && !this.focus) {
@@ -169,7 +169,7 @@ export class DataInputComponent {
     }
     /**
      * Blurs the input field
-     * @return {void}
+     * @return
      */
     public blurInput() {
         if (!this.focus_timer) {
@@ -181,8 +181,8 @@ export class DataInputComponent {
     }
     /**
      * Handles keypresses in input field
-     * @param  {any}    e Key press event
-     * @return {void}
+     * @param e Key press event
+     * @return
      */
     public keypress(e: any) {
         if (e) {
@@ -223,15 +223,15 @@ export class DataInputComponent {
     }
     /**
      * Gets the focus status of the input field
-     * @return {string} Returns focus if the input field is focused else blur is returned
+     * @return Returns focus if the input field is focused else blur is returned
      */
     public checkFocus() {
         return (this.focus || (this.display_text && this.display_text !== '') ? 'focus' : 'blur');
     }
     /**
      * Sets the position of the input cursor/caret inside the field
-     * @param  {number} caretPos Index in the text to set the cursor
-     * @return {void}
+     * @param caretPos Index in the text to set the cursor
+     * @return
      */
     public setCaretPosition(caretPos: number) {
         if (!this.input) {
@@ -251,7 +251,7 @@ export class DataInputComponent {
     }
     /**
      * Checks the validity of the input field content based of the set type
-     * @return {void}
+     * @return
      */
     public validateInput() {
         if (this.no_validate) {
@@ -307,7 +307,7 @@ export class DataInputComponent {
     }
     /**
      * Validate text field input value
-     * @return {string} Returns the valid input value
+     * @return Returns the valid input value
      */
     private validateText() {
             // Check field validity
@@ -323,7 +323,7 @@ export class DataInputComponent {
     }
     /**
      * Validate an email address input value
-     * @return {string} Returns a valid input value
+     * @return Returns a valid input value
      */
     private validateEmail() {
         if (!this.display_text || this.display_text === '' || this.display_text.length < 5) {
@@ -340,7 +340,7 @@ export class DataInputComponent {
 
     /**
      * Validate an password input value
-     * @return {string} Returns a valid input value
+     * @return Returns a valid input value
      */
     private validatePassword() {
         if (!this.display_text || this.display_text === '' || this.display_text.length < 8) {
@@ -363,14 +363,14 @@ export class DataInputComponent {
 
     /**
      * Validate an date input value
-     * @return {string} Returns a valid input value
+     * @return Returns a valid input value
      */
     private validateDate() {
         return this.display_text;
     }
     /**
      * Validate numerical value
-     * @return {void}
+     * @return
      */
     private validateNumber() {
         if (!this.display_text || this.display_text === '') {
@@ -407,7 +407,7 @@ export class DataInputComponent {
 
     /**
      * Validate Credit/Debit card input value
-     * @return {string} Returns a valid input value
+     * @return Returns a valid input value
      */
     private validateCard() {
         if (!this.display_text || this.display_text === '') {
@@ -454,8 +454,8 @@ export class DataInputComponent {
     }
     /**
      * Gets the type of the given Credit/Debit card number
-     * @param  {string} num Card number
-     * @return {string} Returns the named type of the card
+     * @param num Card number
+     * @return Returns the named type of the card
      */
     private getCardType(num: string) {
         if (/^4[0-9]{6,}$/.test(num)) { // Visa
@@ -475,8 +475,8 @@ export class DataInputComponent {
     }
     /**
      * Performs the luhn check on the give card number
-     * @param  {string} input Card number
-     * @return {boolean}      Returns the success of passing the luhn check
+     * @param input Card number
+     * @return Returns the success of passing the luhn check
      */
     private checkLuhn(input: string) {
         let sum = 0;
@@ -496,9 +496,9 @@ export class DataInputComponent {
     }
     /**
      * Removes invalid characters from the given string
-     * @param  {string} str   String to remove characters from
-     * @param  {string} valid String of valid characters
-     * @return {string}       Returns a string with all the invalid characters removed
+     * @param str   String to remove characters from
+     * @param valid String of valid characters
+     * @return Returns a string with all the invalid characters removed
      */
     private removeInvalidChars(str: string, valid: string) {
         if (!str) {

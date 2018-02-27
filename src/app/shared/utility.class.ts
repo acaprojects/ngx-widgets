@@ -60,9 +60,9 @@ export class Utils {
      *
      * @static
      * @method rgbToCssColor
-     * @param {Number} r The red value in the range (0, 255)
-     * @param {Number} g The green value in the range (0, 255)
-     * @param {Number} b The blue value in the range (0, 255)
+     * @param r The red value in the range (0, 255)
+     * @param g The green value in the range (0, 255)
+     * @param b The blue value in the range (0, 255)
      * @return {String} CSS color string
      */
     public static rgbToCssColor(r, g, b) {

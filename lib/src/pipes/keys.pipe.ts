@@ -13,9 +13,9 @@
  export class KeysPipe implements PipeTransform {
     /**
      * Turns a object into a key, value pair array
-     * @param  {any}      value Object input
-     * @param  {string[]} args  [description]
-     * @return {any}            Returns an Array with the key, value pairs of the object
+     * @param value Object input
+     * @param args  [description]
+     * @return Returns an Array with the key, value pairs of the object
      */
      public transform(value: any, args: string[]): any {
          if (!value) {

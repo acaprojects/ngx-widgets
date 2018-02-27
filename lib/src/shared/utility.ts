@@ -10,18 +10,18 @@
 export class Utility {
     /**
      * Replaces all instances of string in a string
-     * @param  {string} str     String to replace contents
-     * @param  {string} find    String to find within str
-     * @param  {string} replace String to replace find in str
-     * @return {string} Returns string with all instances of find replaced with replace
+     * @param str     String to replace contents
+     * @param find    String to find within str
+     * @param replace String to replace find in str
+     * @return Returns string with all instances of find replaced with replace
      */
     public static replaceAll(str: string, find: string, replace: string) {
         return str.replace(new RegExp(find, 'g'), replace);
     }
     /**
      * Escapes values the used to find elements
-     * @param  {string} value String to escape
-     * @return {string} Returns escaped string
+     * @param value String to escape
+     * @return Returns escaped string
      */
     public static escape(value: string) {
         const str = String(value);
@@ -148,7 +148,7 @@ export class Utility {
 
     /**
      * Add CSS class to specified element
-     * @return {void}
+     * @return
      */
     public static addClass(el: any, name: string) {
         if (!el.classList.contains(name)) {
@@ -158,7 +158,7 @@ export class Utility {
 
     /**
      * Remove CSS class from specified element
-     * @return {void}
+     * @return
      */
     public static removeClass(el: any, name: string) {
         el.classList.remove(name);
@@ -166,7 +166,7 @@ export class Utility {
 
     /**
      * Swaps the first CSS class for the second CSS class if it exists on the element
-     * @return {void}
+     * @return
      */
     public static swapClass(el: any, first: string, second: string) {
         if (el.classList.contains(first)) {

@@ -24,8 +24,8 @@ export class OverlayService {
     }
     /**
      * Sets the view to attach the notification display, usually the root component
-     * @param  {ViewContainerRef} view View Container to attach the notifications display
-     * @return {void}
+     * @param view View Container to attach the notifications display
+     * @return
      */
     set view(view: ViewContainerRef) {
         if (view) {
@@ -41,7 +41,7 @@ export class OverlayService {
 
     /**
      * Attempts to load the root view container
-     * @return {void}
+     * @return
      */
     public loadView(tries: number = 0) {
         const app_ref = this.injector.get(ApplicationRef) as any;
@@ -63,10 +63,10 @@ export class OverlayService {
 
     /**
      * Function to define a component that can be rendered on the overlay
-     * @param  {string} id ID of the component
-     * @param  {Type<any>} type Component Type
-     * @param  {any} data Initial data to pass to the component
-     * @return {void}
+     * @param id ID of the component
+     * @param type Component Type
+     * @param data Initial data to pass to the component
+     * @return
      */
     public setup(id: string, cmp: Type<any>, data?: any) {
         this.register(id, cmp, data);
@@ -74,9 +74,9 @@ export class OverlayService {
 
     /**
      * Function to define a modal that can be rendered on the overlay
-     * @param  {string} id ID of the modal
-     * @param  {any} data Initial data to pass to the modal
-     * @return {void}
+     * @param id ID of the modal
+     * @param data Initial data to pass to the modal
+     * @return
      */
     public setupModal(id: string, data?: any) {
         this.register(id, ModalComponent, data);
@@ -84,9 +84,9 @@ export class OverlayService {
 
     /**
      * Function to define a tooltip that can be rendered on the overlay
-     * @param  {string} id ID of the tooltip
-     * @param  {any} data Initial data to pass to the tooltip
-     * @return {void}
+     * @param id ID of the tooltip
+     * @param data Initial data to pass to the tooltip
+     * @return
      */
     public setupTooltip(id: string, data?: any) {
         this.register(id, TooltipComponent, data);
@@ -94,10 +94,10 @@ export class OverlayService {
 
     /**
      * Function to register a component that can be rendered on the overlay
-     * @param  {string} id ID of the component
-     * @param  {Type<any>} type Component Type
-     * @param  {any} data Initial data to pass to the component
-     * @return {void}
+     * @param id ID of the component
+     * @param type Component Type
+     * @param data Initial data to pass to the component
+     * @return
      */
     public register(id: string, cmp: Type<any>, data?: any) {
         WIDGETS.log('OVERLAY(S)', `Registering overlay ${id} with component:`, cmp.name);
@@ -106,9 +106,9 @@ export class OverlayService {
 
     /**
      * Function to register a component attached to an overlay
-     * @param  {string} id ID of the component
-     * @param  {Type<any>} type Component Type
-     * @return {void}
+     * @param id ID of the component
+     * @param type Component Type
+     * @return
      */
     public registerComponent(id: string, cmp: Type<any>) {
         WIDGETS.log('OVERLAY(S)', `Registering component ${cmp.name} with ${id}`);
@@ -117,9 +117,9 @@ export class OverlayService {
 
     /**
      * Open predefined modal with the given data
-     * @param  {string} id ID of the component
-     * @param  {any} data Initial data to pass to the component
-     * @return {Promise<Observable>} returns a promise which returns an observable for events on the component
+     * @param id ID of the component
+     * @param data Initial data to pass to the component
+     * @return returns a promise which returns an observable for events on the component
      */
     public openModal(id: string, data?: any) {
         return this.add('root', id, ModalComponent, data);
@@ -127,9 +127,9 @@ export class OverlayService {
 
     /**
      * Open predefined notify popup with the given data
-     * @param  {string} id ID of the popup
-     * @param  {any} data Initial data to pass to the popup
-     * @return {Promise<Observable>} returns a promise which returns an observable for events on the component
+     * @param id ID of the popup
+     * @param data Initial data to pass to the popup
+     * @return returns a promise which returns an observable for events on the component
      */
     public notify(id: string, data?: any) {
         return this.add('root', id, NotificationComponent, data);
@@ -137,9 +137,9 @@ export class OverlayService {
 
     /**
      * Open predefined tooltip with the given data
-     * @param  {string} id ID of the component
-     * @param  {any} data Initial data to pass to the component
-     * @return {Promise<Observable>} returns a promise which returns an observable for events on the component
+     * @param id ID of the component
+     * @param data Initial data to pass to the component
+     * @return returns a promise which returns an observable for events on the component
      */
     public openTooltip(id: string, data?: any) {
         return this.add('root', id, TooltipComponent, data);
@@ -148,11 +148,11 @@ export class OverlayService {
 
     /**
      * Create/Open component on the overlay
-     * @param  {string} c_id ID of the container to render the component
-     * @param  {string} id ID of the component
-     * @param  {Type<any>} type Component Type
-     * @param  {any} data Initial data to pass to the component
-     * @return {Promise<Observable>} returns a promise which returns an observable for events on the component
+     * @param c_id ID of the container to render the component
+     * @param id ID of the component
+     * @param type Component Type
+     * @param data Initial data to pass to the component
+     * @return returns a promise which returns an observable for events on the component
      */
     public add(c_id: string = 'root', id: string, cmp: Type<any> | string, data?: any) {
         for (const item in this.cmp_reg) {
@@ -189,9 +189,9 @@ export class OverlayService {
 
     /**
      * Removes the component with the given id from the container
-     * @param  {string} c_id ID of the container
-     * @param  {string} id ID of the component
-     * @return {void}
+     * @param c_id ID of the container
+     * @param id ID of the component
+     * @return
      */
     public remove(c_id: string = 'root', id: string) {
         if (c_id && this.containers[c_id]) {
@@ -201,10 +201,10 @@ export class OverlayService {
 
     /**
      * Updates the model of the component with the given ID on the container
-     * @param  {string} c_id ID of the container
-     * @param  {string} id ID of the component
-     * @param  {any} data New data to pass to the component
-     * @return {void}
+     * @param c_id ID of the container
+     * @param id ID of the component
+     * @param data New data to pass to the component
+     * @return
      */
     public set(c_id: string = 'root', id: string, data: any) {
         if (c_id && this.containers[c_id]) {
@@ -214,9 +214,9 @@ export class OverlayService {
 
     /**
      * Get the component instance with the given id from the container
-     * @param  {string} c_id ID of the container
-     * @param  {string} id ID of the component
-     * @return {void}
+     * @param c_id ID of the container
+     * @param id ID of the component
+     * @return
      */
     public get(c_id: string = 'root', id: string) {
         if (c_id && this.containers[c_id]) {
@@ -227,9 +227,9 @@ export class OverlayService {
 
     /**
      * Get the component instance with the given id from the container
-     * @param  {string} c_id ID of the container
-     * @param  {string} id ID of the component
-     * @return {void}
+     * @param c_id ID of the container
+     * @param id ID of the component
+     * @return
      */
     public listen(c_id: string = 'root', id: string, next: (event: any) => {}) {
         if (c_id && this.containers[c_id]) {
@@ -240,7 +240,7 @@ export class OverlayService {
 
     /**
      * Closes all components in the overlay space
-     * @return {void}
+     * @return
      */
     public clear(id?: string) {
         for (const k in this.containers) {
@@ -289,9 +289,9 @@ export class OverlayService {
     }
     /**
      * Render container component on the given view
-     * @param  {string}    id   Component ID
-     * @param  {Type<any>} type Component Type
-     * @return {any} Returns a promise which returns the component instance
+     * @param id   Component ID
+     * @param type Component Type
+     * @return Returns a promise which returns the component instance
      */
     private renderRootContainer() {
         if (this.containers.root) {

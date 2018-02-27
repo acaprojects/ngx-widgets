@@ -83,9 +83,9 @@ export class SettingsService {
     }
     /**
      * Prints message to the console
-     * @param  {string} type [description]
-     * @param  {string} msg    Message to print to the console
-     * @param  {string} stream IO Stream to print message to.
+     * @param type [description]
+     * @param msg    Message to print to the console
+     * @param stream IO Stream to print message to.
      */
     public log(type: string, msg: string, args?: any, stream: string = 'debug') {
         const win = window as any;
@@ -130,8 +130,8 @@ export class SettingsService {
 
     /**
      * Saves the given value in local storage and add it to the settings.
-     * @param  {string} key   Reference to store the item as
-     * @param  {string} value Value to store in the give key
+     * @param key   Reference to store the item as
+     * @param value Value to store in the give key
      * @return none
      */
     public save(key: string, value: string) {
@@ -146,7 +146,7 @@ export class SettingsService {
     }
     /**
      * Gets the setting value for the give key
-     * @param  {string} key Name of the setting to get
+     * @param key Name of the setting to get
      * @return {any}     Returns the value stored in the settings or null
      */
     public get(key: string) {
@@ -173,7 +173,7 @@ export class SettingsService {
     /**
      * Gets nested setting value
      * @param  {string[]} keys List of keys to iterate down the object
-     * @param  {any}      root Root element of the search
+     * @param root Root element of the search
      * @return {any}        Returns the value a the end of the iteration or null
      */
     public getItemFromKeys(keys: string[], root: any) {
@@ -199,7 +199,7 @@ export class SettingsService {
     }
     /**
      * Wrapper function for get()
-     * @param  {string} key Name of the setting to get
+     * @param key Name of the setting to get
      * @return {any}     Returns the value stored in the settings or null
      */
     public setting(key: string) {
@@ -227,7 +227,7 @@ export class SettingsService {
     }
     /**
      * Sets the loading state of the application
-     * @param  {boolean} state Loading state of the application
+     * @param state Loading state of the application
      * @return none
      */
     public loading(state: boolean) {

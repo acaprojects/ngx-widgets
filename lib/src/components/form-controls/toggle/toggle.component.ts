@@ -80,8 +80,8 @@ export class ToggleComponent {
     }
     /**
      * Changes the toggles state from on -> off and vice versa
-     * @param  {any}    event Click/Tap Event
-     * @return {void}
+     * @param event Click/Tap Event
+     * @return
      */
     public changeState(event: any) {
         if (this.disabled) {
@@ -100,7 +100,7 @@ export class ToggleComponent {
     }
     /**
      * Sets the toggle knob
-     * @return {void}
+     * @return
      */
     private initElements() {
         this.toggle = this.type === 'text' ? this.tknob : this.sknob;

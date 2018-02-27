@@ -15,8 +15,8 @@ export class SafeUrlPipe implements PipeTransform {
     constructor(private sanitizer: DomSanitizer) {}
   /**
    * Sanitizes the URL allowing it to be injected into a template
-   * @param  {string} url URL to sanitize
-   * @return {any} Sanitized URL
+   * @param url URL to sanitize
+   * @return Sanitized URL
    */
    public transform(url: string): any {
        return this.sanitizer.bypassSecurityTrustResourceUrl(url);

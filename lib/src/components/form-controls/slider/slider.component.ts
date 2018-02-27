@@ -100,8 +100,8 @@
 
     /**
      * Update value of the slider
-     * @param  {boolean = false}       update Do we need to update the display
-     * @return {void}
+     * @param update Do we need to update the display
+     * @return
      */
      public updateValue(update: boolean = false) {
          if (!this.bar) {
@@ -119,8 +119,8 @@
 
     /**
      * Updates the value and position of the slider based of the event
-     * @param  {any}    event Tap event
-     * @return {void}
+     * @param event Tap event
+     * @return
      */
      public clickSlider(event: any) {
          if (event) {
@@ -139,8 +139,8 @@
 
     /**
      * Updates the position of the progress and knob of the slider
-     * @param  {any}    event Pan event
-     * @return {void}
+     * @param event Pan event
+     * @return
      */
      public moveSlider(event: any) {
          if (event) {
@@ -166,8 +166,8 @@
 
     /**
      * Updates the position of the progress and knob of the slider
-     * @param  {any}    event PanEnd event
-     * @return {void}
+     * @param event PanEnd event
+     * @return
      */
      public sliderStop(event: any) {
          if (event) {
@@ -183,7 +183,7 @@
      }
     /**
      * Update slider positioning when the window is resized
-     * @return {void}
+     * @return
      */
      public resize() {
          if (this.bar) {
@@ -222,7 +222,7 @@
      }
     /**
      * Emits the value throught the output binding
-     * @return {void}
+     * @return
      */
      private postValue() {
          setTimeout(() => {
@@ -240,8 +240,8 @@
      }
     /**
      * Calculates the new value of the slider using the position of the event
-     * @param  {any}    event Tap/Pan event
-     * @return {number} Returns the new value of the slider
+     * @param event Tap/Pan event
+     * @return Returns the new value of the slider
      */
      private calcValue(event: any) {
          if (event) {
@@ -302,7 +302,7 @@
 
     /**
      * Gets the offset of the slider bar
-     * @return {void}
+     * @return
      */
      private getBarOffset() {
          const dim = {

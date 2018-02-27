@@ -154,9 +154,9 @@ export class DynamicBaseComponent {
     }
     /**
      * Posts an event to the Observable.
-     * @param  {string}    type Type of event that has occured
-     * @param  {string =    'Code'}    location Location that the event has come from
-     * @return {void}
+     * @param type Type of event that has occured
+     * @param location Location that the event has come from
+     * @return
      */
     public event(type: string, location: string = 'Code') {
         setTimeout(() => {
@@ -243,7 +243,7 @@ export class DynamicBaseComponent {
 
     /**
      * Resolves the factory, then creates the content component
-     * @return {void}
+     * @return
      */
     private render(tries: number = 0) {
         if (tries > 10) {

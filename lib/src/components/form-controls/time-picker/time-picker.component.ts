@@ -53,7 +53,7 @@ export class TimePickerComponent {
     }
     /**
      * Adds one hour to the time
-     * @return {void}
+     * @return
      */
     public addHour() {
         this.time.h++;
@@ -63,7 +63,7 @@ export class TimePickerComponent {
     }
     /**
      * Reduces the times hour by one
-     * @return {[type]} [description]
+     * @return [description]
      */
     public minusHour() {
         this.time.h--;
@@ -75,7 +75,7 @@ export class TimePickerComponent {
     }
     /**
      * Adds one minute to the time
-     * @return {void}
+     * @return
      */
     public addMinute() {
         this.time.m += this.minuteStep;
@@ -88,7 +88,7 @@ export class TimePickerComponent {
     }
     /**
      * Reduces the time's minutes by one
-     * @return {[type]} [description]
+     * @return [description]
      */
     public minusMinute() {
         this.time.m -= this.minuteStep;
@@ -100,7 +100,7 @@ export class TimePickerComponent {
     }
     /**
      * Changes the period from morning to afternoon(AM -> PM)
-     * @return {void}
+     * @return
      */
     public changePeriod() {
         setTimeout(() => {
@@ -110,7 +110,7 @@ export class TimePickerComponent {
     }
     /**
      * Validates the hour value of the component
-     * @return {void}
+     * @return
      */
     public validateHour() {
         this.display_hour = this.checkNumber(this.display_hour);
@@ -126,7 +126,7 @@ export class TimePickerComponent {
     }
     /**
      * Validates the minute value of the component
-     * @return {void}
+     * @return
      */
     public validateMinute() {
         this.display_minutes = this.checkNumber(this.display_minutes);
@@ -139,8 +139,8 @@ export class TimePickerComponent {
     }
     /**
      * Checks if a key press a been made and updates the hour if an up/down arrow key has been pressed
-     * @param  {any}    e Key Up Event
-     * @return {void}
+     * @param e Key Up Event
+     * @return
      */
     public keyupHour(e: any) {
         if (e) {
@@ -158,8 +158,8 @@ export class TimePickerComponent {
 
     /**
      * Checks if a key press a been made and updates the minutes if an up/down arrow key has been pressed
-     * @param  {any}    e Key Up Event
-     * @return {void}
+     * @param e Key Up Event
+     * @return
      */
     public keyupMinutes(e: any) {
         if (e) {
@@ -176,7 +176,7 @@ export class TimePickerComponent {
     }
     /**
      * Change input focus from hours to minutes
-     * @return {void}
+     * @return
      */
     public changeFocus() {
         if (this.hour_input) {
@@ -190,7 +190,7 @@ export class TimePickerComponent {
     }
     /**
      * Checks if the display hour value is valid then updates the time hour value
-     * @return {void}
+     * @return
      */
     public checkHour() {
         setTimeout(() => {
@@ -217,7 +217,7 @@ export class TimePickerComponent {
 
     /**
      * Checks if the display minutes value is valid then updates the time minutes value
-     * @return {void}
+     * @return
      */
     public checkMinute() {
         setTimeout(() => {
@@ -245,7 +245,7 @@ export class TimePickerComponent {
     }
     /**
      * Called when the time changes
-     * @return {void}
+     * @return
      */
     public timeSet() {
         this.checkHour();
@@ -256,7 +256,7 @@ export class TimePickerComponent {
     }
     /**
      * Updates the time displayed by the component
-     * @return {void}
+     * @return
      */
     private setDisplayTime() {
         setTimeout(() => {
@@ -280,7 +280,7 @@ export class TimePickerComponent {
     }
     /**
      * Initialises the time to the current time
-     * @return {void}
+     * @return
      */
     private initTime() {
         const now = new Date();
@@ -300,8 +300,8 @@ export class TimePickerComponent {
     }
     /**
      * Checks if the input string is a valid number
-     * @param  {string} str String to check
-     * @return {string} Returns a string only containing numbers
+     * @param str String to check
+     * @return Returns a string only containing numbers
      */
     private checkNumber(str: string) {
         const numbers = '1234567890';

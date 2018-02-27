@@ -16,8 +16,8 @@ export class SafeStylePipe implements PipeTransform {
 
     /**
      * Sanitizes the string allowing it to be injected into a template
-     * @param  {string} style String to sanitize
-     * @return {any} Sanitized string
+     * @param style String to sanitize
+     * @return Sanitized string
      */
      public transform(style: string): any {
          return this.sanitizer.bypassSecurityTrustStyle(style);
