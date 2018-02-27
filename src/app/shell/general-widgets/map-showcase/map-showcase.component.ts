@@ -125,6 +125,5 @@ export class MapShowcaseComponent {
      [focus]=&quot;map_focus&quot;
      (event)=&quot;doSomething($event)&quot;&gt;
 &lt;/map&gt;`;
-        console.log(this.model.inject);
     }
 }

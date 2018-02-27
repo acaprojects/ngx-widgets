@@ -37,9 +37,6 @@ export class AppService {
         private settings: SettingsService
     ) {
         this.init();
-        this.router.events.subscribe((event: any) => {
-            console.error('Nav event:', event);
-        })
     }
 
     get endpoint() {

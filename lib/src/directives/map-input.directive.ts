@@ -98,6 +98,7 @@ export class MapInputDirective {
     }
 
     @HostListener('wheel', ['$event']) private wheelScale(e: any) {
+        if (e.preventDefault) { e.preventDefault(); }
         const value = 1 + -(0.01 * e.deltaY) / 2;
         this.scale = Math.round((this.scale + 100) * value - 100);
         this.animations.scale.animate();

@@ -46,6 +46,5 @@ export class ButtonGroupShowcaseComponent {
         this.model.inject = `&lt;btn-group [items]=&quot;btns&quot;
      [(model)]=&quot;active_btn&quot;
 &lt;/btn-group&gt;`;
-        console.log(this.model.inject);
     }
 }

@@ -53,6 +53,5 @@ export class ButtonShowcaseComponent {
      [disabled]=&quot;false&quot;
      (tapped)=&quot;doSomething($event)&quot;&gt;
 &lt;/btn&gt;`;
-        console.log(this.model.inject);
     }
 }

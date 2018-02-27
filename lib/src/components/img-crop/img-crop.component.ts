@@ -10,6 +10,10 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { DropService } from '../../services/drop-service/drop-service.service';
 
+import 'cropperjs';
+
+declare let Cropper: any;
+
 @Component({
     selector: 'img-crop',
     templateUrl: './img-crop.template.html',
@@ -23,24 +27,22 @@ export class ImageCropComponent {
     @Input() public ratio = '4:3';
     @Input() public width = 400;
 
-    @Output() public completed = new EventEmitter();
+    @Output() public saved = new EventEmitter();
 
-    public loading = false;
-    public zoom = 100;
-    public image_data: string = null;
-    public saving = false;
-    public data: any = {};
-    public image: any = null;
-    public error: any = null;
+    public model: any = {
+        image: null,
+        data: {},
+        zoom: 100
+    };
 
-    @ViewChild('image') private canvas: ElementRef;
+    @ViewChild('image') private image: ElementRef;
 
     private stream: any = null;
     private sub: any = null;
 
     constructor(private drop_service: DropService) {
         this.setupSize();
-        this.data = {};
+        this.model.data = {};
     }
 
     public ngOnChanges(changes: any) {
@@ -64,9 +66,7 @@ export class ImageCropComponent {
                 obj.data.promise.then((data: any) => {
                     // At this point all file data has been collected
                     this.loadImage(data.files[0]);
-                }, (err: any) => {
-                    return;
-                });
+                }, (err: any) => null);
             }
         });
     }
@@ -83,18 +83,17 @@ export class ImageCropComponent {
      * @return {void}
      */
     public loadImage(file: File) {
-        if (!file) {
-            return;
-        }
-        this.loading = true;
-        this.image = new Image();
+        if (!file) { return; }
+        this.model.loading = true;
+        this.model.image = new Image();
         const myReader: FileReader = new FileReader();
         myReader.onloadend = (loadEvent: any) => {
-            this.image.src = loadEvent.target.result;
-            this.image_data = loadEvent.target.result;
+            this.model.image.src = loadEvent.target.result;
+            this.model.image_data = loadEvent.target.result;
+            this.setupCropper();
             setTimeout(() => {
                 this.setImage(this.image);
-                this.loading = false;
+                this.model.loading = false;
             }, 20);
         };
         myReader.readAsDataURL(file);
@@ -108,16 +107,21 @@ export class ImageCropComponent {
      * @return {void}
      */
     public saveImage() {
-        this.saving = true;
-        this.completed.emit(this.data.image);
-        setTimeout(() => {
-            this.saving = false;
-        }, 100);
+        this.model.saving = true;
+        this.saved.emit(this.model.data.image);
+        setTimeout(() => this.model.saving = false, 100);
     }
 
     public ngOnDestroy() {
         if (this.sub) {
             this.sub.unsubscribe();
+        }
+    }
+
+    private setupCropper() {
+        if (this.image && this.image.nativeElement) {
+            const ratio: { x: any, y: any } = { x: this.ratio.split(':')[0], y: this.ratio.split(':')[1] };
+            this.model.cropper = new Cropper(this.image.nativeElement, { aspectRatio: ratio.x / ratio.y });
         }
     }
 }

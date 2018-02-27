@@ -9,13 +9,13 @@
 
 // Require what we need from rxjs
 import { Injectable, Renderer } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { DropFiles } from './drop-files';
 
 @Injectable()
 export class DropService {
     // These track the relationship between elements, callbacks and file streams
-    private static _streams       = {}; // stream name => shared observable
+    private static _streams       = {}; // stream name => Subject
     private static _observers     = {}; // stream name => observer
     private static _streamMapping = {}; // stream name => element array
     private static _callbacks     = {}; // stream name => callback array
@@ -27,9 +27,8 @@ export class DropService {
     private _currentTarget: HTMLScriptElement;
 
     // This is our event observables
-    private _event_obs: any = {
-        dragover: null,
-    };
+    private _event_subjects: any = { dragover: null };
+    private _event: any = { dragover: null };
     private _listeners: any = {};
 
     // Tracks the number of dragenter events by tracking
@@ -38,77 +37,73 @@ export class DropService {
 
     constructor(/*private renderer: Renderer*/) {
         let overFired: any;
-
+        const event_types = ['drop', 'dragover', 'dragenter', 'dragleave'];
+        for (const e of event_types) {
+            this._event[e] = {};
+            this._event[e].subject = new Subject();
+            this._event[e].observer = this._event.drop.subject.asObservable();
+        }
         // Define the event streams
-        this._event_obs.drop = new Observable((observer) => {
-            this.event.drop = (event: Event) => {
-                const e = this._preventDefault(event);
-                if (this._checkTarget(e)) {
-                    observer.next(e);
-                }
-            };
-        });
+        this.event.drop = (event: Event) => {
+            const e = this._preventDefault(event);
+            if (this._checkTarget(e)) {
+                this._event.drop.subject.next(e);
+            }
+        };
         // Prevent default on all dragover events
-        this._event_obs.dragover = new Observable((observer) => {
-            this.event.dragover = (event: Event) => {
-                event.preventDefault();
-                observer.next(event);
-            };
-        });
+        this.event.dragover = (event: Event) => {
+            event.preventDefault();
+            this._event.dragover.subject.next(event);
+        };
+        this.event.dragenter = (event: Event) => {
+            const e = this._preventDefault(event);
+            if (this._checkTarget(e)) {
+                this._event.dragenter.subject.next(e);
+            }
+        };
+        this.event.dragleave = (event: Event) => {
+            const e = this._preventDefault(event);
+            this._checkTarget(e);
+            const dropTargets = this._dropTargets;
+            const target = e.target;
 
-        this._event_obs.dragenter = new Observable((observer) => {
-            this.event.dragenter = (event: Event) => {
-                const e = this._preventDefault(event);
-                if (this._checkTarget(e)) {
-                    observer.next(e);
+            this._counter.delete(target);
+
+            // Exit early if the current counter is 0
+            // This means we've left the body
+            if (this._counter.size <= 0) {
+                this._counter = new Set();
+
+                if (this._currentTarget) {
+                    this._performCallback(this._currentTarget, false);
+                    this._currentTarget = null;
                 }
-            };
-        });
-        this._event_obs.dragleave = new Observable((observer) => {
-            this.event.dragleave = (event: Event) => {
-                const e = this._preventDefault(event);
-                this._checkTarget(e);
-                const dropTargets = this._dropTargets;
-                const target = e.target;
-
-                this._counter.delete(target);
-
-                // Exit early if the current counter is 0
-                // This means we've left the body
-                if (this._counter.size <= 0) {
-                    this._counter = new Set();
-
-                    if (this._currentTarget) {
-                        this._performCallback(this._currentTarget, false);
-                        this._currentTarget = null;
-                    }
-                } else {
-                    for (const drop_target of dropTargets) {
-                        if (drop_target === target) {
-                            return observer.next(event);
-                        }
+            } else {
+                for (const drop_target of dropTargets) {
+                    if (drop_target === target) {
+                        return this._event.dragleave.subject.next(event);
                     }
                 }
-            };
-        });
+            }
+        };
 
         // Start watching for the events
-        this._event_obs.dragover.subscribe();
-        this._event_obs.dragenter.subscribe((obj: any) => {
+        this._event.dragover.observer.subscribe();
+        this._event.dragenter.observer.subscribe((obj: any) => {
             overFired = obj.target;
             this._updateClasses(obj);
         });
-        this._event_obs.dragleave.subscribe((obj: any) => {
+        this._event.dragleave.observer.subscribe((obj: any) => {
             if (!overFired) {
                 this._removeClass(obj);
             }
             overFired = null;
         });
-        this._event_obs.drop.subscribe((obj: any) => {
-            const observer = this._removeClass(obj);
+        this._event.drop.observer.subscribe((obj: any) => {
+            const stream = this._removeClass(obj);
             // Stream the files
-            if (observer) {
-                observer.next({
+            if (stream) {
+                stream.next({
                     event: 'drop',
                     data: new DropFiles(obj.originalEvent),
                 });
@@ -118,9 +113,9 @@ export class DropService {
 
     public ngOnDestroy() {
         // Remove Observers
-        for (const e in this._event_obs) {
-            if (this._event_obs[e]) {
-                this._event_obs[e].unsubscribe();
+        for (const e in this._event) {
+            if (this._event[e].subject) {
+                this._event[e].subject.complete();
             }
         }
         // Remove listeners
@@ -181,13 +176,8 @@ export class DropService {
             DropService._observers[name] = null;
             DropService._streamMapping[name] = [];
             DropService._callbacks[name] = [];
-            DropService._streams[name] = new Observable<{ event: string, data?: DropFiles }>((observer: any) => {
-                DropService._observers[name] = observer;
-
-                return () => {
-                    DropService._observers[name] = null;
-                };
-            }).share();
+            DropService._streams[name] = new Subject<{ event: string, data?: DropFiles }>();
+            DropService._observers[name] = DropService._streams[name].asObservable();
         }
     }
 
@@ -284,18 +274,14 @@ export class DropService {
 
     private _removeClass(obj: any) {
         const stream: string = this._performCallback(obj.target, false);
-
         this._currentTarget = null;
-
         return this._notifyObservers(stream, {event: 'left'});
     }
 
     private _notifyObservers(stream: string, object: {event: string, data?: DropFiles}) {
-        const observer = DropService._observers[stream];
+        const _stream = DropService._streams[stream];
 
-        if (observer) {
-            observer.next(object);
-        }
-        return observer;
+        if (_stream) { _stream.next(object); }
+        return _stream;
     }
 }
