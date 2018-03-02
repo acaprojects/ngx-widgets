@@ -48,27 +48,6 @@ export class AppService {
         return api_endpoint;
     }
 
-    public initSystem(sys: string) {
-        this._system = sys;
-        if (!this._system || this._system === '') {
-            if (localStorage) {
-                this._system = localStorage.getItem('ACA.CONTROL.system');
-                if (this.subjects.system) {
-                    this.subjects.system.next(this._system);
-                }
-            }
-            if (!this._system || this._system === '') {
-                this.navigate('bootstrap', null, false);
-            } else {
-                this.navigate('');
-            }
-        } else {
-            if (this.subjects.system) {
-                this.subjects.system.next(this._system);
-            }
-        }
-    }
-
     public init() {
         if (!this.settings.setup) {
             return setTimeout(() => this.init(), 500);
@@ -84,12 +63,8 @@ export class AppService {
         this._title.setTitle(`${str ? str + ' | ' : ''}${this.model.title}`);
     }
 
-    public navigate(path: string, query?: any, add_base: boolean = true) {
+    public navigate(path: string, query?: any) {
         const path_list = [];
-        if (add_base) {
-            path_list.push('_');
-            path_list.push(this._system);
-        }
         path_list.push(path);
         this.prev_route.push(this.router.url);
         // if (!this.systems.resources.authLoaded) {
@@ -101,7 +76,7 @@ export class AppService {
 
     public back() {
         if (this.prev_route.length > 0) {
-            this.navigate(this.prev_route.pop(), null, false);
+            this.navigate(this.prev_route.pop());
             this.prev_route.pop();
         } else {
             this.navigate('');

@@ -56,7 +56,7 @@ export class ImageCropperShowcaseComponent {
           ratio=&quot;1:1&quot;
           [circle]=&quot;false&quot;
           [width]=&quot;512&quot;
-          (saved)=&quot;savedCroppedImage($event)&quot;&gt;
+          (saved)=&quot;savedImage($event)&quot;&gt;
 &lt;/img-crop&gt;`;
     }
 }

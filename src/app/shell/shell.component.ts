@@ -1,6 +1,9 @@
 
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+
 import { WIDGETS } from '../../../lib/src/settings';
+import { AppService } from '../services/app.service';
 
 @Component({
     selector: 'app-shell',
@@ -11,8 +14,9 @@ export class AppShellComponent {
     public version: string = WIDGETS.app_version;
     public model: any = {};
 
-    constructor() {
+    constructor(private app_service: AppService, private router: Router, private route: ActivatedRoute) {
         this.model.menu_items = ['General Components', 'Form Control Components', 'Page Control Components', 'Directives', 'Pipes', 'Services'];
+        this.model.menu_ids = ['general', 'form-controls', 'page-controls', 'directives', 'pipes', 'services'];
         this.model.menu = {
             'General Components': [
                 { id: 'button', name: 'Button' },
@@ -60,5 +64,26 @@ export class AppShellComponent {
                 { id: 'overlay-service', name: 'Overlay' },
             ]
         };
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                for (const id of this.model.menu_ids) {
+                    if (this.router.url.indexOf(id) >= 0) {
+                        this.model.page = id;
+                        break;
+                    }
+                }
+            }
+        });
+
+        this.route.params.subscribe((params) => {
+            if (params.location) {
+                this.model.location = params.location;
+            }
+        });
+    }
+
+    public navigate(path: string) {
+        this.app_service.navigate(path);
+        console.log('Navigate:', path);
     }
 }

@@ -46,7 +46,7 @@ export class ProgressCircleShowcaseComponent {
     };
 
     public ngOnInit() {
-        this.model.inject = `&lt;progress-circle [progress]=&quot;loading_percent * 10&quot;
+        this.model.inject = `&lt;progress-circle [progress]=&quot;percent * 10&quot;
      bg=&quot;#ccc&quot;
      color=&quot;#D50000&quot;
      innerColor=&quot;#fff&quot;&gt;

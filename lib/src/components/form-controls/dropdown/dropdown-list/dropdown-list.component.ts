@@ -14,16 +14,14 @@ export class DropdownListComponent extends OverlayContentComponent {
 
     @ViewChild('input') private input: ElementRef;
 
-
     constructor(protected _cdr: ChangeDetectorRef) {
         super(_cdr);
     }
 
     public set(data: any) {
         super.set(data);
-        setTimeout(() => {
-            this.filter();
-        }, 20);
+        setTimeout(() => this.filter(), 20);
+        console.log('List:', this.model);
     }
 
     public filter() {

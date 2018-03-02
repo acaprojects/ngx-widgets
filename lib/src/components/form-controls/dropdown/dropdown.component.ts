@@ -18,6 +18,7 @@ export class DropdownComponent {
     @Input() public html = '';
     @Output() public modelChange: any = new EventEmitter();
 
+    @ViewChild('ref') private reference: ElementRef;
     @ViewChild('body') private body: ElementRef;
     @ViewChild('active') private active: ElementRef;
 
@@ -25,6 +26,7 @@ export class DropdownComponent {
     public data: any = {};
     public show = false;
     public cmp: any = DropdownListComponent;
+    public font_size = 20;
     public width = 200;
     public list_items: any[] = [];
     public bottom = false;
@@ -33,17 +35,12 @@ export class DropdownComponent {
         this.id = `DD${Math.floor(Math.random() * 89999999 + 10000000).toString()}`;
     }
 
-    public ngAfterViewInit() {
-    }
-
     public ngOnChanges(changes: any) {
         if (changes.list) {
             this.processList();
         }
         this.update();
-        setTimeout(() => {
-            this.resize();
-        }, 300);
+        setTimeout(() => this.resize(), 300);
     }
 
     public select(e: any) {
@@ -57,22 +54,21 @@ export class DropdownComponent {
     }
 
     public updateSize(tries: number = 0) {
-        if (tries > 10) {
-            return;
-        }
+        if (tries > 10) { return; }
         if (this.body && this.body.nativeElement) {
             this.width = this.body.nativeElement.offsetWidth;
             this.update();
         } else {
-            tries++;
-            setTimeout(() => {
-                this.updateSize(tries);
-            }, 200);
+            setTimeout(() => this.updateSize(++tries), 200);
         }
     }
 
     public resize() {
         this.updateSize();
+        if (this.reference.nativeElement && this.reference.nativeElement) {
+            const box = this.reference.nativeElement.getBoundingClientRect();
+            this.font_size = box.height;
+        }
         if (this.active && this.active.nativeElement) {
             const box = this.active.nativeElement.getBoundingClientRect();
             const top = box.top + box.height / 2;
@@ -90,6 +86,7 @@ export class DropdownComponent {
             active: this.model,
             filter: this.filter,
             width: this.width,
+            font_size: this.font_size,
             hideActive: this.hideActive,
             placeholder: this.placeholder,
         };

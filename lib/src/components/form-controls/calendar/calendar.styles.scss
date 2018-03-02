@@ -65,6 +65,9 @@
     width: 2em;
     padding: .45em .1em;
     margin: .25em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     &:hover {
         background-color: #ccc;

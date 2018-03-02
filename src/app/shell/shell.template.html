@@ -11,9 +11,9 @@
     </div>
     <div class="sidebar" [class.show]="model.menu.show">
         <div class="list">
-            <div class="category" *ngFor="let category of model.menu_items">
-                <div class="item">{{category}}</div>
-                <div class="sub-item" *ngFor="let item of model.menu[category]">{{item.name}}</div>
+            <div class="category" *ngFor="let category of model.menu_items; let i = index">
+                <div class="item" [class.active]="model.page === model.menu_ids[i]" (tap)="navigate(model.menu_ids[i])">{{category}}</div>
+                <div class="sub-item" *ngFor="let item of model.menu[category]" [class.active]="model.location === item.id" (tap)="navigate(model.menu_ids[i] + '/' + item.id)">{{item.name}}</div>
             </div>
         </div>
     </div>

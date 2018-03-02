@@ -2,6 +2,7 @@
 <div [class]="'dropdown ' + name + (show ? ' show' : '')" widget
     #body
     (window:resize)="resize()">
+    <div #ref class="reference"></div>
     <div class="tooltip" [class.bottom]="bottom"
         tooltip
         name="dropdown-list"

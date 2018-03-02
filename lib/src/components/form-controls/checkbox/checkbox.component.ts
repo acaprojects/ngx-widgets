@@ -10,6 +10,7 @@ export class CheckboxComponent {
     @Input() name = '';
     @Input() model = false;
     @Input() label = '';
+    @Input() side = 'left';
     @Output() modelChange: any = new EventEmitter();
 
     public toggle() {
