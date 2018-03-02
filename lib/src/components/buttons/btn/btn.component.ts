@@ -21,7 +21,7 @@ export class ButtonComponent {
     // Component Inputs
     @Input() public name = '';
     @Input() public model = false;
-    @Input() public type = '';
+    @Input() public type = 'button';
     @Input() public format = 'raised';
     @Input() public disabled = false;
     @Input() public toggle = false;

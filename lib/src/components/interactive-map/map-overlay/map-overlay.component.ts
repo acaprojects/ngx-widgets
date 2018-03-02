@@ -1,5 +1,6 @@
 
-import { Component } from '@angular/core';
+import { Component, Injector, Renderer2 } from '@angular/core';
+import { ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { DynamicBaseComponent } from '../../overlays/dynamic-base.component';
 
 @Component({
@@ -15,6 +16,13 @@ import { DynamicBaseComponent } from '../../overlays/dynamic-base.component';
 })
 export class MapOverlayComponent extends DynamicBaseComponent {
     public container: any = {};
+
+    constructor(private injector: Injector) {
+        super();
+        this._cfr = this.injector.get(ComponentFactoryResolver);
+        this._cdr = this.injector.get(ChangeDetectorRef);
+        this.renderer = this.injector.get(Renderer2);
+    }
 
     public ngOnInit() {
         super.ngOnInit();
