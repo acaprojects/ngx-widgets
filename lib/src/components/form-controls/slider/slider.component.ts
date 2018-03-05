@@ -21,11 +21,11 @@
      @Input() public align = 'horizontal';
      @Input() public min = 0;
      @Input() public max = 100;
-     @Input() public value = 0;
+     @Input() public model = 0;
      @Input() public step = 1;
      @Input() public precision = 1;
      @Input() public name = '';
-     @Output() public valueChange = new EventEmitter();
+     @Output() public modelChange = new EventEmitter();
 
      public available = false;
      public current = 0;
@@ -51,7 +51,7 @@
      }
 
      public ngOnChanges(changes: any) {
-         if (changes.min || changes.max || changes.value) {
+         if (changes.min || changes.max || changes.model) {
              this.validate();
          }
          if (!this.step) {
@@ -60,13 +60,13 @@
          if (!this.precision) {
              this.precision = 1;
          }
-         if (changes.value && !this.user_action && !isNaN(this.value)) {
-             if (this.value < this.min) {
-                 this.value = this.min;
-             } else if (this.value > this.max) {
-                 this.value = this.max;
+         if (changes.model && !this.user_action && !isNaN(this.model)) {
+             if (this.model < this.min) {
+                 this.model = this.min;
+             } else if (this.model > this.max) {
+                 this.model = this.max;
              }
-             this.current = this.value;
+             this.current = this.model;
              this.updateValue(true);
          }
      }
@@ -93,13 +93,13 @@
              WIDGETS.log('Slider', 'Max NaN');
              this.max = this.min > 100 ? this.min + this.step * 5 : 100;
          }
-         if (isNaN(this.value)) {
-            this.value = this.min;
+         if (isNaN(this.model)) {
+            this.model = this.min;
         }
      }
 
     /**
-     * Update value of the slider
+     * Update model of the slider
      * @param update Do we need to update the display
      * @return
      */
@@ -118,7 +118,7 @@
      }
 
     /**
-     * Updates the value and position of the slider based of the event
+     * Updates the model and position of the slider based of the event
      * @param event Tap event
      * @return
      */
@@ -132,7 +132,7 @@
              }
          }
          const prev = this.current;
-         this.current = this.value = this.calcValue(event);
+         this.current = this.model = this.calcValue(event);
          this.actionPerformed();
          this.refresh();
      }
@@ -152,7 +152,7 @@
              }
          }
          const prev = this.current;
-         this.current = this.value = this.calcValue(event);
+         this.current = this.model = this.calcValue(event);
          this.user_action = true;
          this.refresh();
          if (this.stop_timer) {
@@ -221,7 +221,7 @@
          }
      }
     /**
-     * Emits the value throught the output binding
+     * Emits the model throught the output binding
      * @return
      */
      private postValue() {
@@ -232,16 +232,16 @@
                      this.update_timer = null;
                  }
                  this.update_timer = setTimeout(() => {
-                     this.valueChange.emit(this.current);
+                     this.modelChange.emit(this.current);
                      this.update_timer = null;
-                 }, 180); // Delay timer for posting value changes.
+                 }, 180); // Delay timer for posting model changes.
              }
          }, 20);
      }
     /**
-     * Calculates the new value of the slider using the position of the event
+     * Calculates the new model of the slider using the position of the event
      * @param event Tap/Pan event
-     * @return Returns the new value of the slider
+     * @return Returns the new model of the slider
      */
      private calcValue(event: any) {
          if (event) {
@@ -272,11 +272,11 @@
          // Normalise the range
          const range = +this.max - +this.min;
 
-         // expand the value to an number min...max, and clip
+         // expand the model to an number min...max, and clip
          // it to a multiple of step
          const stepped = Math.round((percent * range) / +this.step) * +this.step;
 
-         // round the stepped value to a precision level
+         // round the stepped model to a precision level
          const rounded = Math.round(stepped * +this.precision) / +this.precision;
          // constraint min..X..max
          return Math.min(+this.max, Math.max(+this.min, (rounded + +this.min)));

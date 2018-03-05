@@ -7,190 +7,92 @@
 
 @import '../../../shared/ui-vars';
 
-$dim: 2em;
-
-.center {
-    left: 50%;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
+$width: 4.5em;
+$ios-width: $width - 1.5em;
 
 .toggle {
-    box-sizing: content-box;
-    display: inline-block;
-    padding: .5em;
+}
+
+.base {
     position: relative;
+    background-color: $red;
+    width: $width;
+    height: 2em;
+    border-radius: 4px;
+    transition: background-color 300ms;
+    margin: .25em .4em;
+    border-color: #999;
+    &.active {
+        background-color: $green;
+    }
+    &.ios {
+        width: $ios-width;
+        height: 2em;
+        border-radius: 1em;
+    }
+    &.android {
+        width: $ios-width;
+        height: .75em;
+        border-radius: .4em;
+        margin: .9em .8em;
+    }
+    &.disabled {
+        background-color: #ccc;
+    }
+}
+
+.text {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 0 .2em 0 2.2em;
     user-select: none;
-}
-
-[override] .disabled {
-
-    .text-toggle {
-        background-color: $black-o20;
-
-        &.active,
-        &.inactive {
-            background-color: $black-o20;
-        }
-    }
-
-    .ios-toggle {
-        background-color: $black-o20;
-
-        &.active,
-        &.inactive {
-            background-color: $black-o20;
-        }
-    }
-}
-
-.text-toggle {
-    background-color: $white - #222222;
-    border-radius: .2em;
-    box-sizing: content-box;
-    box-shadow: 0 .1em .2em .1em $black-o20;
-    color: $white;
-    cursor: pointer;
-    height: $dim;
-    overflow: hidden;
-    position: relative;
-    width: $dim * 3;
-
-    .text {
-        box-sizing: content-box;
-        position: absolute;
-        text-align: center;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 49%;
-
-        &.active {
-            left: 0;
-        }
-
-        &.inactive {
-            right: 0;
-        }
-    }
-
     &.active {
-        background-color: $green;
+        padding: 0 2.2em 0 .2em;
     }
-
-    &.inactive {
-        background-color: $red;
-    }
-
-    .toggle-knob {
-        background-color: $white;
-        border-radius: .18em;
-        bottom: 0;
-        left: 0;
-        position: absolute;
-        top: 0;
-        width: 50%;
+    &.ios, &.android {
+        display: none;
     }
 }
 
-.image-toggle {
-    cursor: pointer;
-    height: $dim;
-    width: $dim;
-    overflow: hidden;
-
-    .toggle-img {
-        max-height: 100%;
-        max-width: 100%;
-    }
-}
-
-.icon-toggle {
-    cursor: pointer;
-    height: $dim;
-    overflow: hidden;
-    position: relative;
-    width: $dim;
-
-    .toggle-icon {
-        border: .15em solid $black-o20;
-        height: 100%;
-        position: relative;
-        width: 100%;
-    }
-
-    .bg {
-        border: none;
-        border-radius: 100%;
-        font-size: .8em;
-
-        &:hover { background-color: $black-o50; }
-
-        &:active { background-color: $black; }
-
-        &.active {
-            background-color: $black-o20;
-
-            &:hover { background-color: $black-o50; }
-
-            &:active { background-color: $black; }
-        }
-    }
-
-    .circle {
-        border-radius: 100%;
-    }
-
-    .square {
-        border-radius: .2em;
-    }
-
-    .icon {
-        color: $red;
-        font-size: 150%;
-        left: 50%;
-        margin: auto;
-        position: absolute;
-        text-align: center;
-        top: 50%;
-        transform: translate(-50%, -40%);
-
-        &.active {
-            color: $green;
-        }
-    }
-}
-
-.ios-toggle {
-    background-color: #23CE6B;
-    border-radius: $dim;
-    box-shadow: 0 .1em .2em .1em $black-o20;
-    cursor: pointer;
-    height: $dim / 2;
-    margin: 1em;
-    position: relative;
-    width: $dim * 1.5;
-    transition: background-color 200ms;
-
-    .toggle-knob {
-        background-color: $white;
-        border-radius: $dim;
-        bottom: 0;
-        box-shadow: 0 .1em .2em .1em $black-o20;
-        height: $dim;
-        left: 0;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: $dim;
-        transition: left 200ms, right 200ms;
-    }
-
+.knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: $width - 2em;
+    bottom: 3px;
+    border-radius: 3px;
+    background-color: #f0f0f0;
+    transition: left 300ms, right 300ms;
     &.active {
-        background-color: $green;
+        left: $width - 2em;
+        right: 3px;
     }
-
-    &.inactive {
-        background-color: $red;
+    &.ios {
+        left: 3px;
+        right: $ios-width - 1.8em;
+        border-radius: 1.2em;
+        &.active {
+            right: 3px;
+            left: $ios-width - 1.8em;
+        }
+    }
+    &.android {
+        top: -.5em;
+        bottom: -.5em;
+        left: -.5em;
+        right: $ios-width - 1.25em;
+        border-radius: 1.2em;
+        box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+        &.active {
+            right: -.5em;
+            left: $ios-width - 1.25em;
+        }
+    }
+    &.disabled {
+        background-color: #999;
     }
 }

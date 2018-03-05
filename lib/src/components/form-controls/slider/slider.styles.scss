@@ -44,9 +44,9 @@
 }
 
 .knob {
-    background-color: $white;
+    background-color: #f0f0f0;
     border-radius: 100%;
-    box-shadow: 0 .1em .2em .1em $black-o20;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
     height: 2em;
     left: 0;
     position: absolute;
