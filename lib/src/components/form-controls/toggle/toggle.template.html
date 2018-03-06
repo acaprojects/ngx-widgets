@@ -8,10 +8,12 @@
 -->
 
 <div class="'toggle ' + name" widget [class.disabled]="disabled" (tap)="toggle()">
-    <div class="base" [class.ios]="type==='ios'||type==='iOS'" [class.android]="type==='android'" [class.disabled]="disabled" [class.active]="model">
+    <div class="base" [class.ios]="type==='ios'||type==='iOS'" [class.android]="type==='android'" [class.disabled]="disabled"
+        [class.active]="model">
         <div class="text" [class.ios]="type==='ios'||type==='iOS'" [class.android]="type==='android'" [class.active]="model">
             {{model ? (options ? options.on_text || 'On' : 'On') : (options ? options.off_text || 'Off' : 'Off' )}}
         </div>
-        <div class="knob" [class.ios]="type==='ios'||type==='iOS'" [class.android]="type==='android'" [class.disabled]="disabled" [class.active]="model"></div>
+        <div class="knob" [class.ios]="type==='ios'||type==='iOS'" [class.android]="type==='android'" [class.disabled]="disabled"
+            [class.active]="model"></div>
     </div>
 </div>
