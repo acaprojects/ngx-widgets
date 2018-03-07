@@ -10,6 +10,7 @@ const POS_OFFSET = .5;
 })
 export class MapInputDirective {
     @Input() public center: { x: number, y: number };
+    @Input() public lock: boolean;
     @Input() public scale: number;
     @Input() public angle: number;
     @Output() public centerChange: any = new EventEmitter();
@@ -60,10 +61,12 @@ export class MapInputDirective {
     }
 
     @HostListener('panstart', ['$event']) private moveStart(e: any) {
+        if (this.lock) { return; }
         this.model.center = this.center;
     }
 
     @HostListener('panmove', ['$event']) private moveEvent(e: any) {
+        if (this.lock) { return; }
         const scale = (100 + this.scale) / 100;
         this.center = {
             x: this.model.center.x + (e.deltaX / this.box.width) / scale,
@@ -85,6 +88,7 @@ export class MapInputDirective {
     }
 
     private updateScale(e: any) {
+        if (this.lock) { return; }
         const scale = (e.scale - this.delta.scale) / 10;
         const dir = scale > 0 ? 1 : -1;
         const value = 1 + dir * Math.max(Math.abs(scale), 0.08);
@@ -98,6 +102,7 @@ export class MapInputDirective {
     }
 
     @HostListener('wheel', ['$event']) private wheelScale(e: any) {
+        if (this.lock) { return; }
         if (e.preventDefault) { e.preventDefault(); }
         const value = 1 + -(0.01 * e.deltaY) / 2;
         this.scale = Math.round((this.scale + 100) * value - 100);

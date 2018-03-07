@@ -274,7 +274,7 @@ export class InteractiveMapComponent {
                 width: 1,
                 height: this.state.cnt_box.height / this.state.cnt_box.width,
             };
-            this.state.scale = this.ratio.container.height / this.ratio.map.height;
+            this.state.scale = Math.min(1, this.ratio.container.height / this.ratio.map.height);
             setTimeout(() => {
                 this.initElementTree();
                 this.loadPointsOfInterest();

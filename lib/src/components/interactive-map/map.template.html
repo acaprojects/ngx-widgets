@@ -1,6 +1,6 @@
 <div [class]="'map ' + id" widget (window:resize)="initMap(true)">
 
-    <div #container class="map-container" [class.focus-lock]="focus?.lock" map-input [(scale)]="zoom" (scaleChange)="update(true)"
+    <div #container class="map-container" map-input [lock]="focus?.lock" [(scale)]="zoom" (scaleChange)="update(true)"
         [(center)]="center" (centerChange)="update(true)" (event)="userEvent($event)">
 
         <div #map class="map-area" [style.transform]="state.transform | safestyle" [style.display]="state.loading ? 'none' : ''"
