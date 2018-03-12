@@ -1,6 +1,12 @@
 
 import { PageControlWidgetsComponent } from './page-control-widgets.component';
+import { AccordionShowcaseComponent } from './accordion-showcase/accordion-showcase.component';
+import { StepperShowcaseComponent } from './stepper-showcase/stepper-showcase.component';
+import { TabGroupShowcaseComponent } from './tab-group-showcase/tab-group-showcase.component';
 
 export const PAGE_CONTROL_WIDGETS_SHOWCASE_COMPONENTS: any[] = [
-    PageControlWidgetsComponent
+    PageControlWidgetsComponent,
+    AccordionShowcaseComponent,
+    StepperShowcaseComponent,
+    TabGroupShowcaseComponent
 ];

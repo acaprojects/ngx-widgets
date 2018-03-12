@@ -7,70 +7,68 @@
  * @Last modified time: 20/01/2017 3:45 PM
  */
 
-import { Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
-import { AfterContentInit, ContentChildren, QueryList } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
+import { StepperComponent } from './stepper.component';
 
 @Component({
-    selector: 'step',
+    selector: 'stepper-step',
     templateUrl: './step.template.html',
     styleUrls: ['./step.styles.scss'],
     animations: [
-        trigger('showstep', [
-            state('show',   style({ 'height': '*', 'padding-bottom' : '1.5em', 'overflow': 'visible' })),
-            state('hide', style({ 'height': '0', 'padding-bottom' : '0', 'opacity': 0 })),
-            transition('show <=> hide', animate('0.7s ease-in-out')),
-        ]),
-    ],
+        trigger('show', [
+            transition('void => horz', [
+                style({ opacity: 0, left: 0, top: 0, position: 'absolute', transform: 'translateX(100%)' }),
+                animate(300, style({ opacity: 1, left: 0, top: 0, position: 'absolute', transform: 'translateX(0%)' }))
+            ]),
+            transition('horz => void', [
+                style({ opacity: 1, left: 0, top: 0, position: 'absolute', transform: 'translateX(0%)' }),
+                animate(300, style({ opacity: 0, left: 0, top: 0, position: 'absolute', transform: 'translateX(-100%)' }))
+            ]),
+            transition('void => horz-reverse', [
+                style({ opacity: 0, right: 0, top: 0, position: 'absolute', transform: 'translateX(-100%)' }),
+                animate(300, style({ opacity: 1, right: 0, top: 0, position: 'absolute', transform: 'translateX(0%)' }))
+            ]),
+            transition('horz-reverse => void', [
+                style({ opacity: 1, right: 0, top: 0, position: 'absolute', transform: 'translateX(0%)' }),
+                animate(300, style({ opacity: 0, right: 0, top: 0, position: 'absolute', transform: 'translateX(100%)' }))
+            ]),
+            transition('void => vert', [
+                style({ opacity: 0, left: 0, top: 0, position: 'absolute', transform: 'translateY(100%)' }),
+                animate(300, style({ opacity: 1, left: 0, top: 0, position: 'absolute', transform: 'translateY(0%)' }))
+            ]),
+            transition('vert => void', [
+                style({ opacity: 1, left: 0, top: 0, position: 'absolute', transform: 'translateY(0%)' }),
+                animate(300, style({ opacity: 0, left: 0, top: 0, position: 'absolute', transform: 'translateY(-100%)' }))
+            ]),
+            transition('void => vert-reverse', [
+                style({ opacity: 0, left: 0, top: 0, position: 'absolute', transform: 'translateY(-100%)' }),
+                animate(300, style({ opacity: 1, left: 0, top: 0, position: 'absolute', transform: 'translateY(0%)' }))
+            ]),
+            transition('vert-reverse => void', [
+                style({ opacity: 1, left: 0, top: 0, position: 'absolute', transform: 'translateY(0%)' }),
+                animate(300, style({ opacity: 0, left: 0, top: 0, position: 'absolute', transform: 'translateY(100%)' }))
+            ]),
+        ])
+    ]
 })
 export class StepperStepComponent {
-    @Input() public title = 'Step';
-    @Input() public open = false;
-    @Input() public active = false;
-    @Input() public error = false;
+    @Input() public name = '';
+    @Input() public heading = '';
+    @Input() public state = '';
+    @Output() public stateChange = new EventEmitter();
 
-    public index = 1;
-    public ordered = true;
-    public parent: any = null;
+    public parent: StepperComponent = null;
+    public model: any = {};
 
-    private contents: string;
-
-    constructor(private el: ElementRef) { }
-
-    public ngAfterContentInit() {
-        this.contents = this.el.nativeElement.innerHTML;
+    constructor() {
+        this.model.direction = 'horz';
     }
 
-    public toggle() {
-        if (this.ordered) {
-            this.show();
-        } else {
-            if (this.open) {
-                this.hide();
-            } else {
-                this.show();
-            }
+    public setActive(state: boolean) {
+        if (this.state && this.state !== 'active') {
+            this.model.state = this.state;
         }
+        this.state = state ? 'active' : this.model.state;
     }
-
-    public show() {
-        this.open = true;
-        this.parent.open(this.index);
-        return true;
-    }
-
-    public hide() {
-        this.open = false;
-        this.parent.close(this.index);
-        return false;
-    }
-
-    public setState(states?: any) {
-        setTimeout(() => {
-            this.open   = !states || !states.open   ? false : states.open;
-            this.active = !states || !states.active ? false : states.active;
-            this.error  = !states || !states.error  ? false : states.error;
-        }, 20);
-    }
-
 }

@@ -7,12 +7,12 @@
 @Last modified time: 15/12/2016 11:32 AM
 -->
 
-<div [class]="'stepper-step ' + name" [@show]="model.direction" *ngIf="state === 'active'" widget>
-    <div class="heading">
-        <div class="icon"></div>
+<div class="acccordian-step">
+    <div class="heading" (tap)="toggle()">
+        <div class="icon" [class.show]="show"></div>
         <div class="text">{{heading}}</div>
     </div>
-    <div class="content">
+    <div [@view]="show ? 'show' : 'hide'" class="content" [class.last]="model.last">
         <ng-content></ng-content>
     </div>
 </div>

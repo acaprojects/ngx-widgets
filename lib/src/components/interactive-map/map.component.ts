@@ -340,18 +340,20 @@ export class InteractiveMapComponent {
 
     private getMapPosition(pos: { x: number, y: number }) {
         const position = { x: 0, y: 0 };
-        let rect = this.state.map_el.getBoundingClientRect();
-        if (rect.width === 0) {
-            for (const el of this.img.nativeElement.children) {
-                if (el.nodeName.toLowerCase() === 'svg') {
-                    this.state.map_el = el;
-                    break;
+        if (this.state && this.state.map_el) {
+            let rect = this.state.map_el.getBoundingClientRect();
+            if (rect.width === 0) {
+                for (const el of this.img.nativeElement.children) {
+                    if (el.nodeName.toLowerCase() === 'svg') {
+                        this.state.map_el = el;
+                        break;
+                    }
                 }
+                rect = this.state.map_el.getBoundingClientRect();
             }
-            rect = this.state.map_el.getBoundingClientRect();
+            position.x = Math.floor(((pos.x - rect.left) / rect.width) * 10000);
+            position.y = Math.floor(((pos.y - rect.top) / rect.height) * (10000 * (rect.height / rect.width)));
         }
-        position.x = Math.floor(((pos.x - rect.left) / rect.width) * 10000);
-        position.y = Math.floor(((pos.y - rect.top) / rect.height) * (10000 * (rect.height / rect.width)));
         return position;
     }
 

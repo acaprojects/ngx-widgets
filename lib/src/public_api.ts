@@ -43,6 +43,7 @@ export * from './components/overlays/overlay-container/overlay-container.compone
 export * from './components/overlays/modal/modal.component';
 export * from './components/overlays/tooltip/tooltip.component';
 export * from './components/overlays/dynamic-base.component';
+export * from './components/page-controls/accordion/accordion.component';
 export * from './components/page-controls/stepper/stepper.component';
 export * from './components/page-controls/tab-group/tabs.component';
 export * from './components/progress-circle/progress-circle.component';

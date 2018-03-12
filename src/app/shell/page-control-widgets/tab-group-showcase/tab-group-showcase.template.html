@@ -1,0 +1,19 @@
+
+<showcase [(model)]="model">
+    <div class="container">
+        <tab-group>
+            <tab id="tab-one" [template]="tabone">
+                Tab One
+                <ng-template #tabone>
+                    Tab One Content
+                </ng-template>
+            </tab>
+            <tab id="tab-two" [template]="tabtwo">
+                Tab Two
+                <ng-template #tabtwo>
+                    Tab Two Content
+                </ng-template>
+            </tab>
+        </tab-group>
+    </div>
+</showcase>

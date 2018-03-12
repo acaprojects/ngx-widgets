@@ -38,6 +38,8 @@ import { ToggleComponent } from './components/form-controls/toggle/toggle.compon
 import { ImageCropComponent } from './components/img-crop/img-crop.component';
 import { InteractiveMapComponent } from './components/interactive-map/map.component';
 import { MediaPlayerComponent } from './components/media-player/media-player.component';
+import { AccordionComponent } from './components/page-controls/accordion/accordion.component';
+import { AccordionStepComponent } from './components/page-controls/accordion/accordion-step.component';
 import { StepperComponent } from './components/page-controls/stepper/stepper.component';
 import { StepperStepComponent } from './components/page-controls/stepper/step.component';
 import { TabGroupComponent } from './components/page-controls/tab-group/tabs.component';
@@ -109,6 +111,8 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         ImageCropComponent,
         InteractiveMapComponent,
         MediaPlayerComponent,
+        AccordionComponent,
+        AccordionStepComponent,
         StepperComponent,
         StepperStepComponent,
         TabGroupComponent,
@@ -169,6 +173,8 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         ImageCropComponent,
         InteractiveMapComponent,
         MediaPlayerComponent,
+        AccordionComponent,
+        AccordionStepComponent,
         StepperComponent,
         StepperStepComponent,
         TabGroupComponent,

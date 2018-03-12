@@ -10,8 +10,12 @@
 // import { STEPPER_COMPONENTS } from './stepper';
 // import { TABS_COMPONENTS } from './tab-group';
 
-export * from './tab-group';
-export * from './stepper';
+export * from './accordion/accordion-step.component';
+export * from './accordion/accordion.component';
+export * from './stepper/step.component';
+export * from './stepper/stepper.component';
+export * from './tab-group/tab-head.component';
+export * from './tab-group/tabs.component'
 
 // export const PAGE_CONTROLS: any[] = [
 //     TABS_COMPONENTS,

@@ -1,0 +1,44 @@
+// @Author: Alex Sorafumo <Yuion>
+// @Date:   24/11/2016 3:43 PM
+// @Email:  alex@yuion.net
+// @Filename: step.styles.scss
+// @Last modified by:   Yuion
+// @Last modified time: 15/12/2016 11:31 AM
+
+@import '../../../shared/ui-vars';
+
+.heading {
+    display: flex;
+    align-items: center;
+    padding: .5em;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    &:hover {
+        background-color: rgba(#000, .1);
+    }
+}
+
+.content {
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    &.last {
+        border: none;
+    }
+}
+
+.icon {
+    height: 1em;
+    width: 1em;
+    margin-right: .5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:after {
+        content: '˅';
+    }
+    &.show {
+        &:after {
+            content: '˄';
+        }
+    }
+}
