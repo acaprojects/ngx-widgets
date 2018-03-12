@@ -20,7 +20,7 @@ export class StepperComponent {
     @Input() public name = '';
     @Input() public step = 0;
     @Input() public numbers = true;
-    @Input() public format: 'horizontal' | 'vertical' = 'horizontal';
+    @Input() public format: 'horizontal' | 'vertical' | 'vert' | 'horz' = 'horizontal';
     @Output() public stepChange = new EventEmitter();
 
     @ContentChildren(StepperStepComponent) private steps: QueryList<StepperStepComponent>;

@@ -41,13 +41,6 @@ export class NotifyDirective {
     }
 
     private createNotification() {
-        if (this.sub) {
-            this.removeNotification();
-            setTimeout(() => {
-                this.createNotification();
-            }, 100);
-            return;
-        }
         this.data = {
             name: this.name,
             show: this.show,
@@ -56,21 +49,11 @@ export class NotifyDirective {
             data: this.model,
             template: this.template,
         };
-        this.overlay.add(this.container, this.id, NotificationComponent, this.data).then((cmp: any) => {
-            this.sub = cmp.watch((event) => {
-                this.processEvent(event);
-            });
-        }, () => {
-            WIDGETS.error('Notify][D', 'Failed to create notification');
-        });
+        NotificationComponent.notify(this.id, this.data, this.container);
     }
 
     private removeNotification() {
-        if (this.sub) {
-            this.sub.unsubscribe();
-            this.sub = null;
-        }
-        this.overlay.remove(this.container, this.id);
+        NotificationComponent.dismiss(this.id, this.container);
     }
 
     private processEvent(event: any) {

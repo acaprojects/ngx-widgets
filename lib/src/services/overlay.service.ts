@@ -121,18 +121,18 @@ export class OverlayService {
      * @param data Initial data to pass to the component
      * @return returns a promise which returns an observable for events on the component
      */
-    public openModal(id: string, data?: any) {
-        return this.add('root', id, ModalComponent, data);
+    public openModal(id: string, data?: any, cntr: string = 'root') {
+        return this.add(cntr, id, ModalComponent, data);
     }
 
     /**
-     * Open predefined notify popup with the given data
-     * @param id ID of the popup
-     * @param data Initial data to pass to the popup
+     * Open predefined modal with the given data
+     * @param id ID of the component
+     * @param data Initial data to pass to the component
      * @return returns a promise which returns an observable for events on the component
      */
-    public notify(id: string, data?: any) {
-        return this.add('root', id, NotificationComponent, data);
+    public notify(id: string, data?: any, cntr: string = 'root') {
+        return NotificationComponent.notify(id, data, cntr);
     }
 
     /**
@@ -307,6 +307,8 @@ export class OverlayService {
             this.containers.root = cmp.instance;
             this.containers.root.ng = cmp;
             this.containers.root.service = this;
+            this.add('root', 'notifications', NotificationComponent, {})
+                .then(() => null, () => null);
             return;
         } else if (!this._view && this.default_vc) {
             this._view = this.default_vc;

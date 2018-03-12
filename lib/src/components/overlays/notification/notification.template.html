@@ -1,5 +1,11 @@
 
 <div [class]="'notification ' + model.name" widget >
-    <div [class]="'content ' + model.type" [innerHTML]="model.innerHTML | safe" *ngIf="!model.template"></div>
-    <ng-container *ngTemplateOutlet="model.template"></ng-container>
+    <div class="list" *ngIf="model && model.items">
+        <div class="notify" *ngFor="let item of model.items | slice:0:8; let i = index" [style.transform]="'translateY(' + -100 * i + '%)'">
+            <div class="content" [@show]>
+                <div [class]="'item ' + item.data.type" [innerHTML]="model.innerHTML | safe" *ngIf="!item.data.template"></div>
+                <ng-container *ngTemplateOutlet="item.data.template"></ng-container>
+            </div>
+        </div>
+    </div>
 </div>

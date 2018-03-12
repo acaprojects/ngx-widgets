@@ -1,0 +1,31 @@
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.drop-target {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(#000, .05);
+    height: 16em;
+    width: 16em;
+    border-radius: 4px;
+    &.hover {
+        background-color: rgba(#000, .1);
+    }
+}
+
+.icon {
+    height: 1.1em;
+    width: 1.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5em;
+}

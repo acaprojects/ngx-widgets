@@ -1,0 +1,11 @@
+
+<showcase [(model)]="model">
+    <div class="container">
+        <btn notify [template]="notify1" [(show)]="model.state.show" (tap)="model.state.show = !model.state.show">Notify</btn>
+        <btn>Notify differently</btn>
+
+        <ng-template #notify1>
+
+        </ng-template>
+    </div>
+</showcase>

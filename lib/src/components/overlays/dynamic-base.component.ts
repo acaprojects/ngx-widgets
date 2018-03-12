@@ -31,6 +31,7 @@ export class DynamicBaseComponent {
     protected state: any = {};
     protected stack_id: string = '';
     protected type = 'Dynamic';
+    protected timers: any = {};
 
     @ViewChild('body') protected body: ElementRef;
     @ViewChild('content', { read: ViewContainerRef }) private _content: ViewContainerRef;

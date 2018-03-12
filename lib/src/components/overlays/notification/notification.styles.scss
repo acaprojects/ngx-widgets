@@ -9,16 +9,27 @@
     pointer-events: auto;
 }
 
-.content {
-    margin: .5em;
-    padding: .5em .75em;
+.notify {
+    position: absolute;
+    bottom: .25em;
+    right: .25em;
     min-width: 12em;
     height: 4em;
+}
+
+.content {
+    position: absolute;
+    top: .25em;
+    bottom: .25em;
+    right: .25em;
+    padding: .5em .75em;
     display: flex;
+    min-width: 12em;
     align-items: center;
     color: $black;
     background-color: $white;
-    box-shadow: 0 .1em .2em .1em $black-o20;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+    border-radius: 4px;
 }
 
 .error {
