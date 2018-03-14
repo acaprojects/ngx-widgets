@@ -25,9 +25,10 @@ import { AfterContentInit, ContentChildren, QueryList } from '@angular/core';
 })
 export class AccordionStepComponent {
     @Input() public name = '';
+    @Input() public show = false;
     @Input() public heading = '';
+    @Input() public showChange = new EventEmitter();
 
-    public show = false;
     public model: any = {};
 
     public toggle(state?: boolean) {
@@ -36,5 +37,6 @@ export class AccordionStepComponent {
         } else {
             this.show = !this.show;
         }
+        this.showChange.emit(this.show);
     }
 }

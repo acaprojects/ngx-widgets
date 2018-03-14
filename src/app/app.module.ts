@@ -12,14 +12,12 @@ import { SHARED_COMPONENTS } from './shared/components';
 import { SERVICES } from './services';
 
 import { ROUTES } from './app.routes';
-import { ENTRY_COMPONENTS } from './popups';
 
 @NgModule({
     declarations: [
         AppComponent,
         ...APP_COMPONENTS,
-        ...SHARED_COMPONENTS,
-        ...ENTRY_COMPONENTS
+        ...SHARED_COMPONENTS
     ],
     imports: [
         BrowserModule,
@@ -32,7 +30,6 @@ import { ENTRY_COMPONENTS } from './popups';
         ...SERVICES
     ],
     entryComponents: [
-        ...ENTRY_COMPONENTS
     ],
     bootstrap: [AppComponent]
 })

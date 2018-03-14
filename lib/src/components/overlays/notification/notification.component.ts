@@ -14,14 +14,20 @@ const moment = moment_api;
     styleUrls: ['./notification.styles.scss'],
     animations: [
         trigger('show', [
-            transition(':enter', [style({ opacity: 0, transform: 'translateY(-100%)' }), animate(300, style({ opacity: 1, transform: 'translateY(0%)' }))]),
-            transition(':leave', [style({ opacity: 1, transform: 'translateY(0%)' }), animate(300, style({ opacity: 0, transform: 'translateY(100%)' }))]),
+            transition(':enter', [
+                style({ opacity: 0, transform: 'translateY(-100%)' }),
+                animate(300, style({ opacity: 1, transform: 'translateY(0%)' }))
+            ]),
+            transition(':leave', [
+                style({ opacity: 1, transform: 'translateY(0%)' }),
+                animate(300, style({ opacity: 0, transform: 'translateY(100%)' }))
+            ]),
         ]),
     ],
 })
 export class NotificationComponent extends DynamicBaseComponent {
     public container: any = {};
-    protected static self: NotificationComponent;
+    protected static self: NotificationComponent = null;
     public static notify(id: string, data: any, cntr: string = 'root') {
         if (NotificationComponent.self) {
             setTimeout(() => NotificationComponent.self.notify(id, data), 10);
