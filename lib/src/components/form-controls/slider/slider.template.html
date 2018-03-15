@@ -7,7 +7,7 @@
 @Last modified time: 24/01/2017 9:55 AM
 -->
 
-<div [class]="'slider ' + name" (window:resize)="resize()" widget>
+<div [class]="'slider ' + name" (window:resize)="resize(true)" widget>
     <div #space class="block" [class.vertical]="align==='vertical'">
         <!-- Vertical Slider -->
         <div #bar class="bar c1" (tap)="clickSlider($event)" (press)="clickSlider($event)" (pan)="moveSlider($event)">

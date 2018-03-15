@@ -1,7 +1,7 @@
 
-$color: #E91E63;
-$gap: .1em;
-$size: .7em;
+$color: #009688;
+$gap:  2px;
+$size: 12px;
 
 .radio-button {
     display: flex;
@@ -17,6 +17,9 @@ $size: .7em;
     margin: .2em;
     border-radius: 100%;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &:hover {
         background-color: #f2f2f2;
     }
@@ -30,10 +33,6 @@ $size: .7em;
 }
 
 .toggle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     height: $size - $gap * 3;
     width: $size - $gap * 3;
     border-radius: 100%;

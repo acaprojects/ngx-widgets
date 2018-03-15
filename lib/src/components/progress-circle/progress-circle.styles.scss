@@ -7,78 +7,16 @@
 
 @import '../../shared/ui-vars';
 
-$circle-background: $white-o50;
-$circle-color: $blue;
-$circle-size: 10.5em;
-$transition-length: 1s;
-$increment: 180deg / 1000;
-
 .radial-progress {
-    background-color: $circle-background;
-    border-radius: 50%;
-    height: $circle-size - .5em;
-    margin: .25em auto;
-    position: relative;
-    width: $circle-size - .5em;
-    overflow: hidden;
+    margin: 1em;
 }
 
-.circle {
-    position: relative;
-    height: $circle-size - .5em;
-    width: $circle-size - .5em;
-    .fill,
-    .mask {
-        -webkit-backface-visibility: hidden;
-        position: absolute;
-        transition: transform $transition-length;
-        height: $circle-size;
-        width: $circle-size;
-    }
-
-    .fill {
-        background-color: $circle-color;
-    }
-
-    .mask {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: $circle-background;
-        border-radius: 100%;
-    }
-
-    .mask.half {
-        clip: rect(0, $circle-size, $circle-size, $circle-size/2);
-
-        .fill {
-            clip: rect(0, $circle-size, $circle-size, 0);
-        }
-    }
-
-    .mask.full {
-        clip: rect(0, $circle-size/2, $circle-size, 0);
-
-        .fill {
-            clip: rect(0, $circle-size, $circle-size, $circle-size/2);
-        }
-    }
-
-    .shadow {
-        border-radius: 50%;
-        height: $circle-size;
-        position: absolute;
-        width: $circle-size;
-    }
+svg {
+    height: 8em;
+    width: 8em;
+    transform: rotate(-90deg);
 }
 
-.inset {
-    background-color: $white;
-    border-radius: 50%;
-    height: $circle-size - 1.5;
-    margin: .5em;
-    position: absolute;
-    width: $circle-size - 1.5;
-    top: 0;
+circle {
+    transition: stroke-dashoffset 200ms;
 }

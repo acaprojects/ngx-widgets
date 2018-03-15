@@ -10,7 +10,7 @@
 
 .header {
     border-bottom: 1px solid #f2f2f2;
-    background-color: #E91E63;
+    background-color: #673AB7;
     color: #fff;
     .week {
         margin: .5em 0;
@@ -69,6 +69,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    border: 1px solid #fff;
     &:hover {
         background-color: #ccc;
         opacity: .8;
@@ -76,25 +77,27 @@
 }
 
 .past {
-    background-color: #f2f2f2;
-    color: #fff;
+    background-color: #eee;
+    color: rgba(#000, .2);
+    cursor: default;
     &:hover {
         opacity: 1;
-        background-color: #f2f2f2;
-        color: #fff;
+        background-color: #eee;
+        color: rgba(#000, .2);
     }
 }
 
 .today {
-    background-color: #F44336;
-    color: #fff;
+    background-color: none;
+    border: 1px solid #673AB7;
 }
 
 .active {
-    background-color: #E91E63;
+    background-color: #2196F3;
+    border-color: #2196F3;
     color: #fff;
     &:hover {
-        background-color: #E91E63;
+        background-color: #2196F3;
     }
 }
 

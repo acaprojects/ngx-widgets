@@ -1,5 +1,5 @@
 
-import { Component, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { Component, ChangeDetectorRef, ElementRef, ViewChild, HostListener } from '@angular/core';
 
 import { OverlayContentComponent } from '../../../overlays/contents';
 
@@ -12,6 +12,16 @@ export class DropdownListComponent extends OverlayContentComponent {
     public search = '';
     public filtered_list: any[] = [];
 
+    private timers: any = {};
+
+    @HostListener('window:wheel') public wheel() {
+        setTimeout(() => {
+            if (!this.model.acted) {
+                this.select(this.model.active);
+            }
+        }, 20);
+    }
+
     @ViewChild('input') private input: ElementRef;
 
     constructor(protected _cdr: ChangeDetectorRef) {
@@ -21,7 +31,6 @@ export class DropdownListComponent extends OverlayContentComponent {
     public set(data: any) {
         super.set(data);
         setTimeout(() => this.filter(), 20);
-        console.log('List:', this.model);
     }
 
     public filter() {
@@ -57,5 +66,14 @@ export class DropdownListComponent extends OverlayContentComponent {
     public select(index: number) {
         this.model.active = index;
         this.fn.event('Select');
+    }
+
+    public inside() {
+        this.model.acted = true;
+        if (this.timers.action) {
+            clearTimeout(this.timers.action);
+            this.timers.action = null;
+        }
+        this.timers.action = setTimeout(() => this.model.acted = false, 50);
     }
 }

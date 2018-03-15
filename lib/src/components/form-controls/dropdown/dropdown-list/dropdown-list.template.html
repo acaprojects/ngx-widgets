@@ -1,5 +1,8 @@
 
-<div [class]="'dropdown list-tooltip ' + model?.name" widget [style.width]="model.width ? model.width + 'px' : ''" [style.font-size]="(model.font_size + 'px') || ''">
+<div [class]="'dropdown list-tooltip ' + model?.name" widget
+    [style.width]="model.width ? model.width + 'px' : ''"
+    [style.font-size]="(model.font_size + 'px') || ''"
+    (wheel)="inside()">
     <div class="list" *ngIf="model.bottom" [class.filter]="model.filter">
         <div class="item"
             *ngFor="let item of filtered_list; let i = index"

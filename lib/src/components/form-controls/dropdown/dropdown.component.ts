@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, HostListener } from '@angular/core';
 
 import { DropdownListComponent } from './dropdown-list';
 
@@ -51,6 +51,11 @@ export class DropdownComponent {
             this.show = false;
             this.update();
         }
+    }
+
+    public showList() {
+        this.resize();
+        this.show = true;
     }
 
     public updateSize(tries: number = 0) {

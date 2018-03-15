@@ -2,5 +2,8 @@
 <showcase [(model)]="model">
     <div class="container">
         <progress-circle [progress]="model.state.progress" [bg]="model.state.bg" [color]="model.state.color" [innerColor]="model.state.inner_color"></progress-circle>
+        <div class="slider">
+            <slider [(model)]="model.state.progress" [max]="1000"></slider>
+        </div>
     </div>
 </showcase>

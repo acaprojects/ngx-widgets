@@ -14,7 +14,7 @@
         [autoclose]="false"
         (event)="select($event)">
     </div>
-    <div #active class="item active" (tap)="show = true">
+    <div #active class="item active" (tap)="showList()">
         <div class="text">
             {{ model < 0 || !list_items || list_items.length <= model || !list_items[model] ? placeholder : list_items[model].name || list_items[model] }}
         </div>
