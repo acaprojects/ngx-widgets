@@ -13,7 +13,6 @@
     position: absolute;
     bottom: .25em;
     right: .25em;
-    min-width: 12em;
     height: 4em;
 }
 
@@ -22,14 +21,34 @@
     top: .25em;
     bottom: .25em;
     right: .25em;
-    padding: .5em .75em;
+    padding: .25em;
     display: flex;
-    min-width: 12em;
+    min-width: 15em;
     align-items: center;
     color: $black;
-    background-color: $white;
+    background-color: #f0f0f0;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
     border-radius: 4px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+}
+
+.action {
+    font-weight: bold;
+    font-size: .8em;
+    padding: .5em 1em;
+    cursor: pointer;
+    &:hover {
+        opacity: .65;
+    }
+}
+
+.success {
+    color: $white;
+    background-color: $green;
 }
 
 .error {
@@ -37,12 +56,12 @@
     background-color: $red;
 }
 
-.warn {
-    color: $black;
+.warning {
+    color: $white;
     background-color: $orange;
 }
 
 .info {
-    color: $black;
+    color: $white;
     background-color: $blue;
 }

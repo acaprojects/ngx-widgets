@@ -28,9 +28,9 @@ const moment = moment_api;
 export class NotificationComponent extends DynamicBaseComponent {
     public container: any = {};
     protected static self: NotificationComponent = null;
-    public static notify(id: string, data: any, cntr: string = 'root') {
+    public static notify(id: string, data: any, action?: () => void, cntr: string = 'root') {
         if (NotificationComponent.self) {
-            setTimeout(() => NotificationComponent.self.notify(id, data), 10);
+            setTimeout(() => NotificationComponent.self.notify(id, data, action), 10);
         }
         return () => { NotificationComponent.dismiss(id, cntr); };
     }
@@ -49,6 +49,7 @@ export class NotificationComponent extends DynamicBaseComponent {
         this._cdr = this.injector.get(ChangeDetectorRef);
         this.renderer = this.injector.get(Renderer2);
         NotificationComponent.self = this;
+        this.model.timeout = 30 * 1000;
     }
 
     public resize() {
@@ -65,26 +66,44 @@ export class NotificationComponent extends DynamicBaseComponent {
         super.update(data);
     }
 
-    public notify(id: string, data: any) {
+    public timeout(delay: number) {
+        this.model.timeout = delay;
+    }
+
+    public notify(id: string, data: any, action?: () => void) {
         if (!this.model.items) {
             this.model.items = [];
         }
         this.model.items.push({
             id,
             time: moment().valueOf(),
-            data
+            data,
+            action,
         });
-        if (this.model.timeout && this.model.timeout > 0) {
-            setTimeout(() => this.dismiss(id), this.model.timeout);
+        console.log('Notify:', data);
+        if (data.timeout || this.model.timeout) {
+            setTimeout(() => this.dismiss(id), data.timeout || this.model.timeout);
         }
     }
 
     public dismiss(id: string) {
-        for (const item of this.model.items) {
-            if (item.id === id) {
-                this.model.items.splice(this.model.items.indexOf(item), 1);
-                break;
+        if (this.model.items) {
+            for (const item of this.model.items) {
+                if (item.id === id) {
+                    this.model.items.splice(this.model.items.indexOf(item), 1);
+                    if (item.data && item.data.dismiss && item.data.dismiss instanceof Function) {
+                        item.data.dismiss();
+                    }
+                    break;
+                }
             }
+        }
+    }
+
+    public action(item: any) {
+        if (item.action && item.action instanceof Function) {
+            item.action();
+            this.dismiss(item.id);
         }
     }
 }

@@ -131,8 +131,8 @@ export class OverlayService {
      * @param data Initial data to pass to the component
      * @return returns a promise which returns an observable for events on the component
      */
-    public notify(id: string, data?: any, cntr: string = 'root') {
-        return NotificationComponent.notify(id, data, cntr);
+    public notify(id: string, data?: any, action?: () => void, cntr: string = 'root') {
+        return NotificationComponent.notify(id, data, action, cntr);
     }
 
     /**

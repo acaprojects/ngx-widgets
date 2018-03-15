@@ -19,9 +19,9 @@ export class NotificationShowcaseComponent {
                 data_desc: ``,
                 example: `'overlay-container-29'`
             }, {
-                name: 'cmp', type: 'input', description: 'Class of the angular component to render in the modal', data: 'Type<any>',
+                name: 'cmp', type: 'input', description: 'Class of the angular component to render in the notification', data: 'Type<any>',
                 data_desc: ``,
-                example: `BestModalContentComponent`
+                example: `BestNotificationContentComponent`
             }, {
                 name: 'model', type: 'input', description: 'Value set to the model on the component rendered in the modal', data: 'any',
                 data_desc: ``,
@@ -31,7 +31,15 @@ export class NotificationShowcaseComponent {
     ...
 }`
             }, {
-                name: 'template', type: 'input', description: 'NgTemplate to render in the model', data: 'TemplateRef<any>',
+                name: 'action', type: 'input', description: 'Action button text to display on the notification', data: 'string',
+                data_desc: '',
+                example: `UNDO`
+            }, {
+                name: 'timeout', type: 'input', description: 'Timeout in milliseconds in which the notification automatically closes. Set to 0 to disable. Defaults to 0', data: 'number',
+                data_desc: '',
+                example: `5000`
+            }, {
+                name: 'template', type: 'input', description: 'NgTemplate to render in the notification', data: 'TemplateRef<any>',
                 data_desc: '',
                 example: ``
             }, {
@@ -39,19 +47,9 @@ export class NotificationShowcaseComponent {
                 data_desc: ``,
                 example: `true`
             }, {
-                name: 'event', type: 'output', description: 'Called when an event is posted by the modal', data: 'object',
-                data_desc: `{
-    type: string,
-    event: Event,
-    data: any // reference to the model of the modal
-    close: () => void // Closes the modal when called
-}`,
-                example: `{
-    type: 'User',
-    event: { ... },
-    data: { param1: 'Something', param2: { name: 'Bob' }, ... }
-    close: function() {...}
-}`
+                name: 'event', type: 'output', description: 'Called when action button is pressed by the user', data: 'void',
+                data_desc: ``,
+                example: ``
             },
         ],
         inject: '',
@@ -66,5 +64,9 @@ export class NotificationShowcaseComponent {
         [template]="template1"
         [(show)]="show_modal" &gt;
 &lt;/div&gt;`;
+    }
+
+    public action() {
+        this.model.message = Math.floor(Math.random() * 999999);
     }
 }

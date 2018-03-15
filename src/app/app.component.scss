@@ -98,6 +98,12 @@ textarea {
     }
 }
 
+.btn[widget].ntfy {
+    button {
+        min-width: 12em;
+    }
+}
+
 button {
     // line-height: 0em;
     transition: all ease-out 0.2s;

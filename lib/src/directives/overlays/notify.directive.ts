@@ -13,7 +13,8 @@ import { WIDGETS } from '../../settings';
 export class NotifyDirective {
     @Input() public name = '';
     @Input() public container = 'root';
-    @Input() public type = '';
+    @Input() public action = '';
+    @Input() public timeout: number;
     @Input() public model: any = {};
     @Input() public template: TemplateRef<any> = null;
     @Input() public cmp: Type<any> = null;
@@ -47,9 +48,17 @@ export class NotifyDirective {
             cmp: this.cmp,
             el: this.el,
             data: this.model,
+            timeout: this.timeout,
+            action: this.action,
             template: this.template,
+            dismiss: () => {
+                this.show = false;
+                this.showChange.emit(this.show);
+            }
         };
-        NotificationComponent.notify(this.id, this.data, this.container);
+        NotificationComponent.notify(this.id, this.data, () => {
+            this.event.emit();
+        }, this.container);
     }
 
     private removeNotification() {

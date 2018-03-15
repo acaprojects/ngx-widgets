@@ -41,15 +41,16 @@ export class AppShellComponent {
                 { id: 'toggle', name: 'Toggle' },
             ],
             'Page Control Components': [
-                { id: 'tab-group', name: 'Tab Group' },
+                { id: 'accordion', name: 'Accordion' },
                 { id: 'stepper', name: 'Stepper' },
+                { id: 'tab-group', name: 'Tab Group' },
             ],
             'Directives': [
+                { id: 'drop-target', name: 'Drop Target' },
                 { id: 'modal', name: 'Modal' },
                 { id: 'notification', name: 'Notification/Toast' },
                 { id: 'tooltip', name: 'Tooltip' },
-                { id: 'drop-target', name: 'Drop Target' },
-                { id: 'file-stream', name: 'File Stream' },
+                // { id: 'file-stream', name: 'File Stream' },
             ],
             'Pipes': [
                 { id: 'safe', name: 'Safe HTML' },
