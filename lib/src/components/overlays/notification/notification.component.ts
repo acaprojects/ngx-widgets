@@ -41,6 +41,12 @@ export class NotificationComponent extends DynamicBaseComponent {
         }
     }
 
+    public static timeout(delay: number) {
+        if (NotificationComponent.self) {
+            NotificationComponent.self.timeout(delay);
+        }
+    }
+
     protected type = 'Notify';
 
     constructor(private injector: Injector) {
@@ -77,10 +83,10 @@ export class NotificationComponent extends DynamicBaseComponent {
         this.model.items.push({
             id,
             time: moment().valueOf(),
-            data,
-            action,
+            data: data,
+            name: data.name,
+            action
         });
-        console.log('Notify:', data);
         if (data.timeout || this.model.timeout) {
             setTimeout(() => this.dismiss(id), data.timeout || this.model.timeout);
         }

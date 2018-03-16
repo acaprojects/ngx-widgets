@@ -1,20 +1,11 @@
 <showcase [(model)]="model">
     <div class="container">
-        <btn notify name="ntfy" [template]="notify" [(show)]="model.state.show" (tap)="model.state.show = !model.state.show">Notification</btn>
+        <btn name="ntfy" (tap)="open()">Notification</btn>
         <btn notify name="ntfy" [template]="notify0" [timeout]="5000" [(show)]="model.state.show0" (tap)="model.state.show0 = !model.state.show0">Notification with timeout</btn>
         <btn notify name="ntfy info" [template]="notify1" [(show)]="model.state.show1" (tap)="model.state.show1 = !model.state.show1">Notify Info</btn>
         <btn notify name="ntfy error" [template]="notify2" [(show)]="model.state.show2" (tap)="model.state.show2 = !model.state.show2">Notify Error</btn>
         <btn notify name="ntfy warning" [template]="notify3" [(show)]="model.state.show3" (tap)="model.state.show3 = !model.state.show3">Notify Warning</btn>
         <btn notify name="ntfy warning" [template]="notify4" action="UNDO" (event)="action()" [(show)]="model.state.show4" (tap)="model.state.show4 = !model.state.show4">Notify with Action - {{model.message}}</btn>
-
-        <ng-template #notify>
-            <div class="notify">
-                <div class="icon">
-                    <i class="material-icons">tag_faces</i>
-                </div>
-                <div class="text">This is a notification message</div>
-            </div>
-        </ng-template>
         <ng-template #notify0>
             <div class="notify">
                 <div class="icon">

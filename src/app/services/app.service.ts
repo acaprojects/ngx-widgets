@@ -87,34 +87,31 @@ export class AppService {
         this.settings.log(type, msg, args, stream);
     }
 
-    public error(msg: string, action: string) {
+    public error(msg: string, action?: string, event?: () => void) {
         const message = msg ? msg : `Error`;
         this.overlay.notify('success', {
-            innerHtml: `
-            <div class="display-icon error" style="font-size:2.0em"></div><
-            div>${message}</div>`,
-            name: 'error-notify',
+            html: `<div class="display-icon error" style="font-size:2.0em"></div><div>${message}</div>`,
+            name: 'ntfy error',
+            action
         });
     }
 
-    public success(msg: string, action: string) {
+    public success(msg: string, action?: string, event?: () => void) {
         const message = msg ? msg : `Success`;
         this.overlay.notify('success', {
-            innerHtml: `
-            <div class="display-icon success" style="font-size:2.0em"></div>
-            <div>${message}</div>`,
-            name: 'success-notify',
-        });
+            html: `<div class="display-icon success" style="font-size:2.0em"></div><div>${message}</div>`,
+            name: 'ntfy success',
+            action
+        }, event);
     }
 
-    public info(msg: string, action: string) {
+    public info(msg: string, action?: string, event?: () => void) {
         const message = msg ? msg : `Information`;
         this.overlay.notify('info', {
-            innerHtml: `
-            <div class="display-icon info" style="font-size:2.0em"></div>
-            </div><div>${message}</div>`,
-            name: 'info-notify',
-        });
+            html: `<div class="display-icon info" style="font-size:2.0em"></div></div><div>${message}</div>`,
+            name: 'ntfy info',
+            action
+        }, event);
     }
 
     get iOS() {

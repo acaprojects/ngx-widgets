@@ -1,5 +1,6 @@
 
 import { Component } from '@angular/core';
+import { AppService } from '../../../services/app.service';
 
 @Component({
     selector: 'notification-showcase',
@@ -59,6 +60,8 @@ export class NotificationShowcaseComponent {
         state: {}
     };
 
+    constructor(private service: AppService) {  }
+
     public ngOnInit() {
         this.model.inject = `&lt;div notification name="the-modal"
         [template]="template1"
@@ -68,5 +71,10 @@ export class NotificationShowcaseComponent {
 
     public action() {
         this.model.message = Math.floor(Math.random() * 999999);
+    }
+
+    public open() {
+        const msg = `This is a notification message`;
+        this.service.error(msg);
     }
 }
