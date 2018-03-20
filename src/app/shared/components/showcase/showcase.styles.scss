@@ -6,16 +6,18 @@
     font-size: 1rem;
     padding: 1em;
     display: flex;
-    width: 1080px;
-    max-width: 100vh;
+    flex-wrap: wrap;
+    width: 1024px;
+    max-width: 92vw;
 }
 
 .divider {
     position: relative;
     flex: 1;
-    width: 480px;
-    max-width: 48%;
-    margin: .5em;
+    width: 320px;
+    min-width: 320px;
+    max-width: 100%;
+    margin: .5em auto;
 }
 
 .popout {
