@@ -266,6 +266,12 @@ $space: .5em;
     }
 }
 
+.circle-ring,
+.double-circle-ring {
+    height: 4em;
+    width: 4em;
+}
+
 .cube-grid {
     height: 4em;
     width: 4em;
@@ -297,6 +303,10 @@ $space: .5em;
             animation-delay: -.1s;
         }
     }
+}
+
+svg circle {
+    transform-origin: center;
 }
 
 @keyframes sk-scaleout {

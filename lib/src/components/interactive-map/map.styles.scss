@@ -68,19 +68,14 @@
     transform: translate(-50%, -50%);
     height: 4em;
     width: 4em;
-    box-shadow: 0 .1em .2em .1em rgba(0, 0, 0, .1);
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
     background-color: #fff;
     border-radius: .2em;
-    .icon {
-        height: 3em;
-        width: 3em;
-        background-image: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0ODAgNDgwIj48dGl0bGU+c3Bpbm5lcjwvdGl0bGU+PHBhdGggZD0iTTQzNiAyNTZoNjBjMC0xMzIuNTQ4LTEwNy40NTItMjQwLTI0MC0yNDB2NjBhMTgwIDE4MCAwIDAgMSAxODAgMTgweiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE2IC0xNikiIGZpbGw9IiNlMjJkMGQiLz48cGF0aCBkPSJNMjU2IDE2QzEyMy40NTIgMTYgMTYgMTIzLjQ1MiAxNiAyNTZzMTA3LjQ1MiAyNDAgMjQwIDI0MCAyNDAtMTA3LjQ1MiAyNDAtMjQwUzM4OC41NDggMTYgMjU2IDE2em0wIDQyMGExODAgMTgwIDAgMSAxIDE4MC0xODAgMTgwIDE4MCAwIDAgMS0xODAgMTgweiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE2IC0xNikiIGZpbGw9Im5vbmUiLz48L3N2Zz4=);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        transform-origin: 50% 50%;
-        animation: infinite rotate 1s;
-        margin: .5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    spinner {
+        font-size: .75em;
     }
 }
 

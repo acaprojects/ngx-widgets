@@ -8,16 +8,32 @@
  */
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'spinner',
     styleUrls: [ './spinner.style.scss' ],
     templateUrl: './spinner.template.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpinnerComponent {
     @Input() public type = 'plane';
-    @Input() public color = '#FFF';
+    @Input() public color = '#000';
     @Input() public name = 'default';
+
+    public percent = 0;
+
+    private timers: any = {};
+
+    constructor(private _cdr: ChangeDetectorRef) { }
+
+    public ngOnInit() {
+        this.timers.percent = setInterval(() => {
+            this.percent += 1 / (1000 / 30);
+            this.percent %= 1;
+            this._cdr.markForCheck();
+        }, 20);
+    }
 
     public ngOnChanges(changes: any) {
         if (this.type === null || this.type === undefined) {

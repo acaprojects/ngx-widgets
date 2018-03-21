@@ -114,7 +114,7 @@ export class MapShowcaseComponent {
         ],
         inject: '',
         map: {
-            src: 'assets/australia.svg'
+            src: 'assets/australia2.svg'
         }
     };
 
