@@ -251,48 +251,51 @@ export class InteractiveMapComponent {
     }
 
     public initMap(update: boolean = false) {
-        for (const el of this.img.nativeElement.children) {
-            if (el.nodeName.toLowerCase() === 'svg') {
-                this.state.map_el = el;
-                break;
+        this.state.scale = 1;
+        setTimeout(() => {
+            for (const el of this.img.nativeElement.children) {
+                if (el.nodeName.toLowerCase() === 'svg') {
+                    this.state.map_el = el;
+                    break;
+                }
             }
-        }
-        if (this.state.map_el) {
-            this.state.map_box = this.state.map_el.getBoundingClientRect();
-            this.state.cnt_box = this.container.nativeElement.getBoundingClientRect();
-            this.state.map_el.style.position = 'absolute';
-            this.state.map_el.style.top = '50%';
-            this.state.map_el.style.left = '50%';
-            this.state.map_el.style.transform = `translate(-50%, -50%)`;
-            // this.state.map_el.style.maxWidth = `100%`;
-            // this.state.map_el.style.maxHeight = `100%`;
-            this.ratio.map = {
-                width: 1,
-                height: this.state.map_box.height / this.state.map_box.width,
-            };
-            this.ratio.container = {
-                width: 1,
-                height: this.state.cnt_box.height / this.state.cnt_box.width,
-            };
-            this.state.scale = Math.min(1, this.ratio.container.height / this.ratio.map.height);
-            setTimeout(() => {
-                this.initElementTree();
-                this.loadPointsOfInterest();
-            }, 100);
-            this.focusEvent();
-        }
-        this.state.map_id = `${this.src}_${Math.floor(Math.random() * 89999999 + 10000000)}`;
-        if (update) {
-            if (this.timers.update) {
-                clearTimeout(this.timers.update);
-                this.timers.update = null;
+            if (this.state.map_el) {
+                this.state.map_box = this.state.map_el.getBoundingClientRect();
+                this.state.cnt_box = this.container.nativeElement.getBoundingClientRect();
+                this.state.map_el.style.position = 'absolute';
+                this.state.map_el.style.top = '50%';
+                this.state.map_el.style.left = '50%';
+                this.state.map_el.style.transform = `translate(-50%, -50%)`;
+                // this.state.map_el.style.maxWidth = `100%`;
+                // this.state.map_el.style.maxHeight = `100%`;
+                this.ratio.map = {
+                    width: 1,
+                    height: this.state.map_box.height / this.state.map_box.width,
+                };
+                this.ratio.container = {
+                    width: 1,
+                    height: this.state.cnt_box.height / this.state.cnt_box.width,
+                };
+                this.state.scale = Math.min(1, this.ratio.container.height / this.ratio.map.height);
+                setTimeout(() => {
+                    this.initElementTree();
+                    this.loadPointsOfInterest();
+                }, 100);
+                this.focusEvent();
             }
-            this.timers.update = setTimeout(() => {
-                this.update();
-                this.timers.update = null;
-            }, 200);
-        }
-        this._cdr.markForCheck();
+            this.state.map_id = `${this.src}_${Math.floor(Math.random() * 89999999 + 10000000)}`;
+            if (update) {
+                if (this.timers.update) {
+                    clearTimeout(this.timers.update);
+                    this.timers.update = null;
+                }
+                this.timers.update = setTimeout(() => {
+                    this.update();
+                    this.timers.update = null;
+                }, 200);
+            }
+            this._cdr.markForCheck();
+        }, 30);
     }
 
     private initElementTree() {
