@@ -150,7 +150,7 @@ export class InteractiveMapComponent {
     }
 
     public update(post: boolean = false) {
-        const x = Math.floor((100 * this.center.x) * 100) / 100;
+        const x = Math.floor((100 * ((this.center.x - .5)  / this.state.scale + .5)) * 100) / 100;
         const y = Math.floor((100 * this.center.y) * 100) / 100;
         this.state.position = `${x}%, ${y}%`;
         const ratio = this.ratio.container.height / this.ratio.map.height;

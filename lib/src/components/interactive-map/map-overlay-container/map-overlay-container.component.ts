@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, HostListener } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, ElementRef, Type, ViewContainerRef } from '@angular/core';
 
 import { MapOverlayComponent } from '../map-overlay/map-overlay.component';
@@ -19,6 +19,10 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
 
     @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
     @ViewChild('el') public root: ElementRef;
+
+    @HostListener('window:resize') private windowResize() {
+        this.resizeEvent();
+    }
 
     private previous: any[] = [];
 
@@ -55,10 +59,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
 
     private updateOverlays() {
         if (!this.el) {
-            setTimeout(() => {
-                this.updateOverlays();
-            }, 200);
-            return;
+            return setTimeout(() => this.updateOverlays(), 200);
         }
         // Remove old components and update existing
         if (this.previous) {
@@ -105,9 +106,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
             }
         }
         this.previous = this.model;
-        setTimeout(() => {
-            this.resizeEvent();
-        }, 200);
+        setTimeout(() => this.resizeEvent(), 200);
     }
 
     private resizeEvent() {
