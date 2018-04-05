@@ -21,10 +21,10 @@ import { TabHeadComponent } from './tab-head.component';
 })
 export class TabGroupComponent {
 
+    @Input() public name = '';
     @Input() public state = '0';
     @Input() public routable = ''; // Search, Query, Hash, Route
     @Input() public routeParam = 'tab'; //
-    @Input() public name = '';
     @Input() public disabled: string[] = [];
     @Output() public stateChange = new EventEmitter();
 

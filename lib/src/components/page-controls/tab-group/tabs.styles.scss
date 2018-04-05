@@ -9,6 +9,9 @@
 
 .tabs {
     z-index: inherit;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
 }
 
 .header {
@@ -24,6 +27,11 @@
     text-align: center;
     user-select: none;
     white-space: nowrap;
+}
+
+.body {
+    flex: 1;
+    height: 1px;
 }
 
 .border {
