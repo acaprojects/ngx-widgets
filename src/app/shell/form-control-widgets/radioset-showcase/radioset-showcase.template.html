@@ -1,0 +1,7 @@
+
+<showcase [(model)]="model">
+    <div class="container">
+        <radioset name="test" [list]="model.state.list1" [(model)]="model.state.set1"></radioset>
+        <radioset name="test" [list]="model.state.list2" [inline]="true" [(model)]="model.state.set2"></radioset>
+    </div>
+</showcase>

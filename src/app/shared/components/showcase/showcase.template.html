@@ -1,0 +1,101 @@
+<div class="showcase">
+    <div class="divider">
+        <div class="heading">{{model.title}}</div>
+        <div class="preview">
+            <ng-content></ng-content>
+        </div>
+    </div>
+    <div class="divider popout">
+        <div #tablist class="tabs">
+            <div #tab class="tab" *ngFor="let cat of state.category_list" [class.active]="cat === state.category" (tap)="setCategory(cat)">
+                {{cat}}
+            </div>
+            <div class="bar" [style.left]="state.tab?.left + 'px'" [style.width]="state.tab?.width + 'px'">
+            </div>
+        </div>
+        <div class="content">
+            <div class="overview" [@show] *ngIf="!state.category || state.category === 'overview'">
+                <div class="before">You can inject a
+                    <span class="lower">{{model.title}}</span> component using the below HTML</div>
+                <div class="inject">
+                    <pre #inject class="html"><code [innerHTML]="model.inject | safe"></code></pre>
+                </div>
+                <div class="details">
+                    <pre>{{model.overview}}</pre>
+                </div>
+            </div>
+            <div class="bindings" [@show] *ngIf="state.category === 'bindings'">
+                <div class="list" [@show] *ngIf="model.bindings&&!state.binding">
+                    <div class="info">Click a binding to see more details</div>
+                    <table>
+                        <thead>
+                            <td>Name</td>
+                            <td>Direction</td>
+                            <td>Type</td>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let binding of model.bindings" (tap)="selectBinding(binding)">
+                                <td class="mono">{{binding.type === 'both' ? '[(' + binding.name + ')]' : (binding.type === 'output' ? '('
+                                    + binding.name + ')' : '[' + binding.name + ']')}}</td>
+                                <td class="caps">{{binding.type}}</td>
+                                <td class="mono caps">{{binding.data}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="binding" [@show] *ngIf="state.binding">
+                    <div class="header">
+                        <div class="text">
+                            <span class="mono">{{state.binding.type === 'both' ? '[(' + state.binding.name + ')]' : (state.binding.type ===
+                                'output' ? '(' + state.binding.name + ')' : '[' + state.binding.name + ']')}}</span>
+                            Details
+                        </div>
+                        <div class="back" (tap)="state.binding = null">
+                            <i center class="material-icons">close</i>
+                        </div>
+                    </div>
+                    <div class="description">{{state.binding.description}}</div>
+                    <div class="data-desc" *ngIf="state.binding.data_desc">
+                        <div class="title">Data Definition</div>
+                        <pre #binding class="typescript"><code [innerHTML]="state.binding.data_desc | safe"></code></pre>
+                    </div>
+                    <div class="data-desc" *ngIf="state.binding.example">
+                        <div class="title">Example</div>
+                        <pre #example class="typescript"><code [innerHTML]="state.binding.example | safe"></code></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="playground" [@show] *ngIf="state.category === 'playground'">
+                <div class="options">
+                    <div class="option" [class.active]="state.playground === 'bindings'" (tap)="state.playground = 'bindings'">Bindings</div>
+                    <div class="option" [class.active]="state.playground === 'styles'" (tap)="state.playground = 'styles'">Styles</div>
+                </div>
+                <div class="pg-bindings" *ngIf="state.playground === 'bindings'">
+                    <div class="field" *ngFor="let binding of model.bindings">
+                        <div class="label mono">{{binding.name}}</div>
+                        <div class="value">
+                            <input *ngIf="binding.type !== 'output' && !binding.data.includes('object') " [(ngModel)]="state.bindings[binding.name]">
+                            <div *ngIf="binding.type === 'output'" #output>
+                                <pre #example class="typescript"><code [innerHTML]="state.bindings[binding.name] | safe"></code></pre>
+                            </div>
+                            <textarea *ngIf="binding.type !== 'output' && binding.data.includes('object')" [(ngModel)]="state.bindings[binding.name]">
+                            </textarea>
+                        </div>
+                        <div class="emitter">
+                            <btn name="inverse" *ngIf="binding.type === 'both'">Emit</btn>
+                        </div>
+                    </div>
+                </div>
+                <div class="pg-styles" *ngIf="state.playground === 'styles'">
+                    <textarea [(ngModel)]="state.styles" style="min-height: 17.2em;resize: none"></textarea>
+                </div>
+            </div>
+            <div class="in-dev" [@show] *ngIf="state.category === 'playground'">
+                <div center class="text">This feature is in development</div>
+            </div>
+        </div>
+    </div>
+    <div class="in-dev-marker" [class.dev]="model.dev">
+        {{ model.dev ? 'In Dev' : 'Stable' }}
+    </div>
+</div>

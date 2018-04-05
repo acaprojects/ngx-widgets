@@ -1,0 +1,21 @@
+// @Author: Alex Sorafumo <Yuion>
+// @Date:   24/11/2016 3:43 PM
+// @Email:  alex@yuion.net
+// @Filename: step.styles.scss
+// @Last modified by:   Yuion
+// @Last modified time: 15/12/2016 11:31 AM
+
+@import '../../../shared/ui-vars';
+
+.stepper-step {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 100%;
+}
+
+.heading {
+    font-size: .6em;
+    text-align: center;
+    margin-bottom: 1em;
+}

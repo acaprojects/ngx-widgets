@@ -1,0 +1,31 @@
+
+.container {
+    padding: 3em 0 1em;
+    width: 100%;
+    overflow: auto;
+    height: 100%;
+    position: relative;
+}
+
+.header {
+    position: fixed;
+    top: 3.2em;
+    right: 0;
+    left: 0;
+    background-color: #fff;
+    color: rgba(#000, .87);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2em;
+    border-bottom: 1px solid rgba(#000, .12);
+    box-shadow: 0 0 5px 0 rgba(#000, .35);
+    z-index: 300;
+}
+
+
+.item {
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}

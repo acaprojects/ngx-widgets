@@ -1,0 +1,46 @@
+//
+// @Author: Alex Sorafumo
+// @Date:   2017-05-05 13:01:17
+// @Last Modified by:   Alex Sorafumo
+// @Last Modified time: 2017-05-07 12:16:14
+//
+
+//=========================//
+//      Font Colours       //
+//=========================//
+
+$green: #4caf50;
+$blue: #2196f3;
+$red: #f44336;
+$orange: #ff9800;
+
+$success: #4caf50;
+$error: #f44336;
+$pending: #ff9800;
+
+$black: rgba(0, 0, 0, .87);
+$black-o50: rgba(0, 0, 0, .54);
+$black-o20: rgba(0, 0, 0, .2);
+
+$white: #fff;
+$white-o50: rgba($white, .54);
+$white-o20: rgba($white, .2);
+
+//=========================//
+//      Media Queries      //
+//=========================//
+
+$break-mobile: 512px;
+$break-tablet: 1024px;
+
+@mixin respond-to($media) {
+    @if $media == mobile {
+        @media only screen and (max-width: $break-mobile) { @content; }
+    }
+    @else if $media == tablet {
+        @media only screen and (min-width: $break-mobile + 1) and (max-width: $break-tablet - 1) { @content; }
+    }
+    @else if $media == desktop {
+        @media only screen and (min-width: $break-tablet) { @content; }
+    }
+}

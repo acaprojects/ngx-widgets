@@ -1,0 +1,25 @@
+<div [class]="'map ' + id" widget (window:resize)="initMap(true)">
+
+    <div #container class="map-container" map-input [lock]="focus?.lock" [(scale)]="zoom" (scaleChange)="update(true)"
+        [(center)]="center" (centerChange)="update(true)" (event)="userEvent($event)">
+
+        <div #map class="map-area" [style.transform]="state.transform | safestyle" [style.display]="state.loading ? 'none' : ''"
+            [style.width]="((state.scale - 0.07) * (100 + zoom)) + '%'" [style.height]="(100 + zoom) + '%'">
+
+            <div #img class="map-img" [innerHTML]="(state.map || '') | safe">
+            </div>
+            <!--div class="input-area"
+                map-input [(scale)]="zoom" (scaleChange)="update(true)"
+                [(center)]="center" (centerChange)="update(true)"
+                (event)="userEvent($event)">
+            </div-->
+            <map-overlay-container #overlay [model]="interest_points" [el]="map" [state]="{ center: center, scale: (100 + zoom) / 100, ratio: ratio.map }"
+                [resize]="zoom + state.map_id" (event)="overlayEvent($event)" (idChange)="state.container_id = $event">
+            </map-overlay-container>
+        </div>
+        <div class="no-map" *ngIf="!state.map&&!state.loading">No map loaded!</div>
+        <div class="loading-spinner" *ngIf="state.loading">
+            <spinner type="circle-ring"></spinner>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<!--
+@Author: Alex Sorafumo <Yuion>
+@Date:   24/11/2016 3:43 PM
+@Email:  alex@yuion.net
+@Filename: step.template.html
+@Last modified by:   Yuion
+@Last modified time: 15/12/2016 11:32 AM
+-->
+
+<div [class]="'stepper-step ' + name" [@show]="model.direction" *ngIf="state === 'active'" widget>
+    <div class="heading">
+        <div class="icon"></div>
+        <div class="text">{{heading}}</div>
+    </div>
+    <div class="content">
+        <ng-content></ng-content>
+    </div>
+</div>

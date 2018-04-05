@@ -1,0 +1,17 @@
+{
+    "name": "@acaprojects/ngx-widgets",
+    "version": "0.14.20",
+    "repository": "https://github.com/acaprojects/ngx-widgets.git",
+    "author": "Alex Sorafumo <alex@yuion.net>",
+    "license": "MIT",
+    "private": false,
+    "dependencies": {
+        "moment": "^2.19.3",
+        "hammerjs": "^2.0.8",
+        "cropperjs": "^1.1.3"
+    },
+    "peerDependencies": {
+        "@angular/core": "^5.0.0",
+        "@angular/common": "^5.0.0"
+    }
+}

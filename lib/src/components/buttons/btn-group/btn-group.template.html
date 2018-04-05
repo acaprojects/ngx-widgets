@@ -1,0 +1,13 @@
+<!--
+@Author: Alex Sorafumo <Yuion>
+@Date:   13/09/2016 2:55 PM
+@Email:  alex@yuion.net
+@Filename: btn-group.template.html
+@Last modified by:   Yuion
+@Last modified time: 15/12/2016 11:28 AM
+-->
+
+<div [class]="'btn group ' + name" widget>
+    <btn *ngFor="let item of items; let i = index" [name]="'group-item n' + (i + 1 === items.length ? 'l' : i + 1)"
+        [(model)]="state[i]" (modelChange)="toggle(i)" [toggle]="true" [disabled]="disabled">{{ item }}</btn>
+</div>

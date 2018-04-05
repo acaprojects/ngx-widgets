@@ -1,0 +1,97 @@
+// @Author: Alex Sorafumo <Yuion>
+// @Date:   20/09/2016 10:49 AM
+// @Email:  alex@yuion.net
+// @Filename: slider.styles.scss
+// @Last modified by:   alex.sorafumo
+// @Last modified time: 24/01/2017 9:52 AM
+
+@import '../../../shared/ui-vars';
+
+.slider {
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+
+    * {
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+}
+
+.block {
+    cursor: default;
+    padding: 1em 1.5em;
+    touch-action: pan-y;
+    width: 100%;
+}
+
+.bar {
+    background-color: $black-o50;
+    border-radius: .5em;
+    cursor: pointer;
+    height: 1em;
+    min-width: 1em;
+    position: relative;
+    touch-action: pan-y;
+    width: 100%;
+}
+
+.knob-container {
+    height: 0;
+    position: absolute;
+    top: 50%;
+    width: 0;
+}
+
+.knob {
+    background-color: #f0f0f0;
+    border-radius: 100%;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+    height: 2em;
+    left: 0;
+    position: absolute;
+    top: 0;
+    touch-action: pan-y;
+    transform: translate(-50%, -50%);
+    width: 2em;
+}
+
+.progress {
+    background-color: $blue;
+    border-radius: .5em;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    touch-action: pan-y;
+}
+
+.vertical {
+    height: 100%;
+    padding: 1.5em 1em;
+    touch-action: pan-x;
+    width: auto;
+
+    .bar {
+        height: 100%;
+        min-height: 1em;
+        touch-action: pan-x;
+        width: 1em;
+    }
+
+    .knob-container {
+        left: 50%;
+        top: auto;
+    }
+
+    .knob {
+        touch-action: pan-x;
+    }
+
+    .progress {
+        bottom: 0;
+        top: auto;
+        touch-action: pan-x;
+        width: 100%;
+    }
+}

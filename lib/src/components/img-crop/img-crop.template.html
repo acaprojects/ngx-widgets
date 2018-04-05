@@ -1,0 +1,43 @@
+<!--
+@Author: Alex Sorafumo <Yuion>
+@Date:   19/09/2016 12:34 PM
+@Email:  alex@yuion.net
+@Filename: img-crop.template.html
+@Last modified by:   Yuion
+@Last modified time: 15/12/2016 11:30 AM
+-->
+
+<div class="aca img-crop" widget>
+    <div class="img-space">
+        <div class="image">
+            <div class="drop-zone" [class.hide]="model.image_data">
+                <input *ngIf="select" name="imgfile" class="img-select" type="file" [file-stream]="'img-crop' + (id !== '' ? '-' + id: '')"
+                />
+                <label for="imgfile" drop-target [stream]="'img-crop' + (id !== '' ? '-' + id: '')" indicate="hover">
+                    <div class="text">
+                        Drop image<br>or<br>Click to select
+                    </div>
+                    <div class="icon upload"></div>
+                </label>
+            </div>
+            <div class="cropper" *ngIf="model.image_data">
+                <img #image class="image-display" [src]="model.image_data">
+            </div>
+            <div class="img-error" *ngIf="model.error"> File selected is not a valid image file</div>
+        </div>
+        <div class="overlay">
+            <div class="loading img" *ngIf="model.saving">
+                <img [src]="model.data.image">
+                <br/>
+            </div>
+            <div class="loading" *ngIf="model.loading">
+                <spinner type="dot-circle"></spinner>
+            </div>
+            <div class="save-container">
+                <div class="save-btn" [class.show]="model.image_data" (mousedown)="saveImage()">
+                    <div class="icon save"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

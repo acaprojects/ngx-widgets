@@ -1,0 +1,16 @@
+<!--
+@Author: Alex Sorafumo <Yuion>
+@Date:   13/09/2016 3:46 PM
+@Email:  alex@yuion.net
+@Filename: btn.template.html
+@Last modified by:   alex.sorafumo
+@Last modified time: 20/01/2017 2:45 PM
+-->
+
+<div [class]="'btn ' + name" widget>
+    <button click-responder #btn [type]="type" [class]="format" [class.active]="model" [disabled]="disabled" (tap)="tap($event)">
+        <div class="content">
+            <ng-content></ng-content>
+        </div>
+    </button>
+</div>

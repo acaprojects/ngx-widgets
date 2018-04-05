@@ -1,0 +1,78 @@
+<!--
+@Author: Alex Sorafumo <Yuion>
+@Date:   13/09/2016 2:55 PM
+@Email:  alex@yuion.net
+@Filename: spinner.template.html
+@Last modified by:   Yuion
+@Last modified time: 15/12/2016 11:32 AM
+-->
+
+<div [class]="'spinner ' + name + ' ' + type" widget>
+    <div class="spin">
+        <div *ngIf="type=='plane'" class="plane">
+            <div class="box" [style.background-color]="color"></div>
+        </div>
+        <div *ngIf="type=='bounce'" class="bounce">
+            <div class="circle" [style.background-color]="color"></div>
+        </div>
+        <div *ngIf="type=='ring-bounce'" class="ring-bounce">
+            <div class="circle" [style.border-color]="color"></div>
+        </div>
+        <div *ngIf="type=='ring-rotate'" class="ring-rotate">
+            <div [class]="'circle state-'+i" [style.border-color]="color" *ngFor="let i of [1,2,3]" >
+                <div class="inner"></div>
+            </div>
+        </div>
+        <div *ngIf="type=='ring-bounce-in'" class="ring-bounce-in">
+            <div class="circle one" [style.border-color]="color"></div>
+            <div class="circle two" [style.border-color]="color"></div>
+        </div>
+        <div *ngIf="type=='double-bounce'" class="double-bounce">
+            <div class="circle one" [style.background-color]="color"></div>
+            <div class="circle two" [style.background-color]="color"></div>
+        </div>
+        <div *ngIf="type=='bars'" class="bars">
+            <div [class]="'rect state-'+i" *ngFor="let i of [1,2,3,4,5,6]" [style.background-color]="color" >
+                <div class="inner" [style.background-color]="color"></div>
+            </div>
+        </div>
+        <div *ngIf="type=='cubemove'" class="cubemove">
+            <div class="cube state-1" [style.background-color]="color"></div>
+            <div class="cube state-2" [style.background-color]="color"></div>
+        </div>
+        <div *ngIf="type=='cube-grid'" class="cube-grid">
+            <div [class]="'dot state-'+i" *ngFor="let i of [1,2,3,4,5,6,7,8,9]" >
+                <div class="inner" [style.background-color]="color"></div>
+            </div>
+        </div>
+        <div *ngIf="type=='dot-bounce'" class="dot-bounce">
+            <div [class]="'circle state-'+i" [style.background-color]="color" *ngFor="let i of [1,2,3]" >
+                <div class="inner"></div>
+            </div>
+        </div>
+        <div *ngIf="type=='dot-circle'" class="dot-circle">
+            <div [class]="'dot state-'+i" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" >
+                <div class="inner" [style.background-color]="color"></div>
+            </div>
+        </div>
+        <div *ngIf="type=='dot-circle-scale'" class="dot-circle-scale">
+            <div [class]="'dot state-'+i" *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]" >
+                <div class="inner" [style.background-color]="color"></div>
+            </div>
+        </div>
+        <div *ngIf="type=='circle-ring'" class="circle-ring">
+            <svg viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="54" fill="none" [style.stroke]="color" stroke-width="12" [style.transform]="'rotate(' + (360 * percent) + 'deg)'"
+                    stroke-dasharray="339.292" [style.stroke-dashoffset]="339.292 * .8" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div *ngIf="type=='double-circle-ring'" class="double-circle-ring">
+            <svg viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="54" fill="none" [style.stroke]="color" stroke-width="12" [style.transform]="'rotate(' + (360 * percent) + 'deg)'"
+                    stroke-dasharray="339.292" [style.stroke-dashoffset]="339.292 * .8" stroke-linecap="round"/>
+                <circle cx="60" cy="60" r="54" fill="none" [style.stroke]="color" stroke-width="12" [style.transform]="'rotate(' + ((360 * percent) + 180) + 'deg)'"
+                    stroke-dasharray="339.292" [style.stroke-dashoffset]="339.292 * .8" stroke-linecap="round"/>
+            </svg>
+        </div>
+    </div>
+</div>

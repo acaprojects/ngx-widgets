@@ -1,0 +1,7 @@
+<div class="response" [@show] *ngIf="model.show"
+    [style.top]="model.position && model.position.y ? model.position.y + 'px' : '50%'"
+    [style.left]="model.position && model.position.x ? model.position.x + 'px' : '50%'"
+    [style.height]="model.position && model.position.scale ? (model.position.scale * 2) + 'px' : ''"
+    [style.width]="model.position && model.position.scale ? (model.position.scale * 2) + 'px' : ''">
+</div>
+<ng-content></ng-content>

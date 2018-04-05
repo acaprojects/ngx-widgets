@@ -1,5 +1,0 @@
-
-<div [class]="'notification ' + model.name" widget >
-    <div [class]="'content ' + model.type" [innerHTML]="model.innerHTML | safe" *ngIf="!model.template"></div>
-    <ng-container *ngTemplateOutlet="model.template"></ng-container>
-</div>

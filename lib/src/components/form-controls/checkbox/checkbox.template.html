@@ -1,0 +1,9 @@
+
+<div [class]="'checkbox ' + name" widget (tap)="toggle()">
+    <label *ngIf="side==='left'" class="label" [for]="name">{{ label }}</label>
+    <div class="box" [class.active]="model">
+        <input type="checkbox" [(ngModel)]="model" [name]="name">
+        <div class="check"><ng-content></ng-content></div>
+    </div>
+    <label *ngIf="side!=='left'" class="label" [for]="name">{{ label }}</label>
+</div>

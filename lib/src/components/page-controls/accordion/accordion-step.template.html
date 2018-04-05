@@ -1,0 +1,18 @@
+<!--
+@Author: Alex Sorafumo <Yuion>
+@Date:   24/11/2016 3:43 PM
+@Email:  alex@yuion.net
+@Filename: step.template.html
+@Last modified by:   Yuion
+@Last modified time: 15/12/2016 11:32 AM
+-->
+
+<div class="accordion-step">
+    <div class="heading" (tap)="toggle()">
+        <div class="icon" [class.show]="show"></div>
+        <div class="text" [innerHTML]="heading | safe"></div>
+    </div>
+    <div [@view]="show ? 'show' : 'hide'" class="content" [class.last]="model.last">
+        <ng-content></ng-content>
+    </div>
+</div>

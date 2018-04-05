@@ -1,0 +1,21 @@
+
+<showcase [(model)]="model">
+    <div class="container">
+        <btn tooltip name="" [(show)]="model.tooltip1" [template]="tooltip1" (tapped)="model.tooltip1 = true">
+            This click to show tooltip
+            <ng-template #tooltip1>
+                <div class="ttip">
+                    This is a tooltip
+                </div>
+            </ng-template>
+        </btn>
+        <span tooltip name="" [(show)]="model.tooltip2" [template]="tooltip2" [hover]="true">
+            Hover to show tooltip
+            <ng-template #tooltip2>
+                <div class="ttip">
+                    This is another tooltip
+                </div>
+            </ng-template>
+        </span>
+    </div>
+</showcase>

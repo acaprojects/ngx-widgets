@@ -1,0 +1,27 @@
+
+<div class="shell">
+    <div class="header">
+        <div class="icon">
+            <i center class="material-icons" (tap)="model.menu.show = !model.menu.show">{{model.menu.show ? 'close' : 'menu'}}</i>
+        </div>
+        <div class="title">Angular 5 Widgets</div>
+        <div class="icon">
+            <i center class="material-icons"></i>
+        </div>
+    </div>
+    <div class="sidebar" [class.show]="model.menu.show">
+        <div class="list">
+            <div class="category" *ngFor="let category of model.menu_items; let i = index">
+                <div class="item" [class.active]="model.page === model.menu_ids[i]" (tap)="navigate(model.menu_ids[i])">{{category}}</div>
+                <div class="sub-item" *ngFor="let item of model.menu[category]" [class.active]="model.location === item.id" (tap)="navigate(model.menu_ids[i] + '/' + item.id)">{{item.name}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="contents">
+        <router-outlet></router-outlet>
+    </div>
+    <div class="footer">
+        <div class="copyright">&copy; ACA Projects 2017 - 2018</div>
+        <div class="version">v{{version}}</div>
+    </div>
+</div>
