@@ -72,6 +72,13 @@
             bottom: 0;
         }
     }
+    &.none {
+        .content {
+            background: none;
+            box-shadow: none;
+            border-radius: none;
+        }
+    }
 }
 
 .content {

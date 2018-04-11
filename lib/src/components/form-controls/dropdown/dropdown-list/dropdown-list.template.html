@@ -2,7 +2,7 @@
 <div [class]="'dropdown list-tooltip ' + model?.name" widget
     [style.width]="model.width ? model.width + 'px' : ''"
     [style.font-size]="(model.font_size + 'px') || ''"
-    (wheel)="inside()">
+    (wheel)="inside()" [style.margin-bottom]="model.bottom ? '-.4em' : ''">
     <div class="list" *ngIf="model.bottom" [class.filter]="model.filter">
         <div class="item"
             *ngFor="let item of filtered_list; let i = index"
@@ -31,7 +31,7 @@
         <div class="icon"><div class="search-icon"></div></div>
         <div class="input"><input #input [(ngModel)]="search" (ngModelChange)="filter()"></div>
     </div>
-    <div class="item placeholder">
+    <div class="item placeholder" *ngIf="model.placeholder && (model < 0 || model.list.length < model)">
         <div class="text">{{ model.placeholder }}</div>
     </div>
     <div class="list" *ngIf="!model.bottom"  [class.filter]="model.filter">

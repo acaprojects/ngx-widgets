@@ -6,7 +6,7 @@
     display: inline-block;
     margin: .25em;
     background-color: #fff;
-    border-radius: .2em;
+    border-radius: 4px;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
     transition: box-shadow 300ms, background-color 300ms;
     border: 1px solid #fff;
@@ -52,6 +52,7 @@
     align-items: center;
     padding: .5em .75em;
     height: 2em;
+    border: none;
     .text {
         flex: 1;
         width: 50%;
@@ -66,7 +67,6 @@
     }
     &.active {
         text-align: center;
-        border-bottom: 1px solid #f2f2f2;
         &:hover {
             background-color: #fff;
         }

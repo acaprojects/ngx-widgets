@@ -44,7 +44,6 @@ export class DynamicBaseComponent {
         if (!DynamicBaseComponent.internal_state[this.type]) {
             DynamicBaseComponent.internal_state[this.type] = new BehaviorSubject('');
         }
-        console.log('DynamicBase:', this);
         this.renderer.listen('window', 'resize', () => this.resize());
         if (!DynamicBaseComponent.instance_stack[this.type]) {
             DynamicBaseComponent.instance_stack[this.type] = [];
