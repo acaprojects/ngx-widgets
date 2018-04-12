@@ -1,0 +1,17 @@
+<!--
+@Author: Alex Sorafumo <Yuion>
+@Date:   13/09/2016 2:55 PM
+@Email:  alex@yuion.net
+@Filename: input-field.template.html
+@Last modified by:   Yuion
+@Last modified time: 15/12/2016 11:29 AM
+-->
+
+<div [class]="'input-field ' + name" widget [class.focus]="state.focus">
+    <div class="field">
+        <div class="placeholder" [class.focus]="state.focus" [class.hide]="model" (tap)="focusElement()">
+            {{placeholder}}
+        </div>
+        <input #input [type]="type" [(ngModel)]="model" (ngModelChange)="valueChanged($event)" (focus)="focused($event)" (blur)="blurred($event)" [disabled]="disabled" [maxlength]="limit">
+    </div>
+</div>

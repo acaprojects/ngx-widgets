@@ -25,7 +25,7 @@ export * from './components/click-responder/click-responder.component';
 export * from './components/form-controls/calendar/calendar.component';
 export * from './components/form-controls/checkbox/checkbox.component';
 export * from './components/form-controls/custom-dropdown/dropdown.component';
-export * from './components/form-controls/data-input/data-input.component';
+export * from './components/form-controls/input-field/input-field.component';
 export * from './components/form-controls/dropdown/dropdown.component';
 export * from './components/form-controls/radioset/radioset.component';
 export * from './components/form-controls/radioset/radio-button/radio-button.component';

@@ -28,7 +28,7 @@ import { ClickResponderComponent } from './components/click-responder/click-resp
 import { CalendarComponent } from './components/form-controls/calendar/calendar.component';
 import { CheckboxComponent } from './components/form-controls/checkbox/checkbox.component';
 import { CustomDropdownComponent } from './components/form-controls/custom-dropdown/dropdown.component';
-import { DataInputComponent } from './components/form-controls/data-input/data-input.component';
+import { InputFieldComponent } from './components/form-controls/input-field/input-field.component';
 import { DropdownComponent } from './components/form-controls/dropdown/dropdown.component';
 import { RadioButtonComponent } from './components/form-controls/radioset/radio-button/radio-button.component';
 import { RadiosetComponent } from './components/form-controls/radioset/radioset.component';
@@ -101,7 +101,7 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         CalendarComponent,
         CheckboxComponent,
         CustomDropdownComponent,
-        DataInputComponent,
+        InputFieldComponent,
         DropdownComponent,
         RadioButtonComponent,
         RadiosetComponent,
@@ -163,7 +163,7 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         CalendarComponent,
         CheckboxComponent,
         CustomDropdownComponent,
-        DataInputComponent,
+        InputFieldComponent,
         DropdownComponent,
         RadioButtonComponent,
         RadiosetComponent,
@@ -232,7 +232,7 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
 })
 export class WidgetsModule {
     private static init = false;
-    private build = '2018-04-03.v1';
+    private build = '2018-04-12.v1';
 
     constructor() {
         if (!WidgetsModule.init) {

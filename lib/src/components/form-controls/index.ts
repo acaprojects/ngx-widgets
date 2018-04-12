@@ -10,7 +10,7 @@
 import { CalendarComponent } from './calendar';
 import { CheckboxComponent } from './checkbox';
 import { CustomDropdownComponent } from './custom-dropdown';
-import { DataInputComponent } from './data-input';
+import { InputFieldComponent } from './input-field/input-field.component';
 import { DropdownComponent } from './dropdown';
 import { RadioButtonComponent, RadiosetComponent } from './radioset';
 import { SliderComponent } from './slider';
@@ -20,7 +20,7 @@ import { ToggleComponent } from './toggle';
 export * from './calendar';
 export * from './checkbox';
 export * from './custom-dropdown';
-export * from './data-input';
+export * from './input-field';
 export * from './dropdown';
 export * from './radioset';
 export * from './slider';
@@ -31,7 +31,7 @@ export * from './toggle';
 //     CalendarComponent,
 //     CheckboxComponent,
 //     CustomDropdownComponent,
-//     DataInputComponent,
+//     InputFieldComponent,
 //     DropdownComponent,
 //     RadioButtonComponent,
 //     RadiosetComponent,

@@ -3,6 +3,11 @@
     "src": "lib",
     "dest": "dist",
     "workingDirectory": ".ng_build",
+    "whitelistedNonPeerDependencies": [
+        "cropperjs",
+        "moment",
+        "hammerjs"
+    ],
     "lib": {
         "entryFile": "lib/src/public_api.ts",
         "externals": {

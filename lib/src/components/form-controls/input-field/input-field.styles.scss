@@ -1,0 +1,59 @@
+// @Author: Alex Sorafumo <Yuion>
+// @Date:   13/09/2016 2:55 PM
+// @Email:  alex@yuion.net
+// @Filename: input-field.styles.scss
+// @Last modified by:   Yuion
+// @Last modified time: 15/12/2016 11:29 AM
+
+@import '../../../shared/ui-vars';
+
+.input-field {
+    display: inline-block;
+    font-size: 1em;
+    padding: 8px 0 4px;
+    margin: .5em 0 .2em;
+    position: relative;
+    user-select: none;
+    border-bottom: 1px solid #ccc;
+    min-width: 12em;
+    transition: border 300ms;
+    &.focus {
+        border-color: #2196F3;
+    }
+}
+
+.field {
+    position: relative;
+}
+
+input {
+    width: 100%;
+    color: rgba(#000, .87);
+    font-size: 1em;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+    box-shadow: none;
+    background-color: none;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
+    background: none;
+}
+
+.placeholder {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    font-size: 1em;
+    transform: translateY(-50%);
+    transition: font-size 300ms, top 300ms, color 300ms;
+    color: rgba(#000, .2);
+    &.focus {
+        color: #2196F3;
+    }
+    &.hide {
+        top: -.8em;
+        font-size: .6em;
+    }
+}
