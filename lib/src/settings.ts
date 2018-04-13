@@ -15,7 +15,7 @@ export class WIDGETS {
     private static _obs: any = {};
     private static timer: any = null;
     private static load_count = 0;
-    public static app_version = '0.14.24';
+    public static app_version = '0.14.25';
 
     public static init() {
         setTimeout(() => {

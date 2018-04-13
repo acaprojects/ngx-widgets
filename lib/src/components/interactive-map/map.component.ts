@@ -59,7 +59,7 @@ export class InteractiveMapComponent {
     @Output() public event: any = new EventEmitter();
 
     public interest_points: any[] = [];
-    public state: any = {};
+    public model: any = {};
     public timers: any = {};
     public tree: any = {};
     public ratio: any = {
@@ -150,22 +150,24 @@ export class InteractiveMapComponent {
     }
 
     public update(post: boolean = false) {
-        const x = Math.floor((100 * ((this.center.x - .5)  / this.state.scale + .5)) * 100) / 100;
+        const x = Math.floor((100 * ((this.center.x - .5)  / this.model.scale + .5)) * 100) / 100;
         const y = Math.floor((100 * this.center.y) * 100) / 100;
-        this.state.position = `${x}%, ${y}%`;
-        const ratio = this.ratio.container.height / this.ratio.map.height;
-        // this.state.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
-        this.state.transform = `translate(${x - 100}%, ${y - 100}%)`;
+        this.model.position = `${x}%, ${y}%`;
+        const ratio = this.ratio.map.height / this.ratio.container.height;
+        // this.model.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
+        this.model.transform = `translate(${x - 100}%, ${y - 100}%)`;
         if (post) {
             this.zoomChange.emit(this.zoom);
             this.centerChange.emit(this.zoom);
         }
+        this.model.zoom_level = ((this.model.scale - 0.07) * (100 + this.zoom)) || 100;
+        this.model.h_ratio = ratio || 1;
         this._cdr.markForCheck();
     }
 
     public clearHandlers() {
-        if (this.state.old_handlers) {
-            for(const handler of this.state.old_handlers) {
+        if (this.model.old_handlers) {
+            for(const handler of this.model.old_handlers) {
                 if (handler.unhandle) { handler.unhandle(); }
             }
         }
@@ -190,7 +192,7 @@ export class InteractiveMapComponent {
                     }
                 }
             }
-            this.state.old_handlers = this.handlers;
+            this.model.old_handlers = this.handlers;
         }
     }
 
@@ -251,39 +253,39 @@ export class InteractiveMapComponent {
     }
 
     public initMap(update: boolean = false) {
-        this.state.scale = 1;
+        this.model.scale = 1;
         setTimeout(() => {
             for (const el of this.img.nativeElement.children) {
                 if (el.nodeName.toLowerCase() === 'svg') {
-                    this.state.map_el = el;
+                    this.model.map_el = el;
                     break;
                 }
             }
-            if (this.state.map_el) {
-                this.state.map_box = this.state.map_el.getBoundingClientRect();
-                this.state.cnt_box = this.container.nativeElement.getBoundingClientRect();
-                this.state.map_el.style.position = 'absolute';
-                this.state.map_el.style.top = '50%';
-                this.state.map_el.style.left = '50%';
-                this.state.map_el.style.transform = `translate(-50%, -50%)`;
-                // this.state.map_el.style.maxWidth = `100%`;
-                // this.state.map_el.style.maxHeight = `100%`;
+            if (this.model.map_el) {
+                this.model.map_box = this.model.map_el.getBoundingClientRect();
+                this.model.cnt_box = this.container.nativeElement.getBoundingClientRect();
+                this.model.map_el.style.position = 'absolute';
+                this.model.map_el.style.top = '50%';
+                this.model.map_el.style.left = '50%';
+                this.model.map_el.style.width = '100%';
+                this.model.map_el.style.transform = `translate(-50%, -50%)`;
+                const view_box = this.model.map_el.getAttribute('viewBox').split(' ');
                 this.ratio.map = {
                     width: 1,
-                    height: this.state.map_box.height / this.state.map_box.width,
+                    height: (view_box[3] - view_box[1]) / (view_box[2] - view_box[0]),
                 };
                 this.ratio.container = {
                     width: 1,
-                    height: this.state.cnt_box.height / this.state.cnt_box.width,
+                    height: this.model.cnt_box.height / this.model.cnt_box.width,
                 };
-                this.state.scale = Math.min(1, this.ratio.container.height / this.ratio.map.height);
+                this.model.scale = Math.min(1, this.ratio.container.height / this.ratio.map.height);
                 setTimeout(() => {
                     this.initElementTree();
                     this.loadPointsOfInterest();
                 }, 100);
                 this.focusEvent();
             }
-            this.state.map_id = `${this.src}_${Math.floor(Math.random() * 89999999 + 10000000)}`;
+            this.model.map_id = `${this.src}_${Math.floor(Math.random() * 89999999 + 10000000)}`;
             if (update) {
                 if (this.timers.update) {
                     clearTimeout(this.timers.update);
@@ -299,13 +301,13 @@ export class InteractiveMapComponent {
     }
 
     private initElementTree() {
-        const map = this.state.map_el.getBoundingClientRect();
+        const map = this.model.map_el.getBoundingClientRect();
         if (map.width === 0) {
             return setTimeout(() => this.initElementTree(), 200);
         }
         let tree = this.service.getMapTree(this.src);
         if (!tree) {
-            tree = this.createElementTree(this.state.map_el, map);
+            tree = this.createElementTree(this.model.map_el, map);
             this.service.setMapTree(this.src, tree);
         }
         this.tree = tree;
@@ -343,16 +345,16 @@ export class InteractiveMapComponent {
 
     private getMapPosition(pos: { x: number, y: number }) {
         const position = { x: 0, y: 0 };
-        if (this.state && this.state.map_el) {
-            let rect = this.state.map_el.getBoundingClientRect();
+        if (this.model && this.model.map_el) {
+            let rect = this.model.map_el.getBoundingClientRect();
             if (rect.width === 0) {
                 for (const el of this.img.nativeElement.children) {
                     if (el.nodeName.toLowerCase() === 'svg') {
-                        this.state.map_el = el;
+                        this.model.map_el = el;
                         break;
                     }
                 }
-                rect = this.state.map_el.getBoundingClientRect();
+                rect = this.model.map_el.getBoundingClientRect();
             }
             position.x = Math.floor(((pos.x - rect.left) / rect.width) * 10000);
             position.y = Math.floor(((pos.y - rect.top) / rect.height) * (10000 * (rect.height / rect.width)));
@@ -378,15 +380,15 @@ export class InteractiveMapComponent {
 
     private loadMap(tries: number = 0) {
         if (tries > 10) { return; }
-        this.state.loading = true;
-        this.state.map = '';
+        this.model.loading = true;
+        this.model.map = '';
         this.service.loadMap(this.src)
             .then((map) => {
                 this.zoom = 0;
                 this.center = { x: .5, y: .5 };
-                this.state.map = map;
+                this.model.map = map;
                 this.update();
-                this.state.loading = false;
+                this.model.loading = false;
                 setTimeout(() => {
                     this.initMap();
                 }, 200);
@@ -408,7 +410,7 @@ export class InteractiveMapComponent {
                 };
                 this.zoom = this.focus.zoom || 100;
             } else if (this.focus.id) {
-                if (this.area && this.state.map_el) {
+                if (this.area && this.model.map_el) {
                     const clean_id = this.focus.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
                     const el = this.area.nativeElement.querySelector(`#${clean_id}`);
                     if (el) {
@@ -437,7 +439,7 @@ export class InteractiveMapComponent {
 
     private loadPointsOfInterest(tries: number = 0) {
         if (tries > 10) { return; }
-        if (this.state.map_el) {
+        if (this.model.map_el) {
             if (this.poi) {
                 this.interest_points = [];
                 for (const item of this.poi) {
@@ -457,7 +459,7 @@ export class InteractiveMapComponent {
     }
 
     private updateStyles() {
-        this.state.styles = '';
+        this.model.styles = '';
         for (const id in this.styles) {
             if (this.styles.hasOwnProperty(id)) {
                 const clean_id = id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
@@ -469,19 +471,19 @@ export class InteractiveMapComponent {
                     }
                 }
                 if (properties) {
-                    this.state.styles += `${name} {${properties} } `;
+                    this.model.styles += `${name} {${properties} } `;
                 }
             }
         }
         const el = document.getElementById(`map-styles-${this.id}`);
         if (el) {
-            el.innerHTML = this.state.styles;
+            el.innerHTML = this.model.styles;
         } else {
             const head = document.head || document.getElementsByTagName('head')[0];
             const style = document.createElement('style');
             style.id = `map-styles-${this.id}`;
             style.type = 'text/css';
-            style.innerHTML = this.state.styles;
+            style.innerHTML = this.model.styles;
             head.appendChild(style);
         }
         this._cdr.markForCheck();

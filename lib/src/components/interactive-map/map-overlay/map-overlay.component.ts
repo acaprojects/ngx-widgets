@@ -37,15 +37,25 @@ export class MapOverlayComponent extends DynamicBaseComponent {
         setTimeout(() => {
             const el = this.model.el;
             if (this.model.coordinates) {
+                const view_box = this.model.map.getAttribute('viewBox').split(' ');
+                const map_box: any = {
+                    top: +view_box[1],
+                    left: +view_box[0],
+                    width: +view_box[2] - +view_box[0],
+                    height: +view_box[3] - +view_box[1]
+                };
+                const ratio = map_box.height / map_box.width;
+                const x = (this.model.coordinates.x / 10000);
+                const y = (this.model.coordinates.y / 10000);
                 this.container = {
                     height: 1,
                     width: 1,
-                    top: ((this.model.coordinates.y / 10000) / this.model.map_state.ratio.height) * 100,
-                    left: ((this.model.coordinates.x / 10000) / this.model.map_state.ratio.width) * 100,
+                    top: y * ratio * 100,
+                    left: x * 100,
                 };
             } else if (el) {
                 const box = el.getBoundingClientRect();
-                const map_box: any = this.model.map.getBoundingClientRect();
+                const map_box = this.model.map.getBoundingClientRect();
                 this.container = {
                     height: (box.height / map_box.height) * 100,
                     width: (box.width / map_box.width) * 100,
