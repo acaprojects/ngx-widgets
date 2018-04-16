@@ -23,7 +23,6 @@ export class SliderComponent {
     @Input() public max = 100;
     @Input() public model = 0;
     @Input() public step = 1;
-    @Input() public precision = 1;
     @Input() public name = '';
     @Output() public modelChange = new EventEmitter();
 
@@ -53,9 +52,6 @@ export class SliderComponent {
         }
         if (!this.step) {
             this.step = 1;
-        }
-        if (!this.precision) {
-            this.precision = 1;
         }
         if (changes.model && !this.user_action && !isNaN(this.model)) {
             if (this.model < this.min) {
@@ -271,10 +267,8 @@ export class SliderComponent {
         // it to a multiple of step
         const stepped = Math.round((percent * range) / +this.step) * +this.step;
 
-        // round the stepped model to a precision level
-        const rounded = Math.round(stepped * +this.precision) / +this.precision;
         // constraint min..X..max
-        return Math.min(+this.max, Math.max(+this.min, (rounded + +this.min)));
+        return Math.min(+this.max, Math.max(+this.min, (stepped + +this.min)));
     }
 
     private actionPerformed() {
