@@ -282,6 +282,7 @@ export class InteractiveMapComponent {
                 setTimeout(() => {
                     this.initElementTree();
                     this.loadPointsOfInterest();
+                    this.update();
                 }, 100);
                 this.focusEvent();
             }
@@ -389,14 +390,10 @@ export class InteractiveMapComponent {
                 this.model.map = map;
                 this.update();
                 this.model.loading = false;
-                setTimeout(() => {
-                    this.initMap();
-                }, 200);
+                setTimeout(() =>  this.initMap() , 200);
             }, (err) => {
                 tries++;
-                setTimeout(() => {
-                    this.loadMap(tries);
-                }, 200 * tries);
+                setTimeout(() => this.loadMap(tries), 200 * tries);
             });
     }
 
