@@ -56,10 +56,6 @@ export class MapInputDirective {
         }
     }
 
-    @HostListener('document:touchmove', ['$event']) private preventZoom(e: any) {
-        if (e.scale !== 1 && e.preventDefault) { e.preventDefault(); }
-    }
-
     @HostListener('panstart', ['$event']) private moveStart(e: any) {
         if (this.lock) { return; }
         this.model.center = this.center;

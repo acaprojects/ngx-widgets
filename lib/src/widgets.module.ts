@@ -68,6 +68,8 @@ import { MapInputDirective } from './directives/map-input.directive';
 import { TooltipDirective } from './directives/overlays/tooltip.directive';
 import { ModalDirective } from './directives/overlays/modal.directive';
 import { NotifyDirective } from './directives/overlays/notify.directive';
+import { TapDownDirective } from './directives/tapdown.directive';
+import { TapUpDirective } from './directives/tapup.directive';
     // Pipes
 import { KeysPipe } from './pipes/keys.pipe';
 import { SafeStylePipe } from './pipes/safe-style.pipe';
@@ -128,6 +130,8 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         TooltipDirective,
         ModalDirective,
         NotifyDirective,
+        TapDownDirective,
+        TapUpDirective,
             // Declare Pipes
         // ...PIPES,
         KeysPipe,
@@ -190,6 +194,8 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         TooltipDirective,
         ModalDirective,
         NotifyDirective,
+        TapDownDirective,
+        TapUpDirective,
             // Export Pipes
         // ...PIPES,
         KeysPipe,
@@ -232,7 +238,7 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
 })
 export class WidgetsModule {
     private static init = false;
-    private build = '2018-04-17.v1';
+    private build = '2018-04-18.v1';
 
     constructor() {
         if (!WidgetsModule.init) {
