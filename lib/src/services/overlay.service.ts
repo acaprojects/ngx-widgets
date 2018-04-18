@@ -307,8 +307,7 @@ export class OverlayService {
             this.containers.root = cmp.instance;
             this.containers.root.ng = cmp;
             this.containers.root.service = this;
-            this.add('root', 'notifications', NotificationComponent, {})
-                .then(() => null, () => null);
+            this.add('root', 'notifications', NotificationComponent, {}).then(() => null, () => null);
             return;
         } else if (!this._view && this.default_vc) {
             this._view = this.default_vc;
