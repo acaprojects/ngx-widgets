@@ -115,8 +115,8 @@ export class InteractiveMapComponent {
         if (changes.zoom || changes.center) {
             this.animate.animation(() => {
                 if (this.focus && this.focus.lock) {
-                        this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
-                        this.center = changes.center ? changes.changes.previousValue : this.center;
+                    this.zoom = changes.zoom ? changes.zoom.previousValue : this.zoom;
+                    this.center = changes.center ? changes.changes.previousValue : this.center;
                 }
             }, () => {
                 this.update();

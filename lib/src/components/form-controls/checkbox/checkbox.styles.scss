@@ -4,6 +4,15 @@
 .checkbox {
     display: flex;
     align-items: center;
+    &:hover {
+        .box {
+            border-color: $blue;
+            &.active {
+                border-color: darken($blue, 10);
+                background-color: darken($blue, 10);
+            }
+        }
+    }
 }
 
 .box {
@@ -53,4 +62,5 @@ input {
 
 .label {
     padding: .25em;
+    cursor: pointer;
 }

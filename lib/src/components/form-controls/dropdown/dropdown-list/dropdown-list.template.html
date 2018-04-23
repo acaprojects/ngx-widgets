@@ -19,7 +19,7 @@
     </div>
     <div class="search" *ngIf="model.filter&&model.bottom" (tap)="focus()">
         <div class="icon"><div class="search-icon"></div></div>
-        <div class="input"><input #input [(ngModel)]="search" (ngModelChange)="filter()"></div>
+        <div class="input"><input #input [(ngModel)]="search" (ngModelChange)="filter()" placeholder="Filter"></div>
     </div>
     <div class="item active" [class.bottom]="model?.bottom" (click)="fn.close()" (tap)="fn.close()">
         <div class="text">
