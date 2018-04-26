@@ -1,5 +1,6 @@
 
 import { Component } from '@angular/core';
+import { MapPinComponent, MapRangeComponent } from '../../../../../lib/src/components';
 
 @Component({
     selector: 'map-showcase',
@@ -114,8 +115,10 @@ export class MapShowcaseComponent {
         ],
         inject: '',
         map: {
-            src: 'assets/australia.svg'
-        }
+            src: 'assets/australia.svg',
+            poi: []
+        },
+        show: {}
     };
 
     public ngOnInit() {
@@ -125,5 +128,36 @@ export class MapShowcaseComponent {
      [focus]=&quot;map_focus&quot;
      (event)=&quot;doSomething($event)&quot;&gt;
 &lt;/map&gt;`;
+    }
+
+    public togglePin() {
+        this.model.show.pin = !this.model.show.pin;
+        this.updatePointsOfInterest();
+    }
+
+    public toggleRadius() {
+        this.model.show.radius = !this.model.show.radius;
+        this.updatePointsOfInterest();
+    }
+
+    public updatePointsOfInterest() {
+        this.model.map.poi = [];
+        if (this.model.show.radius) {
+            this.model.map.poi.push({
+                id: 'Nyada',
+                coordinates:  { x: 2000, y: 3000 },
+                cmp: MapRangeComponent,
+                data: { text: `I'm somewhere in this circle` }
+            })
+        }
+        if (this.model.show.pin) {
+            const fixed = Math.floor(Math.random() * 34729837) % 2 === 0;
+            this.model.map.poi.push({
+                id: fixed ? 'AU-NSW' : 'Nyada',
+                coordinates: fixed ? null : { x: 5000, y: 7500 },
+                cmp: MapPinComponent,
+                data: { text: fixed ? 'NSW is here' : `I'm currently round here` }
+            })
+        }
     }
 }
