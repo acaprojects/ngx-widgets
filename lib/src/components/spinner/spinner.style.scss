@@ -307,6 +307,10 @@ $space: .5em;
 
 svg circle {
     transform-origin: center;
+    animation: sk-rotate-simple .8s infinite linear;
+    &.offset {
+        animation-delay: .4s;
+    }
 }
 
 @keyframes sk-scaleout {
@@ -340,8 +344,14 @@ svg circle {
 
 @keyframes sk-rotate {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
-    50% { transform: translate(-50%, -50%) rotate(179deg); }
-    100% { transform: translate(-50%, -50%) rotate(357deg); }
+    50% { transform: translate(-50%, -50%) rotate(180deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes sk-rotate-simple {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(180deg); }
+    100% { transform: rotate(360deg); }
 }
 
 @keyframes sk-rotate-i {

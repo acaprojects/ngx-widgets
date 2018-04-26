@@ -68,9 +68,9 @@
         </div>
         <div *ngIf="type=='double-circle-ring'" class="double-circle-ring">
             <svg viewBox="0 0 120 120">
-                <circle cx="60" cy="60" r="54" fill="none" [style.stroke]="color" stroke-width="12" [style.transform]="'rotate(' + (360 * percent) + 'deg)'"
+                <circle cx="60" cy="60" r="54" fill="none" [style.stroke]="color" stroke-width="12"
                     stroke-dasharray="339.292" [style.stroke-dashoffset]="339.292 * .8" stroke-linecap="round"/>
-                <circle cx="60" cy="60" r="54" fill="none" [style.stroke]="color" stroke-width="12" [style.transform]="'rotate(' + ((360 * percent) + 180) + 'deg)'"
+                <circle class="offset" cx="60" cy="60" r="54" fill="none" [style.stroke]="color" stroke-width="12"
                     stroke-dasharray="339.292" [style.stroke-dashoffset]="339.292 * .8" stroke-linecap="round"/>
             </svg>
         </div>
