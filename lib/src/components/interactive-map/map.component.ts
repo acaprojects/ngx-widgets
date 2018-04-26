@@ -82,6 +82,7 @@ export class InteractiveMapComponent {
                 private o_service: OverlayService) {
 
         this.id = `M${Math.floor(Math.random() * 89999999 + 10000000).toString()}`;
+        this.model.show = false;
         this.animations.render = animate.animation(() => {
             this.zoom = 0;
             this.center = { x: .5, y: .5 };
@@ -254,6 +255,7 @@ export class InteractiveMapComponent {
 
     public initMap(update: boolean = false) {
         this.model.scale = 1;
+        this.model.show = update;
         setTimeout(() => {
             for (const el of this.img.nativeElement.children) {
                 if (el.nodeName.toLowerCase() === 'svg') {
@@ -297,6 +299,7 @@ export class InteractiveMapComponent {
                     this.timers.update = null;
                 }, 200);
             }
+            setTimeout(() => this.model.show = true, 300);
             this._cdr.markForCheck();
         }, 30);
     }

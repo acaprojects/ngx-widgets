@@ -27,8 +27,12 @@
     transform-origin: 50% 50%;
     height: 100%;
     width: 100%;
-    transition: width 200ms, height 200ms;
-    will-change: width, height, transform;
+    transition: width 200ms, height 200ms, opacity 300ms;
+    will-change: width, height, transform, opacity;
+    opacity: 1;
+    &.hide {
+        opacity: 0;
+    }
 }
 
 .map-img {
