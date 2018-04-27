@@ -94,12 +94,17 @@ export class InteractiveMapComponent {
         })
     }
 
+    public ngOnInit() {
+        this.model.show = false;
+    }
+
     public ngOnChanges(changes: any) {
         if (changes.poi) {
             this.loadPointsOfInterest();
         }
         if (changes.src) {
-            this.loadMap();
+            this.model.show = false;
+            setTimeout(() => this.loadMap(), 300);
         }
         if (changes.reset) {
             this.animate.animation(() => {

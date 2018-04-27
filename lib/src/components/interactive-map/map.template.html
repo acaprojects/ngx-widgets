@@ -3,7 +3,7 @@
     <div #container class="map-container" map-input [lock]="focus?.lock" [(scale)]="zoom" (scaleChange)="update(true)"
         [(center)]="center" (centerChange)="update(true)" (event)="userEvent($event)">
 
-        <div #map class="map-area" [class.hide]="model.loading || !model.show" [style.transform]="model.transform | safestyle" [style.display]="model.loading ? 'none' : ''"
+        <div #map class="map-area" [class.show]="!model.loading && model.show" [style.transform]="model.transform | safestyle" [style.display]="model.loading ? 'none' : ''"
             [style.width]="model.zoom_level + '%'" [style.height]="(model.zoom_level * model.h_ratio) + '%'">
 
             <div #img class="map-img" [innerHTML]="(model.map || '') | safe">
@@ -17,7 +17,7 @@
                 [resize]="zoom + model.map_id" (event)="overlayEvent($event)" (idChange)="model.container_id = $event">
             </map-overlay-container>
         </div>
-        <div class="no-map" *ngIf="!model.map&&!model.loading">No map loaded!</div>
+        <div class="no-map" *ngIf="!model.map && !model.loading && model.show">No map loaded!</div>
         <div class="loading-spinner" *ngIf="model.loading || !model.show">
             <spinner type="circle-ring"></spinner>
         </div>

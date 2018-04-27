@@ -29,9 +29,9 @@
     width: 100%;
     transition: width 200ms, height 200ms, opacity 300ms;
     will-change: width, height, transform, opacity;
-    opacity: 1;
-    &.hide {
-        opacity: 0;
+    opacity: 0;
+    &.show {
+        opacity: 1;
     }
 }
 
@@ -63,6 +63,7 @@
     border-radius: .2em;
     width: 12em;
     text-align: center;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
 }
 
 .loading-spinner {
