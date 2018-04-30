@@ -1,7 +1,7 @@
 
 <showcase [(model)]="model">
     <div class="map">
-        <map [src]="model.map.src" [styles]="model.map.styles" [poi]="model.map.poi" [focus]="model.map.focus" (event)="model.map.event=$event"></map>
+        <map [src]="model.map.src" [listeners]="model.map.listeners" [styles]="model.map.styles" [poi]="model.map.poi" [focus]="model.map.focus" (event)="check($event)"></map>
     </div>
     <div class="options">
         <btn (tapped)="togglePin()">{{model.show.pin ? 'Remove pin' : 'Add pin'}}</btn>

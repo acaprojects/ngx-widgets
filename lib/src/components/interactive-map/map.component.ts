@@ -28,11 +28,10 @@ export interface IFocusItem {
     lock?: boolean;     // Fix the position and zoom of the map
 }
 
-export interface IMapHandler {
+export interface IMapListener {
     id: string;       // Selector of the element to handle the event for
-    state: string;    // State of the element
     event: string;    // Event to listen for on the given element
-    poi?: IPointOfInterest;
+    unhandle?: () => void;
 }
 
 const POS_OFFSET = .5;
@@ -53,7 +52,7 @@ export class InteractiveMapComponent {
     @Input() public focus: IFocusItem; // Element with map to focus on
     @Input() public units: number = 10000; // Width of the map, coordinates are relative to this
     @Input() public center: { x: number, y: number } = { x: .5, y: .5 }; // Origin of the map display
-    @Input() public handlers: IMapHandler[] | any[] = [];
+    @Input() public listeners: IMapListener[];
     @Output() public zoomChange: any = new EventEmitter();
     @Output() public centerChange: any = new EventEmitter();
     @Output() public event: any = new EventEmitter();
@@ -114,9 +113,9 @@ export class InteractiveMapComponent {
                 this.update();
             }).animate();
         }
-        if (changes.handlers) {
-            this.clearHandlers();
-            this.setupHandlers();
+        if (changes.listeners) {
+            this.clearListeners();
+            this.setupListeners();
         }
         if (changes.zoom || changes.center) {
             this.animate.animation(() => {
@@ -171,34 +170,35 @@ export class InteractiveMapComponent {
         this._cdr.markForCheck();
     }
 
-    public clearHandlers() {
-        if (this.model.old_handlers) {
-            for(const handler of this.model.old_handlers) {
-                if (handler.unhandle) { handler.unhandle(); }
+    public clearListeners() {
+        if (this.model.old_listeners) {
+            for(const listener of this.model.old_listeners) {
+                if (listener.unhandle) { listener.unhandle(); }
             }
         }
     }
 
-    public setupHandlers() {
-        if (this.handlers) {
-            for (const handler of this.handlers) {
-                if (handler.id) {
-                    const clean_id = handler.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
+    public setupListeners() {
+        if (this.listeners) {
+            for (const listener of this.listeners) {
+                if (listener.id) {
+                    const clean_id = listener.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
                     const el = this.area.nativeElement.querySelector(`#${clean_id}`);
                     if (el) {
-                        handler.unhandle = this.renderer.listen(el, handler.event || 'click', () => {
+                        console.log(`Listening for ${listener.event} on element with id '${listener.id}'`);
+                        listener.unhandle = this.renderer.listen(el, listener.event || 'click', () => {
                             this.overlayEvent({
-                                type: handler.event || 'click',
-                                location: 'Handler',
-                                id: handler.id,
-                                handler,
+                                type: listener.event || 'click',
+                                location: 'Listener',
+                                id: listener.id,
+                                listener,
                                 element: el,
                             });
                         });
                     }
                 }
             }
-            this.model.old_handlers = this.handlers;
+            this.model.old_listeners = this.listeners;
         }
     }
 
@@ -290,6 +290,8 @@ export class InteractiveMapComponent {
                     this.initElementTree();
                     this.loadPointsOfInterest();
                     this.update();
+                    this.clearListeners();
+                    this.setupListeners();
                 }, 100);
                 this.focusEvent();
             }

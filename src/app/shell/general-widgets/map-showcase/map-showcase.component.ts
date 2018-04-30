@@ -116,7 +116,11 @@ export class MapShowcaseComponent {
         inject: '',
         map: {
             src: 'assets/australia.svg',
-            poi: []
+            poi: [],
+            listeners: [
+                { id: 'AU-WA', event: 'mouseenter' },
+                { id: 'AU-WA', event: 'mouseleave' }
+            ]
         },
         show: {}
     };
@@ -158,6 +162,28 @@ export class MapShowcaseComponent {
                 cmp: MapPinComponent,
                 data: { text: fixed ? 'NSW is here' : `I'm currently round here` }
             })
+        }
+        if (this.model.show.hover) {
+            this.model.map.poi.push({
+                id: 'AU-WA',
+                coordinates: null,
+                cmp: MapPinComponent,
+                data: { text: 'This state is WA' }
+            })
+        }
+        console.log('POI:', this.model.map.poi);
+    }
+
+    public check(e: any) {
+        this.model.map.event = e;
+        console.log('Event:', e);
+        if (e.type === 'Overlay' && e.event.location === 'Listener') {
+            if (e.event.type === 'mouseenter') {
+                this.model.show.hover = true;
+            } else if (e.event.type === 'mouseleave') {
+                this.model.show.hover = false;
+            }
+            this.updatePointsOfInterest();
         }
     }
 }
