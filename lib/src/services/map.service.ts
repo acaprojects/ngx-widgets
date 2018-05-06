@@ -29,6 +29,7 @@ export class MapService {
 
     public loadMap(url: string) {
         return new Promise((resolve, reject) => {
+            if (!url) { return resolve(''); }
             const now = (new Date()).getTime();
             if (this.maps[url] && this.maps[url].expiry > now) {
                 resolve(this.maps[url].data);

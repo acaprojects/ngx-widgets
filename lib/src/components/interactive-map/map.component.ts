@@ -185,7 +185,6 @@ export class InteractiveMapComponent {
                     const clean_id = listener.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
                     const el = this.area.nativeElement.querySelector(`#${clean_id}`);
                     if (el) {
-                        console.log(`Listening for ${listener.event} on element with id '${listener.id}'`);
                         listener.unhandle = this.renderer.listen(el, listener.event || 'click', () => {
                             this.overlayEvent({
                                 type: listener.event || 'click',
