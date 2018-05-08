@@ -196,6 +196,7 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         NotifyDirective,
         TapDownDirective,
         TapUpDirective,
+        ClickResponderComponent,
             // Export Pipes
         // ...PIPES,
         KeysPipe,
@@ -238,7 +239,7 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
 })
 export class WidgetsModule {
     private static init = false;
-    private build = '2018-05-06.v1';
+    private build = '2018-05-08.v1';
 
     constructor() {
         if (!WidgetsModule.init) {
