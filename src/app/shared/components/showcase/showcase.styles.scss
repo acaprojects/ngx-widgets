@@ -50,6 +50,9 @@
     padding: .5em .8em 0;
     display: flex;
     border-bottom: 1px solid $color-disabled;
+    width: 100%;
+    // overflow-x: auto;
+    overflow-y: visible;
 }
 
 .tab {

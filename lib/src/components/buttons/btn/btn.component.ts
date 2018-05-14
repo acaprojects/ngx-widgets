@@ -29,11 +29,20 @@ export class ButtonComponent {
     @Output() public modelChange = new EventEmitter();
     @Output() public tapped = new EventEmitter();
 
+    private timers: any = {};
+
     public tap(e: any) {
-        if (this.toggle) {
-            this.model = !this.model;
-            this.modelChange.emit(this.model);
+        if (this.timers.tap) {
+            clearTimeout(this.timers.tap);
+            this.timers.tap = null;
         }
-        this.tapped.emit(e);
+        this.timers.tap = setTimeout(() => {
+            if (this.toggle) {
+                this.model = !this.model;
+                this.modelChange.emit(this.model);
+            }
+            this.tapped.emit(e);
+            this.timers.tap = null;
+        }, 300);
     }
 }
