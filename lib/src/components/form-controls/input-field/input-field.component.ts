@@ -33,7 +33,7 @@ export class InputFieldComponent {
 
     public focusElement() {
         if (this.field) {
-            this.field.nativeElement.focus();
+            setTimeout(() => this.field.nativeElement.focus(), 300);
         }
     }
 
