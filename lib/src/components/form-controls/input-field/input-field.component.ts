@@ -28,15 +28,6 @@ export class InputFieldComponent {
 
     public state: any = {};
 
-    @ViewChild('input') private field: ElementRef;
-
-
-    public focusElement() {
-        if (this.field) {
-            setTimeout(() => this.field.nativeElement.focus(), 300);
-        }
-    }
-
     public focused(e?: any) {
         this.state.focus = true;
         this.focus.emit(e);

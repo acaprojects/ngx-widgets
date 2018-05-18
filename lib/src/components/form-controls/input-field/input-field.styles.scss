@@ -49,6 +49,7 @@ input {
     transform: translateY(-50%);
     transition: font-size 300ms, top 300ms, color 300ms;
     color: rgba(#000, .2);
+    pointer-events: none;
     &.focus {
         color: #2196F3;
     }

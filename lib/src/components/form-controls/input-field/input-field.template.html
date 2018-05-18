@@ -9,7 +9,7 @@
 
 <div [class]="'input-field ' + name" widget [class.focus]="state.focus">
     <div class="field">
-        <div class="placeholder" [class.focus]="state.focus" [class.hide]="model" (tap)="focusElement()">
+        <div class="placeholder" [class.focus]="state.focus" [class.hide]="model">
             {{placeholder}}
         </div>
         <input #input [type]="type" [(ngModel)]="model" (ngModelChange)="valueChanged($event)" (focus)="focused($event)" (blur)="blurred($event)" [disabled]="disabled" [maxlength]="limit">
