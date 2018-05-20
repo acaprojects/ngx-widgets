@@ -7,7 +7,9 @@ const moment = moment_api;
 
 const MAP_EXPIRY = 7 * 24 * 60 * 60 * 1000;
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class MapService {
     private maps: any = {};
     private map_trees: any = {};

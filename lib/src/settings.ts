@@ -5,7 +5,7 @@
  * @Last Modified time: 2017-05-12 12:12:29
  */
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export class WIDGETS {
 
@@ -15,7 +15,7 @@ export class WIDGETS {
     private static _obs: any = {};
     private static timer: any = null;
     private static load_count = 0;
-    public static app_version = '0.14.37';
+    public static app_version = '0.15.0';
 
     public static init() {
         setTimeout(() => {

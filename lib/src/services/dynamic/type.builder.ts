@@ -15,7 +15,9 @@ export interface IHaveDynamicData {
     id: string;
 }
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class DynamicTypeBuilder {
 
     // this object is singleton - so we can use this as a cache

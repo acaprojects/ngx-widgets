@@ -9,7 +9,9 @@ import { TooltipComponent } from '../components/overlays/tooltip/tooltip.compone
 
 import { WIDGETS } from '../settings';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class OverlayService {
     private cmp_reg: any = {};
     private cmp_list: any = {};
