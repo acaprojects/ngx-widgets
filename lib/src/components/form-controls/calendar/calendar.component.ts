@@ -54,8 +54,12 @@ export class CalendarComponent {
     }
 
     public setDate(day: any) {
-        this.date = day.timestamp;
-        this.dateChange.emit(this.date);
+        const now = moment();
+        const date = moment(day.timestamp);
+        if (!this.options || this.options.past || (!this.options.past && now.isSameOrBefore(date, 'd'))) {
+            this.date = day.timestamp;
+            this.dateChange.emit(this.date);
+        }
         this.generateMonth();
     }
 
