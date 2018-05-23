@@ -270,6 +270,14 @@ $space: .5em;
 .double-circle-ring {
     height: 4em;
     width: 4em;
+
+    svg circle {
+        transform-origin: center;
+        animation: sk-rotate-simple .8s infinite linear;
+        &.offset {
+            animation-delay: .4s;
+        }
+    }
 }
 
 .cube-grid {
@@ -305,12 +313,18 @@ $space: .5em;
     }
 }
 
-svg circle {
-    transform-origin: center;
-    animation: sk-rotate-simple .8s infinite linear;
-    &.offset {
-        animation-delay: .4s;
+.dot-wave {
+    width: 4em;
+    height: 1em;
+    margin: 1.5em 0;
+    .dot {
+        animation: sk-dot-wave 1.6s infinite ease-in-out;
     }
+
+    .one { animation-delay: 0s; }
+    .two { animation-delay: .4s; }
+    .three { animation-delay: .8s; }
+    .four { animation-delay: 1.2s; }
 }
 
 @keyframes sk-scaleout {
@@ -389,4 +403,12 @@ svg circle {
 @keyframes sk-cubeGridScaleDelay {
     0%, 70%, 100% { transform: scale3d(1, 1, 1); }
     35% { transform: scale3d(0, 0, 1); }
+}
+
+
+@keyframes sk-dot-wave {
+    0% { transform: translateY(0%); }
+    25% { transform: translateY(-10%); }
+    75% { transform: translateY(10%); }
+    100% { transform: translateY(0%); }
 }
