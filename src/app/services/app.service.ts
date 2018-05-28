@@ -11,13 +11,12 @@ import { Location } from '@angular/common';
 import { Inject, Injectable, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  BehaviorSubject } from 'rxjs';
 
 import { OverlayService } from '../../../lib/src/public_api';
 
 import { SettingsService } from './settings.service';
 import { Utils } from '../shared/utility.class';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class AppService {

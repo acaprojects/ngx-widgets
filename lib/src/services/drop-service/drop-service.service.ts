@@ -9,10 +9,12 @@
 
 // Require what we need from rxjs
 import { Injectable, Renderer } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { DropFiles } from './drop-files';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class DropService {
     // These track the relationship between elements, callbacks and file streams
     private static _streams       = {}; // stream name => Subject

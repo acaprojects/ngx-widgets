@@ -5,7 +5,7 @@
     <div #ref class="reference"></div>
     <div class="tooltip" [class.bottom]="bottom"
         tooltip
-        name="dropdown-list"
+        name="dropdown-list none"
         [model]="data"
         [cmp]="cmp"
         [position]="bottom ? 'top' : 'bottom'"
@@ -20,7 +20,7 @@
         </div>
         <div class="icon">&#708;</div>
     </div>
-    <div class="item placeholder">
+    <div class="item placeholder" *ngIf="placeholder && (model < 0 || list_items.length < model)">
         <div class="text">{{ placeholder }}</div>
     </div>
     <div class="list">

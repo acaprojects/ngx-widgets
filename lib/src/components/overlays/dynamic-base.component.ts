@@ -44,7 +44,6 @@ export class DynamicBaseComponent {
         if (!DynamicBaseComponent.internal_state[this.type]) {
             DynamicBaseComponent.internal_state[this.type] = new BehaviorSubject('');
         }
-        console.log('DynamicBase:', this);
         this.renderer.listen('window', 'resize', () => this.resize());
         if (!DynamicBaseComponent.instance_stack[this.type]) {
             DynamicBaseComponent.instance_stack[this.type] = [];
@@ -249,7 +248,7 @@ export class DynamicBaseComponent {
      */
     private render(tries: number = 0) {
         if (tries > 10) {
-            return WIDGETS.error('DYN_BASE', 'No component/template set to render ', [this.id, this.model.cmp]);
+            return this.id === 'notifications' ? '' : WIDGETS.log('DYN_BASE', 'No component/template set to render ', [this.id, this.model.cmp], 'warn');
         }
         this.rendered = false;
         if (!this._cfr || !this._content) {

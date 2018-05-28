@@ -4,6 +4,15 @@
 .checkbox {
     display: flex;
     align-items: center;
+    &:hover {
+        .box {
+            border-color: $blue;
+            &.active {
+                border-color: darken($blue, 10);
+                background-color: darken($blue, 10);
+            }
+        }
+    }
 }
 
 .box {
@@ -11,21 +20,22 @@
     margin: .25em;
     height: 1em;
     width: 1em;
-    border-radius: .2em;
-    border: 2px solid #ccc;
+    min-width: 1em;
+    border-radius: 2px;
+    border: 1px solid #ccc;
     cursor: pointer;
     & > div {
         display: none;
     }
     &:hover {
-        background-color: #ccc;
+        border-color: $blue;
     }
     &.active {
         border-color: $blue;
         background-color: $blue;
         &:hover {
-            border-color: $blue - #111;
-            background-color: $blue - #111;
+            border-color: darken($blue, 10);
+            background-color: darken($blue, 10);
         }
     }
 }
@@ -53,4 +63,5 @@ input {
 
 .label {
     padding: .25em;
+    cursor: pointer;
 }

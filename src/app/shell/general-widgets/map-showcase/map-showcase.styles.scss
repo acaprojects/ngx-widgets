@@ -1,0 +1,13 @@
+
+
+.map {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 3em);
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

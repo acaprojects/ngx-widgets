@@ -33,7 +33,7 @@ export class AppShellComponent {
                 { id: 'checkbox', name: 'Checkbox' },
                 { id: 'dropdown', name: 'Dropdown' },
                 { id: 'custom-dropdown', name: 'Custom Dropdown' },
-                { id: 'data-input', name: 'Data Input' },
+                { id: 'input-field', name: 'Input Field' },
                 { id: 'radioset', name: 'Radioset' },
                 { id: 'radio-button', name: 'Radio Button' },
                 { id: 'slider', name: 'Slider' },

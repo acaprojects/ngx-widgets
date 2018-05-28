@@ -1,10 +1,14 @@
 
 .map-overlay {
     position: absolute;
-    pointer-events: auto;
-    will-change: top, left, width, height;
+    pointer-events: none;
+    will-change: top, left, width, height, opacity, transform;
+    transition: opacity 300ms, transform 300ms;
+    opacity: 1;
+    transform: translateY(0%);
 }
 
 .hide {
-    display: none;
+    opacity: 0;
+    transform: translateY(-50%);
 }

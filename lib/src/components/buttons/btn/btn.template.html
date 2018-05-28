@@ -8,7 +8,7 @@
 -->
 
 <div [class]="'btn ' + name" widget>
-    <button click-responder #btn [type]="type" [class]="format" [class.active]="model" [disabled]="disabled" (tap)="tap($event)">
+    <button click-responder #btn [type]="type" [class]="format" [class.active]="model" [disabled]="disabled" (mousedown)="tap($event)" (touchstart)="tap($event)">
         <div class="content">
             <ng-content></ng-content>
         </div>

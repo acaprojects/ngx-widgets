@@ -9,7 +9,9 @@
 
 import { Inject, Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class NextFrame {
     private animating: any = null;
 
@@ -97,7 +99,9 @@ export class NextFrame {
 
 }
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class Animate {
     private nf: NextFrame = null;
     constructor() {

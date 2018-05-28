@@ -54,10 +54,7 @@ export class MapInputDirective {
                 this.scaleChange.emit(this.scale);
             });
         }
-    }
-
-    @HostListener('document:touchmove', ['$event']) private preventZoom(e: any) {
-        if (e.scale !== 1 && e.preventDefault) { e.preventDefault(); }
+        this.timer.scale = null;
     }
 
     @HostListener('panstart', ['$event']) private moveStart(e: any) {
@@ -79,26 +76,35 @@ export class MapInputDirective {
         this.delta.scale = e.scale;
     }
 
+    @HostListener('pinchend', ['$event']) private scaleEnd(e: any) {
+        if (this.timer.scale) {
+            clearTimeout(this.timer.scale);
+            this.timer.scale = null;
+        }
+    }
+
     @HostListener('pinchin', ['$event']) private pinchInEvent(e: any) {
-        this.updateScale(e);
+        if (e.scale > this.delta.scale) { this.delta.scale = e.scale; }
+        this.updateScale(e, -1);
     }
 
     @HostListener('pinchout', ['$event']) private pinchOutEvent(e: any) {
-        this.updateScale(e);
+        if (e.scale < this.delta.scale) { this.delta.scale = e.scale; }
+        this.updateScale(e, 1);
     }
 
-    private updateScale(e: any) {
-        if (this.lock) { return; }
-        const scale = (e.scale - this.delta.scale) / 10;
-        const dir = scale > 0 ? 1 : -1;
-        const value = 1 + dir * Math.max(Math.abs(scale), 0.08);
-        this.scale = Math.round((this.scale + 100) * value - 100);
-        this.delta.scale += scale;
-        this.animations.scale.animate();
-    }
-
-    @HostListener('pinchend', ['$event']) private scaleEnd(e: any) {
-        this.delta.scale = 0;
+    private updateScale(e: any, dir: 1 | -1) {
+        if (this.timer.scale) { return; }
+        this.timer.scale = setTimeout(() => {
+            if (this.lock) { return; }
+            let scale = (e.scale - this.delta.scale);
+            this.delta.scale = e.scale;
+            const value = 1 + scale;
+            this.scale = Math.round((this.scale + 100) * value - 100);
+            console.log('Scale:', this.scale.toFixed(3), scale.toFixed(3), e.scale.toFixed(3), value.toFixed(3), dir);
+            this.animations.scale.animate();
+            this.timer.scale = null;
+        }, 40);
     }
 
     @HostListener('wheel', ['$event']) private wheelScale(e: any) {

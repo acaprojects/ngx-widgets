@@ -98,9 +98,11 @@ textarea {
     }
 }
 
-.btn[widget].ntfy {
-    button {
-        min-width: 12em;
+.btn[widget] {
+    .ntfy {
+        button {
+            min-width: 12em;
+        }
     }
 }
 
@@ -138,8 +140,11 @@ button {
         }
     }
     &.active {
-        background-color: $color2 + #111111;
+        background-color: $color2;
         color: #fff;
+        &:hover {
+            background-color: darken($color2, 10);
+        }
 
         &[disabled] {
             color: #cccccc;
@@ -149,19 +154,11 @@ button {
         }
     }
     &:hover {
-        color: #fff;
-        background-color: $color2;
+        background-color: darken(#fff, 10);
     }
     &:active {
         box-shadow: none;
-        color: #fff;
-        background-color: $color2-dark;
-        box-shadow: 0 .1em .2em .1em rgba(0,0,0,0);
-
-        @include respond-to(mobile) {
-            color: #fff;
-            background-color: $color2;
-        }
+        border: 1px solid #ccc;
     }
 
     &[disabled] {

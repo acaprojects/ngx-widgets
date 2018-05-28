@@ -14,6 +14,7 @@ $size: 12px;
     border: $gap solid $color;
     height: $size + $gap;
     width: $size + $gap;
+    min-width: $size + $gap;
     margin: .2em;
     border-radius: 100%;
     cursor: pointer;

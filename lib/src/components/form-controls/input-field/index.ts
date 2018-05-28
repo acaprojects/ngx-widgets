@@ -7,4 +7,4 @@
  * @Last modified time: 15/12/2016 11:29 AM
  */
 
-export * from './data-input.component';
+export * from './input-field.component';

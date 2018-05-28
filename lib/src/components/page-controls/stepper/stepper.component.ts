@@ -45,9 +45,7 @@ export class StepperComponent {
     public toStep(index: number, change: boolean = true) {
         const reverse = index < this.step;
         const dir = `${this.format === 'vertical' ? 'vert' : 'horz'}${reverse ? '-reverse' : ''}`;
-        console.log('Direction:', dir);
         for (let i = 0; i < this.step_list.length; i++) {
-            console.log('Step:', this.step_list[i], i === index);
             this.step_list[i].model.direction = dir;
         }
         setTimeout(() => {

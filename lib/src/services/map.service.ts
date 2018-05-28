@@ -7,7 +7,9 @@ const moment = moment_api;
 
 const MAP_EXPIRY = 7 * 24 * 60 * 60 * 1000;
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class MapService {
     private maps: any = {};
     private map_trees: any = {};
@@ -29,6 +31,7 @@ export class MapService {
 
     public loadMap(url: string) {
         return new Promise((resolve, reject) => {
+            if (!url) { return resolve(''); }
             const now = (new Date()).getTime();
             if (this.maps[url] && this.maps[url].expiry > now) {
                 resolve(this.maps[url].data);

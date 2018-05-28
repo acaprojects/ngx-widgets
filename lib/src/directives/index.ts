@@ -10,11 +10,15 @@
 import { DropTargetDirective } from './drop-target.directive';
 import { FileStreamDirective } from './file-stream.directive';
 import { MapInputDirective } from './map-input.directive';
+import { TapDownDirective } from './tapdown.directive';
+import { TapUpDirective } from './tapup.directive';
 // import { OVERLAY_DIRECTIVES } from './overlays';
 
 export * from './drop-target.directive';
 export * from './file-stream.directive';
 export * from './map-input.directive';
+export * from './tapdown.directive';
+export * from './tapup.directive';
 export * from './overlays';
 
 // export let DIRECTIVES: any[] = [
