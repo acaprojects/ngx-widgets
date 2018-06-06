@@ -112,4 +112,6 @@ export class NotificationComponent extends DynamicBaseComponent {
             this.dismiss(item.id);
         }
     }
+
+    protected render() { return; }
 }

@@ -87,9 +87,7 @@ export class DynamicBaseComponent {
         if (this.body && this.body.nativeElement) {
             this.box = this.body.nativeElement.getBoundingClientRect();
         } else {
-            setTimeout(() => {
-                this.initBox(++tries);
-            }, 300 * ((tries / 2) + 1));
+            setTimeout(() => this.initBox(++tries), 300 * ((tries / 2) + 1));
         }
     }
 
@@ -209,6 +207,7 @@ export class DynamicBaseComponent {
     }
 
     protected update(data: any) {
+        console.log('Data:', data);
         const cmp = this.model.cmp;
         data.container = this.parent ? this.parent.id : 'root';
         for (const f in data) {
@@ -221,6 +220,7 @@ export class DynamicBaseComponent {
         } else {
             this.updateComponent(data);
         }
+        console.log('Model:', this.model);
         this._cdr.markForCheck();
     }
 
@@ -246,8 +246,8 @@ export class DynamicBaseComponent {
      * Resolves the factory, then creates the content component
      * @return
      */
-    private render(tries: number = 0) {
-        if (tries > 10) {
+    protected render(tries: number = 0) {
+        if (tries > 10 || !this.model || !this.model.cmp) {
             return this.id === 'notifications' ? '' : WIDGETS.log('DYN_BASE', 'No component/template set to render ', [this.id, this.model.cmp], 'warn');
         }
         this.rendered = false;
@@ -268,19 +268,13 @@ export class DynamicBaseComponent {
                     inst.set(this.model.data);
                     inst.parent = this;
                     inst.service = this.service || this.parent.getService();
-                    if (!inst.model) {
-                        inst.model = {};
-                    }
-                    if (!inst.fn) {
-                        inst.fn = {};
-                    }
+                    if (!inst.model) { inst.model = {}; }
+                    if (!inst.fn) { inst.fn = {}; }
                     inst.fn.close = (cb: () => void) => { this.event('close', 'Component'); };
                     inst.fn.event = (option: string) => { this.event(option, 'Component'); };
                     // WIDGETS.log('DYN_BASE', `Created component with id '${this.id}'`);
                     setTimeout(() => {
-                        if (inst.init) {
-                            inst.init();
-                        }
+                        if (inst.init) { inst.init(); }
                         setTimeout(() => {
                             this.rendered = true;
                             this.resize();
