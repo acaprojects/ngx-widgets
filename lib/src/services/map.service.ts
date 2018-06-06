@@ -29,6 +29,10 @@ export class MapService {
         }
     }
 
+    /**
+     * Loads the map with the given URL
+     * @param url URL of the map to load
+     */
     public loadMap(url: string) {
         return new Promise((resolve, reject) => {
             if (!url) { return resolve(''); }
@@ -65,6 +69,10 @@ export class MapService {
         });
     }
 
+    /**
+     * Loads the map tree of the map with the give URL
+     * @param url URL of the map
+     */
     public loadMapTree(url: string) {
         return new Promise((resolve, reject) => {
             let tree = null;
@@ -80,10 +88,20 @@ export class MapService {
         });
     }
 
+    /**
+     * Gets the map tree of the map with the given URL
+     * @param url URL of the map
+     */
     public getMapTree(url: string) {
         return this.map_trees[url] ? this.map_trees[url].tree : null;
     }
 
+    /**
+     * Sets the map tree of the map with the given URL
+     * @param url URL of the map tree's file
+     * @param tree Element position tree of the given map URL
+     * @param expire Sets whether the tree data will expire
+     */
     public setMapTree(url: string, tree: any, expire: boolean = true) {
         let expiry = moment().add(1, 'days').valueOf();
         if (!expire) {
@@ -95,6 +113,9 @@ export class MapService {
         }
     }
 
+    /**
+     * Clears all the cached map data
+     */
     public clear() {
         this.maps = {};
     }
