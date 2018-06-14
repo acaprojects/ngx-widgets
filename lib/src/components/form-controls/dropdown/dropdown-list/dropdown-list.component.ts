@@ -1,7 +1,7 @@
 
 import { Component, ChangeDetectorRef, ElementRef, ViewChild, HostListener } from '@angular/core';
 
-import { OverlayContentComponent } from '../../../overlays/contents';
+import { OverlayContentComponent } from '../../../overlays/overlay-content.component';
 
 @Component({
     selector: 'dropdown-list',

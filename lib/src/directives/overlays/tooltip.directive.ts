@@ -3,7 +3,7 @@ import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Outpu
 
 import { OverlayService } from '../../services/overlay.service';
 
-import { TooltipComponent } from '../../components';
+import { TooltipComponent } from '../../components/overlays/tooltip/tooltip.component';
 import { WIDGETS } from '../../settings';
 
 @Directive({

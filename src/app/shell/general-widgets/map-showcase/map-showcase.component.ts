@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { MapPinComponent, MapRangeComponent } from '../../../../../lib/src/components';
+import { MapRangeComponent, MapPinComponent } from '../../../../../lib/src/public_api';
 
 @Component({
     selector: 'map-showcase',
