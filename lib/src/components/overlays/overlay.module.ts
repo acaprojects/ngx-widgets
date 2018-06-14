@@ -39,6 +39,7 @@ import { WidgetsPipeModule } from '../../pipes/pipe.module';
     ],
     exports: [
         /* COMPONENTS */
+        DynamicBaseComponent,
         OverlayContentComponent,
         ModalComponent,
         NotificationComponent,

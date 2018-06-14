@@ -14,8 +14,8 @@ import { RadioButtonComponent } from './radioset/radio-button/radio-button.compo
 import { SliderComponent } from './slider/slider.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { ToggleComponent } from './toggle/toggle.component';
-import { CustomDropdownListComponent } from './custom-dropdown';
-import { DropdownListComponent } from './dropdown';
+import { CustomDropdownListComponent } from './custom-dropdown/custom-dropdown-list/dropdown-list.component';
+import { DropdownListComponent } from './dropdown/dropdown-list/dropdown-list.component';
 
 import { OverlayWidgetsModule } from '../overlays/overlay.module';
 import { WidgetsPipeModule } from '../../pipes/pipe.module';

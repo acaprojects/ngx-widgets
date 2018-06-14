@@ -1,7 +1,7 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, HostListener } from '@angular/core';
 
-import { DropdownListComponent } from './dropdown-list';
+import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
 
 @Component({
     selector: 'dropdown',

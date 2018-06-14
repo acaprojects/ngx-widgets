@@ -1,7 +1,7 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 
-import { CustomDropdownListComponent } from './custom-dropdown-list';
+import { CustomDropdownListComponent } from './custom-dropdown-list/dropdown-list.component';
 
 @Component({
     selector: 'custom-dropdown',
