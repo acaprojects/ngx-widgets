@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { MapPinComponent, MapRangeComponent } from '../../../../../lib/src/components';
+import { MapRangeComponent, MapPinComponent } from '../../../../../lib/src/public_api';
 
 @Component({
     selector: 'map-showcase',
@@ -171,12 +171,10 @@ export class MapShowcaseComponent {
                 data: { text: 'This state is WA' }
             })
         }
-        console.log('POI:', this.model.map.poi);
     }
 
     public check(e: any) {
         this.model.map.event = e;
-        console.log('Event:', e);
         if (e.type === 'Overlay' && e.event.location === 'Listener') {
             if (e.event.type === 'mouseenter') {
                 this.model.show.hover = true;

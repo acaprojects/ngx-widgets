@@ -3,7 +3,7 @@ import { Directive, ElementRef, EventEmitter, Input, Output, TemplateRef, Type }
 
 import { OverlayService } from '../../services/overlay.service';
 
-import { NotificationComponent } from '../../components';
+import { NotificationComponent } from '../../components/overlays/notification/notification.component';
 
 import { WIDGETS } from '../../settings';
 

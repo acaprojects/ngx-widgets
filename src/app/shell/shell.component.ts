@@ -86,6 +86,5 @@ export class AppShellComponent {
     public navigate(path: string) {
         this.app_service.navigate(path);
         this.model.menu.show = false;
-        console.log('Navigate:', path);
     }
 }

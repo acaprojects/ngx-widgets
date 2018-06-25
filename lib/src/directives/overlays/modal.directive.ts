@@ -3,7 +3,7 @@ import { Directive, ElementRef, EventEmitter, Input, Output, TemplateRef, Type }
 
 import { OverlayService } from '../../services/overlay.service';
 
-import { ModalComponent } from '../../components';
+import { ModalComponent } from '../../components/overlays/modal/modal.component';
 
 import { WIDGETS } from '../../settings';
 

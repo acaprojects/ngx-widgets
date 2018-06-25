@@ -72,13 +72,9 @@ export class DynamicBaseComponent {
         if (tries > 10) { return; };
         if (DynamicBaseComponent.internal_state[this.type]) {
             this.sub = DynamicBaseComponent.internal_state[this.type]
-                .subscribe((value: any) => {
-                    this.updateState(value);
-                });
+                .subscribe((value: any) => this.updateState(value));
         } else {
-            setTimeout(() => {
-                this.listenState(++tries);
-            }, 300);
+            setTimeout(() => this.listenState(++tries), 300);
         }
     }
 
@@ -87,9 +83,7 @@ export class DynamicBaseComponent {
         if (this.body && this.body.nativeElement) {
             this.box = this.body.nativeElement.getBoundingClientRect();
         } else {
-            setTimeout(() => {
-                this.initBox(++tries);
-            }, 300 * ((tries / 2) + 1));
+            setTimeout(() => this.initBox(++tries), 300 * ((tries / 2) + 1));
         }
     }
 
@@ -117,24 +111,31 @@ export class DynamicBaseComponent {
 
     }
 
+    /**
+     * Prevents close when element is tapped
+     */
     public tap() {
         WIDGETS.log('DYN_BASE', `Tap called on component ${this.id}`);
-        this.preventClose();
-        setTimeout(() => {
-            this.allowClose();
-        }, 300);
+        if (this.timers.close) {
+            clearTimeout(this.timers.close);
+            this.timers.close = null;
+        }
     }
 
-    public preventClose() {
-        this.model.preventClose = true;
+    /**
+     * Enables/Disabled the auto-removal of this elment when event occurs outside it.
+     * @param enable Enabled?
+     */
+    public canClose(enable: boolean = true) {
+        this.model.preventClose = enable;
     }
 
-    public allowClose() {
-        this.model.preventClose = false;
-    }
-
+    /**
+     * Posts a close event
+     * @param e Element to compare collisions to prevent close
+     */
     public close(e?: any) {
-        setTimeout(() => {
+        this.timers.close = setTimeout(() => {
             if (e && this.body && this.body.nativeElement && this.model.initialised && !this.model.preventClose) {
                 if (e.touches && e.touches.length > 0) {
                     e = e.touches[0];
@@ -151,13 +152,14 @@ export class DynamicBaseComponent {
                     }
                 }
             }
+            this.timers.close = null;
         }, 200);
     }
+
     /**
      * Posts an event to the Observable.
      * @param type Type of event that has occured
      * @param location Location that the event has come from
-     * @return
      */
     public event(type: string, location: string = 'Code') {
         setTimeout(() => {
@@ -187,6 +189,10 @@ export class DynamicBaseComponent {
         }, 20);
     }
 
+    /**
+     * Listen to events on the component
+     * @param next Callback for events on the component
+     */
     public subscribe(next: () => void, error?: () => void, complete?: () => void) {
         return this.watch(next, error, complete);
     }
@@ -199,15 +205,26 @@ export class DynamicBaseComponent {
         }
     }
 
+    /**
+     * Event called when the window is resized
+     */
     public resize() {
         this.box = null;
         this.initBox();
     }
 
+    /**
+     * Set model of the component
+     * @param data Dataset
+     */
     public set(data: any) {
         this.update(data);
     }
 
+    /**
+     * Update the model of the component
+     * @param data Dataset
+     */
     protected update(data: any) {
         const cmp = this.model.cmp;
         data.container = this.parent ? this.parent.id : 'root';
@@ -224,6 +241,11 @@ export class DynamicBaseComponent {
         this._cdr.markForCheck();
     }
 
+    /**
+     * Update content component model
+     * @param data Dataset
+     * @param tries Retry count
+     */
     protected updateComponent(data: any, tries: number = 0) {
         if (tries > 10) { return; }
         if (this.cmp_ref) {
@@ -236,6 +258,9 @@ export class DynamicBaseComponent {
         }
     }
 
+    /**
+     * Remove this component from it's parent
+     */
     protected remove() {
         if (this.parent) {
             this.parent.remove(this.id);
@@ -244,10 +269,9 @@ export class DynamicBaseComponent {
 
     /**
      * Resolves the factory, then creates the content component
-     * @return
      */
-    private render(tries: number = 0) {
-        if (tries > 10) {
+    protected render(tries: number = 0) {
+        if (tries > 10 || !this.model || !this.model.cmp) {
             return this.id === 'notifications' ? '' : WIDGETS.log('DYN_BASE', 'No component/template set to render ', [this.id, this.model.cmp], 'warn');
         }
         this.rendered = false;
@@ -268,19 +292,13 @@ export class DynamicBaseComponent {
                     inst.set(this.model.data);
                     inst.parent = this;
                     inst.service = this.service || this.parent.getService();
-                    if (!inst.model) {
-                        inst.model = {};
-                    }
-                    if (!inst.fn) {
-                        inst.fn = {};
-                    }
+                    if (!inst.model) { inst.model = {}; }
+                    if (!inst.fn) { inst.fn = {}; }
                     inst.fn.close = (cb: () => void) => { this.event('close', 'Component'); };
                     inst.fn.event = (option: string) => { this.event(option, 'Component'); };
                     // WIDGETS.log('DYN_BASE', `Created component with id '${this.id}'`);
                     setTimeout(() => {
-                        if (inst.init) {
-                            inst.init();
-                        }
+                        if (inst.init) { inst.init(); }
                         setTimeout(() => {
                             this.rendered = true;
                             this.resize();

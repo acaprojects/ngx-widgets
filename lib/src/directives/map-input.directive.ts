@@ -58,11 +58,13 @@ export class MapInputDirective {
     }
 
     @HostListener('panstart', ['$event']) private moveStart(e: any) {
+        if (this.timer.scale) { return; }
         if (this.lock) { return; }
         this.model.center = this.center;
     }
 
     @HostListener('panmove', ['$event']) private moveEvent(e: any) {
+        if (this.timer.scale) { return; }
         if (this.lock) { return; }
         const scale = (100 + this.scale) / 100;
         this.center = {
@@ -74,6 +76,7 @@ export class MapInputDirective {
 
     @HostListener('pinchstart', ['$event']) private scaleStart(e: any) {
         this.delta.scale = e.scale;
+        this.model.scaling = true;
     }
 
     @HostListener('pinchend', ['$event']) private scaleEnd(e: any) {
@@ -81,6 +84,7 @@ export class MapInputDirective {
             clearTimeout(this.timer.scale);
             this.timer.scale = null;
         }
+        this.model.scaling = false;
     }
 
     @HostListener('pinchin', ['$event']) private pinchInEvent(e: any) {
@@ -101,7 +105,6 @@ export class MapInputDirective {
             this.delta.scale = e.scale;
             const value = 1 + scale;
             this.scale = Math.round((this.scale + 100) * value - 100);
-            console.log('Scale:', this.scale.toFixed(3), scale.toFixed(3), e.scale.toFixed(3), value.toFixed(3), dir);
             this.animations.scale.animate();
             this.timer.scale = null;
         }, 40);
@@ -116,10 +119,12 @@ export class MapInputDirective {
     }
 
     @HostListener('mouseup', ['$event']) private click(e: any) {
+        if (this.timer.scale || this.model.scaling) { return; }
         this.event.emit({ type: 'Tap', event: e });
     }
 
     @HostListener('touchend', ['$event']) private touch(e: any) {
+        if (this.timer.scale || this.model.scaling) { return; }
         this.event.emit({ type: 'Tap', event: e });
     }
 

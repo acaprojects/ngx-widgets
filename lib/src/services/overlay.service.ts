@@ -24,10 +24,10 @@ export class OverlayService {
         private injector: Injector) {
         this.loadView();
     }
+
     /**
      * Sets the view to attach the notification display, usually the root component
      * @param view View Container to attach the notifications display
-     * @return
      */
     set view(view: ViewContainerRef) {
         if (view) {
@@ -43,7 +43,6 @@ export class OverlayService {
 
     /**
      * Attempts to load the root view container
-     * @return
      */
     public loadView(tries: number = 0) {
         const app_ref = this.injector.get(ApplicationRef) as any;
@@ -64,7 +63,7 @@ export class OverlayService {
     }
 
     /**
-     * Function to define a component that can be rendered on the overlay
+     * Define a component that can be rendered on the overlay
      * @param id ID of the component
      * @param type Component Type
      * @param data Initial data to pass to the component
@@ -75,7 +74,7 @@ export class OverlayService {
     }
 
     /**
-     * Function to define a modal that can be rendered on the overlay
+     * Defines a modal that can be rendered on the overlay
      * @param id ID of the modal
      * @param data Initial data to pass to the modal
      * @return
@@ -85,21 +84,19 @@ export class OverlayService {
     }
 
     /**
-     * Function to define a tooltip that can be rendered on the overlay
+     * Defines a tooltip that can be rendered on the overlay
      * @param id ID of the tooltip
      * @param data Initial data to pass to the tooltip
-     * @return
      */
     public setupTooltip(id: string, data?: any) {
         this.register(id, TooltipComponent, data);
     }
 
     /**
-     * Function to register a component that can be rendered on the overlay
+     * Register a component that can be rendered on the overlay
      * @param id ID of the component
      * @param type Component Type
      * @param data Initial data to pass to the component
-     * @return
      */
     public register(id: string, cmp: Type<any>, data?: any) {
         WIDGETS.log('OVERLAY(S)', `Registering overlay ${id} with component:`, cmp.name);
@@ -110,7 +107,6 @@ export class OverlayService {
      * Function to register a component attached to an overlay
      * @param id ID of the component
      * @param type Component Type
-     * @return
      */
     public registerComponent(id: string, cmp: Type<any>) {
         WIDGETS.log('OVERLAY(S)', `Registering component ${cmp.name} with ${id}`);
@@ -203,7 +199,7 @@ export class OverlayService {
 
     /**
      * Updates the model of the component with the given ID on the container
-     * @param c_id ID of the container
+     * @param c_id ID of the container. Defaults to root
      * @param id ID of the component
      * @param data New data to pass to the component
      * @return
@@ -216,7 +212,7 @@ export class OverlayService {
 
     /**
      * Get the component instance with the given id from the container
-     * @param c_id ID of the container
+     * @param c_id ID of the container. Defaults to root
      * @param id ID of the component
      * @return
      */
@@ -227,12 +223,6 @@ export class OverlayService {
         return null;
     }
 
-    /**
-     * Get the component instance with the given id from the container
-     * @param c_id ID of the container
-     * @param id ID of the component
-     * @return
-     */
     public listen(c_id: string = 'root', id: string, next: (event: any) => {}) {
         if (c_id && this.containers[c_id]) {
             return this.containers[c_id].get(id).watch(next);
@@ -242,7 +232,6 @@ export class OverlayService {
 
     /**
      * Closes all components in the overlay space
-     * @return
      */
     public clear(id?: string) {
         for (const k in this.containers) {
@@ -251,17 +240,30 @@ export class OverlayService {
             }
         }
     }
-
+    /**
+     * Registers an overlay container with the given ID
+     * @param id ID of the container
+     * @param container Overlay container instance
+     */
     public registerContainer(id: string, container: any) {
         this.clearContainer(id);
         this.containers[id] = container;
         this.containers[id].service = this;
     }
 
+    /**
+     * Registers the service to inject into overlay components
+     * @param service Service instance to inject into components
+     * @param id ID of the service. Defaults to global
+     */
     public registerService(service: any, id: string = 'global') {
         this.container_services[id] = service;
     }
-
+    /**
+     * Gets the specifed service
+     * @param id ID of the service to get. Defaults to global
+     * @returns Returns service
+     */
     public getService(id: string = 'global') {
         if (this.container_services[id]) {
             return this.container_services[id]
@@ -269,6 +271,10 @@ export class OverlayService {
         return null;
     }
 
+    /**
+     * Clears the overlay container with the given ID
+     * @param id ID of the container to clear. Defaults to root
+     */
     public clearContainer(id?: string) {
         if (id && this.containers[id]) {
             this.containers[id].clear();
@@ -280,20 +286,22 @@ export class OverlayService {
             this.containers.root = null;
         }
     }
-
-    private merge(obj: any, src: any) {
+    /**
+     * Merges the two given objects
+     * @param dest Destination object
+     * @param src Source object
+     * @returns Returns the destination object
+     */
+    private merge(dest: any, src: any) {
         for (const key in src) {
             if (src.hasOwnProperty(key)) {
-                obj[key] = src[key];
+                dest[key] = src[key];
             }
         }
-        return obj;
+        return dest;
     }
     /**
-     * Render container component on the given view
-     * @param id   Component ID
-     * @param type Component Type
-     * @return Returns a promise which returns the component instance
+     * Creates the root overlay container
      */
     private renderRootContainer() {
         if (this.containers.root) {
@@ -309,13 +317,11 @@ export class OverlayService {
             this.containers.root = cmp.instance;
             this.containers.root.ng = cmp;
             this.containers.root.service = this;
-            this.add('root', 'notifications', NotificationComponent, {}).then(() => null, () => null);
+            this.add('root', 'ACA_WIDGET_INTERNAL_notifications', NotificationComponent, {}).then(() => null, () => null);
             return;
         } else if (!this._view && this.default_vc) {
             this._view = this.default_vc;
-            if (this.default_vc) {
-                this.renderRootContainer();
-            }
+            if (this.default_vc) { this.renderRootContainer(); }
             return;
         }
     }
