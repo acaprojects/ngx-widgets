@@ -69,7 +69,7 @@ export class TooltipComponent extends DynamicBaseComponent {
 
     private updateListeners() {
         for (const l of this.listeners) {
-            if (l) { l.unsubscribe(); }
+            if (l) { l(); }
         }
         this.listeners = [];
         if (this.model.el) {

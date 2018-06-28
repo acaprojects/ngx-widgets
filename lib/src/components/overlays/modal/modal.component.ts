@@ -58,15 +58,13 @@ export class ModalComponent extends DynamicBaseComponent {
     }
 
     public updateState(state: any) {
-        setTimeout(() => {
-            this.top = state === this.stack_id;
-        });
+        setTimeout(() => this.top = state === this.stack_id);
     }
 
     public close(e?: any) {
         if (DynamicBaseComponent.instance_stack[this.type]) {
             const length = DynamicBaseComponent.instance_stack[this.type].length;
-            if (DynamicBaseComponent.instance_stack[this.type][length - 1] === this.stack_id) {
+            if (DynamicBaseComponent.instance_stack[this.type][length - 1] === this.stack_id && !DynamicBaseComponent.action) {
                 super.close(e);
             }
         } else {

@@ -12,6 +12,7 @@ import { WIDGETS } from '../../settings';
 })
 export class DynamicBaseComponent {
     protected static instance_stack: any = {};
+    protected static action: any = null;
 
     @Input() public id: string = '';
     @Input() public model: any = {};
@@ -119,6 +120,12 @@ export class DynamicBaseComponent {
         if (this.timers.close) {
             clearTimeout(this.timers.close);
             this.timers.close = null;
+            if (DynamicBaseComponent.action = this) {
+                DynamicBaseComponent.action = null;
+            }
+        } else {
+            DynamicBaseComponent.action = this;
+            setTimeout(() => DynamicBaseComponent.action = null, 300);
         }
     }
 
@@ -135,11 +142,15 @@ export class DynamicBaseComponent {
      * @param e Element to compare collisions to prevent close
      */
     public close(e?: any) {
+        if (DynamicBaseComponent.action) { return; }
+        DynamicBaseComponent.action = this;
+        if (this.timers.close) {
+            clearTimeout(this.timers.close);
+            this.timers.close = null;
+        }
         this.timers.close = setTimeout(() => {
             if (e && this.body && this.body.nativeElement && this.model.initialised && !this.model.preventClose) {
-                if (e.touches && e.touches.length > 0) {
-                    e = e.touches[0];
-                }
+                if (e.touches && e.touches.length > 0) { e = e.touches[0]; }
                 const c = { x: e.clientX || e.pageX, y: e.clientY || e.pageY };
                 this.initBox();
                 if (this.box) {
@@ -152,6 +163,7 @@ export class DynamicBaseComponent {
                     }
                 }
             }
+            DynamicBaseComponent.action = null;
             this.timers.close = null;
         }, 200);
     }
