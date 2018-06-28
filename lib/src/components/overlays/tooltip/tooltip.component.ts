@@ -22,6 +22,8 @@ export class TooltipComponent extends DynamicBaseComponent {
 
     protected type = 'Tooltip';
 
+    private listeners: any[] = [];
+
     constructor(private injector: Injector) {
         super();
         this._cfr = this.injector.get(ComponentFactoryResolver);
@@ -31,84 +33,58 @@ export class TooltipComponent extends DynamicBaseComponent {
 
     public init(parent?: any, id?: string) {
         super.init(parent, id);
-        this.renderer.listen('window', 'wheel', () => {
-            if (this.shown && !this.model.hover) {
-                this.resize(true);
-            }
-        });
+        this.updateListeners();
     }
 
     public resize(show: boolean = false, tries: number = 0) {
-        if (tries > 5) { return; }
         super.resize();
         if (!show) { this.shown = false; }
-        setTimeout(() => {
-            const el = this.model.el;
-            if (el && el.nativeElement) {
-                const cnt = el.nativeElement.getBoundingClientRect();
-                this.container = {
-                    height: cnt.height,
-                    width: cnt.width,
-                    top: cnt.top,
-                    left: cnt.left,
-                };
-                    // Add offset for container location
-                if (this.parent.root && this.parent.root.nativeElement) {
-                    const box = this.parent.root.nativeElement.getBoundingClientRect();
-                    this.container.top -= box.top;
-                    this.container.left -= box.left;
-                } else if (this.parent.id !== 'root') {
-                    setTimeout(() => {
-                        this.resize(true, tries + 1);
-                    }, 200);
-                    return;
-                }
-                setTimeout(() => {
-                    this.shown = true;
-                }, 50);
+        const el = this.model.el;
+        if (el && el.nativeElement) {
+            const cnt = el.nativeElement.getBoundingClientRect();
+            this.container = {
+                height: cnt.height,
+                width: cnt.width,
+                top: cnt.top,
+                left: cnt.left
+            };
+            if ((cnt.x + cnt.width) < 0 || (cnt.y + cnt.height) < 0 || (cnt.x > window.innerWidth || cnt.y > window.innerHeight)) {
+                return this.event('close', 'Outside');
             }
-            if (!el || !this.container || ((this.container.height <= 0 || this.container.width <= 0) && this.container.top <= 0)) {
-                setTimeout(() => {
-                    this.resize(true, tries + 1);
-                }, 200);
+                // Add offset for container location
+            if (this.parent.root && this.parent.root.nativeElement) {
+                const box = this.parent.root.nativeElement.getBoundingClientRect();
+                this.container.top -= box.top;
+                this.container.left -= box.left;
+            } else if (this.parent.id !== 'root') {
+                return setTimeout(() => this.resize(true, tries + 1), 200);
             }
-        }, 100);
-    }
-
-    public mouseDown(e?: any) {
-        this.mouse_state = 'down';
-        if (e && this.box && !this.model.tapped) {
-            if (e.touches) {
-                e = e.touches[0];
-            }
-            const c = { x: e.clientX, y: e.clientY };
-            if (c.x >= this.box.left && c.y >= this.box.top && c.x <= this.box.left + this.box.width && c.y <= this.box.top + this.box.height) {
-                WIDGETS.log('T_TIP', `['${this.id}'] Mouse down event inside tooltip`);
-                this.model.tapped = true;
-            }
+            setTimeout(() => this.shown = true, 50);
+        }
+        const cntr = this.container;
+        if (!el || !cntr || ((cntr.height <= 0 || cntr.width <= 0) && cntr.top <= 0)) {
+            setTimeout(() => this.resize(true, tries + 1), 200);
         }
     }
 
-    public mouseUp(e?: any) {
-        this.mouse_state = 'up';
-        if (!this.model.tapped) {
-            WIDGETS.log('T_TIP', `['${this.id}'] Mouse up event`);
-            this.event('Close', 'Click');
+    private updateListeners() {
+        for (const l of this.listeners) {
+            if (l) { l.unsubscribe(); }
         }
-        setTimeout(() => {
-            this.model.tapped = false;
-        }, 100);
-    }
-
-    public mouseMove(e?: any) {
-        if (this.mouse_state === 'down' && !this.model.tapped) {
-            WIDGETS.log('T_TIP', `['${this.id}'] Mouse move event after mouse down outside`);
-            this.event('Close', 'MouseMove');
+        this.listeners = [];
+        if (this.model.el) {
+            let el = this.model.el.nativeElement.parentElement;
+            for (; !!el; el = el.parentElement) {
+                this.listeners.push(this.renderer.listen(el, 'scroll', () => {
+                    if (this.shown) { this.resize(true); }
+                }));
+            }
         }
+        this.resize();
     }
 
     protected update(data: any) {
-        this.resize();
         super.update(data);
+        setTimeout(() => this.updateListeners(), 200);
     }
 }
