@@ -42,6 +42,7 @@ export class TooltipComponent extends DynamicBaseComponent {
         const el = this.model.el;
         if (el && el.nativeElement) {
             const cnt = el.nativeElement.getBoundingClientRect();
+            this.updatePosition();
             this.container = {
                 height: cnt.height,
                 width: cnt.width,
@@ -81,6 +82,53 @@ export class TooltipComponent extends DynamicBaseComponent {
             }
         }
         this.resize();
+    }
+
+    private updatePosition() {
+            // Initialise model if it is falsy
+        if (!this.model) { this.model = {}; }
+        if (!this.model.preferences) {
+            this.model.preferences = {
+                position: this.model.position,
+                offset: this.model.offset
+            };
+        }
+            // Initialise tooltip positioning
+        this.model.position = (this.model.preferences ? this.model.preferences.position : this.model.position) || this.model.position;
+        this.model.offset = (this.model.preferences ? this.model.preferences.offset : this.model.offset) || this.model.offset;
+        if (this.model.position === 'auto') {
+            this.model.position = 'bottom';
+            this.model.offset = 'middle';
+        }
+            // Compare parent to window to determine tooltip position
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        if (this.model.position === 'bottom' || this.model.position === 'top') {
+                // Position along Y axis
+            if (this.container.top < h / 8) {
+                this.model.position = 'bottom';
+            } else if (this.container.top + this.container.height > h - h / 8) {
+                this.model.position = 'top';
+            }
+            if (this.container.left < w / 8) {
+                this.model.offset = 'start';
+            } else if (this.container.left + this.container.width > w - w / 8) {
+                this.model.offset = 'end';
+            }
+
+        } else if (this.model.position === 'left' || this.model.position === 'right') {
+            // Position along X axis
+            if (this.container.left < w / 8) {
+                this.model.position = 'right';
+            } else if (this.container.left + this.container.width > w - w / 8) {
+                this.model.position = 'left';
+            }
+            if (this.container.top < h / 8) {
+                this.model.offset = 'start';
+            } else if (this.container.top + this.container.height > h - h / 8) {
+                this.model.offset = 'end';
+            }
+        }
     }
 
     protected update(data: any) {

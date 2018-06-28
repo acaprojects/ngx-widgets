@@ -20,6 +20,7 @@ export class TooltipDirective {
     @Input() public model: any = {};
     @Input() public triangle = true;
     @Input() public show = false;
+    @Input() public auto = false;
     @Input() public autoclose: any = true;
     @Input() public hover = false;
     @Output() public showChange: any = new EventEmitter();
@@ -71,6 +72,7 @@ export class TooltipDirective {
             if (this.instance) {
                 this.data = {
                     name: this.name,
+                    auto: this.position === 'Auto' || this.position === 'auto' || this.auto,
                     position: this.position,
                     offset: this.offset,
                     offsetBy: this.offsetBy,
@@ -80,6 +82,10 @@ export class TooltipDirective {
                     show: this.show,
                     cmp: this.cmp,
                     el: this.el,
+                    preferences: {
+                        position: this.position,
+                        offset: this.offset,
+                    },
                     data: this.model,
                 };
                 this.instance.set(this.data);
@@ -90,10 +96,7 @@ export class TooltipDirective {
     private createTooltip() {
         if (this.sub) {
             this.removeTooltip();
-            setTimeout(() => {
-                this.createTooltip();
-            }, 100);
-            return;
+            return setTimeout(() => this.createTooltip(), 100);
         }
         this.data = {
             name: this.name,

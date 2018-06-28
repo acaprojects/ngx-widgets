@@ -1,7 +1,7 @@
 
 <showcase [(model)]="model">
     <div class="container">
-        <btn tooltip name="" [(show)]="model.tooltip1" [template]="tooltip1" (tapped)="model.tooltip1 = true">
+        <btn tooltip name="" [(show)]="model.tooltip1" [auto]="true" [template]="tooltip1" (tapped)="model.tooltip1 = true">
             This click to show tooltip
             <ng-template #tooltip1>
                 <div class="ttip">

@@ -89,6 +89,7 @@
     min-width: 2em;
     border-radius: .2em;
     pointer-events: auto;
+    transition: transform(300ms);
     .left & {
         right: 0;
         transform: translate(-.5rem, 0%);
