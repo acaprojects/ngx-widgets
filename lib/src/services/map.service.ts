@@ -32,6 +32,7 @@ export class MapService {
     /**
      * Loads the map with the given URL
      * @param url URL of the map to load
+     * @returns Promise of the raw map file, errors with reason
      */
     public loadMap(url: string) {
         return new Promise((resolve, reject) => {
@@ -55,7 +56,7 @@ export class MapService {
                     if (map) {
                         this.maps[url] = {
                             expiry: now + MAP_EXPIRY,
-                            data: map,
+                            data: map
                         };
                         // if (!this.map_trees[url] || moment().isAfter(moment(this.map_trees[url].expiry))) {
                         //     this.loadMapTree(url);
@@ -91,6 +92,7 @@ export class MapService {
     /**
      * Gets the map tree of the map with the given URL
      * @param url URL of the map
+     * @returns Element tree of the map
      */
     public getMapTree(url: string) {
         return this.map_trees[url] ? this.map_trees[url].tree : null;

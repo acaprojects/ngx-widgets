@@ -7,7 +7,7 @@
  * @Last modified time: 15/12/2016 11:37 AM
  */
 
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable({
     providedIn: 'root'

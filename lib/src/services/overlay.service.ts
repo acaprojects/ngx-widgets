@@ -1,5 +1,5 @@
 
-import { ComponentRef, Inject, Injectable, Type, ViewContainerRef } from '@angular/core';
+import { Injectable, Type, ViewContainerRef } from '@angular/core';
 import { ApplicationRef, ComponentFactoryResolver, Injector } from '@angular/core';
 
 import { OverlayContainerComponent } from '../components/overlays/overlay-container/overlay-container.component';
@@ -36,8 +36,6 @@ export class OverlayService {
                 this.clearContainer();
             }
             this.renderRootContainer();
-        } else {
-            return;
         }
     }
 
@@ -56,9 +54,7 @@ export class OverlayService {
             this.renderRootContainer();
         } else if (tries < 10) {
             tries++;
-            setTimeout(() => {
-                this.loadView(tries);
-            }, 500);
+            setTimeout(() => this.loadView(tries), 500);
         }
     }
 
@@ -67,7 +63,6 @@ export class OverlayService {
      * @param id ID of the component
      * @param type Component Type
      * @param data Initial data to pass to the component
-     * @return
      */
     public setup(id: string, cmp: Type<any>, data?: any) {
         this.register(id, cmp, data);
@@ -77,7 +72,6 @@ export class OverlayService {
      * Defines a modal that can be rendered on the overlay
      * @param id ID of the modal
      * @param data Initial data to pass to the modal
-     * @return
      */
     public setupModal(id: string, data?: any) {
         this.register(id, ModalComponent, data);
@@ -117,7 +111,7 @@ export class OverlayService {
      * Open predefined modal with the given data
      * @param id ID of the component
      * @param data Initial data to pass to the component
-     * @return returns a promise which returns an observable for events on the component
+     * @return Promise of an observable for events on the open modal
      */
     public openModal(id: string, data?: any, cntr: string = 'root') {
         return this.add(cntr, id, ModalComponent, data);
@@ -127,7 +121,8 @@ export class OverlayService {
      * Open predefined modal with the given data
      * @param id ID of the component
      * @param data Initial data to pass to the component
-     * @return returns a promise which returns an observable for events on the component
+     * @param action Callback for events on the notification
+     * @return Promise of an observable for events on the notification
      */
     public notify(id: string, data?: any, action?: () => void, cntr: string = 'root') {
         return NotificationComponent.notify(id, data, action, cntr);
@@ -137,12 +132,11 @@ export class OverlayService {
      * Open predefined tooltip with the given data
      * @param id ID of the component
      * @param data Initial data to pass to the component
-     * @return returns a promise which returns an observable for events on the component
+     * @return Promise of an observable for events on the tooltip
      */
     public openTooltip(id: string, data?: any) {
         return this.add('root', id, TooltipComponent, data);
     }
-
 
     /**
      * Create/Open component on the overlay
@@ -150,7 +144,7 @@ export class OverlayService {
      * @param id ID of the component
      * @param type Component Type
      * @param data Initial data to pass to the component
-     * @return returns a promise which returns an observable for events on the component
+     * @return Promise of an observable for events on the added component
      */
     public add(c_id: string = 'root', id: string, cmp: Type<any> | string, data?: any) {
         for (const item in this.cmp_reg) {
@@ -189,7 +183,6 @@ export class OverlayService {
      * Removes the component with the given id from the container
      * @param c_id ID of the container
      * @param id ID of the component
-     * @return
      */
     public remove(c_id: string = 'root', id: string) {
         if (c_id && this.containers[c_id]) {
@@ -202,11 +195,10 @@ export class OverlayService {
      * @param c_id ID of the container. Defaults to root
      * @param id ID of the component
      * @param data New data to pass to the component
-     * @return
      */
     public set(c_id: string = 'root', id: string, data: any) {
         if (c_id && this.containers[c_id]) {
-            const inst = this.containers[c_id].set(data);
+            this.containers[c_id].get(id).set(data);
         }
     }
 
@@ -214,7 +206,7 @@ export class OverlayService {
      * Get the component instance with the given id from the container
      * @param c_id ID of the container. Defaults to root
      * @param id ID of the component
-     * @return
+     * @returns Component with the given ID or null
      */
     public get(c_id: string = 'root', id: string) {
         if (c_id && this.containers[c_id]) {
@@ -223,6 +215,12 @@ export class OverlayService {
         return null;
     }
 
+    /**
+     * Listen to events of component on the specified overlay container
+     * @param c_id ID of the overlay container
+     * @param id ID of the component
+     * @param next Callback for emitted event from the component
+     */
     public listen(c_id: string = 'root', id: string, next: (event: any) => {}) {
         if (c_id && this.containers[c_id]) {
             return this.containers[c_id].get(id).watch(next);
@@ -240,6 +238,7 @@ export class OverlayService {
             }
         }
     }
+
     /**
      * Registers an overlay container with the given ID
      * @param id ID of the container
@@ -259,10 +258,11 @@ export class OverlayService {
     public registerService(service: any, id: string = 'global') {
         this.container_services[id] = service;
     }
+
     /**
      * Gets the specifed service
      * @param id ID of the service to get. Defaults to global
-     * @returns Returns service
+     * @returns Service with the specified ID or null
      */
     public getService(id: string = 'global') {
         if (this.container_services[id]) {
@@ -286,11 +286,12 @@ export class OverlayService {
             this.containers.root = null;
         }
     }
+
     /**
      * Merges the two given objects
      * @param dest Destination object
      * @param src Source object
-     * @returns Returns the destination object
+     * @returns Merged destination object
      */
     private merge(dest: any, src: any) {
         for (const key in src) {
@@ -300,29 +301,30 @@ export class OverlayService {
         }
         return dest;
     }
+
     /**
      * Creates the root overlay container
      */
     private renderRootContainer() {
-        if (this.containers.root) {
-            return;
-        } else if (this._view) {
+        if (!this.containers.root && this._view) {
+                // Get factory for component
             const factory = this._cfr.resolveComponentFactory(OverlayContainerComponent);
             if (this.containers.root) {
                 this.containers.root.clear();
                 this.containers.root.destroy();
             }
-
+                // Create component on view
             const cmp = this._view.createComponent(factory);
             this.containers.root = cmp.instance;
             this.containers.root.ng = cmp;
+                // Set service for container
             this.containers.root.service = this;
+                // Add notifications layer
             this.add('root', 'ACA_WIDGET_INTERNAL_notifications', NotificationComponent, {}).then(() => null, () => null);
             return;
         } else if (!this._view && this.default_vc) {
             this._view = this.default_vc;
             if (this.default_vc) { this.renderRootContainer(); }
-            return;
         }
     }
 }
