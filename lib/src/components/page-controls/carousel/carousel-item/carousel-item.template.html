@@ -1,0 +1,9 @@
+
+
+<div class="carousel-item" widget (tap)="tap()">
+    <div class="content" [style.width]="(model.width * 100) + '%'"
+        [style.transform]="'translateX(' + (100 * ((model.index || 0) - (model.offset || 0))) + '%)'"
+        [style.display]="((model.index || 0) - (model.offset || 0) < -1) || (model.index || 0) - (model.offset || 0) > (model.count || 7) ? 'none' : ''">
+        <ng-content></ng-content>
+    </div>
+</div>

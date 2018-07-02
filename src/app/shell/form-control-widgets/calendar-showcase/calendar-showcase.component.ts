@@ -1,6 +1,8 @@
 
 import { Component } from '@angular/core';
 
+import * as moment from 'moment';
+
 @Component({
     selector: 'calendar-showcase',
     templateUrl: './calendar-showcase.template.html',
@@ -47,7 +49,10 @@ export class CalendarShowcaseComponent {
     public ngOnInit() {
         this.model.inject = `&lt;calendar name=&quot;common&quot;
      [(date)]=&quot;date&quot;
-     [options]=&quot;calendar_options&quot;
+     [options]=&quot;calendar_options&quot;&gt;
 &lt;/calendar&gt;`;
+
+        this.model.events = {};
+        this.model.events[moment().add(2, 'd').format('YYYY-MM-DD')] = Math.floor(Math.random() * 4 + 8);
     }
 }

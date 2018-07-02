@@ -1,6 +1,6 @@
 
 <showcase [(model)]="model">
     <div class="container">
-        <calendar name="test" [options]="{ past: false }"></calendar>
+        <calendar name="test" [options]="{ past: false }" [events]="model.events"></calendar>
     </div>
 </showcase>

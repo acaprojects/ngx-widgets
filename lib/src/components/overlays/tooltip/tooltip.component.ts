@@ -34,6 +34,7 @@ export class TooltipComponent extends DynamicBaseComponent {
     public init(parent?: any, id?: string) {
         super.init(parent, id);
         this.updateListeners();
+        setTimeout(() => this.resize(), 300);
     }
 
     public resize(show: boolean = false, tries: number = 0) {

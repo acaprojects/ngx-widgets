@@ -1,0 +1,10 @@
+
+<showcase [(model)]="model">
+    <div class="container">
+        <carousel>
+            <carousel-item *ngFor="let item of model.list">
+                <div class="image" [style.background-image]="'url(' + item + ')'"></div>
+            </carousel-item>
+        </carousel>
+    </div>
+</showcase>

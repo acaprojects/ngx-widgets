@@ -11,6 +11,8 @@ import { StepperStepComponent } from './stepper/step.component';
 import { TabGroupComponent } from './tab-group/tabs.component';
 import { TabHeadComponent } from './tab-group/tab-head.component';
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
+import { CarouselComponent } from './carousel/carousel.component';
+import { CarouselItemComponent } from './carousel/carousel-item/carousel-item.component';
 
 @NgModule({
     declarations: [
@@ -19,7 +21,9 @@ import { WidgetsPipeModule } from '../../pipes/pipe.module';
         StepperComponent,
         StepperStepComponent,
         TabGroupComponent,
-        TabHeadComponent
+        TabHeadComponent,
+        CarouselComponent,
+        CarouselItemComponent
     ],
     imports: [
         BrowserModule,
@@ -33,7 +37,9 @@ import { WidgetsPipeModule } from '../../pipes/pipe.module';
         StepperComponent,
         StepperStepComponent,
         TabGroupComponent,
-        TabHeadComponent
+        TabHeadComponent,
+        CarouselComponent,
+        CarouselItemComponent
     ],
     entryComponents: [
     ]

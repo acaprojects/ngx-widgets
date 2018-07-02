@@ -37,7 +37,7 @@ export class CheckboxShowcaseComponent {
     public ngOnInit() {
         this.model.inject = `&lt;checkbox name=&quot;question&quot;
      [(model)]=&quot;active&quot;
-     label=&quot;Are you an Australian?&quot;
+     label=&quot;Are you an Australian?&quot;&gt;
 &lt;/checkbox&gt;`;
     }
 }

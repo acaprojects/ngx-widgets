@@ -1,6 +1,6 @@
 {
   "name": "@acaprojects/ngx-widgets",
-  "version": "0.16.3",
+  "version": "0.17.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -58,6 +58,7 @@
     "codelyzer": "^4.3.0",
     "core-js": "^2.5.7",
     "electron-packager": "^10.1.2",
+    "faker": "^4.1.0",
     "gulp": "^3.9.1",
     "gulp-bump": "^2.9.0",
     "gulp-install": "^1.1.0",

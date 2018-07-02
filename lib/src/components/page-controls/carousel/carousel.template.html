@@ -1,0 +1,8 @@
+
+<div [class]="'carousel ' + name" widget (window:resize)="resize()">
+    <div class="arrow previous" [class.disabled]="index <= 0" (tap)="change(-1)"></div>
+    <div class="body">
+        <ng-content></ng-content>
+    </div>
+    <div class="arrow next" [class.disabled]="index >= model.item_cnt - model.count" (tap)="change(1)"></div>
+</div>
