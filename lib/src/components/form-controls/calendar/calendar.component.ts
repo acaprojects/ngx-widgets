@@ -21,8 +21,10 @@ export interface ICalOptions {
 export class CalendarComponent {
     @Input() public name = '';
     @Input() public date: number; // Unix timestamp with milliseconds
+    @Input() public events: any = {};
     @Input() public options: ICalOptions | any;
     @Output() public dateChange: any = new EventEmitter();
+    @Output() public change: any = new EventEmitter();
 
     public model: any = {};
     public display: string;
@@ -51,6 +53,9 @@ export class CalendarComponent {
             }
             this.changeMonth();
         }
+        if (changes.events) {
+            this.generateMonth();
+        }
     }
 
     public setDate(day: any) {
@@ -77,6 +82,7 @@ export class CalendarComponent {
                 this.model.offset = 0;
             }
         }
+        this.change.emit(this.model.offset);
         this.generateMonth();
     }
 
@@ -122,6 +128,7 @@ export class CalendarComponent {
                     active: date.format('YYYY-MM-DD') === set_date.format('YYYY-MM-DD'),
                     past: date.isBefore(now),
                     today: date.format('YYYY-MM-DD') === now.format('YYYY-MM-DD'),
+                    events: this.events ? this.events[date.format('YYYY-MM-DD')] || 0 : 0,
                     this_month: date.format('YYYY-MMM') === current_month,
                 };
                 week.push(day);

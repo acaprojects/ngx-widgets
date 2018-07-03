@@ -60,9 +60,10 @@
 }
 
 .content {
+    position: relative;
     border-radius: 100%;
-    height: 2em;
-    width: 2em;
+    height: 2.5em;
+    width: 2.5em;
     padding: .45em .1em;
     margin: .25em;
     display: flex;
@@ -74,6 +75,28 @@
         background-color: #ccc;
         opacity: .8;
     }
+}
+
+.events {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(40%, -40%);
+    font-size: .7em;
+    height: 2em;
+    width: 2em;
+    border-radius: 1.05em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2196F3;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+.event {
+    background-color: #37474F;
+    color: #fff;
 }
 
 .past {

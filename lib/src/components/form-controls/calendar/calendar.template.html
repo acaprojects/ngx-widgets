@@ -19,8 +19,10 @@
                         [class.past]="day.past"
                         [class.active]="day.active"
                         [class.non-month]="!day.this_month"
+                        [class.event]="day.events"
                         (click)="day.this_month ? setDate(day) : ''">
                         {{ day.date }}
+                        <div class="events" *ngIf="day.events">{{day.events}}</div>
                     </div>
                 </div>
             </div>
