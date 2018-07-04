@@ -90,33 +90,23 @@ export class TooltipComponent extends DynamicBaseComponent {
         if (!this.model) { this.model = {}; }
         if (!this.model.preferences) {
             this.model.preferences = {
-                position: this.model.position,
-                offset: this.model.offset
+                position: this.model.position || 'bottom',
+                offset: this.model.offset || 'middle'
             };
         }
             // Initialise tooltip positioning
         this.model.position = (this.model.preferences ? this.model.preferences.position : this.model.position) || this.model.position;
         this.model.offset = (this.model.preferences ? this.model.preferences.offset : this.model.offset) || this.model.offset;
-        if (this.model.position === 'auto') {
-            this.model.position = 'bottom';
-            this.model.offset = 'middle';
-        }
             // Compare parent to window to determine tooltip position
         const w = window.innerWidth;
         const h = window.innerHeight;
-        if (this.model.position === 'bottom' || this.model.position === 'top') {
+        if (this.model.position === 'bottom' || this.model.position === 'top' || this.model.position === 'auto') {
                 // Position along Y axis
             if (this.container.top < h / 8) {
                 this.model.position = 'bottom';
             } else if (this.container.top + this.container.height > h - h / 8) {
                 this.model.position = 'top';
             }
-            if (this.container.left < w / 8) {
-                this.model.offset = 'start';
-            } else if (this.container.left + this.container.width > w - w / 8) {
-                this.model.offset = 'end';
-            }
-
         } else if (this.model.position === 'left' || this.model.position === 'right') {
             // Position along X axis
             if (this.container.left < w / 8) {
@@ -124,12 +114,23 @@ export class TooltipComponent extends DynamicBaseComponent {
             } else if (this.container.left + this.container.width > w - w / 8) {
                 this.model.position = 'left';
             }
-            if (this.container.top < h / 8) {
+        }
+            // Set to default position if still auto
+        if (this.model.position === 'auto') { this.model.position = 'bottom'; }
+        if (this.model.offset === 'auto') {
+            const dim = {
+                l: this.model.position === 'bottom' || this.model.position === 'top' ? w : h,
+                p: this.model.position === 'bottom' || this.model.position === 'top' ? this.container.left : this.container.top,
+                s: this.model.position === 'bottom' || this.model.position === 'top' ? this.container.width : this.container.height
+            };
+            if (dim.p < dim.l / 8) {
                 this.model.offset = 'start';
-            } else if (this.container.top + this.container.height > h - h / 8) {
+            } else if (dim.l + dim.s > dim.l - dim.l / 8) {
                 this.model.offset = 'end';
             }
         }
+            // Set to default offset if still auto
+        if (this.model.offset === 'auto') { this.model.offset = 'middle'; }
     }
 
     protected update(data: any) {

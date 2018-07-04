@@ -72,9 +72,8 @@ export class TooltipDirective {
             if (this.instance) {
                 this.data = {
                     name: this.name,
-                    auto: this.position === 'Auto' || this.position === 'auto' || this.auto,
-                    position: this.position,
-                    offset: this.offset,
+                    position: this.auto ? 'auto' : this.position,
+                    offset: this.auto ? 'auto' : this.offset,
                     offsetBy: this.offsetBy,
                     triangle: this.triangle,
                     template: this.template,

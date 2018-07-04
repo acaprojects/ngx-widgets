@@ -142,7 +142,7 @@ export class DynamicBaseComponent {
      * @param e Element to compare collisions to prevent close
      */
     public close(e?: any) {
-        if (DynamicBaseComponent.action) { return; }
+        if (DynamicBaseComponent.action && this.type === 'Modal') { return; }
         DynamicBaseComponent.action = this;
         if (this.timers.close) {
             clearTimeout(this.timers.close);
