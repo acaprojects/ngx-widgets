@@ -8,8 +8,7 @@
  */
 
 import { Component, EventEmitter, Input, Output} from '@angular/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 export interface IToggleOptions {
     on_text?: string;

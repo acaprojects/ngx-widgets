@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, EventEmitter, Inject, Input, Output, Type, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 

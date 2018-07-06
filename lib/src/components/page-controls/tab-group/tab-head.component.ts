@@ -7,7 +7,7 @@
  * @Last modified time: 15/12/2016 11:32 AM
  */
 
-import { Component, Input, TemplateRef} from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 
 @Component({
     selector: 'tab',

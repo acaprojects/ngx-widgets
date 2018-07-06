@@ -7,9 +7,8 @@
  * @Last modified time: 07/02/2017 11:51 AM
  */
 
-import { Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChild } from '@angular/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { animate, keyframes, style, transition, trigger } from '@angular/animations';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'btn',

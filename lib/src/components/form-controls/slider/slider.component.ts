@@ -7,7 +7,7 @@
  * @Last modified time: 01/02/2017 11:52 AM
  */
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Animate } from '../../../services/animate.service';
 
 import { WIDGETS } from '../../../settings';

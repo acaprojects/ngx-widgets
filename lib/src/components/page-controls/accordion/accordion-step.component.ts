@@ -8,8 +8,7 @@
  */
 
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
-import { AfterContentInit, ContentChildren, QueryList } from '@angular/core';
+import { Component, EventEmitter, Input } from '@angular/core';
 
 @Component({
     selector: 'accordion-step',

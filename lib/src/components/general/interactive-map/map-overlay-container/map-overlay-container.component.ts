@@ -4,7 +4,6 @@ import { ChangeDetectorRef, ComponentFactoryResolver, ElementRef, ViewContainerR
 
 import { MapOverlayComponent } from '../map-overlay/map-overlay.component';
 import { OverlayContainerComponent } from '../../../overlays/overlay-container/overlay-container.component';
-import { WIDGETS } from '../../../../settings';
 
 @Component({
     selector: 'map-overlay-container',

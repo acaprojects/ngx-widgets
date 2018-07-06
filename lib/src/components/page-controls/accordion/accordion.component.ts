@@ -7,8 +7,7 @@
  * @Last modified time: 20/01/2017 3:45 PM
  */
 
-import { Component, DoCheck, ElementRef, EventEmitter, Input, OnChanges, Output} from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'accordion',

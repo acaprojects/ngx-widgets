@@ -9,7 +9,6 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-import { Observable } from 'rxjs';
 
 const KEY_LIST = {
     QWERTY : {

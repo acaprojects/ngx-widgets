@@ -8,8 +8,8 @@
  */
 
 import { Location } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, Output, Renderer2 } from '@angular/core';
-import { AfterContentInit, ContentChildren, QueryList, ViewChild, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ContentChildren, QueryList, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { TabHeadComponent } from './tab-head.component';

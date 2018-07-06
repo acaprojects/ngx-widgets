@@ -7,7 +7,7 @@
  * @Last modified time: 27/01/2017 5:30 PM
  */
 
-import { Component, ElementRef, EventEmitter, Input, Output, Renderer, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'input-field',

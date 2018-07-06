@@ -8,7 +8,7 @@
  */
 
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { StepperComponent } from './stepper.component';
 
 @Component({

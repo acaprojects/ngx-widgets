@@ -1,5 +1,5 @@
 
-import { ChangeDetectorRef, Component, Input, Output, HostListener } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, HostListener } from '@angular/core';
 
 @Component({
     selector: 'overlay-content',

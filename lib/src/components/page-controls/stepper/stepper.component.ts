@@ -7,7 +7,7 @@
  * @Last modified time: 20/01/2017 3:45 PM
  */
 
-import { Component, EventEmitter, Input, Output, QueryList, ElementRef, ContentChildren} from '@angular/core';
+import { Component, EventEmitter, Input, Output, QueryList, ContentChildren} from '@angular/core';
 
 import { StepperStepComponent } from './step.component';
 
