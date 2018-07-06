@@ -1,5 +1,5 @@
 
-import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, AfterContentInit, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, AfterContentInit, OnChanges, OnDestroy } from '@angular/core';
 import { CarouselItemComponent } from './carousel-item/carousel-item.component';
 
 export interface ICarouselSettings {
@@ -19,7 +19,7 @@ export interface ICarouselSettings {
     templateUrl: './carousel.template.html',
     styleUrls: ['./carousel.style.scss']
 })
-export class CarouselComponent implements OnChanges, AfterContentInit {
+export class CarouselComponent implements OnChanges, OnDestroy, AfterContentInit {
     @Input() public name: string;
     @Input() public index: number = 0;
     @Input() public settings: ICarouselSettings;
@@ -27,6 +27,7 @@ export class CarouselComponent implements OnChanges, AfterContentInit {
     @Output() public select = new EventEmitter();
 
     public model: any = {};
+    public subs: any = {};
     public timers: any = {};
 
     @ContentChildren(CarouselItemComponent) private items: QueryList<CarouselItemComponent>;
@@ -35,11 +36,27 @@ export class CarouselComponent implements OnChanges, AfterContentInit {
 
     public ngOnChanges(changes: any) {
         if (changes.settings) {
+            this.resize();
+        }
+    }
 
+    public ngOnDestroy() {
+        if (this.subs.items) {
+            this.subs.items instanceof Function ? this.subs.items() : this.subs.items.unsubscribe();
+            this.subs.items = null;
         }
     }
 
     public ngAfterContentInit() {
+        if (this.subs.items) {
+            this.subs.items instanceof Function ? this.subs.items() : this.subs.items.unsubscribe();
+            this.subs.items = null;
+        }
+        this.subs.items = this.items.changes.subscribe(() => this.init());
+        this.init();
+    }
+
+    public init() {
         if (this.timers.init) {
             clearTimeout(this.timers.init);
             this.timers.init = null;
@@ -55,7 +72,7 @@ export class CarouselComponent implements OnChanges, AfterContentInit {
                 this.model.item_cnt = list.length;
             }
             this.timers.init = null;
-        }, 50);
+        }, 150);
         this.resize();
     }
 
@@ -68,6 +85,7 @@ export class CarouselComponent implements OnChanges, AfterContentInit {
             clearTimeout(this.timers.change);
             this.timers.change = null;
         }
+        if (!this.model.pending) { this.model.pending = 0; }
         this.model.pending += value;
         this.timers.change = setTimeout(() => {
             if (!this.model.pending) {
