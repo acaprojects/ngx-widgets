@@ -40,15 +40,14 @@ export class TabGroupShowcaseComponent {
 
     public ngOnInit() {
         this.model.inject = `&lt;tab-group name=&quot;the-toggle&quot;
-    [(step)]="step"
     format=&quot;buttons&quot;&gt;
     &lt;tab id=&quot;step-two&quot
-            [template]="tabone";&gt;
+            [template]="tabone"&gt;
         Tab 1
         &lt;ng-template #tabtwo&gt;Tab Content 1&lt;/ng-template&gt;
     &lt;/tab&gt;
     &lt;tab id=&quot;step-two&quot
-            [template]="tabtwo";&gt;
+            [template]="tabtwo"&gt;
         Tab 2
         &lt;ng-template #tabtwo&gt;Tab Content 2&lt;/ng-template&gt;
     &lt;/tab&gt;
