@@ -1,16 +1,27 @@
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 import { WIDGETS } from '../../settings';
+
+export interface IDynamicComponentEvent {
+    id: string;
+    type: string;
+    location: string;
+    data?: any;
+    model?: any;
+    value?: any
+    update: (model: any) => void;
+    close: () => void;
+}
 
 @Component({
     selector: 'dynamic-base',
     template: '',
     styles: [''],
 })
-export class DynamicBaseComponent {
+export class DynamicBaseComponent implements OnInit, OnDestroy, AfterViewInit {
     protected static instance_stack: any = {};
     protected static action: any = null;
 
@@ -18,6 +29,7 @@ export class DynamicBaseComponent {
     @Input() public model: any = {};
     @Input() public cmp_ref: any = null;
     @Input() public parent: any = null;
+    @Input() public container: string;
     @Input() public service: any = null;
     @Input() public rendered: boolean = false;
     @Output() public events: any = new EventEmitter();
@@ -33,6 +45,7 @@ export class DynamicBaseComponent {
     protected stack_id: string = '';
     protected type = 'Dynamic';
     protected timers: any = {};
+    protected subs: any = [];
 
     @ViewChild('body') protected body: ElementRef;
     @ViewChild('content', { read: ViewContainerRef }) private _content: ViewContainerRef;
@@ -95,6 +108,11 @@ export class DynamicBaseComponent {
         }
         if (this.sub) {
             this.sub.unsubscribe();
+        }
+        if (this.subs) {
+            for (const subscription of this.subs) {
+                subscription instanceof Function ? subscription() : subscription.unsubscribe();
+            }
         }
         const index = DynamicBaseComponent.instance_stack[this.type] ? DynamicBaseComponent.instance_stack[this.type].indexOf(this.stack_id) : -1;
         if (index >= 0) {
@@ -173,7 +191,7 @@ export class DynamicBaseComponent {
      * @param type Type of event that has occured
      * @param location Location that the event has come from
      */
-    public event(type: string, location: string = 'Code') {
+    public event(type: string | any, location: string = 'Code') {
         setTimeout(() => {
             if (this.cmp_ref) {
                 this.model.data = this.cmp_ref.instance.model;
@@ -181,12 +199,14 @@ export class DynamicBaseComponent {
             if (type.toLowerCase() !== 'close') {
                 WIDGETS.log('DYN_BASE', `Event on component ${this.id} of type '${type}' from '${location.toLowerCase()}'`);
             }
-            const event = {
+            const event: IDynamicComponentEvent = {
                 id: this.id,
-                type,
+                type: typeof type === 'string' ? type : 'Value',
                 location,
-                data: this.model.data,
-                update: (form: any) => { this.set({ data: form }); },
+                data: typeof type !== 'string' ? type : this.model.data,
+                model: this.model.data,
+                value: typeof type !== 'string' ? type : this.model.data,
+                update: (model: any) => { this.set({ data: model }); },
                 close: () => {
                     this.parent.remove(this.uid || `${this.id}|${this.model.cmp.name}`);
                 },
@@ -205,13 +225,20 @@ export class DynamicBaseComponent {
      * Listen to events on the component
      * @param next Callback for events on the component
      */
-    public subscribe(next: () => void, error?: () => void, complete?: () => void) {
-        return this.watch(next, error, complete);
+    public subscribe(next: (value) => void) {
+        return this.watch(next);
     }
 
-    public watch(next: () => void, error?: () => void, complete?: () => void) {
+    /**
+     * Listen for events on the component
+     * @param next Callback for events on the component
+     */
+    public watch(next: (value) => void) {
         if (this.state.obs) {
-            return this.state.obs.subscribe(next, error, complete);
+                // Store subscription to be cleaned on destroy
+            const sub = this.state.obs.subscribe(next);
+            this.subs.push(sub);
+            return sub;
         } else {
             return null;
         }

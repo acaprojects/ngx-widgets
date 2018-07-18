@@ -8,6 +8,7 @@ import { NotificationComponent } from '../components/overlays/notification/notif
 import { TooltipComponent } from '../components/overlays/tooltip/tooltip.component';
 
 import { WIDGETS } from '../settings';
+import { DynamicBaseComponent } from '../components/overlays/dynamic-base.component';
 
 @Injectable({
     providedIn: 'root'
@@ -110,11 +111,12 @@ export class OverlayService {
     /**
      * Open predefined modal with the given data
      * @param id ID of the component
+     * @param next Callback for events on the modal
      * @param data Initial data to pass to the component
      * @return Promise of an observable for events on the open modal
      */
-    public openModal(id: string, data?: any, cntr: string = 'root') {
-        return this.add(cntr, id, ModalComponent, data);
+    public openModal(id: string, data?: any, next?: (event: any) => void, cntr: string = 'root') {
+        return this.add(cntr || 'root', id, ModalComponent, data, next);
     }
 
     /**
@@ -144,9 +146,9 @@ export class OverlayService {
      * @param id ID of the component
      * @param type Component Type
      * @param data Initial data to pass to the component
-     * @return Promise of an observable for events on the added component
+     * @return Promise of instance of the created component
      */
-    public add(c_id: string = 'root', id: string, cmp: Type<any> | string, data?: any) {
+    public add(c_id: string = 'root', id: string, cmp: Type<any> | string, data?: any, next?: (value: any) => void) {
         for (const item in this.cmp_reg) {
             if (this.cmp_reg.hasOwnProperty(item) && item === id) {
                 data = this.merge(this.cmp_reg[item], data);
@@ -162,15 +164,20 @@ export class OverlayService {
             data.cmp_id = cmp.name;
         }
         WIDGETS.log('OVERLAY][S', `Rendering overlay ${id} with component:`, [data.cmp_id, data]);
-        return new Promise((resolve, reject) => {
+        return new Promise<DynamicBaseComponent>((resolve, reject) => {
             const container = c_id ? this.containers[c_id] : (this.containers.root ? this.containers.root : null);
             if (container) {
-                container.add(id, cmp).then((inst) => {
+                container.add(id, cmp).then((inst: DynamicBaseComponent) => {
                     // let's inject @Inputs to component instance
                     inst.id = id;
                     // inst.parent = this;
                     inst.container = c_id || 'root';
                     inst.set(data);
+                        // Subscribe to events if there is a callback
+                    if (next && inst.subscribe instanceof Function) {
+                        inst.subscribe(next);
+                    }
+                        // Resolve the instance of component
                     resolve(inst);
                 }, (err) => reject(err));
             } else {

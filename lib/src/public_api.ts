@@ -51,6 +51,7 @@ export * from './components/form-controls/toggle/toggle.component';
 export * from './components/overlays/overlay-content.component';
 export * from './components/overlays/overlay-container/overlay-container.component';
 export * from './components/overlays/modal/modal.component';
+export * from './components/overlays/notification/notification.component';
 export * from './components/overlays/tooltip/tooltip.component';
 export * from './components/overlays/dynamic-base.component';
 

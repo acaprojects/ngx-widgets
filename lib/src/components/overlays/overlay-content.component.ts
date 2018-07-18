@@ -24,6 +24,25 @@ export class OverlayContentComponent {
         this.id = `overlay-${Math.floor(Math.random() * 8999999 + 1000000)}`;
     }
 
+    /**
+     * Executes the close function for the parent modal container
+     */
+    public close() {
+        if (this.fn.close instanceof Function) {
+            this.fn.close();
+        }
+    }
+
+    /**
+     *
+     * @param type
+     */
+    public event(type: string) {
+        if (this.fn.event instanceof Function) {
+            this.fn.event(type);
+        }
+    }
+
     public set(data: any) {
         if (!this.model) {
             this.model = data;
