@@ -2,32 +2,40 @@
 import * as del from 'del';
 import * as gulp from 'gulp';
 import * as bump from 'gulp-bump';
-import * as tsc from 'gulp-typescript';
-import * as jsonModify from 'gulp-json-modify';
-import * as merge from 'merge';
+import * as replace from 'gulp-string-replace';
 import * as moment from 'moment';
 import * as runSequence from 'run-sequence';
 import * as yargs from 'yargs';
-
-const tsProject = tsc.createProject('./tsconfig.json');
+import * as fs from 'fs-extra';
 
 const npmconfig = require('../package.json');
-const tscConfig = require('../tsconfig.json');
+const settings = require('../src/assets/settings.json');
+const argv = yargs.argv;
 
-const paths = {
-    src: tscConfig.compilerOptions.baseUrl,
-    build: tscConfig.compilerOptions.outDir,
-    content: 'docs/',
-    public: 'dist/',    // packaged assets ready for deploy
+let baseHref = '/staff';
+
+const prod_settings = {
+    composer: {
+        domain: '',
+        route: baseHref,
+        protocol: 'https:'
+    },
+    mock: false
 };
 
-/**
- * Pipe a collection of streams to and arbitrart destination and merge the
- * results.
- */
-const pipeTo = (dest: NodeJS.ReadWriteStream) =>
-    (...src: NodeJS.ReadableStream[]) =>
-    merge(src.map((s) => s.pipe(dest)));
+const mergeJSON = (a, b) => {
+    for (const f in b) {
+        if (b.hasOwnProperty(f)) {
+            if (!a[f]) {
+                a[f] = b[f];
+            } else if (typeof b[f] === 'object' && typeof a[f] === 'object') {
+                mergeJSON(a[f], b[f]);
+            } else {
+                a[f] = b[f];
+            }
+        }
+    }
+};
 
 /**
  * Nuke old build assetts.
@@ -36,29 +44,118 @@ gulp.task('clean', () => ((...globs: string[]) => del(globs))('dist/', 'compiled
 
 gulp.task('default', ['build']);
 
-gulp.task('prebuild', () => 'Hurray!!!');
+gulp.task('pre-build', (next) => runSequence(
+    'check:route',
+    'sw:base',
+    'settings:update',
+    next
+));
 
-gulp.task('postbuild', (next) => runSequence('version', next));
+gulp.task('pre-serve', (next) => runSequence(
+    'check:flags',
+    next
+));
+
+gulp.task('post-build', (next) => runSequence(
+    'build:manifest',
+    'settings:reset',
+    'sw:unbase',
+    'fix:service-worker',
+    next
+));
+
+gulp.task('build:manifest', (next) => {
+    const app = settings.app || {};
+    const manifest: any = {
+        short_name: app.short_name || 'ACA Staff Application',
+        name: app.name || 'ACA Staff Application',
+        icons: [
+            {
+                src: 'assets/icon/launch.png',
+                sizes: '196x196',
+                type: 'png'
+            }
+        ],
+        start_url: 'index.html',
+        display: 'standalone'
+    };
+    fs.outputJson('./dist/manifest.json', manifest, { spaces: 4 })
+        .then(() => next());
+});
+
+gulp.task('sw:base', () => {
+    return gulp.src(['./src/app/app.module.ts', './src/app/app.component.ts']) // Any file globs are supported
+        .pipe(replace(new RegExp('\'__base__', 'g'), `'${baseHref}/`, { logs: { enabled: false } }))
+        .pipe(gulp.dest('./src/app'));
+});
+
+gulp.task('sw:unbase', () => {
+    return gulp.src(['./src/app/app.module.ts', './src/app/app.component.ts']) // Any file globs are supported
+        .pipe(replace(new RegExp(`'${baseHref}/`, 'g'), '\'__base__', { logs: { enabled: false } }))
+        .pipe(gulp.dest('./src/app'));
+});
 
 gulp.task('bump', () => {
-    const argv = yargs.argv;
     const type = argv.major ? 'major' : (argv.minor ? 'minor' : 'patch');
     gulp.src('./package.json')
-        .pipe(bump({type}))
+        .pipe(bump({ type }))
         .pipe(gulp.dest('./'));
 });
 
-gulp.task('version', () => {
-    gulp.src('./dist/assets/settings.json')
-        .pipe(jsonModify({
-            key: 'version',
-            value: npmconfig.version,
-        }))
-        .pipe(jsonModify({
-            key: 'build',
-            value: moment().format('YYYY-MM-DD HH:mm:ss'),
-        }))
-        .pipe(gulp.dest('./dist/assets'));
+gulp.task('check:route', () => {
+    if (argv.route) {
+        console.log('Route set to:', argv.route);
+        baseHref = argv.route || baseHref;
+        prod_settings.composer.route = argv.route || prod_settings.composer.route;
+    }
+    return 'success';
+});
+
+gulp.task('check:flags', (next) => {
+    const s = JSON.parse(JSON.stringify(settings));
+    s.mock = !!argv.mock;
+    fs.outputJson('./src/assets/settings.json', s, { spaces: 4 })
+        .then(() => next());
+});
+
+gulp.task('settings:update', (next) => {
+    const s = JSON.parse(JSON.stringify(settings));
+    s.version = npmconfig.version;
+    s.build = moment().seconds(0).milliseconds(0).valueOf();
+    mergeJSON(s, prod_settings);
+    s.mock = !!argv.mock;
+    s.env = !!argv.prod ? 'prod' : 'dev';
+    fs.outputJson('./src/assets/settings.json', s, { spaces: 4 })
+        .then(() => next());
+});
+
+gulp.task('settings:reset', (next) => {
+    const s = JSON.parse(JSON.stringify(settings));
+    s.build = 'local-dev';
+    s.env = 'dev';
+    s.mock = false;
+    fs.outputJson('./src/assets/settings.json', s, { spaces: 4 })
+        .then(() => next());
+});
+
+gulp.task('fix:service-worker', (next) => runSequence(
+    'fix:service-worker:config',
+    'fix:service-worker:runtime',
+    next
+));
+
+gulp.task('fix:service-worker:config', () => {
+    return gulp.src(['./dist/ngsw.json']) // Any file globs are supported
+    .pipe(replace(new RegExp('"/', 'g'), `"${baseHref}/`, { logs: { enabled: false } }))
+    .pipe(replace(/"\\\\\/assets\\\\\//g, `"\\\\${baseHref}\\\\/assets\\\\/`, { logs: { enabled: true } }))
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('fix:service-worker:runtime', () => {
+    const parts = npmconfig.name.split('-');
+    return gulp.src(['./dist/ngsw-worker.js']) // Any file globs are supported
+        .pipe(replace(new RegExp('ngsw:', 'g'), `ngsw:${parts.length > 1 ? parts[1] : parts[0]}:`, { logs: { enabled: false } }))
+        .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('usage', () => {

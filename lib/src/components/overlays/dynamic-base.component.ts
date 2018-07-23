@@ -6,14 +6,14 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { WIDGETS } from '../../settings';
 
 export interface IDynamicComponentEvent {
-    id: string;
-    type: string;
-    location: string;
-    data?: any;
-    model?: any;
-    value?: any
-    update: (model: any) => void;
-    close: () => void;
+    id: string;         // ID of the component
+    type: string;       // Event type
+    location: string;   // Location that the event was thrown from
+    data?: any;         // Data value or current state of the content component's model
+    model?: any;        // Current state of the content component's model
+    value?: any;        // Value posted by event. Use if type is Value
+    update: (model: any) => void; // Method to update content component model
+    close: () => void;  // Method to close component
 }
 
 @Component({

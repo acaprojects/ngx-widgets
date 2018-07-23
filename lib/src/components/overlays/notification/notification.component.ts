@@ -28,19 +28,34 @@ const moment = moment_api;
 export class NotificationComponent extends DynamicBaseComponent {
     public container: any = {};
     protected static self: NotificationComponent = null;
+    /**
+     * Adds a new notification to the global component instance
+     * @param id ID of notification
+     * @param data Data to pass to the notification
+     * @param action Action display to show on notification
+     * @param cntr Container with which the notification should be displayed
+     */
     public static notify(id: string, data: any, action?: () => void, cntr: string = 'root') {
         if (NotificationComponent.self) {
             setTimeout(() => NotificationComponent.self.notify(id, data, action), 10);
         }
         return () => { NotificationComponent.dismiss(id, cntr); };
     }
-
+    /**
+     * Remove a notification
+     * @param id ID of the notification
+     * @param cntr Container of the notification layer
+     */
     public static dismiss(id: string, cntr: string = 'root') {
         if (NotificationComponent.self) {
             setTimeout(() => NotificationComponent.self.dismiss(id), 10);
         }
     }
 
+    /**
+     * Set delay for automatically removing notifications
+     * @param delay Number of milliseconds
+     */
     public static timeout(delay: number) {
         if (NotificationComponent.self) {
             NotificationComponent.self.timeout(delay);

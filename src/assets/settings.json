@@ -1,3 +1,5 @@
 {
-
+    "build": "local-dev",
+    "env": "dev",
+    "mock": false
 }
