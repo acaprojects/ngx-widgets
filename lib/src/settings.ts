@@ -2,7 +2,7 @@
  * @Author: Alex Sorafumo
  * @Date:   2017-03-08 11:23:08
  * @Last Modified by: Alex Sorafumo
- * @Last Modified time: 2018-07-02 12:29:54
+ * @Last Modified time: 2018-07-25 15:55:05
  */
 
 import { Observable } from 'rxjs';
@@ -15,7 +15,7 @@ export class WIDGETS {
     private static _obs: any = {};
     private static timer: any = null;
     private static load_count = 0;
-    public static app_version = '0.17.3';
+    public static app_version = '0.18.0';
 
     public static init() {
         setTimeout(() => {
