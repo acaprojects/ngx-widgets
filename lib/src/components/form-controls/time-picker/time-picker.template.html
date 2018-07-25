@@ -7,42 +7,54 @@
 @Last modified time: 15/12/2016 11:29 AM
 -->
 
-<div [class]="'aca time-picker ' + cssClass">
-    <div class="time-space">
-        <div class="picker">
-            <div class="pick">
-                <div class='display-arrow'><div class="arrow up" (tap)="addHour()"></div></div>
-                <div class='set'>
-                    <input
-                        type="tel"
-                        #hourPick
-                        maxlength="2"
-                        [disabled]="disabled"
-                        [(ngModel)]="display_hour"
-                        (blur)="checkHour()"
-                        (keyup)="keyupHour($event)"
-                        (keyup.enter)="changeFocus()">
+<div [class]="'time-picker ' + (name || '')" widget>
+    <div class="display" *ngIf="display">
+        <div class="group">
+            <div class="group-item">
+                <div class="name" *ngIf="range" (tap)="model.active && (model.active.period === 0 || model.active.period === 1) ? '' : select(0)"
+                    [class.active]="model.active && (model.active.period === 0 || model.active.period === 1)">
+                    Start time
                 </div>
-                <div class='display-arrow'><div class="arrow down" (tap)="minusHour()"></div></div>
-            </div>
-            <div class="pick">
-                <div class='display-arrow'><div class="arrow up" (tap)="addMinute()"></div></div>
-                <div class='set'>
-                    <input
-                        type="tel"
-                        #minutePick
-                        maxlength="2"
-                        [disabled]="disabled"
-                        [(ngModel)]="display_minutes"
-                        (blur)="checkMinute()"
-                        (keyup)="keyupMinutes($event)"
-                        (keyup.enter)="timeSet()">
+                <div class="time start" *ngIf="display.start">
+                    <div class="block hours" [class.active]="model.active && model.active.period === 0" (tap)="select(0)">{{display.start.hour}}</div>
+                    <div class="block divider">:</div>
+                    <div class="block minutes" [class.active]="model.active && model.active.period === 1" (tap)="select(1)">{{display.start.minute}}</div>
+                    <div class="block period">
+                        <div class="period" [class.active]="!display.start.afternoon" (tap)="togglePeriod(false)">AM</div>
+                        <div class="period" [class.active]="display.start.afternoon" (tap)="togglePeriod(true)">PM</div>
+                    </div>
                 </div>
-                <div class='display-arrow'><div class="arrow down" (tap)="minusMinute()"></div></div>
             </div>
-            <div class="pick btn">
-                <div class="btn">
-                    <button class="am-pm" (tap)="changePeriod()">{{ display_period }}</button>
+            <div class="group-item" *ngIf="range">
+                <div class="name" (tap)="model.active && (model.active.period === 2 || model.active.period === 3) ? '' : select(2)"
+                    [class.active]="model.active && (model.active.period === 2 || model.active.period === 3)">
+                    End time
+                </div>
+                <div class="time start" *ngIf="display.end">
+                    <div class="block hours" [class.active]="model.active && model.active.period === 2" (tap)="select(2)">{{display.end.hour}}</div>
+                    <div class="block divider">:</div>
+                    <div class="block minutes" [class.active]="model.active && model.active.period === 3" (tap)="select(3)">{{display.end.minute}}</div>
+                    <div class="block period">
+                        <div class="period" [class.active]="!display.end.afternoon" (tap)="togglePeriod(false, 'end')">AM</div>
+                        <div class="period" [class.active]="display.end.afternoon" (tap)="togglePeriod(true, 'end')">PM</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="duration" *ngIf="range && display.duration">
+            {{display.duration}}
+        </div>
+    </div>
+    <div class="picker" [class.afternoon]="model.active && model.active.afternoon">
+        <div class="clockface">
+            <div class="center-point"></div>
+            <div class="selection" [style.transform]="'rotate(' + (360 * (model.selection / model.clock_points.length)) + 'deg)'">
+                <div class="bar"></div>
+                <div class="blob"></div>
+            </div>
+            <div class="item" *ngFor="let item of model.clock_points; let i = index" [style.transform]="'rotate(' + (360 * (i / model.clock_points.length)) + 'deg)'">
+                <div class="value" (tap)="set(item)" [class.active]="model.selection === i" [style.transform]="'rotate(-' + (360 * (i / model.clock_points.length)) + 'deg)'">
+                    {{item.value}}
                 </div>
             </div>
         </div>

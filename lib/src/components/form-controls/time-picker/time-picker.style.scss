@@ -8,115 +8,155 @@
 @import '../../../shared/ui-vars';
 
 .time-picker {
-    font-size: 2em;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
     max-width: 100%;
-    position: relative;
-    text-align: center;
-    width: 9em;
-
-    @media screen and (max-width: 720px) {
-        font-size: 2.5em;
+    height: 18em;
+    width: 30em;
+    border: 1px solid #f0f0f0;
+    @include respond-to(mobile) {
+        width: 100%;
+        height: auto;
     }
 }
 
-.arrow {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: .8em;
-    margin: auto;
-    width: 1em;
-
-    &.down {
-        background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDcuODRMMTIgMTIuNDJsNC41OS00LjU4TDE4IDkuMjVsLTYgNi02LTZ6Ii8+CiAgICA8cGF0aCBkPSJNMC0uNzVoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
-    }
-
-    &.up {
-        background-image: url(data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjI0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik03LjQxIDE1LjQxTDEyIDEwLjgzbDQuNTkgNC41OEwxOCAxNGwtNi02LTYgNnoiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz4KPC9zdmc+);
+.display {
+    background-color: #ccc;
+    color: rgba(#fff, .54);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    flex-grow: 1;
+    width: 10em;
+    @include respond-to(mobile) {
+        height: auto;
+        padding: .5em 0 .25em;
     }
 }
 
-.time-space {
-    display: inline-block;
-    margin: auto;
+.time {
+    display: flex;
+    align-items: center;
 }
 
-.header {
-    font-size: .7em;
+.block {
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    &.hours,
+    &.minutes,
+    &.divider {
+        font-size: 2.4em;
+    }
+
+    &.period {
+        margin-left: .5em;
+    }
+}
+
+.group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.group-item {
+    padding: .25em 1em;
+}
+
+.period,
+.hours,
+.minutes {
+    cursor: pointer;
 }
 
 .picker {
+    flex-grow: 1;
+    padding: 1em;
     display: flex;
-}
-
-.pick {
-    margin: .2em;
-    display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    .display-arrow {
-        cursor: pointer;
-        font-size: 1.7em;
-        font-weight: bolder;
-        position: relative;
-        text-align: center;
-        width: 100%;
-    }
-
-    .set {
-        border: 2px solid $black-o50;
-        border-radius: 4px;
-        outline: none;
-
-        &:active {
-            box-shadow: 1px 1px 5px 2px $black-o20;
-        }
-
-        input {
-            border: none;
-            font-size: .8em;
-            height: 100%;
-            padding: .2em;
-            text-align: center;
-            width: 100%;
-        }
-    }
-
-    .btn {
-        align-items: center;
-        display: flex;
-        height: 100%;
-    }
 }
 
-button {
-    border: none;
-    border-radius: .1em;
-    background: none;
-    font-size: .8em;
-    outline: none;
-    height: 1.6em;
-    width: 3.2em;
-    padding: .2em .75em;
+.clockface {
+    position: relative;
+    height: 16em;
+    width: 16em;
+    border-radius: 100%;
+    background-color: #ccc;
 }
 
-.default {
-    color: $black;
+.center-point {
+    position: absolute;
+    height: .5em;
+    width: .5em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 100%;
+    background-color: #999;
+}
 
-    .arrow {
-        color: $black;
-    }
+.item,
+.selection {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    bottom: 50%;
+    width: 0;
+    transform-origin: 50% 100%;
+}
 
-    button {
-        border: 1px solid $black-o50;
-        color: $black;
+.selection {
+    transition: transform 300ms;
+}
 
-        &:hover {
-            background-color: $black;
-            color: $white
-        }
-    }
+.bar {
+    position: absolute;
+    top: .5em;
+    left: -1px;
+    bottom: 0;
+    width: 2px;
+    background-color: #999;
+}
+
+.blob {
+    position: absolute;
+    top: .5em;
+    left: -1em;
+    width: 2em;
+    height: 2em;
+    border-radius: 100%;
+    background-color: #999;
+}
+
+.duration {
+    transform: translateY(-50%);
+}
+
+.value {
+    position: absolute;
+    top: .5em;
+    left: -1em;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center;
+    transition: color 300ms;
+    color: rgba(#000, .87);
+    cursor: pointer;
+}
+
+.active {
+    color: #fff;
+}
+
+.name {
+    width: 100%;
+    text-align: left;
 }
 
