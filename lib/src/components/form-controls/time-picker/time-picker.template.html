@@ -16,10 +16,10 @@
                     Start time
                 </div>
                 <div class="time start" *ngIf="display.start">
-                    <div class="block hours" [class.active]="model.active && model.active.period === 0" (tap)="select(0)">{{display.start.hour}}</div>
+                    <div class="block hours" [class.active]="model.active && model.active.period === 0" (tap)="select(0)" click-responder>{{display.start.hour}}</div>
                     <div class="block divider">:</div>
-                    <div class="block minutes" [class.active]="model.active && model.active.period === 1" (tap)="select(1)">{{display.start.minute}}</div>
-                    <div class="block period">
+                    <div class="block minutes" [class.active]="model.active && model.active.period === 1" (tap)="select(1)" click-responder>{{display.start.minute}}</div>
+                    <div class="block period" click-responder>
                         <div class="period" [class.active]="!display.start.afternoon" (tap)="togglePeriod(false)">AM</div>
                         <div class="period" [class.active]="display.start.afternoon" (tap)="togglePeriod(true)">PM</div>
                     </div>
@@ -31,10 +31,10 @@
                     End time
                 </div>
                 <div class="time start" *ngIf="display.end">
-                    <div class="block hours" [class.active]="model.active && model.active.period === 2" (tap)="select(2)">{{display.end.hour}}</div>
+                    <div class="block hours" [class.active]="model.active && model.active.period === 2" (tap)="select(2)" click-responder>{{display.end.hour}}</div>
                     <div class="block divider">:</div>
-                    <div class="block minutes" [class.active]="model.active && model.active.period === 3" (tap)="select(3)">{{display.end.minute}}</div>
-                    <div class="block period">
+                    <div class="block minutes" [class.active]="model.active && model.active.period === 3" (tap)="select(3)" click-responder>{{display.end.minute}}</div>
+                    <div class="block period" click-responder>
                         <div class="period" [class.active]="!display.end.afternoon" (tap)="togglePeriod(false, 'end')">AM</div>
                         <div class="period" [class.active]="display.end.afternoon" (tap)="togglePeriod(true, 'end')">PM</div>
                     </div>
@@ -53,7 +53,7 @@
                 <div class="blob"></div>
             </div>
             <div class="item" *ngFor="let item of model.clock_points; let i = index" [style.transform]="'rotate(' + (360 * (i / model.clock_points.length)) + 'deg)'">
-                <div class="value" (tap)="set(item)" [class.active]="model.selection === i" [style.transform]="'rotate(-' + (360 * (i / model.clock_points.length)) + 'deg)'">
+                <div class="value" (tap)="set(item)" [class.active]="model.selection === i" [style.transform]="'rotate(-' + (360 * (i / model.clock_points.length)) + 'deg)'" click-responder>
                     {{item.value}}
                 </div>
             </div>

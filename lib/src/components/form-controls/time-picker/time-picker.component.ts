@@ -35,6 +35,10 @@ export class TimePickerComponent implements OnInit, OnChanges {
     public display: any = {};
 
     public ngOnInit() {
+        this.model.duration = this.duration;
+        if (!this.model.duration) {
+            this.model.duration = 60;
+        }
         if (!this.model.date) {
             this.model.date = moment();
             this.model.date.minutes(Math.floor(this.model.date.minutes() / 5) * 5);
@@ -52,6 +56,9 @@ export class TimePickerComponent implements OnInit, OnChanges {
             this.model.date = moment().hours(+parts[0]).minutes(+parts[1]);
             this.model.end = moment(this.model.date).add(this.duration || 60, 'm');
             this.updateDisplay();
+        } else if (changes.duration) {
+            this.model.duration = this.duration;
+            this.updateEnd();
         }
     }
     /**
@@ -74,29 +81,31 @@ export class TimePickerComponent implements OnInit, OnChanges {
     }
 
     public set(item: any) {
-        this.model.selection = item.index;
-        switch(this.model.active.period) {
-            case TimePickerPeriod.START_HOUR:
-                this.model.date.hours((+item.value % 12) + (this.model.active.afternoon ? 12 : 0));
-                this.updateEnd();
-                this.select(1);
-                break;
-            case TimePickerPeriod.START_MINUTE:
-                this.model.date.minutes(+item.value);
-                this.updateEnd();
-                this.select(2);
-                break;
-            case TimePickerPeriod.END_HOUR:
-                this.model.end.hours((+item.value % 12) + (this.model.active.afternoon ? 12 : 0));
-                this.updateDuration();
-                this.select(3);
-                break;
-            case TimePickerPeriod.END_MINUTE:
-                this.model.end.minutes(+item.value);
-                this.updateDuration();
-                break;
-        }
-        this.updateDisplay();
+        setTimeout(() => {
+            this.model.selection = item.index;
+            switch(this.model.active.period) {
+                case TimePickerPeriod.START_HOUR:
+                    this.model.date.hours((+item.value % 12) + (this.model.active.afternoon ? 12 : 0));
+                    this.updateEnd();
+                    this.select(1);
+                    break;
+                case TimePickerPeriod.START_MINUTE:
+                    this.model.date.minutes(+item.value);
+                    this.updateEnd();
+                    this.select(2);
+                    break;
+                case TimePickerPeriod.END_HOUR:
+                    this.model.end.hours((+item.value % 12) + (this.model.active.afternoon ? 12 : 0));
+                    this.updateDuration();
+                    this.select(3);
+                    break;
+                case TimePickerPeriod.END_MINUTE:
+                    this.model.end.minutes(+item.value);
+                    this.updateDuration();
+                    break;
+            }
+            this.updateDisplay();
+        }, 50);
     }
 
     public select(period: TimePickerPeriod) {
@@ -167,25 +176,26 @@ export class TimePickerComponent implements OnInit, OnChanges {
         if (this.model.date && this.range) {
             this.model.end = moment(this.model.date);
             this.model.end.add(this.duration || 60, 'm');
-            this.updateDisplay();
         }
         if (this.model.date) {
             this.dateChange.emit(this.model.date.format('HH:mm'));
         }
+        this.updateDisplay();
     }
 
     private updateDuration() {
         if (this.model.date && this.model.end && this.range) {
+            this.model.end.date(this.model.date.date());
             const duration = Math.abs(moment.duration(this.model.end.diff(this.model.date)).asMinutes());
             this.model.duration = duration;
             if (this.model.end.isBefore(this.model.date)) {
                 this.model.duration = 60;
                 this.model.date = moment(this.model.end).add(-this.model.duration, 'm');
             }
-            if (this.model.date) {
-                this.durationChange.emit(this.model.duration);
-            }
-            this.updateDisplay();
         }
+        if (this.model.duration) {
+            this.durationChange.emit(this.model.duration);
+        }
+        this.updateDisplay();
     }
 }
