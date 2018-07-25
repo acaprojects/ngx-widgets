@@ -9,9 +9,10 @@
 
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 
-import * as moment from 'moment';
+import * as moment_api from 'moment';
+const moment = moment_api;
 
-enum TimePickerPeriod {
+export enum TimePickerPeriod {
     START_HOUR,
     START_MINUTE,
     END_HOUR,
@@ -57,7 +58,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
      * Generate numbers to display on the clockface
      * @param value Multiples to display
      */
-    public generateClockface(value: number = 1, pad: boolean = false;) {
+    public generateClockface(value: number = 1, pad: boolean = false) {
         this.model.clock_points = [];
         for (let i = 0; i < 12; i++) {
             const item: any = {
