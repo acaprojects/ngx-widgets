@@ -25,6 +25,7 @@ export enum TimePickerPeriod {
     templateUrl: './time-picker.template.html',
 })
 export class TimePickerComponent implements OnInit, OnChanges {
+    @Input() name: string;
     @Input() date: string;
     @Input() duration: number;
     @Input() range = false;
