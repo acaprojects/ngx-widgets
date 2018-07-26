@@ -19,9 +19,9 @@
                     <div class="block hours" [class.active]="model.active && model.active.period === 0" (tap)="select(0)" click-responder>{{display.start.hour}}</div>
                     <div class="block divider">:</div>
                     <div class="block minutes" [class.active]="model.active && model.active.period === 1" (tap)="select(1)" click-responder>{{display.start.minute}}</div>
-                    <div class="block period" click-responder>
-                        <div class="period" [class.active]="!display.start.afternoon" (tap)="togglePeriod(false)">AM</div>
-                        <div class="period" [class.active]="display.start.afternoon" (tap)="togglePeriod(true)">PM</div>
+                    <div class="block period" click-responder (tap)="togglePeriod(!display.start.afternoon)">
+                        <div class="period" [class.active]="!display.start.afternoon">AM</div>
+                        <div class="period" [class.active]="display.start.afternoon">PM</div>
                     </div>
                 </div>
             </div>
@@ -34,9 +34,9 @@
                     <div class="block hours" [class.active]="model.active && model.active.period === 2" (tap)="select(2)" click-responder>{{display.end.hour}}</div>
                     <div class="block divider">:</div>
                     <div class="block minutes" [class.active]="model.active && model.active.period === 3" (tap)="select(3)" click-responder>{{display.end.minute}}</div>
-                    <div class="block period" click-responder>
-                        <div class="period" [class.active]="!display.end.afternoon" (tap)="togglePeriod(false, 'end')">AM</div>
-                        <div class="period" [class.active]="display.end.afternoon" (tap)="togglePeriod(true, 'end')">PM</div>
+                    <div class="block period" click-responder (tap)="togglePeriod(!display.end.afternoon, 'end')">
+                        <div class="period" [class.active]="!display.end.afternoon">AM</div>
+                        <div class="period" [class.active]="display.end.afternoon">PM</div>
                     </div>
                 </div>
             </div>

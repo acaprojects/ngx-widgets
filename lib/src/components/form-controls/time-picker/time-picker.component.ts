@@ -145,6 +145,11 @@ export class TimePickerComponent implements OnInit, OnChanges {
         if (this.model.active) {
             this.model.active.afternoon = afternoon;
         }
+        if (name === 'date') {
+            this.updateEnd();
+        } else {
+            this.updateDuration();
+        }
         this.updateDisplay();
     }
 
