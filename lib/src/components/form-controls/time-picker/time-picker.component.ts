@@ -93,7 +93,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
                 case TimePickerPeriod.START_MINUTE:
                     this.model.date.minutes(+item.value);
                     this.updateEnd();
-                    this.select(2);
+                    if (this.range) { this.select(2); }
                     break;
                 case TimePickerPeriod.END_HOUR:
                     this.model.end.hours((+item.value % 12) + (this.model.active.afternoon ? 12 : 0));
