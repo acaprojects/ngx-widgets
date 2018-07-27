@@ -101,13 +101,13 @@ export class TooltipShowcaseComponent {
     };
 
     public ngOnInit() {
-        this.model.inject = `&lt;div tooltip &gt;
-        name="the-tooltip"
-        [(show)]="show_tooltip"
-        [template]="tooltip_template_1",
-        position="right"
-        offset="start"
-        [hover]="true" &gt;
+        this.model.inject = `&lt;div tooltip
+    name="the-tooltip"
+    [(show)]="show_tooltip"
+    [template]="tooltip_template_1",
+    position="right"
+    offset="start"
+    [hover]="true" &gt;
 &lt;/div&gt;`;
     }
 }
