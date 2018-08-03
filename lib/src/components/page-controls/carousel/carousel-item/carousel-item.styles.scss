@@ -1,6 +1,4 @@
 
-
-
 .carousel-item {
     position: absolute;
     top: 0;
@@ -9,11 +7,18 @@
     bottom: 0;
     overflow: hidden;
     pointer-events: none;
+    animation: showing 1s ease-out;
 }
 
 .content {
     height: 100%;
     transition: transform 200ms;
     pointer-events: auto;
+}
+
+@keyframes showing {
+    0% { opacity: 0; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
 }
 

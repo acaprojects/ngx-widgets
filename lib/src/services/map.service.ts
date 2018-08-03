@@ -50,6 +50,8 @@ export class MapService {
                         // Prevent Adobe generic style names from being used
                     map = map.replace(/cls-/g, `map-${Object.keys(this.maps).length}-`);
                     map = map.replace(/\.map/g, `svg .map`);
+                        // Remove title tags and content from the map
+                    map = map.replace(/<title>.*<\/title>/gm, '');
                 },
                 (err) => reject(err),
                 () => {

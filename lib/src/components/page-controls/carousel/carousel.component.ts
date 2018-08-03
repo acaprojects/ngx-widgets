@@ -157,7 +157,7 @@ export class CarouselComponent implements OnChanges, OnDestroy, AfterContentInit
             if (this.items) {
                 const list = this.items.toArray();
                 for (const item of list) {
-                    item.model.width = 1 / Math.min(list.length, this.model.count);
+                    item.model.width = 1 / this.model.count;
                     item.model.count = this.model.count;
                 }
             }
