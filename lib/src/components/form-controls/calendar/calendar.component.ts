@@ -21,6 +21,7 @@ export interface ICalOptions {
 export class CalendarComponent {
     @Input() public name = '';
     @Input() public date: number; // Unix timestamp with milliseconds
+    @Input() public today: number; // Unix timestamp with milliseconds
     @Input() public events: any = {};
     @Input() public options: ICalOptions | any;
     @Output() public dateChange: any = new EventEmitter();
@@ -42,7 +43,7 @@ export class CalendarComponent {
 
     public ngOnChanges(changes: any) {
         if (changes.date) {
-            const now = moment().date(1).hours(0).minutes(0).seconds(0).millisecond(0);
+            const now = moment(this.today).date(1).hours(0).minutes(0).seconds(0).millisecond(0);
             const duration = moment.duration(moment(this.date).diff(now));
             this.model.offset = duration.months();
             this.generateMonth();
@@ -53,13 +54,19 @@ export class CalendarComponent {
             }
             this.changeMonth();
         }
+        if (changes.today) {
+            const now = moment().hours(0).minutes(0).seconds(0).milliseconds(0);
+            if (!this.today || this.today < now.valueOf()) {
+                this.today = now.valueOf();
+            }
+        }
         if (changes.events) {
             this.generateMonth();
         }
     }
 
     public setDate(day: any) {
-        const now = moment();
+        const now = moment(this.today);
         const date = moment(day.timestamp);
         if (!this.options || this.options.past || (!this.options.past && now.isSameOrBefore(date, 'd'))) {
             this.date = day.timestamp;
@@ -100,7 +107,8 @@ export class CalendarComponent {
     private generateMonth() {
         const set_date = moment(this.date);
         const date = moment();
-        const now = moment();
+        const today = moment();
+        const now = moment(this.today);
         now.hours(0).minutes(0).seconds(0).milliseconds(0);
         date.add(this.model.offset || 0, 'months');
         const current_month = date.format('YYYY-MMM');
@@ -127,7 +135,7 @@ export class CalendarComponent {
                     date: date.date(),
                     active: date.format('YYYY-MM-DD') === set_date.format('YYYY-MM-DD'),
                     past: date.isBefore(now),
-                    today: date.format('YYYY-MM-DD') === now.format('YYYY-MM-DD'),
+                    today: date.format('YYYY-MM-DD') === today.format('YYYY-MM-DD'),
                     events: this.events ? this.events[date.format('YYYY-MM-DD')] || 0 : 0,
                     this_month: date.format('YYYY-MMM') === current_month,
                 };

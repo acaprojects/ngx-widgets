@@ -7,6 +7,10 @@
 
 @import '../../../shared/ui-vars';
 
+host:tab-group {
+    width: 100%;
+}
+
 .tabs {
     z-index: inherit;
     display: flex;

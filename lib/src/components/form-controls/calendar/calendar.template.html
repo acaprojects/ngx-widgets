@@ -15,7 +15,6 @@
             <div class="week" *ngFor="let week of model.month">
                 <div class="day" *ngFor="let day of week">
                     <div class="content"
-                        [class.today]="day.today"
                         [class.past]="day.past"
                         [class.active]="day.active"
                         [class.non-month]="!day.this_month"
@@ -24,6 +23,7 @@
                         {{ day.date }}
                         <div class="events" *ngIf="day.events && !day.past && day.this_month">{{day.events}}</div>
                     </div>
+                    <div class="bar" *ngIf="day.today"></div>
                 </div>
             </div>
         </div>

@@ -19,7 +19,11 @@ export class CalendarShowcaseComponent {
             }, {
                 name: 'date', type: 'both', description: 'Unix timestamp with milliseconds', data: 'number',
                 data_desc: ``,
-                example: `1519948917000`
+                example: moment().seconds(0).milliseconds(0).valueOf()
+            }, {
+                name: 'today', type: 'input', description: 'Timestamp to treat as today. Unix timestamp with milliseconds', data: 'number',
+                data_desc: ``,
+                example: moment().add(7, 'd').valueOf()
             }, {
                 name: 'options', type: 'input', description: 'Type of button to render', data: 'string',
                 data_desc: `{
@@ -52,6 +56,7 @@ export class CalendarShowcaseComponent {
      [options]=&quot;calendar_options&quot;&gt;
 &lt;/calendar&gt;`;
 
+        // this.model.date = moment().add(7, 'd').valueOf();
         this.model.events = {};
         this.model.events[moment().add(2, 'd').format('YYYY-MM-DD')] = Math.floor(Math.random() * 4 + 8);
         this.model.events[moment().add(4, 'd').format('YYYY-MM-DD')] = Math.floor(Math.random() * 4 + 8);
