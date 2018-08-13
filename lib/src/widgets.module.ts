@@ -9,7 +9,7 @@
 
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 
@@ -46,7 +46,7 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         TapUpDirective,
     ],
     imports: [
-        BrowserModule,
+        CommonModule,
         HttpClientModule,
         FormsModule,
         FormControlWidgetsModule,
@@ -72,7 +72,7 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
 })
 export class WidgetsModule {
     private static init = false;
-    private build = '2018-08-07.v1';
+    private build = '2018-08-12.v1';
 
     constructor() {
         if (!WidgetsModule.init) {

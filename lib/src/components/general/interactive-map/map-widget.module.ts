@@ -1,7 +1,7 @@
 
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { InteractiveMapComponent } from './map.component';
@@ -28,7 +28,7 @@ import { SpinnerWidgetModule } from '../spinner/spinner.module';
         MapTooltipComponent
     ],
     imports: [
-        BrowserModule,
+        CommonModule,
         HttpClientModule,
         FormsModule,
         OverlayWidgetsModule,

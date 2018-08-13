@@ -1,7 +1,7 @@
 
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { ButtonComponent } from './buttons/btn/btn.component';
@@ -29,7 +29,7 @@ import { FileDropModule } from '../../file-drop.module';
         VirtualKeyboardComponent
     ],
     imports: [
-        BrowserModule,
+        CommonModule,
         HttpClientModule,
         FormsModule,
         MapWidgetsModule,

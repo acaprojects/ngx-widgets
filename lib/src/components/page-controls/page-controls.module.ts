@@ -1,7 +1,7 @@
 
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { AccordionComponent } from './accordion/accordion.component';
@@ -26,7 +26,7 @@ import { CarouselItemComponent } from './carousel/carousel-item/carousel-item.co
         CarouselItemComponent
     ],
     imports: [
-        BrowserModule,
+        CommonModule,
         HttpClientModule,
         FormsModule,
         WidgetsPipeModule

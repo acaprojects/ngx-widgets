@@ -1,8 +1,9 @@
 
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { KeysPipe } from './keys.pipe';
 import { SafeStylePipe } from './safe-style.pipe';
 import { SafeUrlPipe } from './safe-url.pipe';
@@ -17,7 +18,7 @@ import { SafePipe } from './safe.pipe';
         SafePipe
     ],
     imports: [
-        BrowserModule,
+        CommonModule,
         HttpClientModule,
         FormsModule
     ],

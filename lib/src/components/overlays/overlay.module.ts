@@ -1,7 +1,7 @@
 
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { DynamicBaseComponent } from './dynamic-base.component';
@@ -32,7 +32,7 @@ import { WidgetsPipeModule } from '../../pipes/pipe.module';
         TooltipDirective
     ],
     imports: [
-        BrowserModule,
+        CommonModule,
         HttpClientModule,
         FormsModule,
         WidgetsPipeModule

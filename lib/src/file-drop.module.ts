@@ -2,7 +2,7 @@
 
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { DropTargetDirective } from './directives/drop-target.directive';
@@ -14,7 +14,7 @@ import { FileStreamDirective } from './directives/file-stream.directive';
         FileStreamDirective
     ],
     imports: [
-        BrowserModule,
+        CommonModule,
         HttpClientModule,
         FormsModule
     ],
