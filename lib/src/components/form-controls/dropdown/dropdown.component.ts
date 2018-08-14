@@ -1,8 +1,6 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
-import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
-
 @Component({
     selector: 'dropdown',
     templateUrl: './dropdown.template.html',
@@ -21,35 +19,32 @@ export class DropdownComponent {
     @ViewChild('ref') private reference: ElementRef;
     @ViewChild('body') private body: ElementRef;
     @ViewChild('active') private active: ElementRef;
+    @ViewChild('input') private input: ElementRef;
 
-    public id: any = {};
-    public data: any = {};
     public show = false;
-    public cmp: any = DropdownListComponent;
     public font_size = 20;
     public width = 200;
     public list_items: any[] = [];
+    public filtered_list: any[] = [];
     public bottom = false;
-
-    constructor() {
-        this.id = `DD${Math.floor(Math.random() * 89999999 + 10000000).toString()}`;
-    }
+    public search = '';
 
     public ngOnChanges(changes: any) {
         if (changes.list) {
             this.processList();
         }
-        this.update();
         setTimeout(() => this.resize(), 300);
     }
 
-    public select(e: any) {
-        if (e.type === 'Select') {
-            this.model = e.data.active;
-            this.modelChange.emit(this.model);
-            e.close();
-            this.show = false;
-            this.update();
+    public select(index: number = 0) {
+        this.model = index;
+        this.modelChange.emit(this.model);
+        this.show = false;
+    }
+
+    public focus() {
+        if (this.input) {
+            this.input.nativeElement.focus();
         }
     }
 
@@ -62,7 +57,6 @@ export class DropdownComponent {
         if (tries > 10) { return; }
         if (this.body && this.body.nativeElement) {
             this.width = this.body.nativeElement.offsetWidth;
-            this.update();
         } else {
             setTimeout(() => this.updateSize(++tries), 200);
         }
@@ -79,23 +73,34 @@ export class DropdownComponent {
             const top = box.top + box.height / 2;
             const height = window.innerHeight || document.body.clientHeight;
             this.bottom = top > height / 2;
-            this.update();
+            this.processList();
         }
     }
 
-    private update() {
-        this.data = {
-            name: this.name + (this.bottom ? ' bottom' : ''),
-            bottom: this.bottom,
-            list: this.list_items,
-            active: this.model,
-            filter: this.filter,
-            width: this.width,
-            font_size: this.font_size,
-            hideActive: this.hideActive,
-            placeholder: this.placeholder,
-        };
+    public filterItems() {
+        if (this.search) {
+            const s = this.search.toLowerCase();
+            this.filtered_list = [];
+            let index = 0;
+            for (const i of this.list_items) {
+                if (typeof i === 'string' && i.toLowerCase().indexOf(s) >= 0) {
+                    this.filtered_list.push({
+                        i: index,
+                        name: i,
+                    });
+                } else if (i.name && i.name.toLowerCase().indexOf(s) >= 0) {
+                    this.filtered_list.push({
+                        i: index,
+                        name: i.name,
+                    });
+                }
+                index++;
+            }
+        } else {
+            this.filtered_list = this.list_items;
+        }
     }
+
 
     private processList() {
         if (this.list) {
@@ -108,8 +113,8 @@ export class DropdownComponent {
                 }
             }
             this.list_items = list;
+            this.filterItems();
         }
-        this.update();
     }
 
 }

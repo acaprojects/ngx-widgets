@@ -1,15 +1,18 @@
 
+custom-dropdown:host {
+    padding: .25em;
+}
 
-.dropdown {
+.custom-dropdown {
     position: relative;
     min-width: 10em;
     display: inline-block;
-    margin: .25em;
     background-color: #fff;
     border-radius: 4px;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
     transition: box-shadow 600ms, background-color 300ms;
     overflow: hidden;
+    width: 100%;
     cursor: pointer;
     * {
         user-select: none;
@@ -83,4 +86,20 @@
 .list {
     height: 0;
     overflow: hidden;
+
+    &.show {
+        height: auto;
+        max-height: 16em;
+        overflow: auto;
+    }
+}
+
+.dropdown-content {
+    .item.active {
+        border-bottom: 1px solid #f0f0f0;
+        &.bottom {
+            border: none;
+            border-top: 1px solid #f0f0f0;
+        }
+    }
 }

@@ -39,7 +39,7 @@ export * from './components/general/virtual-keyboard/virtual-keyboard.component'
 
 export * from './components/form-controls/calendar/calendar.component';
 export * from './components/form-controls/checkbox/checkbox.component';
-export * from './components/form-controls/custom-dropdown/dropdown.component';
+export * from './components/form-controls/custom-dropdown/custom-dropdown.component';
 export * from './components/form-controls/input-field/input-field.component';
 export * from './components/form-controls/dropdown/dropdown.component';
 export * from './components/form-controls/radioset/radioset.component';

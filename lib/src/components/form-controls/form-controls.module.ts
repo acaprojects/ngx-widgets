@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 import { CalendarComponent } from './calendar/calendar.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
-import { CustomDropdownComponent } from './custom-dropdown/dropdown.component';
+import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { InputFieldComponent } from './input-field/input-field.component';
 import { RadiosetComponent } from './radioset/radioset.component';
@@ -14,8 +14,6 @@ import { RadioButtonComponent } from './radioset/radio-button/radio-button.compo
 import { SliderComponent } from './slider/slider.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { ToggleComponent } from './toggle/toggle.component';
-import { CustomDropdownListComponent } from './custom-dropdown/custom-dropdown-list/dropdown-list.component';
-import { DropdownListComponent } from './dropdown/dropdown-list/dropdown-list.component';
 
 import { OverlayWidgetsModule } from '../overlays/overlay.module';
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
@@ -25,9 +23,7 @@ import { WidgetsPipeModule } from '../../pipes/pipe.module';
         CalendarComponent,
         CheckboxComponent,
         CustomDropdownComponent,
-        CustomDropdownListComponent,
         DropdownComponent,
-        DropdownListComponent,
         InputFieldComponent,
         RadiosetComponent,
         RadioButtonComponent,
@@ -53,10 +49,6 @@ import { WidgetsPipeModule } from '../../pipes/pipe.module';
         SliderComponent,
         TimePickerComponent,
         ToggleComponent
-    ],
-    entryComponents: [
-        CustomDropdownListComponent,
-        DropdownListComponent
     ]
 })
 export class FormControlWidgetsModule {

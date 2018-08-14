@@ -54,23 +54,36 @@
     padding: .5em .75em;
     height: 2em;
     border: none;
-    .text {
-        flex: 1;
-        width: 50%;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    }
-    .icon {
-        padding: 0 0 0 .5em;
-        min-height: .5em;
-        width: 1.5em;
-    }
+
     &:hover {
         background-color: rgba(#000, .1);
     }
+
     &.active {
         text-align: center;
+    }
+}
+
+.text {
+    flex: 1;
+    width: 50%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.icon {
+    padding: 0 0 0 .5em;
+    min-height: .5em;
+    width: 1.5em;
+    &.down:after {
+        content: '▾';
+    }
+    &.up:after {
+        content: '▾';
+    }
+    &.done:after {
+        content: '✓';
     }
 }
 
@@ -83,4 +96,61 @@
 .list {
     height: 0;
     overflow: hidden;
+    &.show {
+        height: auto;
+        overflow: auto;
+        max-height: 12em;
+    }
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    margin: .5em;
+    border: 1px solid #f2f2f2;
+    padding: .5em;
+    height: 2em;
+    border-radius: .2em;
+    cursor: text;
+    .icon {
+        padding: 0;
+    }
+}
+
+.search-icon {
+    height: 1.5em;
+    width: 1.5em;
+    background-origin: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGQ9Ik0xNS41IDE0aC0uNzlsLS4yOC0uMjdDMTUuNDEgMTIuNTkgMTYgMTEuMTEgMTYgOS41IDE2IDUuOTEgMTMuMDkgMyA5LjUgM1MzIDUuOTEgMyA5LjUgNS45MSAxNiA5LjUgMTZjMS42MSAwIDMuMDktLjU5IDQuMjMtMS41N2wuMjcuMjh2Ljc5bDUgNC45OUwyMC40OSAxOWwtNC45OS01em0tNiAwQzcuMDEgMTQgNSAxMS45OSA1IDkuNVM3LjAxIDUgOS41IDUgMTQgNy4wMSAxNCA5LjUgMTEuOTkgMTQgOS41IDE0eiIvPgogICAgPHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4K);
+}
+
+.input {
+    flex: 1;
+}
+
+input {
+    width: 100%;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    border-radius: 0;
+    font-size: 1em;
+    -webkit-appearance: none;
+    background: none;
+    &:placeholder {
+        color: rgba(#000,.2);
+    }
+}
+
+
+.dropdown-content {
+    .item.active {
+        border-bottom: 1px solid #f0f0f0;
+        &.bottom {
+            border: none;
+            border-top: 1px solid #f0f0f0;
+        }
+    }
 }
