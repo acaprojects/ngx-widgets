@@ -1,18 +1,21 @@
-<div #video  [class]="'media-player ' + name" widget (mousemove)="showTools()" (tap)="changeMediaState();showTools()" (dblclick)="toggleFullScreen()">
+<div #video  [class]="'media-player ' + name" widget (contextmenu)="$event.preventDefault()" (mousemove)="showTools()" (tap)="changeMediaState();showTools()" (dblclick)="toggleFullScreen()" (press)="navigate($event)" (panmove)="navigate($event)">
     <video #player autoplay x-webkit-airplay="allow"><source [src]="src" type="video/mp4"/></video>
     <div class="status-buttons" *ngIf="!media_playing">
-        <div class="status" *ngIf="!is_end">
-            <i class="material-icons">play_arrow</i>
-        </div>
-        <div class="status" *ngIf="is_end">
-            <i class="material-icons">replay</i>
+        <div class="status">
+            <div class="icon white" [class.play]="!is_end" [class.replay]=" is_end"></div>
         </div>
     </div>
-    <div class="video-controls" [@controls]="controls_active ? 'show' : 'hide'">
+    <div class="video-controls" [@controls]="controls_active ? 'show' : 'hide'" (mouseleave)="showTools()">
+        <div class="playback">
+            <div class="icon white" [class.play]="!media_playing && !is_end" [class.replay]="!media_playing && is_end" [class.pause]="media_playing"></div>
+        </div>
         <div class="time now">{{ current_time }}</div>
         <div class="time end">{{ duration }}</div>
         <div class="progress-bar">
             <div class="progress" [style.width]="progress + '%'" [style.background-color]="color"></div>
+            <div class="knob" [class.hide]="!controls_active" [style.left]="progress + '%'">
+                <div></div>
+            </div>
         </div>
     </div>
 </div>

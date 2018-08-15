@@ -39,7 +39,7 @@ export class MediaPlayerShowcaseComponent {
         inject: '',
         dev: true,
         state: {
-            src: 'assets/small.webm',
+            src: 'assets/bunny.webm',
             color: '#D50000'
         }
     };

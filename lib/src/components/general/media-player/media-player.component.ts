@@ -30,7 +30,9 @@ export class MediaPlayerComponent {
 
     @Output() public time: any = new EventEmitter();
     @Output() public length: any = new EventEmitter();
+    @Output() public event: any = new EventEmitter();
 
+    public timer: any;
     public progress = 0;
     public current_time = '00:00';
     public duration = '00:00';
@@ -68,17 +70,31 @@ export class MediaPlayerComponent {
         this.media_playing = true;
         this.player.nativeElement.play();
         this.setDuration();
-        setTimeout(() => this.updateTimer(), 400);
+        this.showTools();
+        this.event.emit({ type: '', event: 'play' });
+
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
+        this.timer = setInterval(() => this.updateTimer(), 50);
     }
 
-    public stopMedia() {
+    public stopMedia(emit: boolean = true) {
         this.media_playing = false;
         this.player.nativeElement.pause();
+        if (emit) { this.event.emit({ type: '', event: 'stop' }); }
+
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
     }
 
     public restartMedia() {
         this.player.nativeElement.play();
         this.player.nativeElement.currentTime = 0;
+        this.event.emit({ type: '', event: 'restart' });
     }
 
     public showTools() {
@@ -106,10 +122,8 @@ export class MediaPlayerComponent {
         this.progress = this.player.nativeElement.currentTime / this.player.nativeElement.duration * 100;
         this.is_end = this.player.nativeElement.currentTime === this.player.nativeElement.duration;
         if (this.is_end) {
-            this.stopMedia();
-        }
-        if (this.media_playing) {
-            setTimeout(() => this.updateTimer(), 400);
+            this.stopMedia(false);
+            this.event.emit({ type: '', event: 'reached_end' });
         }
         this.change();
     }
@@ -143,6 +157,17 @@ export class MediaPlayerComponent {
             requestFullScreen.call(docEl);
         } else {
             cancelFullScreen.call(doc);
+        }
+    }
+
+    public navigate(event: any) {
+        if (event.center && this.video) {
+            const box = this.video.nativeElement.getBoundingClientRect();
+            const percent = (event.center.x - box.left) / box.width;
+            if (this.player) {
+                this.player.nativeElement.currentTime = this.player.nativeElement.duration * percent;
+            }
+            this.updateTimer();
         }
     }
 
