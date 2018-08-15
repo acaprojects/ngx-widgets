@@ -1,14 +1,8 @@
 
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, Output, Injector, Renderer2 } from '@angular/core';
-import { ComponentFactoryResolver, ChangeDetectorRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Injector, Renderer2 } from '@angular/core';
+import { ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
 import { DynamicBaseComponent } from '../dynamic-base.component';
-
-import { WIDGETS } from '../../../settings';
-
-import * as moment_api from 'moment';
-const moment = moment_api;
 
 @Component({
     selector: 'tooltip',
@@ -50,9 +44,14 @@ export class TooltipComponent extends DynamicBaseComponent {
                 top: cnt.top,
                 left: cnt.left
             };
-            if ((cnt.x + cnt.width) < 0 || (cnt.y + cnt.height) < 0 || (cnt.x > window.innerWidth || cnt.y > window.innerHeight)) {
+            console.log('Container:', cnt, window.innerWidth, window.innerHeight);
+            if (((cnt.x + cnt.width) < 0 && (cnt.y + cnt.height) < 0) ||
+                ((cnt.x + cnt.width) < 0  && cnt.y > window.innerHeight) ||
+                (cnt.x > window.innerWidth && (cnt.y + cnt.height) < 0) ||
+                (cnt.x > window.innerWidth && cnt.y > window.innerHeight)) {
                 return this.event('close', 'Outside');
             }
+            console.log('Parent:', this.parent);
                 // Add offset for container location
             if (this.parent.root && this.parent.root.nativeElement) {
                 const box = this.parent.root.nativeElement.getBoundingClientRect();

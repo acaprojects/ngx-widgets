@@ -1,17 +1,19 @@
 
-import { Component, ElementRef, EventEmitter, Input, Output, TemplateRef, ViewChild, OnChanges } from '@angular/core';
+import { Component, Input, Output, OnChanges, OnInit } from '@angular/core';
+import { ElementRef, EventEmitter, TemplateRef, ViewChild  } from '@angular/core';
 
 @Component({
     selector: 'custom-dropdown',
     templateUrl: './custom-dropdown.template.html',
     styleUrls: ['./custom-dropdown.styles.scss'],
 })
-export class CustomDropdownComponent implements OnChanges {
+export class CustomDropdownComponent implements OnInit, OnChanges {
     @Input() public name = '';
     @Input() public show = false;
     @Input() public content: TemplateRef<any>;
     @Input() public template: TemplateRef<any>;
     @Output() public modelChange: any = new EventEmitter();
+    @Output() public showChange: any = new EventEmitter();
 
     @ViewChild('ref') private reference: ElementRef;
     @ViewChild('body') private body: ElementRef;
@@ -20,6 +22,10 @@ export class CustomDropdownComponent implements OnChanges {
     public font_size: 20;
     public width = 200;
     public bottom = false;
+
+    public ngOnInit() {
+        setTimeout(() => this.resize(), 300);
+    }
 
     public ngOnChanges(changes: any) {
         setTimeout(() => this.resize(), 300);

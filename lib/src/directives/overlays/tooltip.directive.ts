@@ -112,12 +112,8 @@ export class TooltipDirective {
         };
         this.overlay.add(this.container, this.id, TooltipComponent, this.data).then((cmp: any) => {
             this.instance = cmp;
-            this.sub = cmp.watch((event) => {
-                this.processEvent(event);
-            });
-        }, () => {
-            WIDGETS.error('Tooltip][D', 'Failed to create tooltip');
-        });
+            this.sub = cmp.watch((event) => this.processEvent(event));
+        }, () => WIDGETS.error('Tooltip][D', 'Failed to create tooltip'));
     }
 
     private removeTooltip() {

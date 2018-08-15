@@ -1,9 +1,9 @@
 <div [class]="'custom-dropdown ' + name + (show ? ' show' : '')" widget #body (window:resize)="resize()">
     <div #ref class="reference"></div>
     <div class="tooltip" [class.bottom]="bottom" tooltip name="custom-dropdown-list" [template]="tooltip" [position]="bottom ? 'top' : 'bottom'"
-        offset="middle" [triangle]="false" [(show)]="show">
+        offset="middle" [triangle]="false" [(show)]="show" (showChange)="showChange.emit(show)">
     </div>
-    <div #active class="item active" (tap)="show = true">
+    <div #active class="item active" (tap)="show = true; showChange.emit(show)">
         <ng-container *ngTemplateOutlet="content"></ng-container>
     </div>
     <div class="list">
@@ -11,13 +11,13 @@
     </div>
     <ng-template #tooltip>
         <div class="dropdown-content" [style.font-size]="font_size + 'px'" [style.width]="width + 'px'">
-            <div class="item active" *ngIf="!bottom && show" [style.width]="width + 'px'" (tap)="show = false">
-                <ng-content *ngIf="show"></ng-content>
+            <div class="item active" *ngIf="!bottom && show" [style.width]="width + 'px'" (tap)="show = false; showChange.emit(show)">
+                <ng-container *ngTemplateOutlet="content"></ng-container>
             </div>
             <div class="list show">
                 <ng-container *ngTemplateOutlet="template"></ng-container>
             </div>
-            <div class="item active" *ngIf="bottom" [style.width]="width + 'px'" (tap)="show = false">
+            <div class="item active" *ngIf="bottom" [style.width]="width + 'px'" (tap)="show = false; showChange.emit(show)">
                 <ng-container *ngTemplateOutlet="content"></ng-container>
             </div>
         </div>
