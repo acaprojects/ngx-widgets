@@ -8,7 +8,7 @@
 -->
 
 <div class="accordion-step">
-    <div class="heading" (tap)="toggle()">
+    <div class="heading" (touchrelease)="toggle()">
         <div class="icon" [class.show]="show"></div>
         <div class="text" [innerHTML]="heading | safe"></div>
     </div>

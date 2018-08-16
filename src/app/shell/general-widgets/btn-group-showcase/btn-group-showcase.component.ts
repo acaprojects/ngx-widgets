@@ -12,7 +12,7 @@ export class ButtonGroupShowcaseComponent {
     // @Input() public format = 'raised';
     // @Input() public disabled = false;
     // // Output emitters
-    // @Output() public tapped = new EventEmitter();
+    // @Output() public touchreleaseped = new EventEmitter();
     public model: any = {
         title: 'Button Group',
         bindings: [

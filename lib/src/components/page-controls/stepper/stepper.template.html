@@ -1,6 +1,6 @@
 <div [class]="'stepper ' + name" [class.vertical]="format === 'vertical' || format === 'vert'" widget>
     <div class="progress" [class.vertical]="format === 'vertical' || format === 'vert'">
-        <div class="node" [class.vertical]="format === 'vertical' || format === 'vert'"  *ngFor="let step of step_list; let i = index" (tap)="toStep(i)">
+        <div class="node" [class.vertical]="format === 'vertical' || format === 'vert'"  *ngFor="let step of step_list; let i = index" (touchrelease)="toStep(i)">
             <div class="bar" [style.opacity]="i === 0 ? 0 : 1"></div>
             <div class="state" [class.active]="step.state === 'active'" [class.success]="step.state === 'done'" [class.error]="step.state === 'error'">
                 <span *ngIf="numbers">{{i + 1}}</span>

@@ -50,7 +50,7 @@ export class CarouselShowcaseComponent {
     }
 }`
             }, {
-                name: 'select', type: 'output', description: 'Emits index of item after tap event', data: 'number',
+                name: 'select', type: 'output', description: 'Emits index of item after touchrelease event', data: 'number',
                 data_desc: ``,
                 example: `3`
             }

@@ -1,7 +1,7 @@
 
 <div [class]="'radio-button ' + name" widget>
-    <div class="box" [class.on]="model" (tap)="select()">
+    <div class="box" [class.on]="model" (touchrelease)="select()">
         <div class="toggle" [class.on]="model"></div>
     </div>
-    <div class="label" (tap)="select()">{{ label }}</div>
+    <div class="label" (touchrelease)="select()">{{ label }}</div>
 </div>

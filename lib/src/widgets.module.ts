@@ -13,17 +13,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
 
-// import { COMPONENTS, ENTRY_COMPONENTS } from './components';
-// import { DIRECTIVES } from './directives';
-// import { PIPES } from './pipes';
-// import { SERVICES } from './services';
 import { WIDGETS } from './settings';
 
 import 'hammerjs';
 
-    // Directives
-import { TapDownDirective } from './directives/tapdown.directive';
-import { TapUpDirective } from './directives/tapup.directive';
     // Modules
 import { FormControlWidgetsModule } from './components/form-controls/form-controls.module';
 import { GeneralWidgetsModule } from './components/general/general-widgets.module';
@@ -31,6 +24,7 @@ import { OverlayWidgetsModule } from './components/overlays/overlay.module';
 import { PageControlWidgetsModule } from './components/page-controls/page-controls.module';
 import { WidgetsPipeModule } from './pipes/pipe.module';
 import { FileDropModule } from './file-drop.module';
+import { DirectiveWidgetsModule } from './directives/directives.module';
 
 export class WidgetsHammerConfig extends HammerGestureConfig {
     overrides = {
@@ -40,11 +34,7 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
 }
 
 @NgModule({
-    declarations: [
-        // ...DIRECTIVES,
-        TapDownDirective,
-        TapUpDirective,
-    ],
+    declarations: [],
     imports: [
         CommonModule,
         HttpClientModule,
@@ -54,25 +44,24 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
         OverlayWidgetsModule,
         PageControlWidgetsModule,
         WidgetsPipeModule,
-        FileDropModule
+        FileDropModule,
+        DirectiveWidgetsModule
     ],
     exports: [
-            // Export Directives
-        TapDownDirective,
-        TapUpDirective,
             // Export Modules
         FormControlWidgetsModule,
         GeneralWidgetsModule,
         OverlayWidgetsModule,
         PageControlWidgetsModule,
         WidgetsPipeModule,
-        FileDropModule
+        FileDropModule,
+        DirectiveWidgetsModule
     ],
     entryComponents: []
 })
 export class WidgetsModule {
     private static init = false;
-    private build = '2018-08-15.v2';
+    private build = '2018-08-16.v1';
 
     constructor() {
         if (!WidgetsModule.init) {

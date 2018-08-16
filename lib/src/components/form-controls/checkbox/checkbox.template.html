@@ -1,5 +1,5 @@
 
-<div [class]="'checkbox ' + name" widget (tap)="toggle()">
+<div [class]="'checkbox ' + name" widget (touchrelease)="toggle()">
     <label *ngIf="side==='left'" class="label" [for]="name">{{ label }}</label>
     <div class="box" [class.active]="model">
         <input type="checkbox" [(ngModel)]="model" [name]="name">

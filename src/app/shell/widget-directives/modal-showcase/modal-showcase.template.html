@@ -1,11 +1,11 @@
 
 <showcase [(model)]="model">
     <div class="container">
-        <btn modal [template]="modalTemplate" [(show)]="model.state.show" (tap)="model.state.show = true">Open Modal</btn>
+        <btn modal [template]="modalTemplate" [(show)]="model.state.show" (touchrelease)="model.state.show = true">Open Modal</btn>
         <ng-template #modalTemplate>
             <div class="modal">
                 <h2>Test Modal</h2>
-                <btn (tap)="model.state.show = false">Close</btn>
+                <btn (touchrelease)="model.state.show = false">Close</btn>
             </div>
         </ng-template>
     </div>

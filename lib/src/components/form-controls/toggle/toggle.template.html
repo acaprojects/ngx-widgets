@@ -7,7 +7,7 @@
 @Last modified time: 24/01/2017 4:37 PM
 -->
 
-<div [class]="'toggle ' + name" widget [class.disabled]="disabled" (tap)="toggle()">
+<div [class]="'toggle ' + name" widget [class.disabled]="disabled" (touchrelease)="toggle()">
     <div class="base" [class.ios]="type==='ios'||type==='iOS'" [class.android]="type==='android'" [class.disabled]="disabled"
         [class.active]="model">
         <div class="text" [class.ios]="type==='ios'||type==='iOS'" [class.android]="type==='android'" [class.active]="model">

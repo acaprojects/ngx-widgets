@@ -2,7 +2,7 @@
 <div class="shell">
     <div class="header">
         <div class="icon">
-            <i center class="material-icons" (tap)="model.menu.show = !model.menu.show">{{model.menu.show ? 'close' : 'menu'}}</i>
+            <i center class="material-icons" (touchrelease)="model.menu.show = !model.menu.show">{{model.menu.show ? 'close' : 'menu'}}</i>
         </div>
         <div class="title">Angular 5 Widgets</div>
         <div class="icon">

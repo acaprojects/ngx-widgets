@@ -13,6 +13,7 @@ import { TabHeadComponent } from './tab-group/tab-head.component';
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
 import { CarouselComponent } from './carousel/carousel.component';
 import { CarouselItemComponent } from './carousel/carousel-item/carousel-item.component';
+import { DirectiveWidgetsModule } from '../../directives/directives.module';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { CarouselItemComponent } from './carousel/carousel-item/carousel-item.co
         CommonModule,
         HttpClientModule,
         FormsModule,
-        WidgetsPipeModule
+        WidgetsPipeModule,
+        DirectiveWidgetsModule
     ],
     exports: [
         AccordionComponent,

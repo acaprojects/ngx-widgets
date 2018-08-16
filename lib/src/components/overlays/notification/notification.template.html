@@ -10,7 +10,7 @@
                             <ng-container *ngTemplateOutlet="item.data.template"></ng-container>
                         </ng-container>
                     </div>
-                    <div class="action" *ngIf="item.data.action" (tap)="action(item)">{{item.data.action}}</div>
+                    <div class="action" *ngIf="item.data.action" (touchrelease)="action(item)">{{item.data.action}}</div>
                 </div>
             </div>
         </div>

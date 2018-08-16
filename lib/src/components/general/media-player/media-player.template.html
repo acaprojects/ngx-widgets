@@ -1,4 +1,4 @@
-<div #video  [class]="'media-player ' + name" widget (contextmenu)="$event.preventDefault()" (mousemove)="showTools()" (tap)="changeMediaState();showTools()" (dblclick)="toggleFullScreen()" (press)="navigate($event)" (panmove)="navigate($event)">
+<div #video  [class]="'media-player ' + name" widget (contextmenu)="$event.preventDefault()" (mousemove)="showTools()" (touchrelease)="changeMediaState();showTools()" (dblclick)="toggleFullScreen()" (press)="navigate($event)" (panmove)="navigate($event)">
     <video #player autoplay x-webkit-airplay="allow"><source [src]="src" type="video/mp4"/></video>
     <div class="status-buttons" *ngIf="!media_playing">
         <div class="status">

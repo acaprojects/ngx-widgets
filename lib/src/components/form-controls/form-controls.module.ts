@@ -17,6 +17,7 @@ import { ToggleComponent } from './toggle/toggle.component';
 
 import { OverlayWidgetsModule } from '../overlays/overlay.module';
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
+import { DirectiveWidgetsModule } from '../../directives/directives.module';
 
 @NgModule({
     declarations: [
@@ -36,7 +37,8 @@ import { WidgetsPipeModule } from '../../pipes/pipe.module';
         HttpClientModule,
         FormsModule,
         OverlayWidgetsModule,
-        WidgetsPipeModule
+        WidgetsPipeModule,
+        DirectiveWidgetsModule
     ],
     exports: [
         CalendarComponent,

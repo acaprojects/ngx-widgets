@@ -17,6 +17,7 @@ import { MapWidgetsModule } from './interactive-map/map-widget.module';
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
 import { SpinnerWidgetModule } from './spinner/spinner.module';
 import { FileDropModule } from '../../file-drop.module';
+import { DirectiveWidgetsModule } from '../../directives/directives.module';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { FileDropModule } from '../../file-drop.module';
         MapWidgetsModule,
         WidgetsPipeModule,
         SpinnerWidgetModule,
-        FileDropModule
+        FileDropModule,
+        DirectiveWidgetsModule
     ],
     exports: [
         ButtonComponent,

@@ -7,7 +7,7 @@
     </div>
     <div class="divider popout">
         <div #tablist class="tabs">
-            <div #tab class="tab" *ngFor="let cat of state.category_list" [class.active]="cat === state.category" (tap)="setCategory(cat)">
+            <div #tab class="tab" *ngFor="let cat of state.category_list" [class.active]="cat === state.category" (touchrelease)="setCategory(cat)">
                 {{cat}}
             </div>
             <div class="bar" [style.left]="state.tab?.left + 'px'" [style.width]="state.tab?.width + 'px'">
@@ -34,7 +34,7 @@
                             <td>Type</td>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let binding of model.bindings" (tap)="selectBinding(binding)">
+                            <tr *ngFor="let binding of model.bindings" (touchrelease)="selectBinding(binding)">
                                 <td class="mono">{{binding.type === 'both' ? '[(' + binding.name + ')]' : (binding.type === 'output' ? '('
                                     + binding.name + ')' : '[' + binding.name + ']')}}</td>
                                 <td class="caps">{{binding.type}}</td>
@@ -50,7 +50,7 @@
                                 'output' ? '(' + state.binding.name + ')' : '[' + state.binding.name + ']')}}</span>
                             Details
                         </div>
-                        <div class="back" (tap)="state.binding = null">
+                        <div class="back" (touchrelease)="state.binding = null">
                             <i center class="material-icons">close</i>
                         </div>
                     </div>
@@ -67,8 +67,8 @@
             </div>
             <div class="playground" [@show] *ngIf="state.category === 'playground'">
                 <div class="options">
-                    <div class="option" [class.active]="state.playground === 'bindings'" (tap)="state.playground = 'bindings'">Bindings</div>
-                    <div class="option" [class.active]="state.playground === 'styles'" (tap)="state.playground = 'styles'">Styles</div>
+                    <div class="option" [class.active]="state.playground === 'bindings'" (touchrelease)="state.playground = 'bindings'">Bindings</div>
+                    <div class="option" [class.active]="state.playground === 'styles'" (touchrelease)="state.playground = 'styles'">Styles</div>
                 </div>
                 <div class="pg-bindings" *ngIf="state.playground === 'bindings'">
                     <div class="field" *ngFor="let binding of model.bindings">

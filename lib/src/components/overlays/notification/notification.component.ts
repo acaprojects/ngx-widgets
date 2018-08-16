@@ -122,6 +122,7 @@ export class NotificationComponent extends DynamicBaseComponent {
     }
 
     public action(item: any) {
+        console.log('Item:', item);
         if (item.action && item.action instanceof Function) {
             item.action();
             this.dismiss(item.id);

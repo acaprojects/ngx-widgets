@@ -9,68 +9,68 @@
 
 <div #main [class]="'virtual-keyboard ' + layout" [style.top]="top" [style.left]="left">
     <div class="keyboard standard" [@keyboard]="active?'show':'hide'" *ngIf="layout==='standard'">
-        <div class="topbar" (panmove)="moveKeyboard($event);"><div class="close" (tap)="close()">&#x2573;</div></div>
+        <div class="topbar" (panmove)="moveKeyboard($event);"><div class="close" (touchrelease)="close()">&#x2573;</div></div>
         <div class="keyboard simple">
             <div class="row">
-                <div class="key normal" *ngFor="let s of keys[!is_shift?'normal':'shift'][0]" (tap)="addChar(s)">{{s}}</div>
-                <div class="key" *ngIf="type!=='NUMPAD'" (tap)="backspace()">Bksp</div>
+                <div class="key normal" *ngFor="let s of keys[!is_shift?'normal':'shift'][0]" (touchrelease)="addChar(s)">{{s}}</div>
+                <div class="key" *ngIf="type!=='NUMPAD'" (touchrelease)="backspace()">Bksp</div>
             </div>
             <div class="row">
-                <div class="key normal" *ngFor="let s of keys[!is_shift?'normal':'shift'][1]" (tap)="addChar(s)">{{s}}</div>
+                <div class="key normal" *ngFor="let s of keys[!is_shift?'normal':'shift'][1]" (touchrelease)="addChar(s)">{{s}}</div>
             </div>
             <div class="row">
-                <div class="key normal" *ngFor="let s of keys[!is_shift?'normal':'shift'][2]" (tap)="addChar(s)">{{s}}</div>
+                <div class="key normal" *ngFor="let s of keys[!is_shift?'normal':'shift'][2]" (touchrelease)="addChar(s)">{{s}}</div>
             </div>
             <div class="row">
-                <div class="key" *ngIf="type!=='NUMPAD'" [class.active]="is_caps" (tap)="caps()">Caps</div>
-                <div class="key normal" *ngFor="let s of keys[!is_shift?'normal':'shift'][3]" (tap)="addChar(s)">{{s}}</div>
+                <div class="key" *ngIf="type!=='NUMPAD'" [class.active]="is_caps" (touchrelease)="caps()">Caps</div>
+                <div class="key normal" *ngFor="let s of keys[!is_shift?'normal':'shift'][3]" (touchrelease)="addChar(s)">{{s}}</div>
             </div>
             <div class="row">
-                <div class="key" *ngIf="type!=='NUMPAD'" [class.active]="is_shift" (tap)="shift()">Shift</div>
+                <div class="key" *ngIf="type!=='NUMPAD'" [class.active]="is_shift" (touchrelease)="shift()">Shift</div>
                 <div class="key" *ngIf="type!=='NUMPAD'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Space&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                <div class="key" *ngIf="type==='NUMPAD'" (tap)="backspace()">Bksp</div>
-                <div class="key" *ngIf="type==='NUMPAD'" (tap)="clear()">Clear</div>
+                <div class="key" *ngIf="type==='NUMPAD'" (touchrelease)="backspace()">Bksp</div>
+                <div class="key" *ngIf="type==='NUMPAD'" (touchrelease)="clear()">Clear</div>
             </div>
         </div>
     </div>
     <div class="split" *ngIf="layout==='split'">
         <div class="keyboard left" [@keyboardleft]="active?'show':'hide'" *ngIf="keys&&keys['left']">
             <div class="row">
-                <div class="key normal" *ngFor="let s of keys['left'][!is_shift?'normal':'shift'][0]" (tap)="addChar(s)">{{s}}</div>
+                <div class="key normal" *ngFor="let s of keys['left'][!is_shift?'normal':'shift'][0]" (touchrelease)="addChar(s)">{{s}}</div>
             </div>
             <div class="row">
-                <div class="key normal" *ngFor="let s of keys['left'][!is_shift?'normal':'shift'][1]" (tap)="addChar(s)">{{s}}</div>
+                <div class="key normal" *ngFor="let s of keys['left'][!is_shift?'normal':'shift'][1]" (touchrelease)="addChar(s)">{{s}}</div>
             </div>
             <div class="row">
-                <div class="key normal" *ngFor="let s of keys['left'][!is_shift?'normal':'shift'][2]" (tap)="addChar(s)">{{s}}</div>
+                <div class="key normal" *ngFor="let s of keys['left'][!is_shift?'normal':'shift'][2]" (touchrelease)="addChar(s)">{{s}}</div>
             </div>
             <div class="row">
-                <div class="key" [class.active]="is_caps" (tap)="caps()">Caps</div>
-                <div class="key normal" *ngFor="let s of keys['left'][!is_shift?'normal':'shift'][3]" (tap)="addChar(s)">{{s}}</div>
+                <div class="key" [class.active]="is_caps" (touchrelease)="caps()">Caps</div>
+                <div class="key normal" *ngFor="let s of keys['left'][!is_shift?'normal':'shift'][3]" (touchrelease)="addChar(s)">{{s}}</div>
             </div>
             <div class="row">
-                <div class="key" [class.active]="is_shift" (tap)="shift()">Shift</div>
+                <div class="key" [class.active]="is_shift" (touchrelease)="shift()">Shift</div>
                 <div class="key">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Space&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
             </div>
         </div>
         <div class="keyboard right" [@keyboardright]="active?'show':'hide'" *ngIf="keys&&keys['right']">
             <div class="row">
-                <div class="key normal" *ngFor="let s of keys['right'][!is_shift?'normal':'shift'][0]" (tap)="addChar(s)">{{s}}</div>
-                <div class="key" (tap)="backspace()">Bksp</div>
+                <div class="key normal" *ngFor="let s of keys['right'][!is_shift?'normal':'shift'][0]" (touchrelease)="addChar(s)">{{s}}</div>
+                <div class="key" (touchrelease)="backspace()">Bksp</div>
             </div>
             <div class="row">
-                <div class="key normal" *ngFor="let s of keys['right'][!is_shift?'normal':'shift'][1]" (tap)="addChar(s)">{{s}}</div>
+                <div class="key normal" *ngFor="let s of keys['right'][!is_shift?'normal':'shift'][1]" (touchrelease)="addChar(s)">{{s}}</div>
             </div>
             <div class="row">
-                <div class="key normal" *ngFor="let s of keys['right'][!is_shift?'normal':'shift'][2]" (tap)="addChar(s)">{{s}}</div>
+                <div class="key normal" *ngFor="let s of keys['right'][!is_shift?'normal':'shift'][2]" (touchrelease)="addChar(s)">{{s}}</div>
             </div>
             <div class="row">
-                <div class="key normal" *ngFor="let s of keys['right'][!is_shift?'normal':'shift'][3]" (tap)="addChar(s)">{{s}}</div>
-                <div class="key" [class.active]="is_caps" (tap)="caps()">Caps</div>
+                <div class="key normal" *ngFor="let s of keys['right'][!is_shift?'normal':'shift'][3]" (touchrelease)="addChar(s)">{{s}}</div>
+                <div class="key" [class.active]="is_caps" (touchrelease)="caps()">Caps</div>
             </div>
             <div class="row">
                 <div class="key">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Space&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-                <div class="key" [class.active]="is_shift" (tap)="shift()">Shift</div>
+                <div class="key" [class.active]="is_shift" (touchrelease)="shift()">Shift</div>
             </div>
         </div>
     </div>

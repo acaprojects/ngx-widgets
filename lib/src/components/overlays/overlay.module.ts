@@ -16,6 +16,7 @@ import { NotifyDirective } from '../../directives/overlays/notify.directive';
 import { TooltipDirective } from '../../directives/overlays/tooltip.directive';
 
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
+import { DirectiveWidgetsModule } from '../../directives/directives.module';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { WidgetsPipeModule } from '../../pipes/pipe.module';
         CommonModule,
         HttpClientModule,
         FormsModule,
-        WidgetsPipeModule
+        WidgetsPipeModule,
+        DirectiveWidgetsModule
     ],
     exports: [
         /* COMPONENTS */
