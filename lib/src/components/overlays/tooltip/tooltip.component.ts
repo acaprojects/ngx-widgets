@@ -5,7 +5,7 @@ import { ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { DynamicBaseComponent } from '../dynamic-base.component';
 
 @Component({
-    selector: 'tooltip',
+    selector: 'tooltip-overlay',
     templateUrl: './tooltip.template.html',
     styleUrls: ['./tooltip.styles.scss'],
 })

@@ -9,7 +9,7 @@ import * as moment_api from 'moment';
 const moment = moment_api;
 
 @Component({
-    selector: 'notification',
+    selector: 'notification-overlay',
     templateUrl: './notification.template.html',
     styleUrls: ['./notification.styles.scss'],
     animations: [

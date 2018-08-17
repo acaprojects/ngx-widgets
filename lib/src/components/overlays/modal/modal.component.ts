@@ -9,7 +9,7 @@ import * as moment_api from 'moment';
 const moment = moment_api;
 
 @Component({
-    selector: 'modal',
+    selector: 'modal-overlay',
     templateUrl: './modal.template.html',
     styleUrls: ['./modal.styles.scss'],
     animations: [
