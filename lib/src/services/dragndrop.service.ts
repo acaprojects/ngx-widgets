@@ -29,7 +29,7 @@ export class DragNDropService {
         this.subject.next(null);
     }
 
-    public listen(next: (d: any) => void) {
+    public listen(next: (d: any) => void): any {
         return this.observer ? this.observer.subscribe(next) : null;
     }
 
