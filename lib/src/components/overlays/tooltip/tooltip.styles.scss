@@ -21,6 +21,7 @@
     transition: opacity 300ms;
     opacity: 0;
     display: initial;
+
     &.no-triangle {
         width: 0;
         .triangle {
@@ -90,6 +91,11 @@
     border-radius: .2em;
     pointer-events: auto;
     transition: transform(300ms);
+    .clear & {
+        box-shadow: none;
+        background: none;
+    }
+
     .left & {
         right: 0;
         transform: translate(-.5rem, 0%);

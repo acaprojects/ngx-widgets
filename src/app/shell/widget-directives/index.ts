@@ -5,6 +5,7 @@ import { FileStreamShowcaseComponent } from './file-stream-showcase/file-stream-
 import { ModalShowcaseComponent } from './modal-showcase/modal-showcase.component';
 import { NotificationShowcaseComponent } from './notification-showcase/notification-showcase.component';
 import { TooltipShowcaseComponent } from './tooltip-showcase/tooltip-showcase.component';
+import { DragNDropShowcaseComponent } from './drag-n-drop-showcase/drag-n-drop-showcase.component';
 
 export const WIDGET_DIRECTIVES_SHOWCASE_COMPONENTS: any[] = [
     WidgetDirectivesComponent,
@@ -12,5 +13,6 @@ export const WIDGET_DIRECTIVES_SHOWCASE_COMPONENTS: any[] = [
     FileStreamShowcaseComponent,
     ModalShowcaseComponent,
     NotificationShowcaseComponent,
-    TooltipShowcaseComponent
+    TooltipShowcaseComponent,
+    DragNDropShowcaseComponent
 ];

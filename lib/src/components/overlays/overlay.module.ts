@@ -17,6 +17,7 @@ import { TooltipDirective } from '../../directives/overlays/tooltip.directive';
 
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
 import { DirectiveWidgetsModule } from '../../directives/directives.module';
+import { DraggedItemOverlayComponent } from './dragged-item/dragged-item.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import { DirectiveWidgetsModule } from '../../directives/directives.module';
         /* DIRECTIVES */
         ModalDirective,
         NotifyDirective,
-        TooltipDirective
+        TooltipDirective,
+        DraggedItemOverlayComponent
     ],
     imports: [
         CommonModule,
@@ -58,7 +60,8 @@ import { DirectiveWidgetsModule } from '../../directives/directives.module';
         ModalComponent,
         NotificationComponent,
         OverlayContainerComponent,
-        TooltipComponent
+        TooltipComponent,
+        DraggedItemOverlayComponent
     ]
 })
 export class OverlayWidgetsModule {

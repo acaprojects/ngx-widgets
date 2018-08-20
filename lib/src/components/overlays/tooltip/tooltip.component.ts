@@ -44,14 +44,12 @@ export class TooltipComponent extends DynamicBaseComponent {
                 top: cnt.top,
                 left: cnt.left
             };
-            console.log('Container:', cnt, window.innerWidth, window.innerHeight);
             if (((cnt.x + cnt.width) < 0 && (cnt.y + cnt.height) < 0) ||
                 ((cnt.x + cnt.width) < 0  && cnt.y > window.innerHeight) ||
                 (cnt.x > window.innerWidth && (cnt.y + cnt.height) < 0) ||
                 (cnt.x > window.innerWidth && cnt.y > window.innerHeight)) {
                 return this.event('close', 'Outside');
             }
-            console.log('Parent:', this.parent);
                 // Add offset for container location
             if (this.parent.root && this.parent.root.nativeElement) {
                 const box = this.parent.root.nativeElement.getBoundingClientRect();

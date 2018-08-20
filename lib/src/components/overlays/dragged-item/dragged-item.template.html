@@ -1,0 +1,9 @@
+<div class="container" #container>
+    <div class="item" #item
+        [style.top]="(model.position.y - (model.offset ? model.offset.y || 0 : 0)) + 'px'"
+        [style.left]="(model.position.x - (model.offset ? model.offset.x || 0 : 0)) + 'px'"
+        [style.width]="(model.size ? model.size.width : '')  + 'px'"
+        [style.height]="(model.size ? model.size.height : '')  + 'px'">
+
+    </div>
+</div>

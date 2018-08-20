@@ -1,0 +1,10 @@
+<showcase [(model)]="model">
+    <div class="container" [class.reverse]="model.reverse">
+        <div class="column">
+            <div class="item" is-draggable>Drag Me</div>
+        </div>
+        <div class="column">
+            <div class="drop" is-dropzone (event)="model.reverse = !model.reverse">Drop here</div>
+        </div>
+    </div>
+</showcase>

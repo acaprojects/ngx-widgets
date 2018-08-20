@@ -9,6 +9,7 @@ import { TooltipComponent } from '../components/overlays/tooltip/tooltip.compone
 
 import { WIDGETS } from '../settings';
 import { DynamicBaseComponent } from '../components/overlays/dynamic-base.component';
+import { DraggedItemOverlayComponent } from '../components/overlays/dragged-item/dragged-item.component';
 
 @Injectable({
     providedIn: 'root'
@@ -328,6 +329,8 @@ export class OverlayService {
             this.containers.root.service = this;
                 // Add notifications layer
             this.add('root', 'ACA_WIDGET_INTERNAL_notifications', NotificationComponent, {}).then(() => null, () => null);
+                // Add dragged item layer
+            this.add('root', 'ACA_WIDGET_INTERNAL_dragndrop', DraggedItemOverlayComponent, {}).then(() => null, () => null);
             return;
         } else if (!this._view && this.default_vc) {
             this._view = this.default_vc;
