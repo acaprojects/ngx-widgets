@@ -1,6 +1,6 @@
 <div [class]="'dropdown ' + name + (show ? ' show' : '')" widget #body (window:resize)="resize()">
     <div #ref class="reference"></div>
-    <div class="tooltip" [class.bottom]="bottom" tooltip name="dropdown-list" [template]="tooltip" [position]="bottom ? 'top' : 'bottom'"
+    <div class="tooltip" [class.bottom]="bottom" tooltip name="dropdown-list clear" [template]="tooltip" [position]="bottom ? 'top' : 'bottom'"
         offset="middle" [triangle]="false" [(show)]="show" [autoclose]="false" (event)="select($event)">
     </div>
     <div #active class="item active" (tap)="showList()">
@@ -19,7 +19,7 @@
         </div>
     </div>
     <ng-template #tooltip>
-        <div class="dropdown-content" [style.font-size]="font_size + 'px'" [style.width]="width + 'px'">
+        <div class="dropdown dropdown-list" widget [style.font-size]="font_size + 'px'" [style.width]="width + 'px'">
             <div class="item active" *ngIf="!bottom" (tap)="showList()">
                 <div class="text">
                     {{ model < 0 || !list_items || list_items.length <= model || !list_items[model] ? placeholder : list_items[model].name || list_items[model] }}
