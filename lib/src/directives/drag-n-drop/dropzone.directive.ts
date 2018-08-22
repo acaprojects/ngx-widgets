@@ -102,6 +102,7 @@ export class DropzoneDirective {
             const center = event.center ? event.center : { x: event.clientX || event.touches[0].clientX, y: event.clientY || event.touches[0].clientY };
             this.renderer.removeClass(this.el.nativeElement, `${name || 'dropzone'}-above`);
             this.renderer.removeClass(this.el.nativeElement, `${name || 'dropzone'}-below`);
+            this.renderer.removeClass(this.el.nativeElement, `${name || 'dropzone'}-hover`);
             if (center.x >= this.model.box.left && center.x <= this.model.box.left + this.model.box.width &&
                 center.y >= this.model.box.top && center.y <= this.model.box.top + this.model.box.height) {
                 this.model.hovering = this.model.item_id || true;
@@ -111,8 +112,6 @@ export class DropzoneDirective {
                     this.renderer.addClass(this.el.nativeElement, `${name || 'dropzone'}-${this.state}`);
                 }
                 this.stateChange.emit(this.state);
-            } else {
-                this.renderer.removeClass(this.el.nativeElement, `${name || 'dropzone'}-hover`);
             }
             this.timers.check = null;
         }, 15);

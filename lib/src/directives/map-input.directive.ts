@@ -66,12 +66,18 @@ export class MapInputDirective {
     @HostListener('panmove', ['$event']) private moveEvent(e: any) {
         if (this.timer.scale) { return; }
         if (this.lock) { return; }
-        const scale = (100 + this.scale) / 100;
-        this.center = {
-            x: this.model.center.x + (e.deltaX / this.box.width) / scale,
-            y: this.model.center.y + (e.deltaY / this.box.height) / scale,
-        };
-        this.animations.center.animate();
+        if (!this.timer.move) {
+            this.timer.move = setTimeout(() => {
+                
+                const scale = (100 + this.scale) / 100;
+                this.center = {
+                    x: this.model.center.x + (e.deltaX / this.box.width) / scale,
+                    y: this.model.center.y + (e.deltaY / this.box.height) / scale,
+                };
+                this.animations.center.animate();
+                this.timer.move = null;
+            }, 100)
+        }
     }
 
     @HostListener('pinchstart', ['$event']) private scaleStart(e: any) {

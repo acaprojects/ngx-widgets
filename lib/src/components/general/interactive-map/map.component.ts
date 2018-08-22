@@ -156,17 +156,24 @@ export class InteractiveMapComponent {
     }
 
     public update(post: boolean = false) {
-        const x = Math.floor((100 * ((this.center.x - .5)  / this.model.scale + .5)) * 100) / 100;
-        const y = Math.floor((100 * this.center.y) * 100) / 100;
+        if (this.model.previous_zoom !== this.zoom) {
+            this.model.previous_zoom = this.zoom;
+            this.model.zooming = true;
+            setTimeout(() => this.model.zooming = false, 350);
+        }
+        this.model.zoom_level = ((this.model.scale - 0.07) * (100 + this.zoom)) || 100;
+        const zm = this.model.zoom_level / 100
+        const x = Math.floor((100 * (((this.center.x - .5)  / this.model.scale) * zm + .5)) * 100) / 100;
+        const y = Math.floor((100 * ((this.center.y - .5) * zm + .5)) * 100) / 100;
         this.model.position = `${x}%, ${y}%`;
+        console.log('Center:', `{ ${this.center.x.toFixed(3)}, ${x} }`, `{ ${this.center.y.toFixed(3)}, ${y} }`, zm);
         const ratio = this.ratio.map.height / this.ratio.container.height;
         // this.model.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
         this.model.transform = `translate(${x - 100}%, ${y - 100}%)`;
         if (post) {
             this.zoomChange.emit(this.zoom);
-            this.centerChange.emit(this.zoom);
+            this.centerChange.emit(this.center);
         }
-        this.model.zoom_level = ((this.model.scale - 0.07) * (100 + this.zoom)) || 100;
         this.model.h_ratio = ratio || 1;
         this._cdr.markForCheck();
     }
