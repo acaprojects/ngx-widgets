@@ -40,23 +40,7 @@ export class ClickResponderComponent {
 
     }
 
-    @HostListener('touchend', ['$event'])
-    private ontouch(e: any) {
-        const box = this.el.nativeElement.getBoundingClientRect();
-        const position: IPosition = {
-            x: box.width / 2,
-            y: box.height / 2,
-            scale: Math.max(box.width, box.height)
-        };
-        if (e.changedTouches && e.changedTouches[0]) {
-            const center = e.center ? e.center : { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
-            position.x = center.x - box.left;
-            position.y = center.y - box.top;
-        }
-        this.animate(position);
-    }
-
-    @HostListener('mousedown', ['$event'])
+    @HostListener('touchrelease', ['$event'])
     private onclick(e: any) {
         const box = this.el.nativeElement.getBoundingClientRect();
         const position: IPosition = {
