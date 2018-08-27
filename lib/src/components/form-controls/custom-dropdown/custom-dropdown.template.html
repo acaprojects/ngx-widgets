@@ -10,7 +10,7 @@
         <ng-container *ngTemplateOutlet="template"></ng-container>
     </div>
     <ng-template #tooltip>
-        <div class="custom-dropdown dropdown-list" widget [style.font-size]="font_size + 'px'" [style.width]="width + 'px'">
+        <div [class]="'custom-dropdown dropdown-list ' + name" [style.font-size]="font_size + 'px'" [style.width]="width + 'px'">
             <div class="item active" *ngIf="!bottom && show" [style.width]="width + 'px'" (tap)="show = false; showChange.emit(show)">
                 <ng-container *ngTemplateOutlet="content"></ng-container>
             </div>

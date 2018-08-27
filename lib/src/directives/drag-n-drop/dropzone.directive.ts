@@ -58,7 +58,7 @@ export class DropzoneDirective {
             return setTimeout(() => this.updateItem(item), 300);
         }
         if (item && item.el && item.group === this.group) {
-            this.model.item_id = item.id;
+            this.model.item_id = item.id || item.options.id;
             this.renderer.addClass(this.el.nativeElement, name || 'dropzone');
             this.model.events = {
                 mouse: this.renderer.listen(this.el.nativeElement, 'mousemove', (e) => this.checkState(e)),
@@ -66,7 +66,7 @@ export class DropzoneDirective {
             };
         } else {
             if (this.model.hovering) {
-                this.event.emit({ type: 'drop', id: this.model.hovering });
+                this.event.emit({ type: 'drop', id: this.model.item_id || this.model.hovering });
                 this.model.hovering = null;
             }
             this.renderer.removeClass(this.el.nativeElement, name || 'dropzone');
@@ -81,6 +81,7 @@ export class DropzoneDirective {
                 }
                 this.model.events = null;
             }
+            this.model.item_id = null;
         }
     }
 
