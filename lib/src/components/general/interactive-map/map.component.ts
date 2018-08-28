@@ -72,6 +72,7 @@ export class InteractiveMapComponent {
     @ViewChild('container') private container: ElementRef;
     @ViewChild('map') private area: ElementRef;
     @ViewChild('img') private img: ElementRef;
+    @ViewChild('canvas') private canvas: ElementRef;
     @ViewChild('overlay') private overlay: MapOverlayContainerComponent;
 
     constructor(private service: MapService,
@@ -96,6 +97,7 @@ export class InteractiveMapComponent {
 
     public ngOnInit() {
         this.model.show = false;
+        this.model.image_zoom = 100;
     }
 
     public ngOnChanges(changes: any) {
@@ -159,7 +161,13 @@ export class InteractiveMapComponent {
         if (this.model.previous_zoom !== this.zoom) {
             this.model.previous_zoom = this.zoom;
             this.model.zooming = true;
-            setTimeout(() => this.model.zooming = false, 350);
+            if (this.timers.zoom_change) {
+                clearTimeout(this.timers.zoom_change);
+            }
+            this.timers.zoom_change = setTimeout(() => {
+                this.model.zooming = false;
+                this.timers.zoom_change = null;
+            }, 350);
         }
         this.model.zoom_level = ((this.model.scale - 0.07) * (100 + this.zoom)) || 100;
         const zm = this.model.zoom_level / 100
@@ -298,6 +306,7 @@ export class InteractiveMapComponent {
                     this.update();
                     this.clearListeners();
                     this.setupListeners();
+                    this.renderToCanvas();
                 }, 100);
                 this.focusEvent();
             }
@@ -500,5 +509,26 @@ export class InteractiveMapComponent {
             head.appendChild(style);
         }
         this._cdr.markForCheck();
+    }
+
+    private renderToCanvas() {
+        if (!this.model.map || !this.area) {
+            return setTimeout(() => this.renderToCanvas(), 100);
+        }
+        let box = this.area.nativeElement.getBoundingClientRect();
+        let width = window.devicePixelRatio * window.innerWidth;
+        let ratio = (box.width / box.height) || 1;
+        let img = document.createElement('img');
+        const canvas = this.canvas.nativeElement;
+        const context = canvas.getContext('2d');
+        img.onerror = (err) => console.log(err);
+        img.onload = () => {
+            canvas.width = width;
+            canvas.height = width / ratio;
+            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+        };
+        img.width = width;
+        const data_with_styles = (this.model.map || '').replace(`</style>`, `${this.model.styles}</style>`);
+        img.src = `data:image/svg+xml;utf8,${data_with_styles}`;
     }
 }

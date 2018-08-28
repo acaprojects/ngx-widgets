@@ -3,21 +3,27 @@
     <div #container class="map-container" map-input [lock]="focus?.lock" [(scale)]="zoom" (scaleChange)="update(true)"
         [(center)]="center" (centerChange)="update(true)" (event)="userEvent($event)">
 
-        <div #map class="map-area" [class.show]="!model.loading && model.show" 
+        <div #map class="map-area" [class.show]="!model.loading && model.show"
             [style.transform]="model.transform | safestyle" [style.display]="model.loading ? 'none' : ''"
-            [style.width]="'100%'" [style.height]="(100 * model.h_ratio) + '%'"
+            [style.width]="(model.zoom_level) + '%'" [style.height]="(this.model.zoom_level * model.h_ratio) + '%'"
             [class.zooming]="model.zooming">
 
-            <div #img class="map-img" [style.transform]="'translate(-50%, -50%) scale(' + model.zoom_level / 400 +')' | safestyle" [innerHTML]="(model.map || '') | safe">
+            <!-- <div class="image" [style.width]="(model.zoom_level) + '%'" [style.height]="(model.zoom_level * model.h_ratio) + '%'">
+                <img [src]="model.image">
+            </div> -->
+            <div class="map-img" [style.transform]="'translate(-50%, -50%) scale(1)' | safestyle">
+                <canvas #canvas></canvas>
+                <div #img class="svg-map" [class.zooming]="model.zooming" [innerHTML]="(model.map || '') | safe">
+                </div>
             </div>
+            <map-overlay-container #overlay [model]="interest_points" [el]="model.map_el" [state]="{ center: center, scale: model.zoom_level / 100, ratio: ratio.map }"
+                [resize]="zoom + model.map_id" (event)="overlayEvent($event)" (idChange)="model.container_id = $event">
+            </map-overlay-container>
             <!--div class="input-area"
                 map-input [(scale)]="zoom" (scaleChange)="update(true)"
                 [(center)]="center" (centerChange)="update(true)"
                 (event)="userEvent($event)">
             </div-->
-            <map-overlay-container #overlay [model]="interest_points" [el]="model.map_el" [state]="{ center: center, scale: (100 + zoom) / 100, ratio: ratio.map }"
-                [resize]="zoom + model.map_id" (event)="overlayEvent($event)" (idChange)="model.container_id = $event">
-            </map-overlay-container>
         </div>
         <div class="no-map" *ngIf="!model.map && !model.loading && model.show">No map loaded!</div>
         <div class="loading-spinner" *ngIf="model.loading || !model.show">

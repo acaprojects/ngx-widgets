@@ -13,6 +13,8 @@ const MAP_EXPIRY = 7 * 24 * 60 * 60 * 1000;
 export class MapService {
     private maps: any = {};
     private map_trees: any = {};
+    private map_images: any = {};
+    private promise: any = {};
 
     constructor(private http: HttpClient) {
         if (sessionStorage) {
@@ -35,7 +37,7 @@ export class MapService {
      * @returns Promise of the raw map file, errors with reason
      */
     public loadMap(url: string) {
-        return new Promise((resolve, reject) => {
+        return new Promise<string>((resolve, reject) => {
             if (!url) { return resolve(''); }
             const now = (new Date()).getTime();
             if (this.maps[url] && this.maps[url].expiry > now) {
@@ -45,29 +47,29 @@ export class MapService {
                 this.map_trees[url] = null;
                 this.http.get(url, { responseType: 'text' }).subscribe((data) => {
                     map = data;
-                        // Prevent non SVG files from being used
+                    // Prevent non SVG files from being used
                     if (!map.match(/<\/svg>/g)) { map = ''; }
-                        // Prevent Adobe generic style names from being used
+                    // Prevent Adobe generic style names from being used
                     map = map.replace(/cls-/g, `map-${Object.keys(this.maps).length}-`);
                     map = map.replace(/\.map/g, `svg .map`);
-                        // Remove title tags and content from the map
+                    // Remove title tags and content from the map
                     map = map.replace(/<title>.*<\/title>/gm, '');
                 },
-                (err) => reject(err),
-                () => {
-                    if (map) {
-                        this.maps[url] = {
-                            expiry: now + MAP_EXPIRY,
-                            data: map
-                        };
-                        // if (!this.map_trees[url] || moment().isAfter(moment(this.map_trees[url].expiry))) {
-                        //     this.loadMapTree(url);
-                        // }
-                        resolve(map);
-                    } else {
-                        reject('Invalid SVG map');
-                    }
-                });
+                    (err) => reject(err),
+                    () => {
+                        if (map) {
+                            this.maps[url] = {
+                                expiry: now + MAP_EXPIRY,
+                                data: map
+                            };
+                            // if (!this.map_trees[url] || moment().isAfter(moment(this.map_trees[url].expiry))) {
+                            //     this.loadMapTree(url);
+                            // }
+                            resolve(map);
+                        } else {
+                            reject('Invalid SVG map');
+                        }
+                    });
             }
         });
     }

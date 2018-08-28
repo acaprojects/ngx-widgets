@@ -7,7 +7,7 @@ import { OverlayContainerComponent } from '../../../overlays/overlay-container/o
 
 @Component({
     selector: 'map-overlay-container',
-    template: `<div #el class="overlay-container"><ng-container #content></ng-container></div>`,
+    template: `<div #el class="overlay-container" [style.width]="(100 * (state.scale || 1)) + '%'" [style.height]="(100 * (state.scale || 1)) + '%'"><div><ng-container #content></ng-container></div></div>`,
     styleUrls: ['./map-overlay-container.styles.scss'],
 })
 export class MapOverlayContainerComponent extends OverlayContainerComponent {
