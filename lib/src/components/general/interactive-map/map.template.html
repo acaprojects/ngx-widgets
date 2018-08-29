@@ -16,7 +16,7 @@
                 <div #img class="svg-map" [class.zooming]="model.zooming" [innerHTML]="(model.map || '') | safe">
                 </div>
             </div>
-            <map-overlay-container #overlay [model]="interest_points" [el]="model.map_el" [state]="{ center: center, scale: model.zoom_level / 100, ratio: ratio.map }"
+            <map-overlay-container #overlay [model]="interest_points" [el]="model.map_el" [state]="{ center: center, scale: model.zoom_level / 100, ratio: ratio.map, dim: model.unit }"
                 [resize]="zoom + model.map_id" (event)="overlayEvent($event)" (idChange)="model.container_id = $event">
             </map-overlay-container>
             <!--div class="input-area"

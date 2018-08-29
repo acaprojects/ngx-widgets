@@ -7,7 +7,7 @@ import { OverlayContainerComponent } from '../../../overlays/overlay-container/o
 
 @Component({
     selector: 'map-overlay-container',
-    template: `<div #el class="overlay-container" [style.width]="(100 * (state.scale || 1)) + '%'" [style.height]="(100 * (state.scale || 1)) + '%'"><div><ng-container #content></ng-container></div></div>`,
+    template: `<div #el class="overlay-container"><div><ng-container #content></ng-container></div></div>`,
     styleUrls: ['./map-overlay-container.styles.scss'],
 })
 export class MapOverlayContainerComponent extends OverlayContainerComponent {
@@ -44,7 +44,6 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
         if (changes.model && this.model) {
             if (this.timers.render) {
                 clearTimeout(this.timers.render);
-                this.timers.render = null;
             }
             this.timers.render = setTimeout(() => {
                 // Remove component that don't exist anymore

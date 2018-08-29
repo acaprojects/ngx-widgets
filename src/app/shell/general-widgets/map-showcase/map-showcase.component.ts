@@ -149,9 +149,9 @@ export class MapShowcaseComponent {
         if (this.model.show.radius) {
             this.model.map.poi.push({
                 id: 'Nyada',
-                coordinates:  { x: 2000, y: 3000 },
+                coordinates:  { x: 5000, y: 3000 },
                 cmp: MapRangeComponent,
-                data: { text: `I'm somewhere in this circle` }
+                data: { text: `I'm somewhere in this circle`, diameter: 10 }
             })
         }
         if (this.model.show.pin) {

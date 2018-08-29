@@ -158,25 +158,32 @@ export class InteractiveMapComponent {
     }
 
     public update(post: boolean = false) {
-        if (this.model.previous_zoom !== this.zoom) {
-            this.model.previous_zoom = this.zoom;
+        this.model.zoom_level = ((this.model.scale - 0.07) * (100 + this.zoom)) || 100;
+        if (this.model.previous_zoom !== this.model.zoom_level) {
+            this.model.previous_zoom = this.model.zoom_level;
             this.model.zooming = true;
+            if (this.area) {
+                this.model.unit = +((this.area.nativeElement.getBoundingClientRect().width / 100).toFixed(3));
+            }
             if (this.timers.zoom_change) {
                 clearTimeout(this.timers.zoom_change);
             }
             this.timers.zoom_change = setTimeout(() => {
                 this.model.zooming = false;
                 this.timers.zoom_change = null;
+                if (this.area) {
+                    this.model.unit = +((this.area.nativeElement.getBoundingClientRect().width / 100).toFixed(3));
+                    console.log('Units:', this.model.unit);
+                }
             }, 350);
         }
-        this.model.zoom_level = ((this.model.scale - 0.07) * (100 + this.zoom)) || 100;
         const zm = this.model.zoom_level / 100
-        const x = Math.floor((100 * (((this.center.x - .5)  / this.model.scale) * zm + .5)) * 100) / 100;
-        const y = Math.floor((100 * ((this.center.y - .5) * zm + .5)) * 100) / 100;
+        const x = +((this.center.x - .5).toFixed(4));
+        const y = +((this.center.y - .5).toFixed(4));
         this.model.position = `${x}%, ${y}%`;
         const ratio = this.ratio.map.height / this.ratio.container.height;
         // this.model.scale = `${Math.round((100 + this.zoom) * 10 * (Math.min(1, ratio))) / 1000}`;
-        this.model.transform = `translate(${x - 100}%, ${y - 100}%)`;
+        this.model.transform = `translate(${-50 + x * 100}%, ${-50 + y * 100}%)`;
         if (post) {
             this.zoomChange.emit(this.zoom);
             this.centerChange.emit(this.center);
@@ -512,7 +519,7 @@ export class InteractiveMapComponent {
     }
 
     private renderToCanvas() {
-        if (!this.model.map || !this.area) {
+        if (!this.model.map || !this.area || !this.model.map_el) {
             return setTimeout(() => this.renderToCanvas(), 100);
         }
         let box = this.area.nativeElement.getBoundingClientRect();
@@ -524,7 +531,7 @@ export class InteractiveMapComponent {
         img.onerror = (err) => console.log(err);
         img.onload = () => {
             canvas.width = width;
-            canvas.height = width / ratio;
+            canvas.height = width * ratio;
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
         };
         img.width = width;
