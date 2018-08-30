@@ -13,6 +13,7 @@ export class MapInputDirective {
     @Input() public lock: boolean;
     @Input() public scale: number;
     @Input() public angle: number;
+    @Input() public el: any;
     @Output() public centerChange: any = new EventEmitter();
     @Output() public scaleChange: any = new EventEmitter();
     @Output() public event: any = new EventEmitter();
@@ -29,17 +30,17 @@ export class MapInputDirective {
         angle: null,
     };
 
-    constructor(private el: ElementRef, private animate: Animate) { }
+    constructor(private animate: Animate) { }
 
     public ngOnInit() {
         this.init();
     }
 
     public init() {
-        if (!this.el && !this.el.nativeElement) {
+        if (!this.el) {
             return setTimeout(() => this.init(), 200);
         }
-        this.box = this.el.nativeElement.getBoundingClientRect();
+        this.box = this.el.getBoundingClientRect();
         if (!this.animations.center) {
             this.animations.center = this.animate.animation(() => {
                 this.checkBounds();
@@ -57,6 +58,15 @@ export class MapInputDirective {
         this.timer.scale = null;
     }
 
+    public ngOnChanges(changes: any) {
+        if (changes.scale && this.el) {
+            this.box = this.el.getBoundingClientRect();
+        }
+        if (changes.el) {
+            this.init();
+        }
+    }
+
     @HostListener('panstart', ['$event']) private moveStart(e: any) {
         if (this.timer.scale) { return; }
         if (this.lock) { return; }
@@ -68,11 +78,9 @@ export class MapInputDirective {
         if (this.lock) { return; }
         if (!this.timer.move) {
             this.timer.move = setTimeout(() => {
-                
-                const scale = (100 + this.scale) / 100;
                 this.center = {
-                    x: this.model.center.x + (e.deltaX / this.box.width) / scale,
-                    y: this.model.center.y + (e.deltaY / this.box.height) / scale,
+                    x: this.model.center.x + (e.deltaX / (this.box.width)),
+                    y: this.model.center.y + (e.deltaY / (this.box.height)),
                 };
                 this.animations.center.animate();
                 this.timer.move = null;
@@ -119,7 +127,7 @@ export class MapInputDirective {
     @HostListener('wheel', ['$event']) private wheelScale(e: any) {
         if (this.lock) { return; }
         if (e.preventDefault) { e.preventDefault(); }
-        const value = 1 + -(0.01 * e.deltaY) / 2;
+        const value = 1 + -((e.deltaY / Math.abs(e.deltaY) / 4)) / 2;
         this.scale = Math.round((this.scale + 100) * value - 100);
         this.animations.scale.animate();
     }

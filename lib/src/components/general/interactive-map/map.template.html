@@ -1,6 +1,6 @@
 <div [class]="'map ' + id" widget (window:resize)="initMap(true)">
 
-    <div #container class="map-container" map-input [lock]="focus?.lock" [(scale)]="zoom" (scaleChange)="update(true)"
+    <div #container class="map-container" map-input [el]="map" [lock]="focus?.lock" [(scale)]="zoom" (scaleChange)="update(true)"
         [(center)]="center" (centerChange)="update(true)" (event)="userEvent($event)">
 
         <div #map class="map-area" [class.show]="!model.loading && model.show"
@@ -12,7 +12,7 @@
                 <img [src]="model.image">
             </div> -->
             <div class="map-img" [style.transform]="'translate(-50%, -50%) scale(1)' | safestyle">
-                <canvas #canvas></canvas>
+                <canvas #canvas [class.show]="model.zooming"></canvas>
                 <div #img class="svg-map" [class.zooming]="model.zooming" [innerHTML]="(model.map || '') | safe">
                 </div>
             </div>

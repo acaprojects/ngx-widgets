@@ -31,7 +31,6 @@ export class MapRangeComponent extends OverlayContentComponent {
     public set(data: any) {
         super.set(data);
         this.size = (this.model.diameter || 10);
-        console.log('Units:', this.model.map_state ? this.model.map_state.dim : '0');
     }
 
     private hexToRGB(hex: string, alpha?: number) {

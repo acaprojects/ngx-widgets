@@ -173,7 +173,6 @@ export class InteractiveMapComponent {
                 this.timers.zoom_change = null;
                 if (this.area) {
                     this.model.unit = +((this.area.nativeElement.getBoundingClientRect().width / 100).toFixed(3));
-                    console.log('Units:', this.model.unit);
                 }
             }, 350);
         }
@@ -519,10 +518,10 @@ export class InteractiveMapComponent {
     }
 
     private renderToCanvas() {
-        if (!this.model.map || !this.area || !this.model.map_el) {
+        if (!this.model.map || !this.img || !this.model.map_el) {
             return setTimeout(() => this.renderToCanvas(), 100);
         }
-        let box = this.area.nativeElement.getBoundingClientRect();
+        let box = this.model.map_el.getBoundingClientRect();
         let width = window.devicePixelRatio * window.innerWidth;
         let ratio = (box.width / box.height) || 1;
         let img = document.createElement('img');
@@ -531,11 +530,12 @@ export class InteractiveMapComponent {
         img.onerror = (err) => console.log(err);
         img.onload = () => {
             canvas.width = width;
-            canvas.height = width * ratio;
+            canvas.height = width / ratio;
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
         };
-        img.width = width;
-        const data_with_styles = (this.model.map || '').replace(`</style>`, `${this.model.styles}</style>`);
-        img.src = `data:image/svg+xml;utf8,${data_with_styles}`;
+        const data_with_styles = (this.model.map || '').replace(`</style>`, `${this.model.styles}</style>`)
+            .replace('<svg', `<svg width="${width}px" height="${Math.floor(width / ratio)}px"`);
+        const base64_data = btoa(data_with_styles);
+        img.src = `data:image/svg+xml;base64,${base64_data}`;
     }
 }
