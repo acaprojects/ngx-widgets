@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 
 import * as moment_api from 'moment';
 const moment = moment_api;
@@ -18,7 +18,7 @@ export interface ICalOptions {
     templateUrl: './calendar.template.html',
     styleUrls: ['./calendar.styles.scss'],
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnChanges {
     @Input() public name = '';
     @Input() public date: number; // Unix timestamp with milliseconds
     @Input() public today: number; // Unix timestamp with milliseconds

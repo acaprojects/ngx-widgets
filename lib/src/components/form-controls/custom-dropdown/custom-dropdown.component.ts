@@ -42,7 +42,7 @@ export class CustomDropdownComponent implements OnInit, OnChanges {
 
     public resize() {
         this.updateSize();
-        if (this.reference.nativeElement && this.reference.nativeElement) {
+        if (this.reference && this.reference.nativeElement) {
             const box = this.reference.nativeElement.getBoundingClientRect();
             this.font_size = box.height;
         }

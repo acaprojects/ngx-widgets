@@ -28,6 +28,7 @@ export class TouchReleaseDirective {
     }
 
     private start(e: any) {
+        if (!e || !e.target) { return; }
         this.timers.start = setTimeout(() => {
             if (!e.center) {
                 if (e.touches && e.touches.length > 0) {
@@ -42,6 +43,7 @@ export class TouchReleaseDirective {
     }
 
     private emit(e: any) {
+        if (!e || !e.target) { return; }
         if (this.timers.emit) {
             clearTimeout(this.timers.emit);
             this.timers.emit = null;

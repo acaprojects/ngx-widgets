@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, EventEmitter, Input, Output, Type, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, Type, ViewChild, OnChanges } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Renderer2 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -43,7 +43,7 @@ const POS_OFFSET = .5;
     styleUrls: ['./map.styles.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InteractiveMapComponent {
+export class InteractiveMapComponent implements OnChanges {
     @Input() public id: string = '';
     @Input() public src: string = ''; // File location of the map SVG.
     @Input() public styles: any = {}; // Map of CSS Selector IDs to their respective styles
@@ -162,7 +162,7 @@ export class InteractiveMapComponent {
         if (this.model.previous_zoom !== this.model.zoom_level) {
             this.model.previous_zoom = this.model.zoom_level;
             this.model.zooming = true;
-            if (this.area) {
+            if (this.area && this.area.nativeElement) {
                 this.model.unit = +((this.area.nativeElement.getBoundingClientRect().width / 100).toFixed(3));
             }
             if (this.timers.zoom_change) {
@@ -171,7 +171,7 @@ export class InteractiveMapComponent {
             this.timers.zoom_change = setTimeout(() => {
                 this.model.zooming = false;
                 this.timers.zoom_change = null;
-                if (this.area) {
+                if (this.area && this.area.nativeElement) {
                     this.model.unit = +((this.area.nativeElement.getBoundingClientRect().width / 100).toFixed(3));
                 }
             }, 350);
@@ -288,7 +288,7 @@ export class InteractiveMapComponent {
                     break;
                 }
             }
-            if (this.model.map_el) {
+            if (this.model.map_el && this.container) {
                 this.model.map_box = this.model.map_el.getBoundingClientRect();
                 this.model.cnt_box = this.container.nativeElement.getBoundingClientRect();
                 this.model.map_el.style.position = 'absolute';
@@ -333,6 +333,7 @@ export class InteractiveMapComponent {
     }
 
     private initElementTree() {
+        if (!this.model.map_el) { return; }
         const map = this.model.map_el.getBoundingClientRect();
         if (map.width === 0) {
             return setTimeout(() => this.initElementTree(), 200);
@@ -441,7 +442,7 @@ export class InteractiveMapComponent {
                 if (this.area && this.model.map_el) {
                     const clean_id = this.focus.id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
                     const el = this.area.nativeElement.querySelector(`#${clean_id}`);
-                    if (el) {
+                    if (el && this.area && this.area.nativeElement) {
                         const box = el.getBoundingClientRect();
                         const map_box = this.area.nativeElement.getBoundingClientRect();
                         const scale = box.width > box.height ? map_box.width / box.width : map_box.height / box.height;

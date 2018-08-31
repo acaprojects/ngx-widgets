@@ -161,7 +161,7 @@ export class MediaPlayerComponent {
     }
 
     public navigate(event: any) {
-        if (event.center && this.video) {
+        if (event.center && this.video && this.video.nativeElement) {
             const box = this.video.nativeElement.getBoundingClientRect();
             const percent = (event.center.x - box.left) / box.width;
             if (this.player) {

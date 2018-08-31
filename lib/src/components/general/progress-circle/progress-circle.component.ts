@@ -5,14 +5,14 @@
  * @Last Modified time: 2017-05-05 10:46:34
  */
 
-import { Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2, ViewChild, OnChanges } from '@angular/core';
 
 @Component({
     selector: 'progress-circle',
     templateUrl: './progress-circle.template.html',
     styleUrls: ['./progress-circle.styles.scss'],
 })
-export class ProgressCircleComponent {
+export class ProgressCircleComponent implements OnChanges {
     @Input() public name = ''; // CSS class to add to the root element
     @Input() public progress = 0; // Number between 0 and 1000
     @Input() public bg = '#CFD8DC';

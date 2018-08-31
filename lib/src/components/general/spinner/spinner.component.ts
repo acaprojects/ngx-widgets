@@ -7,7 +7,7 @@
  * @Last modified time: 15/12/2016 11:32 AM
  */
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -16,7 +16,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
     templateUrl: './spinner.template.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SpinnerComponent {
+export class SpinnerComponent implements OnChanges {
     @Input() public type = 'plane';
     @Input() public color = '#000';
     @Input() public name = 'default';

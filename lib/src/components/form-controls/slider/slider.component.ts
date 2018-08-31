@@ -7,7 +7,7 @@
  * @Last modified time: 01/02/2017 11:52 AM
  */
 
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild, OnChanges } from '@angular/core';
 import { Animate } from '../../../services/animate.service';
 
 import { WIDGETS } from '../../../settings';
@@ -17,7 +17,7 @@ import { WIDGETS } from '../../../settings';
     templateUrl: './slider.template.html',
     styleUrls: ['./slider.styles.scss'],
 })
-export class SliderComponent {
+export class SliderComponent implements OnChanges {
     @Input() public align = 'horizontal';
     @Input() public min = 0;
     @Input() public max = 100;
@@ -178,7 +178,7 @@ export class SliderComponent {
         if (resized) {
             this.timers.resize = null;
             if (tries > 10) { return; }
-            if (this.bar) {
+            if (this.bar && this.bar.nativeElement) {
                 this.bb = this.bar.nativeElement.getBoundingClientRect();
             } else {
                 return setTimeout(() => this.resize(resized, ++tries), 400);
@@ -295,7 +295,7 @@ export class SliderComponent {
      */
     private getBarOffset() {
         const dim = { x: 0, y: 0 };
-        if (!this.bar) {
+        if (!this.bar || !this.bar.nativeElement) {
             return dim;
         }
         if (!this.bb) {

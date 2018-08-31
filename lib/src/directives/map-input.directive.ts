@@ -1,5 +1,5 @@
 
-import { Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, Input, Output, OnChanges } from '@angular/core';
 
 import { Animate } from '../services/animate.service';
 
@@ -8,7 +8,7 @@ const POS_OFFSET = .5;
 @Directive({
     selector: '[map-input]',
 })
-export class MapInputDirective {
+export class MapInputDirective implements OnChanges {
     @Input() public center: { x: number, y: number };
     @Input() public lock: boolean;
     @Input() public scale: number;

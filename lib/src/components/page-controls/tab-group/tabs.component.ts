@@ -8,7 +8,7 @@
  */
 
 import { Location } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 import { ContentChildren, QueryList, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -19,7 +19,7 @@ import { TabHeadComponent } from './tab-head.component';
     templateUrl: './tabs.template.html',
     styleUrls: [ './tabs.styles.scss' ],
 })
-export class TabGroupComponent {
+export class TabGroupComponent implements OnChanges {
 
     @Input() public name = '';
     @Input() public state = '0';

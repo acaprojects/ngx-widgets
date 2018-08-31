@@ -7,7 +7,7 @@
  * @Last modified time: 15/12/2016 11:32 AM
  */
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnChanges } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
 const KEY_LIST = {
@@ -60,7 +60,7 @@ const KEY_LIST = {
       ]),
   ],
 })
-export class VirtualKeyboardComponent {
+export class VirtualKeyboardComponent implements OnChanges {
     @Input() public model = '';
     @Input() public active = false;
     @Input() public type = 'QWERTY';
@@ -139,7 +139,7 @@ export class VirtualKeyboardComponent {
 
     public moveKeyboard(e: any) {
         if (e) {
-            if (this.keyboard) {
+            if (this.keyboard && this.keyboard.nativeElement) {
                 const key_box = this.keyboard.nativeElement.getBoundingClientRect();
                 if (this.top === '' || this.left === '') {
                     this.top_value = key_box.top;

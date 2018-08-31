@@ -7,7 +7,7 @@
  * @Last modified time: 15/12/2016 11:30 AM
  */
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnChanges } from '@angular/core';
 import { DropService } from '../../../services/drop-service/drop-service.service';
 
 import 'cropperjs';
@@ -19,7 +19,7 @@ declare let Cropper: any;
     templateUrl: './img-crop.template.html',
     styleUrls: [ './img-crop.styles.scss' ],
 })
-export class ImageCropComponent {
+export class ImageCropComponent implements OnChanges {
     @Input() public id  = 'zero';
     @Input() public circle = false;
     @Input() public file: any = null;

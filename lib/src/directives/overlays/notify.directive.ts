@@ -1,5 +1,5 @@
 
-import { Directive, ElementRef, EventEmitter, Input, Output, TemplateRef, Type } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, Output, TemplateRef, Type, OnChanges } from '@angular/core';
 
 import { OverlayService } from '../../services/overlay.service';
 
@@ -10,7 +10,7 @@ import { WIDGETS } from '../../settings';
 @Directive({
     selector: '[notify]',
 })
-export class NotifyDirective {
+export class NotifyDirective implements OnChanges {
     @Input() public name = '';
     @Input() public container = 'root';
     @Input() public action = '';

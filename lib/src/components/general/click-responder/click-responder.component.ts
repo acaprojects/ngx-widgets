@@ -42,6 +42,7 @@ export class ClickResponderComponent {
 
     @HostListener('touchrelease', ['$event'])
     private onclick(e: any) {
+        if (!this.el || !this.el.nativeElement) { return; }
         const box = this.el.nativeElement.getBoundingClientRect();
         const position: IPosition = {
             x: box.width / 2,

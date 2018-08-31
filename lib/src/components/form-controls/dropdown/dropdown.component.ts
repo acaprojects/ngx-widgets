@@ -1,12 +1,12 @@
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnChanges } from '@angular/core';
 
 @Component({
     selector: 'dropdown',
     templateUrl: './dropdown.template.html',
     styleUrls: ['./dropdown.styles.scss'],
 })
-export class DropdownComponent {
+export class DropdownComponent implements OnChanges {
     @Input() public name = '';
     @Input() public list: any[] = [];
     @Input() public model = 0;
@@ -64,7 +64,7 @@ export class DropdownComponent {
 
     public resize() {
         this.updateSize();
-        if (this.reference.nativeElement && this.reference.nativeElement) {
+        if (this.reference && this.reference.nativeElement) {
             const box = this.reference.nativeElement.getBoundingClientRect();
             this.font_size = box.height;
         }

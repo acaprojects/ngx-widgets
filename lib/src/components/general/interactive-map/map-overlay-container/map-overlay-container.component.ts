@@ -1,5 +1,5 @@
 
-import { Component, Input, ViewChild, HostListener } from '@angular/core';
+import { Component, Input, ViewChild, HostListener, OnChanges } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, ElementRef, ViewContainerRef } from '@angular/core';
 
 import { MapOverlayComponent } from '../map-overlay/map-overlay.component';
@@ -10,7 +10,7 @@ import { OverlayContainerComponent } from '../../../overlays/overlay-container/o
     template: `<div #el class="overlay-container"><div><ng-container #content></ng-container></div></div>`,
     styleUrls: ['./map-overlay-container.styles.scss'],
 })
-export class MapOverlayContainerComponent extends OverlayContainerComponent {
+export class MapOverlayContainerComponent extends OverlayContainerComponent implements OnChanges {
     @Input() public model: any[] = [];
     @Input() public el: any = null;
     @Input() public state: any = null;

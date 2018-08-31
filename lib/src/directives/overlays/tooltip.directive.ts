@@ -1,5 +1,5 @@
 
-import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, TemplateRef, Type } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, Output, TemplateRef, Type, OnChanges } from '@angular/core';
 
 import { OverlayService } from '../../services/overlay.service';
 
@@ -9,7 +9,7 @@ import { WIDGETS } from '../../settings';
 @Directive({
     selector: '[tooltip]',
 })
-export class TooltipDirective {
+export class TooltipDirective implements OnChanges {
     @Input() public name = '';
     @Input() public container = 'root';
     @Input() public position = 'bottom'; // top, bottom, left, right

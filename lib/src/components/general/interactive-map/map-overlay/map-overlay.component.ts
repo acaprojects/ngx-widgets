@@ -56,7 +56,7 @@ export class MapOverlayComponent extends DynamicBaseComponent {
                     top: y * ratio * 100,
                     left: x * 100,
                 };
-            } else if (el) {
+            } else if (el && this.model.map) {
                 const box = el.getBoundingClientRect();
                 const map_box = this.model.map.getBoundingClientRect();
                 this.container = {

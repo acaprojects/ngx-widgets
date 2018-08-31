@@ -7,14 +7,14 @@
  * @Last modified time: 15/12/2016 11:35 AM
  */
 
-import { ElementRef, Input, Renderer2 } from '@angular/core';
+import { ElementRef, Input, Renderer2, OnChanges } from '@angular/core';
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { DropService } from '../services/drop-service/drop-service.service';
 
 @Directive({
     selector: '[drop-target]',
 })
-export class DropTargetDirective implements OnInit, OnDestroy {
+export class DropTargetDirective implements OnInit, OnDestroy, OnChanges {
     private static _ref_cnt = 0;
     private lstn: any = {};
 

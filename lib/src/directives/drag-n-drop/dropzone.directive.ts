@@ -1,11 +1,11 @@
 
-import { Directive, ElementRef, HostListener, Renderer2, Input, Output, EventEmitter } from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer2, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { DragNDropService } from '../../services/dragndrop.service';
 
 @Directive({
     selector: '[is-dropzone]'
 })
-export class DropzoneDirective {
+export class DropzoneDirective implements OnChanges {
     @Input('is-dropzone') public group: string = 'root';
     @Input() public id: string;
     @Input() public name: string;
@@ -95,7 +95,7 @@ export class DropzoneDirective {
             clearTimeout(this.timers.check);
             this.timers.check = null;
         }
-        if (!this.timers.update_box) {
+        if (!this.timers.update_box && this.el && this.el.nativeElement) {
             this.model.box = this.el.nativeElement.getBoundingClientRect();
             this.timers.update_box = setTimeout(() => this.timers.update_box = null, 1000);
         }
