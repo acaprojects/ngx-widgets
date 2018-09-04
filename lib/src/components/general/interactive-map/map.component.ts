@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, EventEmitter, Input, Output, Type, ViewChild, OnChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, Type, ViewChild, OnChanges, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Renderer2 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -43,7 +43,7 @@ const POS_OFFSET = .5;
     styleUrls: ['./map.styles.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InteractiveMapComponent implements OnChanges {
+export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, AfterViewInit {
     @Input() public id: string = '';
     @Input() public src: string = ''; // File location of the map SVG.
     @Input() public styles: any = {}; // Map of CSS Selector IDs to their respective styles
@@ -98,6 +98,10 @@ export class InteractiveMapComponent implements OnChanges {
     public ngOnInit() {
         this.model.show = false;
         this.model.image_zoom = 100;
+        if (this.timers.render_interval) {
+            clearInterval(this.timers.render_interval);
+        }
+        this.timers.render_interval = setInterval(() => this.renderToCanvas(), 10 * 1000);
     }
 
     public ngOnChanges(changes: any) {
@@ -146,6 +150,13 @@ export class InteractiveMapComponent implements OnChanges {
 
     public ngAfterViewInit() {
         this.initOverlay();
+    }
+
+    public ngOnDestroy() {
+        if (this.timers.render_interval) {
+            clearInterval(this.timers.render_interval);
+            this.timers.render_interval = null;
+        }
     }
 
     public initOverlay(tries: number = 0) {
@@ -489,6 +500,7 @@ export class InteractiveMapComponent implements OnChanges {
 
     private updateStyles() {
         this.model.styles = '';
+        this.model.simple_styles = '';
         for (const id in this.styles) {
             if (this.styles.hasOwnProperty(id)) {
                 const clean_id = id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
@@ -500,7 +512,8 @@ export class InteractiveMapComponent implements OnChanges {
                     }
                 }
                 if (properties) {
-                    this.model.styles += `${name} {${properties} } `;
+                    this.model.styles += `${name} { ${properties} } `;
+                    this.model.simple_styles += `${id && (/^[\#\.\[]{1}.*/g).test(id) ? id : '#' + clean_id} {  ${properties} }`;
                 }
             }
         }
@@ -519,8 +532,12 @@ export class InteractiveMapComponent implements OnChanges {
     }
 
     private renderToCanvas() {
-        if (!this.model.map || !this.img || !this.model.map_el) {
-            return setTimeout(() => this.renderToCanvas(), 100);
+        if (!this.model.map || !this.img || !this.model.map_el || this.model.zooming) {
+            if (this.timers.render) {
+                clearTimeout(this.timers.render);
+            }
+            this.timers.render = setTimeout(() => this.renderToCanvas(), 100);
+            return;
         }
         let box = this.model.map_el.getBoundingClientRect();
         let width = window.devicePixelRatio * window.innerWidth;
@@ -534,7 +551,7 @@ export class InteractiveMapComponent implements OnChanges {
             canvas.height = width / ratio;
             context.drawImage(img, 0, 0, canvas.width, canvas.height);
         };
-        const data_with_styles = (this.model.map || '').replace(`</style>`, `${this.model.styles}</style>`)
+        const data_with_styles = (this.model.map || '').replace(`</style>`, `${this.model.simple_styles}</style>`)
             .replace('<svg', `<svg width="${width}px" height="${Math.floor(width / ratio)}px"`);
         const base64_data = btoa(data_with_styles);
         img.src = `data:image/svg+xml;base64,${base64_data}`;

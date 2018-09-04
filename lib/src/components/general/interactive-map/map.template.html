@@ -1,7 +1,7 @@
 <div [class]="'map ' + id" widget (window:resize)="initMap(true)">
 
     <div #container class="map-container" map-input [el]="map" [lock]="focus?.lock" [(scale)]="zoom" (scaleChange)="update(true)"
-        [(center)]="center" (centerChange)="update(true)" (event)="userEvent($event)">
+        [(center)]="center" (centerChange)="update(true)" (event)="userEvent($event)" (touchrelease)="userEvent({ type: 'Tap', event: $event })">
 
         <div #map class="map-area" [class.show]="!model.loading && model.show"
             [style.transform]="model.transform | safestyle" [style.display]="model.loading ? 'none' : ''"

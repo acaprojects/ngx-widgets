@@ -132,16 +132,6 @@ export class MapInputDirective implements OnChanges {
         this.animations.scale.animate();
     }
 
-    @HostListener('mouseup', ['$event']) private click(e: any) {
-        if (this.timer.scale || this.model.scaling) { return; }
-        this.event.emit({ type: 'Tap', event: e });
-    }
-
-    @HostListener('touchend', ['$event']) private touch(e: any) {
-        if (this.timer.scale || this.model.scaling) { return; }
-        this.event.emit({ type: 'Tap', event: e });
-    }
-
     private checkBounds() {
         // Check position is valid
         if (this.center.x < 0 - POS_OFFSET) { this.center.x = -POS_OFFSET; }

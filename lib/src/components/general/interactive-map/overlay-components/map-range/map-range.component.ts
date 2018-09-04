@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
 import { OverlayContentComponent } from '../../../../overlays/overlay-content.component';
@@ -26,6 +26,10 @@ export class MapRangeComponent extends OverlayContentComponent {
                 this.model.bg_alpha = this.hexToRGB(this.model.bg, .2);
             }
         }, 100);
+    }
+
+    constructor(protected _cdr: ChangeDetectorRef) {
+        super(_cdr);
     }
 
     public set(data: any) {

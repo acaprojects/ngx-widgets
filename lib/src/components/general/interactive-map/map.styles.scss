@@ -30,12 +30,9 @@
     transform-origin: 50% 50%;
     height: 100%;
     width: 100%;
-    transition: opacity 300ms;
-    will-change: transform, opacity;
+    transition: width 300ms, height 300ms, opacity 300ms;
+    will-change: transform, opacity, width, height;
     opacity: 0;
-    &.zooming {
-        transition: transform 300ms, opacity 300ms;
-    }
     &.show {
         opacity: 1;
     }
