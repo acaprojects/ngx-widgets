@@ -103,7 +103,7 @@
     border-radius: .2em;
     width: 12em;
     text-align: center;
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+    box-shadow: 0 1px 3px 0 rgba(#000,.2), 0 1px 1px 0 rgba(#000,.14), 0 2px 1px -1px rgba(#000,.12);
 }
 
 .loading-spinner {
@@ -113,7 +113,7 @@
     transform: translate(-50%, -50%);
     height: 4em;
     width: 4em;
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+    box-shadow: 0 1px 3px 0 rgba(#000,.2), 0 1px 1px 0 rgba(#000,.14), 0 2px 1px -1px rgba(#000,.12);
     background-color: #fff;
     border-radius: .2em;
     display: flex;

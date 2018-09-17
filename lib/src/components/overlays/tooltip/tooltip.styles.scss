@@ -85,7 +85,7 @@
 .content {
     position: absolute;
     background-color: #fff;
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+    box-shadow: 0 1px 3px 0 rgba(#000,.2), 0 1px 1px 0 rgba(#000,.14), 0 2px 1px -1px rgba(#000,.12);
     min-height: 2em;
     min-width: 2em;
     border-radius: .2em;
@@ -172,7 +172,7 @@
         border-radius: .1em;
         transform: rotate(45deg);
         background-color: #fff;
-        box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+        box-shadow: 0 1px 3px 0 rgba(#000,.2), 0 1px 1px 0 rgba(#000,.14), 0 2px 1px -1px rgba(#000,.12);
 
         .left & {
             top: 0;

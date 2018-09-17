@@ -134,11 +134,11 @@
 }
 
 .non-month {
-    color: rgba(0,0,0,.2);
+    color: rgba(#000,.2);
     background: none;
     cursor: default;
     &:hover {
-        color: rgba(0,0,0,.2);
+        color: rgba(#000,.2);
         background: none;
         opacity: 1;
     }

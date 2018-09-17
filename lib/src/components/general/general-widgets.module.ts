@@ -19,15 +19,19 @@ import { SpinnerWidgetModule } from './spinner/spinner.module';
 import { FileDropModule } from '../../file-drop.module';
 import { DirectiveWidgetsModule } from '../../directives/directives.module';
 
+const COMPONENTS: any[] = [
+    ButtonComponent,
+    ButtonGroupComponent,
+    ClickResponderComponent,
+    ImageCropComponent,
+    MediaPlayerComponent,
+    ProgressCircleComponent,
+    VirtualKeyboardComponent,
+]
+
 @NgModule({
     declarations: [
-        ButtonComponent,
-        ButtonGroupComponent,
-        ClickResponderComponent,
-        ImageCropComponent,
-        MediaPlayerComponent,
-        ProgressCircleComponent,
-        VirtualKeyboardComponent
+        ...COMPONENTS
     ],
     imports: [
         CommonModule,
@@ -37,19 +41,12 @@ import { DirectiveWidgetsModule } from '../../directives/directives.module';
         WidgetsPipeModule,
         SpinnerWidgetModule,
         FileDropModule,
-        DirectiveWidgetsModule
+        DirectiveWidgetsModule,
     ],
     exports: [
-        ButtonComponent,
-        ButtonGroupComponent,
-        ClickResponderComponent,
-        ImageCropComponent,
-        MediaPlayerComponent,
-        ProgressCircleComponent,
-        SpinnerComponent,
-        VirtualKeyboardComponent,
+        ...COMPONENTS,
         MapWidgetsModule,
-        SpinnerWidgetModule
+        SpinnerWidgetModule,
     ],
     entryComponents: []
 })

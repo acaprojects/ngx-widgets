@@ -85,7 +85,7 @@ $ios-width: $width - 1.5em;
         left: -.5em;
         right: $ios-width - 1.25em;
         border-radius: 1.2em;
-        box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+        box-shadow: 0 1px 3px 0 rgba(#000,.2), 0 1px 1px 0 rgba(#000,.14), 0 2px 1px -1px rgba(#000,.12);
         &.active {
             right: -.5em;
             left: $ios-width - 1.25em;
