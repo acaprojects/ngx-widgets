@@ -10,9 +10,10 @@ import * as fs from 'fs-extra';
 
 const npmconfig = require('../package.json');
 const settings = require('../src/assets/settings.json');
+
 const argv = yargs.argv;
 
-let baseHref = '/staff';
+export let baseHref = '/widgets';
 
 const prod_settings = {
     composer: {
@@ -44,25 +45,23 @@ gulp.task('clean', () => ((...globs: string[]) => del(globs))('dist/', 'compiled
 
 gulp.task('default', ['build']);
 
-gulp.task('pre-build', (next) => runSequence(
-    'check:route',
-    'sw:base',
-    'settings:update',
-    next
-));
+gulp.task('pre-build', (next) => {
+    const sequence = ['check:route', 'sw:base', 'settings:update', next];
+    if (!argv.mock && argv.demo !== true) { sequence.splice(2, 0, ['remove:mock']); }
+    runSequence(...sequence);
+});
 
 gulp.task('pre-serve', (next) => runSequence(
     'check:flags',
     next
 ));
 
-gulp.task('post-build', (next) => runSequence(
-    'build:manifest',
-    'settings:reset',
-    'sw:unbase',
-    'fix:service-worker',
-    next
-));
+gulp.task('post-build', (next) => {
+    const sequence = ['build:manifest', 'settings:reset', 'sw:unbase', 'fix:service-worker', next];
+    if (argv.demo) { sequence.splice(sequence.length - 2, 0, ['upload']); }
+    if (!argv.mock || argv.demo !== true) { sequence.splice(1, 0, ['add:mock']); }
+    runSequence(...sequence);
+});
 
 gulp.task('build:manifest', (next) => {
     const app = settings.app || {};
@@ -77,10 +76,27 @@ gulp.task('build:manifest', (next) => {
             }
         ],
         start_url: 'index.html',
+        background_color: '#000',
+        theme_color: '#000',
         display: 'standalone'
     };
     fs.outputJson('./dist/manifest.json', manifest, { spaces: 4 })
         .then(() => next());
+});
+
+gulp.task('remove:mock', () => {
+    console.log('Removing mock import');
+    return gulp.src(['./src/app/app.module.ts', './src/app/app.component.ts']) // Any file globs are supported
+        .pipe(replace(new RegExp(`// import './shared/mock';`, 'g'), `import './shared/mock';`, { logs: { enabled: false } })) // Prevent adding new comment markers
+        .pipe(replace(new RegExp(`import './shared/mock';`, 'g'), `// import './shared/mock';`, { logs: { enabled: false } })) // Comment out import line
+        .pipe(gulp.dest('./src/app'));
+});
+
+gulp.task('add:mock', () => {
+    console.log('Adding mock import');
+    return gulp.src(['./src/app/app.module.ts', './src/app/app.component.ts']) // Any file globs are supported
+        .pipe(replace(new RegExp(`// import './shared/mock';`, 'g'), `import './shared/mock';`, { logs: { enabled: false } }))
+        .pipe(gulp.dest('./src/app'));
 });
 
 gulp.task('sw:base', () => {
@@ -123,7 +139,7 @@ gulp.task('settings:update', (next) => {
     s.version = npmconfig.version;
     s.build = moment().seconds(0).milliseconds(0).valueOf();
     mergeJSON(s, prod_settings);
-    s.mock = !!argv.mock;
+    s.mock = !!argv.mock || (argv.demo && argv.demo !== 'false');
     s.env = !!argv.prod ? 'prod' : 'dev';
     fs.outputJson('./src/assets/settings.json', s, { spaces: 4 })
         .then(() => next());

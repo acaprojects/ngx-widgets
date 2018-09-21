@@ -3,17 +3,17 @@ import { ng } from './ng';
 
 import * as packager from 'electron-packager';
 import * as gulp from 'gulp';
-import * as util from 'gulp-util';
 import * as install from 'gulp-install';
 import * as runSequence from 'run-sequence';
 import * as yargs from 'yargs';
 
 const argv = yargs.argv;
 
-const ngargs =
-  [ argv.prod ? '--prod' : ''
-  , argv.aot  ? '--aot'  : ''
-  ];
+const ngargs = [
+    argv.prod || (argv.demo === true && argv.prod !== 'false') ? '--prod' : '',
+    argv.aot || (argv.demo === true && argv.aot !== 'false')  ? '--aot'  : '',
+    argv.port ? `--port=${argv.port}`  : ''
+];
 
 Dashboard.show(argv.prod ? 'prod' : 'dev');
 

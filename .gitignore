@@ -43,3 +43,4 @@ _build
 # System Files
 .DS_Store
 Thumbs.db
+credentials.json
