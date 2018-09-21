@@ -17,6 +17,17 @@
     border-bottom: 1px solid #ccc;
     min-width: 12em;
     transition: border 300ms;
+    &.fill {
+        min-width: 0;
+    }
+    &.right {
+        input {
+            text-align: right;
+        }
+    }
+    &.error {
+        border-color: #F44336;
+    }
     &.focus {
         border-color: #2196F3;
     }

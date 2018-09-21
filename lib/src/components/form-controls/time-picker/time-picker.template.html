@@ -9,7 +9,7 @@
 
 <div [class]="'time-picker ' + (name || '')" widget>
     <div class="display" *ngIf="display">
-        <div class="group">
+        <div class="group" *ngIf="!model.manual">
             <div class="group-item">
                 <div class="name" *ngIf="range" (touchrelease)="model.active && (model.active.period === 0 || model.active.period === 1) ? '' : select(0)"
                     [class.active]="model.active && (model.active.period === 0 || model.active.period === 1)">
@@ -41,23 +41,58 @@
                 </div>
             </div>
         </div>
-        <div class="duration" *ngIf="range && display.duration">
+        <div class="duration" *ngIf="range && display.duration && !model.manual">
             {{display.duration}}
         </div>
+        <div class="group" *ngIf="model.manual">
+            <div class="block hours active">Set {{range ? 'period' : 'time'}}</div>
+        </div>
     </div>
-    <div class="picker" [class.afternoon]="model.active && model.active.afternoon">
-        <div class="clockface">
+    <div class="picker" [class.afternoon]="model.active && model.active.afternoon" [class.transition]="model.transition">
+        <div class="clockface" *ngIf="!model.manual">
             <div class="center-point"></div>
             <div class="selection" [style.transform]="'rotate(' + (360 * (model.selection / model.clock_points.length)) + 'deg)'">
                 <div class="bar"></div>
                 <div class="blob"></div>
             </div>
             <div class="item" *ngFor="let item of model.clock_points; let i = index" [style.transform]="'rotate(' + (360 * (i / model.clock_points.length)) + 'deg)'">
-                <div class="value" (touchrelease)="set(item)" [class.active]="model.selection === i" [style.transform]="'rotate(-' + (360 * (i / model.clock_points.length)) + 'deg)'" click-responder>
+                <div class="value" (touchrelease)="set(item)" click-responder [class.active]="model.selection === i" [style.transform]="'rotate(-' + (360 * (i / model.clock_points.length)) + 'deg)'" click-responder>
                     {{item.value}}
                 </div>
             </div>
         </div>
-        <div class="info">Tap number to select {{model.active.period % 2 === 0 ? 'hour' : 'minutes'}}</div>
+        <div class="time-input" *ngIf="model.manual">
+            <div class="field">
+                <div class="label">Type in {{range ? 'start ' : ''}}time</div>
+                <div class="fvalue">
+                    <div class="group">
+                        <input-field [name]="'fill right' + (model.error_sh ? ' error' : '')" [limit]="2" [(model)]="model.start_hour" (modelChange)="checkFields(false)" type="tel"></input-field>
+                        <div class="info">hour</div>
+                    </div>
+                    <div class="group pad">:</div>
+                    <div class="group">
+                        <input-field [name]="'fill' + (model.error_sm ? ' error' : '')" [limit]="2" [(model)]="model.start_minute" (modelChange)="checkFields(false)" type="tel"></input-field>
+                        <div class="info">minute</div>
+                    </div>
+                </div>
+            </div>
+            <div class="field" *ngIf="range">
+                <div class="label">Type in end time</div>
+                <div class="fvalue">
+                    <div class="group">
+                        <input-field [name]="'fill right' + (model.error_eh ? ' error' : '')" [limit]="2" [(model)]="model.end_hour" (modelChange)="checkFields()" type="tel"></input-field>
+                        <div class="info">hour</div>
+                    </div>
+                    <div class="group pad">:</div>
+                    <div class="group">
+                        <input-field [name]="'fill' + (model.error_em ? ' error' : '')" [limit]="2" [(model)]="model.end_minute" (modelChange)="checkFields()" type="tel"></input-field>
+                        <div class="info">minute</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="toggle" *ngIf="manual" (touchrelease)="toggleState()">
+            <div class="icon" [class.keyboard]="!model.manual" [class.clock]="model.manual" click-responder></div>
+        </div>
     </div>
 </div>
