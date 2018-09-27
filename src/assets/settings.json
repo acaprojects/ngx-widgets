@@ -1,5 +1,11 @@
 {
     "build": "local-dev",
     "env": "dev",
-    "mock": false
+    "mock": false,
+    "version": "0.20.7",
+    "composer": {
+        "domain": "",
+        "route": "/docs/widgets",
+        "protocol": "https:"
+    }
 }

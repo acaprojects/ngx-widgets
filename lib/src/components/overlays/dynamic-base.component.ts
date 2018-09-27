@@ -311,7 +311,7 @@ export class DynamicBaseComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     protected render(tries: number = 0) {
         if (tries > 10 || !this.model || !this.model.cmp) {
-            return this.id === 'notifications' ? '' : WIDGETS.log('DYN_BASE', 'No component/template set to render ', [this.id, this.model.cmp], 'warn');
+            return (this.id).indexOf('ACA_WIDGET_INTERNAL_') === 0 ? '' : WIDGETS.log('DYN_BASE', 'No component/template set to render ', [this.id, this.model.cmp], 'warn');
         }
         this.rendered = false;
         if (!this._cfr || !this._content) {

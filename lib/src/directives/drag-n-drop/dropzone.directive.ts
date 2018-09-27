@@ -62,7 +62,10 @@ export class DropzoneDirective implements OnChanges {
             this.renderer.addClass(this.el.nativeElement, name || 'dropzone');
             this.model.events = {
                 mouse: this.renderer.listen(this.el.nativeElement, 'mousemove', (e) => this.checkState(e)),
-                touch: this.renderer.listen(this.el.nativeElement, 'touchmove', (e) => this.checkState(e))
+                touch: this.renderer.listen(this.el.nativeElement, 'touchmove', (e) => this.checkState(e)),
+                dragover: this.renderer.listen(this.el.nativeElement, 'dragover', (e) => this.checkState(e, true)),
+                dragleave: this.renderer.listen(this.el.nativeElement, 'dragover', (e) => this.checkState(e, false)),
+                drop: this.renderer.listen(this.el.nativeElement, 'drop', (e) => this.checkState(e))
             };
         } else {
             if (this.model.hovering) {
@@ -90,7 +93,7 @@ export class DropzoneDirective implements OnChanges {
         this.checkState(e);
     }
 
-    private checkState(event: any) {
+    private checkState(event: any, hover: boolean = true) {
         if (this.timers.check) {
             clearTimeout(this.timers.check);
             this.timers.check = null;
@@ -106,7 +109,7 @@ export class DropzoneDirective implements OnChanges {
             this.renderer.removeClass(this.el.nativeElement, `${name || 'dropzone'}-hover`);
             if (center.x >= this.model.box.left && center.x <= this.model.box.left + this.model.box.width &&
                 center.y >= this.model.box.top && center.y <= this.model.box.top + this.model.box.height) {
-                this.model.hovering = this.model.item_id || true;
+                this.model.hovering = this.model.item_id || hover;
                 this.renderer.addClass(this.el.nativeElement, `${name || 'dropzone'}-hover`);
                 this.state = this.model.hovering ? (center.y < this.model.box.top + this.model.box.height / 2 ? 'above' : 'below') : '';
                 if (this.state) {
