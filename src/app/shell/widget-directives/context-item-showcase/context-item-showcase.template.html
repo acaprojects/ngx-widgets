@@ -1,0 +1,31 @@
+
+<showcase [(model)]="model">
+    <div class="container" context-item [template]="template">
+        <div class="text desktop-only">Right click me</div>
+        <div class="text not-desktop">Tap and hold me</div>
+        <ng-template #template>
+            <div class="context-menu">
+                <div class="item">
+                    <div class="icon"><i class="material-icons">layers</i></div>
+                    <div class="text">Item 1</div>
+                </div>
+                <div class="item">
+                    <div class="icon"><i class="material-icons">edit</i></div>
+                    <div class="text">Item 2</div>
+                </div>
+                <div class="item">
+                    <div class="icon"><i class="material-icons">add</i></div>
+                    <div class="text">Item 3</div>
+                </div>
+                <div class="item">
+                    <div class="icon"><i class="material-icons">remove</i></div>
+                    <div class="text">Item 4</div>
+                </div>
+                <div class="item">
+                    <div class="icon"><i class="material-icons">close</i></div>
+                    <div class="text">Item 5</div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+</showcase>

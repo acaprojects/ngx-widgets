@@ -1,0 +1,8 @@
+<div [class]="'context-item ' + name" [@show] widget [style.top]="model.data?.top + 'px'" [style.left]="model.data?.left + 'px'">
+    <ng-container *ngIf="model.cmp">
+        <ng-container *ngComponentOutlet="model.cmp"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="model.template">
+        <ng-container *ngTemplateOutlet="model.template"></ng-container>
+    </ng-container>
+</div>

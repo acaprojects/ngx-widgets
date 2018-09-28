@@ -10,6 +10,8 @@ import { ModalComponent } from './modal/modal.component';
 import { NotificationComponent } from './notification/notification.component';
 import { OverlayContainerComponent } from './overlay-container/overlay-container.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
+import { DraggedItemOverlayComponent } from './dragged-item/dragged-item.component';
+import { ContextItemComponent } from './context-item/context-item.component';
 
 import { ModalDirective } from '../../directives/overlays/modal.directive';
 import { NotifyDirective } from '../../directives/overlays/notify.directive';
@@ -17,22 +19,32 @@ import { TooltipDirective } from '../../directives/overlays/tooltip.directive';
 
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
 import { DirectiveWidgetsModule } from '../../directives/directives.module';
-import { DraggedItemOverlayComponent } from './dragged-item/dragged-item.component';
+import { ContextItemDirective } from '../../directives/context-item.directive';
+
+const COMPONENTS: any[] = [
+    DynamicBaseComponent,
+    OverlayContentComponent,
+    ModalComponent,
+    NotificationComponent,
+    OverlayContainerComponent,
+    TooltipComponent,
+    ContextItemComponent
+];
+
+const DIRECTIVES: any[] = [
+    ModalDirective,
+    NotifyDirective,
+    TooltipDirective,
+    ContextItemDirective
+];
 
 @NgModule({
     declarations: [
         /* COMPONENTS */
-        DynamicBaseComponent,
-        OverlayContentComponent,
-        ModalComponent,
-        NotificationComponent,
-        OverlayContainerComponent,
-        TooltipComponent,
+        ...COMPONENTS,
+        DraggedItemOverlayComponent,
         /* DIRECTIVES */
-        ModalDirective,
-        NotifyDirective,
-        TooltipDirective,
-        DraggedItemOverlayComponent
+        ...DIRECTIVES
     ],
     imports: [
         CommonModule,
@@ -43,24 +55,12 @@ import { DraggedItemOverlayComponent } from './dragged-item/dragged-item.compone
     ],
     exports: [
         /* COMPONENTS */
-        DynamicBaseComponent,
-        OverlayContentComponent,
-        ModalComponent,
-        NotificationComponent,
-        OverlayContainerComponent,
-        TooltipComponent,
+        ...COMPONENTS,
         /* DIRECTIVES */
-        ModalDirective,
-        NotifyDirective,
-        TooltipDirective
+        ...DIRECTIVES
     ],
     entryComponents: [
-        DynamicBaseComponent,
-        OverlayContentComponent,
-        ModalComponent,
-        NotificationComponent,
-        OverlayContainerComponent,
-        TooltipComponent,
+        ...COMPONENTS,
         DraggedItemOverlayComponent
     ]
 })

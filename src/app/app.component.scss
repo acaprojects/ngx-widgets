@@ -26,6 +26,47 @@ body {
     font-family: $main-font;
 }
 
+@include respond-to(not-mobile) {
+    .mobile-only,
+    .mobile {
+        display: none !important;
+    }
+}
+
+@include respond-to(not-tablet) {
+    .tablet-only,
+    .tablet {
+        display: none !important;
+    }
+}
+
+@include respond-to(not-desktop) {
+    .desktop-only,
+    .desktop {
+        display: none !important;
+    }
+}
+
+@include respond-to(desktop) {
+    .not-desktop {
+        display: none !important;
+    }
+}
+
+@include respond-to(tablet) {
+    .not-tablet,
+    .desktop-only {
+        display: none !important;
+    }
+}
+
+@include respond-to(mobile) {
+    .not-mobile,
+    .desktop-only {
+        display: none !important;
+    }
+}
+
 code, code *, .mono {
     font-family: Courier, monospace;
 }

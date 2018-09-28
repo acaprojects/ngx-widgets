@@ -1,0 +1,9 @@
+
+@import '../../../shared/ui-vars';
+
+.context-item {
+    position: absolute;
+    height: 1px;
+    width: 1px;
+    pointer-events: auto;
+}
