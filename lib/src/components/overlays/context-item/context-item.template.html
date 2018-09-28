@@ -1,4 +1,4 @@
-<div [class]="'context-item ' + name" [@show] widget [style.top]="model.data?.top + 'px'" [style.left]="model.data?.left + 'px'">
+<div [class]="'context-item' + (name || model.name ? ' ' + name || model.name : '')" [@show] widget [style.top]="model.data?.top + 'px'" [style.left]="model.data?.left + 'px'">
     <ng-container *ngIf="model.cmp">
         <ng-container *ngComponentOutlet="model.cmp"></ng-container>
     </ng-container>

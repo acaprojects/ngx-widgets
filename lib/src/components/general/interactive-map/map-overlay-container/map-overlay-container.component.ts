@@ -1,9 +1,10 @@
 
-import { Component, Input, ViewChild, HostListener, OnChanges } from '@angular/core';
+import { Component, Input, ViewChild, HostListener, OnChanges, Output, EventEmitter } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, ElementRef, ViewContainerRef } from '@angular/core';
 
 import { MapOverlayComponent } from '../map-overlay/map-overlay.component';
 import { OverlayContainerComponent } from '../../../overlays/overlay-container/overlay-container.component';
+import { WIDGETS } from '../../../../settings';
 
 @Component({
     selector: 'map-overlay-container',
@@ -11,10 +12,12 @@ import { OverlayContainerComponent } from '../../../overlays/overlay-container/o
     styleUrls: ['./map-overlay-container.styles.scss'],
 })
 export class MapOverlayContainerComponent extends OverlayContainerComponent implements OnChanges {
+    @Input() public src: string;
     @Input() public model: any[] = [];
     @Input() public el: any = null;
     @Input() public state: any = null;
     @Input() public resize: any = null;
+    @Output() public event = new EventEmitter();
 
     @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
     @ViewChild('el') public root: ElementRef;
@@ -90,6 +93,9 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent impl
                 if (item.map_id) {
                     const clean_id = item.map_id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
                     item.el = this.el.querySelector(`#${clean_id}`);
+                    if (!item.el && !item.coordinates) {
+                        this.error(item);
+                    }
                 }
                 this.add(`${item.id}`, MapOverlayComponent).then((inst: any) => {
                     item.inst = inst;
@@ -116,8 +122,14 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent impl
                     if (this.el && item.map_id) {
                         const clean_id = item.map_id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
                         const el = this.el.querySelector(`#${clean_id}`);
-                        if (el) { item.el = el; }
-                        else { item.el = null; }
+                        if (el) { 
+                            item.el = el; 
+                        } else { 
+                            item.el = null; 
+                            if (!item.coordinates) {
+                                this.error(item);
+                            }
+                        }
                     }
                 // }
                 item.map_state = this.state;
@@ -138,5 +150,16 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent impl
             }
         }
         return {};
+    }
+
+    private error(item: any) {
+        if (this.timers.error) {
+            clearTimeout(this.timers.error);
+        }
+        this.timers.error = setTimeout(() => {
+            WIDGETS.log('MAP', `Unable to grab POI selector "${item.map_id}" as it does not exist on map "${this.src}"`, null, 'warn');
+            this.event.emit({ type: 'warning', msg: `Unable to grab POI selector "${item.map_id}" as it does not exist on map "${this.src}"` });
+            this.timers.error = null;
+        }, 300);
     }
 }

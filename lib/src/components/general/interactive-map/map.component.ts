@@ -7,6 +7,7 @@ import { MapService } from '../../../services/map.service';
 import { Animate } from '../../../services/animate.service';
 import { OverlayService } from '../../../services/overlay.service';
 import { MapOverlayContainerComponent } from './map-overlay-container/map-overlay-container.component';
+import { WIDGETS } from '../../../settings';
 
 export interface IPointOfInterest {
     id?: string;        // CSS Selector ID of element with map
@@ -226,6 +227,9 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
                                 element: el,
                             });
                         });
+                    } else {
+                        WIDGETS.log('MAP', `Unable to listen to selector, "${listener.id}" does not exist on map "${this.src}"`, null, 'warn');
+                        this.event.emit({ type: 'warning', msg: `Unable to listen to selector, "${listener.id}" does not exist on map "${this.src}"` });
                     }
                 }
             }
@@ -286,7 +290,11 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
     }
 
     public overlayEvent(e: any) {
-        this.event.emit({ type: 'Overlay', event: e });
+        if (e.type === 'warning') {
+            this.event.emit(e);
+        } else {
+            this.event.emit({ type: 'Overlay', event: e });
+        }
     }
 
     public initMap(update: boolean = false) {
@@ -464,6 +472,9 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
                         const zoom = ((scale / 3) * 100) - 100;
                         this.center = location;
                         this.zoom = this.focus.zoom || Math.min(zoom, 700) || 100;
+                    } else {
+                        WIDGETS.log('MAP', `Unable to focus on selector, "${this.focus.id}" does not exist on map "${this.src}"`, null, 'warn');
+                        this.event.emit({ type: 'warning', msg: `Unable to focus on selector, "${this.focus.id}" does not exist on map "${this.src}"` });
                     }
                 } else {
                     setTimeout(() => {

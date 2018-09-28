@@ -16,6 +16,7 @@ import { DynamicBaseComponent } from '../dynamic-base.component';
     ]
 })
 export class ContextItemComponent extends DynamicBaseComponent {
+    public name: string;
     public container: any = {};
 
     protected type = 'ContextItem';
@@ -34,7 +35,6 @@ export class ContextItemComponent extends DynamicBaseComponent {
             this.subs.push(
                 this.renderer.listen('window', 'mouseup', () => { 
                     setTimeout(() => this.remove(), 300);
-                    console.log('Close: mouse');
                 })
             );
             this.subs.push(
@@ -43,7 +43,6 @@ export class ContextItemComponent extends DynamicBaseComponent {
                         return this.model.first = true;
                     }
                     setTimeout(() => this.remove(), 300);
-                    console.log('Close: touch'); 
                 })
             );
         }, 300);

@@ -190,7 +190,6 @@ export class TimePickerComponent implements OnInit, OnChanges {
         this.timers.check = setTimeout(() => {
                 // Check start hour
             if (this.model.start_hour) {
-                console.log('Start hour:', +this.model.start_hour < 0, +this.model.start_hour >= 24, isNaN(this.model.start_hour))
                 this.model.error_sh = +this.model.start_hour < 0 || +this.model.start_hour >= 24 || isNaN(this.model.start_hour);
                 if (!this.model.error_sh) {
                     this.model.date.hour(+this.model.start_hour);
