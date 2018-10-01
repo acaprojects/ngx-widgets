@@ -59,6 +59,7 @@ export class OverlayContainerComponent {
      * @param id ID of the component to remove
      */
     public remove(id: string) {
+        console.error('Remove:', id);
         setTimeout(() => {
             if (this.cmp_refs[id]) {
                 this.cmp_refs[id].destroy();

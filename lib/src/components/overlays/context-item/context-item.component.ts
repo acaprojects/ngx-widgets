@@ -1,6 +1,6 @@
 
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, Injector, Renderer2 } from '@angular/core';
+import { Component, Injector, Renderer2, ViewChild, ComponentRef, OnInit, AfterViewInit } from '@angular/core';
 import { ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
 import { DynamicBaseComponent } from '../dynamic-base.component';
@@ -15,9 +15,9 @@ import { DynamicBaseComponent } from '../dynamic-base.component';
         ]),
     ]
 })
-export class ContextItemComponent extends DynamicBaseComponent {
-    public name: string;
+export class ContextItemComponent extends DynamicBaseComponent implements OnInit, AfterViewInit {
     public container: any = {};
+    public show: boolean = true;
 
     protected type = 'ContextItem';
 
@@ -29,11 +29,13 @@ export class ContextItemComponent extends DynamicBaseComponent {
     }
 
     public ngOnInit() {
+        this.show = true;
         super.ngOnInit();
         this.model.first = false;
         setTimeout(() => {
             this.subs.push(
                 this.renderer.listen('window', 'mouseup', () => { 
+                    this.show = false;
                     setTimeout(() => this.remove(), 300);
                 })
             );
@@ -42,20 +44,11 @@ export class ContextItemComponent extends DynamicBaseComponent {
                     if (!this.model.first) {
                         return this.model.first = true;
                     }
+                    this.show = false;
                     setTimeout(() => this.remove(), 300);
                 })
             );
         }, 300);
-    }
-
-    public update(data) {
-        super.update(data);
-    }
-
-    public updateComponentData(cmp) {
-        if (cmp && cmp.data) {
-            cmp.model = this.model.data;
-        }
     }
 
     public resize() {

@@ -10,8 +10,10 @@ import { ContextItemComponent } from "../components/overlays/context-item/contex
 export class ContextItemDirective {
     @Input() public id: string = `CTX_${Math.floor(Math.random() * 8999999 + 1000000)}`;
     @Input() public cmp: Type;
+    @Input() public data: any;
     @Input() public template: TemplateRef<any>;
     @Output() public offset = new EventEmitter();
+    @Output() public event = new EventEmitter();
 
     private model: any = {};
 
@@ -20,6 +22,7 @@ export class ContextItemDirective {
         if (this.model.instance) {
             this.overlay.remove('root', this.model.instance.id);
             this.model.instance = null;
+            console.log('Clear context item');
             return setTimeout(() => this.contextEvent(event), 50);
         }
         const h = window.innerHeight;
@@ -30,10 +33,17 @@ export class ContextItemDirective {
             right:  w - event.clientX, 
             bottom: h - event.clientY
         };
+        const data = { 
+            offset,
+            data: this.data
+        };
         this.overlay.add('root', `context_${this.id}`, ContextItemComponent, { 
             cmp: this.cmp, 
             template: this.template, 
-            data: offset 
+            data
+        }, (e) => {
+            console.log('Event:', e);
+            this.event.emit(e);
         }).then((inst) => this.model.instance = inst, () => null);
     }
 

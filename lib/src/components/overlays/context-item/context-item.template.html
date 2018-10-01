@@ -1,6 +1,7 @@
-<div [class]="'context-item' + (name || model.name ? ' ' + name || model.name : '')" [@show] widget [style.top]="model.data?.top + 'px'" [style.left]="model.data?.left + 'px'">
-    <ng-container *ngIf="model.cmp">
-        <ng-container *ngComponentOutlet="model.cmp"></ng-container>
+<div [class]="'context-item' + (model && model.name ? ' ' + model.name : '')" [@show] *ngIf="show" widget 
+    [style.top]="model.data?.offset?.top + 'px'" [style.left]="model.data?.offset?.left + 'px'">
+
+    <ng-container #content>
     </ng-container>
     <ng-container *ngIf="model.template">
         <ng-container *ngTemplateOutlet="model.template"></ng-container>
