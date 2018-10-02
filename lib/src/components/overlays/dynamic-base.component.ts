@@ -196,7 +196,7 @@ export class DynamicBaseComponent implements OnInit, OnDestroy, AfterViewInit {
             if (this.cmp_ref) {
                 this.model.data = this.cmp_ref.instance.model;
             }
-            if (type.toLowerCase() !== 'close') {
+            if (typeof type === 'string' && type.toLowerCase() !== 'close') {
                 WIDGETS.log('DYN_BASE', `Event on component ${this.id} of type '${type}' from '${location.toLowerCase()}'`);
             }
             const event: IDynamicComponentEvent = {

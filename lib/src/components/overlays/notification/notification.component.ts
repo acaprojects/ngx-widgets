@@ -1,7 +1,7 @@
 
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, EventEmitter, Input, Output, Renderer2, Injector } from '@angular/core';
-import { ComponentFactoryResolver, ChangeDetectorRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { animate, keyframes, style, transition, trigger } from '@angular/animations';
+import { Component, Renderer2, Injector } from '@angular/core';
+import { ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
 import { DynamicBaseComponent } from '../dynamic-base.component';
 
@@ -15,12 +15,18 @@ const moment = moment_api;
     animations: [
         trigger('show', [
             transition(':enter', [
-                style({ opacity: 0, transform: 'translateY(-100%)' }),
-                animate(300, style({ opacity: 1, transform: 'translateY(0%)' }))
+                animate(220, keyframes([
+                    style({ opacity: 0, transform: 'translateX(100%)', offset: 0 }),
+                    style({ opacity: .9, transform: 'translateX(-10%)', offset: .9 }),
+                    style({ opacity: 1, transform: 'translateX(0%)', offset: 1 })
+                ]))
             ]),
             transition(':leave', [
-                style({ opacity: 1, transform: 'translateY(0%)' }),
-                animate(300, style({ opacity: 0, transform: 'translateY(100%)' }))
+                animate(300, keyframes([
+                    style({ opacity: 1, transform: 'translateY(0%)', offset: 0 }),
+                    style({ opacity: .8, transform: 'translateY(20%)', offset: .2 }),
+                    style({ opacity: 0, transform: 'translateY(-100%)', offset: 1 })
+                ]))
             ]),
         ]),
     ],
@@ -95,7 +101,7 @@ export class NotificationComponent extends DynamicBaseComponent {
         if (!this.model.items) {
             this.model.items = [];
         }
-        this.model.items.push({
+        this.model.items.unshift({
             id,
             time: moment().valueOf(),
             data: data,
@@ -111,10 +117,15 @@ export class NotificationComponent extends DynamicBaseComponent {
         if (this.model.items) {
             for (const item of this.model.items) {
                 if (item.id === id) {
-                    this.model.items.splice(this.model.items.indexOf(item), 1);
-                    if (item.data && item.data.dismiss && item.data.dismiss instanceof Function) {
-                        item.data.dismiss();
-                    }
+                    item.hide = true;
+                    console.log('Items', item);
+                    setTimeout(() => {
+                        console.log('Splice');
+                        this.model.items.splice(this.model.items.indexOf(item), 1);
+                        if (item.data && item.data.dismiss && item.data.dismiss instanceof Function) {
+                            item.data.dismiss();
+                        }
+                    }, 300);
                     break;
                 }
             }

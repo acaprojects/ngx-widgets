@@ -34,21 +34,23 @@ export class ContextItemComponent extends DynamicBaseComponent implements OnInit
         this.model.first = false;
         setTimeout(() => {
             this.subs.push(
-                this.renderer.listen('window', 'mouseup', () => { 
-                    this.show = false;
-                    setTimeout(() => this.remove(), 300);
-                })
+                this.renderer.listen('window', 'mouseup', () => this.handleClose())
             );
             this.subs.push(
-                this.renderer.listen('window', 'touchend', () => { 
-                    if (!this.model.first) {
-                        return this.model.first = true;
-                    }
-                    this.show = false;
-                    setTimeout(() => this.remove(), 300);
-                })
+                this.renderer.listen('window', 'touchend', () => this.handleClose())
             );
         }, 300);
+    }
+
+    public handleClose() {
+        if (!this.timers.close) {
+            clearTimeout(this.timers.close);
+        }
+        this.timers.close = setTimeout(() => {
+            this.show = false;
+            this.timers.close = null;
+            setTimeout(() => this.remove(), 250);
+        }, 50)
     }
 
     public resize() {

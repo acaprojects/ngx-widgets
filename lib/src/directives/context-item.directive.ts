@@ -22,7 +22,6 @@ export class ContextItemDirective {
         if (this.model.instance) {
             this.overlay.remove('root', this.model.instance.id);
             this.model.instance = null;
-            console.log('Clear context item');
             return setTimeout(() => this.contextEvent(event), 50);
         }
         const h = window.innerHeight;
@@ -42,7 +41,6 @@ export class ContextItemDirective {
             template: this.template, 
             data
         }, (e) => {
-            console.log('Event:', e);
             this.event.emit(e);
         }).then((inst) => this.model.instance = inst, () => null);
     }
