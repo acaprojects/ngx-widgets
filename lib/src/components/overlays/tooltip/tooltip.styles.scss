@@ -1,6 +1,8 @@
 
 @import '../../../shared/ui-vars';
 
+$triangle-size: 32px;
+
 .tap-area {
     position: fixed;
     top: 0;
@@ -33,20 +35,20 @@
     &.right {
         top: 50%;
         transform: translateY(-50%);
-        height: 2em;
-        width: .5em;
+        height: $triangle-size;
+        width: $triangle-size / 4;
         &.no-triangle {
             width: 0;
         }
     }
     &.left {
-        left: -.5rem;
+        left: -$triangle-size / 4;
         &.no-triangle {
             left: 0;
         }
     }
     &.right {
-        right: -.5rem;
+        right: -$triangle-size / 4;
         &.no-triangle {
             right: 0;
         }
@@ -55,20 +57,20 @@
     &.bottom {
         left: 50%;
         transform: translateX(-50%);
-        height: .5em;
-        width: 2em;
+        height: $triangle-size / 4;
+        width: $triangle-size;
         &.no-triangle {
             height: 0;
         }
     }
     &.top {
-        top: -.5rem;
+        top: -$triangle-size / 4;
         &.no-triangle {
             top: 0;
         }
     }
     &.bottom {
-        bottom: -.5rem;
+        bottom: -$triangle-size / 4;
         &.no-triangle {
             bottom: 0;
         }
@@ -86,9 +88,9 @@
     position: absolute;
     background-color: #fff;
     box-shadow: 0 1px 3px 0 rgba(#000,.2), 0 1px 1px 0 rgba(#000,.14), 0 2px 1px -1px rgba(#000,.12);
-    min-height: 2em;
-    min-width: 2em;
-    border-radius: .2em;
+    min-height: $triangle-size;
+    min-width: $triangle-size;
+    border-radius: $triangle-size / 8;
     pointer-events: auto;
     transition: transform(300ms);
     .clear & {
@@ -98,18 +100,18 @@
 
     .left & {
         right: 0;
-        transform: translate(-.5rem, 0%);
+        transform: translate(-$triangle-size / 4, 0%);
         &.middle {
             top: 50%;
-            transform: translate(-.5rem, -50%);
+            transform: translate(-$triangle-size / 4, -50%);
         }
     }
     .right & {
         left: 0;
-        transform: translate(.5rem, 0%);
+        transform: translate($triangle-size / 4, 0%);
         &.middle {
             top: 50%;
-            transform: translate(.5rem, -50%);
+            transform: translate($triangle-size / 4, -50%);
         }
     }
 
@@ -123,7 +125,7 @@
         }
     }
     .top & {
-        top: 1px;
+        top: 0;
         transform: translate(0, -100%);
         &.middle {
             left: 50%;
@@ -131,7 +133,7 @@
         }
     }
     .bottom & {
-        bottom: 1px;
+        bottom: 0;
         transform: translate(0, 100%);
         &.middle {
             left: 50%;
@@ -156,41 +158,41 @@
 
     .left &,
     .right & {
-        height: 2em;
-        width: .5em;
+        height: $triangle-size;
+        width: $triangle-size / 4;
     }
     .top &,
     .bottom &{
-        height: .5em;
-        width: 2em;
+        height: $triangle-size / 4;
+        width: $triangle-size;
     }
 
     .square {
         position: absolute;
-        height: 2em;
-        width:  2em;
-        border-radius: .1em;
+        height: $triangle-size;
+        width: $triangle-size;
+        border-radius: $triangle-size / 16;
         transform: rotate(45deg);
         background-color: #fff;
         box-shadow: 0 1px 3px 0 rgba(#000,.2), 0 1px 1px 0 rgba(#000,.14), 0 2px 1px -1px rgba(#000,.12);
 
         .left & {
             top: 0;
-            right: .5em;
+            right: $triangle-size / 4;
         }
 
         .right & {
             top: 0;
-            left: .5em;
+            left: $triangle-size / 4;
         }
 
         .top & {
-            bottom: .5em;
+            bottom: $triangle-size / 4;
             left: 0;
         }
 
         .bottom & {
-            top: .5em;
+            top: $triangle-size / 4;
             left: 0;
         }
     }

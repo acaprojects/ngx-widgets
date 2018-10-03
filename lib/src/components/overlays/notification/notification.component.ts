@@ -118,9 +118,7 @@ export class NotificationComponent extends DynamicBaseComponent {
             for (const item of this.model.items) {
                 if (item.id === id) {
                     item.hide = true;
-                    console.log('Items', item);
                     setTimeout(() => {
-                        console.log('Splice');
                         this.model.items.splice(this.model.items.indexOf(item), 1);
                         if (item.data && item.data.dismiss && item.data.dismiss instanceof Function) {
                             item.data.dismiss();
