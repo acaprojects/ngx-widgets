@@ -14,6 +14,7 @@ export class DropdownComponent implements OnChanges {
     @Input() public placeholder = '';
     @Input() public hideActive = false;
     @Input() public html = '';
+    @Output() public filterValue: any = new EventEmitter();
     @Output() public modelChange: any = new EventEmitter();
 
     @ViewChild('ref') private reference: ElementRef;
@@ -99,6 +100,7 @@ export class DropdownComponent implements OnChanges {
         } else {
             this.filtered_list = this.list_items;
         }
+        this.filterValue.emit(this.search);
     }
 
 
