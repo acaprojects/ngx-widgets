@@ -6,11 +6,13 @@ import { PAGE_CONTROL_WIDGETS_SHOWCASE_COMPONENTS } from './page-control-widgets
 import { WIDGET_DIRECTIVES_SHOWCASE_COMPONENTS } from './widget-directives';
 import { WIDGET_PIPES_SHOWCASE_COMPONENTS } from './widget-pipes';
 import { WIDGET_SERVICES_SHOWCASE_COMPONENTS } from './widget-services';
+import { PlaygroundComponent } from './playground/playground.component';
 
 export * from './shell.component';
 
 export const APP_COMPONENTS: any[] = [
     AppShellComponent,
+    PlaygroundComponent,
     ...GENERAL_WIDGETS_SHOWCASE_COMPONENTS,
     ...FORM_CONTROL_WIDGETS_SHOWCASE_COMPONENTS,
     ...PAGE_CONTROL_WIDGETS_SHOWCASE_COMPONENTS,

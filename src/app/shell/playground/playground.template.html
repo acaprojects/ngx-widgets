@@ -1,0 +1,26 @@
+<div class="container" *ngIf="!model.component">
+    <header><div class="heading">Component Playground</div></header>
+    <main>
+        <dropdown [list]="model.cmp_list" [(model)]="model.cmp_index" placeholder="Select component"></dropdown>
+    </main>
+    <footer>
+        <btn [disabled]="model.cmp_index < 0" (tapped)="select(model.cmp_list[model.cmp_index])">Select component</btn>
+    </footer>
+</div>
+<div class="container full" *ngIf="model.component">
+    <header>
+        <div class="heading">Component Playground - {{model.component?.name}}</div>
+        <div #tablist class="tabs">
+            <div #tab class="tab" *ngFor="let cat of model.category_list" [class.active]="cat === model.category" (touchrelease)="setCategory(cat)">
+                {{cat}}
+            </div>
+            <div class="bar" [style.left]="model.tab?.left + 'px'" [style.width]="model.tab?.width + 'px'">
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="tab-content">
+            <!-- <full-calendar [events]="model.events" (event)="event($event)"></full-calendar> -->
+        </div>
+    </main>
+</div>

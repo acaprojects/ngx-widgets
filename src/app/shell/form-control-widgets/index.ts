@@ -10,6 +10,7 @@ import { TimePickerShowcaseComponent } from './time-picker-showcase/time-picker-
 import { ToggleShowcaseComponent } from './toggle-showcase/toggle-showcase.component';
 import { InputFieldShowcaseComponent } from './input-field-showcase/input-field-showcase.component';
 import { CustomDropdownShowcaseComponent } from './custom-dropdown-showcase/custom-dropdown-showcase.component';
+import { TimeInputShowcaseComponent } from './time-input-showcase/time-input-showcase.component';
 
 export const FORM_CONTROL_WIDGETS_SHOWCASE_COMPONENTS: any[] = [
     FormControlWidgetsComponent,
@@ -22,5 +23,6 @@ export const FORM_CONTROL_WIDGETS_SHOWCASE_COMPONENTS: any[] = [
     RadioButtonShowcaseComponent,
     SliderShowcaseComponent,
     TimePickerShowcaseComponent,
-    ToggleShowcaseComponent
+    ToggleShowcaseComponent,
+    TimeInputShowcaseComponent
 ];
