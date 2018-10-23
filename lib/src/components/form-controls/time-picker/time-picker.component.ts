@@ -59,11 +59,16 @@ export class TimePickerComponent implements OnInit, OnChanges {
             this.model.date = moment().hours(+parts[0]).minutes(+parts[1]);
             this.model.end = moment(this.model.date).add(this.duration || 60, 'm');
             this.updateDisplay();
-        } else if (changes.duration) {
+        }
+        if (changes.duration) {
             this.model.duration = this.duration;
             this.updateEnd();
         }
+        if  (changes.manual) {
+            this.model.manual = !!this.manual;
+        }
     }
+
     /**
      * Generate numbers to display on the clockface
      * @param value Multiples to display

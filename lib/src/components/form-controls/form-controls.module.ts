@@ -14,23 +14,29 @@ import { RadioButtonComponent } from './radioset/radio-button/radio-button.compo
 import { SliderComponent } from './slider/slider.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { ToggleComponent } from './toggle/toggle.component';
+import { TimeInputComponent } from './time-input/time-input.component';
 
 import { OverlayWidgetsModule } from '../overlays/overlay.module';
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
 import { DirectiveWidgetsModule } from '../../directives/directives.module';
 
+const COMPONENTS: any[] = [
+    CalendarComponent,
+    CheckboxComponent,
+    CustomDropdownComponent,
+    DropdownComponent,
+    InputFieldComponent,
+    RadiosetComponent,
+    RadioButtonComponent,
+    SliderComponent,
+    TimePickerComponent,
+    ToggleComponent,
+    TimeInputComponent
+];
+
 @NgModule({
     declarations: [
-        CalendarComponent,
-        CheckboxComponent,
-        CustomDropdownComponent,
-        DropdownComponent,
-        InputFieldComponent,
-        RadiosetComponent,
-        RadioButtonComponent,
-        SliderComponent,
-        TimePickerComponent,
-        ToggleComponent,
+        ...COMPONENTS
     ],
     imports: [
         CommonModule,
@@ -41,16 +47,7 @@ import { DirectiveWidgetsModule } from '../../directives/directives.module';
         DirectiveWidgetsModule
     ],
     exports: [
-        CalendarComponent,
-        CheckboxComponent,
-        CustomDropdownComponent,
-        DropdownComponent,
-        InputFieldComponent,
-        RadiosetComponent,
-        RadioButtonComponent,
-        SliderComponent,
-        TimePickerComponent,
-        ToggleComponent
+        ...COMPONENTS
     ]
 })
 export class FormControlWidgetsModule {

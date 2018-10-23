@@ -1,0 +1,21 @@
+<div [class]="'time-input' + (name ? ' ' + name : '')" widget>
+    <div class="hour">
+        <div class="arrow top left" (touchrelease)="changeHour(1)"></div>
+        <input #hour [(ngModel)]="data.hour" (ngModelChange)="checkHour()" type="tel" maxlength="2" placeholder="hh"
+            [class.error]="data.hour_error" (keydown.;)="nextField($event)" (keyup.arrowright)="nextField($event)"
+            (keyup.arrowup)="changeHour(1)" (keyup.arrowdown)="changeHour(-1)">
+
+        <div class="arrow bottom left" (touchrelease)="changeHour(-1)"></div>
+    </div>
+    <div class="divider">:</div>
+    <div class="minute">
+        <div class="arrow top right" (touchrelease)="changeMinute(1)"></div>
+        <input #minute [(ngModel)]="data.minute" (ngModelChange)="checkMinute()" type="tel" maxlength="2" placeholder="mm"
+            [class.error]="data.minute_error" (keyup.colon)="nextField($event)" (keyup.arrowleft)="previousField($event)"
+            (keyup.backspace)="previousField($event)" (keyup.arrowup)="changeMinute(1)" (keyup.arrowdown)="changeMinute(-1)">
+        <div class="arrow bottom right" (touchrelease)="changeMinute(-1)"></div>
+    </div>
+    <div class="period" (touchrelease)="data.pm = !data.pm">
+        {{ data.pm ? 'PM' : 'AM' }}
+    </div>
+</div>
