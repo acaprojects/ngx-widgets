@@ -51,4 +51,8 @@ export class DropdownShowcaseComponent {
      placeholder=&quot;Select a state?&quot;
 &lt;/dropdown&gt;`;
     }
+
+    public emit(value) {
+        console.log(value);
+    }
 }

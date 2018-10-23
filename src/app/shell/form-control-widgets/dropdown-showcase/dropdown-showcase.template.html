@@ -3,6 +3,6 @@
     <div class="container">
         <dropdown name="test" [list]="model.state.list1" placeholder="=== Select Item 1 ==="></dropdown>
         <dropdown name="test" [list]="model.state.list2" placeholder="=== Select Item 2 ==="></dropdown>
-        <dropdown name="test" [list]="model.state.list3" [filter]="true" placeholder="=== Select Item 2 ==="></dropdown>
+        <dropdown name="test" [list]="model.state.list3" [filter]="true" (filterValue)="emit($event)" placeholder="=== Select Item 2 ==="></dropdown>
     </div>
 </showcase>

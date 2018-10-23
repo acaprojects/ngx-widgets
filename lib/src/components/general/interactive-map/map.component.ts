@@ -9,6 +9,8 @@ import { OverlayService } from '../../../services/overlay.service';
 import { MapOverlayContainerComponent } from './map-overlay-container/map-overlay-container.component';
 import { WIDGETS } from '../../../settings';
 
+import * as base64 from 'base64-js';
+
 export interface IPointOfInterest {
     id?: string;        // CSS Selector ID of element with map
     name: string;       // Identifier for the point of interest
@@ -117,9 +119,7 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
             this.animate.animation(() => {
                 this.zoom = 0;
                 this.center = { x: .5, y: .5 };
-            }, () => {
-                this.update();
-            }).animate();
+            }, () => this.update()).animate();
         }
         if (changes.listeners) {
             this.clearListeners();
@@ -228,7 +228,13 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
                             });
                         });
                     } else {
-                        WIDGETS.log('MAP', `Unable to listen to selector, "${listener.id}" does not exist on map "${this.src}"`, null, 'warn');
+                        const win = (window as any);
+                        if (!win.int_map) { win.int_map = { not_found: {} } }
+                        if (!win.int_map.not_found[this.src]) { win.int_map.not_found[this.src] = []; }
+                        if (win.int_map.not_found[this.src].indexOf(listener.id) < 0) {
+                            WIDGETS.log('MAP', `Unable to listen to selector, "${listener.id}" does not exist on map "${this.src}"`, null, 'warn');
+                            win.int_map.not_found[this.src].push(listener.id);
+                        }
                         this.event.emit({ type: 'warning', msg: `Unable to listen to selector, "${listener.id}" does not exist on map "${this.src}"` });
                     }
                 }
@@ -441,6 +447,7 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
                 this.model.map = map;
                 this.update();
                 this.model.loading = false;
+                this.model.image
                 setTimeout(() =>  this.initMap() , 200);
             }, (err) => {
                 tries++;
@@ -473,7 +480,13 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
                         this.center = location;
                         this.zoom = this.focus.zoom || Math.min(zoom, 700) || 100;
                     } else {
-                        WIDGETS.log('MAP', `Unable to focus on selector, "${this.focus.id}" does not exist on map "${this.src}"`, null, 'warn');
+                        const win = (window as any);
+                        if (!win.int_map) { win.int_map = { not_found: {} } }
+                        if (!win.int_map.not_found[this.src]) { win.int_map.not_found[this.src] = []; }
+                        if (win.int_map.not_found[this.src].indexOf(this.focus.id) < 0) {
+                            WIDGETS.log('MAP', `Unable to focus on selector, "${this.focus.id}" does not exist on map "${this.src}"`, null, 'warn');
+                            win.int_map.not_found[this.src].push(this.focus.id);
+                        }
                         this.event.emit({ type: 'warning', msg: `Unable to focus on selector, "${this.focus.id}" does not exist on map "${this.src}"` });
                     }
                 } else {
@@ -510,6 +523,8 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
     }
 
     private updateStyles() {
+        if (this.model.styles !== undefined) { delete this.model.styles; }
+        if (this.model.simple_styles !== undefined) { delete this.model.simple_styles; }
         this.model.styles = '';
         this.model.simple_styles = '';
         for (const id in this.styles) {
@@ -519,7 +534,7 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
                 let properties = '';
                 for (const prop in this.styles[id]) {
                     if (this.styles[id].hasOwnProperty(prop)) {
-                        properties += `  ${prop}: ${this.styles[id][prop]};`;
+                        properties += ` ${prop}: ${this.styles[id][prop]};`;
                     }
                 }
                 if (properties) {
@@ -553,18 +568,29 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
         let box = this.model.map_el.getBoundingClientRect();
         let width = window.devicePixelRatio * window.innerWidth;
         let ratio = (box.width / box.height) || 1;
-        let img = document.createElement('img');
+        if (this.model.img) { delete this.model.img; }
+        this.model.img = document.createElement('img');
         const canvas = this.canvas.nativeElement;
         const context = canvas.getContext('2d');
-        img.onerror = (err) => console.log(err);
-        img.onload = () => {
+        this.model.img.onerror = (err) => console.log(err);
+        this.model.img.onload = () => {
             canvas.width = width;
             canvas.height = width / ratio;
-            context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            context.drawImage(this.model.img, 0, 0, canvas.width, canvas.height);
         };
         const data_with_styles = (this.model.map || '').replace(`</style>`, `${this.model.simple_styles}</style>`)
             .replace('<svg', `<svg width="${width}px" height="${Math.floor(width / ratio)}px"`);
-        const base64_data = btoa(data_with_styles);
-        img.src = `data:image/svg+xml;base64,${base64_data}`;
+        const base64_data = this.base64Encode(data_with_styles);
+        this.model.img.src = `data:image/svg+xml;base64,${base64_data}`;
+    }
+
+    private base64Encode(str) {
+        // first we use encodeURIComponent to get percent-encoded UTF-8,
+        // then we convert the percent encodings into raw bytes which
+        // can be fed into btoa.
+        return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+            function toSolidBytes(match, p1) {
+                return String.fromCharCode(('0x' + p1) as any);
+        }));
     }
 }

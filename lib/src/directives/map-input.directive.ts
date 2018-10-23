@@ -53,6 +53,10 @@ export class MapInputDirective implements OnChanges {
                 this.checkBounds();
             }, () => {
                 this.scaleChange.emit(this.scale);
+                if (this.timer.scale) {
+                    clearTimeout(this.timer.scale);
+                    this.timer.scale = null;
+                }
             });
         }
         this.timer.scale = null;
@@ -90,6 +94,7 @@ export class MapInputDirective implements OnChanges {
 
     @HostListener('pinchstart', ['$event']) private scaleStart(e: any) {
         this.delta.scale = e.scale;
+        this.timer.scale = null;
         this.model.scaling = true;
     }
 
@@ -121,7 +126,7 @@ export class MapInputDirective implements OnChanges {
             this.scale = Math.round((this.scale + 100) * value - 100);
             this.animations.scale.animate();
             this.timer.scale = null;
-        }, 40);
+        }, 80);
     }
 
     @HostListener('wheel', ['$event']) private wheelScale(e: any) {
@@ -141,6 +146,7 @@ export class MapInputDirective implements OnChanges {
         // Check zoom is valid
         if (this.scale < 0) { this.scale = 0; }
         else if (this.scale > 1900) { this.scale = 1900; }
+        else if (isNaN(this.scale)) { this.scale = 0; }
     }
 
 }

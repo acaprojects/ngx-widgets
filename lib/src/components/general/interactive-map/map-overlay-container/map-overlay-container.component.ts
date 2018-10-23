@@ -122,10 +122,10 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent impl
                     if (this.el && item.map_id) {
                         const clean_id = item.map_id.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
                         const el = this.el.querySelector(`#${clean_id}`);
-                        if (el) { 
-                            item.el = el; 
-                        } else { 
-                            item.el = null; 
+                        if (el) {
+                            item.el = el;
+                        } else {
+                            item.el = null;
                             if (!item.coordinates) {
                                 this.error(item);
                             }
@@ -157,7 +157,13 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent impl
             clearTimeout(this.timers.error);
         }
         this.timers.error = setTimeout(() => {
-            WIDGETS.log('MAP', `Unable to grab POI selector "${item.map_id}" as it does not exist on map "${this.src}"`, null, 'warn');
+            const win = (window as any);
+            if (!win.int_map) { win.int_map = { not_found: {} } }
+            if (!win.int_map.not_found[this.src]) { win.int_map.not_found[this.src] = []; }
+            if (win.int_map.not_found[this.src].indexOf(item.map_id) < 0) {
+                WIDGETS.log('MAP', `Unable to grab POI selector "${item.map_id}" as it does not exist on map "${this.src}"`, null, 'warn');
+                win.int_map.not_found[this.src].push(item.map_id);
+            }
             this.event.emit({ type: 'warning', msg: `Unable to grab POI selector "${item.map_id}" as it does not exist on map "${this.src}"` });
             this.timers.error = null;
         }, 300);
