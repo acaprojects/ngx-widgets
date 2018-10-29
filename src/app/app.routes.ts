@@ -7,6 +7,7 @@ import { PageControlWidgetsComponent } from './shell/page-control-widgets/page-c
 import { WidgetDirectivesComponent } from './shell/widget-directives/widget-directives.component';
 import { WidgetPipesComponent } from './shell/widget-pipes/widget-pipes.component';
 import { WidgetServicesComponent } from './shell/widget-services/widget-services.component';
+import { PlaygroundComponent } from './shell/playground/playground.component';
 
 export const ROUTES: Routes = [
     { path: '', component: AppShellComponent, children: [
@@ -22,7 +23,9 @@ export const ROUTES: Routes = [
         { path: 'pipes', component: WidgetPipesComponent },
         { path: 'pipes/:location', component: WidgetPipesComponent },
         { path: 'services', component: WidgetServicesComponent },
-        { path: 'services/:location', component: WidgetServicesComponent }
+        { path: 'services/:location', component: WidgetServicesComponent },
+        { path: 'playground', component: PlaygroundComponent },
+        { path: 'playground/:component', component: PlaygroundComponent }
     ]},
     { path: '**', redirectTo: '' },
 ];

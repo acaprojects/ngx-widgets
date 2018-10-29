@@ -6,7 +6,8 @@
     "whitelistedNonPeerDependencies": [
         "cropperjs",
         "moment",
-        "hammerjs"
+        "hammerjs",
+        "base64-js"
     ],
     "lib": {
         "entryFile": "lib/src/public_api.ts",

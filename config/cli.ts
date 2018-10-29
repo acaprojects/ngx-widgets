@@ -9,11 +9,11 @@ import * as yargs from 'yargs';
 
 const argv = yargs.argv;
 
-const ngargs = [
-    argv.prod || (argv.demo === true && argv.prod !== 'false') ? '--prod' : '',
-    argv.aot || (argv.demo === true && argv.aot !== 'false')  ? '--aot'  : '',
-    argv.port ? `--port=${argv.port}`  : ''
-];
+const ngargs: string[] = [];
+
+if (argv.prod || (argv.demo === true && argv.prod !== 'false')) { ngargs.push('--prod'); }
+if (argv.aot || (argv.demo === true && argv.aot !== 'false')) { ngargs.push('--aot'); }
+if (argv.port) { ngargs.push(`--port=${argv.port}`); }
 
 Dashboard.show(argv.prod ? 'prod' : 'dev');
 
