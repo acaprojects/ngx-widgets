@@ -1,7 +1,7 @@
 
 <showcase [(model)]="model">
     <div class="container">
-        <btn tooltip name="" [(show)]="model.tooltip1" [auto]="true" [template]="tooltip1" (tapped)="model.tooltip1 = true">
+        <btn tooltip name="" [(show)]="model.tooltip1" [auto]="true" [template]="tooltip1" position="top" (tapped)="model.tooltip1 = true">
             This click to show tooltip
             <ng-template #tooltip1>
                 <div class="ttip">
@@ -9,10 +9,26 @@
                 </div>
             </ng-template>
         </btn>
-        <span tooltip name="" [(show)]="model.tooltip2" [template]="tooltip2" [hover]="true">
+        <span tooltip name="" [(show)]="model.tooltip2" [template]="tooltip2" [hover]="true" position="right">
             Hover to show tooltip
             <ng-template #tooltip2>
                 <div class="ttip">
+                    This is another tooltip
+                </div>
+            </ng-template>
+        </span>
+        <span tooltip name="dark" [(show)]="model.tooltip2" [template]="tooltip2" [hover]="true" [triangle]="false">
+            Hover to show tooltip
+            <ng-template #tooltip2>
+                <div class="ttip2">
+                    This is another tooltip
+                </div>
+            </ng-template>
+        </span>
+        <span tooltip name="dark" [(show)]="model.tooltip2" [template]="tooltip2" [hover]="1000" [triangle]="false">
+            Hover to show tooltip after 1 second
+            <ng-template #tooltip2>
+                <div class="ttip2">
                     This is another tooltip
                 </div>
             </ng-template>

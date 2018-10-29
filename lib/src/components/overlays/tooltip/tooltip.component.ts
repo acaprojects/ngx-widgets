@@ -1,4 +1,5 @@
 
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { Component, Injector, Renderer2 } from '@angular/core';
 import { ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
@@ -8,6 +9,14 @@ import { DynamicBaseComponent } from '../dynamic-base.component';
     selector: 'tooltip-overlay',
     templateUrl: './tooltip.template.html',
     styleUrls: ['./tooltip.styles.scss'],
+    animations: [
+        trigger('show', [
+            transition('void => top', [style({ opacity: 0, top: '-1em' }), animate(100, style({ opacity: 1, top: '*' }))]),
+            transition('void => left', [style({ opacity: 0, left: '-1em' }), animate(100, style({ opacity: 1, left: '*' }))]),
+            transition('void => right', [style({ opacity: 0, right: '-1em' }), animate(100, style({ opacity: 1, right: '*' }))]),
+            transition('void => bottom', [style({ opacity: 0, bottom: '-1em' }), animate(100, style({ opacity: 1, bottom: '*' }))]),
+        ]),
+    ],
 })
 export class TooltipComponent extends DynamicBaseComponent {
     public container: any = {};

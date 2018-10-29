@@ -147,6 +147,16 @@ textarea {
     }
 }
 
+.tooltip[widget] {
+    &.dark {
+        .content {
+            color: #fff;
+            background-color: #000;
+            opacity: .87;
+        }
+    }
+}
+
 button {
     // line-height: 0em;
     transition: all ease-out 0.2s;

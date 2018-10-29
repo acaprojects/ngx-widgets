@@ -5,11 +5,10 @@
     [style.height]="container?.height + 'px'"
     [style.z-index]="model?.data?.zIndex || 3000">
 
-    <div [class]="'tooltip ' + model.position + ' ' + model.name + (!model.triangle ? ' no-triangle': '')" widget
+    <div *ngIf="(rendered || model.template) && shown" [@show]="model.position" [class]="'tooltip ' + model.position + ' ' + model.name + (!model.triangle ? ' no-triangle': '')" widget
         [class.no-triangle]="!model.triangle"
         (window:click)="shown ? close($event) : ''"
         (window:resize)="shown ? resize($event) : ''"
-        [style.opacity]="(rendered || model.template) && shown ? '1' : '0'"
         (click)="tap()">
         <div #body [class]="'content ' + model.offset" (click)="tap()">
             <ng-container #content></ng-container>

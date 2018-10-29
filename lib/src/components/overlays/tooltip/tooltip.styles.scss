@@ -21,7 +21,6 @@ $triangle-size: 32px;
     position: absolute;
     z-index: 3000;
     transition: opacity 300ms;
-    opacity: 0;
     display: initial;
 
     &.no-triangle {
@@ -44,13 +43,13 @@ $triangle-size: 32px;
     &.left {
         left: -$triangle-size / 4;
         &.no-triangle {
-            left: 0;
+            left: -$triangle-size / 8;
         }
     }
     &.right {
         right: -$triangle-size / 4;
         &.no-triangle {
-            right: 0;
+            right: -$triangle-size / 8;
         }
     }
     &.top,
@@ -65,14 +64,15 @@ $triangle-size: 32px;
     }
     &.top {
         top: -$triangle-size / 4;
+        animation: enter-top .2s ease-out;
         &.no-triangle {
-            top: 0;
+            top: -$triangle-size / 8;
         }
     }
     &.bottom {
         bottom: -$triangle-size / 4;
         &.no-triangle {
-            bottom: 0;
+            bottom: -$triangle-size / 8;
         }
     }
     &.none {
@@ -88,8 +88,8 @@ $triangle-size: 32px;
     position: absolute;
     background-color: #fff;
     box-shadow: 0 1px 3px 0 rgba(#000,.2), 0 1px 1px 0 rgba(#000,.14), 0 2px 1px -1px rgba(#000,.12);
-    min-height: $triangle-size;
-    min-width: $triangle-size;
+    min-height: $triangle-size / 2;
+    min-width: $triangle-size / 2;
     border-radius: $triangle-size / 8;
     pointer-events: auto;
     transition: transform(300ms);
@@ -197,3 +197,5 @@ $triangle-size: 32px;
         }
     }
 }
+
+

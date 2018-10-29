@@ -5,8 +5,18 @@
     flex-direction: column;
 }
 
+span {
+    margin: .5em;
+}
+
 .ttip {
     padding: 1em;
     width: 12em;
 }
 
+.ttip2 {
+    font-size: .6em;
+    padding: .5em;
+    white-space: nowrap;
+    text-align: center;
+}

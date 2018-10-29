@@ -22,7 +22,7 @@ export class TooltipDirective implements OnChanges {
     @Input() public show = false;
     @Input() public auto = false;
     @Input() public autoclose: any = true;
-    @Input() public hover = false;
+    @Input() public hover: number | boolean = false;
     @Output() public showChange: any = new EventEmitter();
     @Output() public event: any = new EventEmitter();
 
@@ -30,16 +30,28 @@ export class TooltipDirective implements OnChanges {
     public sub: any = null;
 
     private data: any = {};
+    private timers: any = {};
     private instance: any;
 
     @HostListener('mouseenter', ['$event.target']) public onEnter(btn) {
         if (this.hover) {
-            this.createTooltip();
+            if (typeof this.hover === 'number' && this.hover > 10) {
+                this.timers.hover = setTimeout(() => {
+                    this.createTooltip();
+                    this.timers.hover = null;
+                }, this.hover as number);
+            } else {
+                this.createTooltip();
+            }
         }
     }
 
     @HostListener('mouseleave', ['$event.target']) public onLeave(btn) {
         if (this.hover) {
+            if (this.timers.hover) {
+                clearTimeout(this.timers.hover);
+                this.timers.hover = null;
+            }
             this.removeTooltip();
         }
     }

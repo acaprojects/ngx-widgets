@@ -55,7 +55,7 @@ export class DropzoneDirective implements OnChanges {
 
     private updateItem(item: any) {
         if (!this.el || !this.el.nativeElement) {
-            return setTimeout(() => this.updateItem(item), 300);
+            return setTimeout(() => this.updateItem(item), 50);
         }
         if (item && item.el && item.group === this.group) {
             this.model.item_id = item.id || item.options.id;
@@ -68,8 +68,9 @@ export class DropzoneDirective implements OnChanges {
                 drop: this.renderer.listen(this.el.nativeElement, 'drop', (e) => this.checkState(e))
             };
         } else {
-            if (this.model.hovering) {
-                this.event.emit({ type: 'drop', id: this.model.item_id || this.model.hovering });
+            if (this.model.hovering && this.model.item_id) {
+                const id = this.model.item_id || this.model.hovering;
+                setTimeout(() => this.event.emit({ type: 'drop', id }), 300);
                 this.model.hovering = null;
             }
             this.renderer.removeClass(this.el.nativeElement, name || 'dropzone');
@@ -109,13 +110,15 @@ export class DropzoneDirective implements OnChanges {
             this.renderer.removeClass(this.el.nativeElement, `${name || 'dropzone'}-hover`);
             if (center.x >= this.model.box.left && center.x <= this.model.box.left + this.model.box.width &&
                 center.y >= this.model.box.top && center.y <= this.model.box.top + this.model.box.height) {
-                this.model.hovering = this.model.item_id || hover;
+                this.model.hovering = true;
                 this.renderer.addClass(this.el.nativeElement, `${name || 'dropzone'}-hover`);
                 this.state = this.model.hovering ? (center.y < this.model.box.top + this.model.box.height / 2 ? 'above' : 'below') : '';
                 if (this.state) {
                     this.renderer.addClass(this.el.nativeElement, `${name || 'dropzone'}-${this.state}`);
                 }
                 this.stateChange.emit(this.state);
+            } else {
+                this.model.hovering = false;
             }
             this.timers.check = null;
         }, 15);
