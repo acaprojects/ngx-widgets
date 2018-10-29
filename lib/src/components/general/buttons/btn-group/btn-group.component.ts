@@ -20,6 +20,7 @@ export class ButtonGroupComponent {
     @Input() public items: any;
     @Input() public model = 0;
     @Input() public name = '';
+    @Input() public disabled = false;
     @Output() public modelChange = new EventEmitter();
 
     public state: any = {};

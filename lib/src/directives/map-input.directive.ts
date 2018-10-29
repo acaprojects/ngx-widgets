@@ -71,13 +71,13 @@ export class MapInputDirective implements OnChanges {
         }
     }
 
-    @HostListener('panstart', ['$event']) private moveStart(e: any) {
+    @HostListener('panstart', ['$event']) public moveStart(e: any) {
         if (this.timer.scale) { return; }
         if (this.lock) { return; }
         this.model.center = this.center;
     }
 
-    @HostListener('panmove', ['$event']) private moveEvent(e: any) {
+    @HostListener('panmove', ['$event']) public moveEvent(e: any) {
         if (this.timer.scale) { return; }
         if (this.lock) { return; }
         if (!this.timer.move) {
@@ -92,13 +92,13 @@ export class MapInputDirective implements OnChanges {
         }
     }
 
-    @HostListener('pinchstart', ['$event']) private scaleStart(e: any) {
+    @HostListener('pinchstart', ['$event']) public scaleStart(e: any) {
         this.delta.scale = e.scale;
         this.timer.scale = null;
         this.model.scaling = true;
     }
 
-    @HostListener('pinchend', ['$event']) private scaleEnd(e: any) {
+    @HostListener('pinchend', ['$event']) public scaleEnd(e: any) {
         if (this.timer.scale) {
             clearTimeout(this.timer.scale);
             this.timer.scale = null;
@@ -106,12 +106,12 @@ export class MapInputDirective implements OnChanges {
         this.model.scaling = false;
     }
 
-    @HostListener('pinchin', ['$event']) private pinchInEvent(e: any) {
+    @HostListener('pinchin', ['$event']) public pinchInEvent(e: any) {
         if (e.scale > this.delta.scale) { this.delta.scale = e.scale; }
         this.updateScale(e, -1);
     }
 
-    @HostListener('pinchout', ['$event']) private pinchOutEvent(e: any) {
+    @HostListener('pinchout', ['$event']) public pinchOutEvent(e: any) {
         if (e.scale < this.delta.scale) { this.delta.scale = e.scale; }
         this.updateScale(e, 1);
     }
@@ -129,7 +129,7 @@ export class MapInputDirective implements OnChanges {
         }, 80);
     }
 
-    @HostListener('wheel', ['$event']) private wheelScale(e: any) {
+    @HostListener('wheel', ['$event']) public wheelScale(e: any) {
         if (this.lock) { return; }
         if (e.preventDefault) { e.preventDefault(); }
         const value = 1 + -((e.deltaY / Math.abs(e.deltaY) / 4)) / 2;

@@ -13,7 +13,7 @@ const settings = require('../src/assets/settings.json');
 
 const argv = yargs.argv;
 
-export let baseHref = '/widgets';
+export let baseHref = '/docs/widgets';
 
 const prod_settings = {
     composer: {

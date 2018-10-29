@@ -22,7 +22,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent impl
     @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
     @ViewChild('el') public root: ElementRef;
 
-    @HostListener('window:resize') private windowResize() {
+    @HostListener('window:resize') public windowResize() {
         this.resizeEvent();
     }
 

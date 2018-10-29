@@ -16,6 +16,7 @@ import { VirtualKeyboardComponent } from './virtual-keyboard/virtual-keyboard.co
 import { MapWidgetsModule } from './interactive-map/map-widget.module';
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
 import { SpinnerWidgetModule } from './spinner/spinner.module';
+import { FullCalendarWidgetModule } from './full-calendar/full-calendar.module';
 import { FileDropModule } from '../../file-drop.module';
 import { DirectiveWidgetsModule } from '../../directives/directives.module';
 
@@ -42,11 +43,13 @@ const COMPONENTS: any[] = [
         SpinnerWidgetModule,
         FileDropModule,
         DirectiveWidgetsModule,
+        FullCalendarWidgetModule
     ],
     exports: [
         ...COMPONENTS,
         MapWidgetsModule,
         SpinnerWidgetModule,
+        FullCalendarWidgetModule
     ],
     entryComponents: []
 })
