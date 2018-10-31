@@ -275,7 +275,13 @@ $space: .5em;
         transform-origin: center;
         animation: sk-rotate-simple .8s infinite linear;
         &.offset {
-            animation-delay: .4s;
+            animation: sk-rotate-simple-180 .8s infinite linear;
+        }
+        &.reverse {
+            animation: sk-rotate-simple-r .6s infinite linear;
+        }
+        &.fast {
+            animation: sk-rotate-simple .4s infinite linear;
         }
     }
 }
@@ -366,6 +372,18 @@ $space: .5em;
     0% { transform: rotate(0deg); }
     50% { transform: rotate(180deg); }
     100% { transform: rotate(360deg); }
+}
+
+@keyframes sk-rotate-simple-r {
+    0% { transform: rotate(360deg); }
+    50% { transform: rotate(180deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes sk-rotate-simple-180 {
+    0% { transform: rotate(180deg); }
+    50% { transform: rotate(360deg); }
+    100% { transform: rotate(540deg); }
 }
 
 @keyframes sk-rotate-i {

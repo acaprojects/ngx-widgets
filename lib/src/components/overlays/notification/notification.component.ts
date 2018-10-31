@@ -137,5 +137,11 @@ export class NotificationComponent extends DynamicBaseComponent {
         }
     }
 
+    public removeItem(item: any) {
+        if (!item.action) {
+            this.dismiss(item.id);
+        }
+    }
+
     protected render() { return; }
 }

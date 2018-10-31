@@ -2,7 +2,7 @@
 <div [class]="'notification ' + model.name" widget >
     <div class="list" *ngIf="model && model.items">
         <div class="notify" *ngFor="let item of model.items | slice:0:8; let i = index" [style.transform]="'translateY(' + -100 * i + '%)'">
-            <div [class]="'content ' + item.name || item.data.name" [@show] *ngIf="!item.hide">
+            <div [class]="'content ' + item.name || item.data.name" [@show] *ngIf="!item.hide" (touchrelease)="removeItem(item)">
                 <div class="item">
                     <div class="details">
                         <div *ngIf="!item.data.template" [innerHTML]="(item.html || item.data.html) | safe"></div>
