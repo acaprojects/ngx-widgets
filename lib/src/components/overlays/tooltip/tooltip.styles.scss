@@ -64,7 +64,6 @@ $triangle-size: 32px;
     }
     &.top {
         top: -$triangle-size / 4;
-        animation: enter-top .2s ease-out;
         &.no-triangle {
             top: -$triangle-size / 8;
         }

@@ -11,10 +11,10 @@ import { DynamicBaseComponent } from '../dynamic-base.component';
     styleUrls: ['./tooltip.styles.scss'],
     animations: [
         trigger('show', [
-            transition('void => top', [style({ opacity: 0, top: '-1em' }), animate(100, style({ opacity: 1, top: '*' }))]),
-            transition('void => left', [style({ opacity: 0, left: '-1em' }), animate(100, style({ opacity: 1, left: '*' }))]),
-            transition('void => right', [style({ opacity: 0, right: '-1em' }), animate(100, style({ opacity: 1, right: '*' }))]),
-            transition('void => bottom', [style({ opacity: 0, bottom: '-1em' }), animate(100, style({ opacity: 1, bottom: '*' }))]),
+            transition('void => top', [style({ opacity: 0, top: '16px' }), animate(100, style({ opacity: 1, top: '*' }))]),
+            transition('void => left', [style({ opacity: 0, left: '16px' }), animate(100, style({ opacity: 1, left: '*' }))]),
+            transition('void => right', [style({ opacity: 0, right: '16px' }), animate(100, style({ opacity: 1, right: '*' }))]),
+            transition('void => bottom', [style({ opacity: 0, bottom: '16px' }), animate(100, style({ opacity: 1, bottom: '*' }))]),
         ]),
     ],
 })
