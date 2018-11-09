@@ -65,7 +65,8 @@ export class TimePickerComponent implements OnInit, OnChanges {
             this.updateEnd();
         }
         if  (changes.manual) {
-            this.model.manual = !!this.manual;
+            this.model.manual = !this.manual;
+            this.toggleState();
         }
     }
 
@@ -186,6 +187,8 @@ export class TimePickerComponent implements OnInit, OnChanges {
             if (this.display.duration) { this.display.duration += ` `; }
             this.display.duration += `${m} minute${m > 1 ? 's' : ''}`;
         }
+        this.model.manual = !this.model.manual;
+        this.toggleState();
     }
 
     public checkFields(end: boolean = true) {
@@ -235,8 +238,10 @@ export class TimePickerComponent implements OnInit, OnChanges {
         this.model.manual = !this.model.manual;
         this.model.start_hour = this.model.date.hours();
         this.model.start_minute = this.model.date.minutes();
+        if (this.model.start_minute < 10) { this.model.start_minute = `0${this.model.start_minute}` }
         this.model.end_hour = this.model.end.hours();
         this.model.end_minute = this.model.end.minutes();
+        if (this.model.end_minute < 10) { this.model.end_minute = `0${this.model.end_minute}` }
         this.select(0);
     }
 
