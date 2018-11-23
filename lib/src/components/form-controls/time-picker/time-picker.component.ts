@@ -254,7 +254,8 @@ export class TimePickerComponent implements OnInit, OnChanges {
             this.model.end = moment(this.model.date);
             this.model.end.add(this.model.duration || 60, 'm');
             this.model.end_hour = this.model.end.hours();
-            this.model.end_minute = this.model.end.minutes();
+            const m = this.model.end.minutes()
+            this.model.end_minute = m < 10 ? `0${m}` : m;
         }
         if (this.model.date) {
             this.dateChange.emit(this.model.date.format('HH:mm'));
