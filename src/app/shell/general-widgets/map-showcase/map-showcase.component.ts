@@ -155,13 +155,20 @@ export class MapShowcaseComponent {
             })
         }
         if (this.model.show.pin) {
-            const fixed = Math.floor(Math.random() * 34729837) % 2 === 0;
+            this.model.fixed = !this.model.fixed;
+            const fixed = this.model.fixed;
             this.model.map.poi.push({
                 id: fixed ? 'AU-NSW' : 'Nyada',
                 coordinates: fixed ? null : { x: 5000, y: 7500 },
                 cmp: MapPinComponent,
                 data: { text: fixed ? 'NSW is here' : `I'm currently round here` }
-            })
+            });
+            const focus: any = {
+                zoom: 100
+            };
+            if (fixed) { focus.id = 'AU-NSW'; }
+            else { focus.coordinates = { x: 5000, y: 7500 }; }
+            this.model.map.focus = focus;
         }
         if (this.model.show.hover) {
             this.model.map.poi.push({

@@ -141,8 +141,8 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
 
         if (changes.focus && this.focus) {
             setTimeout(() => {
-                if (this.focus && this.focus.lock && !this.focus.zoom) {
-                        this.focus.zoom = this.zoom;
+                if (this.focus && this.focus.lock && typeof this.focus.zoom !== 'number') {
+                    this.focus.zoom = this.zoom;
                 }
                 this.focusEvent();
             }, 20);
@@ -459,10 +459,10 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
         if (this.focus) {
             if (this.focus.coordinates) {
                 const c = this.focus.coordinates;
-                this.center = {
+                this.updateLocation({
                     x: 1 - (c.x / this.units / this.ratio.map.width),
                     y: 1 - (c.y / this.units / this.ratio.map.height),
-                };
+                });
                 this.zoom = this.focus.zoom || 100;
             } else if (this.focus.id) {
                 if (this.area && this.model.map_el) {
@@ -477,8 +477,9 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
                             y: 1 - (((box.top - map_box.top) + box.height / 2) / map_box.height),
                         };
                         const zoom = ((scale / 3) * 100) - 100;
-                        this.center = location;
-                        this.zoom = this.focus.zoom || Math.min(zoom, 700) || 100;
+                        // this.center = location;
+                        this.updateLocation(location);
+                        this.zoom = this.focus.zoom || Math.min(zoom, 200) || 100;
                     } else {
                         const win = (window as any);
                         if (!win.int_map) { win.int_map = { not_found: {} } }
@@ -490,14 +491,30 @@ export class InteractiveMapComponent implements OnChanges, OnInit, OnDestroy, Af
                         this.event.emit({ type: 'warning', msg: `Unable to focus on selector, "${this.focus.id}" does not exist on map "${this.src}"` });
                     }
                 } else {
-                    setTimeout(() => {
-                        this.focusEvent();
-                    }, 200);
+                    setTimeout(() => this.focusEvent(), 200);
                 }
             }
             this.centerChange.emit(this.center);
             this.zoomChange.emit(this.zoom);
             this.update();
+        }
+    }
+
+    private updateLocation(target: { x: number, y: number }, count: number = 15) {
+        if (count <= 0) { return; }
+        if (target) {
+            const diff = {
+                x: this.center.x - target.x,
+                y: this.center.y - target.y
+            };
+            if (diff.x === 0 && diff.y === 0) { return; }
+            this.center = {
+                x: this.center.x - (diff.x / count),
+                y: this.center.y - (diff.y / count)
+            };
+            this.centerChange.emit(this.center);
+            this.update();
+            setTimeout(() => this.updateLocation(target, count - 1), 5);
         }
     }
 
