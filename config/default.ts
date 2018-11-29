@@ -19,7 +19,8 @@ const prod_settings = {
     composer: {
         domain: '',
         route: baseHref,
-        protocol: 'https:'
+        protocol: 'https:',
+        local_login: false
     },
     mock: false
 };
@@ -46,7 +47,7 @@ gulp.task('clean', () => ((...globs: string[]) => del(globs))('dist/', 'compiled
 gulp.task('default', ['build']);
 
 gulp.task('pre-build', (next) => {
-    const sequence = ['check:route', 'sw:base', 'settings:update', next];
+    const sequence = ['check:route', 'sw:base', 'update:version', 'settings:update', next];
     if (!argv.mock && argv.demo !== true) { sequence.splice(2, 0, ['remove:mock']); }
     runSequence(...sequence);
 });
@@ -57,7 +58,7 @@ gulp.task('pre-serve', (next) => runSequence(
 ));
 
 gulp.task('post-build', (next) => {
-    const sequence = ['build:manifest', 'settings:reset', 'sw:unbase', 'fix:service-worker', next];
+    const sequence = ['build:manifest', 'settings:reset', 'sw:unbase', 'clean:version', 'fix:service-worker', next];
     if (argv.demo) { sequence.splice(sequence.length - 2, 0, ['upload']); }
     if (!argv.mock || argv.demo !== true) { sequence.splice(1, 0, ['add:mock']); }
     runSequence(...sequence);
@@ -134,10 +135,24 @@ gulp.task('check:flags', (next) => {
         .then(() => next());
 });
 
+gulp.task('update:version', (next) => {
+    const v = npmconfig.version;
+    const b = moment().seconds(0).milliseconds(0).valueOf();
+    return gulp.src(['./src/app/services/settings.service.ts']) // Any file globs are supported
+        .pipe(replace(/this.log\('SYSTEM', 'Version: [0-9a-zA-Z.-]*'/g, `this.log('SYSTEM', 'Version: ${v}'`, { logs: { enabled: true } }))
+        .pipe(replace(/const built = moment\([0-9]*\);/g, `const built = moment(${b});`, { logs: { enabled: true } }))
+        .pipe(gulp.dest('./src/app/services'));
+});
+
+gulp.task('clean:version', (next) => {
+    return gulp.src(['./src/app/services/settings.service.ts']) // Any file globs are supported
+        .pipe(replace(/this.log\('SYSTEM', 'Version: [0-9a-zA-Z.-]*'/g, `this.log('SYSTEM', 'Version: local-dev'`, { logs: { enabled: true } }))
+        .pipe(replace(/const built = moment\([0-9]*\);/g, `const built = moment();`, { logs: { enabled: true } }))
+        .pipe(gulp.dest('./src/app/services'));
+});
+
 gulp.task('settings:update', (next) => {
     const s = JSON.parse(JSON.stringify(settings));
-    s.version = npmconfig.version;
-    s.build = moment().seconds(0).milliseconds(0).valueOf();
     mergeJSON(s, prod_settings);
     s.mock = !!argv.mock || (argv.demo && argv.demo !== 'false');
     s.env = !!argv.prod ? 'prod' : 'dev';
@@ -147,7 +162,6 @@ gulp.task('settings:update', (next) => {
 
 gulp.task('settings:reset', (next) => {
     const s = JSON.parse(JSON.stringify(settings));
-    s.build = 'local-dev';
     s.env = 'dev';
     s.mock = false;
     fs.outputJson('./src/assets/settings.json', s, { spaces: 4 })

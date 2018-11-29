@@ -11,8 +11,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
-import { Observable ,  BehaviorSubject } from 'rxjs';
-import { Utils } from '../shared/utility.class';
+import { BehaviorSubject } from 'rxjs';
+
+import * as moment from 'moment';
 
 const APP_NAME = 'ACA_APP';
 const RESERVED_KEYS = ['route', 'query', 'store'];
@@ -21,7 +22,9 @@ const OBSERVABLES: any[] = [
     { name: 'loading_text', default: 'Loading' },
 ];
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class SettingsService {
     public parent: any = null;
     public setup = false;
@@ -38,7 +41,7 @@ export class SettingsService {
         settings: {},
     };
     private timers: any = {};
-    private settings_promise: Promise<any> = null;
+    private promises: any = {};
 
     constructor(private http: HttpClient, private route: ActivatedRoute) {
         this.model.app.name = APP_NAME;
@@ -51,7 +54,6 @@ export class SettingsService {
     }
 
     public init() {
-        window.scrollTo(0, 1);
         // Load settings file
         this.log('SYSTEM', 'Initialising Settings');
         this.loadSettings().then((s: any) => {
@@ -71,25 +73,21 @@ export class SettingsService {
                     win.debug_module.push(this.model.app.name);
                 }
             }
-            if (s.version) { this.log('SYSTEM', `Version: ${s.version}`); }
-            if (s.build) { this.log('SYSTEM', `Build: ${s.build}`); }
+            this.printVersion();
             this.setup = true;
-        }, (err: any) => {
-            setTimeout(() => {
-                this.init();
-            }, 500);
-        });
+        }, (err: any) => setTimeout(() => this.init(), 500));
     }
+
     /**
      * Prints message to the console
-     * @param type [description]
-     * @param msg    Message to print to the console
-     * @param stream IO Stream to print message to.
+     * @param  {string} type [description]
+     * @param  {string} msg    Message to print to the console
+     * @param  {string} stream IO Stream to print message to.
      */
-    public log(type: string, msg: string, args?: any, stream: string = 'debug') {
+    public log(type: string, msg: string, args?: any, stream: string = 'debug', force: boolean = false) {
         const win = window as any;
-        if (win.debug) {
-            const colors: string[] = ['color: #E91E63', 'color: #3F51B5', 'color: rgba(0,0,0,0.87'];
+        if (win.debug || force) {
+            const colors: string[] = ['color: #E91E63', 'color: #3F51B5', 'color: rgba(#000, 0.87'];
             if (args) {
                 console[stream](`%c[${this.model.app.name}]%c[${type}] %c${msg}`, ...colors, args);
             } else {
@@ -100,37 +98,41 @@ export class SettingsService {
 
     /**
      * Loads settings from a given JSON file
-     * @param  {string = 'assets/settings.json'} file Name of a JSON file to load settings from
-     * @return {Promise<Object>}      Returns a promise which returns the settings loaded from the given file
+     * @param file Name of a JSON file to load settings from
+     * @return Returns a promise which returns the settings loaded from the given file
      */
     public loadSettings(file: string = 'assets/settings.json') {
-        if (!this.settings_promise) {
-            this.settings_promise = new Promise((resolve, reject) => {
+        if (!this.promises[`setting(${file})`]) {
+            this.promises[`setting(${file})`] = new Promise((resolve, reject) => {
                 this.http.get(file)
                     .subscribe(
-                    (data) => {
-                        for (const i in data) {
-                            if (data[i]) {
-                                this.model.settings[i] = data[i];
+                        (data) => {
+                            for (const i in data) {
+                                if (data[i]) {
+                                    this.model.settings[i] = data[i];
+                                }
                             }
+                            const win = window as any;
+                            if (win.debug && win.debug_module.indexOf(this.model.app.name) >= 0) {
+                                this.log('Settings', `Loaded settings for application`);
+                            }
+                        }, (err) => {
+                            reject(err);
+                            this.promises[`setting(${file})`] = null;
+                        }, () => {
+                            resolve(this.model.settings);
+                            this.promises[`setting(${file})`] = null;
                         }
-                        const win = window as any;
-                        if (win.debug && win.debug_module.includes(this.model.app.name)) {
-                            this.log('Settings', `Loaded settings for application`);
-                        }
-                    }, (err) => { reject(err); },
-                    () => {
-                        resolve(this.model.settings);
-                });
+                    );
             });
         }
-        return this.settings_promise;
+        return this.promises[`setting(${file})`];
     }
 
     /**
      * Saves the given value in local storage and add it to the settings.
-     * @param key   Reference to store the item as
-     * @param value Value to store in the give key
+     * @param  {string} key   Reference to store the item as
+     * @param  {string} value Value to store in the give key
      * @return none
      */
     public save(key: string, value: string) {
@@ -143,24 +145,29 @@ export class SettingsService {
             this.model.settings.store[key] = value;
         }
     }
+
     /**
      * Gets the setting value for the give key
      * @param key Name of the setting to get
-     * @return {any}     Returns the value stored in the settings or null
+     * @return Returns the value stored in the settings or null
      */
     public get(key: string) {
+        return this.getSetting(key);
+    }
+
+    public getSetting(key: string) {
         const keys = key.split('.');
         if (keys.length === 1) {
             return this.model.settings[key];
         } else {
             const use_keys = keys.splice(1, keys.length - 1);
             let item = this.getItemFromKeys(use_keys, this.model.settings[keys[0]]);
-            // Check that item exists under the reserved keys
-            if (!item && item !== 0) {
+                // Check that item exists under the reserved keys
+            if (item === undefined || item === null) {
                 for (const r of RESERVED_KEYS) {
-                    if (this.model.settings.hasOwnProperty(r) && this.model.settings[r]) {
+                    if (this.model.settings.hasOwnProperty(r) && this.model.settings[r] !== undefined && this.model.settings[r] !== null) {
                         item = this.getItemFromKeys(use_keys, this.model.settings[r]);
-                        if (!item && item !== 0) {
+                        if (item === undefined && item === null) {
                             break;
                         }
                     }
@@ -169,11 +176,12 @@ export class SettingsService {
             return item;
         }
     }
+
     /**
      * Gets nested setting value
-     * @param  {string[]} keys List of keys to iterate down the object
+     * @param keys List of keys to iterate down the object
      * @param root Root element of the search
-     * @return {any}        Returns the value a the end of the iteration or null
+     * @return Returns the value a the end of the iteration or null
      */
     public getItemFromKeys(keys: string[], root: any) {
         if (keys.length <= 0) {
@@ -187,7 +195,7 @@ export class SettingsService {
         for (const k of keys) {
             // Make sure key has a value
             if (k !== '') {
-                if (item !== undefined && item !==  null && item.hasOwnProperty(k)) {
+                if (item !== undefined && item !== null && item.hasOwnProperty(k)) {
                     item = item[k];
                 } else {
                     return null;
@@ -196,10 +204,11 @@ export class SettingsService {
         }
         return item;
     }
+
     /**
      * Wrapper function for get()
      * @param key Name of the setting to get
-     * @return {any}     Returns the value stored in the settings or null
+     * @return Returns the value stored in the settings or null
      */
     public setting(key: string) {
         return this.get(key);
@@ -234,13 +243,13 @@ export class SettingsService {
     }
     /**
      * Returns an object to observe the loading state of the application
-     * @return {Observable<boolean>} Observer which updates on the changes to the application's loading state
+     * @return Observer which updates on the changes to the application's loading state
      */
-    public loadingState(next: (value: any) => {}) {
+    public loadingState(next: (value: any) => void) {
         return this.listen('loading', next);
     }
 
-    public loadingText(next: (value: any) => {}) {
+    public loadingText(next: (value: any) => void) {
         if (this.timers.loading) {
             clearInterval(this.timers.loading);
             this.model.loading.state = 0;
@@ -254,33 +263,12 @@ export class SettingsService {
         return this.listen('loading_text', next);
     }
 
-    /**
-     * Check if browser is a mobile browser
-     * @return {boolean} Returns whether or not the browser is mobile or not.
-     */
-    public mobile() {
-        return Utils.isMobileDevice();
-    }
-
-    /**
-     * Toggles fullscreen on and off
-     * @return none
-     */
-    public toggleFullScreen() {
-        const doc: any = window.document;
-        const docEl: any = doc.documentElement;
-
-        const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen ||
-            docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
-        const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen ||
-            doc.webkitExitFullscreen || doc.msExitFullscreen;
-
-        if (!doc.fullscreenElement && !doc.mozFullScreenElement &&
-            !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
-            requestFullScreen.call(docEl);
-        } else {
-            cancelFullScreen.call(doc);
-        }
+    private printVersion() {
+        const now = moment();
+        const built = moment();
+        const build =  now.isSame(built, 'd') ? `Today at ${built.format('h:mma')}` : built.format('MMM Do, YYYY | h:mma');
+        this.log('SYSTEM', 'Version: local-dev', null, 'debug', true);
+        this.log('SYSTEM', `Build: ${build}`, null, 'debug', true);
     }
 
     /**
@@ -294,8 +282,8 @@ export class SettingsService {
                 let key = this.store.key(i);
                 const item = this.store.getItem(key);
                 if (item !== undefined && item !== null && item !== '') {
-                    if (key.indexOf(`APP.`) === 0) {
-                        key = key.replace(`APP.`, '');
+                    if (key.indexOf(`STAFF.`) === 0) {
+                        key = key.replace(`STAFF.`, '');
                     }
                     if (!this.model.settings.store) {
                         this.model.settings.store = {};

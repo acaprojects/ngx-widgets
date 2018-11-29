@@ -18,7 +18,9 @@ import { OverlayService } from '../../../lib/src/public_api';
 import { SettingsService } from './settings.service';
 import { Utils } from '../shared/utility.class';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class AppService {
 
     private _system = '';
