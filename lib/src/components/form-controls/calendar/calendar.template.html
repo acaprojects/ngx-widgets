@@ -1,5 +1,5 @@
 
-<div [class]="'calendar ' + name" widget>
+<div [class]="'calendar' + (klass ? ' ' + klass : '')" widget>
     <div class="header">
         <div class="display">
             <div class="change previous" *ngIf="options.limit !== 0" [class.disabled]="(options && options.past && model.offset <= (-options.limit || 0)) || model.offset <= 0" (click)="changeMonth(-1)">&#706;</div>

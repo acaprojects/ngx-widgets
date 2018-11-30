@@ -1,6 +1,8 @@
 
 import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 
+import { BaseWidgetComponent } from '../../../shared/base.component';
+
 import * as moment_api from 'moment';
 const moment = moment_api;
 
@@ -18,8 +20,7 @@ export interface ICalOptions {
     templateUrl: './calendar.template.html',
     styleUrls: ['./calendar.styles.scss'],
 })
-export class CalendarComponent implements OnChanges {
-    @Input() public name = '';
+export class CalendarComponent extends BaseWidgetComponent implements OnChanges {
     @Input() public date: number; // Unix timestamp with milliseconds
     @Input() public today: number; // Unix timestamp with milliseconds
     @Input() public events: any = {};
@@ -42,6 +43,7 @@ export class CalendarComponent implements OnChanges {
     }
 
     public ngOnChanges(changes: any) {
+        super.ngOnChanges(changes);
         if (changes.date) {
             const now = moment(this.today).date(1).hours(0).minutes(0).seconds(0).millisecond(0);
             const duration = moment.duration(moment(this.date).diff(now));
@@ -49,9 +51,7 @@ export class CalendarComponent implements OnChanges {
             this.generateMonth();
         }
         if (changes.options) {
-            if (!this.options) {
-                this.options = {};
-            }
+            if (!this.options) { this.options = {}; }
             this.changeMonth();
         }
         if (changes.today) {

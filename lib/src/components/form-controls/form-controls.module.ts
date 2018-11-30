@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { CalendarComponent } from './calendar/calendar.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
@@ -20,8 +19,9 @@ import { OverlayWidgetsModule } from '../overlays/overlay.module';
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
 import { DirectiveWidgetsModule } from '../../directives/directives.module';
 
+import { ACalendarModule } from './calendar/calendar.module';
+
 const COMPONENTS: any[] = [
-    CalendarComponent,
     CheckboxComponent,
     CustomDropdownComponent,
     DropdownComponent,
@@ -34,6 +34,10 @@ const COMPONENTS: any[] = [
     TimeInputComponent
 ];
 
+const COMPONENT_MODULES: any[] = [
+    ACalendarModule
+]
+
 @NgModule({
     declarations: [
         ...COMPONENTS
@@ -44,10 +48,12 @@ const COMPONENTS: any[] = [
         FormsModule,
         OverlayWidgetsModule,
         WidgetsPipeModule,
-        DirectiveWidgetsModule
+        DirectiveWidgetsModule,
+        ...COMPONENT_MODULES
     ],
     exports: [
-        ...COMPONENTS
+        ...COMPONENTS,
+        ...COMPONENT_MODULES
     ]
 })
 export class FormControlWidgetsModule {
