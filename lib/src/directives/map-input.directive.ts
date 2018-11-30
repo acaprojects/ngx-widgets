@@ -146,7 +146,8 @@ export class MapInputDirective implements OnChanges {
         // Check zoom is valid
         if (this.scale < 0) { this.scale = 0; }
         else if (this.scale > 1900) { this.scale = 1900; }
-        else if (isNaN(this.scale)) { this.scale = 0; }
+        else if (isNaN(this.scale)) { this.scale = this.model.previous_scale || 0; }
+        this.model.previous_scale = this.scale
     }
 
 }
