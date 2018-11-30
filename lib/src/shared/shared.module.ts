@@ -10,9 +10,11 @@
 import { NgModule } from '@angular/core';
 
 import { BaseWidgetComponent } from './base.component';
+import { BaseFormWidgetComponent } from './base-form.component';
 
 const COMPONENTS: any[] = [
-    BaseWidgetComponent
+    BaseWidgetComponent,
+    BaseFormWidgetComponent
 ];
 
 @NgModule({

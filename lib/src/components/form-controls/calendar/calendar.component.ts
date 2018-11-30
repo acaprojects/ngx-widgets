@@ -1,7 +1,7 @@
 
 import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
 
-import { BaseWidgetComponent } from '../../../shared/base.component';
+import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
 
 import * as moment_api from 'moment';
 const moment = moment_api;
@@ -20,7 +20,7 @@ export interface ICalOptions {
     templateUrl: './calendar.template.html',
     styleUrls: ['./calendar.styles.scss'],
 })
-export class CalendarComponent extends BaseWidgetComponent implements OnChanges {
+export class CalendarComponent extends BaseFormWidgetComponent implements OnChanges {
     @Input() public date: number; // Unix timestamp with milliseconds
     @Input() public today: number; // Unix timestamp with milliseconds
     @Input() public events: any = {};
@@ -28,13 +28,12 @@ export class CalendarComponent extends BaseWidgetComponent implements OnChanges 
     @Output() public dateChange: any = new EventEmitter();
     @Output() public change: any = new EventEmitter();
 
-    public model: any = {};
     public display: string;
 
     public ngOnInit() {
-        this.model.offset = 0;
-        if (!this.date) {
-            this.date = (new Date()).getTime();
+        this.data.offset = 0;
+        if (!this.model) {
+            this.model = (new Date()).getTime();
         }
         if (!this.options) {
             this.options = {};
@@ -44,10 +43,11 @@ export class CalendarComponent extends BaseWidgetComponent implements OnChanges 
 
     public ngOnChanges(changes: any) {
         super.ngOnChanges(changes);
-        if (changes.date) {
+        if (changes.date || changes.model) {
+            if (changes.date) { this.model = this.date; }
             const now = moment(this.today).date(1).hours(0).minutes(0).seconds(0).millisecond(0);
-            const duration = moment.duration(moment(this.date).diff(now));
-            this.model.offset = duration.months();
+            const duration = moment.duration(moment(this.model).diff(now));
+            this.data.offset = duration.months();
             this.generateMonth();
         }
         if (changes.options) {
@@ -69,27 +69,28 @@ export class CalendarComponent extends BaseWidgetComponent implements OnChanges 
         const now = moment(this.today);
         const date = moment(day.timestamp);
         if (!this.options || this.options.past || (!this.options.past && now.isSameOrBefore(date, 'd'))) {
-            this.date = day.timestamp;
-            this.dateChange.emit(this.date);
+            this.model = day.timestamp;
+            this.modelChange.emit(this.model);
+            this.dateChange.emit(this.model);
         }
         this.generateMonth();
     }
 
     public changeMonth(value: number = 0) {
-        this.model.offset += value;
+        this.data.offset += value;
         if (this.options && this.options.limit) {
-            if (this.model.offset > this.options.limit) {
-                this.model.offset = this.options.limit;
-            } else if (this.model.offset < -this.options.limit) {
-                this.model.offset = -this.options.limit;
+            if (this.data.offset > this.options.limit) {
+                this.data.offset = this.options.limit;
+            } else if (this.data.offset < -this.options.limit) {
+                this.data.offset = -this.options.limit;
             }
         }
         if (!this.options || !this.options.past) {
-            if (this.model.offset < 0) {
-                this.model.offset = 0;
+            if (this.data.offset < 0) {
+                this.data.offset = 0;
             }
         }
-        this.change.emit(this.model.offset);
+        this.change.emit(this.data.offset);
         this.generateMonth();
     }
 
@@ -101,16 +102,16 @@ export class CalendarComponent extends BaseWidgetComponent implements OnChanges 
             week.push(weekday.format(format));
             weekday.add(1, 'days');
         }
-        this.model.weekdays = week;
+        this.data.weekdays = week;
     }
 
     private generateMonth() {
-        const set_date = moment(this.date);
+        const set_date = moment(this.model);
         const date = moment();
         const today = moment();
         const now = moment(this.today);
         now.hours(0).minutes(0).seconds(0).milliseconds(0);
-        date.add(this.model.offset || 0, 'months');
+        date.add(this.data.offset || 0, 'months');
         const current_month = date.format('YYYY-MMM');
             // Create display for month
         if (this.options && this.options.format) {
@@ -144,6 +145,6 @@ export class CalendarComponent extends BaseWidgetComponent implements OnChanges 
             }
             month.push(week);
         }
-        this.model.month = month;
+        this.data.month = month;
     }
 }
