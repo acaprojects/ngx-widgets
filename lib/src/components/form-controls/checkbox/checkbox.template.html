@@ -1,9 +1,11 @@
 
-<div [class]="'checkbox ' + name" widget (touchrelease)="toggle()">
-    <label *ngIf="side==='left'" class="label" [for]="name">{{ label }}</label>
-    <div class="box" [class.active]="model">
+<div [class]="'checkbox' + (klass ? ' ' + klass : '')" widget
+    (mouseover)="data.hover = true" (mouseout)="data.hover = false">
+
+    <label *ngIf="side==='left'" class="label" [for]="name" (touchrelease)="toggle()">{{ label }}</label>
+    <div class="box" [class.active]="model" [class.hover]="data.hover" (touchrelease)="toggle()">
         <input type="checkbox" [(ngModel)]="model" [name]="name">
         <div class="check"><ng-content></ng-content></div>
     </div>
-    <label *ngIf="side!=='left'" class="label" [for]="name">{{ label }}</label>
+    <label *ngIf="side!=='left'" class="label" [for]="name" (touchrelease)="toggle()">{{ label }}</label>
 </div>

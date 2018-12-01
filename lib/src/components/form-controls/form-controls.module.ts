@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { CheckboxComponent } from './checkbox/checkbox.component';
 import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { InputFieldComponent } from './input-field/input-field.component';
@@ -20,9 +19,9 @@ import { WidgetsPipeModule } from '../../pipes/pipe.module';
 import { DirectiveWidgetsModule } from '../../directives/directives.module';
 
 import { ACalendarModule } from './calendar/calendar.module';
+import { ACheckboxModule } from './checkbox/checkbox.module';
 
 const COMPONENTS: any[] = [
-    CheckboxComponent,
     CustomDropdownComponent,
     DropdownComponent,
     InputFieldComponent,
@@ -35,7 +34,8 @@ const COMPONENTS: any[] = [
 ];
 
 const COMPONENT_MODULES: any[] = [
-    ACalendarModule
+    ACalendarModule,
+    ACheckboxModule
 ]
 
 @NgModule({

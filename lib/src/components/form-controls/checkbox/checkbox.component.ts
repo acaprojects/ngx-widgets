@@ -1,19 +1,19 @@
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
+import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
 
 @Component({
     selector: 'checkbox',
     templateUrl: './checkbox.template.html',
     styleUrls: ['./checkbox.styles.scss'],
 })
-export class CheckboxComponent {
-    @Input() name = '';
-    @Input() model = false;
-    @Input() label = '';
-    @Input() side = 'right';
-    @Output() modelChange: any = new EventEmitter();
+export class CheckboxComponent extends BaseFormWidgetComponent {
+    @Input() public label = '';
+    @Input() public side = 'right';
 
     public toggle() {
+        console.log('Toggle:', this.model);
         this.model = !this.model;
         this.modelChange.emit(this.model);
     }
