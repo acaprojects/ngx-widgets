@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { WidgetsSharedModule } from '../../../shared/shared.module';
+import { DirectiveWidgetsModule } from '../../../directives/directives.module';
+
 import { CalendarComponent } from './calendar.component';
 
 const COMPONENTS: any[] = [
@@ -25,7 +27,8 @@ const COMPONENTS: any[] = [
     imports: [
         WidgetsSharedModule,
         CommonModule,
-        FormsModule
+        FormsModule,
+        DirectiveWidgetsModule
     ],
     exports: [
         ...COMPONENTS
