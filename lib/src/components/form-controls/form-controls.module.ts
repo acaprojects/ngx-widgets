@@ -4,9 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { RadiosetComponent } from './radioset/radioset.component';
-import { RadioButtonComponent } from './radioset/radio-button/radio-button.component';
-import { SliderComponent } from './slider/slider.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { ToggleComponent } from './toggle/toggle.component';
 import { TimeInputComponent } from './time-input/time-input.component';
@@ -21,9 +18,9 @@ import { ACustomDropdownModule } from './custom-dropdown/custom-dropdown.module'
 import { ADropdownModule } from './dropdown/dropdown.module';
 import { AnInputFieldModule } from './input-field/input-field.module';
 import { ARadiosetModule } from './radioset/radioset.module';
+import { ASliderModule } from './slider/slider.module';
 
 const COMPONENTS: any[] = [
-    SliderComponent,
     TimePickerComponent,
     ToggleComponent,
     TimeInputComponent
@@ -35,7 +32,8 @@ const COMPONENT_MODULES: any[] = [
     ACustomDropdownModule,
     ADropdownModule,
     AnInputFieldModule,
-    ARadiosetModule
+    ARadiosetModule,
+    ASliderModule
 ]
 
 @NgModule({

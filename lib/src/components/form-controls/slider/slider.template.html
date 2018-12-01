@@ -1,13 +1,4 @@
-<!--
-@Author: Alex Sorafumo <Yuion>
-@Date:   13/09/2016 2:55 PM
-@Email:  alex@yuion.net
-@Filename: slider.template.html
-@Last modified by:   alex.sorafumo
-@Last modified time: 24/01/2017 9:55 AM
--->
-
-<div [class]="'slider ' + name" (window:resize)="resize(true)" widget>
+<div [class]="'slider' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '')" (window:resize)="resize(true)" widget>
     <div #space class="block" [class.vertical]="align==='vertical'">
         <!-- Vertical Slider -->
         <div #bar class="bar c1" (touchrelease)="clickSlider($event)" (press)="clickSlider($event)" (pan)="moveSlider($event)">
