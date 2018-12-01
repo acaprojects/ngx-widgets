@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { InputFieldComponent } from './input-field/input-field.component';
 import { RadiosetComponent } from './radioset/radioset.component';
 import { RadioButtonComponent } from './radioset/radio-button/radio-button.component';
 import { SliderComponent } from './slider/slider.component';
@@ -20,9 +19,9 @@ import { ACalendarModule } from './calendar/calendar.module';
 import { ACheckboxModule } from './checkbox/checkbox.module';
 import { ACustomDropdownModule } from './custom-dropdown/custom-dropdown.module';
 import { ADropdownModule } from './dropdown/dropdown.module';
+import { AnInputFieldModule } from './input-field/input-field.module';
 
 const COMPONENTS: any[] = [
-    InputFieldComponent,
     RadiosetComponent,
     RadioButtonComponent,
     SliderComponent,
@@ -35,7 +34,8 @@ const COMPONENT_MODULES: any[] = [
     ACalendarModule,
     ACheckboxModule,
     ACustomDropdownModule,
-    ADropdownModule
+    ADropdownModule,
+    AnInputFieldModule
 ]
 
 @NgModule({

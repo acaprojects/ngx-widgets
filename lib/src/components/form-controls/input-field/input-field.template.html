@@ -7,7 +7,7 @@
 @Last modified time: 15/12/2016 11:29 AM
 -->
 
-<div [class]="'input-field ' + name" widget [class.focus]="state.focus">
+<div [class]="'input-field' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '')" widget [class.focus]="state.focus">
     <div class="field">
         <div class="placeholder" [class.focus]="state.focus" [class.hide]="model">
             {{placeholder}}

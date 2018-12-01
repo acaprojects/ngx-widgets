@@ -9,20 +9,18 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
+import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
+
 @Component({
     selector: 'input-field',
     styleUrls: [ './input-field.styles.scss'],
     templateUrl: './input-field.template.html'
 })
-export class InputFieldComponent {
-    @Input() public name = '';
-    @Input() public model: string;
+export class InputFieldComponent extends BaseFormWidgetComponent {
     @Input() public type = 'text';
-    @Input() public disabled = false;
     @Input() public mask = '';
     @Input() public placeholder = '';
     @Input() public limit = 65535;
-    @Output() public modelChange = new EventEmitter();
     @Output() public focus = new EventEmitter();
     @Output() public blur = new EventEmitter();
 
