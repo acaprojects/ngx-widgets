@@ -1,5 +1,5 @@
 
-<div [class]="'radio-button ' + name" widget>
+<div [class]="'radio-button ' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '')" widget>
     <div class="box" [class.on]="model" (touchrelease)="select()">
         <div class="toggle" [class.on]="model"></div>
     </div>

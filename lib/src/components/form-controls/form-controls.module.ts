@@ -20,10 +20,9 @@ import { ACheckboxModule } from './checkbox/checkbox.module';
 import { ACustomDropdownModule } from './custom-dropdown/custom-dropdown.module';
 import { ADropdownModule } from './dropdown/dropdown.module';
 import { AnInputFieldModule } from './input-field/input-field.module';
+import { ARadiosetModule } from './radioset/radioset.module';
 
 const COMPONENTS: any[] = [
-    RadiosetComponent,
-    RadioButtonComponent,
     SliderComponent,
     TimePickerComponent,
     ToggleComponent,
@@ -35,7 +34,8 @@ const COMPONENT_MODULES: any[] = [
     ACheckboxModule,
     ACustomDropdownModule,
     ADropdownModule,
-    AnInputFieldModule
+    AnInputFieldModule,
+    ARadiosetModule
 ]
 
 @NgModule({

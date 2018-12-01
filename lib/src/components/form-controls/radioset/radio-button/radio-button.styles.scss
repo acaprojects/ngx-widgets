@@ -7,6 +7,10 @@ $size: 12px;
     display: flex;
     align-items: center;
     margin: .5em;
+    &.disable {
+        opacity: .2;
+        pointer-events: none;
+    }
 }
 
 .box {
