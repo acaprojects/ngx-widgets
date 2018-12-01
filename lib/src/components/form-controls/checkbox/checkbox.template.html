@@ -1,5 +1,5 @@
 
-<div [class]="'checkbox' + (klass ? ' ' + klass : '')" widget
+<div [class]="'checkbox' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '')" widget
     (mouseover)="data.hover = true" (mouseout)="data.hover = false">
 
     <label *ngIf="side==='left'" class="label" [for]="name" (touchrelease)="toggle()">{{ label }}</label>

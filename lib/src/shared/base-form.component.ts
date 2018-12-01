@@ -9,6 +9,7 @@ import { BaseWidgetComponent } from './base.component';
 })
 export class BaseFormWidgetComponent extends BaseWidgetComponent {
     @Input() public model: any;
+    @Input() public disabled = false;
     @Output() public modelChange = new EventEmitter();
 
     public data: any = {};

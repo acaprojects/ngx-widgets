@@ -66,6 +66,7 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
     }
 
     public setDate(day: any) {
+        if (this.disabled) { return; }
         const now = moment(this.today);
         const date = moment(day.timestamp);
         if (!this.options || this.options.past || (!this.options.past && now.isSameOrBefore(date, 'd'))) {

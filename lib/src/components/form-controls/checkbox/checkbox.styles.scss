@@ -3,6 +3,15 @@
 .checkbox {
     display: flex;
     align-items: center;
+    &.disable {
+        pointer-events: none;
+        .box {
+            opacity: .35;
+        }
+        .label {
+            opacity: .2;
+        }
+    }
 }
 
 .box {
