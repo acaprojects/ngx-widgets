@@ -28,6 +28,7 @@ export class CustomDropdownComponent extends BaseFormWidgetComponent implements 
     }
 
     public ngOnChanges(changes: any) {
+        super.ngOnChanges(changes);
         this.timeout('resize', () => this.resize());
     }
 

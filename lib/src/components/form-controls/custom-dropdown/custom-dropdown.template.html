@@ -1,4 +1,4 @@
-<div [class]="'custom-dropdown ' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '') + (show ? ' show' : '')" widget #body (window:resize)="resize()">
+<div [class]="'custom-dropdown' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '') + (show ? ' show' : '')" widget #body (window:resize)="resize()">
     <div #ref class="reference"></div>
     <div class="tooltip" [class.bottom]="bottom" tooltip name="custom-dropdown-list clear" [template]="tooltip" [position]="bottom ? 'top' : 'bottom'"
         offset="middle" [triangle]="false" [(show)]="show" (showChange)="showChange.emit(show)">
