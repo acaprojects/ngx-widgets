@@ -2,17 +2,17 @@
 import { Component, Input, Output, OnChanges, OnInit } from '@angular/core';
 import { ElementRef, EventEmitter, TemplateRef, ViewChild  } from '@angular/core';
 
+import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
+
 @Component({
     selector: 'custom-dropdown',
     templateUrl: './custom-dropdown.template.html',
     styleUrls: ['./custom-dropdown.styles.scss'],
 })
-export class CustomDropdownComponent implements OnInit, OnChanges {
-    @Input() public name = '';
-    @Input() public show = false;
+export class CustomDropdownComponent extends BaseFormWidgetComponent implements OnInit, OnChanges {
     @Input() public content: TemplateRef<any>;
     @Input() public template: TemplateRef<any>;
-    @Output() public modelChange: any = new EventEmitter();
+    @Input() public show = false;
     @Output() public showChange: any = new EventEmitter();
 
     @ViewChild('ref') private reference: ElementRef;
@@ -24,19 +24,19 @@ export class CustomDropdownComponent implements OnInit, OnChanges {
     public bottom = false;
 
     public ngOnInit() {
-        setTimeout(() => this.resize(), 300);
+        this.timeout('resize', () => this.resize());
     }
 
     public ngOnChanges(changes: any) {
-        setTimeout(() => this.resize(), 300);
+        this.timeout('resize', () => this.resize());
     }
 
     public updateSize(tries: number = 0) {
-        if (tries > 10) { return; }
+        if (tries > 5) { return; }
         if (this.body && this.body.nativeElement) {
             this.width = this.body.nativeElement.offsetWidth;
         } else {
-            setTimeout(() => this.updateSize(++tries), 200);
+            this.timeout('up_size', () => this.updateSize(tries), 200 * ++tries);
         }
     }
 
