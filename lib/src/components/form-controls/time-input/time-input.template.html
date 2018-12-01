@@ -1,4 +1,4 @@
-<div [class]="'time-input' + (name ? ' ' + name : '')" widget>
+<div [class]="'time-input' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '')" widget>
     <div class="hour">
         <div class="arrow top left" (touchrelease)="changeHour(1)"></div>
         <input #hour [(ngModel)]="data.hour" (ngModelChange)="checkHour()" type="tel" maxlength="2" placeholder="hh"

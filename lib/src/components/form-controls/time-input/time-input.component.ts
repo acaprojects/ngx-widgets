@@ -1,17 +1,15 @@
 import { Component, Input, EventEmitter, Output, OnChanges, ViewChild, ElementRef } from "@angular/core";
+import { BaseFormWidgetComponent } from "../../../shared/base-form.component";
 
 @Component({
     selector: 'time-input',
     templateUrl: './time-input.template.html',
     styleUrls: ['./time-input.styles.scss']
 })
-export class TimeInputComponent implements OnChanges {
-    @Input() public name: string;
-    @Input() public model: string;
+export class TimeInputComponent extends BaseFormWidgetComponent implements OnChanges {
     @Input('no-period') public no_period: boolean;
     @Input() public arrows: boolean = true;
     @Input() public step: number = 5;
-    @Output() public modelChange = new EventEmitter();
 
     public data: any = { hour: '12', minute: '00' };
 
@@ -127,10 +125,7 @@ export class TimeInputComponent implements OnChanges {
     }
 
     public post() {
-        if (this.data.post_timer) {
-            clearTimeout(this.data.post_timer);
-        }
-        this.data.post_timer = setTimeout(() => {
+        this.timeout('post', () => {
             let hour: any = ((+this.data.hour || 0) % 12) + (this.data.pm ? 12 : 0);
             if (+hour < 10) { hour = '0' + hour; }
             const minute = +this.data.minute < 10 ? '0' + +this.data.minute : this.data.minute;

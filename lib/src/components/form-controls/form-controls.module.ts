@@ -19,11 +19,11 @@ import { ADropdownModule } from './dropdown/dropdown.module';
 import { AnInputFieldModule } from './input-field/input-field.module';
 import { ARadiosetModule } from './radioset/radioset.module';
 import { ASliderModule } from './slider/slider.module';
+import { ATimeInputModule } from './time-input/time-input.module';
 
 const COMPONENTS: any[] = [
     TimePickerComponent,
-    ToggleComponent,
-    TimeInputComponent
+    ToggleComponent
 ];
 
 const COMPONENT_MODULES: any[] = [
@@ -33,7 +33,8 @@ const COMPONENT_MODULES: any[] = [
     ADropdownModule,
     AnInputFieldModule,
     ARadiosetModule,
-    ASliderModule
+    ASliderModule,
+    ATimeInputModule
 ]
 
 @NgModule({
