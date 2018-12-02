@@ -21,10 +21,7 @@ import { ARadiosetModule } from './radioset/radioset.module';
 import { ASliderModule } from './slider/slider.module';
 import { ATimeInputModule } from './time-input/time-input.module';
 import { ATimePickerModule } from './time-picker/time-picker.module';
-
-const COMPONENTS: any[] = [
-    ToggleComponent
-];
+import { AToggleModule } from './toggle/toggle.module';
 
 const COMPONENT_MODULES: any[] = [
     ACalendarModule,
@@ -35,12 +32,12 @@ const COMPONENT_MODULES: any[] = [
     ARadiosetModule,
     ASliderModule,
     ATimeInputModule,
-    ATimePickerModule
+    ATimePickerModule,
+    AToggleModule
 ]
 
 @NgModule({
     declarations: [
-        ...COMPONENTS
     ],
     imports: [
         CommonModule,
@@ -52,7 +49,6 @@ const COMPONENT_MODULES: any[] = [
         ...COMPONENT_MODULES
     ],
     exports: [
-        ...COMPONENTS,
         ...COMPONENT_MODULES
     ]
 })
