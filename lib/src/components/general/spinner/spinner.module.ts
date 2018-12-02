@@ -22,9 +22,5 @@ import { SpinnerComponent } from './spinner.component';
     entryComponents: [
     ]
 })
-export class SpinnerWidgetModule {
-
-}
-
-export const ACA_SPINNER_WIDGET_MODULE = SpinnerWidgetModule;
+export class ASpinnerWidgetModule { }
 

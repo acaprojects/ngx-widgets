@@ -1,4 +1,4 @@
-<div #main [class]="'radial-progress ' + name" widget>
+<div #main [class]="'radial-progress' + (klass ? ' ' + klass : '')" widget>
     <svg viewBox="0 0 120 120">
         <circle cx="60" cy="60" r="54" fill="none" [style.stroke]="bg" stroke-width="8" />
         <circle cx="60" cy="60" r="54" fill="none" [style.stroke]="color" stroke-width="8"

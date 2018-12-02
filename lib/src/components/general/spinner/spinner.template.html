@@ -7,7 +7,7 @@
 @Last modified time: 15/12/2016 11:32 AM
 -->
 
-<div [class]="'spinner ' + name + ' ' + type" widget>
+<div [class]="'spinner' + (klass ? ' ' + klass : '') + (type ? ' ' + type : '')" widget>
     <div class="spin">
         <div *ngIf="type=='plane'" class="plane">
             <div class="box" [style.background-color]="color"></div>

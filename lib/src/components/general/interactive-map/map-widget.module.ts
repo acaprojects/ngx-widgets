@@ -14,7 +14,7 @@ import { MapTooltipComponent } from './overlay-components/map-tooltip/map-toolti
 
 import { OverlayWidgetsModule } from '../../overlays/overlay.module';
 import { WidgetsPipeModule } from '../../../pipes/pipe.module';
-import { SpinnerWidgetModule } from '../spinner/spinner.module';
+import { ASpinnerWidgetModule } from '../spinner/spinner.module';
 import { DirectiveWidgetsModule } from '../../../directives/directives.module';
 
 
@@ -35,7 +35,7 @@ import { DirectiveWidgetsModule } from '../../../directives/directives.module';
         DirectiveWidgetsModule,
         OverlayWidgetsModule,
         WidgetsPipeModule,
-        SpinnerWidgetModule
+        ASpinnerWidgetModule
     ],
     exports: [
         InteractiveMapComponent,

@@ -9,6 +9,7 @@
 
 import { Component, Input, OnChanges } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { BaseWidgetComponent } from '../../../shared/base.component';
 
 @Component({
     selector: 'spinner',
@@ -16,23 +17,24 @@ import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
     templateUrl: './spinner.template.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SpinnerComponent implements OnChanges {
+export class SpinnerComponent extends BaseWidgetComponent implements OnChanges {
     @Input() public type = 'plane';
     @Input() public color = '#000';
-    @Input() public name = 'default';
 
     public percent = 0;
 
     private timers: any = {};
 
-    constructor(private _cdr: ChangeDetectorRef) { }
+    constructor(private _cdr: ChangeDetectorRef) {
+        super();
+    }
 
     public ngOnInit() {
-        this.timers.percent = setInterval(() => {
-            this.percent += 1 / (1000 / 30);
-            this.percent %= 1;
-            this._cdr.markForCheck();
-        }, 20);
+        // this.interval('percent', () => {
+        //     this.percent += 1 / (1000 / 30);
+        //     this.percent %= 1;
+        //     this._cdr.markForCheck();
+        // }, 20);
     }
 
     public ngOnChanges(changes: any) {
