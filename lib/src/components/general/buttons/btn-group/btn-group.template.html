@@ -9,5 +9,5 @@
 
 <div [class]="'btn group ' + name" widget>
     <btn *ngFor="let item of items; let i = index" [name]="'group-item n' + (i + 1 === items.length ? 'l' : i + 1)"
-        [(model)]="state[i]" (modelChange)="toggle(i)" [toggle]="true" [disabled]="disabled">{{ item }}</btn>
+        [(model)]="data[i]" (modelChange)="toggle(i)" [toggle]="true" [disabled]="disabled">{{ item }}</btn>
 </div>

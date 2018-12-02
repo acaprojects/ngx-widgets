@@ -9,6 +9,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { BaseFormWidgetComponent } from '../../../../shared/base-form.component';
 
 @Component({
     selector: 'btn-group',
@@ -16,24 +17,19 @@ import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
     styleUrls: [ './btn-group.styles.scss'/*, '../../material-styles/material-styles.scss' */ ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ButtonGroupComponent {
+export class ButtonGroupComponent extends BaseFormWidgetComponent {
     @Input() public items: any;
-    @Input() public model = 0;
-    @Input() public name = '';
-    @Input() public disabled = false;
-    @Output() public modelChange = new EventEmitter();
-
-    public state: any = {};
 
     constructor(private _cdr: ChangeDetectorRef) {
-        this.state[0] = true;
+        super();
+        this.data[0] = true;
     }
 
     public toggle(index: number) {
         this.model = index;
-        for (const s in this.state) {
-            if(this.state.hasOwnProperty(s)) {
-                this.state[s] = +s === +index;
+        for (const s in this.data) {
+            if(this.data.hasOwnProperty(s)) {
+                this.data[s] = +s === +index;
             }
         }
         this.modelChange.emit(this.model);
