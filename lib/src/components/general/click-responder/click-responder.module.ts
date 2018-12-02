@@ -14,13 +14,10 @@ import { FormsModule } from '@angular/forms';
 import { WidgetsSharedModule } from '../../../shared/shared.module';
 import { DirectiveWidgetsModule } from '../../../directives/directives.module';
 
-import { ButtonComponent } from './btn/btn.component';
-import { ButtonGroupComponent } from './btn-group/btn-group.component';
-import { AClickResponderModule } from '../click-responder/click-responder.module';
+import { ClickResponderComponent } from './click-responder.component';
 
 const COMPONENTS: any[] = [
-    ButtonComponent,
-    ButtonGroupComponent
+    ClickResponderComponent
 ];
 
 @NgModule({
@@ -31,12 +28,11 @@ const COMPONENTS: any[] = [
         WidgetsSharedModule,
         CommonModule,
         FormsModule,
-        DirectiveWidgetsModule,
-        AClickResponderModule
+        DirectiveWidgetsModule
     ],
     exports: [
         ...COMPONENTS
     ],
     entryComponents: []
 })
-export class ButtonsModule { }
+export class AClickResponderModule { }

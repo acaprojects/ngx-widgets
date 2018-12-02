@@ -7,7 +7,7 @@
 @Last modified time: 15/12/2016 11:28 AM
 -->
 
-<div [class]="'btn group ' + name" widget>
-    <btn *ngFor="let item of items; let i = index" [name]="'group-item n' + (i + 1 === items.length ? 'l' : i + 1)"
+<div [class]="'btn-group' + (klass ? ' ' + klass : '')" widget>
+    <btn *ngFor="let item of items; let i = index" [klass]="'group-item n' + (i + 1 === items.length ? 'l' : i + 1)"
         [(model)]="data[i]" (modelChange)="toggle(i)" [toggle]="true" [disabled]="disabled">{{ item }}</btn>
 </div>

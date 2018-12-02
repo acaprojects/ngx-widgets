@@ -7,7 +7,7 @@
 @Last modified time: 20/01/2017 2:45 PM
 -->
 
-<div [class]="'btn ' + name" widget>
+<div [class]="'btn' + (klass ? ' ' + klass : '')" widget>
     <button click-responder #btn [type]="type" [class]="format" [class.active]="model" [disabled]="disabled" (touchrelease)="tap($event)">
         <div class="content">
             <ng-content></ng-content>
