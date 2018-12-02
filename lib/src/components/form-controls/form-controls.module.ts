@@ -20,9 +20,9 @@ import { AnInputFieldModule } from './input-field/input-field.module';
 import { ARadiosetModule } from './radioset/radioset.module';
 import { ASliderModule } from './slider/slider.module';
 import { ATimeInputModule } from './time-input/time-input.module';
+import { ATimePickerModule } from './time-picker/time-picker.module';
 
 const COMPONENTS: any[] = [
-    TimePickerComponent,
     ToggleComponent
 ];
 
@@ -34,7 +34,8 @@ const COMPONENT_MODULES: any[] = [
     AnInputFieldModule,
     ARadiosetModule,
     ASliderModule,
-    ATimeInputModule
+    ATimeInputModule,
+    ATimePickerModule
 ]
 
 @NgModule({
