@@ -25,10 +25,10 @@ export class TimeInputComponent implements OnChanges {
     public ngOnChanges(changes: any) {
         if (changes.model) {
             const parts = (this.model || '00:00').split(':');
-            this.data.hour = parts[0];
-            this.changeHour(0);
-            this.data.minutes = parts[0];
-            this.changeMinute(0);
+            this.data.hour = 0;
+            this.changeHour(+parts[0], false);
+            this.data.minutes = 0;
+            this.changeMinute(Math.ceil(+parts[1] / this.step) % Math.floor(60 / this.step), false);
         }
     }
 
@@ -95,7 +95,7 @@ export class TimeInputComponent implements OnChanges {
         return true;
     }
 
-    public changeHour(value: number) {
+    public changeHour(value: number, post: boolean = true) {
         if (!this.data.hour || !this.checkHour()) { this.data.hour = '0'; }
         this.data.hour = `${(+this.data.hour % 12) + value || 0}`;
         if (+this.data.hour < 0) {
@@ -110,10 +110,10 @@ export class TimeInputComponent implements OnChanges {
         }
             // If hour is zero set it to 12
         if (this.data.hour === '0') { this.data.hour = '12'; }
-        this.post();
+        if (post) { this.post(); }
     }
 
-    public changeMinute(value: number) {
+    public changeMinute(value: number, post: boolean = true) {
         if (!this.data.minute || !this.checkMinute()) { this.data.minute = '00'; }
         this.data.minute = `${parseInt(this.data.minute) + ((value || 0) * this.step)}`;
         if (+this.data.minute >= 60) {
@@ -123,7 +123,7 @@ export class TimeInputComponent implements OnChanges {
         }
         this.data.minute = `${+this.data.minute < 0 ? 60 + +this.data.minute : +this.data.minute % 60}`;
         if (+this.data.minute < 10) { this.data.minute = '0' + this.data.minute; }
-        this.post();
+        if (post) { this.post(); }
     }
 
     public post() {
