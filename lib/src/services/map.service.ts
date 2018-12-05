@@ -2,6 +2,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { WIDGETS } from '../../../dist/settings';
+
 import * as moment_api from 'moment';
 const moment = moment_api;
 
@@ -15,6 +17,11 @@ export class MapService {
     private map_trees: any = {};
     private map_images: any = {};
     private promise: any = {};
+    public logs: any = {
+        warning_ids: [],
+        warnings: [],
+        errors: []
+    };
 
     constructor(private http: HttpClient) {
         if (sessionStorage) {
@@ -124,5 +131,18 @@ export class MapService {
      */
     public clear() {
         this.maps = {};
+    }
+
+    public log(type: string, msg: string, id?: string, data?: any) {
+        if ((type || '').toLowerCase() === 'error') {
+            WIDGETS.log('MAP(S)', msg, data, 'error');
+            this.logs.errors.push(`[${moment().format('YYYY-MM-DD hh:mmA')}]${msg}`);
+        } else if ((type || '').toLowerCase() === 'warning' || (type || '').toLowerCase() === 'warn') {
+            if (id && this.logs.warning_ids.indexOf(id) >= 0) {
+                return;
+            }
+            WIDGETS.log('MAP(S)', msg, data, 'warn');
+            this.logs.warnings.push(`[${moment().format('YYYY-MM-DD hh:mmA')}]${msg}`);
+        }
     }
 }
