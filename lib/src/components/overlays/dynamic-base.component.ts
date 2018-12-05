@@ -4,6 +4,7 @@ import { ChangeDetectorRef, ComponentFactoryResolver, Renderer2, ViewContainerRe
 import { BehaviorSubject, Subject } from 'rxjs';
 
 import { WIDGETS } from '../../settings';
+import { BaseWidgetComponent } from '../../shared/base.component';
 
 export interface IDynamicComponentEvent {
     id: string;         // ID of the component
@@ -21,7 +22,7 @@ export interface IDynamicComponentEvent {
     template: '',
     styles: [''],
 })
-export class DynamicBaseComponent implements OnInit, OnDestroy, AfterViewInit {
+export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit, OnDestroy, AfterViewInit {
     protected static instance_stack: any = {};
     protected static action: any = null;
 
@@ -51,6 +52,7 @@ export class DynamicBaseComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('content', { read: ViewContainerRef }) private _content: ViewContainerRef;
 
     constructor() {
+        super();
         this.stack_id = Math.floor(Math.random() * 89999999 + 10000000).toString();
     }
 
