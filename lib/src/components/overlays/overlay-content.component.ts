@@ -1,15 +1,15 @@
 
 import { ChangeDetectorRef, Component, Input, HostListener } from '@angular/core';
 
+import { BaseWidgetComponent } from '../../shared/base.component';
+
 @Component({
     selector: 'overlay-content',
     template: '',
     styles: [''],
 })
-export class OverlayContentComponent {
-    @Input() public id: string = '';    // Overlay ID
+export class OverlayContentComponent extends BaseWidgetComponent {
     @Input() public service: any;       // Overlay Data Service
-    @Input() public name: string = '';  // Overlay Name
     @Input() public model: any = {};    // Overlay data
     @Input() public fn: any = {};       // Overlay interaction functions
 
@@ -21,6 +21,7 @@ export class OverlayContentComponent {
     }
 
     constructor(protected _cdr: ChangeDetectorRef) {
+        super();
         this.id = `overlay-${Math.floor(Math.random() * 8999999 + 1000000)}`;
     }
 

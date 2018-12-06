@@ -1,3 +1,6 @@
+
+import { IMapPoint } from "./map-renderer/map-renderer.component";
+
 /*
  *  Utility functions for maps
  */
@@ -26,13 +29,28 @@ export class MapUtilities {
     public static cleanCssSelector(name) {
         let selector = name.replace(/[!"#$%&'()*+,.\/;<=>?@[\\\]^`{|}~]/g, "\\$&");
         let parts = selector.split(' ');
-        console.log('Parts:', parts);
         for (let p of parts) {
-            console.log('Part:', p);
             parts.splice(parts.indexOf(p), 1, [p.replace(/^\\/g, '')]);
         }
-        console.log('Parts:', parts);
         selector = parts.join(' ');
         return selector;
+    }
+
+    public static getPosition(box, el: Element, coords: IMapPoint) {
+        if (el) {
+            const el_box = el.getBoundingClientRect();
+            console.log('Pos:', el_box, box);
+            return {
+                x: +((el_box.left + el_box.width / 2 - box.left) / box.width * 100).toFixed(3),
+                y: +((el_box.top + el_box.height / 2 - box.top) / box.height * 100).toFixed(3)
+            };
+        } else if (coords) {
+            const ratio = box.width / box.height
+            return {
+                x: +((coords.x / 10000) * 100).toFixed(3),
+                y: +((coords.y / (10000 * ratio)) * 100).toFixed(3)
+            }
+        }
+        return null;
     }
 }

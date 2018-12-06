@@ -2,6 +2,7 @@ import { Component, Input, ElementRef, ViewChild, Output, EventEmitter, Renderer
 import { BaseWidgetComponent } from '../../../../shared/base.component';
 import { MapService } from '../../../../services/map.service';
 import { MapUtilities } from '../map.utilities';
+import { IMapPointOfInterest } from '../map.component';
 
 export interface IMapPoint {
     x: number,
@@ -19,6 +20,7 @@ export class MapRendererComponent extends BaseWidgetComponent {
     @Input() public src: string = '';
     @Input() public css: string = '';
     @Input() public redraw: any = null;
+    @Input() public items: IMapPointOfInterest[];
     @Output() public map = new EventEmitter();
 
     @ViewChild('canvas') private canvas: ElementRef;

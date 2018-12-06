@@ -1,10 +1,11 @@
 
 
 import { OverlayService } from '../../../services/overlay.service';
-import { ComponentFactoryResolver, Type } from '@angular/core';
+import { ComponentFactoryResolver, Type, OnInit, OnDestroy } from '@angular/core';
 import { Component, EventEmitter, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { ElementRef } from '@angular/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
+import { BaseWidgetComponent } from '../../../shared/base.component';
 
 @Component({
     selector: 'overlay-container',
@@ -13,10 +14,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
     `,
     styleUrls: ['./overlay-container.styles.scss'],
 })
-export class OverlayContainerComponent {
-    public id: string = `overlay-container-${Math.floor(Math.random() * 8999999 + 1000000)}`;
+export class OverlayContainerComponent extends BaseWidgetComponent implements OnInit, OnDestroy {
     public ng: any = null; // Angular component created from componentFactory
-    public service: OverlayService;
     @Output() public event: any = new EventEmitter();
     @Output() public idChange: any = new EventEmitter();
     protected cmp_refs: any = {};
@@ -25,19 +24,27 @@ export class OverlayContainerComponent {
     @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
     @ViewChild('el') public root: ElementRef;
 
-    constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef) { }
+    constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, protected service: OverlayService) {
+        super();
+        this.id = `overlay-container-${Math.floor(Math.random() * 8999999 + 1000000)}`;
+    }
 
     public ngOnInit() {
         this.idChange.emit(this.id);
+    }
+
+    public ngOnDestroy() {
+        this.clear();
     }
 
     /**
      * Add a component to be rendered to the on the overlay container
      * @param id ID of the added component
      * @param cmp Component Class to be rendered on the overlay container
-     * @returns Returns the render function promise
+     * @returns Promise of component instance
      */
     public add(id: string, cmp: Type<any>) {
+        console.log('Add:', id, cmp);
         if (!this.cmp_refs[id] || !(this.cmp_refs[id].instance instanceof cmp)) {
             return this.render(id, cmp);
         } else {
@@ -48,7 +55,7 @@ export class OverlayContainerComponent {
     /**
      * Checks if the component with the given ID exists on the overlay container
      * @param id ID of the component to check the existance of
-     * @returns Returns whether the component exists or not
+     * @returns Whether the component exists or not
      */
     public exists(id: string) {
         return !!(this.cmp_refs[id]);
@@ -89,7 +96,7 @@ export class OverlayContainerComponent {
 
     /**
      * Gets the service set for the overlay container
-     * @returns Returns the set service or an empty object
+     * @returns Service or empty object
      */
     protected getService() {
         return this.service ? this.service.getService() : {};
@@ -99,7 +106,7 @@ export class OverlayContainerComponent {
      * Renders the specified component on the overlay container
      * @param id ID of the component to render
      * @param type Component Class to render
-     * @returns Returns a promise which resolves with the component instance of rejects with the reason of the failure
+     * @returns Promise which resolves with the component instance of rejects with the reason of the failure
     */
     protected render(id: string, type: Type<any>, tries: number = 0) {
         return new Promise((resolve, reject) => {

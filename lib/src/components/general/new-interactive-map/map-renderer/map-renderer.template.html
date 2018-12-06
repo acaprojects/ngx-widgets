@@ -4,7 +4,7 @@
             [style.transform]="'translate(' + model.position.x + '%, ' + model.position.y + '%)'">
             <div class="map-block" [style.opacity]="model.zooming ? 0 : 1" [innerHTML]="model.map_data | safe"></div>
             <canvas #canvas [style.opacity]="model.zooming ? 1 : 0"></canvas>
-            <map-overlay-container></map-overlay-container>
+            <map-overlay-container [items]="items" [map]="model.map"></map-overlay-container>
         </div>
     </div>
     <div class="loader" [style.display]="model.loading || !model.map_data  ? '' : 'none'">
