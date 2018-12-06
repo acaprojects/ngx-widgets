@@ -1,5 +1,5 @@
 <div class="container" #container>
-    <div class="map" #content [style.width]="((model.ratio || 1) * 100) + '%'" [style.display]="model.loading ? 'none' : ''">
+    <div class="map" #content [style.width]="((model.ratio || 1) * 100) + '%'" [style.opacity]="model.loading || !model.map_data ? 0 : 1">
         <div class="render-block" #content [style.width]="model.zoom + '%'" [style.height]="model.zoom + '%'"
             [style.transform]="'translate(' + model.position.x + '%, ' + model.position.y + '%)'">
             <div class="map-block" [style.opacity]="model.zooming ? 0 : 1" [innerHTML]="model.map_data | safe"></div>
@@ -7,7 +7,7 @@
             <map-overlay-container></map-overlay-container>
         </div>
     </div>
-    <div class="loader" [style.display]="model.loading ? '' : 'none'">
+    <div class="loader" [style.display]="model.loading || !model.map_data  ? '' : 'none'">
         <spinner type="circle-ring"></spinner>
     </div>
 </div>
