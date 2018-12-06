@@ -2,9 +2,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { WIDGETS } from '../../../dist/settings';
 
 import * as moment_api from 'moment';
+import { WIDGETS } from '../settings';
 const moment = moment_api;
 
 const MAP_EXPIRY = 7 * 24 * 60 * 60 * 1000;

@@ -7,6 +7,7 @@ import { Component, OnDestroy, OnChanges, Input } from '@angular/core';
     styles: ['']
 })
 export class BaseWidgetComponent implements OnChanges, OnDestroy {
+    @Input() public id = '';
     @Input() public name = '';
     @Input() public klass = '';
 
@@ -16,6 +17,10 @@ export class BaseWidgetComponent implements OnChanges, OnDestroy {
         obs: {},        // Store for observables
         promises: {}    // Store for promises
     };
+
+    constructor() {
+        this.id = `${Math.floor(Math.random() * 89_999_999 + 10_000_000)}`;
+    }
 
     public ngOnChanges(changes: any) {
         if (changes.name && !changes.klass) {

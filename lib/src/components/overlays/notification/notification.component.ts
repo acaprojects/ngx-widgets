@@ -64,7 +64,7 @@ export class NotificationComponent extends DynamicBaseComponent {
      */
     public static timeout(delay: number) {
         if (NotificationComponent.self) {
-            NotificationComponent.self.timeout(delay);
+            NotificationComponent.self.delay(delay);
         }
     }
 
@@ -93,7 +93,7 @@ export class NotificationComponent extends DynamicBaseComponent {
         super.update(data);
     }
 
-    public timeout(delay: number) {
+    public delay(delay: number) {
         this.model.timeout = delay;
     }
 
