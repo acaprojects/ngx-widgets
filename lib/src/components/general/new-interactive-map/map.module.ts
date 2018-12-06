@@ -24,6 +24,9 @@ import { MapStylerDirective } from './map-styler.directive';
 import { MapRendererComponent } from './map-renderer/map-renderer.component';
 import { MapOverlayContainerComponent } from './map-overlay-container/map-overlay-cntnr.component';
 
+import { MapPinComponent } from './overlays/map-pin/map-pin.component';
+import { MapRangeComponent } from './overlays/map-range/map-range.component';
+
 
 const COMPONENTS: any[] = [
     MapComponent,
@@ -33,9 +36,15 @@ const COMPONENTS: any[] = [
     MapOverlayContainerComponent
 ];
 
+const ENTRY_COMPONENTS: any[] = [
+    MapPinComponent,
+    MapRangeComponent
+]
+
 @NgModule({
     declarations: [
-        ...COMPONENTS
+        ...COMPONENTS,
+        ...ENTRY_COMPONENTS
     ],
     imports: [
         WidgetsSharedModule,
@@ -46,8 +55,11 @@ const COMPONENTS: any[] = [
         ASpinnerWidgetModule
     ],
     exports: [
-        ...COMPONENTS
+        ...COMPONENTS,
+        ...ENTRY_COMPONENTS
     ],
-    entryComponents: []
+    entryComponents: [
+        ...ENTRY_COMPONENTS
+    ]
 })
 export class AnInteractiveMapModule { }
