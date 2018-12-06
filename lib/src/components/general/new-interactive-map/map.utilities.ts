@@ -16,4 +16,14 @@ export class MapUtilities {
                 return String.fromCharCode(('0x' + p1) as any);
         }));
     }
+
+    public static getFillScale(source, dest) {
+        const ratio_w = source.width / dest.width;
+        const ratio_h = source.height / dest.height;
+        return Math.min(ratio_w, ratio_h);
+    }
+
+    public static cleanCssSelector(name) {
+        return name.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
+    }
 }
