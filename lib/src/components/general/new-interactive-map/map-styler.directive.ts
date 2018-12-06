@@ -32,23 +32,30 @@ export class MapStylerDirective extends BaseWidgetComponent implements OnChanges
 
     public update() {
         this.clear();
+        console.log('Style Obj:', this.styles);
         if (this.styles) {
             let css = '';
-            for (const selector of this.styles) {
-                let style = `.map [map-${this.id}] ${MapUtilities.cleanCssSelector(selector)} { `;
-                for (const property in this.styles[selector]) {
-                    if (this.styles[selector][property]) {
-                        style += `${property}: ${this.styles[selector][property]}; `;
+            for (const selector in this.styles) {
+                if (this.styles.hasOwnProperty(selector)) {
+                    let style = `.map [map-${this.id}] ${MapUtilities.cleanCssSelector(selector)} { `;
+                    for (const property in this.styles[selector]) {
+                        if (this.styles[selector][property]) {
+                            style += `${property}: ${this.styles[selector][property]}; `;
+                        }
                     }
+                    style += '} ';
+                    console.log('Style:', style);
+                    css += style;
                 }
-                style += '} ';
-                css += style;
             }
             this.model.css = css;
+            console.log('Styles:', this.model.css);
             this.model.style_el = document.createElement('style');
             this.model.style_el.innerHTML = css;
             this.renderer.appendChild(document.head, this.model.style_el);
-            this.css.emit(this.model.css.replace(new RegExp(`.map [map-${this.id}]`, 'g'), ''));
+            const replaced = this.model.css.replace(new RegExp(`\\.map \\[map-${this.id}\\]`, 'g'), '');
+            console.log('Replaced:', replaced);
+            this.css.emit(replaced);
         }
     }
 

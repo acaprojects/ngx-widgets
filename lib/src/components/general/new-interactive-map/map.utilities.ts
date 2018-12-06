@@ -24,6 +24,15 @@ export class MapUtilities {
     }
 
     public static cleanCssSelector(name) {
-        return name.replace(/[!"#$%&'()*+,.\/:;<=>?@[\\\]^`{|}~]/g, "\\$&");
+        let selector = name.replace(/[!"#$%&'()*+,.\/;<=>?@[\\\]^`{|}~]/g, "\\$&");
+        let parts = selector.split(' ');
+        console.log('Parts:', parts);
+        for (let p of parts) {
+            console.log('Part:', p);
+            parts.splice(parts.indexOf(p), 1, [p.replace(/^\\/g, '')]);
+        }
+        console.log('Parts:', parts);
+        selector = parts.join(' ');
+        return selector;
     }
 }
