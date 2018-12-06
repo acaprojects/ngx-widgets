@@ -55,17 +55,21 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
             return this.timeout('update', () => this.updateItems());
         }
         this.clearItems();
-        console.log('Items:', this.items);
         for (const item of (this.items || [])) {
             if (!item.exists) {
                 this.add(item.id, item.cmp).then((inst: any) => {
-                    console.log('Inst:', inst);
                     const box = this.map.getBoundingClientRect();
-                    item.center = MapUtilities.getPosition(box, this.map.querySelector(`#${item.id}`), item.coordinates) || { x: .5, y: .5 };
+                    if (!item.model) { item.model = (item as any).data || {}; }
+                    item.model.center = MapUtilities.getPosition(box, this.map.querySelector(`#${item.id}`), item.coordinates) || { x: .5, y: .5 };
                     item.instance = inst;
-                    inst.set(item);
-                    // inst.subscribe((event) => this.event.emit({ id: item.id, type: 'overlay', item, details: event }));
-                    // console.log('Item:', item);
+                    inst.set(item.model);
+                    inst.fn = {
+                        event: (e) => this.event.emit({ id: item.id, type: 'overlay', item, details: event }),
+                        close: () => {
+                            this.event.emit({ id: item.id, type: 'overlay', item, details: { type: 'close' } });
+                            this.remove(item.id);
+                        }
+                    };
                 });
             }
         }

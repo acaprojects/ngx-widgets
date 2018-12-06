@@ -214,6 +214,6 @@ export class MapInputDirective extends BaseWidgetComponent {
                 this.scale = this.model.scale;
                 this.scaleChange.emit(this.scale);
             }
-        }, 5);
+        }, 0);
     }
 }

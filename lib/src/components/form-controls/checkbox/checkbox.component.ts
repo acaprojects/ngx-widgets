@@ -13,7 +13,6 @@ export class CheckboxComponent extends BaseFormWidgetComponent {
     @Input() public side = 'right';
 
     public toggle() {
-        console.log('Toggle:', this.model);
         this.model = !this.model;
         this.modelChange.emit(this.model);
     }

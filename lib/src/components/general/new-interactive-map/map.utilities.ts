@@ -39,7 +39,6 @@ export class MapUtilities {
     public static getPosition(box, el: Element, coords: IMapPoint) {
         if (el) {
             const el_box = el.getBoundingClientRect();
-            console.log('Pos:', el_box, box);
             return {
                 x: +((el_box.left + el_box.width / 2 - box.left) / box.width * 100).toFixed(3),
                 y: +((el_box.top + el_box.height / 2 - box.top) / box.height * 100).toFixed(3)

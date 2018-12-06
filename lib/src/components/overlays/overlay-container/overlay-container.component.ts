@@ -44,7 +44,6 @@ export class OverlayContainerComponent extends BaseWidgetComponent implements On
      * @returns Promise of component instance
      */
     public add(id: string, cmp: Type<any>) {
-        console.log('Add:', id, cmp);
         if (!this.cmp_refs[id] || !(this.cmp_refs[id].instance instanceof cmp)) {
             return this.render(id, cmp);
         } else {
@@ -113,7 +112,7 @@ export class OverlayContainerComponent extends BaseWidgetComponent implements On
             if (tries > 3 || !type) {
                 return reject(!this.content ? 'No view to render to' : `No component to render`);
             }
-            setTimeout(() => {
+            this.timeout(`render|${id}`, () => {
                 if (this.content && type) {
                     const factory = this._cfr.resolveComponentFactory(type);
                     if (this.cmp_refs[id]) {
