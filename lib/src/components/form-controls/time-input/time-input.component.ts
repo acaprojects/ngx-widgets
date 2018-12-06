@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnChanges, ViewChild, ElementRef } from "@angular/core";
+import { Component, Input, EventEmitter, Output, OnChanges, ViewChild, ElementRef, SimpleChanges } from "@angular/core";
 
 @Component({
     selector: 'time-input',
@@ -22,13 +22,15 @@ export class TimeInputComponent implements OnChanges {
         this.data.last_location = 0;
     }
 
-    public ngOnChanges(changes: any) {
-        if (changes.model) {
+    public ngOnChanges(changes: SimpleChanges) {
+        if (changes.model && changes.model.previousValue !== this.model) {
             const parts = (this.model || '00:00').split(':');
             this.data.hour = 0;
-            this.changeHour(+parts[0], false);
-            this.data.minutes = 0;
-            this.changeMinute(Math.ceil(+parts[1] / this.step) % Math.floor(60 / this.step), false);
+            this.data.pm = +parts[0] >= 12;
+            this.changeHour(+parts[0] % 12, false);
+            this.data.minute = 0;
+            const minute = Math.ceil(+parts[1] / this.step) % Math.floor(60 / this.step);
+            this.changeMinute(minute, false);
         }
     }
 
@@ -117,9 +119,9 @@ export class TimeInputComponent implements OnChanges {
         if (!this.data.minute || !this.checkMinute()) { this.data.minute = '00'; }
         this.data.minute = `${parseInt(this.data.minute) + ((value || 0) * this.step)}`;
         if (+this.data.minute >= 60) {
-            this.changeHour(1);
+            this.changeHour(1, post);
         } else if (+this.data.minute < 0) {
-            this.changeHour(-1);
+            this.changeHour(-1, post);
         }
         this.data.minute = `${+this.data.minute < 0 ? 60 + +this.data.minute : +this.data.minute % 60}`;
         if (+this.data.minute < 10) { this.data.minute = '0' + this.data.minute; }

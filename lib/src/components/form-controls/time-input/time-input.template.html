@@ -15,7 +15,7 @@
             (keyup.backspace)="previousField($event)" (keyup.arrowup)="changeMinute(1)" (keyup.arrowdown)="changeMinute(-1)">
         <div class="arrow bottom right" (touchrelease)="changeMinute(-1)"></div>
     </div>
-    <div class="period" (touchrelease)="data.pm = !data.pm">
+    <div class="period" (touchrelease)="data.pm = !data.pm; post()">
         {{ data.pm ? 'PM' : 'AM' }}
     </div>
 </div>
