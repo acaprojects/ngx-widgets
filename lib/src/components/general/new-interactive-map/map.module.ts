@@ -15,11 +15,22 @@ import { FormsModule } from '@angular/forms';
 
 import { WidgetsSharedModule } from '../../../shared/shared.module';
 import { DirectiveWidgetsModule } from '../../../directives/directives.module';
+import { WidgetsPipeModule } from '../../../pipes/pipe.module';
+import { ASpinnerWidgetModule } from '../spinner/spinner.module';
 
-import { MediaPlayerComponent } from './media-player.component';
+import { MapComponent } from './map.component';
+import { MapInputDirective } from './map-input.directive';
+import { MapStylerDirective } from './map-styler.directive';
+import { MapRendererComponent } from './map-renderer/map-renderer.component';
+import { MapOverlayContainerComponent } from './map-overlay-container/map-overlay-cntnr.component';
+
 
 const COMPONENTS: any[] = [
-    MediaPlayerComponent
+    MapComponent,
+    MapInputDirective,
+    MapStylerDirective,
+    MapRendererComponent,
+    MapOverlayContainerComponent
 ];
 
 @NgModule({
@@ -30,11 +41,13 @@ const COMPONENTS: any[] = [
         WidgetsSharedModule,
         CommonModule,
         FormsModule,
-        DirectiveWidgetsModule
+        WidgetsPipeModule,
+        DirectiveWidgetsModule,
+        ASpinnerWidgetModule
     ],
     exports: [
         ...COMPONENTS
     ],
     entryComponents: []
 })
-export class AMediaPlayerModule { }
+export class AnInteractiveMapModule { }
