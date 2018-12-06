@@ -32,7 +32,6 @@ export class MapStylerDirective extends BaseWidgetComponent implements OnChanges
 
     public update() {
         this.clear();
-        console.log('Style Obj:', this.styles);
         if (this.styles) {
             let css = '';
             for (const selector in this.styles) {
@@ -44,17 +43,14 @@ export class MapStylerDirective extends BaseWidgetComponent implements OnChanges
                         }
                     }
                     style += '} ';
-                    console.log('Style:', style);
                     css += style;
                 }
             }
             this.model.css = css;
-            console.log('Styles:', this.model.css);
             this.model.style_el = document.createElement('style');
             this.model.style_el.innerHTML = css;
             this.renderer.appendChild(document.head, this.model.style_el);
             const replaced = this.model.css.replace(new RegExp(`\\.map \\[map-${this.id}\\]`, 'g'), '');
-            console.log('Replaced:', replaced);
             this.css.emit(replaced);
         }
     }

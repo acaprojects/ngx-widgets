@@ -120,7 +120,7 @@ export class MapInputDirective extends BaseWidgetComponent {
                     x:  ((box.left + box.width / 2) - map_box.left) / map_box.width,
                     y:  ((box.top + box.height / 2) - map_box.top) / map_box.height
                 };
-                this.model.scale = this.focus.zoom ? this.focus.zoom / 100 : MapUtilities.getFillScale(map_box, box) * .9;
+                this.model.scale = this.focus.zoom ? this.focus.zoom / 100 : MapUtilities.getFillScale(map_box, box) * .6;
                 this.changePosition(true)
             } else if (this.focus.coordinates) { // Focus on coordinates
                 const pnt = this.focus.coordinates;

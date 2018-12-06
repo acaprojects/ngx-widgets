@@ -1,6 +1,5 @@
 
-import { Component, Input, OnInit, OnChanges, Output, EventEmitter, TemplateRef } from '@angular/core';
-import { Type } from '@angular/compiler';
+import { Component, Input, OnInit, OnChanges, Output, EventEmitter, TemplateRef, Type } from '@angular/core';
 
 import { BaseWidgetComponent } from '../../../shared/base.component';
 import { MapService } from '../../../services/map.service';
@@ -9,10 +8,13 @@ import { IMapPoint } from './map-renderer/map-renderer.component';
 export interface IMapPointOfInterest {
     id?: string;
     coordinates?: IMapPoint;
-    cmp: Type;
+    cmp: Type<any>;
     template?: TemplateRef<any>;
     model?: any;
     zoom?: number;
+    exists?: boolean;
+    instance?: any;
+    center?: IMapPoint;
 }
 
 @Component({
@@ -62,6 +64,13 @@ export class MapComponent extends BaseWidgetComponent implements OnChanges {
         }
         if (changes.focus) {
             this.model.focus = this.focus;
+        }
+        if (changes.poi) {
+            if (this.focus && this.focus.cmp) {
+                this.model.interest_points = [this.model.focus, ...this.poi];
+            } else {
+                this.model.interest_points = this.poi;
+            }
         }
     }
 
