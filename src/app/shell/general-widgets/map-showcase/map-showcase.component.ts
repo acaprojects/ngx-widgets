@@ -163,12 +163,14 @@ export class MapShowcaseComponent {
                 cmp: MapPinComponent,
                 data: { text: fixed ? 'NSW is here' : `I'm currently round here` }
             });
-            const focus: any = {
-                zoom: 100
-            };
+            const focus: any = {};
             if (fixed) { focus.id = 'AU-NSW'; }
             else { focus.coordinates = { x: 5000, y: 7500 }; }
             this.model.map.focus = focus;
+            this.model.map.styles = {
+                '#AU-NSW': { fill: ['#123456', '#345612', '#561234'][Math.floor(Math.random() * 3)] },
+                '#AU-NSW:hover': { fill: ['#654321', '#436521', '#216543'][Math.floor(Math.random() * 3)] }
+            };
         }
         if (this.model.show.hover) {
             this.model.map.poi.push({

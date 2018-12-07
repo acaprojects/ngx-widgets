@@ -90,14 +90,14 @@ export class MapRendererComponent extends BaseWidgetComponent {
         if (this.model.center.x !== center.x) {
             this.model.panning = true;
             const dir = center.x - this.model.center.x < 0 ? -1 : 1;
-            this.model.center.x += Math.min(Math.max(.0001, Math.abs(center.x - this.model.center.x) / 10), .1) * dir;
+            this.model.center.x += Math.min(Math.max(.0001, Math.abs(center.x - this.model.center.x) / 5), .1) * dir;
             if (Math.abs(center.x - this.model.center.x) < .005) { this.model.center.x = center.x }
             this.update();
         }
         if (this.model.center.y !== center.y) {
             this.model.panning = true;
             const dir = center.y - this.model.center.y < 0 ? -1 : 1;
-            this.model.center.y += Math.min(Math.max(.0001, Math.abs(center.y - this.model.center.y) / 10), .1) * dir;
+            this.model.center.y += Math.min(Math.max(.0001, Math.abs(center.y - this.model.center.y) / 5), .1) * dir;
             if (Math.abs(center.y - this.model.center.y) < .005) { this.model.center.y = center.y }
             this.update();
         }

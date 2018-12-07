@@ -226,7 +226,6 @@ export class TimePickerComponent extends BaseFormWidgetComponent implements OnIn
                 this.updateEnd();
             }
             this.updateDisplay();
-            this.timers.check = null;
         })
     }
 

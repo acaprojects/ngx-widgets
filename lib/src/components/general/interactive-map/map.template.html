@@ -1,33 +1,5 @@
-<div [class]="'map ' + id" widget (window:resize)="initMap(true)">
-
-    <div #container class="map-container" map-input [el]="map" [lock]="focus?.lock" [(scale)]="zoom" (scaleChange)="update(true)"
-        [(center)]="center" (centerChange)="update(true)" (event)="userEvent($event)" (touchrelease)="userEvent({ type: 'Tap', event: $event })">
-
-        <div #map class="map-area" [class.show]="!model.loading && model.show"
-            [style.transform]="model.transform | safestyle" [style.display]="model.loading ? 'none' : ''"
-            [style.width]="(model.zoom_level) + '%'" [style.height]="(this.model.zoom_level * model.h_ratio) + '%'"
-            [class.zooming]="model.zooming">
-
-            <!-- <div class="image" [style.width]="(model.zoom_level) + '%'" [style.height]="(model.zoom_level * model.h_ratio) + '%'">
-                <img [src]="model.image">
-            </div> -->
-            <div class="map-img" [style.transform]="'translate(-50%, -50%) scale(1)' | safestyle">
-                <canvas #canvas [class.show]="model.zooming"></canvas>
-                <div #img class="svg-map" [class.zooming]="model.zooming" [innerHTML]="(model.map || '') | safe">
-                </div>
-            </div>
-            <map-overlay-container #overlay [src]="src" [model]="interest_points" [el]="model.map_el" [state]="{ center: center, scale: model.zoom_level / 100, ratio: ratio.map, dim: model.unit }"
-                [resize]="zoom + model.map_id" (event)="overlayEvent($event)" (idChange)="model.container_id = $event">
-            </map-overlay-container>
-            <!--div class="input-area"
-                map-input [(scale)]="zoom" (scaleChange)="update(true)"
-                [(center)]="center" (centerChange)="update(true)"
-                (event)="userEvent($event)">
-            </div-->
-        </div>
-        <div class="no-map" *ngIf="!model.map && !model.loading && model.show">No map loaded!</div>
-        <div class="loading-spinner" *ngIf="model.loading || !model.show">
-            <spinner type="circle-ring"></spinner>
-        </div>
-    </div>
+<div class="map container" widget aca-map-input [id]="id" [(scale)]="model.scale" (scaleChange)="post()" [(center)]="model.center"
+    (scaleChange)="post()" [listeners]="model.listeners" (event)="handleEvent($event)" [map]="model.map" [focus]="model.focus">
+    <i aca-map-styler [id]="id" [styles]="model.styles" (css)="model.css = $event"></i>
+    <aca-map-renderer [id]="id" [src]="model.src" [scale]="model.scale" [center]="model.center" (map)="model.map = $event" [css]="model.css" [items]="model.interest_points"></aca-map-renderer>
 </div>

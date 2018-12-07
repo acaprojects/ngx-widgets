@@ -5,10 +5,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { ImageCropComponent } from './img-crop/img-crop.component';
-import { MediaPlayerComponent } from './media-player/media-player.component';
 import { VirtualKeyboardComponent } from './virtual-keyboard/virtual-keyboard.component';
 
-import { MapWidgetsModule } from './interactive-map/map-widget.module';
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
 import { ASpinnerWidgetModule } from './spinner/spinner.module';
 // import { FullCalendarWidgetModule } from './full-calendar/full-calendar.module';
@@ -18,6 +16,7 @@ import { ButtonsModule } from './buttons/buttons.module';
 import { AClickResponderModule } from './click-responder/click-responder.module';
 import { AMediaPlayerModule } from './media-player/media-player.module';
 import { AProgressCircleModule } from './progress-circle/progress-circle.module';
+import { AnInteractiveMapModule } from './interactive-map/map.module';
 
 const COMPONENTS: any[] = [
     ImageCropComponent,
@@ -26,13 +25,13 @@ const COMPONENTS: any[] = [
 
 const COMPONENT_MODULES: any[] = [
     ButtonsModule,
-    MapWidgetsModule,
+    // MapWidgetsModule,
     ASpinnerWidgetModule,
     // FullCalendarWidgetModule
     AClickResponderModule,
     AMediaPlayerModule,
-    AProgressCircleModule
-
+    AProgressCircleModule,
+    AnInteractiveMapModule
 ]
 
 @NgModule({
@@ -43,7 +42,6 @@ const COMPONENT_MODULES: any[] = [
         CommonModule,
         HttpClientModule,
         FormsModule,
-        MapWidgetsModule,
         WidgetsPipeModule,
         FileDropModule,
         DirectiveWidgetsModule,
