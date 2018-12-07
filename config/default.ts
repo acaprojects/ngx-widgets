@@ -8,6 +8,8 @@ import * as runSequence from 'run-sequence';
 import * as yargs from 'yargs';
 import * as fs from 'fs-extra';
 
+import { packagr } from './ng';
+
 const npmconfig = require('../package.json');
 const settings = require('../src/assets/settings.json');
 
@@ -45,6 +47,10 @@ const mergeJSON = (a, b) => {
 gulp.task('clean', () => ((...globs: string[]) => del(globs))('dist/', 'compiled/', '_package'));
 
 gulp.task('default', ['build']);
+
+gulp.task('package:lib', () => packagr());
+
+gulp.task('pre-build:lib', (next) => runSequence('update:version-lib', next));
 
 gulp.task('pre-build', (next) => {
     const sequence = ['check:route', 'sw:base', 'update:version', 'settings:update', next];
@@ -144,11 +150,29 @@ gulp.task('update:version', (next) => {
         .pipe(gulp.dest('./src/app/services'));
 });
 
+gulp.task('update:version-lib', (next) => {
+    const v = npmconfig.version;
+    const b = moment().seconds(0).milliseconds(0).valueOf();
+    return gulp.src(['./lib/src/widgets.module.ts']) // Any file globs are supported
+        .pipe(replace(/public static version = '[0-9a-zA-Z.-]*'/g, `public static version = '${v}'`, { logs: { enabled: true } }))
+        .pipe(replace(/private build = moment\([0-9]*\);/g, `private build = moment(${b});`, { logs: { enabled: true } }))
+        .pipe(gulp.dest('./lib/src'));
+});
+
 gulp.task('clean:version', (next) => {
     return gulp.src(['./src/app/services/settings.service.ts']) // Any file globs are supported
         .pipe(replace(/this.log\('SYSTEM', 'Version: [0-9a-zA-Z.-]*'/g, `this.log('SYSTEM', 'Version: local-dev'`, { logs: { enabled: true } }))
         .pipe(replace(/const built = moment\([0-9]*\);/g, `const built = moment();`, { logs: { enabled: true } }))
         .pipe(gulp.dest('./src/app/services'));
+});
+
+gulp.task('clean:version-lib', (next) => {
+    const v = npmconfig.version;
+    const b = moment().seconds(0).milliseconds(0).valueOf();
+    return gulp.src(['./lib/src/widgets.module.ts']) // Any file globs are supported
+        .pipe(replace(/public static version = '[0-9a-zA-Z.-]*'/g, `public static version = 'local-dev'`, { logs: { enabled: true } }))
+        .pipe(replace(/private build = moment\([0-9]*\);/g, `private build = moment();`, { logs: { enabled: true } }))
+        .pipe(gulp.dest('./lib/src'));
 });
 
 gulp.task('settings:update', (next) => {

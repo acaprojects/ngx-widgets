@@ -2,8 +2,8 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
-import { WIDGETS } from '../../../lib/src/settings';
 import { AppService } from '../services/app.service';
+import { WidgetsModule } from '../../../lib/src/widgets.module';
 
 @Component({
     selector: 'app-shell',
@@ -11,7 +11,7 @@ import { AppService } from '../services/app.service';
     styleUrls: ['./shell.styles.scss']
 })
 export class AppShellComponent {
-    public version: string = WIDGETS.app_version;
+    public version: string = WidgetsModule.version;
     public model: any = {};
 
     constructor(private app_service: AppService, private router: Router, private route: ActivatedRoute) {

@@ -26,6 +26,9 @@ import { WidgetsPipeModule } from './pipes/pipe.module';
 import { FileDropModule } from './file-drop.module';
 import { DirectiveWidgetsModule } from './directives/directives.module';
 
+import * as moment_api from 'moment';
+const moment = moment_api;
+
 export class WidgetsHammerConfig extends HammerGestureConfig {
     overrides = {
         'pan':   { direction: 30 },
@@ -61,12 +64,15 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
 })
 export class WidgetsModule {
     private static init = false;
-    private build = '2018-11-30.v1';
+    private build = moment(1544145840000);
+    public static version = '0.23.0';
 
     constructor() {
         if (!WidgetsModule.init) {
+            const now = moment();
             WidgetsModule.init = true;
-            WIDGETS.version(this.build);
+            const build = now.isSame(this.build, 'd') ? `Today at ${this.build.format('h:mmA')}` : this.build.format('Do MMM YYYY, h:mmA');
+            WIDGETS.version(WidgetsModule.version, build);
         }
     }
 
