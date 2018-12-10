@@ -35,6 +35,9 @@ export class MapInputDirective extends BaseWidgetComponent {
 
     public ngOnChanges(changes: any) {
         super.ngOnChanges(changes);
+        if (changes.scale || changes.center) {
+            this.changePosition(!!changes.scale);
+        }
         if (changes.map && this.map) {
             this.update();
         }
@@ -111,7 +114,7 @@ export class MapInputDirective extends BaseWidgetComponent {
             if (!this.map) {
                 return this.timeout('focus', () => this.focusItem());
             }
-            const selector = this.focus.id ? `#${this.focus.id}` : ''
+            const selector = this.focus.id ? `#${MapUtilities.cleanCssSelector(this.focus.id)}` : ''
             const el = this.focus.id ? this.map.querySelector(selector) : null;
             if (el) { // Focus on element
                 const box = el.getBoundingClientRect();
@@ -141,6 +144,22 @@ export class MapInputDirective extends BaseWidgetComponent {
             if (this.model.map_box.height === 0 || this.model.map_box.width === 0) {
                 return this.timeout('update_fail', () => this.update());
             }
+            this.model.zoom = 100;
+            this.model.position = { x: .5, y: .5 };
+            // this.renderer.setStyle(this.map, 'pointer-events', 'auto');
+            // this.renderer.listen(this.map, 'click', (e) => {
+            //     const box = this.map.getBoundingClientRect();
+            //     console.log('Clicked:', {
+            //         x: `${((e.clientX - box.left) / box.width * 100).toFixed(3)}%`,
+            //         y: `${((e.clientY - box.top) / box.height * 100).toFixed(3)}%`
+            //     });
+            // })
+            if (this.focus) {
+                this.focusItem();
+            } else {
+                this.changePosition(true);
+            }
+
         }
     }
 
@@ -164,11 +183,14 @@ export class MapInputDirective extends BaseWidgetComponent {
      * Update listeners for map events
      */
     private updateListeners() {
+        if (!this.map) {
+            return this.timeout('listeners', () => this.updateListeners());
+        }
         this.clearListeners();
         if (this.listeners) {
             for (const item of this.listeners) {
-                const selector = item.id ? `#${item.id}` : `${item.selector}`;
-                const el = this.model.map.querySelectors(selector);
+                const selector = item.id ? MapUtilities.cleanCssSelector(`#${item.id}`) : `${MapUtilities.cleanCssSelector(item.selector)}`;
+                const el = this.map.querySelector(selector);
                 if (el) {
                     this.renderer.setStyle(el, 'pointer-events', 'auto');
                     this.subs.obs[`listen_${selector}`] = this.renderer.listen(el, item.event || 'click', () => {
@@ -191,7 +213,7 @@ export class MapInputDirective extends BaseWidgetComponent {
             for (const item of this.listeners) {
                 const selector = item.id ? `#${item.id}` : `${item.selector}`;
                 if (this.subs.obs[`listen_${selector}`]) {
-                    const el = this.model.map.querySelectors(selector);
+                    const el = this.map.querySelector(selector);
                     if (el) {
                         this.renderer.setStyle(el, 'pointer-events', '');
                     }

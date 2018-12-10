@@ -1,9 +1,12 @@
 
 .container {
     position: absolute;
-    height: 100%;
-    width: 100%;
+    top: 50%;
+    left: 50%;
+    height: calc(100% - 2em);
+    width: calc(100% - 2em);
     pointer-events: none;
+    transform: translate(-50%, -50%);
 }
 
 .map {
@@ -14,13 +17,24 @@
     left: 50%;
     transform: translate(-50%, -50%);
     transition: opacity 200ms;
+    will-change: width, height;
 }
 
 .render-block {
     position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     top: 50%;
     left: 50%;
     height: 100%;
+    width: 100%;
+    will-change: transform;
+}
+
+.blk {
+    position: relative;
+    flex: 1;
     width: 100%;
 }
 
@@ -41,5 +55,5 @@ canvas {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    flex: 1;
 }

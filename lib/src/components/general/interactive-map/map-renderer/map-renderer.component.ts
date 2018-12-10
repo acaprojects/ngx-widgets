@@ -63,7 +63,7 @@ export class MapRendererComponent extends BaseWidgetComponent {
             this.model.panning = false;
             this.updateZoom();
             this.updatePosition();
-        }, 10);
+        }, 5);
     }
 
     /**

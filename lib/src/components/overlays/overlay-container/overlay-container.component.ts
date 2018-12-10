@@ -16,6 +16,7 @@ import { BaseWidgetComponent } from '../../../shared/base.component';
 })
 export class OverlayContainerComponent extends BaseWidgetComponent implements OnInit, OnDestroy {
     public ng: any = null; // Angular component created from componentFactory
+    protected service: OverlayService
     @Output() public event: any = new EventEmitter();
     @Output() public idChange: any = new EventEmitter();
     protected cmp_refs: any = {};
@@ -24,13 +25,14 @@ export class OverlayContainerComponent extends BaseWidgetComponent implements On
     @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
     @ViewChild('el') public root: ElementRef;
 
-    constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, protected service: OverlayService) {
+    constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef) {
         super();
         this.id = `overlay-container-${Math.floor(Math.random() * 8999999 + 1000000)}`;
     }
 
     public ngOnInit() {
         this.idChange.emit(this.id);
+        OverlayService.instance.register(this.id, this);
     }
 
     public ngOnDestroy() {
@@ -122,7 +124,7 @@ export class OverlayContainerComponent extends BaseWidgetComponent implements On
                     this.cmp_refs[id] = cmp;
                     const inst: any = cmp.instance;
                     inst.parent = this;
-                    inst.service = this.service.getService();
+                    if (this.service) { inst.service = this.service.getService(); }
                     inst.uid = `${id}`;
                     setTimeout(() => resolve(inst), 50);
                     this._cdr.markForCheck();

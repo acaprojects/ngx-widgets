@@ -118,8 +118,14 @@ export class MapShowcaseComponent {
             src: 'assets/australia.svg',
             poi: [],
             listeners: [
-                { id: 'AU-WA', event: 'mouseenter' },
-                { id: 'AU-WA', event: 'mouseleave' }
+                { id: 'AU-WA', event: 'mouseenter', callback: () => {
+                    this.model.show.hover = true;
+                    this.updatePointsOfInterest();
+                } },
+                { id: 'AU-WA', event: 'mouseleave', callback: () => {
+                    this.model.show.hover = false;
+                    this.updatePointsOfInterest();
+                } }
             ]
         },
         show: {}
@@ -158,7 +164,7 @@ export class MapShowcaseComponent {
             this.model.fixed = !this.model.fixed;
             const fixed = this.model.fixed;
             this.model.map.poi.push({
-                id: fixed ? 'AU-NSW' : 'Nyada',
+                id: fixed ? 'AU.NSW' : 'Nyada',
                 coordinates: fixed ? null : { x: 5000, y: 7500 },
                 cmp: MapPinComponent,
                 data: { text: fixed ? 'NSW is here' : `I'm currently round here` }
@@ -169,7 +175,10 @@ export class MapShowcaseComponent {
             this.model.map.focus = focus;
             this.model.map.styles = {
                 '#AU-NSW': { fill: ['#123456', '#345612', '#561234'][Math.floor(Math.random() * 3)] },
-                '#AU-NSW:hover': { fill: ['#654321', '#436521', '#216543'][Math.floor(Math.random() * 3)] }
+                '#AU-WA:hover': {
+                    fill: ['#654321', '#436521', '#216543'][Math.floor(Math.random() * 3)],
+                    transition: 'fill 200ms'
+                }
             };
         }
         if (this.model.show.hover) {
@@ -179,18 +188,6 @@ export class MapShowcaseComponent {
                 cmp: MapPinComponent,
                 data: { text: 'This state is WA' }
             })
-        }
-    }
-
-    public check(e: any) {
-        this.model.map.event = e;
-        if (e.type === 'Overlay' && e.event.location === 'Listener') {
-            if (e.event.type === 'mouseenter') {
-                this.model.show.hover = true;
-            } else if (e.event.type === 'mouseleave') {
-                this.model.show.hover = false;
-            }
-            this.updatePointsOfInterest();
         }
     }
 }

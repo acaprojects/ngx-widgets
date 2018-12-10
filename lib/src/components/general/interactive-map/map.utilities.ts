@@ -38,8 +38,8 @@ export class MapUtilities {
         if (el) {
             const el_box = el.getBoundingClientRect();
             return {
-                x: +((el_box.left + el_box.width / 2 - box.left) / box.width * 100).toFixed(3),
-                y: +((el_box.top + el_box.height / 2 - box.top) / box.height * 100).toFixed(3)
+                x: +(((el_box.left - box.left) / box.width + (el_box.width / 2) / box.width) * 100).toFixed(3),
+                y: +(((el_box.top - box.top) / box.height + (el_box.height / 2) / box.height) * 100).toFixed(3)
             };
         } else if (coords) {
             const ratio = box.width / box.height

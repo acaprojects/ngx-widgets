@@ -4,6 +4,7 @@ import { Component, Input, OnInit, OnChanges, Output, EventEmitter, TemplateRef,
 import { BaseWidgetComponent } from '../../../shared/base.component';
 import { MapService } from '../../../services/map.service';
 import { IMapPoint } from './map-renderer/map-renderer.component';
+import { IMapListener } from './map-styler.directive';
 
 export interface IMapPointOfInterest {
     id?: string;
@@ -38,7 +39,7 @@ export class MapComponent extends BaseWidgetComponent implements OnChanges {
     @Input() public zoom: number;
     @Input() public poi: IMapPointOfInterest[];
     @Input() public focus: IMapPointOfInterest;
-    @Input() public listeners: number;
+    @Input() public listeners: IMapListener[];
     @Input() public center: IMapPoint;
     @Input() public lock: boolean;
     @Output() public zoomChange = new EventEmitter();
@@ -62,6 +63,9 @@ export class MapComponent extends BaseWidgetComponent implements OnChanges {
         if (changes.zoom) {
             this.model.scale = (this.zoom || 100) / 100;
         }
+        if (changes.listeners) {
+            this.model.listeners = this.listeners;
+        }
         if (changes.focus) {
             this.model.focus = this.focus;
         }
@@ -72,6 +76,7 @@ export class MapComponent extends BaseWidgetComponent implements OnChanges {
                 this.model.interest_points = this.poi;
             }
         }
+
     }
 
     public post() {
