@@ -21,6 +21,7 @@
     border: 3px dashed #03A9F4;
     background-color: rgba(3, 169, 244, .54);
     transition: height 200ms, width 200ms;
+    animation: enter 300ms ease-out;
 }
 
 .details {
@@ -36,4 +37,32 @@
     white-space: nowrap;
     transition: bottom 200ms;
     text-align: center;
+    animation: enter-delay 600ms ease-out;
+}
+
+@keyframes enter {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes enter-delay {
+    0% {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(-50%, 0%);
+        opacity: 1;
+    }
 }

@@ -19,7 +19,7 @@
     transform: translateX(-50%);
     width: 2.5em;
     height: 3em;
-    animation: enter 200ms ease-out;
+    animation: enter 300ms ease-out;
 }
 
 .details {
@@ -34,34 +34,34 @@
     min-width: 5em;
     white-space: nowrap;
     text-align: center;
-    animation: enter-delay 400ms ease-out;
+    animation: enter-delay 600ms ease-out;
 }
 
 @keyframes enter {
     0% {
-        transform: translateY(-100%);
+        transform: translate(-50%, -100%);
         opacity: 0;
     }
 
     100% {
-        transform: translateY(0%);
+        transform: translate(-50%, 0%);
         opacity: 1;
     }
 }
 
 @keyframes enter-delay {
     0% {
-        transform: translateY(-100%);
+        transform: translate(-50%, -100%);
         opacity: 0;
     }
 
     50% {
-        transform: translateY(-100%);
+        transform: translate(-50%, -100%);
         opacity: 0;
     }
 
     100% {
-        transform: translateY(0%);
+        transform: translate(-50%, 0%);
         opacity: 1;
     }
 }

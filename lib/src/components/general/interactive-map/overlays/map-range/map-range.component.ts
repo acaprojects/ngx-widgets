@@ -34,7 +34,7 @@ export class MapRangeComponent extends OverlayContentComponent {
 
     public set(data: any) {
         super.set(data);
-        this.size = (this.model.diameter || 10);
+        this.size = (this.model.diameter || 10) * this.model.scale;
     }
 
     private hexToRGB(hex: string, alpha?: number) {

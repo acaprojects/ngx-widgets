@@ -164,7 +164,7 @@ export class MapShowcaseComponent {
             this.model.fixed = !this.model.fixed;
             const fixed = this.model.fixed;
             this.model.map.poi.push({
-                id: fixed ? 'AU.NSW' : 'Nyada',
+                id: fixed ? 'AU-NSW' : 'Nyada',
                 coordinates: fixed ? null : { x: 5000, y: 7500 },
                 cmp: MapPinComponent,
                 data: { text: fixed ? 'NSW is here' : `I'm currently round here` }

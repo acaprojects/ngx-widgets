@@ -31,6 +31,7 @@ import { MapService } from '../../../../services/map.service';
 export class MapOverlayContainerComponent extends OverlayContainerComponent {
     @Input() items: IMapPointOfInterest[];
     @Input() map: Element;
+    @Input() scale: number;
     @Output() event = new EventEmitter();
 
     private model: any = {};
@@ -51,6 +52,19 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
         if (changes.items || changes.map) {
             this.timeout('update', () => this.updateItems(), 300);
         }
+        if (changes.scale) {
+            this.update();
+        }
+    }
+
+    public update() {
+        for (const item of (this.model.items || [])) {
+            if (item.instance) {
+                if (!item.model) { item.model = (item as any).data || {}; }
+                item.model.scale = this.scale;
+                item.instance.set(item.model);
+            }
+        }
     }
 
     /**
@@ -70,6 +84,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                     if (el || item.coordinates) {
                         item.model.center = MapUtilities.getPosition(box, el, item.coordinates) || { x: .5, y: .5 };
                         item.instance = inst;
+                        item.model.scale = this.scale;
                         inst.set(item.model);
                         inst.fn = {
                             event: (e) => this.event.emit({ id: item.id, type: 'overlay', item, details: event }),
@@ -103,6 +118,9 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                 if (item.id === new_itm.id && item.cmp === new_itm.cmp) {
                     new_itm.exists = true;
                     new_itm.instance = item.instance;
+                    if (!new_itm.model) { new_itm.model = (new_itm as any).data || {}; }
+                    new_itm.model.scale = this.scale;
+                    new_itm.instance.set(new_itm.model);
                     found = true;
                     break;
                 }

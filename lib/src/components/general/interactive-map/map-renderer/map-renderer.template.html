@@ -5,7 +5,7 @@
             <div class="blk">
                 <div class="map-block" [style.opacity]="model.zooming ? 0 : 1" [innerHTML]="model.map_data | safe"></div>
                 <canvas #canvas [style.opacity]="model.zooming ? 1 : 0"></canvas>
-                <map-overlay-container [items]="items" [map]="model.map"></map-overlay-container>
+                <map-overlay-container [items]="items" [scale]="model.zoom / 100" [map]="model.map"></map-overlay-container>
             </div>
         </div>
     </div>
