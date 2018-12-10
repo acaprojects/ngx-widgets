@@ -54,21 +54,13 @@ export class MapComponent extends BaseWidgetComponent implements OnChanges {
 
     public ngOnChanges(changes: any) {
         super.ngOnChanges(changes);
-        if (changes.css) {
-            this.model.styles = this.css;
-        }
-        if (changes.src) {
-            this.model.src = this.src;
-        }
-        if (changes.zoom) {
-            this.model.scale = (this.zoom || 100) / 100;
-        }
-        if (changes.listeners) {
-            this.model.listeners = this.listeners;
-        }
-        if (changes.focus) {
-            this.model.focus = this.focus;
-        }
+        if (changes.css) { this.model.styles = this.css; }
+        if (changes.src) { this.model.src = this.src; }
+        if (changes.zoom) { this.model.scale = (this.zoom || 100) / 100; }
+        if (changes.center) { this.model.center = this.center; }
+        if (changes.listeners) { this.model.listeners = this.listeners; }
+        if (changes.focus) { this.model.focus = this.focus; }
+        if (changes.lock) { this.model.lock = this.lock; }
         if (changes.poi) {
             if (this.focus && this.focus.cmp) {
                 this.model.interest_points = [this.model.focus, ...this.poi];
@@ -81,7 +73,7 @@ export class MapComponent extends BaseWidgetComponent implements OnChanges {
 
     public post() {
         if (this.model.scale !== this.zoom / 100) {
-            this.zoom = this.model.scale * 100;
+            this.zoom = +((this.model.scale || 1) * 100).toFixed(2);
             this.zoomChange.emit(this.zoom);
         }
         if (this.model.center !== this.center) {

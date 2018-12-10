@@ -23,6 +23,7 @@ export class MapInputDirective extends BaseWidgetComponent {
     @Input() public listeners: IMapListener[];
     @Input() public focus: IMapPointOfInterest;
     @Input() public map: Element;
+    @Input() public lock: boolean;
     @Output() public scaleChange = new EventEmitter();
     @Output() public centerChange = new EventEmitter();
     @Output() public event = new EventEmitter();
@@ -35,9 +36,6 @@ export class MapInputDirective extends BaseWidgetComponent {
 
     public ngOnChanges(changes: any) {
         super.ngOnChanges(changes);
-        if (changes.scale || changes.center) {
-            this.changePosition(!!changes.scale);
-        }
         if (changes.map && this.map) {
             this.update();
         }
@@ -54,6 +52,7 @@ export class MapInputDirective extends BaseWidgetComponent {
      * @param e
      */
     @HostListener('panstart', ['$event']) public moveStart(e) {
+        if (this.lock) { return; }
         this.model.target = e.target;
         this.model.dx = e.center.x;
         this.model.dy = e.center.y;
@@ -64,6 +63,7 @@ export class MapInputDirective extends BaseWidgetComponent {
      * @param e
      */
     @HostListener('panmove', ['$event']) public move(e) {
+        if (this.lock) { return; }
         const scale = this.scale || 1;
         const dx = e.center.x - this.model.dx;
         const dy = e.center.y - this.model.dy;
@@ -77,6 +77,7 @@ export class MapInputDirective extends BaseWidgetComponent {
     }
 
     @HostListener('wheel', ['$event']) public wheelZoom(e) {
+        if (this.lock) { return; }
         e.preventDefault();
         this.model.scale = this.scale || 1;
         this.model.scale *= e.wheelDelta > 0 ? 1.05 : (e.wheelDelta < 0 ? (1 / 1.05) : 1);
@@ -86,6 +87,7 @@ export class MapInputDirective extends BaseWidgetComponent {
     }
 
     @HostListener('pinchstart', ['$event']) public pinchStart(e) {
+        if (this.lock) { return; }
         this.model.dz = e.scale;
         const box = this.model.map_box;
         const dist = Math.sqrt(box.width * box.width + box.height * box.height);
@@ -96,6 +98,7 @@ export class MapInputDirective extends BaseWidgetComponent {
     }
 
     @HostListener('pinchmove', ['$event']) public pinchZoom(e) {
+        if (this.lock) { return; }
         e.preventDefault();
         const dz = e.scale - this.model.dz;
         this.model.scale = this.scale || 1;
