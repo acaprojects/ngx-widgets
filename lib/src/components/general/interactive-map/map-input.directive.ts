@@ -148,7 +148,7 @@ export class MapInputDirective extends BaseWidgetComponent {
                 return this.timeout('update_fail', () => this.update());
             }
             this.model.zoom = 100;
-            this.model.position = { x: .5, y: .5 };
+            this.model.center = { x: .5, y: .5 };
             // this.renderer.setStyle(this.map, 'pointer-events', 'auto');
             // this.renderer.listen(this.map, 'click', (e) => {
             //     const box = this.map.getBoundingClientRect();

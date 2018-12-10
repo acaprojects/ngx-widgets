@@ -55,9 +55,9 @@ export class MapComponent extends BaseWidgetComponent implements OnChanges {
     public ngOnChanges(changes: any) {
         super.ngOnChanges(changes);
         if (changes.css) { this.model.styles = this.css; }
-        if (changes.src) { this.model.src = this.src; }
         if (changes.zoom) { this.model.scale = (this.zoom || 100) / 100; }
         if (changes.center) { this.model.center = this.center; }
+        if (changes.src) { this.model.src = this.src; }
         if (changes.listeners) { this.model.listeners = this.listeners; }
         if (changes.focus) { this.model.focus = this.focus; }
         if (changes.lock) { this.model.lock = this.lock; }
