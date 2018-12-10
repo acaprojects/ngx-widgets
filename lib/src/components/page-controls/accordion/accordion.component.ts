@@ -9,10 +9,12 @@
 
 import { Component, Input } from '@angular/core';
 
+import { BaseWidgetComponent } from '../../../shared/base.component';
+
 @Component({
     selector: 'accordion',
     template: `
-        <div [class]="'accordion ' + name" widget>
+        <div [class]="'accordion' + (klass ? ' ' + klass : '')" widget>
             <ng-content></ng-content>
         </div>
     `,
@@ -23,6 +25,5 @@ import { Component, Input } from '@angular/core';
         }
     `],
 })
-export class AccordionComponent {
-    @Input() public name = '';
+export class AccordionComponent extends BaseWidgetComponent {
 }

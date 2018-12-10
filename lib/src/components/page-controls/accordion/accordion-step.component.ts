@@ -10,6 +10,8 @@
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input } from '@angular/core';
 
+import { BaseWidgetComponent } from '../../../shared/base.component';
+
 @Component({
     selector: 'accordion-step',
     templateUrl: './accordion-step.template.html',
@@ -22,8 +24,7 @@ import { Component, EventEmitter, Input } from '@angular/core';
         ]),
     ],
 })
-export class AccordionStepComponent {
-    @Input() public name = '';
+export class AccordionStepComponent extends BaseWidgetComponent {
     @Input() public show = false;
     @Input() public heading = '';
     @Input() public showChange = new EventEmitter();

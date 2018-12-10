@@ -10,14 +10,14 @@
 import { Component, EventEmitter, Input, Output, QueryList, ContentChildren} from '@angular/core';
 
 import { StepperStepComponent } from './step.component';
+import { BaseWidgetComponent } from '../../../shared/base.component';
 
 @Component({
     selector: 'stepper',
     templateUrl: `./stepper.template.html`,
     styleUrls: [`./stepper.styles.scss`],
 })
-export class StepperComponent {
-    @Input() public name = '';
+export class StepperComponent extends BaseWidgetComponent {
     @Input() public step = 0;
     @Input() public numbers = true;
     @Input() public format: 'horizontal' | 'vertical' | 'vert' | 'horz' = 'horizontal';

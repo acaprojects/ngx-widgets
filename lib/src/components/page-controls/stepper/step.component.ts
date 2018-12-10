@@ -9,7 +9,9 @@
 
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, Output} from '@angular/core';
+
 import { StepperComponent } from './stepper.component';
+import { BaseWidgetComponent } from '../../../shared/base.component';
 
 @Component({
     selector: 'stepper-step',
@@ -52,8 +54,7 @@ import { StepperComponent } from './stepper.component';
         ])
     ]
 })
-export class StepperStepComponent {
-    @Input() public name = '';
+export class StepperStepComponent extends BaseWidgetComponent {
     @Input() public heading = '';
     @Input() public state = '';
     @Output() public stateChange = new EventEmitter();
@@ -62,6 +63,7 @@ export class StepperStepComponent {
     public model: any = {};
 
     constructor() {
+        super();
         this.model.direction = 'horz';
     }
 

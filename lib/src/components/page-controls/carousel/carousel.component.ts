@@ -1,6 +1,8 @@
 
 import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, AfterContentInit, OnChanges, OnDestroy } from '@angular/core';
+
 import { CarouselItemComponent } from './carousel-item/carousel-item.component';
+import { BaseWidgetComponent } from '../../../shared/base.component';
 
 export interface ICarouselSettings {
     items: {
@@ -19,7 +21,7 @@ export interface ICarouselSettings {
     templateUrl: './carousel.template.html',
     styleUrls: ['./carousel.style.scss']
 })
-export class CarouselComponent implements OnChanges, OnDestroy, AfterContentInit {
+export class CarouselComponent extends BaseWidgetComponent implements OnChanges, OnDestroy, AfterContentInit {
     @Input() public name: string;
     @Input() public index: number = 0;
     @Input() public settings: ICarouselSettings;
@@ -32,7 +34,9 @@ export class CarouselComponent implements OnChanges, OnDestroy, AfterContentInit
 
     @ContentChildren(CarouselItemComponent) private items: QueryList<CarouselItemComponent>;
 
-    constructor() { }
+    constructor() {
+        super();
+    }
 
     public ngOnChanges(changes: any) {
         if (changes.settings) {
@@ -57,11 +61,7 @@ export class CarouselComponent implements OnChanges, OnDestroy, AfterContentInit
     }
 
     public init() {
-        if (this.timers.init) {
-            clearTimeout(this.timers.init);
-            this.timers.init = null;
-        }
-        this.timers.init = setTimeout(() => {
+        this.timeout('init', () => {
                 // Initialise items
             if (this.items) {
                 const list = this.items.toArray();
@@ -71,7 +71,6 @@ export class CarouselComponent implements OnChanges, OnDestroy, AfterContentInit
                 }
                 this.model.item_cnt = list.length;
             }
-            this.timers.init = null;
         }, 150);
         this.resize();
     }
@@ -81,13 +80,9 @@ export class CarouselComponent implements OnChanges, OnDestroy, AfterContentInit
      * @param value Value to change the offset index
      */
     public change(value: number = 0) {
-        if (this.timers.change) {
-            clearTimeout(this.timers.change);
-            this.timers.change = null;
-        }
         if (!this.model.pending) { this.model.pending = 0; }
         this.model.pending += value;
-        this.timers.change = setTimeout(() => {
+        this.timeout('change', () => {
             if (!this.model.pending) {
                 this.index = 0;
             } else {
@@ -103,7 +98,6 @@ export class CarouselComponent implements OnChanges, OnDestroy, AfterContentInit
             }
             this.indexChange.emit(this.index);
             this.model.pending = 0;
-            this.timers.change = null;
         }, 50);
     }
 
@@ -124,11 +118,7 @@ export class CarouselComponent implements OnChanges, OnDestroy, AfterContentInit
      * Update display when the window is resized
      */
     public resize() {
-        if (this.timers.resize) {
-            clearTimeout(this.timers.resize);
-            this.timers.resize = null;
-        }
-        this.timers.resize = setTimeout(() => {
+        this.timeout('resize', () => {
             this.model.count = 0;
             const landscape = window.innerHeight <= window.innerWidth;
             let w = window.innerWidth;
@@ -161,7 +151,6 @@ export class CarouselComponent implements OnChanges, OnDestroy, AfterContentInit
                     item.model.count = this.model.count;
                 }
             }
-            this.timers.resize = null;
         }, 100);
     }
 }
