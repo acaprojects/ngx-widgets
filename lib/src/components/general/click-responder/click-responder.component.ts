@@ -37,7 +37,7 @@ export class ClickResponderComponent extends BaseWidgetComponent {
 
     public model: any = {};
 
-    constructor(private el: ElementRef, private _cdr: ChangeDetectorRef) {
+    constructor(private el: ElementRef, protected _cdr: ChangeDetectorRef) {
         super();
     }
 

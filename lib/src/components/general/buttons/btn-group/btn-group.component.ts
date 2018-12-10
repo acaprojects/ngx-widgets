@@ -20,7 +20,7 @@ import { BaseFormWidgetComponent } from '../../../../shared/base-form.component'
 export class ButtonGroupComponent extends BaseFormWidgetComponent {
     @Input() public items: any;
 
-    constructor(private _cdr: ChangeDetectorRef) {
+    constructor(protected _cdr: ChangeDetectorRef) {
         super();
         this.data[0] = true;
     }

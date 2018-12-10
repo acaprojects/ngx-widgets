@@ -25,7 +25,7 @@ export class SpinnerComponent extends BaseWidgetComponent implements OnChanges {
 
     private timers: any = {};
 
-    constructor(private _cdr: ChangeDetectorRef) {
+    constructor(protected _cdr: ChangeDetectorRef) {
         super();
     }
 

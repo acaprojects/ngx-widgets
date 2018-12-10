@@ -1,5 +1,5 @@
 
-import { Component, OnDestroy, OnChanges, Input } from '@angular/core';
+import { Component, OnDestroy, OnChanges, Input, ChangeDetectorRef } from '@angular/core';
 
 @Component({
     selector: 'a-base-widget-cmp',
@@ -18,13 +18,18 @@ export class BaseWidgetComponent implements OnChanges, OnDestroy {
         promises: {}    // Store for promises
     };
 
+    protected _cdr: ChangeDetectorRef;
+
     constructor() {
         this.id = `${Math.floor(Math.random() * 89_999_999 + 10_000_000)}`;
     }
 
     public ngOnChanges(changes: any) {
-        if (changes.name && !changes.klass) {
-            this.timeout('update_class', () => this.klass = this.name, 10);
+        if (changes.name) {
+            this.timeout('update_class', () => {
+                this.klass = this.name;
+                if (this._cdr) { this._cdr.markForCheck(); }
+            }, 0);
         }
     }
 

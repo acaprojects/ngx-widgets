@@ -330,7 +330,7 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
 
                     // Inject data into component instance
                     const inst = this.cmp_ref.instance;
-                    inst.set(this.model.data);
+                    inst.set(this.model.model || this.model.data);
                     inst.parent = this;
                     inst.service = this.service || this.parent.getService();
                     if (!inst.model) { inst.model = {}; }
