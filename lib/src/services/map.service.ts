@@ -143,6 +143,7 @@ export class MapService {
             }
             WIDGETS.log('MAP(S)', msg, data, 'warn');
             this.logs.warnings.push(`[${moment().format('YYYY-MM-DD hh:mmA')}]${msg}`);
+            this.logs.warning_ids.push(id);
         }
     }
 }

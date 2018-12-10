@@ -101,6 +101,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
             } else {
                 const box = this.map.getBoundingClientRect();
                 const el = this.map.querySelector(MapUtilities.cleanCssSelector(`#${item.id}`));
+                if (!item.model) { item.model = (item as any).data || {}; }
                 item.model.center = MapUtilities.getPosition(box, el, item.coordinates) || { x: .5, y: .5 };
                 if (item.instance) { item.instance.set(item.model); }
             }
