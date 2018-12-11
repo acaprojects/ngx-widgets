@@ -20,7 +20,8 @@
     border-radius: 100%;
     border: 3px dashed #03A9F4;
     background-color: rgba(3, 169, 244, .54);
-    transition: height 200ms, width 200ms;
+    transition: height 50ms, width 50ms;
+    will-change: height, width;
     animation: enter 300ms ease-out;
 }
 

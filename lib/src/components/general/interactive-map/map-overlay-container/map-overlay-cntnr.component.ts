@@ -121,7 +121,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                     new_itm.instance = item.instance;
                     if (!new_itm.model) { new_itm.model = (new_itm as any).data || {}; }
                     new_itm.model.scale = this.scale;
-                    new_itm.instance.set(new_itm.model);
+                    if (new_itm.instance) { new_itm.instance.set(new_itm.model); }
                     found = true;
                     break;
                 }
