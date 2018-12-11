@@ -50,7 +50,7 @@ export class BaseWidgetComponent implements OnChanges, OnDestroy {
         for (const k in this.subs.obs) {
             if (this.subs.obs.hasOwnProperty(k) && this.subs.obs[k]) {
                 if (this.subs.obs[k] instanceof Function) {
-                    this.subs.obs[k] = null;
+                    this.subs.obs[k]();
                 } else {
                     this.subs.obs[k].unsubscribe();
                 }
@@ -62,11 +62,12 @@ export class BaseWidgetComponent implements OnChanges, OnDestroy {
     public timeout(name: string, fn: () => void, delay: number = 300) {
         this.clearTimer(name);
         if (!(fn instanceof Function)) { return; }
+        if (!this.subs.timers) { this.subs.timers = {}; }
         this.subs.timers[name] = setTimeout(() => fn(), delay);
     }
 
     public clearTimer(name: string) {
-        if (this.subs.timers[name]) {
+        if (this.subs.timers && this.subs.timers[name]) {
             clearTimeout(this.subs.timers[name]);
             this.subs.timers[name] = null;
         }
@@ -79,7 +80,7 @@ export class BaseWidgetComponent implements OnChanges, OnDestroy {
     }
 
     public clearInterval(name: string) {
-        if (this.subs.intervals[name]) {
+        if (this.subs.intervals && this.subs.intervals[name]) {
             clearInterval(this.subs.intervals[name]);
             this.subs.intervals[name] = null;
         }

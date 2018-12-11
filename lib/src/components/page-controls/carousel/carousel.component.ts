@@ -29,8 +29,6 @@ export class CarouselComponent extends BaseWidgetComponent implements OnChanges,
     @Output() public select = new EventEmitter();
 
     public model: any = {};
-    public subs: any = {};
-    public timers: any = {};
 
     @ContentChildren(CarouselItemComponent) private items: QueryList<CarouselItemComponent>;
 
@@ -44,19 +42,12 @@ export class CarouselComponent extends BaseWidgetComponent implements OnChanges,
         }
     }
 
-    public ngOnDestroy() {
-        if (this.subs.items) {
-            this.subs.items instanceof Function ? this.subs.items() : this.subs.items.unsubscribe();
-            this.subs.items = null;
-        }
-    }
-
     public ngAfterContentInit() {
-        if (this.subs.items) {
-            this.subs.items instanceof Function ? this.subs.items() : this.subs.items.unsubscribe();
-            this.subs.items = null;
+        if (this.subs.obs.items) {
+            this.subs.obs.items instanceof Function ? this.subs.items() : this.subs.items.unsubscribe();
+            this.subs.obs.items = null;
         }
-        this.subs.items = this.items.changes.subscribe(() => this.init());
+        this.subs.obs.items = this.items.changes.subscribe(() => this.init());
         this.init();
     }
 
