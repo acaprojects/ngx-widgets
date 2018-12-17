@@ -120,6 +120,7 @@ export class MapRendererComponent extends BaseWidgetComponent {
                 if (this.content) {
                     this.model.loading = true;
                     this.model.map = this.content.nativeElement.querySelector('svg');
+                    this.renderImage();
                     this.resize();
                     this.map.emit(this.model.map);
                 }
