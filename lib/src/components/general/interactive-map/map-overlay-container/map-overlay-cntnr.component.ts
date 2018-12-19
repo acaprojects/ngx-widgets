@@ -34,13 +34,12 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
     @Input() scale: number;
     @Output() event = new EventEmitter();
 
+    protected map_service: MapService;
+
     private model: any = {};
 
-    constructor(protected map_service: MapService, private cfr: ComponentFactoryResolver, private cdr: ChangeDetectorRef) {
-        super(cfr, cdr);
-    }
-
     public ngOnInit() {
+        this.map_service = this.injector.get(MapService);
         super.ngOnInit();
         if (this.service) {
             this.service.registerContainer(this.id, this);
@@ -50,7 +49,8 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
     public ngOnChanges(changes: any) {
         super.ngOnChanges(changes);
         if (changes.items || changes.map) {
-            this.timeout('update', () => this.updateItems(), 300);
+            this.clearItems(!!changes.map);
+            this.timeout('update', () => this.updateItems(), 600);
         }
         if (changes.scale) {
             this.update();
@@ -74,7 +74,6 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
         if (!this.map) {
             return this.timeout('update', () => this.updateItems());
         }
-        this.clearItems();
         for (const item of (this.items || [])) {
             if (!item.exists) {
                 this.add(item.id, item.cmp).then((inst: any) => {
@@ -85,6 +84,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                         item.model.center = MapUtilities.getPosition(box, el, item.coordinates) || { x: .5, y: .5 };
                         item.instance = inst;
                         item.model.scale = this.scale;
+                        inst.service = this.service ? this.service.getService() || item.service : item.service;
                         inst.set(item.model);
                         inst.fn = {
                             event: (e) => this.event.emit({ id: item.id, type: 'overlay', item, details: event }),
@@ -112,18 +112,20 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
     /**
      * Remove overlay items that don't exist anymore
      */
-    public clearItems() {
+    public clearItems(force: boolean = false) {
         for (const item of (this.model.items || [])) {
             let found = false;
-            for (const new_itm of this.items) {
-                if (item.id === new_itm.id && item.cmp === new_itm.cmp) {
-                    new_itm.exists = true;
-                    new_itm.instance = item.instance;
-                    if (!new_itm.model) { new_itm.model = (new_itm as any).data || {}; }
-                    new_itm.model.scale = this.scale;
-                    if (new_itm.instance) { new_itm.instance.set(new_itm.model); }
-                    found = true;
-                    break;
+            if (item.instance && !force){
+                for (const new_itm of this.items) {
+                    if (item.id === new_itm.id && item.cmp === new_itm.cmp) {
+                        new_itm.exists = true;
+                        new_itm.instance = item.instance;
+                        if (!new_itm.model) { new_itm.model = (new_itm as any).data || {}; }
+                        new_itm.model.scale = this.scale;
+                        if (new_itm.instance) { new_itm.instance.set(new_itm.model); }
+                        found = true;
+                        break;
+                    }
                 }
             }
             if (!found) {

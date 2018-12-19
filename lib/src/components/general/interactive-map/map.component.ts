@@ -16,6 +16,7 @@ export interface IMapPointOfInterest {
     exists?: boolean;
     instance?: any;
     center?: IMapPoint;
+    service?: any;
 }
 
 @Component({

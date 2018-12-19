@@ -1,10 +1,10 @@
 
 
-import { OverlayService } from '../../../services/overlay.service';
 import { ComponentFactoryResolver, Type, OnInit, OnDestroy } from '@angular/core';
 import { Component, EventEmitter, Output, ViewChild, ViewContainerRef } from '@angular/core';
-import { ElementRef } from '@angular/core';
-import { ChangeDetectorRef } from '@angular/core';
+import { ElementRef, ChangeDetectorRef, Injector } from '@angular/core';
+
+import { OverlayService } from '../../../services/overlay.service';
 import { BaseWidgetComponent } from '../../../shared/base.component';
 
 @Component({
@@ -25,9 +25,10 @@ export class OverlayContainerComponent extends BaseWidgetComponent implements On
     @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
     @ViewChild('el') public root: ElementRef;
 
-    constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef) {
+    constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, protected injector: Injector) {
         super();
         this.id = `overlay-container-${Math.floor(Math.random() * 8999999 + 1000000)}`;
+        this.service = this.injector.get(OverlayService);
     }
 
     public ngOnInit() {
