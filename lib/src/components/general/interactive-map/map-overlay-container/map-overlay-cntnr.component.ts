@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { OverlayContainerComponent } from '../../../overlays/overlay-container/overlay-container.component';
 

@@ -113,6 +113,7 @@ export class MapRendererComponent extends BaseWidgetComponent {
      */
     private loadMap() {
         this.model.loading = true;
+        this.map.emit(null);
         this.model.map_data = '';
         this.service.loadMap(this.src).then((data) => {
             this.model.map_data = data;
