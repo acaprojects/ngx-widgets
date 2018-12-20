@@ -80,7 +80,7 @@ export class MapInputDirective extends BaseWidgetComponent {
         if (this.lock) { return; }
         e.preventDefault();
         this.model.scale = this.scale || 1;
-        this.model.scale *= e.wheelDelta > 0 ? 1.05 : (e.wheelDelta < 0 ? (1 / 1.05) : 1);
+        this.model.scale *= e.deltaY > 0 ? 1.05 : (e.deltaY < 0 ? (1 / 1.05) : 1);
         this.check();
         this.scale = this.model.scale;
         this.scaleChange.emit(this.scale);
