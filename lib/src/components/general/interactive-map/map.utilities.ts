@@ -35,19 +35,26 @@ export class MapUtilities {
     }
 
     public static getPosition(box, el: Element, coords: IMapPoint) {
+        let position = null;
         if (el) {
             const el_box = el.getBoundingClientRect();
-            return {
+            position = {
                 x: +(((el_box.left - box.left) / box.width + (el_box.width / 2) / box.width) * 100).toFixed(3),
                 y: +(((el_box.top - box.top) / box.height + (el_box.height / 2) / box.height) * 100).toFixed(3)
             };
         } else if (coords) {
             const ratio = box.width / box.height
-            return {
+            position = {
                 x: +((coords.x / 10000) * 100).toFixed(3),
                 y: +((coords.y / (10000 * ratio)) * 100).toFixed(3)
             }
         }
-        return null;
+        if (position) {
+            if (position.x < 0) { position.x = 0 }
+            else if (position.x > 100) { position.x = 100 }
+            if (position.y < 0) { position.y = 0 }
+            else if (position.y > 100) { position.y = 100 }
+        }
+        return position;
     }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
 
 import { OverlayContainerComponent } from '../../../overlays/overlay-container/overlay-container.component';
 
@@ -50,7 +50,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
         super.ngOnChanges(changes);
         if (changes.items || changes.map) {
             this.clearItems(!!changes.map);
-            this.timeout('update', () => this.updateItems(), 600);
+            this.timeout('update', () => this.updateItems(), changes.map && !changes.map.previousValue ? 1000 : 200);
         }
         if (changes.scale) {
             this.update();
@@ -82,6 +82,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                     const el = item.id ? this.map.querySelector(MapUtilities.cleanCssSelector(`#${item.id}`)) : null;
                     if (el || item.coordinates) {
                         item.model.center = MapUtilities.getPosition(box, el, item.coordinates) || { x: .5, y: .5 };
+                        console.log('Center:', item.model.center);
                         item.instance = inst;
                         item.model.scale = this.scale;
                         inst.service = this.service ? this.service.getService() || item.service : item.service;
