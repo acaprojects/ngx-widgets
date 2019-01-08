@@ -15,7 +15,6 @@ export class WIDGETS {
     private static _obs: any = {};
     private static timer: any = null;
     private static load_count = 0;
-    public static app_version = '0.22.11';
 
     public static init() {
         setTimeout(() => {
@@ -93,12 +92,12 @@ export class WIDGETS {
         WIDGETS.log(type, msg, args, 'error');
     }
 
-    public static version(build: string, out: any = 'debug') {
+    public static version(version:string, build: string, out: any = 'debug') {
         const COLOURS = ['color: #f44336', 'color:#9c27b0', 'color:rgba(0,0,0,0.87)'];
         if (WIDGETS.hasColours()) {
-            console[out](`%c[ACA]%c[LIB] %cWidgets - ${WIDGETS.app_version} | ${build}`, ...COLOURS);
+            console[out](`%c[ACA]%c[LIB] %cWidgets - ${version} | ${build}`, ...COLOURS);
         } else {
-            console[out](`[ACA][LIB] Widgets - ${WIDGETS.app_version} | ${build}`);
+            console[out](`[ACA][LIB] Widgets - ${version} | ${build}`);
         }
     }
 

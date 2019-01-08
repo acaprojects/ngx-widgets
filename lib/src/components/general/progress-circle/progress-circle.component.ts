@@ -6,14 +6,14 @@
  */
 
 import { Component, ElementRef, Input, Renderer2, ViewChild, OnChanges } from '@angular/core';
+import { BaseWidgetComponent } from '../../../shared/base.component';
 
 @Component({
     selector: 'progress-circle',
     templateUrl: './progress-circle.template.html',
     styleUrls: ['./progress-circle.styles.scss'],
 })
-export class ProgressCircleComponent implements OnChanges {
-    @Input() public name = ''; // CSS class to add to the root element
+export class ProgressCircleComponent extends BaseWidgetComponent implements OnChanges {
     @Input() public progress = 0; // Number between 0 and 1000
     @Input() public bg = '#CFD8DC';
     @Input() public color = '#2196F3';
@@ -27,10 +27,11 @@ export class ProgressCircleComponent implements OnChanges {
     @ViewChild('inner') private inner: ElementRef;
 
     constructor(private renderer: Renderer2) {
-
+        super();
     }
 
     public ngOnChanges(changes: any) {
+        super.ngOnChanges(changes);
         if (changes.progress) {
             this.update();
         }
@@ -72,7 +73,7 @@ export class ProgressCircleComponent implements OnChanges {
             this.renderer.setStyle(this.main.nativeElement, 'background-color', this.bg);
             this.renderer.setStyle(this.mask_full.nativeElement, 'background-color', this.bg);
         } else {
-            setTimeout(() => {
+            this.timeout('color', () => {
                 this.changeColor();
             }, 200);
         }

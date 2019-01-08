@@ -3,6 +3,10 @@
     display: flex;
     align-items: center;
     border-radius: 4px;
+    &.disable {
+        opacity: .2;
+        pointer-events: none;
+    }
     margin: 1em .5em;
 }
 

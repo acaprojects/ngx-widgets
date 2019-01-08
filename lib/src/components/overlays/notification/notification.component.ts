@@ -14,18 +14,18 @@ const moment = moment_api;
     styleUrls: ['./notification.styles.scss'],
     animations: [
         trigger('show', [
-            transition(':enter', [
+            transition(':leave', [
                 animate(220, keyframes([
-                    style({ opacity: 0, transform: 'translateX(100%)', offset: 0 }),
-                    style({ opacity: .9, transform: 'translateX(-10%)', offset: .9 }),
-                    style({ opacity: 1, transform: 'translateX(0%)', offset: 1 })
+                    style({ opacity: 1, transform: 'translateX(0%)', offset: 0 }),
+                    style({ opacity: .8, transform: 'translateX(-20%)', offset: .8 }),
+                    style({ opacity: 0, transform: 'translateX(100%)', offset: 1 })
                 ]))
             ]),
-            transition(':leave', [
-                animate(300, keyframes([
-                    style({ opacity: 1, transform: 'translateY(0%)', offset: 0 }),
-                    style({ opacity: .8, transform: 'translateY(20%)', offset: .2 }),
-                    style({ opacity: 0, transform: 'translateY(-100%)', offset: 1 })
+            transition(':enter', [
+                animate(220, keyframes([
+                    style({ opacity: 0, transform: 'translateY(100%)', offset: 0 }),
+                    style({ opacity: .8, transform: 'translateY(-20%)', offset: .8 }),
+                    style({ opacity: 1, transform: 'translateY(0%)', offset: 1 })
                 ]))
             ]),
         ]),
@@ -64,7 +64,7 @@ export class NotificationComponent extends DynamicBaseComponent {
      */
     public static timeout(delay: number) {
         if (NotificationComponent.self) {
-            NotificationComponent.self.timeout(delay);
+            NotificationComponent.self.delay(delay);
         }
     }
 
@@ -93,7 +93,7 @@ export class NotificationComponent extends DynamicBaseComponent {
         super.update(data);
     }
 
-    public timeout(delay: number) {
+    public delay(delay: number) {
         this.model.timeout = delay;
     }
 
@@ -137,8 +137,8 @@ export class NotificationComponent extends DynamicBaseComponent {
         }
     }
 
-    public removeItem(item: any) {
-        if (!item.action) {
+    public removeItem(item: any, force: boolean = false) {
+        if (!item.action || force) {
             this.dismiss(item.id);
         }
     }

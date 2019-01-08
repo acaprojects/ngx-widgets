@@ -1,8 +1,8 @@
 
-<div [class]="'radioset ' + name" widget>
+<div [class]="'radioset' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '')" widget>
     <div class="list" [class.inline]="inline">
         <div class="btn-container"*ngFor="let btn of list; let i = index" >
-            <radio-btn [name]="name" [model]="model===i" [label]="btn" (modelChange)="update(i)"></radio-btn>
+            <radio-btn [klass]="name" [disabled]="disabled" [model]="model===i" [label]="btn" (modelChange)="update(i)"></radio-btn>
         </div>
     </div>
 </div>

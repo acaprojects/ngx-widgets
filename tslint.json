@@ -9,6 +9,7 @@
         "spaces"
     ],
     "no-duplicate-variable": true,
+    "no-consecutive-blank-lines": true,
     "no-eval": true,
     "no-internal-module": true,
     "no-trailing-whitespace": true,

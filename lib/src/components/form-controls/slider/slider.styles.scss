@@ -16,6 +16,10 @@
         box-sizing: border-box;
         cursor: pointer;
     }
+    &.disable {
+        opacity: .2;
+        pointer-events: none;
+    }
 }
 
 .block {

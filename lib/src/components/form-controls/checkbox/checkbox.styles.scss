@@ -1,16 +1,15 @@
-
 @import '../../../shared/ui-vars';
 
 .checkbox {
     display: flex;
     align-items: center;
-    &:hover {
+    &.disable {
+        pointer-events: none;
         .box {
-            border-color: $blue;
-            &.active {
-                border-color: darken($blue, 10);
-                background-color: darken($blue, 10);
-            }
+            opacity: .35;
+        }
+        .label {
+            opacity: .2;
         }
     }
 }
@@ -24,28 +23,34 @@
     border-radius: 2px;
     border: 1px solid #ccc;
     cursor: pointer;
-    & > div {
+
+    .check {
         display: none;
     }
-    &:hover {
-        border-color: $blue;
+
+    &.hover {
+        background-color: #ccc;
     }
+
     &.active {
         border-color: $blue;
         background-color: $blue;
-        &:hover {
-            border-color: darken($blue, 10);
-            background-color: darken($blue, 10);
+
+        .check {
+            display: initial;
+        }
+
+        &.hover {
+            &>* {
+                opacity: .5;
+            }
         }
     }
 }
 
-.active > div {
-    display: initial;
-}
-
 input {
-    display: none;
+    opacity: 0 !important;
+    pointer-events: none;
 }
 
 .check {

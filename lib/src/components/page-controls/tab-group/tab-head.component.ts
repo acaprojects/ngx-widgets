@@ -9,17 +9,18 @@
 
 import { Component, Input, TemplateRef } from '@angular/core';
 
+import { BaseWidgetComponent } from '../../../shared/base.component';
+
 @Component({
     selector: 'tab',
     template: `
-        <div [class]="'tab ' + name" widget [class.active]="active" (click)="setActive()">
+        <div [class]="'tab' + (klass ? ' ' + klass : '')" widget [class.active]="active" (click)="setActive()">
             <ng-content></ng-content>
         </div>`,
     styleUrls: ['./tab-head.styles.scss'],
 })
-export class TabHeadComponent {
+export class TabHeadComponent extends BaseWidgetComponent {
     @Input() public id: string;
-    @Input() public name: string;
     @Input() public active: boolean;
     @Input() public template: TemplateRef<any>;
 

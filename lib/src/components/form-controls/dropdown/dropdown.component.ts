@@ -1,21 +1,20 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnChanges } from '@angular/core';
 
+import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
+
 @Component({
     selector: 'dropdown',
     templateUrl: './dropdown.template.html',
     styleUrls: ['./dropdown.styles.scss'],
 })
-export class DropdownComponent implements OnChanges {
-    @Input() public name = '';
+export class DropdownComponent extends BaseFormWidgetComponent implements OnChanges {
     @Input() public list: any[] = [];
-    @Input() public model = 0;
     @Input() public filter = false;
     @Input() public placeholder = '';
     @Input() public hideActive = false;
     @Input() public html = '';
     @Output() public filterValue: any = new EventEmitter();
-    @Output() public modelChange: any = new EventEmitter();
 
     @ViewChild('ref') private reference: ElementRef;
     @ViewChild('body') private body: ElementRef;
@@ -31,10 +30,11 @@ export class DropdownComponent implements OnChanges {
     public search = '';
 
     public ngOnChanges(changes: any) {
+        super.ngOnChanges(changes);
         if (changes.list) {
             this.processList();
         }
-        setTimeout(() => this.resize(), 300);
+        this.timeout('resize', () => this.resize());
     }
 
     public select(index: number = 0) {

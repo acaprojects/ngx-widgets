@@ -8,23 +8,21 @@
  */
 
 import { Component, EventEmitter, Input, Output, ViewChild, OnChanges } from '@angular/core';
-import { Animate } from '../../../services/animate.service';
 
 import { WIDGETS } from '../../../settings';
+import { Animate } from '../../../services/animate.service';
+import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
 
 @Component({
     selector: 'slider',
     templateUrl: './slider.template.html',
     styleUrls: ['./slider.styles.scss'],
 })
-export class SliderComponent implements OnChanges {
+export class SliderComponent extends BaseFormWidgetComponent implements OnChanges {
     @Input() public align = 'horizontal';
     @Input() public min = 0;
     @Input() public max = 100;
-    @Input() public model = 0;
     @Input() public step = 1;
-    @Input() public name = '';
-    @Output() public modelChange = new EventEmitter();
 
     public available = false;
     public current = 0;
@@ -36,10 +34,10 @@ export class SliderComponent implements OnChanges {
 
     private previous: number = null;
     private bb: any;
-    private timers: any = {};
     private user_action = false;
 
     constructor(private a: Animate) {
+        super();
     }
 
     public ngAfterViewInit() {
@@ -92,7 +90,6 @@ export class SliderComponent implements OnChanges {
     /**
      * Update model of the slider
      * @param update Do we need to update the display
-     * @return
      */
     public updateValue(update: boolean = false) {
         if (!this.bar) {
@@ -111,7 +108,6 @@ export class SliderComponent implements OnChanges {
     /**
      * Updates the model and position of the slider based of the event
      * @param event Tap event
-     * @return
      */
     public clickSlider(event: any) {
         if (event) {
@@ -131,7 +127,6 @@ export class SliderComponent implements OnChanges {
     /**
      * Updates the position of the progress and knob of the slider
      * @param event Pan event
-     * @return
      */
     public moveSlider(event: any) {
         if (event) {
@@ -146,17 +141,12 @@ export class SliderComponent implements OnChanges {
         this.current = this.model = this.calcValue(event);
         this.user_action = true;
         this.refresh();
-        if (this.timers.stop) {
-            clearTimeout(this.timers.stop);
-            this.timers.stop = null;
-        }
-        this.timers.stop = setTimeout(() => this.sliderStop(event), 300);
+        this.timeout('stop', () => this.sliderStop(event));
     }
 
     /**
      * Updates the position of the progress and knob of the slider
      * @param event PanEnd event
-     * @return
      */
     public sliderStop(event: any) {
         if (event) {
@@ -170,26 +160,21 @@ export class SliderComponent implements OnChanges {
         this.actionPerformed();
         this.refresh();
     }
+
     /**
      * Update slider positioning when the window is resized
-     * @return
      */
     public resize(resized: boolean = false, tries: number = 0) {
         if (resized) {
-            this.timers.resize = null;
             if (tries > 10) { return; }
             if (this.bar && this.bar.nativeElement) {
                 this.bb = this.bar.nativeElement.getBoundingClientRect();
             } else {
-                return setTimeout(() => this.resize(resized, ++tries), 400);
+                return this.timeout('resize', () => this.resize(resized, tries), 200 * ++tries);
             }
             this.updateValue(true);
         } else {
-            if (this.timers.resize) {
-                clearTimeout(this.timers.resize);
-                this.timers.resize = null;
-            }
-            this.timers.resize = setTimeout(() => this.resize(true), 300);
+            this.timeout('resize', () => this.resize(true));
         }
     }
 
@@ -210,29 +195,25 @@ export class SliderComponent implements OnChanges {
             el = el.parentNode;
         }
         if (!visible) {
-            setTimeout(() => { this.checkStatus(e, i + 1); }, 100);
+            this.timeout('status', () => { this.checkStatus(e, i + 1); }, 100);
         } else {
             this.resize();
         }
     }
+
     /**
      * Emits the model throught the output binding
-     * @return
      */
     private postValue() {
-        setTimeout(() => {
+        this.timeout('post', () => {
             if (this.user_action) {
-                if (!this.timers.update) {
-                    clearTimeout(this.timers.update);
-                    this.timers.update = null;
-                }
-                this.timers.update = setTimeout(() => {
+                this.timeout('update', () => {
                     this.modelChange.emit(this.current);
-                    this.timers.update = null;
                 }, 180); // Delay timer for posting model changes.
             }
         }, 20);
     }
+
     /**
      * Calculates the new model of the slider using the position of the event
      * @param event Tap/Pan event
@@ -272,20 +253,10 @@ export class SliderComponent implements OnChanges {
     }
 
     private actionPerformed() {
-        if (this.timers.update) {
-            clearTimeout(this.timers.update);
-            this.timers.update = null;
-        }
-        this.user_action = false;
-        if (this.timers.action) {
-            clearTimeout(this.timers.action);
-            this.timers.action = null;
-        }
+        this.clearTimer('update');
+        this.clearTimer('action');
         this.user_action = true;
-        this.timers.action = setTimeout(() => {
-            this.user_action = false;
-            this.timers.action = null;
-        }, 300);
+        this.timeout('action', () => this.user_action = false, 300);
 
     }
 

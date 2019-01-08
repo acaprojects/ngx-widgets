@@ -1,4 +1,8 @@
 
+.container {
+    position: absolute;
+}
+
 .map-range {
     position: absolute;
     top: 50%;
@@ -16,7 +20,9 @@
     border-radius: 100%;
     border: 3px dashed #03A9F4;
     background-color: rgba(3, 169, 244, .54);
-    transition: height 200ms, width 200ms;
+    transition: height 50ms, width 50ms;
+    will-change: height, width;
+    animation: enter 300ms ease-out;
 }
 
 .details {
@@ -32,4 +38,32 @@
     white-space: nowrap;
     transition: bottom 200ms;
     text-align: center;
+    animation: enter-delay 600ms ease-out;
+}
+
+@keyframes enter {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes enter-delay {
+    0% {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(-50%, 0%);
+        opacity: 1;
+    }
 }

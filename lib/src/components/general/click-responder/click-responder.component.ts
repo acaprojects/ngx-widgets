@@ -11,6 +11,8 @@ import { Component, ElementRef, HostListener } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { animate, keyframes, style, transition, trigger } from '@angular/animations';
 
+import { BaseWidgetComponent } from '../../../shared/base.component';
+
 export interface IPosition {
     x: number;
     y: number;
@@ -31,13 +33,12 @@ export interface IPosition {
         ])
     ]
 })
-export class ClickResponderComponent {
+export class ClickResponderComponent extends BaseWidgetComponent {
 
     public model: any = {};
-    public timers: any = {};
 
-    constructor(private el: ElementRef, private _cdr: ChangeDetectorRef) {
-
+    constructor(private el: ElementRef, protected _cdr: ChangeDetectorRef) {
+        super();
     }
 
     @HostListener('touchrelease', ['$event'])
@@ -59,17 +60,14 @@ export class ClickResponderComponent {
         this.model.position = position;
         this.model.show = false;
         this._cdr.markForCheck();
-        if (this.timers.animate) {
-            clearTimeout(this.timers.animate);
-            this.timers.animate = null;
-        }
-        setTimeout(() => this.show(), 10);
+        this.clearTimer('animate')
+        this.timeout('show', () => this.show(), 10);
     }
 
     private show() {
         this.model.show = true;
         this._cdr.markForCheck();
-        this.timers.animate = setTimeout(() => {
+        this.timeout('animate', () => {
             this.model.show = false;
             this._cdr.markForCheck();
         }, 600);

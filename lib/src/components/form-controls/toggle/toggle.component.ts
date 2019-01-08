@@ -10,6 +10,8 @@
 import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 
+import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
+
 export interface IToggleOptions {
     on_text?: string;
     off_text?: string;
@@ -21,13 +23,9 @@ export interface IToggleOptions {
     styleUrls: [ './toggle.styles.scss' ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ToggleComponent {
-    @Input() public name = '';
-    @Input() public model = true;
+export class ToggleComponent extends BaseFormWidgetComponent {
     @Input() public type = '';
     @Input() public options: IToggleOptions = {};
-    @Input() public disabled = false;
-    @Output() public modelChange = new EventEmitter();
 
     public toggle() {
         if (!this.disabled) {

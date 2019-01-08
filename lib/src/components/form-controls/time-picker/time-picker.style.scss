@@ -19,6 +19,10 @@
         width: 100%;
         height: auto;
     }
+    &.disable {
+        opacity: .2;
+        pointer-events: none;
+    }
 }
 
 .display {

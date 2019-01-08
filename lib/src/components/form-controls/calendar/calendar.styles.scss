@@ -6,12 +6,16 @@
     * {
         user-select: none;
     }
+    &.disable {
+        .body * {
+            cursor: default;
+        }
+    }
 }
 
 .header {
-    border-bottom: 1px solid #f2f2f2;
-    background-color: #673AB7;
-    color: #fff;
+    color: rgba(#000, .87);
+    border-bottom: 1px solid #f0f0f0;
     .week {
         margin: .5em 0;
     }
@@ -51,6 +55,7 @@
 
 .week {
     display: flex;
+    font-weight: 400;
 }
 
 .day {

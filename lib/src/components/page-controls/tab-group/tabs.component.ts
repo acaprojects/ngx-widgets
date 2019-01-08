@@ -13,15 +13,15 @@ import { ContentChildren, QueryList, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { TabHeadComponent } from './tab-head.component';
+import { BaseWidgetComponent } from '../../../shared/base.component';
 
 @Component({
     selector: 'tab-group',
     templateUrl: './tabs.template.html',
     styleUrls: [ './tabs.styles.scss' ],
 })
-export class TabGroupComponent implements OnChanges {
+export class TabGroupComponent extends BaseWidgetComponent implements OnChanges {
 
-    @Input() public name = '';
     @Input() public state = '0';
     @Input() public routable = ''; // Search, Query, Hash, Route
     @Input() public routeParam = 'tab'; //
@@ -38,6 +38,7 @@ export class TabGroupComponent implements OnChanges {
     private check = 0;
 
     constructor(private loc: Location, private route: ActivatedRoute, private _router: Router) {
+        super();
         this.route.params.subscribe((params) => {
             if (params[this.routeParam]) {
                 this.rvalue = params[this.routeParam];
@@ -47,6 +48,7 @@ export class TabGroupComponent implements OnChanges {
     }
 
     public ngOnChanges(changes: any) {
+        super.ngOnChanges(changes);
         if (changes.tabHeaders) {
             this.processNodes();
         }

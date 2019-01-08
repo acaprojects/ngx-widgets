@@ -1,5 +1,5 @@
 
-<div [class]="'carousel ' + name" widget (window:resize)="resize()">
+<div [class]="'carousel' + (klass ? ' ' + klass : '')" widget (window:resize)="resize()">
     <div class="arrow previous" [class.disabled]="index <= 0" (touchrelease)="index <= 0 ? '' : change(-1)"></div>
     <div class="body">
         <ng-content></ng-content>

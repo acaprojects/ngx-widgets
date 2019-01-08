@@ -15,6 +15,7 @@ import { DraggedItemOverlayComponent } from '../components/overlays/dragged-item
     providedIn: 'root'
 })
 export class OverlayService {
+    public static instance = null;
     private cmp_reg: any = {};
     private cmp_list: any = {};
     private containers: any = {};
@@ -22,8 +23,8 @@ export class OverlayService {
     private default_vc: ViewContainerRef = null;
     private _view: ViewContainerRef = null;
 
-    constructor(private _cfr: ComponentFactoryResolver,
-        private injector: Injector) {
+    constructor(private _cfr: ComponentFactoryResolver, private injector: Injector) {
+        OverlayService.instance = this;
         this.loadView();
     }
 

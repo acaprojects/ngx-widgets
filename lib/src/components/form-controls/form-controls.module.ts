@@ -4,14 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { CalendarComponent } from './calendar/calendar.component';
-import { CheckboxComponent } from './checkbox/checkbox.component';
-import { CustomDropdownComponent } from './custom-dropdown/custom-dropdown.component';
-import { DropdownComponent } from './dropdown/dropdown.component';
-import { InputFieldComponent } from './input-field/input-field.component';
-import { RadiosetComponent } from './radioset/radioset.component';
-import { RadioButtonComponent } from './radioset/radio-button/radio-button.component';
-import { SliderComponent } from './slider/slider.component';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { ToggleComponent } from './toggle/toggle.component';
 import { TimeInputComponent } from './time-input/time-input.component';
@@ -20,23 +12,32 @@ import { OverlayWidgetsModule } from '../overlays/overlay.module';
 import { WidgetsPipeModule } from '../../pipes/pipe.module';
 import { DirectiveWidgetsModule } from '../../directives/directives.module';
 
-const COMPONENTS: any[] = [
-    CalendarComponent,
-    CheckboxComponent,
-    CustomDropdownComponent,
-    DropdownComponent,
-    InputFieldComponent,
-    RadiosetComponent,
-    RadioButtonComponent,
-    SliderComponent,
-    TimePickerComponent,
-    ToggleComponent,
-    TimeInputComponent
-];
+import { ACalendarModule } from './calendar/calendar.module';
+import { ACheckboxModule } from './checkbox/checkbox.module';
+import { ACustomDropdownModule } from './custom-dropdown/custom-dropdown.module';
+import { ADropdownModule } from './dropdown/dropdown.module';
+import { AnInputFieldModule } from './input-field/input-field.module';
+import { ARadiosetModule } from './radioset/radioset.module';
+import { ASliderModule } from './slider/slider.module';
+import { ATimeInputModule } from './time-input/time-input.module';
+import { ATimePickerModule } from './time-picker/time-picker.module';
+import { AToggleModule } from './toggle/toggle.module';
+
+const COMPONENT_MODULES: any[] = [
+    ACalendarModule,
+    ACheckboxModule,
+    ACustomDropdownModule,
+    ADropdownModule,
+    AnInputFieldModule,
+    ARadiosetModule,
+    ASliderModule,
+    ATimeInputModule,
+    ATimePickerModule,
+    AToggleModule
+]
 
 @NgModule({
     declarations: [
-        ...COMPONENTS
     ],
     imports: [
         CommonModule,
@@ -44,10 +45,11 @@ const COMPONENTS: any[] = [
         FormsModule,
         OverlayWidgetsModule,
         WidgetsPipeModule,
-        DirectiveWidgetsModule
+        DirectiveWidgetsModule,
+        ...COMPONENT_MODULES
     ],
     exports: [
-        ...COMPONENTS
+        ...COMPONENT_MODULES
     ]
 })
 export class FormControlWidgetsModule {

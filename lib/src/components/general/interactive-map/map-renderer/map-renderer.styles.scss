@@ -1,0 +1,59 @@
+
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: calc(100% - 2em);
+    width: calc(100% - 2em);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+
+.map {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 200ms;
+    will-change: width, height;
+}
+
+.render-block {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    will-change: transform;
+}
+
+.blk {
+    position: relative;
+    flex: 1;
+    width: 100%;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 4px;
+    padding: 1em;
+    font-size: .8em;
+    background-color: #fff;
+    box-shadow: 0 1px 3px 0 rgba(#000,.2), 0 1px 1px 0 rgba(#000,.14), 0 2px 1px -1px rgba(#000,.12);
+    transform: translate(-50%, -50%);
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    flex: 1;
+}

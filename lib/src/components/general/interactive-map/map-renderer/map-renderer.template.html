@@ -1,0 +1,15 @@
+<div class="container" #container>
+    <div class="map" #content [style.width]="((model.ratio || 1) * 100) + '%'" [style.opacity]="model.loading || !model.map_data ? 0 : 1">
+        <div class="render-block" #content [style.width]="model.zoom + '%'" [style.height]="model.zoom + '%'"
+            [style.transform]="'translate(' + model.position.x + '%, ' + model.position.y + '%)'">
+            <div class="blk">
+                <div class="map-block" [style.opacity]="model.zooming ? 0 : 1" [innerHTML]="model.map_data | safe"></div>
+                <canvas #canvas [style.opacity]="model.zooming ? 1 : 0"></canvas>
+                <map-overlay-container [items]="items" [scale]="model.zoom / 100" [map]="model.map"></map-overlay-container>
+            </div>
+        </div>
+    </div>
+    <div class="loader" [style.display]="model.loading || !model.map_data  ? '' : 'none'">
+        <spinner type="circle-ring"></spinner>
+    </div>
+</div>

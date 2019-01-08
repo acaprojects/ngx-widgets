@@ -10,6 +10,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 
 import * as moment_api from 'moment';
+import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
 const moment = moment_api;
 
 export enum TimePickerPeriod {
@@ -24,8 +25,7 @@ export enum TimePickerPeriod {
     styleUrls: [ './time-picker.style.scss' ],
     templateUrl: './time-picker.template.html',
 })
-export class TimePickerComponent implements OnInit, OnChanges {
-    @Input() name: string;
+export class TimePickerComponent extends BaseFormWidgetComponent implements OnInit, OnChanges {
     @Input() date: string;
     @Input() duration: number;
     @Input() range = false;
@@ -33,41 +33,40 @@ export class TimePickerComponent implements OnInit, OnChanges {
     @Output() dateChange = new EventEmitter();
     @Output() durationChange = new EventEmitter();
 
-    public model: any = {};
-    public timers: any = {};
     public display: any = {};
 
     public ngOnInit() {
-        this.model.duration = this.duration;
-        if (!this.model.duration) {
-            this.model.duration = 60;
+        this.data.duration = this.duration;
+        if (!this.data.duration) {
+            this.data.duration = 60;
         }
-        if (!this.model.date) {
-            this.model.date = moment();
-            this.model.date.minutes(Math.floor(this.model.date.minutes() / 5) * 5);
+        if (!this.data.date) {
+            this.data.date = moment();
+            this.data.date.minutes(Math.floor(this.data.date.minutes() / 5) * 5);
         }
-        if (!this.model.end) {
-            this.model.end = moment(this.model.date).add(this.duration || 60, 'm');
+        if (!this.data.end) {
+            this.data.end = moment(this.data.date).add(this.duration || 60, 'm');
         }
         this.generateClockface();
         this.select(TimePickerPeriod.START_HOUR);
-        this.model.manual = !this.model.manual;
+        this.data.manual = !this.data.manual;
         this.toggleState();
     }
 
     public ngOnChanges(changes: any) {
+        super.ngOnChanges(changes);
         if (changes.date) {
             const parts = this.date.split(':');
-            this.model.date = moment().hours(+parts[0]).minutes(+parts[1]);
-            this.model.end = moment(this.model.date).add(this.duration || 60, 'm');
+            this.data.date = moment().hours(+parts[0]).minutes(+parts[1]);
+            this.data.end = moment(this.data.date).add(this.duration || 60, 'm');
             this.updateDisplay();
         }
         if (changes.duration) {
-            this.model.duration = this.duration;
+            this.data.duration = this.duration;
             this.updateEnd();
         }
         if  (changes.manual) {
-            this.model.manual = !this.manual;
+            this.data.manual = !this.manual;
             this.toggleState();
         }
     }
@@ -77,7 +76,7 @@ export class TimePickerComponent implements OnInit, OnChanges {
      * @param value Multiples to display
      */
     public generateClockface(value: number = 1, pad: boolean = false) {
-        this.model.clock_points = [];
+        this.data.clock_points = [];
         for (let i = 0; i < 12; i++) {
             const item: any = {
                 index: i,
@@ -86,34 +85,34 @@ export class TimePickerComponent implements OnInit, OnChanges {
             if (pad) {
                 item.value = item.value < 10 ? `0${item.value}` : item.value;
             }
-            this.model.clock_points.push(item);
+            this.data.clock_points.push(item);
         }
         this.updateDisplay();
     }
 
     public set(item: any) {
-        if (this.model.transition) { return; }
-        setTimeout(() => {
-            this.model.selection = item.index;
-            switch(this.model.active.period) {
+        if (this.data.transition) { return; }
+        this.timeout('set', () => {
+            this.data.selection = item.index;
+            switch(this.data.active.period) {
                 case TimePickerPeriod.START_HOUR:
-                    this.model.date.hours((+item.value % 12) + (this.model.active.afternoon ? 12 : 0));
+                    this.data.date.hours((+item.value % 12) + (this.data.active.afternoon ? 12 : 0));
                     this.updateEnd();
-                    this.model.transition = true;
-                    setTimeout(() => this.select(1), 800);
+                    this.data.transition = true;
+                    this.timeout('select', () => this.select(1), 800);
                     break;
                 case TimePickerPeriod.START_MINUTE:
-                    this.model.date.minutes(+item.value);
+                    this.data.date.minutes(+item.value);
                     this.updateEnd();
                     break;
                 case TimePickerPeriod.END_HOUR:
-                    this.model.end.hours((+item.value % 12) + (this.model.active.afternoon ? 12 : 0));
+                    this.data.end.hours((+item.value % 12) + (this.data.active.afternoon ? 12 : 0));
                     this.updateDuration();
-                    this.model.transition = true;
-                    setTimeout(() => this.select(3), 800);
+                    this.data.transition = true;
+                    this.timeout('select', () => this.select(3), 800);
                     break;
                 case TimePickerPeriod.END_MINUTE:
-                    this.model.end.minutes(+item.value);
+                    this.data.end.minutes(+item.value);
                     this.updateDuration();
                     break;
             }
@@ -122,31 +121,31 @@ export class TimePickerComponent implements OnInit, OnChanges {
     }
 
     public select(period: TimePickerPeriod) {
-        this.model.transition = false;
-        this.model.active = {
+        this.data.transition = false;
+        this.data.active = {
             period,
             afternoon: false
         }
         switch(period) {
             case TimePickerPeriod.START_HOUR:
                 this.generateClockface()
-                this.model.selection = this.model.date.hours() % 12;
-                this.model.active.afternoon = this.display.start.afternoon;
+                this.data.selection = this.data.date.hours() % 12;
+                this.data.active.afternoon = this.display.start.afternoon;
                 break;
             case TimePickerPeriod.START_MINUTE:
                 this.generateClockface(5, true);
-                this.model.selection = Math.floor(this.model.date.minutes() / 5);
-                this.model.active.afternoon = this.display.start.afternoon;
+                this.data.selection = Math.floor(this.data.date.minutes() / 5);
+                this.data.active.afternoon = this.display.start.afternoon;
                 break;
             case TimePickerPeriod.END_HOUR:
                 this.generateClockface()
-                this.model.selection = this.model.end.hours() % 12;
-                this.model.active.afternoon = this.display.end.afternoon;
+                this.data.selection = this.data.end.hours() % 12;
+                this.data.active.afternoon = this.display.end.afternoon;
                 break;
             case TimePickerPeriod.END_MINUTE:
                 this.generateClockface(5, true);
-                this.model.selection = Math.floor(this.model.end.minutes() / 5);
-                this.model.active.afternoon = this.display.end.afternoon;
+                this.data.selection = Math.floor(this.data.end.minutes() / 5);
+                this.data.active.afternoon = this.display.end.afternoon;
                 break;
         }
     }
@@ -155,8 +154,8 @@ export class TimePickerComponent implements OnInit, OnChanges {
         const hour = this.model[name].hours();
         if (hour >= 12 && !afternoon) { this.model[name].hours(hour % 12); }
         else if (hour < 12 && afternoon) { this.model[name].hours(hour + 12); }
-        if (this.model.active) {
-            this.model.active.afternoon = afternoon;
+        if (this.data.active) {
+            this.data.active.afternoon = afternoon;
         }
         if (name === 'date') {
             this.updateEnd();
@@ -167,22 +166,22 @@ export class TimePickerComponent implements OnInit, OnChanges {
     }
 
     public updateDisplay() {
-        if (this.model.date) {
+        if (this.data.date) {
             this.display.start = {
-                hour: this.model.date.format('hh'),
-                minute: this.model.date.format('mm'),
-                afternoon: this.model.date.hours() >= 12
+                hour: this.data.date.format('hh'),
+                minute: this.data.date.format('mm'),
+                afternoon: this.data.date.hours() >= 12
             }
         }
-        if (this.model.end) {
+        if (this.data.end) {
             this.display.end = {
-                hour: this.model.end.format('hh'),
-                minute: this.model.end.format('mm'),
-                afternoon: this.model.end.hours() >= 12
+                hour: this.data.end.format('hh'),
+                minute: this.data.end.format('mm'),
+                afternoon: this.data.end.hours() >= 12
             }
         }
-        const h = Math.floor((this.model.duration || 60) / 60);
-        const m = Math.floor(this.model.duration || 60) % 60;
+        const h = Math.floor((this.data.duration || 60) / 60);
+        const m = Math.floor(this.data.duration || 60) % 60;
         this.display.duration = '';
         if (h) { this.display.duration += `${h} hour${h > 1 ? 's' : ''}`; }
         if (m) {
@@ -192,36 +191,33 @@ export class TimePickerComponent implements OnInit, OnChanges {
     }
 
     public checkFields(end: boolean = true) {
-        if (this.timers.check) {
-            clearTimeout(this.timers.check);
-        }
-        this.timers.check = setTimeout(() => {
+        this.timeout('check', () => {
                 // Check start hour
-            if (this.model.start_hour) {
-                this.model.error_sh = +this.model.start_hour < 0 || +this.model.start_hour >= 24 || isNaN(this.model.start_hour);
-                if (!this.model.error_sh) {
-                    this.model.date.hour(+this.model.start_hour);
+            if (this.data.start_hour) {
+                this.data.error_sh = +this.data.start_hour < 0 || +this.data.start_hour >= 24 || isNaN(this.data.start_hour);
+                if (!this.data.error_sh) {
+                    this.data.date.hour(+this.data.start_hour);
                 }
             }
                 // Check start minute
-            if (this.model.start_minute) {
-                this.model.error_sm = +this.model.start_minute < 0 || +this.model.start_minute >= 60 || isNaN(this.model.start_minute);
-                if (!this.model.error_sm) {
-                    this.model.date.minute(+this.model.start_minute);
+            if (this.data.start_minute) {
+                this.data.error_sm = +this.data.start_minute < 0 || +this.data.start_minute >= 60 || isNaN(this.data.start_minute);
+                if (!this.data.error_sm) {
+                    this.data.date.minute(+this.data.start_minute);
                 }
             }
                 // Check end hour
-            if (this.model.end_hour) {
-                this.model.error_eh = +this.model.end_hour < 0 || +this.model.end_hour >= 24 || isNaN(this.model.end_hour);
-                if (!this.model.error_eh) {
-                    this.model.end.hour(+this.model.end_hour);
+            if (this.data.end_hour) {
+                this.data.error_eh = +this.data.end_hour < 0 || +this.data.end_hour >= 24 || isNaN(this.data.end_hour);
+                if (!this.data.error_eh) {
+                    this.data.end.hour(+this.data.end_hour);
                 }
             }
                 // Check end minute
-            if (this.model.end_minute) {
-                this.model.error_em = +this.model.end_minute < 0 || +this.model.end_minute >= 60 || isNaN(this.model.end_minute);
-                if (!this.model.error_em) {
-                    this.model.end.minute(+this.model.end_minute);
+            if (this.data.end_minute) {
+                this.data.error_em = +this.data.end_minute < 0 || +this.data.end_minute >= 60 || isNaN(this.data.end_minute);
+                if (!this.data.error_em) {
+                    this.data.end.minute(+this.data.end_minute);
                 }
             }
             if (end) {
@@ -230,51 +226,50 @@ export class TimePickerComponent implements OnInit, OnChanges {
                 this.updateEnd();
             }
             this.updateDisplay();
-            this.timers.check = null;
-        }, 300)
+        })
     }
 
     public toggleState() {
-        if (!this.model.date) { return setTimeout(() => this.toggleState(), 300); }
-        this.model.manual = !this.model.manual;
-        this.model.start_hour = this.model.date.hours();
-        this.model.start_minute = this.model.date.minutes();
-        if (this.model.start_minute < 10) { this.model.start_minute = `0${this.model.start_minute}` }
-        if (this.model.end) {
-            this.model.end_hour = this.model.end.hours();
-            this.model.end_minute = this.model.end.minutes();
-            if (this.model.end_minute < 10) { this.model.end_minute = `0${this.model.end_minute}` }
+        if (!this.data.date) { return this.timeout('toggle', () => this.toggleState(), 300); }
+        this.data.manual = !this.data.manual;
+        this.data.start_hour = this.data.date.hours();
+        this.data.start_minute = this.data.date.minutes();
+        if (this.data.start_minute < 10) { this.data.start_minute = `0${this.data.start_minute}` }
+        if (this.data.end) {
+            this.data.end_hour = this.data.end.hours();
+            this.data.end_minute = this.data.end.minutes();
+            if (this.data.end_minute < 10) { this.data.end_minute = `0${this.data.end_minute}` }
             this.select(0);
         }
     }
 
 
     private updateEnd() {
-        if (this.model.date && this.range) {
-            this.model.end = moment(this.model.date);
-            this.model.end.add(this.model.duration || 60, 'm');
-            this.model.end_hour = this.model.end.hours();
-            const m = this.model.end.minutes()
-            this.model.end_minute = m < 10 ? `0${m}` : m;
+        if (this.data.date && this.range) {
+            this.data.end = moment(this.data.date);
+            this.data.end.add(this.data.duration || 60, 'm');
+            this.data.end_hour = this.data.end.hours();
+            const m = this.data.end.minutes()
+            this.data.end_minute = m < 10 ? `0${m}` : m;
         }
-        if (this.model.date) {
-            this.dateChange.emit(this.model.date.format('HH:mm'));
+        if (this.data.date) {
+            this.dateChange.emit(this.data.date.format('HH:mm'));
         }
         this.updateDisplay();
     }
 
     private updateDuration() {
-        if (this.model.date && this.model.end && this.range) {
-            this.model.end.date(this.model.date.date());
-            const duration = Math.abs(moment.duration(this.model.end.diff(this.model.date)).asMinutes());
-            this.model.duration = duration;
-            if (this.model.end.isBefore(this.model.date)) {
-                this.model.duration = 60;
-                this.model.date = moment(this.model.end).add(-this.model.duration, 'm');
+        if (this.data.date && this.data.end && this.range) {
+            this.data.end.date(this.data.date.date());
+            const duration = Math.abs(moment.duration(this.data.end.diff(this.data.date)).asMinutes());
+            this.data.duration = duration;
+            if (this.data.end.isBefore(this.data.date)) {
+                this.data.duration = 60;
+                this.data.date = moment(this.data.end).add(-this.data.duration, 'm');
             }
         }
-        if (this.model.duration) {
-            this.durationChange.emit(this.model.duration);
+        if (this.data.duration) {
+            this.durationChange.emit(this.data.duration);
         }
         this.updateDisplay();
     }

@@ -9,6 +9,8 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { ChangeDetectionStrategy, ChangeDetectorRef, NgZone } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
+import { BaseWidgetComponent } from '../../../shared/base.component';
+
 @Component({
     selector: 'media-player',
     templateUrl: './media-player.template.html',
@@ -22,8 +24,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
         ]),
     ],
 })
-export class MediaPlayerComponent {
-    @Input() public name: string = '';
+export class MediaPlayerComponent extends BaseWidgetComponent {
     @Input() public src: any = null;
     @Input() public color = '#2196F3';
     @Input() public autoplay = false;
@@ -47,7 +48,7 @@ export class MediaPlayerComponent {
     @ViewChild('player') private player: ElementRef;
 
     constructor(private cdr: ChangeDetectorRef, private zone: NgZone) {
-
+        super();
     }
 
     public ngAfterViewInit() {
@@ -99,14 +100,10 @@ export class MediaPlayerComponent {
 
     public showTools() {
         this.controls_active = true;
-        if (this.hide_timer) {
-            clearTimeout(this.hide_timer);
-        }
-        this.hide_timer = setTimeout(() => {
+        this.timeout('hide', () => {
             if (this.media_playing) {
                 this.controls_active = false;
             }
-            this.hide_timer = null;
         }, 3000);
     }
 
@@ -136,7 +133,7 @@ export class MediaPlayerComponent {
         const secs = Math.floor(time % 60);
         const mins = Math.floor(time / 60);
         if (isNaN(secs) || isNaN(mins)) {
-            return setTimeout(() => this.setDuration(), 200);
+            return this.timeout('duration', () => this.setDuration(), 200);
         }
         this.duration = `${mins < 10 ? '0' + mins : mins}:${secs < 10 ? '0' + secs : secs}`;
         this.length.emit(this.duration);
@@ -173,7 +170,7 @@ export class MediaPlayerComponent {
 
     private init() {
         if (!this.player) {
-            setTimeout(() => this.init(), 200);
+            this.timeout('init', () => this.init(), 200);
         } else {
             if (this.autoplay) {
                 this.playMedia();

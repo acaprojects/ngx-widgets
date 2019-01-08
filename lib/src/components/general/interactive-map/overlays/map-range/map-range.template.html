@@ -1,0 +1,10 @@
+<div class="container" [style.opacity]="model.center ? 1 : 0" [style.left]="model.center?.x + '%'" [style.top]="model.center?.y + '%'">
+    <div class="map-range" widget [@show] [style.height]="model.map_state?.dim + 'px'" [style.width]="model.map_state?.dim + 'px'">
+        <div class="range" [style.height]="(size * 100) + '%'" [style.width]="(size * 100) + '%'"
+            [style.background-color]="model.bg_alpha || 'rgba(3, 169, 244, .54)'" [style.border-color]="model.bg || '#03A9F4'">
+        </div>
+        <div class="details" [style.bottom]="(size * 110 / 2 + 200) + '%'">
+            {{ model.text }}
+        </div>
+    </div>
+</div>
