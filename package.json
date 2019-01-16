@@ -23,7 +23,9 @@
     },
     "dependencies": {
         "base64-js": "^1.3.0",
-        "cropperjs": "^1.3.4"
+        "cropperjs": "^1.3.4",
+        "hammerjs": "^2.0.8",
+        "natives": "^1.1.6"
     },
     "peerDependencies": {
         "hammerjs": "^2.0.8",
