@@ -7,8 +7,8 @@
  * @Last modified time: 30/01/2017 10:06 AM
  */
 
-import { Component, EventEmitter, Input, Output} from '@angular/core';
-import { ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, forwardRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
 
@@ -21,9 +21,14 @@ export interface IToggleOptions {
     selector: 'toggle',
     templateUrl: './toggle.template.html',
     styleUrls: [ './toggle.styles.scss' ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => ToggleComponent),
+        multi: true
+    }]
 })
-export class ToggleComponent extends BaseFormWidgetComponent {
+export class ToggleComponent extends BaseFormWidgetComponent implements ControlValueAccessor {
     @Input() public type = '';
     @Input() public options: IToggleOptions = {};
 

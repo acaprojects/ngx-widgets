@@ -7,16 +7,24 @@
  * @Last modified time: 27/01/2017 5:30 PM
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
 
 @Component({
     selector: 'input-field',
     styleUrls: [ './input-field.styles.scss'],
-    templateUrl: './input-field.template.html'
+    templateUrl: './input-field.template.html',
+    providers: [
+      {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => InputFieldComponent),
+        multi: true
+      }
+    ]
 })
-export class InputFieldComponent extends BaseFormWidgetComponent {
+export class InputFieldComponent extends BaseFormWidgetComponent implements ControlValueAccessor {
     @Input() public type = 'text';
     @Input() public mask = '';
     @Input() public placeholder = '';

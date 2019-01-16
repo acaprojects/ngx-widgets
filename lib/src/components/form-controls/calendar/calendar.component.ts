@@ -1,5 +1,6 @@
 
-import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
 
@@ -19,14 +20,21 @@ export interface ICalOptions {
     selector: 'calendar',
     templateUrl: './calendar.template.html',
     styleUrls: ['./calendar.styles.scss'],
+    providers: [
+      {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => CalendarComponent),
+        multi: true
+      }
+    ]
 })
-export class CalendarComponent extends BaseFormWidgetComponent implements OnChanges {
+export class CalendarComponent extends BaseFormWidgetComponent implements OnChanges, ControlValueAccessor {
     @Input() public date: number; // Unix timestamp with milliseconds
     @Input() public today: number; // Unix timestamp with milliseconds
     @Input() public events: any = {};
     @Input() public options: ICalOptions | any;
     @Output() public dateChange: any = new EventEmitter();
-    @Output() public change: any = new EventEmitter();
+    @Output() public month: any = new EventEmitter();
 
     public display: string;
 
@@ -65,14 +73,25 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
         }
     }
 
-    public setDate(day: any) {
+    /**
+     * Update local value when form control value is changed
+     * @param value
+     */
+    public writeValue(value: any) {
+        this.setDate({ timestamp: value });
+    }
+
+    public setDate(day: any, emit: boolean = true) {
         if (this.disabled) { return; }
         const now = moment(this.today);
         const date = moment(day.timestamp);
         if (!this.options || this.options.past || (!this.options.past && now.isSameOrBefore(date, 'd'))) {
             this.model = day.timestamp;
-            this.modelChange.emit(this.model);
-            this.dateChange.emit(this.model);
+            if (emit) {
+                this.modelChange.emit(this.model);
+                this.dateChange.emit(this.model);
+                this.change()
+            }
         }
         this.generateMonth();
     }
@@ -91,7 +110,7 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
                 this.data.offset = 0;
             }
         }
-        this.change.emit(this.data.offset);
+        this.month.emit(this.data.offset);
         this.generateMonth();
     }
 

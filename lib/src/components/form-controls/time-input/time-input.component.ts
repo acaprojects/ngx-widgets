@@ -1,12 +1,19 @@
-import { Component, Input, EventEmitter, Output, OnChanges, ViewChild, ElementRef } from "@angular/core";
+import { Component, Input, OnChanges, ViewChild, ElementRef, SimpleChanges, forwardRef } from "@angular/core";
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+
 import { BaseFormWidgetComponent } from "../../../shared/base-form.component";
 
 @Component({
     selector: 'time-input',
     templateUrl: './time-input.template.html',
-    styleUrls: ['./time-input.styles.scss']
+    styleUrls: ['./time-input.styles.scss'],
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => TimeInputComponent),
+        multi: true
+    }]
 })
-export class TimeInputComponent extends BaseFormWidgetComponent implements OnChanges {
+export class TimeInputComponent extends BaseFormWidgetComponent implements OnChanges, ControlValueAccessor {
     @Input('no-period') public no_period: boolean;
     @Input() public arrows: boolean = true;
     @Input() public step: number = 5;
@@ -22,14 +29,23 @@ export class TimeInputComponent extends BaseFormWidgetComponent implements OnCha
 
     public ngOnChanges(changes: SimpleChanges) {
         if (changes.model && changes.model.previousValue !== this.model) {
-            const parts = (this.model || '00:00').split(':');
-            this.data.hour = 0;
-            this.data.pm = +parts[0] >= 12;
-            this.changeHour(+parts[0] % 12, false);
-            this.data.minute = 0;
-            const minute = Math.ceil(+parts[1] / this.step) % Math.floor(60 / this.step);
-            this.changeMinute(minute, false);
+            this.setData(this.model);
         }
+    }
+
+    public writeValue(value) {
+        this.model = value;
+        this.setData(this.model);
+    }
+
+    public setData(time) {
+        const parts = (time || '00:00').split(':');
+        this.data.hour = 0;
+        this.data.pm = +parts[0] >= 12;
+        this.changeHour(+parts[0] % 12, false);
+        this.data.minute = 0;
+        const minute = Math.ceil(+parts[1] / this.step) % Math.floor(60 / this.step);
+        this.changeMinute(minute, false);
     }
 
     public nextField(e) {

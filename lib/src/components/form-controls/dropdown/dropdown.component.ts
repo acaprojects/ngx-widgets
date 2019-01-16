@@ -1,5 +1,6 @@
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnChanges, forwardRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
 
@@ -7,8 +8,13 @@ import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
     selector: 'dropdown',
     templateUrl: './dropdown.template.html',
     styleUrls: ['./dropdown.styles.scss'],
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => DropdownComponent),
+        multi: true
+    }]
 })
-export class DropdownComponent extends BaseFormWidgetComponent implements OnChanges {
+export class DropdownComponent extends BaseFormWidgetComponent implements OnChanges, ControlValueAccessor {
     @Input() public list: any[] = [];
     @Input() public filter = false;
     @Input() public placeholder = '';

@@ -1,5 +1,6 @@
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
 
@@ -7,8 +8,15 @@ import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
     selector: 'checkbox',
     templateUrl: './checkbox.template.html',
     styleUrls: ['./checkbox.styles.scss'],
+    providers: [
+      {
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => CheckboxComponent),
+        multi: true
+      }
+    ]
 })
-export class CheckboxComponent extends BaseFormWidgetComponent {
+export class CheckboxComponent extends BaseFormWidgetComponent implements ControlValueAccessor {
     @Input() public label = '';
     @Input() public side = 'right';
 

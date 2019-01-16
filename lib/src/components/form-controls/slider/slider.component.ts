@@ -7,7 +7,8 @@
  * @Last modified time: 01/02/2017 11:52 AM
  */
 
-import { Component, EventEmitter, Input, Output, ViewChild, OnChanges } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges, forwardRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { WIDGETS } from '../../../settings';
 import { Animate } from '../../../services/animate.service';
@@ -17,8 +18,13 @@ import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
     selector: 'slider',
     templateUrl: './slider.template.html',
     styleUrls: ['./slider.styles.scss'],
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => SliderComponent),
+        multi: true
+    }]
 })
-export class SliderComponent extends BaseFormWidgetComponent implements OnChanges {
+export class SliderComponent extends BaseFormWidgetComponent implements OnChanges, ControlValueAccessor {
     @Input() public align = 'horizontal';
     @Input() public min = 0;
     @Input() public max = 100;
