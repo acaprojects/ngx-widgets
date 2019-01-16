@@ -1,5 +1,4 @@
-import { Directive, HostListener, Input, TemplateRef, Output, EventEmitter } from "@angular/core";
-import { Type } from "@angular/compiler";
+import { Directive, HostListener, Input, TemplateRef, Type, Output, EventEmitter } from "@angular/core";
 
 import { OverlayService } from "../services/overlay.service";
 import { ContextItemComponent } from "../components/overlays/context-item/context-item.component";
@@ -9,7 +8,7 @@ import { ContextItemComponent } from "../components/overlays/context-item/contex
 })
 export class ContextItemDirective {
     @Input() public id: string = `CTX_${Math.floor(Math.random() * 8999999 + 1000000)}`;
-    @Input() public cmp: Type;
+    @Input() public cmp: Type<any>;
     @Input() public data: any;
     @Input() public touch: boolean = false;
     @Input() public template: TemplateRef<any>;
