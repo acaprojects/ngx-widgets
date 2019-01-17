@@ -28,10 +28,10 @@ export class OverlayContainerComponent extends BaseWidgetComponent implements On
     constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, protected injector: Injector) {
         super();
         this.id = `overlay-container-${Math.floor(Math.random() * 8999999 + 1000000)}`;
-        this.service = this.injector.get(OverlayService);
     }
 
     public ngOnInit() {
+        this.service = this.injector.get(OverlayService);
         this.idChange.emit(this.id);
         OverlayService.instance.register(this.id, this);
     }

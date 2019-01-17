@@ -39,8 +39,8 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
     private model: any = {};
 
     public ngOnInit() {
-        this.map_service = this.injector.get(MapService);
         super.ngOnInit();
+        this.map_service = this.injector.get(MapService);
         if (this.service) {
             this.service.registerContainer(this.id, this);
         }
