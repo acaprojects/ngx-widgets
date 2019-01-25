@@ -1,46 +1,62 @@
-<div [class]="'dropdown' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '') + (show ? ' show' : '')" widget #body (window:resize)="resize()">
+<div [class]="'dropdown' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '') + (show ? ' show' : '')" widget
+    #body (window:resize)="resize()">
     <div #ref class="reference"></div>
-    <div class="tooltip" [class.bottom]="bottom" tooltip name="dropdown-list clear" [template]="tooltip" [position]="bottom ? 'top' : 'bottom'"
+    <div class="tooltip" [class.bottom]="bottom" tooltip name="dropdown-list" [template]="tooltip" [position]="bottom ? 'top' : 'bottom'"
         offset="middle" [triangle]="false" [(show)]="show" [autoclose]="false" (event)="select($event)">
     </div>
     <div #active class="item active" (touchrelease)="showList()">
         <div class="text">
-            {{ model < 0 || !list_items || list_items.length <= model || !list_items[model] ? placeholder : list_items[model].name || list_items[model] }}
+            {{ model < 0 || !list_items || list_items.length <=model || !list_items[model] ? placeholder :
+                list_items[model].name || list_items[model] }} </div> <div class="icon">
+                <div class="down"></div>
         </div>
-        <div class="icon up"></div>
     </div>
     <div class="item placeholder" *ngIf="placeholder && (model < 0 || list_items.length < model)">
         <div class="text">{{ placeholder }}</div>
     </div>
     <div class="list">
-        <div class="item" *ngFor="let item of filtered_list; let i = index" [class.hide]="hideActive && i === model">
-            <div class="text">{{ item.name || item }}</div>
-            <div class="icon done" [style.opacity]="model === i ? 1 : 0"></div>
+        <div class="item" *ngIf="longest">
+            <div class="text">{{ longest.name || longest }}</div>
+            <div class="icon"></div>
         </div>
     </div>
     <ng-template #tooltip>
-        <div [class]="'dropdown dropdown-list' + (klass ? ' ' + klass : '')" [style.font-size]="font_size + 'px'" [style.width]="width + 'px'">
+        <div [class]="'dropdown-list' + (klass ? ' ' + klass : '')" [style.font-size]="font_size + 'px'" [style.width]="width + 'px'">
             <div class="item active" *ngIf="!bottom" (touchrelease)="showList()">
                 <div class="text">
-                    {{ model < 0 || !list_items || list_items.length <= model || !list_items[model] ? placeholder : list_items[model].name || list_items[model] }}
+                    {{ model < 0 || !list_items || list_items.length <=model || !list_items[model] ? placeholder :
+                        list_items[model].name || list_items[model] }} </div> <div class="icon">
+                        <div class="up"></div>
                 </div>
-                <div class="icon down"></div>
             </div>
             <div class="item placeholder" *ngIf="!bottom && placeholder && (model < 0 || list_items.length < model)">
                 <div class="text">{{ placeholder }}</div>
             </div>
             <div class="search" *ngIf="filter&&!bottom" (touchrelease)="focus()">
-                <div class="icon"><div class="search-icon"></div></div>
+                <div class="icon">
+                    <div class="search-icon"></div>
+                </div>
                 <div class="input"><input #input [(ngModel)]="search" (ngModelChange)="filterItems()" placeholder="Filter"></div>
             </div>
-            <div class="list show">
-                <div class="item" *ngFor="let item of filtered_list; let i = index" [class.hide]="hideActive && (item.i || i) === model" (touchrelease)="select(item.i >= 0 ? item.i || i : i)">
-                    <div class="text">{{ item.name || item }}</div>
-                    <div class="icon done" [style.opacity]="model === (item.i || i) ? 1 : 0"></div>
-                </div>
+            <div class="list show" [style.height]="(list_height * 2 * font_size) + 'px'">
+                <ng-container *ngIf="filtered_list">
+                    <cdk-virtual-scroll-viewport [itemSize]="2 * font_size">
+                        <ng-container *cdkVirtualFor="let item of filtered_list; let i = index">
+                            <div class="item" [class.hide]="hideActive && (item.i || i) === model"
+                                (touchrelease)="select(item.i >= 0 ? item.i || i : i)">
+                                <div class="text">{{ item.name || item }}</div>
+                                <div class="icon">
+                                    <div class="done" *ngIf="model === (item.i || i) ? 1 : 0"></div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </cdk-virtual-scroll-viewport>
+                </ng-container>
             </div>
             <div class="search" *ngIf="filter&&bottom" (touchrelease)="focus()">
-                <div class="icon"><div class="search-icon"></div></div>
+                <div class="icon">
+                    <div class="search-icon"></div>
+                </div>
                 <div class="input"><input #input [(ngModel)]="search" (ngModelChange)="filterItems()" placeholder="Filter"></div>
             </div>
             <div class="item placeholder bottom" *ngIf="bottom && placeholder && (model < 0 || list_items.length < model)">
@@ -48,9 +64,9 @@
             </div>
             <div class="item active bottom" *ngIf="bottom" (touchrelease)="showList()">
                 <div class="text">
-                    {{ model < 0 || !list_items || list_items.length <= model || !list_items[model] ? placeholder : list_items[model].name || list_items[model] }}
+                    {{ model < 0 || !list_items || list_items.length <=model || !list_items[model] ? placeholder :
+                        list_items[model].name || list_items[model] }} </div> <div class="icon down">
                 </div>
-                <div class="icon down"></div>
             </div>
         </div>
     </ng-template>

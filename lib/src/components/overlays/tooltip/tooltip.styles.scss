@@ -66,12 +66,18 @@ $triangle-size: 32px;
         top: -$triangle-size / 4;
         &.no-triangle {
             top: -$triangle-size / 8;
+            &.dropdown-list {
+                top: 0;
+            }
         }
     }
     &.bottom {
         bottom: -$triangle-size / 4;
         &.no-triangle {
             bottom: -$triangle-size / 8;
+            &.dropdown-list {
+                bottom: 0;
+            }
         }
     }
     &.none {

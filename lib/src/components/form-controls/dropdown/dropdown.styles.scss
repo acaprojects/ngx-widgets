@@ -79,19 +79,22 @@ dropdown:host {
     text-overflow: ellipsis;
 }
 
+cdk-virtual-scroll-viewport {
+    min-height: 100%;
+}
+
 .icon {
     padding: 0 0 0 .5em;
     min-height: .5em;
     width: 1.5em;
-    &.down:after {
-        content: '▾';
-    }
-    &.up:after {
-        content: '▾';
-    }
-    &.done:after {
-        content: '✓';
-    }
+    height: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .down:after { content: '▾'; }
+    .up:after   { content: '▾'; }
+    .done:after { content: '✓'; }
 }
 
 .placeholder {
@@ -154,6 +157,7 @@ input {
 .dropdown-list {
     border-radius: 4px;
     overflow: hidden;
+
     &:hover {
         box-shadow: 0 1px 3px 0 rgba(#000,.2), 0 1px 1px 0 rgba(#000,.14), 0 2px 1px -1px rgba(#000,.12);
     }

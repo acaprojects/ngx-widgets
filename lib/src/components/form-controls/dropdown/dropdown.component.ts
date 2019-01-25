@@ -1,6 +1,7 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnChanges, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
 
@@ -27,9 +28,13 @@ export class DropdownComponent extends BaseFormWidgetComponent implements OnChan
     @ViewChild('active') private active: ElementRef;
     @ViewChild('input') private input: ElementRef;
 
+    @ViewChild(CdkVirtualScrollViewport) private viewport: CdkVirtualScrollViewport;
+
     public show = false;
+    public longest: string;
     public font_size = 20;
     public width = 200;
+    public list_height = 0;
     public list_items: any[] = [];
     public filtered_list: any[] = [];
     public bottom = false;
@@ -58,6 +63,14 @@ export class DropdownComponent extends BaseFormWidgetComponent implements OnChan
     public showList() {
         this.resize();
         this.show = true;
+        this.updateScroll();
+    }
+
+    public updateScroll() {
+        if (!this.viewport) {
+            return this.timeout('scroll', () => this.updateScroll(), 50);
+        }
+        this.viewport.scrollToIndex(this.model);
     }
 
     public updateSize(tries: number = 0) {
@@ -104,8 +117,9 @@ export class DropdownComponent extends BaseFormWidgetComponent implements OnChan
                 index++;
             }
         } else {
-            this.filtered_list = this.list_items;
+            this.filtered_list = [ ...this.list_items ];
         }
+        this.list_height = Math.min(8, this.filtered_list.length);
         this.filterValue.emit(this.search);
     }
 
@@ -113,11 +127,14 @@ export class DropdownComponent extends BaseFormWidgetComponent implements OnChan
     private processList() {
         if (this.list) {
             const list: any[] = [];
+            this.longest = '1';
             for (const item of this.list) {
                 if (typeof item === 'object') {
                     list.push(item || { name: '' });
+                    if (item && item.name.length > this.longest.length) { this.longest = item.name; }
                 } else {
                     list.push({ name: item });
+                    if (item && item.length > this.longest.length) {  this.longest = item; }
                 }
             }
             this.list_items = list;

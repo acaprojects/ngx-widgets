@@ -11,6 +11,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { ScrollingModule } from '@angular/cdk/scrolling';
+
 import { WidgetsSharedModule } from '../../../shared/shared.module';
 import { DirectiveWidgetsModule } from '../../../directives/directives.module';
 import { OverlayWidgetsModule } from '../../overlays/overlay.module';
@@ -30,7 +32,8 @@ const COMPONENTS: any[] = [
         CommonModule,
         FormsModule,
         DirectiveWidgetsModule,
-        OverlayWidgetsModule
+        OverlayWidgetsModule,
+        ScrollingModule
     ],
     exports: [
         ...COMPONENTS
