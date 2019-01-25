@@ -4,7 +4,7 @@ import { platform } from 'process';
 const proc = (cmd, args) =>
     new Promise((resolve, reject) => {
         const p = createSpawn(cmd, args);
-        p.on('exit', (code, signal) => code == 0 ? resolve() : reject(signal));
+        p.on('exit', (code, signal) => code === 0 ? resolve() : reject(signal));
     });
 
 const npmScript = (name) => (...args) =>
@@ -15,4 +15,3 @@ function createSpawn(cmd, args) {
 }
 
 export const ng = npmScript('ng');
-export const packagr = npmScript('packagr');

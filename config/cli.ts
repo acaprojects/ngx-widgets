@@ -10,6 +10,7 @@ import * as yargs from 'yargs';
 const argv = yargs.argv;
 
 const ngargs: string[] = [];
+let error = false;
 
 if (argv.prod || (argv.demo === true && argv.prod !== 'false')) { ngargs.push('--prod'); }
 if (argv.aot || (argv.demo === true && argv.aot !== 'false')) { ngargs.push('--aot'); }
@@ -17,15 +18,16 @@ if (argv.port) { ngargs.push(`--port=${argv.port}`); }
 
 Dashboard.show(argv.prod ? 'prod' : 'dev');
 
-gulp.task('build', (next) => runSequence('pre-build', 'ng:build', 'post-build', next));
-
-gulp.task('build-lib', (next) => runSequence('pre-build:lib', 'package:lib', next));
+gulp.task('build', (next) => runSequence('pre-build', 'ng:build', 'post-build', 'check:error', next));
 
 gulp.task('serve', (next) => runSequence('pre-serve', 'ng:serve', next));
 
-gulp.task('ng:build', () => ng('build', ...ngargs));
+gulp.task('ng:build', (next) => {
+    ng('build', ...ngargs).then(() => next(), () => { error = true; next(); });
+});
 
 gulp.task('ng:serve', () => ng('serve', ...ngargs));
+gulp.task('check:error', (next) => { error ? next('Building Angular project failed') : next(); });
 
 gulp.task('package', (next) => runSequence('build', 'install', 'package-app', next));
 

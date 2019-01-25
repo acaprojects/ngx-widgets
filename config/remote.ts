@@ -15,8 +15,14 @@ try {
     console.log('Error loading upload credentials:', e ? e.code || '' : '');
 }
 
+const aws_env = {
+    secret_access_key:  process.env.AWS_SECRET_KEY,
+    bucket: process.env.AWS_BUCKET,
+    access_key_id: process.env.AWS_ACCESS_KEY
+};
+
 const ssh_creds = credentials ? credentials.ssh || {} : {};
-const aws_creds = credentials ? credentials.aws || {} : {};
+const aws_creds = credentials ? credentials.aws || aws_env : aws_env;
 
 const argv = yargs.argv;
 
@@ -51,7 +57,7 @@ gulp.task('upload:aws-s3', () => {
     if (remote_path && remote_path[0] === '/') {
         remote_path = remote_path.substr(1);
     }
-    const Bucket = aws_creds ? aws_creds.bucket || 'aca.test' : 'aca.test';
+    const Bucket = aws_creds ? aws_creds.bucket || 'aca.im' : 'aca.im';
     return gulp.src('./dist/**/*')
         .pipe(s3({
             Bucket,
@@ -59,4 +65,3 @@ gulp.task('upload:aws-s3', () => {
             keyTransform: (file) => `${remote_path}/${file}`
         }));
 });
-
