@@ -20,6 +20,8 @@ Dashboard.show(argv.prod ? 'prod' : 'dev');
 
 gulp.task('build', (next) => runSequence('pre-build', 'ng:build', 'post-build', 'check:error', next));
 
+gulp.task('build-lib', (next) => runSequence('pre-build:lib', 'package:lib', next));
+
 gulp.task('serve', (next) => runSequence('pre-serve', 'ng:serve', next));
 
 gulp.task('ng:build', (next) => {

@@ -15,3 +15,4 @@ function createSpawn(cmd, args) {
 }
 
 export const ng = npmScript('ng');
+export const packagr = npmScript('packagr');
