@@ -42,8 +42,7 @@
                 <ng-container *ngIf="filtered_list">
                     <cdk-virtual-scroll-viewport [itemSize]="2 * font_size">
                         <ng-container *cdkVirtualFor="let item of filtered_list; let i = index">
-                            <div class="item" [class.hide]="hideActive && (item.i || i) === model"
-                                (touchrelease)="select(item.i >= 0 ? item.i || i : i)">
+                            <div class="item" [class.hide]="hideActive && (item.i || i) === model" (touchrelease)="select(item.i >= 0 ? item.i || i : i)">
                                 <div class="text">{{ item.name || item }}</div>
                                 <div class="icon">
                                     <div class="done" *ngIf="model === (item.i || i) ? 1 : 0"></div>
@@ -65,7 +64,8 @@
             <div class="item active bottom" *ngIf="bottom" (touchrelease)="showList()">
                 <div class="text">
                     {{ model < 0 || !list_items || list_items.length <=model || !list_items[model] ? placeholder :
-                        list_items[model].name || list_items[model] }} </div> <div class="icon down">
+                        list_items[model].name || list_items[model] }} </div> <div class="icon">
+                        <div class="up"></div>
                 </div>
             </div>
         </div>

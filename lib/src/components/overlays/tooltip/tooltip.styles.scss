@@ -89,6 +89,13 @@ $triangle-size: 32px;
     }
 }
 
+.dropdown-list {
+    .content {
+        background-color: 0;
+        box-shadow: none;
+    }
+}
+
 .content {
     position: absolute;
     background-color: #fff;
