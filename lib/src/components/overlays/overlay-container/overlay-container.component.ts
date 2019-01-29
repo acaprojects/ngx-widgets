@@ -31,7 +31,7 @@ export class OverlayContainerComponent extends BaseWidgetComponent implements On
     }
 
     public ngOnInit() {
-        this.service = this.injector.get(OverlayService);
+        this.service = this.injector ? this.injector.get(OverlayService) : null;
         this.idChange.emit(this.id);
         OverlayService.instance.register(this.id, this);
     }
@@ -116,7 +116,7 @@ export class OverlayContainerComponent extends BaseWidgetComponent implements On
                 return reject(!this.content ? 'No view to render to' : `No component to render`);
             }
             this.timeout(`render|${id}`, () => {
-                if (this.content && type) {
+                if (this.content && type && this._cfr) {
                     const factory = this._cfr.resolveComponentFactory(type);
                     if (this.cmp_refs[id]) {
                         this.cmp_refs[id].destroy();

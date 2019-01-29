@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ComponentFactoryResolver, SimpleChanges, ChangeDetectorRef, Injector } from '@angular/core';
 
 import { OverlayContainerComponent } from '../../../overlays/overlay-container/overlay-container.component';
 
@@ -38,15 +38,20 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
 
     private model: any = {};
 
+    constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, protected injector: Injector) {
+        super(_cfr, _cdr, injector);
+        this.id = `overlay-container-${Math.floor(Math.random() * 8999999 + 1000000)}`;
+    }
+
     public ngOnInit() {
         super.ngOnInit();
-        this.map_service = this.injector.get(MapService);
+        this.map_service = this.injector ? this.injector.get(MapService) : null;
         if (this.service) {
             this.service.registerContainer(this.id, this);
         }
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
         if (changes.items || changes.map) {
             this.clearItems(!!changes.map);
