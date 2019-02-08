@@ -40,7 +40,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
 
     constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, protected injector: Injector) {
         super(_cfr, _cdr, injector);
-        this.id = `overlay-container-${Math.floor(Math.random() * 8999999 + 1000000)}`;
+        this.id = `map-container-${Math.floor(Math.random() * 8999999 + 1000000)}`;
     }
 
     public ngOnInit() {

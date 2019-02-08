@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit, OnChanges, Output, EventEmitter, TemplateRef, Type } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, Output, EventEmitter, TemplateRef, Type, SimpleChanges } from '@angular/core';
 
 import { BaseWidgetComponent } from '../../../shared/base.component';
 import { MapService } from '../../../services/map.service';
@@ -36,7 +36,7 @@ export interface IMapPointOfInterest {
 })
 export class MapComponent extends BaseWidgetComponent implements OnChanges {
     @Input() public src: string;
-    @Input('styles') public css: any;
+    @Input('styles') public css: { [name: string]: any };
     @Input() public zoom: number;
     @Input() public poi: IMapPointOfInterest[];
     @Input() public focus: IMapPointOfInterest;
@@ -47,29 +47,40 @@ export class MapComponent extends BaseWidgetComponent implements OnChanges {
     @Output() public centerChange = new EventEmitter();
     @Output() public event = new EventEmitter();
 
-    public model: any = {};
+    public model: { [name: string]: any } = {};
 
     constructor(private service: MapService) {
         super();
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
-        if (changes.css) { this.model.styles = this.css; }
-        if (changes.zoom) { this.model.scale = (this.zoom || 100) / 100; }
-        if (changes.center) { this.model.center = this.center; }
-        if (changes.src) { this.model.src = this.src; }
-        if (changes.listeners) { this.model.listeners = this.listeners; }
-        if (changes.focus) { this.model.focus = this.focus; }
-        if (changes.lock) { this.model.lock = this.lock; }
+        const data: { [name: string]: any } = {};
+        if (changes.css) { data.styles = this.css; }
+        if (changes.zoom) { data.scale = (this.zoom || 100) / 100; }
+        if (changes.center) { data.center = this.center; }
+        if (changes.src) { data.src = this.src; }
+        if (changes.listeners) { data.listeners = this.listeners; }
+        if (changes.focus) { data.focus = this.focus; }
+        if (changes.lock) { data.lock = this.lock; }
         if (changes.poi) {
             if (this.focus && this.focus.cmp) {
-                this.model.interest_points = [this.model.focus, ...this.poi];
+                data.interest_points = [data.focus || this.model.focus, ...this.poi];
             } else {
-                this.model.interest_points = this.poi;
+                data.interest_points = this.poi;
             }
         }
+        this.update(data);
+    }
 
+    public update(data: { [name: string]: any }) {
+        // this.timeout('changes', () => {
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    this.model[key] = data[key]
+                }
+            }
+        // }, 10);
     }
 
     public post() {

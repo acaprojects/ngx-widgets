@@ -6,18 +6,19 @@ import { TouchPressDirective } from './touchpress.directive';
 import { DraggableDirective } from './drag-n-drop/draggable.directive';
 import { DropzoneDirective } from './drag-n-drop/dropzone.directive';
 
+const DIRECTIVES: any[] = [
+    TouchPressDirective,
+    TouchReleaseDirective,
+    DraggableDirective,
+    DropzoneDirective
+];
+
 @NgModule({
     declarations: [
-        TouchPressDirective,
-        TouchReleaseDirective,
-        DraggableDirective,
-        DropzoneDirective
+        ...DIRECTIVES
     ],
     exports: [
-        TouchPressDirective,
-        TouchReleaseDirective,
-        DraggableDirective,
-        DropzoneDirective
+        ...DIRECTIVES
     ]
 })
 export class DirectiveWidgetsModule { }

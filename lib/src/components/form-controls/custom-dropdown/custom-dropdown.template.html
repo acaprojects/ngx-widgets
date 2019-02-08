@@ -3,7 +3,7 @@
     <div class="tooltip" [class.bottom]="bottom" tooltip name="custom-dropdown-list clear" [template]="tooltip" [position]="bottom ? 'top' : 'bottom'"
         offset="middle" [triangle]="false" [(show)]="show" (showChange)="showChange.emit(show)">
     </div>
-    <div #active class="item active" (touchrelease)="show = true; showChange.emit(show)">
+    <div #active class="item active">
         <ng-container *ngTemplateOutlet="content"></ng-container>
     </div>
     <div class="list">
