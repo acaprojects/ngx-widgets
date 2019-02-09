@@ -36,6 +36,7 @@ export class ToggleComponent extends BaseFormWidgetComponent implements ControlV
         if (!this.disabled) {
             this.model = !this.model;
             this.modelChange.emit(this.model);
+            this.change(this.model);
         }
     }
 }

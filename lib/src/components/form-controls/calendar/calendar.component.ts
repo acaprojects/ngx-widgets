@@ -90,7 +90,7 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
             if (emit) {
                 this.modelChange.emit(this.model);
                 this.dateChange.emit(this.model);
-                this.change()
+                this.change(this.model)
             }
         }
         this.generateMonth();

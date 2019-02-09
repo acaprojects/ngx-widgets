@@ -23,5 +23,6 @@ export class CheckboxComponent extends BaseFormWidgetComponent implements Contro
     public toggle() {
         this.model = !this.model;
         this.modelChange.emit(this.model);
+        this.change(this.model);
     }
 }

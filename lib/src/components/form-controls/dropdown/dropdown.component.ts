@@ -51,6 +51,7 @@ export class DropdownComponent extends BaseFormWidgetComponent implements OnChan
     public select(index: number = 0) {
         this.model = index;
         this.modelChange.emit(this.model);
+        this.change(this.model);
         this.show = false;
     }
 
