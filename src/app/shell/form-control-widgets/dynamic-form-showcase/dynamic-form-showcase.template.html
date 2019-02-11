@@ -1,0 +1,7 @@
+
+<showcase [(model)]="model">
+    <div class="container">
+        <dynamic-form [fields]="model.state" (form)="model.values" (valid)="model.valid"></dynamic-form>
+        <div class="valid">Valid: <span>{{model.valid}}</span></div>
+    </div>
+</showcase>

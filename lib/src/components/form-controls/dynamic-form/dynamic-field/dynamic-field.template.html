@@ -1,0 +1,46 @@
+<div class="dynamic-field" widget [formGroup]="form" *ngIf="field && (field.control_type !== 'custom' || field.cmp)">
+    <div [class]="'field ' + field.control_type + ' ' + field.key" [class.error]="(errors && dirty)">
+        <div class="icon" *ngIf="field.icon">
+            <i *ngIf="field.icon.type === 'icon' || field.icon.class" [class]="field.icon.class">{{field.icon?.value}}</i>
+            <img *ngIf="field.icon.type !== 'icon' && !field.icon.class" [src]="field.icon.src">
+        </div>
+        <label [attr.for]="field.key">{{field.label}} <span *ngIf="field.required">*</span></label>
+        <div class="value" [ngSwitch]="field.control_type" [class.flex]="field.flex" [style.max-width]="field.width">
+            <!-- TEXT INPUT -->
+            <input *ngSwitchCase="'text'" [formControlName]="field.key" [id]="field.key" [placeholder]="field.label"
+                [type]="field.type">
+            <!-- DROPDOWN -->
+            <dropdown klass="form" *ngSwitchCase="'dropdown'" [list]="field.options" [formControlName]="field.key" [id]="field.key"
+                [placeholder]="field.label"></dropdown>
+            <!-- ACTION FIELD -->
+            <div class="select" *ngSwitchCase="'select'">
+                <span *ngIf="format" (touchrelease)="performAction()">{{format}}</span>
+                <span class="dim" *ngIf="!format" (touchrelease)="performAction()">No {{field.label}}</span>
+            </div>
+            <!-- FIELD GROUP -->
+            <div class="group" *ngSwitchCase="'group'">
+                <div class="item" *ngFor="let item of field.children">
+                    <dynamic-field [field]="item" [form]="form"></dynamic-field>
+                </div>
+            </div>
+            <!-- TEXTAREA -->
+            <textarea klass="form" *ngSwitchCase="'textarea'" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="4" cdkAutosizeMaxRows="8" [formControlName]="field.key" [id]="field.key" [placeholder]="field.label"></textarea>
+            <!-- TOGGLE -->
+            <toggle klass="form" *ngSwitchCase="'toggle'" [formControlName]="field.key" [id]="field.key"></toggle>
+            <!-- SLIDER -->
+            <slider klass="form" *ngSwitchCase="'slider'" [formControlName]="field.key" [id]="field.key"></slider>
+            <!-- CUSTOM FIELD -->
+            <custom-field *ngSwitchCase="'custom'" [field]="field" [form]="form" [cmp]="field.cmp"></custom-field>
+        </div>
+        <div class="state">
+            <i [style.opacity]="dirty && value && (isValid || errors) ? 1 : 0" class="material-icons">
+                {{ errors && dirty ? 'error' : 'done' }}
+            </i>
+        </div>
+    </div>
+    <div class="error-message" *ngIf="errors && dirty">
+        <span *ngIf="errors.required">{{field.label}} is required</span>
+        <span *ngIf="errors.message">{{errors.message}}</span>
+    </div>
+</div>

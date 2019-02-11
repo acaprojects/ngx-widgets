@@ -11,6 +11,7 @@ import { ToggleShowcaseComponent } from './toggle-showcase/toggle-showcase.compo
 import { InputFieldShowcaseComponent } from './input-field-showcase/input-field-showcase.component';
 import { CustomDropdownShowcaseComponent } from './custom-dropdown-showcase/custom-dropdown-showcase.component';
 import { TimeInputShowcaseComponent } from './time-input-showcase/time-input-showcase.component';
+import { DynamicFormShowcaseComponent } from './dynamic-form-showcase/dynamic-form-showcase.component';
 
 export const FORM_CONTROL_WIDGETS_SHOWCASE_COMPONENTS: any[] = [
     FormControlWidgetsComponent,
@@ -24,5 +25,6 @@ export const FORM_CONTROL_WIDGETS_SHOWCASE_COMPONENTS: any[] = [
     SliderShowcaseComponent,
     TimePickerShowcaseComponent,
     ToggleShowcaseComponent,
-    TimeInputShowcaseComponent
+    TimeInputShowcaseComponent,
+    DynamicFormShowcaseComponent
 ];

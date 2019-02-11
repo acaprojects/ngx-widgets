@@ -11,6 +11,7 @@ import { APP_COMPONENTS } from './shell';
 import { SHARED_COMPONENTS } from './shared/components';
 
 import { ROUTES } from './app.routes';
+import { DynamicFormComponentModule } from '../../lib/src/components/form-controls/dynamic-form/dynamic-form.module';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { ROUTES } from './app.routes';
         FormsModule,
         RouterModule.forRoot(ROUTES, { useHash: true }),
         WidgetsModule.forRoot(),
+        DynamicFormComponentModule
     ],
     bootstrap: [AppComponent]
 })

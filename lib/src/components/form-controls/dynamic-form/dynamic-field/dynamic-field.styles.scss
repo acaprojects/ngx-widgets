@@ -1,0 +1,204 @@
+
+@import 'shared.styles';
+
+
+.field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: .25em 0;
+    min-height: 2.4em;
+    font-size: 1rem;
+    width: 100%;
+    overflow: hidden;
+    &.select {
+        .value {
+            border: none;
+            .select {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.group {
+    & > .value {
+        border: none;
+        padding: 0;
+    }
+
+    & > .icon,
+    & > label,
+    & > .state, {
+        display: none;
+    }
+}
+
+.custom {
+    & > .value {
+        border: none;
+        flex: 0;
+        padding: 0;
+        min-width: 50%;
+        @include respond-to(mobile) {
+            flex: 1;
+        }
+    }
+}
+
+.dropdown {
+    & > .value {
+        border: none;
+        padding: 0;
+    }
+}
+
+.toggle {
+    & > .value {
+        border: none;
+        flex: 0;
+        padding: 0;
+    }
+}
+
+.textarea {
+    & > .value {
+        border: none;
+    }
+}
+
+textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    font-size: 1em;
+    outline: none;
+    border: 1px solid #ccc;
+    padding: .5em;
+    &:focus {
+        border-bottom-color: #03A9F4;
+    }
+}
+
+.value {
+    flex: 1;
+    min-height: 2em;
+    min-width: 5em;
+    border: 1px solid #ccc;
+
+    .group {
+        display: flex;
+        @include respond-to(mobile) {
+            flex-direction: column;
+        }
+    }
+
+    .item {
+        flex: 1;
+        @include respond-to(mobile) {
+            flex: none;
+            width: 100%;
+        }
+    }
+
+    .select {
+        padding: .5em 0;
+        span {
+            cursor: pointer;
+        }
+    }
+
+    &.flex {
+        flex: 1;
+    }
+}
+
+dropdown {
+    font-size: 1 / 1.5em;
+}
+
+label {
+    font-size: .8em;
+    font-weight: 500;
+    min-width: 8em;
+    padding: .75em 0;
+    margin-bottom: auto;
+
+    span {
+        color: $pending;
+    }
+
+    @include respond-to(mobile) {
+        min-width: 80%;
+        font-size: 1em;
+    }
+}
+
+input {
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 1em;
+    width: 75%;
+    flex: 1;
+    width: 100%;
+    padding: .5em;
+    &::placeholder {
+        color: rgba(#000, .54);
+    }
+}
+
+.icon {
+    height: 1em;
+    width: 1em;
+    margin: .25em .5em auto .25em;
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #03A9F4;
+}
+
+.state {
+    color: $success;
+    margin: .5em .25em .5em .5em;
+}
+
+.dim {
+    opacity: .65;
+    transition: opacity 200ms;
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.error {
+    .state {
+        color: $error;
+    }
+
+    .value {
+        border-color: $error;
+    }
+}
+
+.warn {
+    .state {
+        color: $pending;
+    }
+
+    .value {
+        border-color: $pending;
+    }
+}
+
+.error-message {
+    font-size: .75em;
+    color: $error;
+    text-align: right;
+    margin: -.25em 2em .5em;
+    &.warn {
+        color: $pending;
+    }
+}
+
