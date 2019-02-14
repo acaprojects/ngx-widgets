@@ -8,7 +8,8 @@ import * as moment_api from 'moment';
 const moment = moment_api;
 
 export interface ICalOptions {
-    limit: number; // Number of month that the user can move forward and back
+    limit: number; // Number of months that the user can move forward and back
+    limit_days: number; // Number of days that the user can move forward and back
     past: boolean; // Restrict user from selecting dates in the past
     format: {
         day: string, // Formatting for the days of the week
@@ -53,17 +54,24 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
         super.ngOnChanges(changes);
         if (changes.date || changes.model) {
             if (changes.date) { this.model = this.date; }
-            const now = moment(this.today).date(1).hours(0).minutes(0).seconds(0).millisecond(0);
+            const now = moment(this.today).date(1).startOf('d');
             const duration = moment.duration(moment(this.model).diff(now));
             this.data.offset = duration.months();
             this.generateMonth();
         }
         if (changes.options) {
             if (!this.options) { this.options = {}; }
+            if (this.options.limit_days) {
+                this.data.limit = Math.round(moment.duration(this.options.limit_days, 'd').asMonths())
+                this.data.future = moment().add(this.options.limit_days, 'd').endOf('d');
+                this.data.past = moment().subtract(this.options.limit_days, 'd').startOf('d');
+            } else {
+                this.data.limit = this.options.limit;
+            }
             this.changeMonth();
         }
         if (changes.today) {
-            const now = moment().hours(0).minutes(0).seconds(0).milliseconds(0);
+            const now = moment().startOf('d');
             if (!this.today || this.today < now.valueOf()) {
                 this.today = now.valueOf();
             }
@@ -85,7 +93,12 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
         if (this.disabled) { return; }
         const now = moment(this.today);
         const date = moment(day.timestamp);
-        if (!this.options || this.options.past || (!this.options.past && now.isSameOrBefore(date, 'd'))) {
+        if (
+            (this.options.past && !this.options.limit_days) ||
+            (this.options.past && this.options.limit_days && date.isBefore(this.data.future)) && date.isSameOrAfter(this.data.past) ||
+            (!this.options.past && this.options.limit_days && date.isBefore(this.data.future) && date.isSameOrAfter(now)) ||
+            (!this.options.past && !this.options.limit_days && date.isSameOrAfter(now, 'd'))
+        ) {
             this.model = day.timestamp;
             if (emit) {
                 this.modelChange.emit(this.model);
@@ -98,11 +111,11 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
 
     public changeMonth(value: number = 0) {
         this.data.offset += value;
-        if (this.options && this.options.limit) {
-            if (this.data.offset > this.options.limit) {
-                this.data.offset = this.options.limit;
-            } else if (this.data.offset < -this.options.limit) {
-                this.data.offset = -this.options.limit;
+        if (this.data && this.data.limit) {
+            if (this.data.offset > this.data.limit) {
+                this.data.offset = this.data.limit;
+            } else if (this.data.offset < -this.data.limit) {
+                this.data.offset = -this.data.limit;
             }
         }
         if (!this.options || !this.options.past) {
@@ -130,7 +143,7 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
         const date = moment();
         const today = moment();
         const now = moment(this.today);
-        now.hours(0).minutes(0).seconds(0).milliseconds(0);
+        now.startOf('d');
         date.add(this.data.offset || 0, 'months');
         const current_month = date.format('YYYY-MMM');
             // Create display for month
@@ -156,6 +169,7 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
                     date: date.date(),
                     active: date.format('YYYY-MM-DD') === set_date.format('YYYY-MM-DD'),
                     past: date.isBefore(now),
+                    future: this.data.future ? date.isAfter(this.data.future) : 0,
                     today: date.format('YYYY-MM-DD') === today.format('YYYY-MM-DD'),
                     events: this.events ? this.events[date.format('YYYY-MM-DD')] || 0 : 0,
                     this_month: date.format('YYYY-MMM') === current_month,

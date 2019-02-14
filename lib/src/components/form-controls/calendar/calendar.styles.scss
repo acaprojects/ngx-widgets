@@ -115,6 +115,10 @@
     }
 }
 
+.future {
+    @extend .past
+}
+
 .bar {
     position: absolute;
     bottom: 0;

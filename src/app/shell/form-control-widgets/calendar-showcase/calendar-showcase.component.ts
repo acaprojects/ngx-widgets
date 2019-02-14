@@ -27,7 +27,8 @@ export class CalendarShowcaseComponent {
             }, {
                 name: 'options', type: 'input', description: 'Type of button to render', data: 'string',
                 data_desc: `{
-    limit: number; // Number of month that the user can move forward and back
+    limit: number; // Number of months that the user can move forward and back
+    limit_days: number; // Number of days that the user can move forward and back (precedence over limit)
     past: boolean; // Restrict user from selecting dates in the past
     format: {
         day: string, // Moment formatting for the days of the week

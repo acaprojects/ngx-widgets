@@ -2,9 +2,9 @@
 <div [class]="'calendar' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '')" widget>
     <div class="header">
         <div class="display">
-            <div class="change previous" *ngIf="options.limit !== 0" [class.disabled]="(options && options.past && data.offset <= (-options.limit || 0)) || data.offset <= 0" (click)="changeMonth(-1)">&#706;</div>
+            <div class="change previous" *ngIf="data.limit !== 0" [class.disabled]="(options && options.past && data.offset <= (-data.limit || 0)) || data.offset <= 0" (click)="changeMonth(-1)">&#706;</div>
             <div class="month" (dblclick)="changeMonth(-data.offset)">{{ display }}</div>
-            <div class="change next" *ngIf="options.limit !== 0" [class.disabled]="data.offset >= (options.limit || 12)" (click)="changeMonth(1)">&#707;</div>
+            <div class="change next" *ngIf="data.limit !== 0" [class.disabled]="data.offset >= (data.limit || 12)" (click)="changeMonth(1)">&#707;</div>
         </div>
         <div class="week">
             <div class="day" *ngFor="let day of data.weekdays">{{ day }}</div>
@@ -16,6 +16,7 @@
                 <div class="day" *ngFor="let day of week">
                     <div class="content"
                         [class.past]="day.past"
+                        [class.future]="day.future"
                         [class.active]="day.active && !disabled"
                         [class.non-month]="!day.this_month"
                         [class.event]="day.events && !day.past && day.this_month"
