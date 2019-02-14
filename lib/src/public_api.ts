@@ -6,6 +6,7 @@ export * from './components/form-controls/form-controls.module';
 export * from './components/general/general-widgets.module';
 export * from './components/overlays/overlay.module';
 export * from './components/page-controls/page-controls.module';
+export * from './components/form-controls/dynamic-form/dynamic-form.module';
     // Export Library services
 export * from './services/animate.service';
 export * from './services/map.service';
@@ -56,3 +57,5 @@ export * from './components/overlays/dynamic-base.component';
 export * from './components/page-controls/accordion/accordion.component';
 export * from './components/page-controls/stepper/stepper.component';
 export * from './components/page-controls/tab-group/tabs.component';
+
+export * from './components/form-controls/dynamic-form/dynamic-field.class';
