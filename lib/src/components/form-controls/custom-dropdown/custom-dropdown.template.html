@@ -1,16 +1,18 @@
-<div [class]="'custom-dropdown' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '') + (show ? ' show' : '')" widget #body (window:resize)="resize()">
+<div [class]="'custom-dropdown' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '') + (show ? ' show' : '')"
+    widget #body (window:resize)="resize()">
     <div #ref class="reference"></div>
-    <div class="tooltip" [class.bottom]="bottom" tooltip name="custom-dropdown-list clear" [template]="tooltip" [position]="bottom ? 'top' : 'bottom'"
-        offset="middle" [triangle]="false" [(show)]="show" (showChange)="showChange.emit(show)">
+    <div class="tooltip" [class.bottom]="bottom" tooltip name="custom-dropdown-list clear" [template]="tooltip"
+        [position]="bottom ? 'top' : 'bottom'" offset="middle" [triangle]="false" [(show)]="show" (showChange)="showChange.emit(show)">
     </div>
     <div #active class="item active">
         <ng-container *ngTemplateOutlet="content"></ng-container>
     </div>
-    <div class="list">
+    <!-- <div class="list">
         <ng-container *ngTemplateOutlet="template"></ng-container>
-    </div>
+    </div> -->
     <ng-template #tooltip>
-        <div [class]="'custom-dropdown dropdown-list ' + (klass ? ' ' + klass : '')" [style.font-size]="font_size + 'px'" [style.width]="width + 'px'">
+        <div [class]="'custom-dropdown dropdown-list ' + (klass ? ' ' + klass : '')" [style.font-size]="font_size + 'px'"
+            [style.width]="width + 'px'">
             <div class="item active" *ngIf="!bottom && show" [style.width]="width + 'px'" (touchrelease)="show = false; showChange.emit(show)">
                 <ng-container *ngTemplateOutlet="content"></ng-container>
             </div>
