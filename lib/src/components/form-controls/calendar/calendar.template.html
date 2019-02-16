@@ -15,7 +15,7 @@
             <div class="week" *ngFor="let week of data.month">
                 <div class="day" *ngFor="let day of week">
                     <div class="content"
-                        [class.past]="day.past"
+                        [class.disabled]="day.disabled"
                         [class.future]="day.future"
                         [class.active]="day.active && !disabled"
                         [class.non-month]="!day.this_month"

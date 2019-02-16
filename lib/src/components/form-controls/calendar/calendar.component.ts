@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Input, Output, OnChanges, forwardRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, forwardRef, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
@@ -8,10 +8,9 @@ import * as moment_api from 'moment';
 const moment = moment_api;
 
 export interface ICalOptions {
-    limit: number; // Number of months that the user can move forward and back
-    limit_days: number; // Number of days that the user can move forward and back
-    past: boolean; // Restrict user from selecting dates in the past
-    format: {
+    from?: number; // Earliest day that can be selected
+    to?: number; // Latest day that can be selected
+    format?: {
         day: string, // Formatting for the days of the week
         month: string, // Formatting for the displayed month
     };
@@ -29,13 +28,14 @@ export interface ICalOptions {
       }
     ]
 })
-export class CalendarComponent extends BaseFormWidgetComponent implements OnChanges, ControlValueAccessor {
+export class CalendarComponent extends BaseFormWidgetComponent<number> implements OnChanges, ControlValueAccessor {
     @Input() public date: number; // Unix timestamp with milliseconds
     @Input() public today: number; // Unix timestamp with milliseconds
-    @Input() public events: any = {};
-    @Input() public options: ICalOptions | any;
-    @Output() public dateChange: any = new EventEmitter();
-    @Output() public month: any = new EventEmitter();
+    @Input() public events: { [name:string]: number } = {};
+    @Input() public range: { start: number, end: number }; // Set range as active
+    @Input() public options: ICalOptions;
+    @Output() public dateChange = new EventEmitter<number>();
+    @Output() public month = new EventEmitter<number>();
 
     public display: string;
 
@@ -50,7 +50,7 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
         this.generateMonth();
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
         if (changes.date || changes.model) {
             if (changes.date) { this.model = this.date; }
@@ -61,12 +61,15 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
         }
         if (changes.options) {
             if (!this.options) { this.options = {}; }
-            if (this.options.limit_days) {
-                this.data.limit = Math.round(moment.duration(this.options.limit_days, 'd').asMonths())
-                this.data.future = moment().add(this.options.limit_days, 'd').endOf('d');
-                this.data.past = moment().subtract(this.options.limit_days, 'd').startOf('d');
+            if (this.options.from) {
+                this.data.from = moment(this.options.from);
             } else {
-                this.data.limit = this.options.limit;
+                this.data.from = null;
+            }
+            if (this.options.to) {
+                this.data.to = moment(this.options.to);
+            } else {
+                this.data.to = null;
             }
             this.changeMonth();
         }
@@ -85,20 +88,15 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
      * Update local value when form control value is changed
      * @param value
      */
-    public writeValue(value: any) {
+    public writeValue(value: number) {
         this.setDate({ timestamp: value });
     }
 
-    public setDate(day: any, emit: boolean = true) {
+    public setDate(day: { timestamp: number }, emit: boolean = true) {
         if (this.disabled) { return; }
         const now = moment(this.today);
         const date = moment(day.timestamp);
-        if (
-            (this.options.past && !this.options.limit_days) ||
-            (this.options.past && this.options.limit_days && date.isBefore(this.data.future)) && date.isSameOrAfter(this.data.past) ||
-            (!this.options.past && this.options.limit_days && date.isBefore(this.data.future) && date.isSameOrAfter(now)) ||
-            (!this.options.past && !this.options.limit_days && date.isSameOrAfter(now, 'd'))
-        ) {
+        if ((!this.data.from || date.isSameOrAfter(this.data.from, 'd')) && (!this.data.to || date.isSameOrBefore(this.data.to, 'd'))) {
             this.model = day.timestamp;
             if (emit) {
                 this.modelChange.emit(this.model);
@@ -110,21 +108,14 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
     }
 
     public changeMonth(value: number = 0) {
-        this.data.offset += value;
-        if (this.data && this.data.limit) {
-            if (this.data.offset > this.data.limit) {
-                this.data.offset = this.data.limit;
-            } else if (this.data.offset < -this.data.limit) {
-                this.data.offset = -this.data.limit;
-            }
+        let new_month = this.data.offset + value;
+        const now = moment().add(new_month, 'M');
+        if ((!this.data.from || now.isSameOrAfter(this.data.from, 'M')) &&
+            (!this.data.to || now.isSameOrBefore(this.data.to, 'M')))  {
+            this.data.offset = new_month
+            this.month.emit(this.data.offset);
+            this.generateMonth();
         }
-        if (!this.options || !this.options.past) {
-            if (this.data.offset < 0) {
-                this.data.offset = 0;
-            }
-        }
-        this.month.emit(this.data.offset);
-        this.generateMonth();
     }
 
     private generateWeekdays(format: string = 'dd') {
@@ -142,10 +133,7 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
         const set_date = moment(this.model);
         const date = moment();
         const today = moment();
-        const now = moment(this.today);
-        now.startOf('d');
         date.add(this.data.offset || 0, 'months');
-        const current_month = date.format('YYYY-MMM');
             // Create display for month
         if (this.options && this.options.format) {
             this.display = date.format(this.options.format.month || 'MMMM YYYY');
@@ -160,19 +148,18 @@ export class CalendarComponent extends BaseFormWidgetComponent implements OnChan
         if (date.day() > 0) {
             date.date(date.date() - date.day());
         }
-        const month: any[] = [];
+        const month: { [name: string]: any }[][] = [];
         for (let i = 0; i < 6; i++) {
-            const week: any[] = [];
+            const week: { [name: string]: any }[] = [];
             for (let d = 0; d < 7; d++) {
                 const day = {
                     timestamp: date.valueOf(),
                     date: date.date(),
-                    active: date.format('YYYY-MM-DD') === set_date.format('YYYY-MM-DD'),
-                    past: date.isBefore(now),
-                    future: this.data.future ? date.isAfter(this.data.future) : 0,
-                    today: date.format('YYYY-MM-DD') === today.format('YYYY-MM-DD'),
+                    active: date.isSame(set_date, 'd'),
+                    today: date.isSame(today, 'd'),
                     events: this.events ? this.events[date.format('YYYY-MM-DD')] || 0 : 0,
-                    this_month: date.format('YYYY-MMM') === current_month,
+                    disabled: (this.data.from && date.isBefore(this.data.from, 'd')) || (this.data.to && date.isAfter(this.data.to, 'd')),
+                    this_month: date.isSame(today, 'M'),
                 };
                 week.push(day);
                 date.add(1, 'days');
