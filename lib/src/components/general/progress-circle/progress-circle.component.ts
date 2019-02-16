@@ -5,7 +5,7 @@
  * @Last Modified time: 2017-05-05 10:46:34
  */
 
-import { Component, ElementRef, Input, Renderer2, ViewChild, OnChanges } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { BaseWidgetComponent } from '../../../shared/base.component';
 
 @Component({
@@ -30,7 +30,7 @@ export class ProgressCircleComponent extends BaseWidgetComponent implements OnCh
         super();
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
         if (changes.progress) {
             this.update();

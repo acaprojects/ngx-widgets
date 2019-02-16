@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, ViewChild, Output, EventEmitter, Renderer2 } from '@angular/core';
+import { Component, Input, ElementRef, ViewChild, Output, EventEmitter, Renderer2, SimpleChanges } from '@angular/core';
 import { BaseWidgetComponent } from '../../../../shared/base.component';
 import { MapService } from '../../../../services/map.service';
 import { MapUtilities } from '../map.utilities';
@@ -27,7 +27,7 @@ export class MapRendererComponent extends BaseWidgetComponent {
     @ViewChild('content') private content: ElementRef;
     @ViewChild('container') private container: ElementRef;
 
-    public model: any = {};
+    public model: { [name: string]: any } = {};
 
     constructor(private service: MapService, private renderer: Renderer2, private el: ElementRef) {
         super();
@@ -41,7 +41,7 @@ export class MapRendererComponent extends BaseWidgetComponent {
         if (this.el) { this.renderer.setAttribute(this.el.nativeElement, `map-${this.id}`, 'true') }
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
         if (changes.scale || changes.center) {
             this.update();

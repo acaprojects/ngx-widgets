@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
 import { OverlayContentComponent } from '../../../../overlays/overlay-content.component';
+import { MapService } from '../../../../../services/map.service';
 
 @Component({
     selector: 'map-pin',
@@ -18,7 +19,7 @@ import { OverlayContentComponent } from '../../../../overlays/overlay-content.co
         ]),
     ],
 })
-export class MapPinComponent extends OverlayContentComponent {
+export class MapPinComponent extends OverlayContentComponent<MapService> {
     public static className() { return 'MapPinComponent'; }
     public className() { return MapPinComponent.className; }
 }

@@ -30,7 +30,7 @@ export class ButtonComponent extends BaseFormWidgetComponent<boolean> {
         super();
     }
 
-    public tap(e: any) {
+    public tap(e: MouseEvent | TouchEvent) {
         this.timeout('tap', () => {
             if (this.toggle) {
                 this.model = !this.model;

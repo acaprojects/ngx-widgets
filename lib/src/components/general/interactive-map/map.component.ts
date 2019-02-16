@@ -11,7 +11,8 @@ export interface IMapPointOfInterest {
     coordinates?: IMapPoint;
     cmp: Type<any>;
     template?: TemplateRef<any>;
-    model?: any;
+    model?: { [name: string]: any };
+    data?: { [name: string]: any };
     zoom?: number;
     exists?: boolean;
     instance?: any;
@@ -36,7 +37,7 @@ export interface IMapPointOfInterest {
 })
 export class MapComponent extends BaseWidgetComponent implements OnChanges {
     @Input() public src: string;
-    @Input('styles') public css: { [name: string]: any };
+    @Input('styles') public css: { [name: string]: ({ [name: string]: (number | string) }) };
     @Input() public zoom: number;
     @Input() public poi: IMapPointOfInterest[];
     @Input() public focus: IMapPointOfInterest;
