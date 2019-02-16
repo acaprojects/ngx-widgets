@@ -25,8 +25,8 @@ export class DropService {
     public event: any = {};
 
     // All the elements we are interested in highlighting when the mouse is over them
-    private _dropTargets:  HTMLScriptElement[] = [];
-    private _currentTarget: HTMLScriptElement;
+    private _dropTargets:  HTMLElement[] = [];
+    private _currentTarget: HTMLElement;
 
     // This is our event observables
     private _event_subjects: any = { dragover: null };
@@ -130,7 +130,7 @@ export class DropService {
     }
 
     // Configures an element to become a drop target
-    public register(name: string, element: HTMLScriptElement, callback: (state: boolean) => void) {
+    public register(name: string, element: HTMLElement, callback: (state: boolean) => void) {
         // Register the drop-target
         this._ensureStream(name);
         DropService._streamMapping[name].push(element);
@@ -223,7 +223,7 @@ export class DropService {
     }
 
     // Returns the stream name for an element
-    private _findStream(element: HTMLScriptElement) {
+    private _findStream(element: HTMLElement) {
         const mapping = DropService._streamMapping;
 
         for (const prop in mapping) {
@@ -236,7 +236,7 @@ export class DropService {
     }
 
     // Informs the element of its highlight state
-    private _performCallback(target: HTMLScriptElement, state: boolean, stream: string = null) {
+    private _performCallback(target: HTMLElement, state: boolean, stream: string = null) {
         stream = stream || this._findStream(target);
 
         DropService._callbacks[stream].forEach((cb: any) => {

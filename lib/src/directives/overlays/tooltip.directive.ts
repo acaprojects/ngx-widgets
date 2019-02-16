@@ -5,6 +5,7 @@ import { OverlayService } from '../../services/overlay.service';
 
 import { TooltipComponent } from '../../components/overlays/tooltip/tooltip.component';
 import { WIDGETS } from '../../settings';
+import { Subscription } from 'rxjs';
 
 @Directive({
     selector: '[tooltip]',
@@ -17,26 +18,26 @@ export class TooltipDirective implements OnChanges {
     @Input() public offsetBy = '';
     @Input() public cmp: Type<any> = null;
     @Input() public template: TemplateRef<any> = null;
-    @Input() public model: any = {};
+    @Input() public model: { [name: string]: any } = {};
     @Input() public triangle = true;
     @Input() public show = false;
     @Input() public auto = false;
-    @Input() public autoclose: any = true;
+    @Input() public autoclose = true;
     @Input() public hover: number | boolean = false;
-    @Output() public showChange: any = new EventEmitter();
+    @Output() public showChange = new EventEmitter<boolean>();
     @Output() public event: any = new EventEmitter();
 
     public id = '';
-    public sub: any = null;
+    public sub: Subscription = null;
 
-    private data: any = {};
-    private timers: any = {};
+    private data: { [name: string]: any } = {};
+    private timers: { [name: string]: number } = {};
     private instance: any;
 
     @HostListener('mouseenter', ['$event.target']) public onEnter(btn) {
         if (this.hover) {
             if (typeof this.hover === 'number' && this.hover > 10) {
-                this.timers.hover = setTimeout(() => {
+                this.timers.hover = <any>setTimeout(() => {
                     this.createTooltip();
                     this.timers.hover = null;
                 }, this.hover as number);

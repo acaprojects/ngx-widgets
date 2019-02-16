@@ -9,13 +9,13 @@ import { ContextItemComponent } from "../components/overlays/context-item/contex
 export class ContextItemDirective {
     @Input() public id: string = `CTX_${Math.floor(Math.random() * 8999999 + 1000000)}`;
     @Input() public cmp: Type<any>;
-    @Input() public data: any;
+    @Input() public data: { [name: string]: any };
     @Input() public touch: boolean = false;
     @Input() public template: TemplateRef<any>;
     @Output() public offset = new EventEmitter();
     @Output() public event = new EventEmitter();
 
-    private model: any = {};
+    private model: { [name: string]: any } = {};
 
     @HostListener('contextmenu', ['$event']) public contextEvent(event) {
         this.open(event)

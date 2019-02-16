@@ -19,9 +19,9 @@ import { DropService } from '../services/drop-service/drop-service.service';
 })
 export class FileStreamDirective implements OnInit {
     @Input('file-stream') public stream = ''; // name of the stream the files should be sent to
-    private _element: any;
+    private _element: HTMLInputElement;
 
-    constructor(elementRef: ElementRef, private _dropService: DropService, private renderer: Renderer) {
+    constructor(elementRef: ElementRef<HTMLInputElement>, private _dropService: DropService, private renderer: Renderer) {
         this._element = elementRef.nativeElement;
     }
 
