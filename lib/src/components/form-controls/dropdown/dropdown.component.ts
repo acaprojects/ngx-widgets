@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnChanges, forwardRef } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnChanges, forwardRef, SimpleChanges } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
@@ -21,7 +21,7 @@ export class DropdownComponent extends BaseFormWidgetComponent<number> implement
     @Input() public placeholder = '';
     @Input() public hideActive = false;
     @Input() public html = '';
-    @Output() public filterValue: any = new EventEmitter<string>();
+    @Output() public filterValue = new EventEmitter<string>();
 
     @ViewChild('ref') private reference: ElementRef;
     @ViewChild('body') private body: ElementRef;
@@ -40,7 +40,7 @@ export class DropdownComponent extends BaseFormWidgetComponent<number> implement
     public bottom = false;
     public search = '';
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
         if (changes.list) {
             this.processList();

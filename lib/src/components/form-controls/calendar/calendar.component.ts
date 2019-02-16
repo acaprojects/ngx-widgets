@@ -119,7 +119,7 @@ export class CalendarComponent extends BaseFormWidgetComponent<number> implement
     }
 
     private generateWeekdays(format: string = 'dd') {
-        const week: any[] = [];
+        const week: string[] = [];
         const weekday = moment();
         weekday.date(weekday.date() - weekday.day());
         for (let i = 0; i < 7; i++) {

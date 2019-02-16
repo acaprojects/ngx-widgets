@@ -21,11 +21,11 @@ export class CustomFieldComponent extends BaseWidgetComponent implements OnInit,
     @Input() public form: FormGroup;
     @Input() public cmp: Type<any>;
 
-    public model: any = {};
+    public model: { [name: string]: any } = {};
 
-    public onChange: Function;
-    public onTouch: Function;
-    public data: any = {};
+    public onChange: (_: any) => void;
+    public onTouch: (_: any) => void;
+    public data: { [name: string]: any } = {};
 
     @ViewChild('container', { read: ViewContainerRef }) private _content: ViewContainerRef;
 

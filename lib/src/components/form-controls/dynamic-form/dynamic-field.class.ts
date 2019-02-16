@@ -16,7 +16,7 @@ export interface IDynamicFieldOptions<T> {
     control_type?: string;
     error_message?: string;
     refs?: string[];
-    options?: any[];
+    options?: string[];
     cmp?: Type<any>;
     children?: IDynamicFieldOptions<any>[];
     format?: (value: T) => string;

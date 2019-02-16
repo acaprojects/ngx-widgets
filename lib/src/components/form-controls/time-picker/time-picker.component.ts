@@ -7,7 +7,7 @@
  * @Last modified time: 01/02/2017 11:44 AM
  */
 
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 
 import * as moment_api from 'moment';
 import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
@@ -33,7 +33,7 @@ export class TimePickerComponent extends BaseFormWidgetComponent<string> impleme
     @Output() dateChange = new EventEmitter();
     @Output() durationChange = new EventEmitter();
 
-    public display: any = {};
+    public display: { [name: string]: (string | boolean) } = {};
 
     public ngOnInit() {
         this.data.duration = this.duration;
@@ -53,7 +53,7 @@ export class TimePickerComponent extends BaseFormWidgetComponent<string> impleme
         this.toggleState();
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
         if (changes.date) {
             const parts = this.date.split(':');
@@ -130,22 +130,22 @@ export class TimePickerComponent extends BaseFormWidgetComponent<string> impleme
             case TimePickerPeriod.START_HOUR:
                 this.generateClockface()
                 this.data.selection = this.data.date.hours() % 12;
-                this.data.active.afternoon = this.display.start.afternoon;
+                this.data.active.afternoon = this.display.start_afternoon;
                 break;
             case TimePickerPeriod.START_MINUTE:
                 this.generateClockface(5, true);
                 this.data.selection = Math.floor(this.data.date.minutes() / 5);
-                this.data.active.afternoon = this.display.start.afternoon;
+                this.data.active.afternoon = this.display.start_afternoon;
                 break;
             case TimePickerPeriod.END_HOUR:
                 this.generateClockface()
                 this.data.selection = this.data.end.hours() % 12;
-                this.data.active.afternoon = this.display.end.afternoon;
+                this.data.active.afternoon = this.display.end_afternoon;
                 break;
             case TimePickerPeriod.END_MINUTE:
                 this.generateClockface(5, true);
                 this.data.selection = Math.floor(this.data.end.minutes() / 5);
-                this.data.active.afternoon = this.display.end.afternoon;
+                this.data.active.afternoon = this.display.end_afternoon;
                 break;
         }
     }
@@ -167,18 +167,14 @@ export class TimePickerComponent extends BaseFormWidgetComponent<string> impleme
 
     public updateDisplay() {
         if (this.data.date) {
-            this.display.start = {
-                hour: this.data.date.format('hh'),
-                minute: this.data.date.format('mm'),
-                afternoon: this.data.date.hours() >= 12
-            }
+            this.display.start_hour = this.data.date.format('hh');
+            this.display.start_minute = this.data.date.format('mm');
+            this.display.start_afternoon = this.data.date.hours() >= 12;
         }
         if (this.data.end) {
-            this.display.end = {
-                hour: this.data.end.format('hh'),
-                minute: this.data.end.format('mm'),
-                afternoon: this.data.end.hours() >= 12
-            }
+            this.display.end_hour = this.data.end.format('hh');
+            this.display.end_minute = this.data.end.format('mm');
+            this.display.end_afternoon = this.data.end.hours() >= 12;
         }
         const h = Math.floor((this.data.duration || 60) / 60);
         const m = Math.floor(this.data.duration || 60) % 60;

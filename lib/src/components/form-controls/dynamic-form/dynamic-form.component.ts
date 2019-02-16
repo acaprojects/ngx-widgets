@@ -1,5 +1,5 @@
 
-import { Component, Input, Output, OnChanges, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, OnChanges, EventEmitter, OnInit, OnDestroy, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { DynamicField } from './dynamic-field.class';
@@ -26,7 +26,7 @@ export class DynamicFormComponent extends BaseWidgetComponent implements OnChang
         this.subChanges();
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         if (changes.fields) {
             this.form_group = this.makeFormGroup(this.fields);
             this.subChanges();

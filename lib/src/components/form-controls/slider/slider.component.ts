@@ -7,7 +7,7 @@
  * @Last modified time: 01/02/2017 11:52 AM
  */
 
-import { Component, Input, ViewChild, OnChanges, forwardRef } from '@angular/core';
+import { Component, Input, ViewChild, OnChanges, forwardRef, ElementRef, SimpleChanges } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 import { WIDGETS } from '../../../settings';
@@ -35,11 +35,11 @@ export class SliderComponent extends BaseFormWidgetComponent<number> implements 
     public position = 0;
     public percent = 0;
 
-    @ViewChild('space') private space: any;
-    @ViewChild('bar') private bar: any;
+    @ViewChild('space') private space: ElementRef<HTMLDivElement>;
+    @ViewChild('bar') private bar: ElementRef<HTMLDivElement>;
 
     private previous: number = null;
-    private bb: any;
+    private bb: ClientRect;
     private user_action = false;
 
     constructor(private a: Animate) {
@@ -50,7 +50,7 @@ export class SliderComponent extends BaseFormWidgetComponent<number> implements 
         this.available = true;
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         if (changes.min || changes.max || changes.model) {
             this.validate();
         }
@@ -115,7 +115,7 @@ export class SliderComponent extends BaseFormWidgetComponent<number> implements 
      * Updates the model and position of the slider based of the event
      * @param event Tap event
      */
-    public clickSlider(event: any) {
+    public clickSlider(event: MouseEvent | TouchEvent) {
         if (event) {
             if (event.preventDefault) {
                 event.preventDefault();
@@ -134,7 +134,7 @@ export class SliderComponent extends BaseFormWidgetComponent<number> implements 
      * Updates the position of the progress and knob of the slider
      * @param event Pan event
      */
-    public moveSlider(event: any) {
+    public moveSlider(event: MouseEvent | TouchEvent) {
         if (event) {
             if (event.preventDefault) {
                 event.preventDefault();
@@ -154,7 +154,7 @@ export class SliderComponent extends BaseFormWidgetComponent<number> implements 
      * Updates the position of the progress and knob of the slider
      * @param event PanEnd event
      */
-    public sliderStop(event: any) {
+    public sliderStop(event: MouseEvent | TouchEvent) {
         if (event) {
             if (event.preventDefault) {
                 event.preventDefault();
@@ -184,7 +184,7 @@ export class SliderComponent extends BaseFormWidgetComponent<number> implements 
         }
     }
 
-    public checkStatus(e: any, i: number) {
+    public checkStatus(e: MouseEvent | TouchEvent, i: number) {
         if (event) {
             if (event.preventDefault) { event.preventDefault(); }
             if (event.stopPropagation) { event.stopPropagation(); }
@@ -198,7 +198,7 @@ export class SliderComponent extends BaseFormWidgetComponent<number> implements 
                 visible = true;
                 break;
             }
-            el = el.parentNode;
+            el = el.parentNode as any;
         }
         if (!visible) {
             this.timeout('status', () => { this.checkStatus(e, i + 1); }, 100);
