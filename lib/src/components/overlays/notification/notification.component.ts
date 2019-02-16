@@ -8,6 +8,15 @@ import { DynamicBaseComponent } from '../dynamic-base.component';
 import * as moment_api from 'moment';
 const moment = moment_api;
 
+export interface INotification {
+    id: string;                      // Identifier of the notification
+    time: number;                    // Time of creation
+    data?: { [name: string]: any };  // Data to pass the template
+    name?: string;                   // Display name of the notitification action
+    action?: () => void;             // Callback for action display interactions
+    hide?: boolean;                  // Hide notification
+}
+
 @Component({
     selector: 'notification-overlay',
     templateUrl: './notification.template.html',
@@ -32,8 +41,9 @@ const moment = moment_api;
     ],
 })
 export class NotificationComponent extends DynamicBaseComponent {
-    public container: any = {};
     protected static self: NotificationComponent = null;
+    public model: { [name: string]: any, items?: INotification[] };
+
     /**
      * Adds a new notification to the global component instance
      * @param id ID of notification
@@ -41,7 +51,7 @@ export class NotificationComponent extends DynamicBaseComponent {
      * @param action Action display to show on notification
      * @param cntr Container with which the notification should be displayed
      */
-    public static notify(id: string, data: any, action?: () => void, cntr: string = 'root') {
+    public static notify(id: string, data: { [name: string]: any }, action?: () => void, cntr: string = 'root') {
         if (NotificationComponent.self) {
             setTimeout(() => NotificationComponent.self.notify(id, data, action), 10);
         }
@@ -83,12 +93,12 @@ export class NotificationComponent extends DynamicBaseComponent {
         setTimeout(() => {
             const el = this.model.el;
             if (el && el.nativeElement) {
-                this.container = el.nativeElement.getBoundingClientRect();
+                this.cntr_box = el.nativeElement.getBoundingClientRect();
             }
         }, 100);
     }
 
-    protected update(data: any) {
+    protected update(data: { [name: string]: any }) {
         this.resize();
         super.update(data);
     }
@@ -97,7 +107,7 @@ export class NotificationComponent extends DynamicBaseComponent {
         this.model.timeout = delay;
     }
 
-    public notify(id: string, data: any, action?: () => void) {
+    public notify(id: string, data: { [name: string]: any }, action?: () => void) {
         if (!this.model.items) {
             this.model.items = [];
         }

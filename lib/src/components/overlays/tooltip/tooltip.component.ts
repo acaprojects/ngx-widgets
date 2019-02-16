@@ -19,7 +19,6 @@ import { DynamicBaseComponent } from '../dynamic-base.component';
     ],
 })
 export class TooltipComponent extends DynamicBaseComponent {
-    public container: any = {};
     public shown = false;
     public mouse_state = 'up';
 
@@ -47,12 +46,12 @@ export class TooltipComponent extends DynamicBaseComponent {
         if (el && el.nativeElement) {
             const cnt = el.nativeElement.getBoundingClientRect();
             this.updatePosition();
-            this.container = {
+            this.cntr_box = {
                 height: cnt.height,
                 width: cnt.width,
                 top: cnt.top,
                 left: cnt.left
-            };
+            } as ClientRect;
             if (((cnt.x + cnt.width) < 0 && (cnt.y + cnt.height) < 0) ||
                 ((cnt.x + cnt.width) < 0  && cnt.y > window.innerHeight) ||
                 (cnt.x > window.innerWidth && (cnt.y + cnt.height) < 0) ||
@@ -62,14 +61,14 @@ export class TooltipComponent extends DynamicBaseComponent {
                 // Add offset for container location
             if (this.parent.root && this.parent.root.nativeElement) {
                 const box = this.parent.root.nativeElement.getBoundingClientRect();
-                this.container.top -= box.top;
-                this.container.left -= box.left;
+                this.cntr_box.top -= box.top;
+                this.cntr_box.left -= box.left;
             } else if (this.parent.id !== 'root') {
                 return setTimeout(() => this.resize(true, tries + 1), 200);
             }
             setTimeout(() => this.shown = true, 50);
         }
-        const cntr = this.container;
+        const cntr = this.cntr_box;
         if (!el || !cntr || ((cntr.height <= 0 || cntr.width <= 0) && cntr.top <= 0)) {
             setTimeout(() => this.resize(true, tries + 1), 200);
         }
@@ -108,16 +107,16 @@ export class TooltipComponent extends DynamicBaseComponent {
         const h = window.innerHeight;
         if (this.model.position === 'bottom' || this.model.position === 'top' || this.model.position === 'auto') {
                 // Position along Y axis
-            if (this.container.top < h / 8) {
+            if (this.cntr_box.top < h / 8) {
                 this.model.position = 'bottom';
-            } else if (this.container.top + this.container.height > h - h / 8) {
+            } else if (this.cntr_box.top + this.cntr_box.height > h - h / 8) {
                 this.model.position = 'top';
             }
         } else if (this.model.position === 'left' || this.model.position === 'right') {
             // Position along X axis
-            if (this.container.left < w / 8) {
+            if (this.cntr_box.left < w / 8) {
                 this.model.position = 'right';
-            } else if (this.container.left + this.container.width > w - w / 8) {
+            } else if (this.cntr_box.left + this.cntr_box.width > w - w / 8) {
                 this.model.position = 'left';
             }
         }
@@ -126,8 +125,8 @@ export class TooltipComponent extends DynamicBaseComponent {
         if (this.model.offset === 'auto') {
             const dim = {
                 l: this.model.position === 'bottom' || this.model.position === 'top' ? w : h,
-                p: this.model.position === 'bottom' || this.model.position === 'top' ? this.container.left : this.container.top,
-                s: this.model.position === 'bottom' || this.model.position === 'top' ? this.container.width : this.container.height
+                p: this.model.position === 'bottom' || this.model.position === 'top' ? this.cntr_box.left : this.cntr_box.top,
+                s: this.model.position === 'bottom' || this.model.position === 'top' ? this.cntr_box.width : this.cntr_box.height
             };
             if (dim.p < dim.l / 8) {
                 this.model.offset = 'start';

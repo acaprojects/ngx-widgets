@@ -36,7 +36,6 @@ const moment = moment_api;
     ],
 })
 export class ModalComponent extends DynamicBaseComponent {
-    public container: any = {};
     public top: boolean;
 
     protected type = 'Modal';
@@ -52,16 +51,16 @@ export class ModalComponent extends DynamicBaseComponent {
         setTimeout(() => {
             const el = this.model.el;
             if (el && el.nativeElement) {
-                this.container = el.nativeElement.getBoundingClientRect();
+                this.cntr_box = el.nativeElement.getBoundingClientRect();
             }
         }, 100);
     }
 
-    public updateState(state: any) {
-        setTimeout(() => this.top = state === this.stack_id);
+    public updateState(state: { [name: string]: any }) {
+        setTimeout(() => this.top = this.id === this.stack_id);
     }
 
-    public close(e?: any) {
+    public close(e?: Event) {
         if (DynamicBaseComponent.instance_stack[this.type]) {
             const length = DynamicBaseComponent.instance_stack[this.type].length;
             if (DynamicBaseComponent.instance_stack[this.type][length - 1] === this.stack_id && !DynamicBaseComponent.action) {

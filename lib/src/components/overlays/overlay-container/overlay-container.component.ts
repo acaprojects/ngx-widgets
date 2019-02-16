@@ -19,8 +19,7 @@ export class OverlayContainerComponent extends BaseWidgetComponent implements On
     protected service: OverlayService
     @Output() public event: any = new EventEmitter();
     @Output() public idChange: any = new EventEmitter();
-    protected cmp_refs: any = {};
-    protected timers: any = {};
+    protected cmp_refs: { [name: string]: any } = {};
 
     @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
     @ViewChild('el') public root: ElementRef;

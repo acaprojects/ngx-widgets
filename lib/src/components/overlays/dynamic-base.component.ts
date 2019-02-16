@@ -1,20 +1,20 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 
 import { WIDGETS } from '../../settings';
 import { BaseWidgetComponent } from '../../shared/base.component';
 
 export interface IDynamicComponentEvent {
-    id: string;         // ID of the component
-    type: string;       // Event type
-    location: string;   // Location that the event was thrown from
-    data?: any;         // Data value or current state of the content component's model
-    model?: any;        // Current state of the content component's model
-    value?: any;        // Value posted by event. Use if type is Value
-    update: (model: any) => void; // Method to update content component model
-    close: () => void;  // Method to close component
+    id: string;                         // ID of the component
+    type: string;                       // Event type
+    location: string;                   // Location that the event was thrown from
+    data?: { [name: string]: any };     // Data value or current state of the content component's model
+    model?: { [name: string]: any };    // Current state of the content component's model
+    value?: any;                        // Value posted by event. Use if type is Value
+    update: (model: { [name: string]: any }) => void; // Method to update content component model
+    close: () => void;                  // Method to close component
 }
 
 @Component({
@@ -27,26 +27,25 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
     protected static action: any = null;
 
     @Input() public id: string = '';
-    @Input() public model: any = {};
+    @Input() public model: { [name: string]: any } = {};
     @Input() public cmp_ref: any = null;
     @Input() public parent: any = null;
     @Input() public container: string;
     @Input() public service: any = null;
     @Input() public rendered: boolean = false;
     @Output() public events: any = new EventEmitter();
-    public box: any = null;
+
+    public box: ClientRect = null;
+    public cntr_box: ClientRect;
 
     protected static internal_state: any = {};
-    protected sub: any = null;
     protected uid: string = '';
     protected _cfr: ComponentFactoryResolver;
     protected _cdr: ChangeDetectorRef;
     protected renderer: Renderer2;
-    protected state: any = {};
+    protected state: { [name: string]: any } = {};
     protected stack_id: string = '';
     protected type = 'Dynamic';
-    protected timers: any = {};
-    protected subs: any = [];
 
     @ViewChild('body') protected body: ElementRef;
     @ViewChild('content', { read: ViewContainerRef }) private _content: ViewContainerRef;
@@ -87,7 +86,7 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
     public listenState(tries: number = 0) {
         if (tries > 10) { return; };
         if (DynamicBaseComponent.internal_state[this.type]) {
-            this.sub = DynamicBaseComponent.internal_state[this.type]
+            this.subs.obs.state = DynamicBaseComponent.internal_state[this.type]
                 .subscribe((value: any) => this.updateState(value));
         } else {
             setTimeout(() => this.listenState(++tries), 300);
@@ -104,17 +103,10 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
     }
 
     public ngOnDestroy() {
+        super.ngOnDestroy();
         if (this.cmp_ref) {
             this.cmp_ref.destroy();
             this.cmp_ref = null;
-        }
-        if (this.sub) {
-            this.sub.unsubscribe();
-        }
-        if (this.subs) {
-            for (const subscription of this.subs) {
-                subscription instanceof Function ? subscription() : subscription.unsubscribe();
-            }
         }
         const index = DynamicBaseComponent.instance_stack[this.type] ? DynamicBaseComponent.instance_stack[this.type].indexOf(this.stack_id) : -1;
         if (index >= 0) {
@@ -128,24 +120,21 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
         }
     }
 
-    public updateState(state: any) {
-
-    }
+    public updateState(state: { [name: string]: any }) { }
 
     /**
      * Prevents close when element is tapped
      */
     public tap() {
         WIDGETS.log('DYN_BASE', `Tap called on component ${this.id}`);
-        if (this.timers.close) {
-            clearTimeout(this.timers.close);
-            this.timers.close = null;
+        if (this.subs.timers.close) {
+            this.clearTimer('close');
             if (DynamicBaseComponent.action = this) {
                 DynamicBaseComponent.action = null;
             }
         } else {
             DynamicBaseComponent.action = this;
-            setTimeout(() => DynamicBaseComponent.action = null, 300);
+            this.timeout('action', () => DynamicBaseComponent.action = null, 300);
         }
     }
 
@@ -164,11 +153,10 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
     public close(e?: any) {
         if (DynamicBaseComponent.action && this.type === 'Modal') { return; }
         DynamicBaseComponent.action = this;
-        if (this.timers.close) {
-            clearTimeout(this.timers.close);
-            this.timers.close = null;
+        if (this.subs.timers.close) {
+            this.clearTimer('close');
         }
-        this.timers.close = setTimeout(() => {
+        this.timeout('close', () => {
             if (e && this.body && this.body.nativeElement && this.model.initialised && !this.model.preventClose) {
                 if (e.touches && e.touches.length > 0) { e = e.touches[0]; }
                 const c = { x: e.clientX || e.pageX, y: e.clientY || e.pageY };
@@ -184,7 +172,7 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
                 }
             }
             DynamicBaseComponent.action = null;
-            this.timers.close = null;
+            this.subs.timers.close = null;
         }, 200);
     }
 
@@ -238,9 +226,9 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
     public watch(next: (value) => void) {
         if (this.state.obs) {
                 // Store subscription to be cleaned on destroy
-            const sub = this.state.obs.subscribe(next);
-            this.subs.push(sub);
-            return sub;
+            const id = Math.floor(Math.random() * 999999);
+            this.subs.obs[`watch_${id}`] = this.state.obs.subscribe(next);
+            return this.subs.obs[`watch_${id}`];
         } else {
             return null;
         }
@@ -258,7 +246,7 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
      * Set model of the component
      * @param data Dataset
      */
-    public set(data: any) {
+    public set(data: { [name: string]: any }) {
         this.update(data);
     }
 
@@ -266,7 +254,7 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
      * Update the model of the component
      * @param data Dataset
      */
-    protected update(data: any) {
+    protected update(data: { [name: string]: any }) {
         const cmp = this.model.cmp;
         data.container = this.parent ? this.parent.id : 'root';
         for (const f in data) {
@@ -287,7 +275,7 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
      * @param data Dataset
      * @param tries Retry count
      */
-    protected updateComponent(data: any, tries: number = 0) {
+    protected updateComponent(data: { [name: string]: any }, tries: number = 0) {
         if (tries > 10) { return; }
         if (this.cmp_ref) {
             this.cmp_ref.instance.set(data);

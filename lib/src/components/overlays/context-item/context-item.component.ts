@@ -16,7 +16,6 @@ import { DynamicBaseComponent } from '../dynamic-base.component';
     ]
 })
 export class ContextItemComponent extends DynamicBaseComponent implements OnInit, AfterViewInit {
-    public container: any = {};
     public show: boolean = true;
 
     protected type = 'ContextItem';
@@ -33,23 +32,16 @@ export class ContextItemComponent extends DynamicBaseComponent implements OnInit
         super.ngOnInit();
         this.model.first = false;
         setTimeout(() => {
-            this.subs.push(
-                this.renderer.listen('window', 'mouseup', () => this.handleClose())
-            );
-            this.subs.push(
-                this.renderer.listen('window', 'touchend', () => this.handleClose())
-            );
+            this.subs.obs.mouseup = this.renderer.listen('window', 'mouseup', () => this.handleClose());
+            this.subs.obs.touchend = this.renderer.listen('window', 'touchend', () => this.handleClose());
         }, 300);
     }
 
     public handleClose() {
-        if (!this.timers.close) {
-            clearTimeout(this.timers.close);
-        }
-        this.timers.close = setTimeout(() => {
+        this.timeout('close', () => {
             this.show = false;
-            this.timers.close = null;
-            setTimeout(() => this.remove(), 250);
+            this.subs.timers.close = null;
+            this.timeout('remove', () => this.remove(), 250);
         }, 50)
     }
 
