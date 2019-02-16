@@ -29,7 +29,7 @@ export class AccordionStepComponent extends BaseWidgetComponent {
     @Input() public heading = '';
     @Input() public showChange = new EventEmitter();
 
-    public model: any = {};
+    public model: { [name: string]: any } = {};
 
     public toggle(state?: boolean) {
         if (state === false || state === true) {

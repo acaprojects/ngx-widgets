@@ -8,7 +8,7 @@
  */
 
 import { Location } from '@angular/common';
-import { Component, EventEmitter, Input, Output, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { ContentChildren, QueryList, TemplateRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -28,7 +28,7 @@ export class TabGroupComponent extends BaseWidgetComponent implements OnChanges 
     @Input() public disabled: string[] = [];
     @Output() public stateChange = new EventEmitter();
 
-    public model: any = {};
+    public model: { [name: string]: any } = {};
 
     @ContentChildren(TabHeadComponent) private tabHeaders: QueryList<TabHeadComponent>;
 
@@ -47,7 +47,7 @@ export class TabGroupComponent extends BaseWidgetComponent implements OnChanges 
         this.processRoute();
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
         if (changes.tabHeaders) {
             this.processNodes();
@@ -113,26 +113,22 @@ export class TabGroupComponent extends BaseWidgetComponent implements OnChanges 
         const path = this.loc.path();
         if (path.indexOf('?') >= 0) {
             const query = path.substring(path.indexOf('?') + 1, path.length);
-            const q: any = query.split('&');
-            for (const i in q) {
-                if (!(q[i] instanceof Function)) {
-                    const param = q[i].split('=');
-                    if (param[0] === this.routeParam) {
-                        this.qvalue = param[1];
-                        break;
-                    }
+            const q: string[] = query.split('&');
+            for (const group of q) {
+                const param = group.split('=');
+                if (param[0] === this.routeParam) {
+                    this.qvalue = param[1];
+                    break;
                 }
             }
         } else if (path.indexOf('#') >= 0) {
             const hash = path.substring(path.indexOf('#') + 1, path.length);
-            const h: any = hash.split('&');
-            for (const i in h) {
-                if (!(h[i] instanceof Function)) {
-                    const param = h[i].split('=');
-                    if (param[0] === this.routeParam) {
-                        this.hvalue = param[1];
-                        break;
-                    }
+            const h: string[] = hash.split('&');
+            for (const group of h) {
+                const param = group.split('=');
+                if (param[0] === this.routeParam) {
+                    this.hvalue = param[1];
+                    break;
                 }
             }
 

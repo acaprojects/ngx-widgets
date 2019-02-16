@@ -25,5 +25,4 @@ import { BaseWidgetComponent } from '../../../shared/base.component';
         }
     `],
 })
-export class AccordionComponent extends BaseWidgetComponent {
-}
+export class AccordionComponent extends BaseWidgetComponent { }
