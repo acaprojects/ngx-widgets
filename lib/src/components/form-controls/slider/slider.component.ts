@@ -24,7 +24,7 @@ import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
         multi: true
     }]
 })
-export class SliderComponent extends BaseFormWidgetComponent implements OnChanges, ControlValueAccessor {
+export class SliderComponent extends BaseFormWidgetComponent<number> implements OnChanges, ControlValueAccessor {
     @Input() public align = 'horizontal';
     @Input() public min = 0;
     @Input() public max = 100;

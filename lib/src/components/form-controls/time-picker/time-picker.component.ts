@@ -25,7 +25,7 @@ export enum TimePickerPeriod {
     styleUrls: [ './time-picker.style.scss' ],
     templateUrl: './time-picker.template.html',
 })
-export class TimePickerComponent extends BaseFormWidgetComponent implements OnInit, OnChanges {
+export class TimePickerComponent extends BaseFormWidgetComponent<string> implements OnInit, OnChanges {
     @Input() date: string;
     @Input() duration: number;
     @Input() range = false;

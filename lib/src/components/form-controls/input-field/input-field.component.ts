@@ -24,7 +24,7 @@ import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
       }
     ]
 })
-export class InputFieldComponent extends BaseFormWidgetComponent implements ControlValueAccessor {
+export class InputFieldComponent extends BaseFormWidgetComponent<string> implements ControlValueAccessor {
     @Input() public type = 'text';
     @Input() public mask = '';
     @Input() public placeholder = '';

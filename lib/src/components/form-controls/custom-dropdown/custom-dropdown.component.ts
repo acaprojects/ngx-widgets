@@ -9,11 +9,11 @@ import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
     templateUrl: './custom-dropdown.template.html',
     styleUrls: ['./custom-dropdown.styles.scss'],
 })
-export class CustomDropdownComponent extends BaseFormWidgetComponent implements OnInit, OnChanges {
+export class CustomDropdownComponent extends BaseFormWidgetComponent<number> implements OnInit, OnChanges {
     @Input() public content: TemplateRef<any>;
     @Input() public template: TemplateRef<any>;
     @Input() public show = false;
-    @Output() public showChange: any = new EventEmitter();
+    @Output() public showChange: any = new EventEmitter<boolean>();
 
     @ViewChild('ref') private reference: ElementRef;
     @ViewChild('body') private body: ElementRef;

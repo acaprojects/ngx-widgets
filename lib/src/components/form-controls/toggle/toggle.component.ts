@@ -28,7 +28,7 @@ export interface IToggleOptions {
         multi: true
     }]
 })
-export class ToggleComponent extends BaseFormWidgetComponent implements ControlValueAccessor {
+export class ToggleComponent extends BaseFormWidgetComponent<boolean> implements ControlValueAccessor {
     @Input() public type = '';
     @Input() public options: IToggleOptions = {};
 

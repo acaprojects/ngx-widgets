@@ -15,13 +15,13 @@ import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
         multi: true
     }]
 })
-export class DropdownComponent extends BaseFormWidgetComponent implements OnChanges, ControlValueAccessor {
-    @Input() public list: any[] = [];
+export class DropdownComponent extends BaseFormWidgetComponent<number> implements OnChanges, ControlValueAccessor {
+    @Input() public list: string[] | { name: string; [fields: string]: any }[] = [];
     @Input() public filter = false;
     @Input() public placeholder = '';
     @Input() public hideActive = false;
     @Input() public html = '';
-    @Output() public filterValue: any = new EventEmitter();
+    @Output() public filterValue: any = new EventEmitter<string>();
 
     @ViewChild('ref') private reference: ElementRef;
     @ViewChild('body') private body: ElementRef;

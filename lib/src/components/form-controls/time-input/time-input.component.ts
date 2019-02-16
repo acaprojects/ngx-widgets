@@ -13,7 +13,7 @@ import { BaseFormWidgetComponent } from "../../../shared/base-form.component";
         multi: true
     }]
 })
-export class TimeInputComponent extends BaseFormWidgetComponent implements OnChanges, ControlValueAccessor {
+export class TimeInputComponent extends BaseFormWidgetComponent<string> implements OnChanges, ControlValueAccessor {
     @Input('no-period') public no_period: boolean;
     @Input() public arrows: boolean = true;
     @Input() public step: number = 5;

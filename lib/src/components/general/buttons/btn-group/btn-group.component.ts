@@ -17,7 +17,7 @@ import { BaseFormWidgetComponent } from '../../../../shared/base-form.component'
     styleUrls: [ './btn-group.styles.scss'/*, '../../material-styles/material-styles.scss' */ ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ButtonGroupComponent extends BaseFormWidgetComponent {
+export class ButtonGroupComponent extends BaseFormWidgetComponent<number> {
     @Input() public items: any;
 
     constructor(protected _cdr: ChangeDetectorRef) {

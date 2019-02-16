@@ -7,7 +7,7 @@ import { BaseFormWidgetComponent } from '../../../../shared/base-form.component'
     templateUrl: './radio-button.template.html',
     styleUrls: ['./radio-button.styles.scss'],
 })
-export class RadioButtonComponent extends BaseFormWidgetComponent {
+export class RadioButtonComponent extends BaseFormWidgetComponent<boolean> {
     @Input() public label = '';
 
     public select() {
