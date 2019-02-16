@@ -1,5 +1,6 @@
 
 import { Component, OnDestroy, OnChanges, Input, ChangeDetectorRef } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
     selector: 'a-base-widget-cmp',
@@ -9,9 +10,14 @@ import { Component, OnDestroy, OnChanges, Input, ChangeDetectorRef } from '@angu
 export class BaseWidgetComponent implements OnChanges, OnDestroy {
     @Input() public id = '';
     @Input() public name = '';
-    @Input() public klass = '';
+    @Input() public klass = 'default';
 
-    protected subs: any = {
+    protected subs: {
+        timers: { [name: string]: number },
+        intervals: { [name: string]: number }
+        obs: { [name: string]: Subscription | (() => void) }
+        promises: { [name: string]: Promise<any> }
+    } = {
         timers: {},     // Store for timers
         intervals: {},  // Store for intervals
         obs: {},        // Store for observables
@@ -37,22 +43,22 @@ export class BaseWidgetComponent implements OnChanges, OnDestroy {
             // Cleanup timers
         for (const k in this.subs.timers) {
             if (this.subs.timers.hasOwnProperty(k)) {
-                this.clearTimer(this.subs.timers[k]);
+                this.clearTimer(k);
             }
         }
             // Cleanup intervals
         for (const k in this.subs.intervals) {
             if (this.subs.intervals.hasOwnProperty(k)) {
-                this.clearInterval(this.subs.intervals[k]);
+                this.clearInterval(k);
             }
         }
             // Cleanup observables
         for (const k in this.subs.obs) {
             if (this.subs.obs.hasOwnProperty(k) && this.subs.obs[k]) {
-                if (this.subs.obs[k] instanceof Function) {
-                    this.subs.obs[k]();
+                if (this.subs.obs[k] instanceof Subscription) {
+                    (this.subs.obs[k] as Subscription).unsubscribe();
                 } else {
-                    this.subs.obs[k].unsubscribe();
+                    (this.subs.obs[k] as (() => void))();
                 }
                 this.subs.obs[k] = null;
             }
@@ -63,7 +69,7 @@ export class BaseWidgetComponent implements OnChanges, OnDestroy {
         this.clearTimer(name);
         if (!(fn instanceof Function)) { return; }
         if (!this.subs.timers) { this.subs.timers = {}; }
-        this.subs.timers[name] = setTimeout(() => fn(), delay);
+        this.subs.timers[name] = <any>setTimeout(() => fn(), delay);
     }
 
     public clearTimer(name: string) {
@@ -76,7 +82,7 @@ export class BaseWidgetComponent implements OnChanges, OnDestroy {
     public interval(name: string, fn: () => void, delay: number = 300) {
         this.clearInterval(name);
         if (!(fn instanceof Function)) { return; }
-        this.subs.intervals[name] = setInterval(() => fn(), delay);
+        this.subs.intervals[name] = <any>setInterval(() => fn(), delay);
     }
 
     public clearInterval(name: string) {
