@@ -220,7 +220,8 @@ export class MapInputDirective extends BaseWidgetComponent {
                     if (el) {
                         this.renderer.setStyle(el, 'pointer-events', '');
                     }
-                    this.subs.obs[`listen_${selector}`] instanceof Function ? this.subs.obs[`listen_${selector}`]() : this.subs.obs[`listen_${selector}`].unsubscribe();
+                    const item = this.subs.obs[`listen_${selector}`];
+                    item instanceof Function ? item() : item.unsubscribe();
                 }
             }
         }
