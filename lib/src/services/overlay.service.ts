@@ -16,10 +16,10 @@ import { DraggedItemOverlayComponent } from '../components/overlays/dragged-item
 })
 export class OverlayService {
     public static instance = null;
-    private cmp_reg: any = {};
-    private cmp_list: any = {};
-    private containers: any = {};
-    private container_services: any = {};
+    private cmp_reg: { [name: string]: any } = {};
+    private cmp_list: { [name: string]: any } = {};
+    private containers: { [name: string]: any } = {};
+    private container_services: { [name: string]: any } = {};
     private default_vc: ViewContainerRef = null;
     private _view: ViewContainerRef = null;
 
@@ -67,7 +67,7 @@ export class OverlayService {
      * @param type Component Type
      * @param data Initial data to pass to the component
      */
-    public setup(id: string, cmp: Type<any>, data?: any) {
+    public setup(id: string, cmp: Type<any>, data?: { [name: string]: any }) {
         this.register(id, cmp, data);
     }
 
@@ -76,7 +76,7 @@ export class OverlayService {
      * @param id ID of the modal
      * @param data Initial data to pass to the modal
      */
-    public setupModal(id: string, data?: any) {
+    public setupModal(id: string, data?: { [name: string]: any }) {
         this.register(id, ModalComponent, data);
     }
 
@@ -85,7 +85,7 @@ export class OverlayService {
      * @param id ID of the tooltip
      * @param data Initial data to pass to the tooltip
      */
-    public setupTooltip(id: string, data?: any) {
+    public setupTooltip(id: string, data?: { [name: string]: any }) {
         this.register(id, TooltipComponent, data);
     }
 
@@ -95,7 +95,7 @@ export class OverlayService {
      * @param type Component Type
      * @param data Initial data to pass to the component
      */
-    public register(id: string, cmp: Type<any>, data?: any) {
+    public register(id: string, cmp: Type<any>, data?: { [name: string]: any }) {
         WIDGETS.log('OVERLAY(S)', `Registering overlay ${id} with component:`, cmp.name);
         this.cmp_reg[id] = data;
     }
@@ -117,7 +117,7 @@ export class OverlayService {
      * @param data Initial data to pass to the component
      * @return Promise of an observable for events on the open modal
      */
-    public openModal(id: string, data?: any, next?: (event: any) => void, cntr: string = 'root') {
+    public openModal(id: string, data?: { [name: string]: any }, next?: (event: any) => void, cntr: string = 'root') {
         return this.add(cntr || 'root', id, ModalComponent, data, next);
     }
 
@@ -128,7 +128,7 @@ export class OverlayService {
      * @param action Callback for events on the notification
      * @return Promise of an observable for events on the notification
      */
-    public notify(id: string, data?: any, action?: () => void, cntr: string = 'root') {
+    public notify(id: string, data?: { [name: string]: any }, action?: () => void, cntr: string = 'root') {
         return NotificationComponent.notify(id, data, action, cntr);
     }
 
@@ -138,7 +138,7 @@ export class OverlayService {
      * @param data Initial data to pass to the component
      * @return Promise of an observable for events on the tooltip
      */
-    public openTooltip(id: string, data?: any) {
+    public openTooltip(id: string, data?: { [name: string]: any }) {
         return this.add('root', id, TooltipComponent, data);
     }
 
@@ -150,7 +150,7 @@ export class OverlayService {
      * @param data Initial data to pass to the component
      * @return Promise of instance of the created component
      */
-    public add(c_id: string = 'root', id: string, cmp: Type<any> | string, data?: any, next?: (value: any) => void) {
+    public add(c_id: string = 'root', id: string, cmp: Type<any> | string, data?: { [name: string]: any }, next?: (value: any) => void) {
         for (const item in this.cmp_reg) {
             if (this.cmp_reg.hasOwnProperty(item) && item === id) {
                 data = this.merge(this.cmp_reg[item], data);
@@ -205,7 +205,7 @@ export class OverlayService {
      * @param id ID of the component
      * @param data New data to pass to the component
      */
-    public set(c_id: string = 'root', id: string, data: any) {
+    public set(c_id: string = 'root', id: string, data: { [name: string]: any }) {
         if (c_id && this.containers[c_id]) {
             this.containers[c_id].get(id).set(data);
         }
@@ -253,7 +253,7 @@ export class OverlayService {
      * @param id ID of the container
      * @param container Overlay container instance
      */
-    public registerContainer(id: string, container: any) {
+    public registerContainer(id: string, container: OverlayContainerComponent) {
         this.clearContainer(id);
         this.containers[id] = container;
         this.containers[id].service = this;

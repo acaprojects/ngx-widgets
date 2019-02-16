@@ -9,15 +9,28 @@ const moment = moment_api;
 
 const MAP_EXPIRY = 7 * 24 * 60 * 60 * 1000;
 
+export interface IMapItem<T> {
+    expiry: number;
+    data: T;
+}
+
+export interface IMapNode {
+    id: string;
+    [name: string]: any;
+    children?: IMapNode[];
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class MapService {
-    private maps: any = {};
-    private map_trees: any = {};
-    private map_images: any = {};
-    private promise: any = {};
-    public logs: any = {
+    private maps: { [name: string]: IMapItem<string> } = {};
+    private map_trees: { [name: string]: IMapItem<IMapNode> } = {};
+    public logs: {
+        warning_ids: string[];
+        warnings: string[];
+        errors: string[];
+    } = {
         warning_ids: [],
         warnings: [],
         errors: []
@@ -50,7 +63,7 @@ export class MapService {
             if (this.maps[url] && this.maps[url].expiry > now) {
                 resolve(this.maps[url].data);
             } else {
-                let map: any = null;
+                let map: string = null;
                 this.map_trees[url] = null;
                 this.http.get(url, { responseType: 'text' }).subscribe((data) => {
                     map = data;
@@ -106,7 +119,7 @@ export class MapService {
      * @returns Element tree of the map
      */
     public getMapTree(url: string) {
-        return this.map_trees[url] ? this.map_trees[url].tree : null;
+        return this.map_trees[url] ? this.map_trees[url].data : null;
     }
 
     /**
@@ -115,12 +128,12 @@ export class MapService {
      * @param tree Element position tree of the given map URL
      * @param expire Sets whether the tree data will expire
      */
-    public setMapTree(url: string, tree: any, expire: boolean = true) {
+    public setMapTree(url: string, tree: IMapNode, expire: boolean = true) {
         let expiry = moment().add(1, 'days').valueOf();
         if (!expire) {
             expiry = Math.floor(expiry + 365 * 24 * 60 * 60 * 1000);
         }
-        this.map_trees[url] = { expiry, tree };
+        this.map_trees[url] = { expiry, data: tree };
         if (sessionStorage) {
             sessionStorage.setItem(`WIDGETS.maps.tree.${url.split('.')[0].split('/').join('.')}`, JSON.stringify(this.map_trees[url]));
         }

@@ -2,7 +2,7 @@
     "build": "local-dev",
     "env": "dev",
     "debug": true,
-    "mock": true,
+    "mock": false,
     "version": "0.20.7",
     "composer": {
         "domain": "",
