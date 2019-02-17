@@ -1,8 +1,8 @@
 <div class="container"
-    [style.top]="container?.top + 'px'"
-    [style.left]="container?.left + 'px'"
-    [style.width]="container?.width + 'px'"
-    [style.height]="container?.height + 'px'"
+    [style.top]="cntr_box?.top + 'px'"
+    [style.left]="cntr_box?.left + 'px'"
+    [style.width]="cntr_box?.width + 'px'"
+    [style.height]="cntr_box?.height + 'px'"
     [style.z-index]="model?.data?.zIndex || 3000">
 
     <div *ngIf="(rendered || model.template) && shown" [@show]="model.position" [class]="'tooltip ' + model.position + ' ' + model.name + (!model.triangle ? ' no-triangle': '')" widget
