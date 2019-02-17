@@ -10,6 +10,7 @@ import { TooltipComponent } from '../components/overlays/tooltip/tooltip.compone
 import { WIDGETS } from '../settings';
 import { DynamicBaseComponent } from '../components/overlays/dynamic-base.component';
 import { DraggedItemOverlayComponent } from '../components/overlays/dragged-item/dragged-item.component';
+import { Subscription } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +19,7 @@ export class OverlayService {
     public static instance = null;
     private cmp_reg: { [name: string]: any } = {};
     private cmp_list: { [name: string]: any } = {};
-    private containers: { [name: string]: any } = {};
+    private containers: { [name: string]: OverlayContainerComponent } = {};
     private container_services: { [name: string]: any } = {};
     private default_vc: ViewContainerRef = null;
     private _view: ViewContainerRef = null;
@@ -156,20 +157,22 @@ export class OverlayService {
                 data = this.merge(this.cmp_reg[item], data);
             }
         }
+        let component: Type<any>;
         if (typeof cmp === 'string') {
-            const component = this.cmp_list[cmp];
-            if (component) {
+            const the_cmp = this.cmp_list[cmp];
+            if (the_cmp) {
                 data.cmp_id = cmp;
-                cmp = component;
+                component = the_cmp;
             }
         } else {
             data.cmp_id = cmp.name;
+            component = cmp
         }
         WIDGETS.log('OVERLAY][S', `Rendering overlay ${id} with component:`, [data.cmp_id, data]);
         return new Promise<DynamicBaseComponent>((resolve, reject) => {
             const container = c_id ? this.containers[c_id] : (this.containers.root ? this.containers.root : null);
             if (container) {
-                container.add(id, cmp).then((inst: DynamicBaseComponent) => {
+                container.add(id, component).then((inst: DynamicBaseComponent) => {
                     // let's inject @Inputs to component instance
                     inst.id = id;
                     // inst.parent = this;
@@ -230,7 +233,7 @@ export class OverlayService {
      * @param id ID of the component
      * @param next Callback for emitted event from the component
      */
-    public listen(c_id: string = 'root', id: string, next: (event: any) => {}) {
+    public listen(c_id: string = 'root', id: string, next: (event: any) => {}): Subscription {
         if (c_id && this.containers[c_id]) {
             return this.containers[c_id].get(id).watch(next);
         }
@@ -291,7 +294,7 @@ export class OverlayService {
             this.containers[id] = null;
         } else if (!id && this.containers.root) {
             this.containers.root.clear();
-            this.containers.root.destroy();
+            this.containers.root.ng.destroy();
             this.containers.root = null;
         }
     }
@@ -302,13 +305,8 @@ export class OverlayService {
      * @param src Source object
      * @returns Merged destination object
      */
-    private merge(dest: any, src: any) {
-        for (const key in src) {
-            if (src.hasOwnProperty(key)) {
-                dest[key] = src[key];
-            }
-        }
-        return dest;
+    private merge(dest: { [name: string]: any }, src: { [name: string]: any }): { [name: string]: any } {
+        return { ...src, ...dest };
     }
 
     /**
@@ -320,7 +318,7 @@ export class OverlayService {
             const factory = this._cfr.resolveComponentFactory(OverlayContainerComponent);
             if (this.containers.root) {
                 this.containers.root.clear();
-                this.containers.root.destroy();
+                this.containers.root.ng.destroy();
             }
                 // Create component on view
             const cmp = this._view.createComponent(factory);

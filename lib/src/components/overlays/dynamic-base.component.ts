@@ -1,7 +1,7 @@
 
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ChangeDetectorRef, ComponentFactoryResolver, Renderer2, ViewContainerRef } from '@angular/core';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, Observable } from 'rxjs';
 
 import { WIDGETS } from '../../settings';
 import { BaseWidgetComponent } from '../../shared/base.component';
@@ -55,7 +55,7 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
         this.stack_id = Math.floor(Math.random() * 89999999 + 10000000).toString();
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         if (!DynamicBaseComponent.internal_state[this.type]) {
             DynamicBaseComponent.internal_state[this.type] = new BehaviorSubject('');
         }
@@ -74,16 +74,16 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
         }, 300);
     }
 
-    public init(parent?: any, id?: string) {
+    public init(parent?: any, id?: string): void {
         this.parent = parent || this.parent;
         this.id = id || this.id;
     }
 
-    public ngAfterViewInit() {
+    public ngAfterViewInit(): void {
         setTimeout(() => this.initBox(), 300);
     }
 
-    public listenState(tries: number = 0) {
+    public listenState(tries: number = 0): void {
         if (tries > 10) { return; };
         if (DynamicBaseComponent.internal_state[this.type]) {
             this.subs.obs.state = DynamicBaseComponent.internal_state[this.type]
@@ -93,7 +93,7 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
         }
     }
 
-    public initBox(tries: number = 0) {
+    public initBox(tries: number = 0): void {
         if (tries > 5) { return; }
         if (this.body && this.body.nativeElement) {
             this.box = this.body.nativeElement.getBoundingClientRect();
@@ -102,7 +102,7 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
         }
     }
 
-    public ngOnDestroy() {
+    public ngOnDestroy(): void {
         super.ngOnDestroy();
         if (this.cmp_ref) {
             this.cmp_ref.destroy();
@@ -120,7 +120,9 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
         }
     }
 
-    public updateState(state: { [name: string]: any }) { }
+    public updateState(state: string) {
+        this.model.state = state;
+    }
 
     /**
      * Prevents close when element is tapped
@@ -136,6 +138,10 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
             DynamicBaseComponent.action = this;
             this.timeout('action', () => DynamicBaseComponent.action = null, 300);
         }
+    }
+
+    public get top_id() {
+        return this.model.state;
     }
 
     /**
@@ -223,12 +229,12 @@ export class DynamicBaseComponent extends BaseWidgetComponent implements OnInit,
      * Listen for events on the component
      * @param next Callback for events on the component
      */
-    public watch(next: (value) => void) {
+    public watch(next: (value) => void): Subscription {
         if (this.state.obs) {
                 // Store subscription to be cleaned on destroy
             const id = Math.floor(Math.random() * 999999);
             this.subs.obs[`watch_${id}`] = this.state.obs.subscribe(next);
-            return this.subs.obs[`watch_${id}`];
+            return this.subs.obs[`watch_${id}`] as Subscription;
         } else {
             return null;
         }

@@ -78,7 +78,7 @@ export class MediaPlayerComponent extends BaseWidgetComponent {
             clearInterval(this.timer);
             this.timer = null;
         }
-        this.timer = setInterval(() => this.updateTimer(), 50);
+        this.timer = <any>setInterval(() => this.updateTimer(), 50);
     }
 
     public stopMedia(emit: boolean = true) {

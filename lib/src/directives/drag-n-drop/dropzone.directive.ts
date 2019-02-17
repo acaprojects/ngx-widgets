@@ -101,9 +101,9 @@ export class DropzoneDirective implements OnChanges {
         }
         if (!this.timers.update_box && this.el && this.el.nativeElement) {
             this.model.box = this.el.nativeElement.getBoundingClientRect();
-            this.timers.update_box = setTimeout(() => this.timers.update_box = null, 1000);
+            this.timers.update_box = <any>setTimeout(() => this.timers.update_box = null, 1000);
         }
-        this.timers.check = setTimeout(() => {
+        this.timers.check = <any>setTimeout(() => {
             const center = event.center ? event.center : { x: event.clientX || event.touches[0].clientX, y: event.clientY || event.touches[0].clientY };
             this.renderer.removeClass(this.el.nativeElement, `${name || 'dropzone'}-above`);
             this.renderer.removeClass(this.el.nativeElement, `${name || 'dropzone'}-below`);

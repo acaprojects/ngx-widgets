@@ -8,7 +8,7 @@ import { BaseWidgetComponent } from '../../shared/base.component';
     template: '',
     styles: [''],
 })
-export class OverlayContentComponent<T> extends BaseWidgetComponent {
+export class OverlayContentComponent<T = any> extends BaseWidgetComponent {
     @Input() public service: T;       // Overlay Data Service
     @Input() public model: { [name: string]: any } = {};    // Overlay data
     @Input() public fn: { [name: string]: Function } = {};       // Overlay interaction functions

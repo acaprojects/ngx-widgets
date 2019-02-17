@@ -56,8 +56,8 @@ export class ModalComponent extends DynamicBaseComponent {
         }, 100);
     }
 
-    public updateState(state: { [name: string]: any }) {
-        setTimeout(() => this.top = this.id === this.stack_id);
+    public updateState(state: string) {
+        setTimeout(() => this.top = state === this.stack_id);
     }
 
     public close(e?: Event) {
