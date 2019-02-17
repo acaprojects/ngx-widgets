@@ -87,7 +87,6 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                     const el = item.id ? this.map.querySelector(MapUtilities.cleanCssSelector(`#${item.id}`)) : null;
                     if (el || item.coordinates) {
                         item.model.center = MapUtilities.getPosition(box, el, item.coordinates) || { x: .5, y: .5 };
-                        console.log('Center:', item.model.center);
                         item.instance = inst;
                         item.model.scale = this.scale;
                         inst.service = this.service ? this.service.getService() || item.service : item.service;

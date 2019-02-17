@@ -1,11 +1,15 @@
-<div class="dynamic-field" widget [formGroup]="form" *ngIf="field && (field.control_type !== 'custom' || field.cmp)">
+<div class="dynamic-field" widget [formGroup]="form" *ngIf="field && !field.hide && (field.control_type !== 'custom' || field.cmp)">
     <div [class]="'field ' + field.control_type + ' ' + field.key" [class.error]="(errors && dirty)">
-        <div class="icon" *ngIf="field.icon">
+        <!-- <div class="icon" *ngIf="field.icon">
             <i *ngIf="field.icon.type === 'icon' || field.icon.class" [class]="field.icon.class">{{field.icon?.value}}</i>
             <img *ngIf="field.icon.type !== 'icon' && !field.icon.class" [src]="field.icon.src">
-        </div>
-        <label [attr.for]="field.key">{{field.label}} <span *ngIf="field.required">*</span></label>
-        <div class="value" [ngSwitch]="field.control_type" [class.flex]="field.flex" [style.max-width]="field.width">
+        </div> -->
+        <label [attr.for]="field.key">
+            {{field.label}}
+            <ng-container *ngIf="count">({{count}})</ng-container>
+            <span *ngIf="field.required">*</span>
+        </label>
+        <div class="value" [class.flex]="field.flex" [ngSwitch]="field.control_type" [style.max-width]="field.width">
             <!-- TEXT INPUT -->
             <input *ngSwitchCase="'text'" [formControlName]="field.key" [id]="field.key" [placeholder]="field.label"
                 [type]="field.type">
@@ -19,15 +23,22 @@
             </div>
             <!-- FIELD GROUP -->
             <div class="group" *ngSwitchCase="'group'">
-                <div class="item" *ngFor="let item of field.children">
-                    <dynamic-field [field]="item" [form]="form"></dynamic-field>
-                </div>
+                <ng-container *ngFor="let item of field.children; let i = index">
+                    <div class="spacer" *ngIf="i !== 0"></div>
+                    <div class="item">
+                        <dynamic-field [field]="item" [form]="form"></dynamic-field>
+                    </div>
+                </ng-container>
             </div>
             <!-- TEXTAREA -->
             <textarea klass="form" *ngSwitchCase="'textarea'" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="4" cdkAutosizeMaxRows="8" [formControlName]="field.key" [id]="field.key" [placeholder]="field.label"></textarea>
+                cdkAutosizeMinRows="4" cdkAutosizeMaxRows="8" [formControlName]="field.key" [id]="field.key"
+                [placeholder]="field.label"></textarea>
             <!-- TOGGLE -->
-            <toggle klass="form" *ngSwitchCase="'toggle'" [formControlName]="field.key" [id]="field.key"></toggle>
+            <ng-container *ngSwitchCase="'toggle'">
+                <toggle klass="form" type="android" [formControlName]="field.key" [id]="field.key" [options]="{ on_text: 'Yes', off_text: 'No' }"></toggle>
+                <div *ngIf="field.format && format">{{format}}</div>
+            </ng-container>
             <!-- SLIDER -->
             <slider klass="form" *ngSwitchCase="'slider'" [formControlName]="field.key" [id]="field.key"></slider>
             <!-- CUSTOM FIELD -->
