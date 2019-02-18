@@ -28,17 +28,17 @@ export class DynamicFormFieldComponent extends BaseWidgetComponent implements On
         }
     }
 
-    get isValid() {
+    get isValid(): boolean {
         const control = this.form && this.form.controls ? this.form.controls[this.field.key] : null;
         return control ? control.valid : false;
     }
 
-    get errors() {
+    get errors(): { message?: string; [name: string]: boolean | string; } {
         const control = this.form && this.form.controls ? this.form.controls[this.field.key] : null;
-        return control ? control.errors : false;
+        return control ? control.errors : null;
     }
 
-    get count () {
+    get count (): string {
         const control = this.form && this.form.controls ? this.form.controls[this.field.key] : null;
         if (control && control.value instanceof Array) {
             return control.value.length.toString();
@@ -46,12 +46,12 @@ export class DynamicFormFieldComponent extends BaseWidgetComponent implements On
         return null;
     }
 
-    get dirty() {
+    get dirty(): boolean {
         const control = this.form && this.form.controls ? this.form.controls[this.field.key] : null;
         return control ? control.dirty : false;
     }
 
-    get format() {
+    get format(): string {
         const control = this.form && this.form.controls ? this.form.controls[this.field.key] || { value: null } : { value: null };
         return this.field.format ? this.field.format(control.value) : control.value;
     }

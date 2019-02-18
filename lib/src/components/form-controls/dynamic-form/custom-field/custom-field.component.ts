@@ -44,7 +44,7 @@ export class CustomFieldComponent extends BaseWidgetComponent implements OnInit,
         }
     }
 
-    public render() {
+    public render(): void {
         if (!this._cfr || !this._content) {
             return this.timeout('render', () => this.render(), 200);
         }
