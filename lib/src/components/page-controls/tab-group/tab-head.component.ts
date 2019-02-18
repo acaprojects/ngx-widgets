@@ -10,6 +10,7 @@
 import { Component, Input, TemplateRef } from '@angular/core';
 
 import { BaseWidgetComponent } from '../../../shared/base.component';
+import { TabGroupComponent } from './tabs.component';
 
 @Component({
     selector: 'tab',
@@ -24,7 +25,7 @@ export class TabHeadComponent extends BaseWidgetComponent {
     @Input() public active: boolean;
     @Input() public template: TemplateRef<any>;
 
-    public parent: any = null;
+    public parent: TabGroupComponent = null;
 
     public setActive() {
         if (this.parent) {

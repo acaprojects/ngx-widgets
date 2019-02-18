@@ -8,17 +8,17 @@ import { ControlValueAccessor } from '@angular/forms';
     template: '',
     styles: ['']
 })
-export class BaseFormWidgetComponent extends BaseWidgetComponent implements ControlValueAccessor {
-    @Input() public model: any;
+export class BaseFormWidgetComponent<T> extends BaseWidgetComponent implements ControlValueAccessor {
+    @Input() public model: T;
     @Input() public disabled = false;
-    @Output() public modelChange = new EventEmitter();
+    @Output() public modelChange = new EventEmitter<T>();
 
-    public onChange: Function;
-    public onTouch: Function;
-    public data: any = {};
+    public onChange: (_: T) => void;
+    public onTouch: (_: T) => void;
+    public data: { [name: string]: any } = {};
 
 
-    public writeValue(value: any) {
+    public writeValue(value: T) {
         this.model = value;
     }
 
@@ -26,7 +26,7 @@ export class BaseFormWidgetComponent extends BaseWidgetComponent implements Cont
      * Register on change callback given for form control
      * @param fn
      */
-    public registerOnChange(fn: any): void {
+    public registerOnChange(fn: (_: T) => void): void {
         this.onChange = fn;
     }
 
@@ -34,7 +34,7 @@ export class BaseFormWidgetComponent extends BaseWidgetComponent implements Cont
      * Register on touched callback given for form control
      * @param fn
      */
-    public registerOnTouched(fn: any): void {
+    public registerOnTouched(fn: (_: T) => void): void {
       this.onTouch = fn;
     }
 

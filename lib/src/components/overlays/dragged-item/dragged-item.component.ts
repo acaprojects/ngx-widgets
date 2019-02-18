@@ -11,7 +11,7 @@ import { DragNDropService } from '../../../services/dragndrop.service';
     styleUrls: ['./dragged-item.style.scss']
 })
 export class DraggedItemOverlayComponent extends DynamicBaseComponent {
-    public model: any = {};
+    public model: { [name: string]: any } = {};
 
     @ViewChild('item') private item: ElementRef;
 
@@ -36,11 +36,7 @@ export class DraggedItemOverlayComponent extends DynamicBaseComponent {
     }
 
     public reposition(event: any) {
-        if (this.timers.reposition) {
-            clearTimeout(this.timers.reposition);
-            this.timers.reposition = null;
-        }
-        this.timers.reposition = setTimeout(() => {
+        this.timeout('reposition', () => {
             this.model.position = event.center ? event.center : { x: event.clientX || event.touches[0].clientX, y: event.clientY || event.touches[0].clientY };
             this.drop_service.update(event);
         }, 10);

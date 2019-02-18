@@ -18,7 +18,7 @@ import { BaseFormWidgetComponent } from '../../../../shared/base-form.component'
     templateUrl: './btn.template.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ButtonComponent extends BaseFormWidgetComponent {
+export class ButtonComponent extends BaseFormWidgetComponent<boolean> {
     // Component Inputs
     @Input() public type = 'button';
     @Input() public format = 'raised';
@@ -30,7 +30,7 @@ export class ButtonComponent extends BaseFormWidgetComponent {
         super();
     }
 
-    public tap(e: any) {
+    public tap(e: MouseEvent | TouchEvent) {
         this.timeout('tap', () => {
             if (this.toggle) {
                 this.model = !this.model;

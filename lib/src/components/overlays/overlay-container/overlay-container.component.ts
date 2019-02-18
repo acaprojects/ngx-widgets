@@ -1,6 +1,6 @@
 
 
-import { ComponentFactoryResolver, Type, OnInit, OnDestroy } from '@angular/core';
+import { ComponentFactoryResolver, Type, OnInit, OnDestroy, ComponentRef } from '@angular/core';
 import { Component, EventEmitter, Output, ViewChild, ViewContainerRef } from '@angular/core';
 import { ElementRef, ChangeDetectorRef, Injector } from '@angular/core';
 
@@ -15,12 +15,11 @@ import { BaseWidgetComponent } from '../../../shared/base.component';
     styleUrls: ['./overlay-container.styles.scss'],
 })
 export class OverlayContainerComponent extends BaseWidgetComponent implements OnInit, OnDestroy {
-    public ng: any = null; // Angular component created from componentFactory
-    protected service: OverlayService
+    public ng: ComponentRef<any> = null; // Angular component created from componentFactory
+    public service: OverlayService
     @Output() public event: any = new EventEmitter();
     @Output() public idChange: any = new EventEmitter();
-    protected cmp_refs: any = {};
-    protected timers: any = {};
+    protected cmp_refs: { [name: string]: any } = {};
 
     @ViewChild('content', { read: ViewContainerRef }) protected content: ViewContainerRef;
     @ViewChild('el') public root: ElementRef;
@@ -64,6 +63,14 @@ export class OverlayContainerComponent extends BaseWidgetComponent implements On
     }
 
     /**
+     * Get the component instance with the given ID
+     * @param cmp_id ID of the component
+     */
+    public get(cmp_id: string) {
+        return this.cmp_refs[cmp_id];
+    }
+
+    /**
      * Removes the component with the given ID from the container
      * @param id ID of the component to remove
      */
@@ -88,7 +95,7 @@ export class OverlayContainerComponent extends BaseWidgetComponent implements On
     /**
      * Removes all the components rendered on the overlay container
      */
-    protected clear() {
+    public clear() {
         for (const id in this.cmp_refs) {
             if (this.cmp_refs.hasOwnProperty(id) && id.indexOf('ACA_WIDGET_INTERNAL_') !== 0) {
                 this.remove(id);

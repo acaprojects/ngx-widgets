@@ -7,12 +7,12 @@
                     Start time
                 </div>
                 <div class="time start" *ngIf="display.start">
-                    <div class="block hours" [class.active]="data.active && data.active.period === 0" (touchrelease)="select(0)" click-responder>{{display.start.hour}}</div>
+                    <div class="block hours" [class.active]="data.active && data.active.period === 0" (touchrelease)="select(0)" click-responder>{{display.start_hour}}</div>
                     <div class="block divider">:</div>
-                    <div class="block minutes" [class.active]="data.active && data.active.period === 1" (touchrelease)="select(1)" click-responder>{{display.start.minute}}</div>
-                    <div class="block period" click-responder (touchrelease)="togglePeriod(!display.start.afternoon)">
-                        <div class="period" [class.active]="!display.start.afternoon">AM</div>
-                        <div class="period" [class.active]="display.start.afternoon">PM</div>
+                    <div class="block minutes" [class.active]="data.active && data.active.period === 1" (touchrelease)="select(1)" click-responder>{{display.start_minute}}</div>
+                    <div class="block period" click-responder (touchrelease)="togglePeriod(!display.start_afternoon)">
+                        <div class="period" [class.active]="!display.start_afternoon">AM</div>
+                        <div class="period" [class.active]="display.start_afternoon">PM</div>
                     </div>
                 </div>
             </div>
@@ -22,12 +22,12 @@
                     End time
                 </div>
                 <div class="time start" *ngIf="display.end">
-                    <div class="block hours" [class.active]="data.active && data.active.period === 2" (touchrelease)="select(2)" click-responder>{{display.end.hour}}</div>
+                    <div class="block hours" [class.active]="data.active && data.active.period === 2" (touchrelease)="select(2)" click-responder>{{display.end_hour}}</div>
                     <div class="block divider">:</div>
-                    <div class="block minutes" [class.active]="data.active && data.active.period === 3" (touchrelease)="select(3)" click-responder>{{display.end.minute}}</div>
-                    <div class="block period" click-responder (touchrelease)="togglePeriod(!display.end.afternoon, 'end')">
-                        <div class="period" [class.active]="!display.end.afternoon">AM</div>
-                        <div class="period" [class.active]="display.end.afternoon">PM</div>
+                    <div class="block minutes" [class.active]="data.active && data.active.period === 3" (touchrelease)="select(3)" click-responder>{{display.end_minute}}</div>
+                    <div class="block period" click-responder (touchrelease)="togglePeriod(!display.end_afternoon, 'end')">
+                        <div class="period" [class.active]="!display.end_afternoon">AM</div>
+                        <div class="period" [class.active]="display.end_afternoon">PM</div>
                     </div>
                 </div>
             </div>

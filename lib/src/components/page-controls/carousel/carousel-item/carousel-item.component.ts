@@ -19,7 +19,7 @@ export interface ICarouselSettings {
 })
 export class CarouselItemComponent extends BaseWidgetComponent {
     public parent: CarouselComponent;
-    public model: any = {};
+    public model: { [name: string]: any } = {};
 
     public tap() {
         if (this.parent) {

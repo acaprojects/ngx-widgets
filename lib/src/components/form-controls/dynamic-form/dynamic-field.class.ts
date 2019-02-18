@@ -15,9 +15,12 @@ export interface IDynamicFieldOptions<T> {
     validators?: ((AbstractControl) => any)[];
     control_type?: string;
     error_message?: string;
+    hide?: boolean;
     refs?: string[];
     options?: any[];
     cmp?: Type<any>;
+    flex?: boolean;
+    metadata?: { [name: string]: any };
     children?: IDynamicFieldOptions<any>[];
     format?: (value: T) => string;
     action?: (value: T) => Promise<T>;
@@ -39,6 +42,7 @@ export class DynamicField<T> {
     public order: number;
     public width: string;
     public type: string;
+    public hide: boolean;
     public dirty: boolean;
     public options: any[];
     public refs: string[];
@@ -47,6 +51,8 @@ export class DynamicField<T> {
     public error_message: string;
     public children: IDynamicFieldOptions<any>[];
     public cmp: Type<any>;
+    public flex: boolean;
+    public metadata: { [name: string]: any };
     public format: (value: T) => string;
     public action: (value: T) => Promise<T>;
 
@@ -67,6 +73,9 @@ export class DynamicField<T> {
         this.refs = options.refs;
         this.children = options.children;
         this.dirty = options.dirty;
+        this.hide = options.hide;
+        this.flex = options.flex;
+        this.metadata = options.metadata;
         this.cmp = options.cmp;
     }
 }

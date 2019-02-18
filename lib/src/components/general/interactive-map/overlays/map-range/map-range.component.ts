@@ -3,6 +3,7 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
 import { OverlayContentComponent } from '../../../../overlays/overlay-content.component';
+import { MapService } from '../../../../../services/map.service';
 
 @Component({
     selector: 'map-range',
@@ -15,7 +16,7 @@ import { OverlayContentComponent } from '../../../../overlays/overlay-content.co
         ]),
     ],
 })
-export class MapRangeComponent extends OverlayContentComponent {
+export class MapRangeComponent extends OverlayContentComponent<MapService> {
     public static className() { return 'MapRangeComponent'; }
     public className() { return MapRangeComponent.className; }
     public size = 10;
@@ -32,7 +33,7 @@ export class MapRangeComponent extends OverlayContentComponent {
         super(_cdr);
     }
 
-    public set(data: any) {
+    public set(data: { [name: string]: any }) {
         super.set(data);
         this.size = (this.model.diameter || 10) * this.model.scale * 3;
     }

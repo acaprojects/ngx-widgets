@@ -8,10 +8,10 @@ import { BaseWidgetComponent } from '../../shared/base.component';
     template: '',
     styles: [''],
 })
-export class OverlayContentComponent extends BaseWidgetComponent {
-    @Input() public service: any;       // Overlay Data Service
-    @Input() public model: any = {};    // Overlay data
-    @Input() public fn: any = {};       // Overlay interaction functions
+export class OverlayContentComponent<T = any> extends BaseWidgetComponent {
+    @Input() public service: T;       // Overlay Data Service
+    @Input() public model: { [name: string]: any } = {};    // Overlay data
+    @Input() public fn: { [name: string]: Function } = {};       // Overlay interaction functions
 
     public static className() { return 'OverlayContentComponent'; }
     public className() { return OverlayContentComponent.className; }
@@ -44,7 +44,7 @@ export class OverlayContentComponent extends BaseWidgetComponent {
         }
     }
 
-    public set(data: any) {
+    public set(data: { [name: string]: any }) {
         if (!this.model) {
             this.model = data;
         } else {

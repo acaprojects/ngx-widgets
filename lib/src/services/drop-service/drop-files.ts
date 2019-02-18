@@ -99,7 +99,7 @@ export class DropFiles {
                         setTimeout(this._processPending.bind(this), 0);
                     }
                 };
-                const processEntry = (f_entry: any, path: any) => {
+                const processEntry = (f_entry: any, path: string) => {
                     // If it is a directory we add it to the pending queue
                     try {
                         if (f_entry.isDirectory) {

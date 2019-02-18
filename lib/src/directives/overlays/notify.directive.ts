@@ -1,11 +1,12 @@
 
-import { Directive, ElementRef, EventEmitter, Input, Output, TemplateRef, Type, OnChanges } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, Input, Output, TemplateRef, Type, OnChanges, SimpleChanges } from '@angular/core';
 
 import { OverlayService } from '../../services/overlay.service';
 
 import { NotificationComponent } from '../../components/overlays/notification/notification.component';
 
 import { WIDGETS } from '../../settings';
+import { Subscription } from 'rxjs';
 
 @Directive({
     selector: '[notify]',
@@ -15,16 +16,16 @@ export class NotifyDirective implements OnChanges {
     @Input() public container = 'root';
     @Input() public action = '';
     @Input() public timeout: number;
-    @Input() public model: any = {};
+    @Input() public model: { [name: string]: any } = {};
     @Input() public template: TemplateRef<any> = null;
     @Input() public cmp: Type<any> = null;
     @Input() public show = false;
-    @Output() public showChange: any = new EventEmitter();
+    @Output() public showChange = new EventEmitter<boolean>();
     @Output() public event: any = new EventEmitter();
     public id = '';
-    public sub: any = null;
+    public sub: Subscription = null;
 
-    private data: any = {};
+    private data: { [name: string]: any } = {};
 
     constructor(private el: ElementRef, private overlay: OverlayService) {
         this.id = `N${Math.floor(Math.random() * 8999999 + 1000000).toString()}`;
@@ -33,7 +34,7 @@ export class NotifyDirective implements OnChanges {
         this.removeNotification();
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         if (changes.show && this.show) {
             this.createNotification();
         } else if (changes.show && !this.show) {

@@ -1,17 +1,17 @@
 
-import { Directive, ElementRef, HostListener, Renderer2, Input, Output, EventEmitter } from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer2, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { DragNDropService } from '../../services/dragndrop.service';
 
 @Directive({
     selector: '[is-draggable]'
 })
-export class DraggableDirective {
+export class DraggableDirective implements AfterViewInit {
     @Input('is-draggable') public group: string = 'root';
     @Input() public id: string = '';
     @Input() public name: string;
     @Output() public event = new EventEmitter();
 
-    private model: any = {};
+    private model: { [name: string]: any } = {};
 
     @HostListener('drag', ['$event']) public dragged(e) {
         this.dragging(e);

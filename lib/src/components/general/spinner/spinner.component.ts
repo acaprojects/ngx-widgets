@@ -7,7 +7,7 @@
  * @Last modified time: 15/12/2016 11:32 AM
  */
 
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { BaseWidgetComponent } from '../../../shared/base.component';
 
@@ -23,8 +23,6 @@ export class SpinnerComponent extends BaseWidgetComponent implements OnChanges {
 
     public percent = 0;
 
-    private timers: any = {};
-
     constructor(protected _cdr: ChangeDetectorRef) {
         super();
     }
@@ -37,7 +35,7 @@ export class SpinnerComponent extends BaseWidgetComponent implements OnChanges {
         // }, 20);
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         if (this.type === null || this.type === undefined) {
             this.type = 'plane';
         }

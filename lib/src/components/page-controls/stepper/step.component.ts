@@ -60,7 +60,7 @@ export class StepperStepComponent extends BaseWidgetComponent {
     @Output() public stateChange = new EventEmitter();
 
     public parent: StepperComponent = null;
-    public model: any = {};
+    public model: { [name: string]: any } = {};
 
     constructor() {
         super();

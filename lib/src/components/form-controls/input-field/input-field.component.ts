@@ -24,22 +24,22 @@ import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
       }
     ]
 })
-export class InputFieldComponent extends BaseFormWidgetComponent implements ControlValueAccessor {
+export class InputFieldComponent extends BaseFormWidgetComponent<string> implements ControlValueAccessor {
     @Input() public type = 'text';
     @Input() public mask = '';
     @Input() public placeholder = '';
     @Input() public limit = 65535;
-    @Output() public focus = new EventEmitter();
-    @Output() public blur = new EventEmitter();
+    @Output() public focus = new EventEmitter<FocusEvent>();
+    @Output() public blur = new EventEmitter<FocusEvent>();
 
-    public state: any = {};
+    public state: { [name: string]: any } = {};
 
-    public focused(e?: any) {
+    public focused(e?: FocusEvent) {
         this.state.focus = true;
         this.focus.emit(e);
     }
 
-    public blurred(e?: any) {
+    public blurred(e?: FocusEvent) {
         this.state.focus = false;
         this.blur.emit(e);
     }

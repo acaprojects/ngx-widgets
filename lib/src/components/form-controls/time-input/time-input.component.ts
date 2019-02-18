@@ -13,12 +13,12 @@ import { BaseFormWidgetComponent } from "../../../shared/base-form.component";
         multi: true
     }]
 })
-export class TimeInputComponent extends BaseFormWidgetComponent implements OnChanges, ControlValueAccessor {
+export class TimeInputComponent extends BaseFormWidgetComponent<string> implements OnChanges, ControlValueAccessor {
     @Input('no-period') public no_period: boolean;
     @Input() public arrows: boolean = true;
     @Input() public step: number = 5;
 
-    public data: any = { hour: '12', minute: '00' };
+    public data: { [name: string]: any } = { hour: '12', minute: '00' };
 
     @ViewChild('hour') public hour_field: ElementRef;
     @ViewChild('minute') public minute_field: ElementRef;
@@ -144,7 +144,7 @@ export class TimeInputComponent extends BaseFormWidgetComponent implements OnCha
 
     public post() {
         this.timeout('post', () => {
-            let hour: any = ((+this.data.hour || 0) % 12) + (this.data.pm ? 12 : 0);
+            let hour: number | string = ((+this.data.hour || 0) % 12) + (this.data.pm ? 12 : 0);
             if (+hour < 10) { hour = '0' + hour; }
             const minute = +this.data.minute < 10 ? '0' + +this.data.minute : this.data.minute;
             this.modelChange.emit(`${hour}:${minute}`);

@@ -16,7 +16,7 @@ import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
       }
     ]
 })
-export class CheckboxComponent extends BaseFormWidgetComponent implements ControlValueAccessor {
+export class CheckboxComponent extends BaseFormWidgetComponent<boolean> implements ControlValueAccessor {
     @Input() public label = '';
     @Input() public side = 'right';
 

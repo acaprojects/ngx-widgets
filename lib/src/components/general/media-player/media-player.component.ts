@@ -25,15 +25,15 @@ import { BaseWidgetComponent } from '../../../shared/base.component';
     ],
 })
 export class MediaPlayerComponent extends BaseWidgetComponent {
-    @Input() public src: any = null;
+    @Input() public src: string = null;
     @Input() public color = '#2196F3';
     @Input() public autoplay = false;
 
-    @Output() public time: any = new EventEmitter();
-    @Output() public length: any = new EventEmitter();
+    @Output() public time = new EventEmitter<string>();
+    @Output() public length = new EventEmitter<string>();
     @Output() public event: any = new EventEmitter();
 
-    public timer: any;
+    public timer: number;
     public progress = 0;
     public current_time = '00:00';
     public duration = '00:00';
@@ -78,7 +78,7 @@ export class MediaPlayerComponent extends BaseWidgetComponent {
             clearInterval(this.timer);
             this.timer = null;
         }
-        this.timer = setInterval(() => this.updateTimer(), 50);
+        this.timer = <any>setInterval(() => this.updateTimer(), 50);
     }
 
     public stopMedia(emit: boolean = true) {

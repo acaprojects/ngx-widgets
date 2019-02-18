@@ -14,7 +14,7 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
         multi: true
     }]
 })
-export class RadiosetComponent extends BaseFormWidgetComponent implements ControlValueAccessor {
+export class RadiosetComponent extends BaseFormWidgetComponent<number> implements ControlValueAccessor {
     @Input() public list: string[] = [];
     @Input() public inline = false;
 

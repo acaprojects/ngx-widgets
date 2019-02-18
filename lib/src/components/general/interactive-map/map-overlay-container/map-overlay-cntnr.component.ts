@@ -36,7 +36,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
 
     protected map_service: MapService;
 
-    private model: any = {};
+    private model: { [name: string]: any } = {};
 
     constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, protected injector: Injector) {
         super(_cfr, _cdr, injector);
@@ -65,7 +65,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
     public update() {
         for (const item of (this.model.items || [])) {
             if (item.instance) {
-                if (!item.model) { item.model = (item as any).data || {}; }
+                if (!item.model) { item.model = item.data || {}; }
                 item.model.scale = this.scale;
                 item.instance.set(item.model);
             }
@@ -83,11 +83,10 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
             if (!item.exists) {
                 this.add(item.id, item.cmp).then((inst: any) => {
                     const box = this.map.getBoundingClientRect();
-                    if (!item.model) { item.model = (item as any).data || {}; }
+                    if (!item.model) { item.model = item.data || {}; }
                     const el = item.id ? this.map.querySelector(MapUtilities.cleanCssSelector(`#${item.id}`)) : null;
                     if (el || item.coordinates) {
                         item.model.center = MapUtilities.getPosition(box, el, item.coordinates) || { x: .5, y: .5 };
-                        console.log('Center:', item.model.center);
                         item.instance = inst;
                         item.model.scale = this.scale;
                         inst.service = this.service ? this.service.getService() || item.service : item.service;
@@ -107,7 +106,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
             } else {
                 const box = this.map.getBoundingClientRect();
                 const el = this.map.querySelector(MapUtilities.cleanCssSelector(`#${item.id}`));
-                if (!item.model) { item.model = (item as any).data || {}; }
+                if (!item.model) { item.model = item.data || {}; }
                 item.model.center = MapUtilities.getPosition(box, el, item.coordinates) || { x: .5, y: .5 };
                 if (item.instance) { item.instance.set(item.model); }
             }
@@ -126,7 +125,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                     if (item.id === new_itm.id && item.cmp === new_itm.cmp) {
                         new_itm.exists = true;
                         new_itm.instance = item.instance;
-                        if (!new_itm.model) { new_itm.model = (new_itm as any).data || {}; }
+                        if (!new_itm.model) { new_itm.model = new_itm.data || {}; }
                         new_itm.model.scale = this.scale;
                         if (new_itm.instance) { new_itm.instance.set(new_itm.model); }
                         found = true;

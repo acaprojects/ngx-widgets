@@ -7,62 +7,60 @@ export class TouchReleaseDirective {
     @Input() public variance = 40;
     @Output('touchrelease') public event = new EventEmitter();
 
-    private model: any = {};
-    private timers: any = {};
+    private model: { [name: string]: any } = {};
+    private timers: { [name: string]: number } = {};
 
-    @HostListener('mousedown', ['$event']) public mousestart(e: any) {
+    @HostListener('mousedown', ['$event']) public mousestart(e: MouseEvent) {
         this.start(e)
     }
 
-    @HostListener('touchstart', ['$event']) public touchstart(e: any) {
+    @HostListener('touchstart', ['$event']) public touchstart(e: TouchEvent) {
         this.start(e);
     }
 
 
-    @HostListener('mouseup', ['$event']) public mouse(e: any) {
+    @HostListener('mouseup', ['$event']) public mouse(e: MouseEvent) {
         this.emit(e);
     }
 
-    @HostListener('touchend', ['$event']) public touch(e: any) {
+    @HostListener('touchend', ['$event']) public touch(e: TouchEvent) {
         this.emit(e);
     }
 
-    private start(e: any) {
+    private start(e: MouseEvent | TouchEvent) {
         if (!e || !e.target) { return; }
-        this.timers.start = setTimeout(() => {
-            if (!e.center) {
-                if (e.touches && e.touches.length > 0) {
-                    e.center = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-                } else {
-                    e.center = { x: e.clientX, y: e.clientY };
-                }
-            }
-            const box = e.target.getBoundingClientRect();
-            this.model.target = { x: e.center.x - (box.left + box.width / 2), y: e.center.y - (box.top + box.height / 2) };
+        this.timers.start = <any>setTimeout(() => {
+            const center = this.getCenter(e);
+            const box = (e.target as HTMLElement).getBoundingClientRect();
+            this.model.target = { x: center.x - (box.left + box.width / 2), y: center.y - (box.top + box.height / 2) };
         }, 20);
     }
 
-    private emit(e: any) {
+    private emit(e: MouseEvent | TouchEvent) {
         if (!e || !e.target) { return; }
         if (this.timers.emit) {
             clearTimeout(this.timers.emit);
             this.timers.emit = null;
         }
-        this.timers.emit = setTimeout(() => {
-            if (!e.center) {
-                if (e.touches && e.touches.length > 0) {
-                    e.center = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-                } else {
-                    e.center = { x: e.clientX, y: e.clientY };
-                }
-            }
-            const box = e.target.getBoundingClientRect();
-            const center = { x: e.center.x - (box.left + box.width / 2), y: e.center.y - (box.top + box.height / 2) };
+        this.timers.emit = <any>setTimeout(() => {
+            const c = this.getCenter(e);
+            const box = (e.target as HTMLElement).getBoundingClientRect();
+            const center = { x: c.x - (box.left + box.width / 2), y: c.y - (box.top + box.height / 2) };
             if (this.nearby(this.model.target, center)) {
                 this.event.emit(e);
             }
             this.timers.emit = null;
         }, 20);
+    }
+
+    private getCenter(e: MouseEvent | TouchEvent) {
+        let center = { x: 0, y: 0 }
+        if (e instanceof TouchEvent && e.touches && e.touches.length > 0) {
+            center = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        } else if (e instanceof MouseEvent) {
+            center = { x: e.clientX, y: e.clientY };
+        }
+        return center
     }
 
     private nearby(start: {x: number, y: number}, end: {x: number, y: number}) {

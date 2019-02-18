@@ -25,7 +25,7 @@ export class StepperComponent extends BaseWidgetComponent {
 
     @ContentChildren(StepperStepComponent) private steps: QueryList<StepperStepComponent>;
 
-    public step_list: any[] = [];
+    public step_list: StepperStepComponent[] = [];
 
     public ngAfterContentInit() {
         this.update();

@@ -1,5 +1,5 @@
 
-import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, AfterContentInit, OnChanges, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ContentChildren, QueryList, AfterContentInit, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 
 import { CarouselItemComponent } from './carousel-item/carousel-item.component';
 import { BaseWidgetComponent } from '../../../shared/base.component';
@@ -28,7 +28,7 @@ export class CarouselComponent extends BaseWidgetComponent implements OnChanges,
     @Output() public indexChange = new EventEmitter();
     @Output() public select = new EventEmitter();
 
-    public model: any = {};
+    public model: { [name: string]: any } = {};
 
     @ContentChildren(CarouselItemComponent) private items: QueryList<CarouselItemComponent>;
 
@@ -36,7 +36,7 @@ export class CarouselComponent extends BaseWidgetComponent implements OnChanges,
         super();
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         if (changes.settings) {
             this.resize();
         }
@@ -44,7 +44,7 @@ export class CarouselComponent extends BaseWidgetComponent implements OnChanges,
 
     public ngAfterContentInit() {
         if (this.subs.obs.items) {
-            this.subs.obs.items instanceof Function ? this.subs.items() : this.subs.items.unsubscribe();
+            this.subs.obs.items instanceof Function ? this.subs.obs.items() : this.subs.obs.items.unsubscribe();
             this.subs.obs.items = null;
         }
         this.subs.obs.items = this.items.changes.subscribe(() => this.init());
@@ -96,7 +96,7 @@ export class CarouselComponent extends BaseWidgetComponent implements OnChanges,
      * Post interaction with child elements
      * @param index Index of the item
      */
-    public tap(index: any) {
+    public tap(index: number) {
         if (this.items) {
             const list = this.items.toArray();
             if (index < list.length && index >= 0) {

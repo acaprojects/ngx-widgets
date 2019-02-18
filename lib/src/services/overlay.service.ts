@@ -10,16 +10,17 @@ import { TooltipComponent } from '../components/overlays/tooltip/tooltip.compone
 import { WIDGETS } from '../settings';
 import { DynamicBaseComponent } from '../components/overlays/dynamic-base.component';
 import { DraggedItemOverlayComponent } from '../components/overlays/dragged-item/dragged-item.component';
+import { Subscription } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class OverlayService {
     public static instance = null;
-    private cmp_reg: any = {};
-    private cmp_list: any = {};
-    private containers: any = {};
-    private container_services: any = {};
+    private cmp_reg: { [name: string]: any } = {};
+    private cmp_list: { [name: string]: any } = {};
+    private containers: { [name: string]: OverlayContainerComponent } = {};
+    private container_services: { [name: string]: any } = {};
     private default_vc: ViewContainerRef = null;
     private _view: ViewContainerRef = null;
 
@@ -67,7 +68,7 @@ export class OverlayService {
      * @param type Component Type
      * @param data Initial data to pass to the component
      */
-    public setup(id: string, cmp: Type<any>, data?: any) {
+    public setup(id: string, cmp: Type<any>, data?: { [name: string]: any }) {
         this.register(id, cmp, data);
     }
 
@@ -76,7 +77,7 @@ export class OverlayService {
      * @param id ID of the modal
      * @param data Initial data to pass to the modal
      */
-    public setupModal(id: string, data?: any) {
+    public setupModal(id: string, data?: { [name: string]: any }) {
         this.register(id, ModalComponent, data);
     }
 
@@ -85,7 +86,7 @@ export class OverlayService {
      * @param id ID of the tooltip
      * @param data Initial data to pass to the tooltip
      */
-    public setupTooltip(id: string, data?: any) {
+    public setupTooltip(id: string, data?: { [name: string]: any }) {
         this.register(id, TooltipComponent, data);
     }
 
@@ -95,7 +96,7 @@ export class OverlayService {
      * @param type Component Type
      * @param data Initial data to pass to the component
      */
-    public register(id: string, cmp: Type<any>, data?: any) {
+    public register(id: string, cmp: Type<any>, data?: { [name: string]: any }) {
         WIDGETS.log('OVERLAY(S)', `Registering overlay ${id} with component:`, cmp.name);
         this.cmp_reg[id] = data;
     }
@@ -117,7 +118,7 @@ export class OverlayService {
      * @param data Initial data to pass to the component
      * @return Promise of an observable for events on the open modal
      */
-    public openModal(id: string, data?: any, next?: (event: any) => void, cntr: string = 'root') {
+    public openModal(id: string, data?: { [name: string]: any }, next?: (event: any) => void, cntr: string = 'root') {
         return this.add(cntr || 'root', id, ModalComponent, data, next);
     }
 
@@ -128,7 +129,7 @@ export class OverlayService {
      * @param action Callback for events on the notification
      * @return Promise of an observable for events on the notification
      */
-    public notify(id: string, data?: any, action?: () => void, cntr: string = 'root') {
+    public notify(id: string, data?: { [name: string]: any }, action?: () => void, cntr: string = 'root') {
         return NotificationComponent.notify(id, data, action, cntr);
     }
 
@@ -138,7 +139,7 @@ export class OverlayService {
      * @param data Initial data to pass to the component
      * @return Promise of an observable for events on the tooltip
      */
-    public openTooltip(id: string, data?: any) {
+    public openTooltip(id: string, data?: { [name: string]: any }) {
         return this.add('root', id, TooltipComponent, data);
     }
 
@@ -150,26 +151,28 @@ export class OverlayService {
      * @param data Initial data to pass to the component
      * @return Promise of instance of the created component
      */
-    public add(c_id: string = 'root', id: string, cmp: Type<any> | string, data?: any, next?: (value: any) => void) {
+    public add(c_id: string = 'root', id: string, cmp: Type<any> | string, data?: { [name: string]: any }, next?: (value: any) => void) {
         for (const item in this.cmp_reg) {
             if (this.cmp_reg.hasOwnProperty(item) && item === id) {
                 data = this.merge(this.cmp_reg[item], data);
             }
         }
+        let component: Type<any>;
         if (typeof cmp === 'string') {
-            const component = this.cmp_list[cmp];
-            if (component) {
+            const the_cmp = this.cmp_list[cmp];
+            if (the_cmp) {
                 data.cmp_id = cmp;
-                cmp = component;
+                component = the_cmp;
             }
         } else {
             data.cmp_id = cmp.name;
+            component = cmp
         }
         WIDGETS.log('OVERLAY][S', `Rendering overlay ${id} with component:`, [data.cmp_id, data]);
         return new Promise<DynamicBaseComponent>((resolve, reject) => {
             const container = c_id ? this.containers[c_id] : (this.containers.root ? this.containers.root : null);
             if (container) {
-                container.add(id, cmp).then((inst: DynamicBaseComponent) => {
+                container.add(id, component).then((inst: DynamicBaseComponent) => {
                     // let's inject @Inputs to component instance
                     inst.id = id;
                     // inst.parent = this;
@@ -205,7 +208,7 @@ export class OverlayService {
      * @param id ID of the component
      * @param data New data to pass to the component
      */
-    public set(c_id: string = 'root', id: string, data: any) {
+    public set(c_id: string = 'root', id: string, data: { [name: string]: any }) {
         if (c_id && this.containers[c_id]) {
             this.containers[c_id].get(id).set(data);
         }
@@ -230,7 +233,7 @@ export class OverlayService {
      * @param id ID of the component
      * @param next Callback for emitted event from the component
      */
-    public listen(c_id: string = 'root', id: string, next: (event: any) => {}) {
+    public listen(c_id: string = 'root', id: string, next: (event: any) => {}): Subscription {
         if (c_id && this.containers[c_id]) {
             return this.containers[c_id].get(id).watch(next);
         }
@@ -253,7 +256,7 @@ export class OverlayService {
      * @param id ID of the container
      * @param container Overlay container instance
      */
-    public registerContainer(id: string, container: any) {
+    public registerContainer(id: string, container: OverlayContainerComponent) {
         this.clearContainer(id);
         this.containers[id] = container;
         this.containers[id].service = this;
@@ -291,7 +294,7 @@ export class OverlayService {
             this.containers[id] = null;
         } else if (!id && this.containers.root) {
             this.containers.root.clear();
-            this.containers.root.destroy();
+            this.containers.root.ng.destroy();
             this.containers.root = null;
         }
     }
@@ -302,13 +305,8 @@ export class OverlayService {
      * @param src Source object
      * @returns Merged destination object
      */
-    private merge(dest: any, src: any) {
-        for (const key in src) {
-            if (src.hasOwnProperty(key)) {
-                dest[key] = src[key];
-            }
-        }
-        return dest;
+    private merge(dest: { [name: string]: any }, src: { [name: string]: any }): { [name: string]: any } {
+        return { ...src, ...dest };
     }
 
     /**
@@ -320,7 +318,7 @@ export class OverlayService {
             const factory = this._cfr.resolveComponentFactory(OverlayContainerComponent);
             if (this.containers.root) {
                 this.containers.root.clear();
-                this.containers.root.destroy();
+                this.containers.root.ng.destroy();
             }
                 // Create component on view
             const cmp = this._view.createComponent(factory);

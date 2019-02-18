@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, HostListener, Renderer2 } from "@angular/core";
+import { Directive, Input, Output, EventEmitter, HostListener, Renderer2, SimpleChanges } from "@angular/core";
 
 import { BaseWidgetComponent } from "../../../shared/base.component";
 import { MapService } from "../../../services/map.service";
@@ -28,13 +28,13 @@ export class MapInputDirective extends BaseWidgetComponent {
     @Output() public centerChange = new EventEmitter();
     @Output() public event = new EventEmitter();
 
-    private model: any = {};
+    private model: { [name: string]: any } = {};
 
     constructor(private service: MapService, private renderer: Renderer2) {
         super();
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
         if (changes.map && this.map) {
             this.update();
@@ -220,7 +220,8 @@ export class MapInputDirective extends BaseWidgetComponent {
                     if (el) {
                         this.renderer.setStyle(el, 'pointer-events', '');
                     }
-                    this.subs.obs[`listen_${selector}`] instanceof Function ? this.subs.obs[`listen_${selector}`]() : this.subs.obs[`listen_${selector}`].unsubscribe();
+                    const item = this.subs.obs[`listen_${selector}`];
+                    item instanceof Function ? item() : item.unsubscribe();
                 }
             }
         }

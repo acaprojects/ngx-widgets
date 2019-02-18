@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, HostListener, OnChanges, Renderer2 } from "@angular/core";
+import { Directive, Input, Output, EventEmitter, HostListener, OnChanges, Renderer2, SimpleChanges } from "@angular/core";
 
 import { BaseWidgetComponent } from "../../../shared/base.component";
 import { IMapPoint } from "./map-renderer/map-renderer.component";
@@ -14,17 +14,21 @@ export interface IMapListener {
     selector: '[aca-map-styler]',
 })
 export class MapStylerDirective extends BaseWidgetComponent implements OnChanges {
-    @Input() public styles: any;
+    @Input() public styles: {
+        [name: string]: ({
+            [name: string]: (string | number)
+        })
+    };
     @Input() public map: Element;
     @Output() public css = new EventEmitter();
 
-    private model: any = {};
+    private model: { [name: string]: any } = {};
 
     constructor(private renderer: Renderer2) {
         super();
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         if (changes.styles) {
             this.update();
         }

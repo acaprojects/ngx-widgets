@@ -7,7 +7,7 @@
  * @Last modified time: 15/12/2016 11:32 AM
  */
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnChanges } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
 const KEY_LIST = {
@@ -82,7 +82,7 @@ export class VirtualKeyboardComponent implements OnChanges {
         this.loadKeys();
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         if (changes.type) {
             this.loadKeys();
         }

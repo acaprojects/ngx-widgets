@@ -1,5 +1,5 @@
 
-import { Directive, ElementRef, HostListener, Renderer2, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer2, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { DragNDropService } from '../../services/dragndrop.service';
 
 @Directive({
@@ -13,8 +13,8 @@ export class DropzoneDirective implements OnChanges {
     @Output() public stateChange = new EventEmitter();
     @Output() public event = new EventEmitter();
 
-    private model: any = {};
-    private timers: any = {};
+    private model: { [name: string]: any } = {};
+    private timers: { [name: string]: number } = {};
 
     constructor(private el: ElementRef, private renderer: Renderer2, private service: DragNDropService) { }
 
@@ -30,7 +30,7 @@ export class DropzoneDirective implements OnChanges {
         this.service.register(this.group, this);
     }
 
-    public ngOnChanges(changes: any) {
+    public ngOnChanges(changes: SimpleChanges) {
         if (changes.group) {
             this.service.unregister(changes.group.previousValue, this);
             this.service.register(this.group, this);
@@ -101,9 +101,9 @@ export class DropzoneDirective implements OnChanges {
         }
         if (!this.timers.update_box && this.el && this.el.nativeElement) {
             this.model.box = this.el.nativeElement.getBoundingClientRect();
-            this.timers.update_box = setTimeout(() => this.timers.update_box = null, 1000);
+            this.timers.update_box = <any>setTimeout(() => this.timers.update_box = null, 1000);
         }
-        this.timers.check = setTimeout(() => {
+        this.timers.check = <any>setTimeout(() => {
             const center = event.center ? event.center : { x: event.clientX || event.touches[0].clientX, y: event.clientY || event.touches[0].clientY };
             this.renderer.removeClass(this.el.nativeElement, `${name || 'dropzone'}-above`);
             this.renderer.removeClass(this.el.nativeElement, `${name || 'dropzone'}-below`);

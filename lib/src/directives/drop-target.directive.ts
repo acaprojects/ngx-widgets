@@ -16,13 +16,13 @@ import { DropService } from '../services/drop-service/drop-service.service';
 })
 export class DropTargetDirective implements OnInit, OnDestroy, OnChanges {
     private static _ref_cnt = 0;
-    private lstn: any = {};
+    private lstn: { [name: string]: any } = {};
 
     @Input('drop-target') public target: string;     // defaults to self, otherwise you can define a valid querySelector
     @Input() public indicate = 'drop-indicate';  // defines the hover class to apply, defaults to: drop-indicate
     @Input() public stream: string;                      // name of the stream the files should be sent to
 
-    private _element: any;
+    private _element: HTMLElement;
     private _unreg: () => void;
 
     constructor(private el: ElementRef, private _dropService: DropService, private renderer: Renderer2) {

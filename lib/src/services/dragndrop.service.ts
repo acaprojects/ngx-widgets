@@ -9,19 +9,25 @@ export interface IDropOptions {
     start: { x: number, y: number }
 }
 
+export interface IDropState {
+    el: HTMLElement,
+    options: IDropOptions,
+    group: string
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class DragNDropService {
-    private model: any = {};
-    private subject: BehaviorSubject<any> = new BehaviorSubject(null);
-    private observer: Observable<any>;
+    private model: { [name: string]: any } = {};
+    private subject: BehaviorSubject<IDropState> = new BehaviorSubject(null);
+    private observer: Observable<IDropState>;
 
     constructor() {
         this.observer = this.subject.asObservable();
     }
 
-    public drag(el: any, options: IDropOptions, group: string = 'root') {
+    public drag(el: HTMLElement, options: IDropOptions, group: string = 'root') {
         this.subject.next({ el, options, group });
     }
 
