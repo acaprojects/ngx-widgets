@@ -1,7 +1,7 @@
 <div [class]="'dynamic-form' + (klass ? ' ' + klass : '')" widget *ngIf="fields">
     <ng-container *ngIf="form_group">
-        <form [formGroup]="form_group" (submit)="submit()">
-            <div *ngFor="let item of (fields || [])" class="form-row">
+        <form [formGroup]="form_group" (submit)="submit()" >
+            <div *ngFor="let item of (fields || [])" class="form-row" [class.hide]="item.hide">
                 <dynamic-field [field]="item" [form]="form_group"></dynamic-field>
             </div>
             <div class="form-row">

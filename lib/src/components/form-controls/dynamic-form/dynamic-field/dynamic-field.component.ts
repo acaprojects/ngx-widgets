@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators, AbstractControl } from '@angular/forms';
 
 import { DynamicField } from '../dynamic-field.class';
 import { Subscription } from 'rxjs';
@@ -64,6 +64,14 @@ export class DynamicFormFieldComponent extends BaseWidgetComponent implements On
     public performAction() {
         if (this.field.control_type === 'custom') { return; }
         const control = this.form && this.form.controls ? this.form.controls[this.field.key] : null;
+        if (this.field.match) {
+            const match_control = this.form && this.form.controls ? this.form.controls[this.field.match] : null;
+            const validate = (ctrl: AbstractControl) => {
+                const error = ctrl.value === control.value;
+                return error ? { match: false, message: `${this.field.match}s do not match` } : null;
+            }
+            match_control.setValidators(this.field.required ? [Validators.required, validate] : [validate]);
+        }
         if (control && control.value === this.ignore) {
             return this.timeout('ignore', () => this.ignore = null, 100);
         }

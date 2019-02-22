@@ -20,6 +20,7 @@ export interface IDynamicFieldOptions<T> {
     options?: any[];
     cmp?: Type<any>;
     flex?: boolean;
+    match?: string;
     metadata?: { [name: string]: any };
     children?: IDynamicFieldOptions<any>[];
     format?: (value: T) => string;
@@ -52,6 +53,7 @@ export class DynamicField<T> {
     public children: IDynamicFieldOptions<any>[];
     public cmp: Type<any>;
     public flex: boolean;
+    public match: string;
     public metadata: { [name: string]: any };
     public format: (value: T) => string;
     public action: (value: T) => Promise<T>;
@@ -75,6 +77,7 @@ export class DynamicField<T> {
         this.dirty = options.dirty;
         this.hide = options.hide;
         this.flex = options.flex;
+        this.match = options.match;
         this.metadata = options.metadata;
         this.cmp = options.cmp;
     }
