@@ -5,14 +5,13 @@
         offset="middle" [triangle]="false" [(show)]="show" [autoclose]="false" (event)="select($event)">
     </div>
     <div #active class="item active" (touchrelease)="showList()">
-        <div class="text">
+        <div class="text" [class.placeholder]="model < 0 || !list_items || list_items.length <=model || !list_items[model]">
             {{ model < 0 || !list_items || list_items.length <=model || !list_items[model] ? placeholder :
-                list_items[model].name || list_items[model] }} </div> <div class="icon">
-                <div class="down"></div>
+                list_items[model].name || list_items[model] }}
         </div>
-    </div>
-    <div class="item placeholder" *ngIf="placeholder && (model < 0 || list_items.length < model)">
-        <div class="text">{{ placeholder }}</div>
+        <div class="icon">
+            <div class="down"></div>
+        </div>
     </div>
     <div class="list">
         <div class="item" *ngIf="longest">
@@ -23,14 +22,11 @@
     <ng-template #tooltip>
         <div [class]="'dropdown-list' + (klass ? ' ' + klass : '')" [style.font-size]="font_size + 'px'" [style.width]="width + 'px'">
             <div class="item active" *ngIf="!bottom" (touchrelease)="showList()">
-                <div class="text">
+                <div class="text" [class.placeholder]="model < 0 || !list_items || list_items.length <=model || !list_items[model]">
                     {{ model < 0 || !list_items || list_items.length <=model || !list_items[model] ? placeholder :
                         list_items[model].name || list_items[model] }} </div> <div class="icon">
                         <div class="up"></div>
                 </div>
-            </div>
-            <div class="item placeholder" *ngIf="!bottom && placeholder && (model < 0 || list_items.length < model)">
-                <div class="text">{{ placeholder }}</div>
             </div>
             <div class="search" *ngIf="filter&&!bottom" (touchrelease)="focus()">
                 <div class="icon">
@@ -58,11 +54,8 @@
                 </div>
                 <div class="input"><input #input [(ngModel)]="search" (ngModelChange)="filterItems()" placeholder="Filter"></div>
             </div>
-            <div class="item placeholder bottom" *ngIf="bottom && placeholder && (model < 0 || list_items.length < model)">
-                <div class="text">{{ placeholder }}</div>
-            </div>
             <div class="item active bottom" *ngIf="bottom" (touchrelease)="showList()">
-                <div class="text">
+                <div class="text" [class.placeholder]="model < 0 || !list_items || list_items.length <=model || !list_items[model]">
                     {{ model < 0 || !list_items || list_items.length <=model || !list_items[model] ? placeholder :
                         list_items[model].name || list_items[model] }} </div> <div class="icon">
                         <div class="up"></div>

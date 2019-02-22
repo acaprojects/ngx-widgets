@@ -97,9 +97,9 @@ cdk-virtual-scroll-viewport {
 }
 
 .placeholder {
-    height: 0 !important;
     overflow: hidden;
     padding: 0 .75em;
+    opacity: .54;
 }
 
 .list {
