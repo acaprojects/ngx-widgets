@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, HostListener, Renderer2, SimpleChanges } from "@angular/core";
+import { Directive, Input, Output, EventEmitter, HostListener, Renderer2, SimpleChanges, ElementRef } from "@angular/core";
 
 import { BaseWidgetComponent } from "../../../shared/base.component";
 import { MapService } from "../../../services/map.service";
@@ -30,7 +30,7 @@ export class MapInputDirective extends BaseWidgetComponent {
 
     private model: { [name: string]: any } = {};
 
-    constructor(private service: MapService, private renderer: Renderer2) {
+    constructor(private el: ElementRef<HTMLElement>, private service: MapService, private renderer: Renderer2) {
         super();
     }
 
@@ -51,36 +51,78 @@ export class MapInputDirective extends BaseWidgetComponent {
      * Start of move event
      * @param e
      */
-    @HostListener('panstart', ['$event']) public moveStart(e) {
+    @HostListener('touchstart', ['$event']) public touchMoveStart(e) {
         if (this.lock) { return; }
+        this.moveStart(e);
+        this.model.listen_move = this.renderer.listen('window', 'touchmove', (e) => this.move(e));
+        this.model.listen_move_end = this.renderer.listen('window', 'touchend', (e) => this.moveEnd());
+    }
+
+    /**
+     * Start of move event
+     * @param e
+     */
+    @HostListener('mousedown', ['$event']) public mouseMoveStart(e) {
+        if (this.lock) { return; }
+        e.center = e.center || { x: e.clientX, y: e.clientY };
+        this.moveStart(e);
+        this.model.listen_move = this.renderer.listen('window', 'mousemove', (e) => this.move(e));
+        this.model.listen_move_end = this.renderer.listen('window', 'mouseup', (e) => this.moveEnd());
+    }
+
+    public moveStart(e) {
+        if (this.model.listen_move) {
+            this.model.listen_move();
+            this.model.listen_move = null;
+        }
+        if (this.model.listen_move_end) {
+            this.model.listen_move_end();
+            this.model.listen_move_end = null;
+        }
+        this.model.center_start = this.center;
         this.model.target = e.target;
         this.model.dx = e.center.x;
         this.model.dy = e.center.y;
+        this.model.map_box = this.map.getBoundingClientRect();
+    }
+
+    public moveEnd() {
+        if (this.model.listen_move) {
+            this.model.listen_move();
+            this.model.listen_move = null;
+        }
+        if (this.model.listen_move_end) {
+            this.model.listen_move_end();
+            this.model.listen_move_end = null;
+        }
+    }
+
+    public get isIE() {
+        return navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || !!navigator.userAgent.match(/MSIE/g);
     }
 
     /**
      * Move event
      * @param e
      */
-    @HostListener('panmove', ['$event']) public move(e) {
+    public move(e) {
         if (this.lock) { return; }
-        const scale = this.scale || 1;
+        e.center = e.center || { x: e.clientX, y: e.clientY };
         const dx = e.center.x - this.model.dx;
         const dy = e.center.y - this.model.dy;
-        const center = this.center || { x: .5, y: .5 }
-        const delta_x = +(dx / this.model.map_box.width).toFixed(4) / scale * 1.5;
-        const delta_y = +(dy / this.model.map_box.height).toFixed(4) / scale * 1.5;
+        const center = this.model.center_start || { x: .5, y: .5 }
+        const delta_x = +(dx / this.model.map_box.width).toFixed(4);
+        const delta_y = +(dy / this.model.map_box.height).toFixed(4);
         this.model.center = { x: center.x - delta_x, y: center.y - delta_y };
         this.changePosition();
-        this.model.dx = e.center.x;
-        this.model.dy = e.center.y;
     }
 
     @HostListener('wheel', ['$event']) public wheelZoom(e) {
         if (this.lock) { return; }
         e.preventDefault();
         this.model.scale = this.scale || 1;
-        this.model.scale *= e.deltaY > 0 ? 1.05 : (e.deltaY < 0 ? (1 / 1.05) : 1);
+        const rate = (this.isIE ? 1.15 : 1.05);
+        this.model.scale *= (e.deltaY > 0 ? rate : (e.deltaY < 0 ? (1 / rate) : 1));
         this.check();
         this.scale = this.model.scale;
         this.scaleChange.emit(this.scale);
