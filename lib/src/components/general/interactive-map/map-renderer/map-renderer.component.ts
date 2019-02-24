@@ -123,6 +123,7 @@ export class MapRendererComponent extends BaseWidgetComponent {
                     this.model.map = this.content.nativeElement.querySelector('svg');
                     this.renderImage();
                     this.resize();
+                    this.renderer.setAttribute(this.model.map, 'preserveAspectRatio', 'xMidYMid meet');
                     this.map.emit(this.model.map);
                 }
             });
@@ -151,7 +152,7 @@ export class MapRendererComponent extends BaseWidgetComponent {
                 context.drawImage(this.model.img, 0, 0, canvas.width, canvas.height);
             };
             const data_with_styles = (this.model.map_data || '').replace(`</style>`, `${this.css}</style>`)
-                .replace('<svg', `<svg width="${width}px" height="${Math.floor(width / ratio)}px"`);
+                .replace('<svg', `<svg width="${width}px" height="${Math.floor(width / ratio)}px" preserveAspectRatio="xMidYMid meet"`);
             const base64_data = MapUtilities.base64Encode(data_with_styles);
             this.model.img.src = `data:image/svg+xml;base64,${base64_data}`;
         })
