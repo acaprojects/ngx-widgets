@@ -14,8 +14,8 @@ export class TouchReleaseDirective {
         this.start(e)
     }
 
-    @HostListener('touchstart', ['$event']) public touchstart(e: TouchEvent) {
-        this.start(e);
+    @HostListener('touchstart', ['$event']) public touchstart(e: Event) {
+        this.start(e as TouchEvent);
     }
 
 
@@ -23,8 +23,8 @@ export class TouchReleaseDirective {
         this.emit(e);
     }
 
-    @HostListener('touchend', ['$event']) public touch(e: TouchEvent) {
-        this.emit(e);
+    @HostListener('touchend', ['$event']) public touch(e: Event) {
+        this.emit(e as TouchEvent);
     }
 
     private start(e: MouseEvent | TouchEvent) {
@@ -55,10 +55,10 @@ export class TouchReleaseDirective {
 
     private getCenter(e: MouseEvent | TouchEvent) {
         let center = { x: 0, y: 0 }
-        if (e instanceof TouchEvent && e.touches && e.touches.length > 0) {
-            center = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        } else if (e instanceof MouseEvent) {
+        if (e instanceof MouseEvent) {
             center = { x: e.clientX, y: e.clientY };
+        } else if (e.touches && e.touches.length > 0) {
+            center = { x: e.touches[0].clientX, y: e.touches[0].clientY };
         }
         return center
     }

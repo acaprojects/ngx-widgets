@@ -12,8 +12,8 @@ export class TouchPressDirective {
         this.emit(e);
     }
 
-    @HostListener('touchstart', ['$event']) public touch(e: TouchEvent) {
-        this.emit(e);
+    @HostListener('touchstart', ['$event']) public touch(e: Event) {
+        this.emit(e as TouchEvent);
     }
 
     private emit(e: MouseEvent | TouchEvent) {
@@ -23,10 +23,10 @@ export class TouchPressDirective {
         }
         this.timer = <any>setTimeout(() => {
             let center = { x: 0, y: 0 }
-            if (e instanceof TouchEvent && e.touches && e.touches.length > 0) {
-                center = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-            } else if (e instanceof MouseEvent) {
+            if (e instanceof MouseEvent) {
                 center = { x: e.clientX, y: e.clientY };
+            } else if (e.touches && e.touches.length > 0) {
+                center = { x: e.touches[0].clientX, y: e.touches[0].clientY };
             }
             this.event.emit({ ...e, center });
             this.timer = null;
