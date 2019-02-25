@@ -36,7 +36,8 @@ export class CalendarShowcaseComponent {
     };
 }`,
                 example: `{
-    limit: 3,
+    from: ${moment().startOf('d').valueOf()},
+    to: ${moment().add(3, 'M').valueOf()},
     path: false,
     format: {
         day: 'ddd',
@@ -56,6 +57,8 @@ export class CalendarShowcaseComponent {
      [(date)]=&quot;date&quot;
      [options]=&quot;calendar_options&quot;&gt;
 &lt;/calendar&gt;`;
+        this.model.today = moment().valueOf();
+        this.model.end = moment().add(90, 'd').valueOf();
 
         // this.model.date = moment().add(7, 'd').valueOf();
         this.model.events = {};

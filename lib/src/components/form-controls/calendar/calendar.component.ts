@@ -133,7 +133,8 @@ export class CalendarComponent extends BaseFormWidgetComponent<number> implement
         const set_date = moment(this.model);
         const date = moment();
         const today = moment();
-        date.add(this.data.offset || 0, 'months');
+        date.add(this.data.offset || 0, 'M');
+        const active_month = moment(date);
             // Create display for month
         if (this.options && this.options.format) {
             this.display = date.format(this.options.format.month || 'MMMM YYYY');
@@ -159,7 +160,7 @@ export class CalendarComponent extends BaseFormWidgetComponent<number> implement
                     today: date.isSame(today, 'd'),
                     events: this.events ? this.events[date.format('YYYY-MM-DD')] || 0 : 0,
                     disabled: (this.data.from && date.isBefore(this.data.from, 'd')) || (this.data.to && date.isAfter(this.data.to, 'd')),
-                    this_month: date.isSame(today, 'M'),
+                    this_month: date.isSame(active_month, 'M'),
                 };
                 week.push(day);
                 date.add(1, 'days');
