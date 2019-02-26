@@ -3,7 +3,7 @@
         <div class="render-block" #content [style.width]="model.zoom + '%'" [style.height]="model.zoom + '%'"
             [style.transform]="'translate(' + model.position.x + '%, ' + model.position.y + '%)'">
             <div class="blk">
-                <div class="map-block" *ngIf="!isIE" [style.opacity]="model.zooming ? 0 : 1" [innerHTML]="model.map_data | safe"></div>
+                <div class="map-block" [style.opacity]="isIE || model.zooming ? 0 : 1" [innerHTML]="model.map_data | safe"></div>
                 <div class="map-block" *ngIf="isIE" [style.opacity]="model.zooming ? 0 : 1">
                     <img *ngIf="model.img && model.img.src" [src]="model.img.src | safeurl">
                 </div>
