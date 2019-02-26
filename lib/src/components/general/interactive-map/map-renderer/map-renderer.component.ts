@@ -54,6 +54,10 @@ export class MapRendererComponent extends BaseWidgetComponent {
         }
     }
 
+    public get isIE() {
+        return navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || !!navigator.userAgent.match(/MSIE/g);
+    }
+
     /**
      * Update display of map
      */
@@ -124,6 +128,8 @@ export class MapRendererComponent extends BaseWidgetComponent {
                     this.renderImage();
                     this.resize();
                     this.renderer.setAttribute(this.model.map, 'preserveAspectRatio', 'xMidYMid meet');
+                    this.renderer.setStyle(this.model.map, 'width', '100%');
+                    this.renderer.setStyle(this.model.map, 'margin', 'auto');
                     this.map.emit(this.model.map);
                 }
             });

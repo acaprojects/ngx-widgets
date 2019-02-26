@@ -45,12 +45,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    @media all and (-ms-high-contrast:none) {
-        opacity: 0 !important;
-        &.ie {
-            opacity: 1 !important;
-        }
-    }
 
     img {
         height: 100%;
