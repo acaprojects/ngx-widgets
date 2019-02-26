@@ -5,6 +5,7 @@ import { BaseWidgetComponent } from '../../../shared/base.component';
 import { MapService } from '../../../services/map.service';
 import { IMapPoint } from './map-renderer/map-renderer.component';
 import { IMapListener } from './map-styler.directive';
+import { timeout } from 'q';
 
 export interface IMapPointOfInterest {
     id?: string;
@@ -97,6 +98,10 @@ export class MapComponent extends BaseWidgetComponent implements OnChanges {
 
     public handleEvent(e) {
 
+    }
+
+    public updateMap(el: SVGElement) {
+        this.timeout('map', () => this.model.map = el, 10);
     }
 
 }
