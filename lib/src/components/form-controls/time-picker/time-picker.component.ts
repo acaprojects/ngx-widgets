@@ -151,9 +151,9 @@ export class TimePickerComponent extends BaseFormWidgetComponent<string> impleme
     }
 
     public togglePeriod(afternoon: boolean = false, name: string = 'date') {
-        const hour = this.model[name].hours();
-        if (hour >= 12 && !afternoon) { this.model[name].hours(hour % 12); }
-        else if (hour < 12 && afternoon) { this.model[name].hours(hour + 12); }
+        const hour = this.data[name].hours();
+        if (hour >= 12 && !afternoon) { this.data[name].hours(hour % 12); }
+        else if (hour < 12 && afternoon) { this.data[name].hours(hour + 12); }
         if (this.data.active) {
             this.data.active.afternoon = afternoon;
         }
