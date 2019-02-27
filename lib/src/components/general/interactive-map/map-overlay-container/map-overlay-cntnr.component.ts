@@ -10,7 +10,7 @@ import { MapService } from '../../../../services/map.service';
 @Component({
     selector: 'map-overlay-container',
     template: `
-        <div #el class="overlay-container">
+        <div #el class="overlay-container" (window:resize)="updateItems()">
             <div><ng-container #content></ng-container></div>
         </div>
     `, styles: [`
@@ -30,7 +30,8 @@ import { MapService } from '../../../../services/map.service';
 })
 export class MapOverlayContainerComponent extends OverlayContainerComponent {
     @Input() items: IMapPointOfInterest[];
-    @Input() map: Element;
+    @Input() map: SVGElement;
+    @Input() container: HTMLDivElement;
     @Input() scale: number;
     @Output() event = new EventEmitter();
 
@@ -76,13 +77,13 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
      * Render new overlay items on the container
      */
     public updateItems() {
-        if (!this.map) {
+        if (!this.map || !this.container) {
             return this.timeout('update', () => this.updateItems());
         }
         for (const item of (this.items || [])) {
             if (!item.exists) {
                 this.add(item.id, item.cmp).then((inst: any) => {
-                    const box = this.map.getBoundingClientRect();
+                    const box = this.container.getBoundingClientRect();
                     if (!item.model) { item.model = item.data || {}; }
                     const el = item.id ? this.map.querySelector(MapUtilities.cleanCssSelector(`#${item.id}`)) : null;
                     if (el || item.coordinates) {

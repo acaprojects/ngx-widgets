@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit, OnChanges, Output, EventEmitter, TemplateRef, Type, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, Output, EventEmitter, TemplateRef, Type, SimpleChanges, ViewChild, ElementRef } from '@angular/core';
 
 import { BaseWidgetComponent } from '../../../shared/base.component';
 import { MapService } from '../../../services/map.service';

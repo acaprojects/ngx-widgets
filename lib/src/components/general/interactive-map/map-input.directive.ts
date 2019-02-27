@@ -54,7 +54,6 @@ export class MapInputDirective extends BaseWidgetComponent {
     @HostListener('touchstart', ['$event']) public touchMoveStart(e) {
         if (this.lock) { return; }
         e.center = e.center || { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        console.log('Start:', e.center);
         this.moveStart(e);
         this.model.listen_move = this.renderer.listen('window', 'touchmove', (e) => this.move(e));
         this.model.listen_move_end = this.renderer.listen('window', 'touchend', (e) => this.moveEnd());

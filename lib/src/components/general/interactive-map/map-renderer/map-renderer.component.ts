@@ -23,6 +23,7 @@ export class MapRendererComponent extends BaseWidgetComponent {
     @Input() public items: IMapPointOfInterest[];
     @Output() public map = new EventEmitter();
 
+    @ViewChild('renderBlock') public render_block: ElementRef;
     @ViewChild('canvas') private canvas: ElementRef;
     @ViewChild('content') private content: ElementRef;
     @ViewChild('container') private container: ElementRef;
