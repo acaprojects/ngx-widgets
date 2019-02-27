@@ -6,7 +6,7 @@
                     [class.active]="data.active && (data.active.period === 0 || data.active.period === 1)">
                     Start time
                 </div>
-                <div class="time start" *ngIf="display.start">
+                <div class="time start" *ngIf="display">
                     <div class="block hours" [class.active]="data.active && data.active.period === 0" (touchrelease)="select(0)" click-responder>{{display.start_hour}}</div>
                     <div class="block divider">:</div>
                     <div class="block minutes" [class.active]="data.active && data.active.period === 1" (touchrelease)="select(1)" click-responder>{{display.start_minute}}</div>
@@ -21,7 +21,7 @@
                     [class.active]="data.active && (data.active.period === 2 || data.active.period === 3)">
                     End time
                 </div>
-                <div class="time start" *ngIf="display.end">
+                <div class="time start" *ngIf="display">
                     <div class="block hours" [class.active]="data.active && data.active.period === 2" (touchrelease)="select(2)" click-responder>{{display.end_hour}}</div>
                     <div class="block divider">:</div>
                     <div class="block minutes" [class.active]="data.active && data.active.period === 3" (touchrelease)="select(3)" click-responder>{{display.end_minute}}</div>
