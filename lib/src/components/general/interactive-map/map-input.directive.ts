@@ -239,6 +239,7 @@ export class MapInputDirective extends BaseWidgetComponent {
                 const el = this.map.querySelector(selector);
                 if (el) {
                     this.renderer.setStyle(el, 'pointer-events', 'auto');
+                    this.renderer.setStyle(el, 'display', 'inline-block');
                     this.subs.obs[`listen_${selector}`] = this.renderer.listen(el, item.event || 'click', () => {
                         if (item.callback) { item.callback(); }
                         else { this.event.emit({ id: selector, type: 'listener_event' }); }
@@ -262,6 +263,7 @@ export class MapInputDirective extends BaseWidgetComponent {
                     const el = this.map.querySelector(selector);
                     if (el) {
                         this.renderer.setStyle(el, 'pointer-events', '');
+                        this.renderer.setStyle(el, 'display', '');
                     }
                     const item = this.subs.obs[`listen_${selector}`];
                     item instanceof Function ? item() : item.unsubscribe();
