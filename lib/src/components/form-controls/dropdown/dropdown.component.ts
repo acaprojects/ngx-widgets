@@ -5,6 +5,12 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 import { BaseFormWidgetComponent } from '../../../shared/base-form.component';
 
+declare global {
+    interface HTMLElement {
+        scroll_viewport: CdkVirtualScrollViewport;
+    }
+}
+
 @Component({
     selector: 'dropdown',
     templateUrl: './dropdown.template.html',
@@ -29,6 +35,7 @@ export class DropdownComponent extends BaseFormWidgetComponent<number> implement
     @ViewChild('input') private input: ElementRef;
 
     @ViewChild(CdkVirtualScrollViewport) private viewport: CdkVirtualScrollViewport;
+    @ViewChild('viewport') private scroll_el: ElementRef;
 
     public show = false;
     public longest: string;
@@ -68,9 +75,11 @@ export class DropdownComponent extends BaseFormWidgetComponent<number> implement
     }
 
     public updateScroll() {
-        if (!this.viewport) {
+        if (!this.viewport || !this.scroll_el) {
             return this.timeout('scroll', () => this.updateScroll(), 50);
         }
+            // Add scroll viewport to element to allow for debugging and easier e2e testing
+        this.viewport.elementRef.nativeElement.scroll_viewport = this.viewport;
         this.viewport.scrollToIndex(this.model);
     }
 

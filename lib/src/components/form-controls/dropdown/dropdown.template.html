@@ -36,7 +36,7 @@
             </div>
             <div class="list show" [style.height]="(list_height * 2 * font_size) + 'px'">
                 <ng-container *ngIf="filtered_list">
-                    <cdk-virtual-scroll-viewport [itemSize]="2 * font_size">
+                    <cdk-virtual-scroll-viewport #viewport [itemSize]="2 * font_size">
                         <ng-container *cdkVirtualFor="let item of filtered_list; let i = index">
                             <div class="item" [class.hide]="hideActive && (item.i || i) === model" (touchrelease)="select(item.i >= 0 ? item.i || i : i)">
                                 <div class="text">{{ item.name || item }}</div>
