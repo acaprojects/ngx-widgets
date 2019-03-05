@@ -127,7 +127,7 @@ export class MapRendererComponent extends BaseWidgetComponent {
                     this.model.loading = true;
                     this.model.map = this.content.nativeElement.querySelector('svg');
                     this.renderImage();
-                    this.resize();
+                    this.timeout('resize', () => this.resize());
                     if (this.model.map) {
                         this.renderer.setAttribute(this.model.map, 'preserveAspectRatio', 'xMidYMid meet');
                         this.renderer.setStyle(this.model.map, 'width', '100%');
