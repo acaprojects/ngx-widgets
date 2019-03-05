@@ -9,6 +9,7 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
+        "cypress": "cypress",
         "packagr": "ng-packagr -p package.json"
     },
     "$schema": "./node_modules/ng-packagr/package.schema.json",
@@ -49,6 +50,7 @@
         "@types/node": "^6.14.0",
         "codelyzer": "^4.5.0",
         "core-js": "^2.5.7",
+        "cypress": "^3.1.5",
         "electron-packager": "^10.1.2",
         "faker": "^4.1.0",
         "gulp": "^3.9.1",
