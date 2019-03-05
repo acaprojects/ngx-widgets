@@ -4,7 +4,7 @@
             <i *ngIf="field.icon.type === 'icon' || field.icon.class" [class]="field.icon.class">{{field.icon?.value}}</i>
             <img *ngIf="field.icon.type !== 'icon' && !field.icon.class" [src]="field.icon.src">
         </div> -->
-        <label [attr.for]="field.key">
+        <label [attr.for]="field.key" *ngIf="!field.no_label">
             {{field.label}}
             <ng-container *ngIf="count">({{count}})</ng-container>
             <span *ngIf="field.required">*</span>
@@ -16,7 +16,7 @@
         <ng-container *ngIf="!field.readonly">
             <div class="value" [class.flex]="field.flex" [ngSwitch]="field.control_type" [style.max-width]="field.width">
                 <!-- TEXT INPUT -->
-                <input *ngSwitchCase="'text'" [formControlName]="field.key" [id]="field.key" [placeholder]="field.label"
+                <input *ngSwitchCase="'text'" #input [formControlName]="field.key" [id]="field.key" [placeholder]="field.label"
                     [type]="field.type">
                 <!-- DROPDOWN -->
                 <dropdown klass="form" *ngSwitchCase="'dropdown'" [list]="field.options" [formControlName]="field.key"
@@ -36,7 +36,7 @@
                     </ng-container>
                 </div>
                 <!-- TEXTAREA -->
-                <textarea klass="form" *ngSwitchCase="'textarea'" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                <textarea klass="form" *ngSwitchCase="'textarea'" #input cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                     cdkAutosizeMinRows="4" cdkAutosizeMaxRows="8" [formControlName]="field.key" [id]="field.key"
                     [placeholder]="field.label"></textarea>
                 <!-- TOGGLE -->
@@ -50,7 +50,7 @@
                 <custom-field *ngSwitchCase="'custom'" [field]="field" [form]="form" [cmp]="field.cmp"></custom-field>
             </div>
         </ng-container>
-        <div class="state">
+        <div class="state" *ngIf="!field.no_status">
             <i [style.opacity]="dirty && value && (isValid || errors) ? 1 : 0" class="material-icons">
                 {{ errors && dirty ? 'error' : 'done' }}
             </i>

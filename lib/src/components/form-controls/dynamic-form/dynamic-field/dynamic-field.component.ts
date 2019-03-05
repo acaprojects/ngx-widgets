@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { FormGroup, Validators, AbstractControl } from '@angular/forms';
 
 import { DynamicField } from '../dynamic-field.class';
@@ -16,6 +16,12 @@ export class DynamicFormFieldComponent extends BaseWidgetComponent implements On
 
     public ignore: any;
 
+    @ViewChild('input') private input: ElementRef<HTMLInputElement | HTMLTextAreaElement>;
+
+    constructor(private renderer: Renderer2) {
+        super();
+    }
+
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.form || changes.field) {
             if (this.subs.obs.control) {
@@ -25,6 +31,7 @@ export class DynamicFormFieldComponent extends BaseWidgetComponent implements On
                 const field = this.form.controls[this.field.key];
                 this.subs.obs.control = field.valueChanges.subscribe(() => this.performAction());
             }
+            this.setAttributes();
         }
     }
 
@@ -86,5 +93,18 @@ export class DynamicFormFieldComponent extends BaseWidgetComponent implements On
                 }
             }
         }, 100);
+    }
+
+    private setAttributes(tries: number = 0) {
+        if (tries > 20) { return; }
+        if (this.field.attributes && this.field.attributes.length > 0) {
+            if (this.input && this.input.nativeElement) {
+                for (const attr of this.field.attributes) {
+                    this.renderer.setAttribute(this.input.nativeElement, attr.name, attr.value);
+                }
+            } else {
+                this.timeout('set_attributes', () => this.setAttributes(++tries));
+            }
+        }
     }
 }

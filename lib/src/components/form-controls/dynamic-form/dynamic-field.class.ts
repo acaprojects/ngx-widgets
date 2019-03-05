@@ -21,6 +21,9 @@ export interface IDynamicFieldOptions<T> {
     cmp?: Type<any>;
     flex?: boolean;
     readonly?: boolean;
+    no_label?: boolean;
+    no_status?: boolean;
+    attributes?: { name: string, value: string }[];
     match?: string;
     metadata?: { [name: string]: any };
     children?: IDynamicFieldOptions<any>[];
@@ -55,6 +58,9 @@ export class DynamicField<T> {
     public cmp: Type<any>;
     public flex: boolean;
     public readonly: boolean;
+    public no_label: boolean;
+    public no_status: boolean;
+    public attributes: { name: string, value: string }[];
     public match: string;
     public metadata: { [name: string]: any };
     public format: (value: T) => string;
@@ -81,6 +87,9 @@ export class DynamicField<T> {
         this.flex = options.flex;
         this.match = options.match;
         this.readonly = options.readonly;
+        this.no_label = options.no_label;
+        this.no_status = options.no_status;
+        this.attributes = options.attributes;
         this.metadata = options.metadata;
         this.cmp = options.cmp;
     }
