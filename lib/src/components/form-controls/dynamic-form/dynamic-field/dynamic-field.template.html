@@ -9,41 +9,47 @@
             <ng-container *ngIf="count">({{count}})</ng-container>
             <span *ngIf="field.required">*</span>
         </label>
-        <div class="value" [class.flex]="field.flex" [ngSwitch]="field.control_type" [style.max-width]="field.width">
-            <!-- TEXT INPUT -->
-            <input *ngSwitchCase="'text'" [formControlName]="field.key" [id]="field.key" [placeholder]="field.label"
-                [type]="field.type">
-            <!-- DROPDOWN -->
-            <dropdown klass="form" *ngSwitchCase="'dropdown'" [list]="field.options" [formControlName]="field.key" [id]="field.key"
-                [placeholder]="field.label"></dropdown>
-            <!-- ACTION FIELD -->
-            <div class="select" *ngSwitchCase="'select'">
-                <span *ngIf="format" (touchrelease)="performAction()">{{format}}</span>
-                <span class="dim" *ngIf="!format" (touchrelease)="performAction()">No {{field.label}}</span>
-            </div>
-            <!-- FIELD GROUP -->
-            <div class="group" *ngSwitchCase="'group'">
-                <ng-container *ngFor="let item of field.children; let i = index">
-                    <div class="spacer" *ngIf="i !== 0"></div>
-                    <div class="item">
-                        <dynamic-field [field]="item" [form]="form"></dynamic-field>
-                    </div>
-                </ng-container>
-            </div>
-            <!-- TEXTAREA -->
-            <textarea klass="form" *ngSwitchCase="'textarea'" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                cdkAutosizeMinRows="4" cdkAutosizeMaxRows="8" [formControlName]="field.key" [id]="field.key"
-                [placeholder]="field.label"></textarea>
-            <!-- TOGGLE -->
-            <ng-container *ngSwitchCase="'toggle'">
-                <toggle klass="form" type="android" [formControlName]="field.key" [id]="field.key" [options]="{ on_text: 'Yes', off_text: 'No' }"></toggle>
-                <div *ngIf="field.format && format">{{format}}</div>
-            </ng-container>
-            <!-- SLIDER -->
-            <slider klass="form" *ngSwitchCase="'slider'" [formControlName]="field.key" [id]="field.key"></slider>
-            <!-- CUSTOM FIELD -->
-            <custom-field *ngSwitchCase="'custom'" [field]="field" [form]="form" [cmp]="field.cmp"></custom-field>
+        <div class="value readonly" *ngIf="field.readonly">
+            <span *ngIf="format" (touchrelease)="performAction()">{{format}}</span>
+            <span class="dim" *ngIf="!format" (touchrelease)="performAction()">No {{field.label}}</span>
         </div>
+        <ng-container *ngIf="!field.readonly">
+            <div class="value" [class.flex]="field.flex" [ngSwitch]="field.control_type" [style.max-width]="field.width">
+                <!-- TEXT INPUT -->
+                <input *ngSwitchCase="'text'" [formControlName]="field.key" [id]="field.key" [placeholder]="field.label"
+                    [type]="field.type">
+                <!-- DROPDOWN -->
+                <dropdown klass="form" *ngSwitchCase="'dropdown'" [list]="field.options" [formControlName]="field.key"
+                    [id]="field.key" [placeholder]="field.label"></dropdown>
+                <!-- ACTION FIELD -->
+                <div class="select" *ngSwitchCase="'select'">
+                    <span *ngIf="format" (touchrelease)="performAction()">{{format}}</span>
+                    <span class="dim" *ngIf="!format" (touchrelease)="performAction()">No {{field.label}}</span>
+                </div>
+                <!-- FIELD GROUP -->
+                <div class="group" *ngSwitchCase="'group'">
+                    <ng-container *ngFor="let item of field.children; let i = index">
+                        <div class="spacer" *ngIf="i !== 0"></div>
+                        <div class="item">
+                            <dynamic-field [field]="item" [form]="form"></dynamic-field>
+                        </div>
+                    </ng-container>
+                </div>
+                <!-- TEXTAREA -->
+                <textarea klass="form" *ngSwitchCase="'textarea'" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="4" cdkAutosizeMaxRows="8" [formControlName]="field.key" [id]="field.key"
+                    [placeholder]="field.label"></textarea>
+                <!-- TOGGLE -->
+                <ng-container *ngSwitchCase="'toggle'">
+                    <toggle klass="form" type="android" [formControlName]="field.key" [id]="field.key" [options]="{ on_text: 'Yes', off_text: 'No' }"></toggle>
+                    <div *ngIf="field.format && format">{{format}}</div>
+                </ng-container>
+                <!-- SLIDER -->
+                <slider klass="form" *ngSwitchCase="'slider'" [formControlName]="field.key" [id]="field.key"></slider>
+                <!-- CUSTOM FIELD -->
+                <custom-field *ngSwitchCase="'custom'" [field]="field" [form]="form" [cmp]="field.cmp"></custom-field>
+            </div>
+        </ng-container>
         <div class="state">
             <i [style.opacity]="dirty && value && (isValid || errors) ? 1 : 0" class="material-icons">
                 {{ errors && dirty ? 'error' : 'done' }}
