@@ -2,7 +2,7 @@
 <div [class]="'calendar' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '')" widget>
     <div class="header">
         <div class="display">
-            <div class="change previous" *ngIf="data.limit !== 0" [class.disabled]="(options && options.past && data.offset <= (-data.limit || 0)) || data.offset <= 0" (click)="changeMonth(-1)">&#706;</div>
+            <div class="change previous" *ngIf="data.limit !== 0" [class.disabled]="data.offset <= -(data.limit || model.from_limit || 0) || data.offset <= 0" (click)="changeMonth(-1)">&#706;</div>
             <div class="month" (dblclick)="changeMonth(-data.offset)">{{ display }}</div>
             <div class="change next" *ngIf="data.limit !== 0" [class.disabled]="data.offset >= (data.limit || 12)" (click)="changeMonth(1)">&#707;</div>
         </div>
@@ -18,10 +18,10 @@
                         [class.disabled]="day.disabled"
                         [class.active]="day.active && !disabled"
                         [class.non-month]="!day.this_month"
-                        [class.event]="day.events && !day.past && day.this_month"
+                        [class.event]="day.events && !day.disabled && day.this_month"
                         (touchrelease)="day.this_month ? setDate(day) : ''">
                         {{ day.date }}
-                        <div class="events" *ngIf="day.events && !day.past && day.this_month">{{day.events}}</div>
+                        <div class="events" *ngIf="day.events && !day.disabled && day.this_month">{{day.events}}</div>
                     </div>
                     <div class="bar" *ngIf="day.today"></div>
                 </div>

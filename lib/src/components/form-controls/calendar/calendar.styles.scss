@@ -30,6 +30,16 @@
     &:hover {
         opacity: .8;
     }
+
+    &.disabled {
+        color: rgba(#000, .87);
+        opacity: .2;
+        &:hover {
+            color: rgba(#000, .87);
+            opacity: .2;
+            background: none;
+        }
+    }
 }
 
 .display {

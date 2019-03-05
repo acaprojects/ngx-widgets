@@ -63,6 +63,9 @@ export class CalendarComponent extends BaseFormWidgetComponent<number> implement
             if (!this.options) { this.options = {}; }
             if (this.options.from) {
                 this.data.from = moment(this.options.from);
+                const end = moment(this.data.from).endOf('M')
+                const now = moment().startOf('M');
+                this.data.from_limit = Math.ceil(moment.duration(end.diff(now)).asMonths()) - 1;
             } else {
                 this.data.from = null;
             }
