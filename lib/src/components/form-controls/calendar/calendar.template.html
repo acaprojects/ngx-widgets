@@ -2,7 +2,7 @@
 <div [class]="'calendar' + (klass ? ' ' + klass : '') + (disabled ? ' disable' : '')" widget>
     <div class="header">
         <div class="display">
-            <div class="change previous" *ngIf="data.limit !== 0" [class.disabled]="data.offset <= -(data.limit || model.from_limit || 0) || data.offset <= 0" (click)="changeMonth(-1)">&#706;</div>
+            <div class="change previous" *ngIf="data.limit !== 0" [class.disabled]="data.offset <= -(data.limit || data.from_limit || 0) || data.offset <= 0" (click)="changeMonth(-1)">&#706;</div>
             <div class="month" (dblclick)="changeMonth(-data.offset)">{{ display }}</div>
             <div class="change next" *ngIf="data.limit !== 0" [class.disabled]="data.offset >= (data.limit || 12)" (click)="changeMonth(1)">&#707;</div>
         </div>
