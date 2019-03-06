@@ -1,9 +1,9 @@
 <div class="dynamic-field" widget [formGroup]="form" *ngIf="field && !field.hide && (field.control_type !== 'custom' || field.cmp)">
     <div [class]="'field ' + field.control_type + ' ' + field.key" [class.error]="(errors && dirty)">
-        <!-- <div class="icon" *ngIf="field.icon">
+        <div class="icon" *ngIf="field.icon">
             <i *ngIf="field.icon.type === 'icon' || field.icon.class" [class]="field.icon.class">{{field.icon?.value}}</i>
             <img *ngIf="field.icon.type !== 'icon' && !field.icon.class" [src]="field.icon.src">
-        </div> -->
+        </div>
         <label [attr.for]="field.key" *ngIf="!field.no_label">
             {{field.label}}
             <ng-container *ngIf="count">({{count}})</ng-container>
