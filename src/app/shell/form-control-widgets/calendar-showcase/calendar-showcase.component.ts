@@ -70,4 +70,9 @@ export class CalendarShowcaseComponent {
         this.model.events[moment().add(12, 'd').format('YYYY-MM-DD')] = Math.floor(Math.random() * 4 + 8);
         this.model.events[moment().add(14, 'd').format('YYYY-MM-DD')] = Math.floor(Math.random() * 4 + 8);
     }
+
+    public log(value) {
+        const date = moment(value)
+        console.log(`[CALENDAR] Selected date:`, date.format('DD/MM/YYYY'));
+    }
 }
