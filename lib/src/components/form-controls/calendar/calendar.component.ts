@@ -172,13 +172,18 @@ export class CalendarComponent extends BaseFormWidgetComponent<number> implement
             }
             month.push(week);
         }
+        this.checkOffset();
+        this.data.month = month;
+    }
+
+    public checkOffset() {
+        const today = moment();
         this.disable_prev = false;
         this.disable_next = false;
         if (this.options) {
             if (this.options.from) {
                 const from = moment(this.options.from);
                 const past_offset = Math.ceil(moment.duration(today.diff(from)).asMonths()) || 0;
-                console.log('Past Offset:', past_offset);
                 if (this.data.offset <= -past_offset) {
                     this.disable_prev = true;
                 }
@@ -186,12 +191,10 @@ export class CalendarComponent extends BaseFormWidgetComponent<number> implement
             if (this.options.to) {
                 const to = moment(this.options.to);
                 const future_offset = Math.floor(moment.duration(today.diff(to)).asMonths())|| 0;
-                console.log('Future Offset:', future_offset);
                 if (this.data.offset >= future_offset) {
                     this.disable_next = true;
                 }
             }
         }
-        this.data.month = month;
     }
 }
