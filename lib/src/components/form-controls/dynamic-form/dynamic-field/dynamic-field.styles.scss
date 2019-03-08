@@ -1,6 +1,15 @@
 
 @import '../../../../shared/ui-vars.scss';
 
+
+.disabled {
+    opacity: .54;
+    pointer-events: none;
+    * {
+        pointer-events: none;
+    }
+}
+
 .field {
     display: flex;
     flex-wrap: wrap;

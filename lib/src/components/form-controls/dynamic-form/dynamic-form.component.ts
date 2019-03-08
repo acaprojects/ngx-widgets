@@ -57,8 +57,9 @@ export class DynamicFormComponent extends BaseWidgetComponent implements OnChang
             if (item.children) {
                 item.children.forEach(handleItem);
             }
-            group[item.key] = validators && validators.length > 0 ? new FormControl(item.value || '', validators)
-                : new FormControl(item.value || '');
+            group[item.key] = validators && validators.length > 0 ?
+                new FormControl({ value: item.value || '', disabled: item.disabled }, validators) :
+                new FormControl({ value: item.value || '', disabled: item.disabled });
             if (item.dirty) { (group[item.key] as FormControl).markAsDirty(); }
         };
 

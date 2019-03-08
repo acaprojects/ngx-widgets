@@ -11,6 +11,7 @@ export interface IDynamicFieldOptions<T> {
     width?: string;
     type?: string;
     dirty?: boolean;
+    disabled?: boolean;
     icon?: IDynamicFieldIcon;
     validators?: ((AbstractControl) => any)[];
     control_type?: string;
@@ -18,7 +19,7 @@ export interface IDynamicFieldOptions<T> {
     hide?: boolean;
     refs?: string[];
     options?: any[];
-    cmp?: Type<any>;
+    cmp?: Type<any> | string;
     flex?: boolean;
     readonly?: boolean;
     no_label?: boolean;
@@ -39,6 +40,8 @@ export interface IDynamicFieldIcon {
 }
 
 export class DynamicField<T> {
+    public static COMPONENTS: { [name: string]: Type<any> } = {};
+
     public value: T;
     public key: string;
     public label: string;
@@ -49,6 +52,7 @@ export class DynamicField<T> {
     public type: string;
     public hide: boolean;
     public dirty: boolean;
+    public disabled: boolean;
     public options: any[];
     public refs: string[];
     public control_type: string;
@@ -91,7 +95,18 @@ export class DynamicField<T> {
         this.no_status = options.no_status;
         this.attributes = options.attributes;
         this.metadata = options.metadata;
-        this.cmp = options.cmp;
+        if (typeof options === 'string') {
+            this.cmp = DynamicField.COMPONENTS[this.cmp as any];
+        } else if (options.cmp instanceof Type) {
+            this.cmp = options.cmp;
+        }
+        console.log('Component:', this.cmp);
+        this.disabled = options.disabled;
+    }
+
+    public static registerCustom(name: string, cmp: Type<any>) {
+        DynamicField.COMPONENTS[name] = cmp;
+        console.log('Dynamic Fields:', DynamicField.COMPONENTS);
     }
 }
 

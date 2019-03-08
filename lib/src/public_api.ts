@@ -59,3 +59,4 @@ export * from './components/page-controls/stepper/stepper.component';
 export * from './components/page-controls/tab-group/tabs.component';
 
 export * from './components/form-controls/dynamic-form/dynamic-field.class';
+export * from './components/form-controls/dynamic-form/custom-field/custom-field.component';

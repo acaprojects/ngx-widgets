@@ -1,4 +1,4 @@
-<div class="dynamic-field" widget [formGroup]="form" *ngIf="field && !field.hide && (field.control_type !== 'custom' || field.cmp)">
+<div class="dynamic-field" widget [formGroup]="form" *ngIf="field && !field.hide && (field.control_type !== 'custom' || field.cmp)" [class.disabled]="field.disabled">
     <div [class]="'field ' + field.control_type + ' ' + field.key" [class.error]="(errors && dirty)">
         <div class="icon" *ngIf="field.icon">
             <i *ngIf="field.icon.type === 'icon' || field.icon.class" [class]="field.icon.class">{{field.icon?.value}}</i>
