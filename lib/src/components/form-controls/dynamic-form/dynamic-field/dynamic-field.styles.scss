@@ -2,6 +2,10 @@
 @import '../../../../shared/ui-vars.scss';
 
 
+.dynamic-field {
+    transition: opacity 200ms;
+}
+
 .disabled {
     opacity: .54;
     pointer-events: none;

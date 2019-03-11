@@ -1,7 +1,7 @@
 
 
 <div class="carousel-item" widget (touchrelease)="tap()">
-    <div class="content" [style.width]="(model.width * 100) + '%'"
+    <div class="content" [style.width]="(model.width * 100) + '%'" [class.show]="model.show"
         [style.transform]="'translateX(' + (100 * ((model.index || 0) - (model.offset || 0))) + '%)'"
         [style.display]="((model.index || 0) - (model.offset || 0) < -1) || (model.index || 0) - (model.offset || 0) > (model.count || 7) ? 'none' : ''">
         <ng-content></ng-content>
