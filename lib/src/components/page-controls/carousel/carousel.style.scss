@@ -21,6 +21,17 @@ carousel:host  {
     overflow: hidden;
 }
 
+.content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: visible;
+    white-space: nowrap;
+    transition: transform 200ms;
+}
+
 .arrow {
     position: absolute;
     top: 50%;

@@ -1,12 +1,17 @@
 
+carousel-item:host {
+    display: inline-block;
+    height: 100%;
+
+}
+
 .carousel-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
+    position: relative;
     overflow: hidden;
     pointer-events: none;
     min-width: 20%;
+    width: 100%;
+    height: 100%;
 }
 
 .content {

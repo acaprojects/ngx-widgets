@@ -46,6 +46,7 @@ export class CarouselComponent extends BaseWidgetComponent implements OnChanges,
         if (this.subs.obs.items) {
             this.subs.obs.items instanceof Function ? this.subs.obs.items() : this.subs.obs.items.unsubscribe();
             this.subs.obs.items = null;
+            this.index = 0;
         }
         this.subs.obs.items = this.items.changes.subscribe(() => this.init());
         this.init();
@@ -140,6 +141,7 @@ export class CarouselComponent extends BaseWidgetComponent implements OnChanges,
                 for (const item of list) {
                     item.model.width = 1 / this.model.count;
                     item.model.count = this.model.count;
+                    item.updateWidth();
                 }
             }
         }, 100);

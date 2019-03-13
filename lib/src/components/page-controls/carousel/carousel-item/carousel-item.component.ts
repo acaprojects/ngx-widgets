@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2 } from '@angular/core';
 
 import { CarouselComponent } from '../carousel.component';
 import { BaseWidgetComponent } from '../../../../shared/base.component';
@@ -21,6 +21,10 @@ export class CarouselItemComponent extends BaseWidgetComponent implements OnInit
     public parent: CarouselComponent;
     public model: { [name: string]: any } = {};
 
+    constructor(private el: ElementRef, private renderer: Renderer2) {
+        super();
+    }
+
     public ngOnInit(): void {
         this.timeout('show', () => this.model.show = true);
     }
@@ -29,5 +33,10 @@ export class CarouselItemComponent extends BaseWidgetComponent implements OnInit
         if (this.parent) {
             this.parent.tap(this.model.index);
         }
+    }
+
+    public updateWidth() {
+        if (!this.el || !this.el.nativeElement) { return; }
+        this.renderer.setStyle(this.el.nativeElement, 'width', `${this.model.width * 100}%`);
     }
 }
