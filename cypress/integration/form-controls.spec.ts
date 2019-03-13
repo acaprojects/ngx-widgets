@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 
 context('Calendar', () => {
-    const widget = `showcase .calendar[widget]`;
+    const widget = `calendar-showcase .calendar[widget]`;
 
     it('Load form controls', () => {
         cy.visit('http://localhost:4200/#/form-controls');
@@ -28,7 +28,14 @@ context('Calendar', () => {
     it('Changing to next month works', () => {
         cy.get(`${widget} .next`).click();
         cy.contains(`${widget} .month`, next_month.format('MMMM YYYY')).should('be.visible');
-        next_month.add(3, 'd');
-        cy.contains(`${widget} .day .content:not(.non-month)`).click();
     });
+
+    it('Change active day to 4th of next month', () => {
+        next_month.add(3, 'd');
+        cy.contains(`${widget} .day .content:not(.non-month)`, next_month.format('D')).click();
+    })
+
+    it('Should display the new date', () => {
+        cy.contains(`calendar-showcase .container > .date`, next_month.format('DD MMM YYYY')).should('be.visible');
+    })
 });

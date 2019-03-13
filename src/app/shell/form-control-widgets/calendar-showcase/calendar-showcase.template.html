@@ -2,5 +2,6 @@
 <showcase [(model)]="model">
     <div class="container">
         <calendar name="test" (modelChange)="log($event)" [today]="model.date" [options]="{ from: model.today, to: model.end }" [events]="model.events"></calendar>
+        <div class="date">{{model.display}}</div>
     </div>
 </showcase>

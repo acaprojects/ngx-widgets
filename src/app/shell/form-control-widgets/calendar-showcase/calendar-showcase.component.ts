@@ -57,8 +57,8 @@ export class CalendarShowcaseComponent {
      [(date)]=&quot;date&quot;
      [options]=&quot;calendar_options&quot;&gt;
 &lt;/calendar&gt;`;
-        this.model.today = moment().valueOf();
-        this.model.end = moment().add(90, 'd').valueOf();
+        this.model.today = moment().subtract(10, 'd').valueOf();
+        this.model.end = moment().add(3, 'M').valueOf();
 
         // this.model.date = moment().add(7, 'd').valueOf();
         this.model.events = {};
@@ -72,7 +72,8 @@ export class CalendarShowcaseComponent {
     }
 
     public log(value) {
-        const date = moment(value)
+        const date = moment(value);
+        this.model.display = date.format('DD MMM YYYY');
         console.log(`[CALENDAR] Selected date:`, date.format('DD/MM/YYYY'));
     }
 }
