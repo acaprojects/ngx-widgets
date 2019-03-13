@@ -75,12 +75,6 @@ export class AppShellComponent {
                 }
             }
         });
-
-        this.route.params.subscribe((params) => {
-            if (params.location) {
-                this.model.location = params.location;
-            }
-        });
     }
 
     public navigate(path: string) {
