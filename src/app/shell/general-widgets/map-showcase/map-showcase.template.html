@@ -4,6 +4,7 @@
         <map [src]="model.map.src" [listeners]="model.map.listeners" [styles]="model.map.styles" [poi]="model.map.poi" [focus]="model.map.focus"></map>
     </div>
     <div class="options">
+        <btn (tapped)="toggleMap()">Toggle Map</btn>
         <btn (tapped)="togglePin()">{{model.show.pin ? 'Remove pin' : 'Add pin'}}</btn>
         <btn (tapped)="toggleRadius()">{{model.show.radius ? 'Remove radius' : 'Add radius'}}</btn>
     </div>

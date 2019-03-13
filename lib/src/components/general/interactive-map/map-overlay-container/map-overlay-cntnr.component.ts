@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ComponentFactoryResolver, SimpleChanges, ChangeDetectorRef, Injector } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ComponentFactoryResolver, SimpleChanges, ChangeDetectorRef, Injector, Renderer2 } from '@angular/core';
 
 import { OverlayContainerComponent } from '../../../overlays/overlay-container/overlay-container.component';
 
@@ -6,6 +6,7 @@ import { IMapPointOfInterest } from '../map.component';
 import { MapUtilities } from '../map.utilities';
 import { WIDGETS } from '../../../../settings';
 import { MapService } from '../../../../services/map.service';
+import { Utility } from '../../../../shared/utility';
 
 @Component({
     selector: 'map-overlay-container',
@@ -37,9 +38,9 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
 
     protected map_service: MapService;
 
-    private model: { [name: string]: any } = {};
+    private list: IMapPointOfInterest[] = [];
 
-    constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, protected injector: Injector) {
+    constructor(protected _cfr: ComponentFactoryResolver, protected _cdr: ChangeDetectorRef, protected injector: Injector, protected renderer: Renderer2) {
         super(_cfr, _cdr, injector);
         this.id = `map-container-${Math.floor(Math.random() * 8999999 + 1000000)}`;
     }
@@ -50,12 +51,18 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
         if (this.service) {
             this.service.registerContainer(this.id, this);
         }
+        if (Utility.isIE()) {
+            this.renderer.listen('window', 'resize', () => {
+                this.clearItems(true);
+                this.timeout('update', () => this.updateItems(), 200);
+            })
+        }
     }
 
     public ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
         if (changes.items || changes.map) {
-            this.clearItems(!!changes.map);
+            this.clearItems(!changes.map);
             this.timeout('update', () => this.updateItems(), changes.map && !changes.map.previousValue ? 1000 : 200);
         }
         if (changes.scale) {
@@ -64,7 +71,7 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
     }
 
     public update() {
-        for (const item of (this.model.items || [])) {
+        for (const item of (this.list || [])) {
             if (item.instance) {
                 if (!item.model) { item.model = item.data || {}; }
                 item.model.scale = this.scale;
@@ -80,14 +87,24 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
         if (!this.map || !this.container) {
             return this.timeout('update', () => this.updateItems());
         }
+        const view_box = this.map.getAttribute('viewBox').split(' ');
+        const map_box = this.map.getBoundingClientRect();
+        const box = this.container.getBoundingClientRect();
+        const x_scale = Math.max(1, (map_box.width / map_box.height) / (+view_box[2] / +view_box[3]));
+        const y_scale = Math.max(1, (map_box.height / map_box.width) / (+view_box[3] / +view_box[2]));
         for (const item of (this.items || [])) {
             if (!item.exists) {
                 this.add(item.id, item.cmp).then((inst: any) => {
-                    const box = this.container.getBoundingClientRect();
                     if (!item.model) { item.model = item.data || {}; }
                     const el = item.id ? this.map.querySelector(MapUtilities.cleanCssSelector(`#${item.id}`)) : null;
                     if (el || item.coordinates) {
-                        item.model.center = MapUtilities.getPosition(box, el, item.coordinates) || { x: .5, y: .5 };
+                        const pos_box = Utility.isIE() && item.coordinates ? { width: +view_box[2], height: +view_box[3] } : box;
+                        item.model.center = MapUtilities.getPosition(pos_box, el, item.coordinates) || { x: .5, y: .5 };
+                        if (Utility.isIE() && item.coordinates) {
+                            // Normalise dimensions
+                            item.model.center.x = item.model.center.x / x_scale + (x_scale - 1) / 2;
+                            item.model.center.y = item.model.center.y / y_scale + (y_scale - 1) / 2;
+                        }
                         item.instance = inst;
                         item.model.scale = this.scale;
                         inst.service = this.service ? this.service.getService() || item.service : item.service;
@@ -112,14 +129,14 @@ export class MapOverlayContainerComponent extends OverlayContainerComponent {
                 if (item.instance) { item.instance.set(item.model); }
             }
         }
-        this.model.items = this.items;
+        this.list = this.items;
     }
 
     /**
      * Remove overlay items that don't exist anymore
      */
     public clearItems(force: boolean = false) {
-        for (const item of (this.model.items || [])) {
+        for (const item of (this.list || [])) {
             let found = false;
             if (item.instance && !force){
                 for (const new_itm of this.items) {

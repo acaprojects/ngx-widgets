@@ -36,14 +36,17 @@ export class MapUtilities {
 
     public static getPosition(box, el: Element, coords: IMapPoint) {
         let position = null;
+        // console.log('Box:', box);
         if (el) {
             const el_box = el.getBoundingClientRect();
+            // console.log('Element Box:', el_box);
             position = {
                 x: +(((el_box.left - box.left) / box.width + (el_box.width / 2) / box.width) * 100).toFixed(3),
                 y: +(((el_box.top - box.top) / box.height + (el_box.height / 2) / box.height) * 100).toFixed(3)
             };
         } else if (coords) {
             const ratio = box.width / box.height
+            // console.log(`Coords: ${JSON.stringify(coords)}, ${ratio}`);
             position = {
                 x: +((coords.x / 10000) * 100).toFixed(3),
                 y: +((coords.y / (10000 * ratio)) * 100).toFixed(3)

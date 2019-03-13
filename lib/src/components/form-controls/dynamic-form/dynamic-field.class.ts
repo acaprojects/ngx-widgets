@@ -100,13 +100,11 @@ export class DynamicField<T> {
         } else if (options.cmp instanceof Type) {
             this.cmp = options.cmp;
         }
-        console.log('Component:', this.cmp);
         this.disabled = options.disabled;
     }
 
     public static registerCustom(name: string, cmp: Type<any>) {
         DynamicField.COMPONENTS[name] = cmp;
-        console.log('Dynamic Fields:', DynamicField.COMPONENTS);
     }
 }
 

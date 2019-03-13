@@ -174,4 +174,8 @@ export class Utility {
             this.addClass(el, second);
         }
     }
+
+    public static isIE() {
+        return navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || !!navigator.userAgent.match(/MSIE/g);
+    }
 }

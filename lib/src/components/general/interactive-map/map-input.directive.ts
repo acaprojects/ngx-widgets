@@ -6,6 +6,7 @@ import { MapService } from "../../../services/map.service";
 import { IMapPoint } from "./map-renderer/map-renderer.component";
 import { IMapPointOfInterest } from "./map.component";
 import { MapUtilities } from "./map.utilities";
+import { Utility } from "../../../shared/utility";
 
 export interface IMapListener {
     id: string;
@@ -99,7 +100,7 @@ export class MapInputDirective extends BaseWidgetComponent {
     }
 
     public get isIE() {
-        return navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || !!navigator.userAgent.match(/MSIE/g);
+        return Utility.isIE()
     }
 
     /**

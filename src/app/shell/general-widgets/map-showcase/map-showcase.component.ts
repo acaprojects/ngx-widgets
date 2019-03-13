@@ -150,12 +150,16 @@ export class MapShowcaseComponent {
         this.updatePointsOfInterest();
     }
 
+    public toggleMap() {
+        this.model.map.src = this.model.map.src.indexOf('180') >= 0 ? 'assets/australia.svg' : 'assets/australia-180-rot.svg';
+    }
+
     public updatePointsOfInterest() {
         this.model.map.poi = [];
         if (this.model.show.radius) {
             this.model.map.poi.push({
                 id: 'Nyada',
-                coordinates:  { x: 5000, y: 3000 },
+                coordinates:  { x: 3000, y: 3000 },
                 cmp: MapRangeComponent,
                 data: { text: `I'm somewhere in this circle`, diameter: 10 }
             })
