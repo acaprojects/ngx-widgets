@@ -21,7 +21,7 @@
                     [class.active]="data.active && (data.active.period === 2 || data.active.period === 3)">
                     End time
                 </div>
-                <div class="time start" *ngIf="data.end">
+                <div class="time end" *ngIf="data.end">
                     <div class="block hours" [class.active]="data.active && data.active.period === 2" (touchrelease)="select(2)" click-responder>{{display.end_hour}}</div>
                     <div class="block divider">:</div>
                     <div class="block minutes" [class.active]="data.active && data.active.period === 3" (touchrelease)="select(3)" click-responder>{{display.end_minute}}</div>
