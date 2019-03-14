@@ -44,58 +44,121 @@ context('Time Picker', () => {
     const widget = `time-picker-showcase`;
 
     it('Load form controls', () => {
-        cy.visit('http://localhost:4200/#/form-controls/time-picker');
+        cy.visit('http://localhost:4200/#/form-controls');
         cy.wait(1000);
     });
 
     it('Time picker should be visible', () => {
-        cy.get(`${widget} [widget]`).should('be.visible');
+        cy.get(`${widget} .showcase`).scrollIntoView().should('be.visible');
+        cy.get(`${widget} [widget] .group-item .start .period.active`).then(el => {
+            if (el.text().includes('PM')) {
+                cy.get(`${widget} [widget] .group-item .start .block.period`).should('be.visible').click({ force: true });
+                cy.contains(`${widget} [widget] .group-item .start .period.active`, 'AM').should('be.visible');
+            }
+        });
     });
 
-    it('Change start time to 11:30', () => {
-        cy.contains(`${widget} [widget] .clockface .value`, '11').click();
+    it('Change start time to 8:30', () => {
+        cy.contains(`${widget} [widget] .clockface .value`, '8').should('be.visible').click({ force: true });
         cy.wait(200);
-        cy.contains(`${widget} [widget] .group-item .start .hours`, '11').should('be.visible');
+        cy.contains(`${widget} [widget] .group-item .start .hours`, '8').should('be.visible');
         cy.wait(1000);
         cy.contains(`${widget} [widget] .clockface`, '00').should('be.visible');
-        cy.contains(`${widget} [widget] .clockface .value`, '30').click();
+        cy.contains(`${widget} [widget] .clockface .value`, '30').should('be.visible').click({ force: true });
         cy.wait(200);
-        cy.contains(`${widget} [widget] .group-item .start .minutes`, '30').scrollIntoView().should('be.exist');
+        cy.contains(`${widget} [widget] .group-item .start .minutes`, '30').should('be.exist');
     });
 
-    it('Change end time to 1:30', () => {
-        cy.get(`${widget} [widget] .group-item .end .hours`).click()
-        cy.contains(`${widget} [widget] .clockface .value`, ' 1 ').click();
+    it('Change end time to 10:15', () => {
+        cy.get(`${widget} [widget] .group-item .end .hours`).should('be.visible').click({ force: true })
+        cy.contains(`${widget} [widget] .clockface .value`, ' 10 ').should('be.visible').click({ force: true });
         cy.wait(200);
-        cy.contains(`${widget} [widget] .group-item .end .hours`, '01').should('be.visible');
+        cy.contains(`${widget} [widget] .group-item .end .hours`, '10').should('be.visible');
         cy.wait(1000);
         cy.contains(`${widget} [widget] .clockface`, '00').should('be.visible');
-        cy.contains(`${widget} [widget] .clockface .value`, '30').click();
+        cy.contains(`${widget} [widget] .clockface .value`, '15').should('be.visible').click({ force: true });
         cy.wait(200);
-        cy.contains(`${widget} [widget] .group-item .end .minutes`, '30').scrollIntoView().should('be.exist');
-        cy.contains(`${widget} [widget] .duration`, ' 2 hours').should('be.visible');
+        cy.contains(`${widget} [widget] .group-item .end .minutes`, '15').should('be.exist');
+        cy.contains(`${widget} [widget] .duration`, ' 1 hour 45 minutes ').should('be.visible');
     });
 
     it('Check start period change', () => {
-            //
-        if (cy.contains(`${widget} [widget] .group-item .start .period.active`, 'AM')) {
-            cy.get(`${widget} [widget] .group-item .start .block.period`).click();
-            cy.contains(`${widget} [widget] .group-item .start .period.active`, 'PM').should('be.visible');
-        } else {
-            cy.get(`${widget} [widget] .group-item .start .block.period`).click();
-            cy.contains(`${widget} [widget] .group-item .start .period.active`, 'AM').should('be.visible');
-        }
-        cy.contains(`${widget} [widget] .duration`, '2 hours').should('be.visible');
+        const period = `${widget} [widget] .group-item .start`;
+        cy.get(`${period} .period.active`).then(el => {
+            if (el.text().includes('PM')) {
+                cy.get(`${period} .block.period`).should('be.visible').click({ force: true });
+                cy.contains(`${period} .period.active`, 'AM').should('be.visible');
+            } else {
+                cy.get(`${period} .block.period`).should('be.visible').click({ force: true });
+                cy.contains(`${period} .period.active`, 'PM').should('be.visible');
+            }
+        });
+        cy.contains(`${widget} [widget] .duration`, ' 1 hour 45 minutes ').should('be.visible');
     });
 
     it('Check end period change', () => {
-        if (cy.contains(`${widget} [widget] .group-item .end .period.active`, 'AM')) {
-            cy.get(`${widget} [widget] .group-item .end .block.period`).click();
-            cy.contains(`${widget} [widget] .group-item .end .period.active`, 'PM').should('be.visible');
-        } else {
-            cy.get(`${widget} [widget] .group-item .end .block.period`).click();
-            cy.contains(`${widget} [widget] .group-item .end .period.active`, 'AM').should('be.visible');
-        }
-        cy.contains(`${widget} [widget] .duration`, ' 14 hours').should('be.visible');
-    })
+        const period = `${widget} [widget] .group-item .end`;
+        cy.get(`${period} .period.active`).then(el => {
+            if (el.text().includes('PM')) {
+                cy.get(`${period} .block.period`).should('be.visible').click({ force: true });
+                cy.contains(`${period} .period.active`, 'AM').should('be.visible');
+            } else {
+                cy.get(`${period} .block.period`).should('be.visible').click({ force: true });
+                cy.contains(`${period} .period.active`, 'PM').should('be.visible');
+            }
+        });
+        cy.contains(`${widget} [widget] .duration`, ' 13 hours 45 minutes').should('be.visible');
+        cy.get(`${period} .block.period`).should('be.visible').click({ force: true });
+    });
+
+    it('Check toggle to manual input', () => {
+        cy.get(`${widget} [widget] .toggle`).should('be.visible').click({ force: true });
+        cy.wait(200);
+        cy.contains(`${widget} [widget] .display`, 'Set period').should('be.visible');
+        cy.contains(`${widget} [widget] .picker`, 'Type in').should('be.visible');
+        cy.get(`${widget} [widget] .clockface`).should('not.exist');
+    });
+
+    it('Change start time to 7:15 PM', () => {
+        cy.get(`${widget} [widget] .start .hr input`)
+            .should('be.visible').clear({ force: true }).type('19', { force: true })
+            .should('have.value', '19');
+        cy.get(`${widget} [widget] .start .min input`)
+            .should('be.visible').clear({ force: true }).type('15', { force: true })
+            .should('have.value', '15');
+        cy.wait(200);
+        cy.get(`${widget} [widget] .end .hr input`)
+            .should('have.value', '21');
+        cy.get(`${widget} [widget] .end .min input`)
+            .should('have.value', '00');
+        cy.get(`${widget} [widget] .toggle`).should('be.visible').click({ force: true });
+        cy.wait(200);
+        cy.contains(`${widget} [widget] .group-item .start .period.active`, 'PM').should('be.visible');
+        cy.contains(`${widget} [widget] .group-item .start .hours`, '07').should('be.visible');
+        cy.contains(`${widget} [widget] .group-item .start .minutes`, '15').should('be.visible');
+        cy.get(`${widget} [widget] .toggle`).should('be.visible').click({ force: true });
+        cy.wait(200);
+    });
+
+    it('Change end time to 9:30 PM', () => {
+        cy.get(`${widget} [widget] .end .hr input`)
+            .should('be.visible').clear({ force: true }).type('21', { force: true })
+            .should('have.value', '21');
+        cy.get(`${widget} [widget] .end .min input`)
+            .should('be.visible').clear({ force: true }).type('30', { force: true })
+            .should('have.value', '30');
+        cy.wait(200);
+        cy.get(`${widget} [widget] .start .hr input`)
+            .should('have.value', '19');
+        cy.get(`${widget} [widget] .start .min input`)
+            .should('have.value', '15');
+        cy.get(`${widget} [widget] .toggle`).should('be.visible').click({ force: true });
+        cy.wait(200);
+        cy.contains(`${widget} [widget] .group-item .end .period.active`, 'PM').should('be.visible');
+        cy.contains(`${widget} [widget] .group-item .end .hours`, '09').should('be.visible');
+        cy.contains(`${widget} [widget] .group-item .end .minutes`, '30').should('be.visible');
+        cy.contains(`${widget} [widget] .duration`, ' 2 hours 15 minutes').should('be.visible');
+        cy.get(`${widget} [widget] .toggle`).should('be.visible').click({ force: true });
+        cy.wait(200);
+    });
 });

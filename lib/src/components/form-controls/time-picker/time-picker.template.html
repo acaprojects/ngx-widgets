@@ -53,29 +53,29 @@
             </div>
         </div>
         <div class="time-input" *ngIf="data.manual">
-            <div class="field">
+            <div class="field start">
                 <div class="label">Type in {{range ? 'start ' : ''}}time</div>
                 <div class="fvalue">
-                    <div class="group">
+                    <div class="group hr">
                         <input-field [name]="'fill right' + (data.error_sh ? ' error' : '')" [limit]="2" [(model)]="data.start_hour" (modelChange)="checkFields(false)" type="tel"></input-field>
                         <div class="info">hour</div>
                     </div>
                     <div class="group pad">:</div>
-                    <div class="group">
+                    <div class="group min">
                         <input-field [name]="'fill' + (data.error_sm ? ' error' : '')" [limit]="2" [(model)]="data.start_minute" (modelChange)="checkFields(false)" type="tel"></input-field>
                         <div class="info">minute</div>
                     </div>
                 </div>
             </div>
-            <div class="field" *ngIf="range">
+            <div class="field end" *ngIf="range">
                 <div class="label">Type in end time</div>
                 <div class="fvalue">
-                    <div class="group">
+                    <div class="group hr">
                         <input-field [name]="'fill right' + (data.error_eh ? ' error' : '')" [limit]="2" [(model)]="data.end_hour" (modelChange)="checkFields()" type="tel"></input-field>
                         <div class="info">hour</div>
                     </div>
                     <div class="group pad">:</div>
-                    <div class="group">
+                    <div class="group min">
                         <input-field [name]="'fill' + (data.error_em ? ' error' : '')" [limit]="2" [(model)]="data.end_minute" (modelChange)="checkFields()" type="tel"></input-field>
                         <div class="info">minute</div>
                     </div>

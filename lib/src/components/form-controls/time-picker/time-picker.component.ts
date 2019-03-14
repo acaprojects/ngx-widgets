@@ -256,9 +256,9 @@ export class TimePickerComponent extends BaseFormWidgetComponent<string> impleme
 
     private updateDuration() {
         if (this.data.date && this.data.end && this.range) {
-            this.data.end.date(this.data.date.date());
+            this.data.end.date(this.data.date.date()).add(1, 'd');
             const duration = Math.abs(moment.duration(this.data.end.diff(this.data.date)).asMinutes());
-            this.data.duration = duration;
+            this.data.duration = duration % (24 * 60);
             if (this.data.end.isBefore(this.data.date)) {
                 this.data.duration = 60;
                 this.data.date = moment(this.data.end).add(-this.data.duration, 'm');
