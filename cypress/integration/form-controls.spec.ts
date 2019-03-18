@@ -8,7 +8,7 @@ context('Calendar', () => {
     });
 
     it('Calendar is visible', () => {
-        cy.get(widget).should('be.visible');
+        cy.get(widget).scrollIntoView().should('be.visible');
     });
 
     const today = Cypress.moment();
@@ -41,7 +41,7 @@ context('Calendar', () => {
 });
 
 context('Time Picker', () => {
-    const widget = `time-picker-showcase`;
+    const widget = `time-picker-showcase .showcase`;
 
     it('Load form controls', () => {
         cy.visit('http://localhost:4200/#/form-controls');
@@ -49,7 +49,7 @@ context('Time Picker', () => {
     });
 
     it('Time picker should be visible', () => {
-        cy.get(`${widget} .showcase`).scrollIntoView().should('be.visible');
+        cy.get(`${widget}`).scrollIntoView().should('be.visible');
         cy.get(`${widget} [widget] .group-item .start .period.active`).then(el => {
             if (el.text().includes('PM')) {
                 cy.get(`${widget} [widget] .group-item .start .block.period`).should('be.visible').click({ force: true });
@@ -161,4 +161,50 @@ context('Time Picker', () => {
         cy.get(`${widget} [widget] .toggle`).should('be.visible').click({ force: true });
         cy.wait(200);
     });
+});
+
+context('Checkbox', () => {
+    const widget = `checkbox-showcase .showcase`;
+
+    it('Load form controls', () => {
+        cy.visit('http://localhost:4200/#/form-controls');
+        cy.wait(1000);
+    });
+
+    it('Checkbox showcase is visible', () => {
+        cy.get(widget).scrollIntoView().should('be.visible');
+    });
+
+    it('Toggle state from box', () => {
+        cy.contains(`${widget} .checkbox[widget]`, 'Australian').should('be.visible');
+        cy.get(`${widget} .checkbox[widget] .box`).first()
+            .should('be.visible')
+            .click({ force: true });
+        cy.wait(200);
+        cy.contains(`${widget} .checkbox[widget]`, 'Australian').should('be.visible')
+            .get('.box').should('have.class', 'active').should('be.visible');
+        cy.get(`${widget} .checkbox[widget] .box`).first()
+            .should('be.visible')
+            .click({ force: true });
+        cy.contains(`${widget} .checkbox[widget]`, 'Australian').should('be.visible')
+            .get('.box').should('not.have.class', 'active').should('be.visible');
+        cy.wait(200);
+    });
+
+    it('Toggle state from label', () => {
+        cy.contains(`${widget} .checkbox[widget]`, 'Australian').should('be.visible');
+        cy.get(`${widget} .checkbox[widget] .label`).first()
+            .should('be.visible')
+            .click({ force: true });
+        cy.wait(200);
+        cy.contains(`${widget} .checkbox[widget]`, 'Australian').should('be.visible')
+            .get('.box').should('have.class', 'active').should('be.visible');
+        cy.get(`${widget} .checkbox[widget] .label`).first()
+            .should('be.visible')
+            .click({ force: true });
+        cy.contains(`${widget} .checkbox[widget]`, 'Australian').should('be.visible')
+            .get('.box').should('not.have.class', 'active').should('be.visible');
+        cy.wait(200);
+    });
+
 });
