@@ -58,7 +58,7 @@ export class CalendarComponent extends BaseFormWidgetComponent<number> implement
             if (changes.date) { this.model = this.date; }
             const now = moment(this.today).date(1).startOf('d');
             const duration = moment.duration(moment(this.model).diff(now));
-            this.data.offset = duration.months();
+            this.data.offset = Math.floor(duration.asMonths());
             this.generateMonth();
         }
         if (changes.options) {
@@ -117,7 +117,7 @@ export class CalendarComponent extends BaseFormWidgetComponent<number> implement
         const now = moment().add(new_month, 'M');
         if ((!this.data.from || now.isSameOrAfter(this.data.from, 'M')) &&
             (!this.data.to || now.isSameOrBefore(this.data.to, 'M')))  {
-            this.data.offset = new_month
+            this.data.offset = new_month || value || 0;
             this.month.emit(this.data.offset);
             this.generateMonth();
         }
@@ -177,20 +177,20 @@ export class CalendarComponent extends BaseFormWidgetComponent<number> implement
     }
 
     public checkOffset() {
-        const today = moment();
+        const today = moment().startOf('M');
         this.disable_prev = false;
         this.disable_next = false;
         if (this.options) {
             if (this.options.from) {
-                const from = moment(this.options.from);
-                const past_offset = Math.ceil(moment.duration(today.diff(from)).asMonths()) || 0;
+                const from = moment(this.options.from).startOf('M');
+                const past_offset = Math.floor(moment.duration(today.diff(from)).asMonths()) || 0;
                 if (this.data.offset <= -past_offset) {
                     this.disable_prev = true;
                 }
             }
             if (this.options.to) {
-                const to = moment(this.options.to);
-                const future_offset = Math.floor(moment.duration(today.diff(to)).asMonths())|| 0;
+                const to = moment(this.options.to).startOf('M');
+                const future_offset = Math.floor(moment.duration(to.diff(today)).asMonths())|| 0;
                 if (this.data.offset >= future_offset) {
                     this.disable_next = true;
                 }
