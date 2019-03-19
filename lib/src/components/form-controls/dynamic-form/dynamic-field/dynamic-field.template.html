@@ -1,4 +1,5 @@
-<div class="dynamic-field" widget [formGroup]="form" *ngIf="field && !field.hide && (field.control_type !== 'custom' || field.cmp)" [class.disabled]="field.disabled">
+<div class="dynamic-field" widget [formGroup]="form" *ngIf="field && !field.hide && (field.control_type !== 'custom' || field.cmp)"
+    [class.disabled]="field.disabled">
     <div [class]="'field ' + field.control_type + ' ' + field.key" [class.error]="(errors && dirty)">
         <div class="icon" *ngIf="field.icon">
             <i *ngIf="field.icon.type === 'icon' || field.icon.class" [class]="field.icon.class">{{field.icon?.value}}</i>
@@ -10,8 +11,8 @@
             <span *ngIf="field.required">*</span>
         </label>
         <div class="value readonly" *ngIf="field.readonly">
-            <span *ngIf="format" (touchrelease)="performAction()">{{format}}</span>
-            <span class="dim" *ngIf="!format" (touchrelease)="performAction()">No {{field.label}}</span>
+            <div class="content" (touchrelease)="performAction()" *ngIf="format">{{format}}</div>
+            <div class="content dim" (touchrelease)="performAction()" *ngIf="!format">No {{field.label}}</div>
         </div>
         <ng-container *ngIf="!field.readonly">
             <div class="value" [class.flex]="field.flex" [ngSwitch]="field.control_type" [style.max-width]="field.width">
@@ -23,8 +24,8 @@
                     [id]="field.key" [placeholder]="field.label"></dropdown>
                 <!-- ACTION FIELD -->
                 <div class="select" *ngSwitchCase="'select'">
-                    <span *ngIf="format" (touchrelease)="performAction()">{{format}}</span>
-                    <span class="dim" *ngIf="!format" (touchrelease)="performAction()">No {{field.label}}</span>
+                    <div class="content" (touchrelease)="performAction()" *ngIf="format">{{format}}</div>
+                    <div class="content dim" (touchrelease)="performAction()" *ngIf="!format">No {{field.label}}</div>
                 </div>
                 <!-- FIELD GROUP -->
                 <div class="group" *ngSwitchCase="'group'">

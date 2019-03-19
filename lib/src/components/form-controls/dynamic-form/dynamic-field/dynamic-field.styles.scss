@@ -27,7 +27,12 @@
         .value {
             border: none;
             .select {
-                text-decoration: underline;
+                * {
+                    text-decoration: underline;
+                }
+                &:hover {
+                    color: rgba(#000, 1);
+                }
             }
         }
     }
@@ -83,6 +88,10 @@
     }
 }
 
+.content {
+    display: inline-block;
+}
+
 textarea {
     width: 100%;
     border: none;
@@ -119,7 +128,7 @@ textarea {
 
     .select {
         padding: .5em 0;
-        span {
+        div {
             cursor: pointer;
         }
     }

@@ -1,8 +1,6 @@
 import { Directive, Input, Output, EventEmitter, HostListener, OnChanges, Renderer2, SimpleChanges } from "@angular/core";
 
 import { BaseWidgetComponent } from "../../../shared/base.component";
-import { IMapPoint } from "./map-renderer/map-renderer.component";
-import { style } from "@angular/animations";
 import { MapUtilities } from "./map.utilities";
 
 export interface IMapListener {
