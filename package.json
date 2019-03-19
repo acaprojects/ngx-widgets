@@ -1,6 +1,6 @@
 {
     "name": "@acaprojects/ngx-widgets",
-    "version": "0.26.20",
+    "version": "0.26.21",
     "license": "MIT",
     "scripts": {
         "ng": "ng",
