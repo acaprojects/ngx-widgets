@@ -24,6 +24,8 @@ export interface IDynamicFieldOptions<T> {
     readonly?: boolean;
     no_label?: boolean;
     no_status?: boolean;
+    no_edit?: boolean;
+    edit_only?: boolean;
     attributes?: { name: string, value: string }[];
     match?: string;
     metadata?: { [name: string]: any };
@@ -64,6 +66,8 @@ export class DynamicField<T> {
     public readonly: boolean;
     public no_label: boolean;
     public no_status: boolean;
+    public no_edit: boolean;
+    public edit_only: boolean;
     public attributes: { name: string, value: string }[];
     public match: string;
     public metadata: { [name: string]: any };
@@ -93,6 +97,8 @@ export class DynamicField<T> {
         this.readonly = options.readonly;
         this.no_label = options.no_label;
         this.no_status = options.no_status;
+        this.no_edit = options.no_edit;
+        this.edit_only = options.edit_only;
         this.attributes = options.attributes;
         this.metadata = options.metadata;
         if (typeof options === 'string') {

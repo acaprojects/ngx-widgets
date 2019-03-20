@@ -42,7 +42,7 @@
                     [placeholder]="field.label"></textarea>
                 <!-- TOGGLE -->
                 <ng-container *ngSwitchCase="'toggle'">
-                    <toggle klass="form" type="android" [formControlName]="field.key" [id]="field.key" [options]="{ on_text: 'Yes', off_text: 'No' }"></toggle>
+                    <toggle klass="form" [type]="field.type || 'android'" [formControlName]="field.key" [id]="field.key" [options]="{ on_text: 'Yes', off_text: 'No' }"></toggle>
                     <div *ngIf="field.format && format">{{format}}</div>
                 </ng-container>
                 <!-- SLIDER -->
