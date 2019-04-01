@@ -1,0 +1,20 @@
+
+
+.map-overlay-outlet {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.item {
+    position: absolute;
+    top: -1000vh;
+    left: -1000vw;
+    height: 1px;
+    width: 1px;
+    pointer-events: auto;
+}

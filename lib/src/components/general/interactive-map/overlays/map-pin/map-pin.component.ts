@@ -1,9 +1,9 @@
 
 import { Component } from '@angular/core';
-import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 
-import { OverlayContentComponent } from '../../../../overlays/overlay-content.component';
-import { MapService } from '../../../../../services/map.service';
+import { BaseWidgetComponent } from '../../../../../shared/base.component'
+import { PointOfInterest } from '../../map-overlay-outlet/map-overlay-outlet.component';
 
 @Component({
     selector: 'map-pin',
@@ -19,7 +19,10 @@ import { MapService } from '../../../../../services/map.service';
         ]),
     ],
 })
-export class MapPinComponent extends OverlayContentComponent<MapService> {
-    public static className() { return 'MapPinComponent'; }
-    public className() { return MapPinComponent.className; }
+export class MapPinComponent extends BaseWidgetComponent {
+
+    constructor(protected context: PointOfInterest) {
+        super();
+        console.log('Context:', context.data);
+    }
 }

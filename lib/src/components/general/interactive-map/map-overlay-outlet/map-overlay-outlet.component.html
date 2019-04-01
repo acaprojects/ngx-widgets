@@ -1,0 +1,15 @@
+<div class="map-overlay-outlet" widget *ngIf="items">
+    <div [class]="'map-poi' + (item.type ? ' ' + item.type : '')" [@show] widget *ngFor="let item of items">
+        <div class="item" [style.top]="(item.center?.y) + '%'"  [style.left]="(item.center?.x) + '%'">
+            <ng-container [ngSwitch]="item.method">
+                <div *ngSwitchCase="'text'" [innerHTML]="item.content"></div>
+                <ng-container *ngSwitchCase="'template'">
+                    <ng-container *ngTemplateOutlet="item.content; context: item.context"></ng-container>
+                </ng-container>
+                <ng-container *ngSwitchCase="'component'">
+                    <ng-container *ngComponentOutlet="item.content; injector: item.injector"></ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>

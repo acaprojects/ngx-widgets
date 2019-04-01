@@ -1,6 +1,6 @@
 
 import { Component, OnDestroy, OnChanges, Input, ChangeDetectorRef } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'a-base-widget-cmp',

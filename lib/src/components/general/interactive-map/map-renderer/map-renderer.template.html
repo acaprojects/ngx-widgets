@@ -8,7 +8,7 @@
                     <img *ngIf="model.img && model.img.src" [src]="model.img.src | safeurl">
                 </div>
                 <canvas #canvas [style.opacity]="model.zooming ? 1 : 0"></canvas>
-                <map-overlay-container [items]="items" [container]="render_block?.nativeElement" [scale]="model.zoom / 100" [map]="model.map"></map-overlay-container>
+                <map-overlay-outlet [items]="items" [container]="render_block?.nativeElement" [scale]="model.zoom / 100" [map]="model.map"></map-overlay-outlet>
             </div>
         </div>
     </div>

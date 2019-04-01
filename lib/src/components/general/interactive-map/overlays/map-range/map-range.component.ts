@@ -1,9 +1,9 @@
 
-import { Component, ChangeDetectorRef } from '@angular/core';
-import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { Component } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
 
-import { OverlayContentComponent } from '../../../../overlays/overlay-content.component';
-import { MapService } from '../../../../../services/map.service';
+import { BaseWidgetComponent } from '../../../../../shared/base.component';
+import { PointOfInterest } from '../../map-overlay-outlet/map-overlay-outlet.component';
 
 @Component({
     selector: 'map-range',
@@ -16,38 +16,15 @@ import { MapService } from '../../../../../services/map.service';
         ]),
     ],
 })
-export class MapRangeComponent extends OverlayContentComponent<MapService> {
-    public static className() { return 'MapRangeComponent'; }
-    public className() { return MapRangeComponent.className; }
+export class MapRangeComponent extends BaseWidgetComponent {
     public size = 10;
+    public diameter = 16;
 
-    public init() {
-        setTimeout(() => {
-            if (this.model.bg) {
-                this.model.bg_alpha = this.hexToRGB(this.model.bg, .2);
-            }
-        }, 100);
+    constructor(protected context: PointOfInterest) {
+        super();
+        this.size = (context.data as any).size || 10;
+        this.subs.obs.changes = context.listen.subscribe((scale) => {
+            this.diameter = (scale || 1) * ((context.data as any).diameter || 16);
+        });
     }
-
-    constructor(protected _cdr: ChangeDetectorRef) {
-        super(_cdr);
-    }
-
-    public set(data: { [name: string]: any }) {
-        super.set(data);
-        this.size = (this.model.diameter || 10) * this.model.scale * 3;
-    }
-
-    private hexToRGB(hex: string, alpha?: number) {
-        const r = parseInt(hex.slice(1, 3), 16);
-        const g = parseInt(hex.slice(3, 5), 16);
-        const b = parseInt(hex.slice(5, 7), 16);
-
-        if (alpha) {
-            return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
-        } else {
-            return 'rgb(' + r + ', ' + g + ', ' + b + ')';
-        }
-    }
-
 }

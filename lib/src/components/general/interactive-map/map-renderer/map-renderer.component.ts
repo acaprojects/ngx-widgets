@@ -1,12 +1,14 @@
-import { Component, Input, ElementRef, ViewChild, Output, EventEmitter, Renderer2, SimpleChanges } from '@angular/core';
-import { BaseWidgetComponent } from '../../../../shared/base.component';
-import { MapService } from '../../../../services/map.service';
+import { Component, Input, ElementRef, ViewChild, Output, EventEmitter, Renderer2, SimpleChanges, OnInit, OnChanges } from '@angular/core';
 import { MapUtilities } from '../map.utilities';
 import { IMapPointOfInterest } from '../map.component';
+import { MapService } from '../../../../services/map.service';
+import { BaseWidgetComponent } from '../../../../shared/base.component';
 
 export interface IMapPoint {
-    x: number,
-    y: number
+    /** x coordinate */
+    x: number;
+    /** y coordinate */
+    y: number;
 }
 
 @Component({
@@ -14,16 +16,25 @@ export interface IMapPoint {
     templateUrl: `./map-renderer.template.html`,
     styleUrls: [`./map-renderer.styles.scss`]
 })
-export class MapRendererComponent extends BaseWidgetComponent {
-    @Input() public scale: number = 1;
+export class MapRendererComponent extends BaseWidgetComponent implements OnInit, OnChanges {
+    /** Zoom level of the map */
+    @Input() public scale = 1;
+    /** Point within the map to center in the view */
     @Input() public center: IMapPoint = { x: .5, y: .5 };
-    @Input() public src: string = '';
-    @Input() public css: string = '';
+    /** URL of the Map SVG to render */
+    @Input() public src = '';
+    /** CSS styles to apply to the map */
+    @Input() public css = '';
+    /** Re-renders the map on changes to this */
     @Input() public redraw: any = null;
+    /** List of points of interest */
     @Input() public items: IMapPointOfInterest[];
+    /** Change emitter for SVG DOM element */
     @Output() public map = new EventEmitter();
 
+    /** Block to render SVG element */
     @ViewChild('renderBlock') public render_block: ElementRef;
+    /** Canvas to render static images of map when zooming */
     @ViewChild('canvas') private canvas: ElementRef;
     @ViewChild('content') private content: ElementRef;
     @ViewChild('container') private container: ElementRef;

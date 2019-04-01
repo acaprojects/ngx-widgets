@@ -160,7 +160,7 @@ export class MapShowcaseComponent {
             this.model.map.poi.push({
                 id: 'Nyada',
                 coordinates:  { x: 3000, y: 3000 },
-                cmp: MapRangeComponent,
+                content: MapRangeComponent,
                 data: { text: `I'm somewhere in this circle`, diameter: 10 }
             })
         }
@@ -170,7 +170,7 @@ export class MapShowcaseComponent {
             this.model.map.poi.push({
                 id: fixed ? 'AU-NSW' : 'Nyada',
                 coordinates: fixed ? null : { x: 5000, y: 7500 },
-                cmp: MapPinComponent,
+                content: MapPinComponent,
                 data: { text: fixed ? 'NSW is here' : `I'm currently round here` }
             });
             const focus: any = {};
@@ -189,7 +189,7 @@ export class MapShowcaseComponent {
             this.model.map.poi.push({
                 id: 'AU-WA',
                 coordinates: null,
-                cmp: MapPinComponent,
+                content: MapPinComponent,
                 data: { text: 'This state is WA' }
             })
         }

@@ -22,7 +22,7 @@ import { MapComponent } from './map.component';
 import { MapInputDirective } from './map-input.directive';
 import { MapStylerDirective } from './map-styler.directive';
 import { MapRendererComponent } from './map-renderer/map-renderer.component';
-import { MapOverlayContainerComponent } from './map-overlay-container/map-overlay-cntnr.component';
+import { MapOverlayOutletComponent } from './map-overlay-outlet/map-overlay-outlet.component';
 
 import { MapPinComponent } from './overlays/map-pin/map-pin.component';
 import { MapRangeComponent } from './overlays/map-range/map-range.component';
@@ -33,7 +33,7 @@ const COMPONENTS: any[] = [
     MapInputDirective,
     MapStylerDirective,
     MapRendererComponent,
-    MapOverlayContainerComponent
+    MapOverlayOutletComponent
 ];
 
 const ENTRY_COMPONENTS: any[] = [

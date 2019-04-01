@@ -1,8 +1,4 @@
 
-.container {
-    position: absolute;
-}
-
 .map-range {
     position: absolute;
     top: 50%;
@@ -10,6 +6,9 @@
     transform: translate(-50%, -50%);
     height: 1px;
     width: 1px;
+    * {
+        user-select: none;
+    }
 }
 
 .range {
