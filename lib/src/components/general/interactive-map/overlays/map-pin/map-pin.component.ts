@@ -20,9 +20,11 @@ import { PointOfInterest } from '../../map-overlay-outlet/map-overlay-outlet.com
     ],
 })
 export class MapPinComponent extends BaseWidgetComponent {
+    public context: PointOfInterest
 
-    constructor(protected context: PointOfInterest) {
+    constructor(context: PointOfInterest) {
         super();
+        this.context = context;
         console.log('Context:', context.data);
     }
 }

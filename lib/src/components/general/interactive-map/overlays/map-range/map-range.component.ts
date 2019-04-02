@@ -19,9 +19,11 @@ import { PointOfInterest } from '../../map-overlay-outlet/map-overlay-outlet.com
 export class MapRangeComponent extends BaseWidgetComponent {
     public size = 10;
     public diameter = 16;
+    public context: PointOfInterest;
 
-    constructor(protected context: PointOfInterest) {
+    constructor(context: PointOfInterest) {
         super();
+        this.context = context;
         this.size = (context.data as any).size || 10;
         this.subs.obs.changes = context.listen.subscribe((scale) => {
             this.diameter = (scale || 1) * ((context.data as any).diameter || 16);
