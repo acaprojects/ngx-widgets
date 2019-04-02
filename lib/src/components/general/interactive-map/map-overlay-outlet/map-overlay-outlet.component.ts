@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class PointOfInterest {
-    data: IMapPointOfInterest;
+    data: any;
     listen: BehaviorSubject<number>;
     constructor(poi: IMapPointOfInterest, listen: BehaviorSubject<number>) {
         this.data = poi.data || {};
