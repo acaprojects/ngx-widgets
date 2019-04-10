@@ -49,7 +49,7 @@ export class MapUtilities {
             // console.log(`Coords: ${JSON.stringify(coords)}, ${ratio}`);
             position = {
                 x: +((coords.x / 10000) * 100).toFixed(3),
-                y: +((coords.y / (10000 * ratio)) * 100).toFixed(3)
+                y: +((coords.y / (10000 / ratio)) * 100).toFixed(3)
             }
         }
         if (position) {
