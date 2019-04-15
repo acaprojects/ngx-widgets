@@ -12,6 +12,7 @@ export * from './services/animate.service';
 export * from './services/map.service';
 export * from './services/overlay.service';
 export * from './services/drop-service/drop-service.service';
+export { PointOfInterest } from './components/general/interactive-map/map-overlay-outlet/map-overlay-outlet.component';
     // Export Library Directives
 export * from './directives/drop-target.directive';
 export * from './directives/file-stream.directive';

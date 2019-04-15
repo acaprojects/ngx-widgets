@@ -69,8 +69,8 @@ export class MapOverlayOutletComponent extends BaseWidgetComponent implements On
             const x_scale = Math.max(1, (map_box.width / map_box.height) / (+view_box[2] / +view_box[3]));
             const y_scale = Math.max(1, (map_box.height / map_box.width) / (+view_box[3] / +view_box[2]));
             for (const poi of this.items) {
-                this.setMethod(poi);
                 this.calculatePosition(poi, { x_scale, y_scale, view: view_box, map: map_box, cntr: box });
+                this.setMethod(poi);
             }
             this.list = [ ...this.items ];
         });
@@ -84,7 +84,7 @@ export class MapOverlayOutletComponent extends BaseWidgetComponent implements On
         item.method = 'component';
         if (item.data) {
             item.data.scale = this.scale;
-            item.data.map_
+            item.data.center = item.center;
         }
 
         if (typeof item.content === 'string') {

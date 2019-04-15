@@ -67,7 +67,10 @@ export class MapRendererComponent extends BaseWidgetComponent implements OnInit,
     }
 
     public get isIE() {
-        return navigator.appName == 'Microsoft Internet Explorer' ||  !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || !!navigator.userAgent.match(/MSIE/g);
+        const uaString = navigator.userAgent;
+        var match = /\b(MSIE |Trident.*?rv:|Edge\/)(\d+)/.exec(uaString);
+        if (match) return parseInt(match[2]) < 12;
+        return false;
     }
 
     /**
@@ -192,6 +195,8 @@ export class MapRendererComponent extends BaseWidgetComponent implements OnInit,
             const box_ratio = box.width / box.height;
             const map_ratio = map_box.width / map_box.height;
             this.model.ratio = Math.min(map_ratio / box_ratio, 1);
+            this.model.h_ratio = map_box.height / box.height;
+            this.model.w_ratio = map_box.width / box.width;
             this.model.loading = false;
         } else {
             if (!this.model.map) {

@@ -1,18 +1,34 @@
 <div class="container" #container>
-    <div class="map" #content [style.width]="((model.ratio || 1) * 100) + '%'" [style.opacity]="model.loading || !model.map_data ? 0 : 1">
-        <div class="render-block" #renderBlock [style.width]="model.zoom + '%'" [style.height]="model.zoom + '%'"
-            [style.transform]="'translate(' + model.position.x + '%, ' + model.position.y + '%)'">
+    <div
+        class="map"
+        #content
+        [style.width]="((model.ratio || 1) * model.w_ratio * 100) + '%'"
+        [style.height]="(model.h_ratio * 100) + '%'"
+        [style.opacity]="model.loading || !model.map_data ? 0 : 1"
+    >
+        <div
+            class="render-block"
+            #renderBlock
+            [style.width]="model.zoom + '%'"
+            [style.height]="model.zoom + '%'"
+            [style.transform]="'translate(' + model.position.x + '%, ' + model.position.y + '%)'"
+        >
             <div class="blk">
                 <div class="map-block" [style.opacity]="isIE || model.zooming ? 0 : 1" [innerHTML]="model.map_data | safe"></div>
                 <div class="map-block img" *ngIf="isIE" [style.opacity]="model.zooming ? 0 : 1">
-                    <img *ngIf="model.img && model.img.src" [src]="model.img.src | safeurl">
+                    <img *ngIf="model.img && model.img.src" [src]="model.img.src | safeurl" />
                 </div>
                 <canvas #canvas [style.opacity]="model.zooming ? 1 : 0"></canvas>
-                <map-overlay-outlet [items]="items" [container]="render_block?.nativeElement" [scale]="model.zoom / 100" [map]="model.map"></map-overlay-outlet>
+                <map-overlay-outlet
+                    [items]="items"
+                    [container]="render_block?.nativeElement"
+                    [scale]="model.zoom / 100"
+                    [map]="model.map"
+                ></map-overlay-outlet>
             </div>
         </div>
     </div>
-    <div class="loader" [style.display]="model.loading || !model.map_data  ? '' : 'none'">
+    <div class="loader" [style.display]="model.loading || !model.map_data ? '' : 'none'">
         <spinner type="circle-ring"></spinner>
     </div>
 </div>
