@@ -15,6 +15,11 @@ export interface IMapListener {
     callback: Function;
 }
 
+interface POILocation {
+    scale: number;
+    center: IMapPoint;
+}
+
 @Directive({
     selector: '[aca-map-input]',
 })
@@ -23,7 +28,8 @@ export class MapInputDirective extends BaseWidgetComponent {
     @Input() public center: IMapPoint;
     @Input() public listeners: IMapListener[];
     @Input() public focus: IMapPointOfInterest;
-    @Input() public map: Element;
+    @Input() public map: SVGElement;
+    @Input() public src: string;
     @Input() public lock: boolean;
     @Output() public scaleChange = new EventEmitter();
     @Output() public centerChange = new EventEmitter();
@@ -31,12 +37,20 @@ export class MapInputDirective extends BaseWidgetComponent {
 
     private model: { [name: string]: any } = {};
 
+    private map_box: ClientRect;
+    private lookup: { [src: string]: { [id: string]: POILocation } } = {};
+
     constructor(private el: ElementRef<HTMLElement>, private service: MapService, private renderer: Renderer2) {
         super();
     }
 
     public ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
+        if (changes.src) {
+            if (!this.lookup[this.src]) {
+                this.lookup[this.src] = {};
+            }
+        }
         if (changes.map && this.map) {
             this.update();
         }
@@ -85,7 +99,6 @@ export class MapInputDirective extends BaseWidgetComponent {
         this.model.target = e.target;
         this.model.dx = e.center.x;
         this.model.dy = e.center.y;
-        this.model.map_box = this.map.getBoundingClientRect();
     }
 
     public moveEnd() {
@@ -113,8 +126,8 @@ export class MapInputDirective extends BaseWidgetComponent {
         const dx = e.center.x - this.model.dx;
         const dy = e.center.y - this.model.dy;
         const center = this.model.center_start || { x: .5, y: .5 }
-        const delta_x = +(dx / this.model.map_box.width).toFixed(4);
-        const delta_y = +(dy / this.model.map_box.height).toFixed(4);
+        const delta_x = +(dx / this.map_box.width).toFixed(4);
+        const delta_y = +(dy / this.map_box.height).toFixed(4);
         this.model.center = { x: center.x - delta_x, y: center.y - delta_y };
         this.changePosition();
     }
@@ -133,7 +146,7 @@ export class MapInputDirective extends BaseWidgetComponent {
     @HostListener('pinchstart', ['$event']) public pinchStart(e) {
         if (this.lock) { return; }
         this.model.dz = e.scale;
-        const box = this.model.map_box;
+        const box = this.map_box;
         const dist = Math.sqrt(box.width * box.width + box.height * box.height);
         const width = e.pointers[0].clientX - e.pointers[1].clientX;
         const height = e.pointers[0].clientY - e.pointers[1].clientY;
@@ -161,20 +174,32 @@ export class MapInputDirective extends BaseWidgetComponent {
             if (!this.map) {
                 return this.timeout('focus', () => this.focusItem());
             }
+            if (!this.map_box) {
+                this.map_box = this.map.getBoundingClientRect();
+            }
             const selector = this.focus.id ? `#${MapUtilities.cleanCssSelector(this.focus.id)}` : ''
             const el = this.focus.id ? this.map.querySelector(selector) : null;
             if (el) { // Focus on element
-                const box = el.getBoundingClientRect();
-                const map_box = this.map.getBoundingClientRect();
-                this.model.center = {
-                    x:  ((box.left + box.width / 2) - map_box.left) / map_box.width,
-                    y:  ((box.top + box.height / 2) - map_box.top) / map_box.height
-                };
-                this.model.scale = this.focus.zoom ? this.focus.zoom / 100 : MapUtilities.getFillScale(map_box, box) * .6;
+                if (this.lookup[this.src][selector]) {
+                    this.model.center = this.lookup[this.src][selector].center;
+                    this.focus.zoom ? this.focus.zoom / 100 : this.lookup[this.src][selector].scale;
+                } else {
+                    const box = el.getBoundingClientRect();
+                    const map_box = this.map.getBoundingClientRect();
+                    this.model.center = {
+                        x:  ((box.left + box.width / 2) - map_box.left) / map_box.width,
+                        y:  ((box.top + box.height / 2) - map_box.top) / map_box.height
+                    };
+                    this.model.scale = this.focus.zoom ? this.focus.zoom / 100 : MapUtilities.getFillScale(map_box, box) * .6;
+                    this.lookup[this.src][selector] = {
+                        scale: MapUtilities.getFillScale(map_box, box) * .6,
+                        center: { ...this.model.center }
+                    };
+                }
                 this.changePosition(true)
             } else if (this.focus.coordinates) { // Focus on coordinates
                 const pnt = this.focus.coordinates;
-                const ratio = this.model.map_box.width / this.model.map_box.height;
+                const ratio = this.map_box.height / this.map_box.width;
                 this.model.center = { x: pnt.x / 10000, y: pnt.y / (10000 * ratio) };
                 this.model.scale = this.focus.zoom ? this.focus.zoom / 100 : 1;
                 this.changePosition(true);
@@ -187,8 +212,8 @@ export class MapInputDirective extends BaseWidgetComponent {
      */
     public update() {
         if (this.map) {
-            this.model.map_box = this.map.getBoundingClientRect();
-            if (this.model.map_box.height === 0 || this.model.map_box.width === 0) {
+            this.map_box = this.map.getBoundingClientRect();
+            if (this.map_box.height === 0 || this.map_box.width === 0) {
                 return this.timeout('update_fail', () => this.update());
             }
             this.model.scale = 1;

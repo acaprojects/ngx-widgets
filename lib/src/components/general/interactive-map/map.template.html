@@ -1,4 +1,4 @@
-<div class="map container" widget aca-map-input [id]="id" [(scale)]="model.scale" (scaleChange)="post()" [(center)]="model.center"
+<div class="map container" widget aca-map-input [id]="id" [src]="model.src" [(scale)]="model.scale" (scaleChange)="post()" [(center)]="model.center"
     (scaleChange)="post()" [listeners]="model.listeners" (event)="handleEvent($event)" [map]="model.map" [focus]="model.focus" [lock]="model.lock">
     <i aca-map-styler [id]="id" [styles]="model.styles" (css)="model.css = $event"></i>
     <aca-map-renderer [id]="id" [src]="model.src" [scale]="model.scale" [center]="model.center" (map)="updateMap($event)" [css]="model.css" [items]="model.interest_points"></aca-map-renderer>
