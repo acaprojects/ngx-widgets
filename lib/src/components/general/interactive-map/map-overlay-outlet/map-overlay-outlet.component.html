@@ -1,5 +1,5 @@
 <div class="map-overlay-outlet" widget *ngIf="items">
-    <div [class]="'map-poi' + (item.type ? ' ' + item.type : '')" widget *ngFor="let item of items">
+    <div [class]="'map-poi' + (item.type ? ' ' + item.type : '')" widget *ngFor="let item of items; trackBy: trackByFn">
         <div class="item" [style.top]="(item.center?.y) + '%'"  [style.left]="(item.center?.x) + '%'">
             <ng-container [ngSwitch]="item.method">
                 <div *ngSwitchCase="'text'" [innerHTML]="item.content"></div>

@@ -118,4 +118,8 @@ export class MapOverlayOutletComponent extends BaseWidgetComponent implements On
     public isIE() {
         return navigator.appName == 'Microsoft Internet Explorer' || !!(navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/rv:11/)) || !!navigator.userAgent.match(/MSIE/g);
     }
+
+    public trackByFn(item: IMapPointOfInterest, index: number) {
+        return item ? item.uid || index : index;
+    }
 }
