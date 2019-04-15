@@ -6,6 +6,8 @@ import { IMapListener } from './map-styler.directive';
 import { BaseWidgetComponent } from '../../../shared/base.component';
 
 export interface IMapPointOfInterest<T = any> {
+    /** Unique identifier for the Point of interest */
+    uid: string;
     /** Map Element selector */
     id?: string;
     /** Map coordinates */

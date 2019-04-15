@@ -1,10 +1,11 @@
 
-<div class="map-range" widget [style.height]="diameter + 'px'" [style.width]="diameter + 'px'">
+<div class="map-range" widget [style.height]="(diameter * 20) + '%'" [style.width]="(diameter * 20) + '%'">
     <div class="range" [style.height]="(size * 100) + '%'" [style.width]="(size * 100) + '%'"
         [style.background-color]="context.data.bg_alpha || 'rgba(3, 169, 244, .54)'"
         [style.border-color]="context.data.bg || '#03A9F4'">
     </div>
-    <div class="details" [style.bottom]="(size * 100 / 2 + 200) + '%'">
+    <div class="details" [style.bottom]="'calc(' + (size * 100 / 2) + '% + 0.75em)' | safestyle">
         {{ context.data.text }}
     </div>
 </div>
+

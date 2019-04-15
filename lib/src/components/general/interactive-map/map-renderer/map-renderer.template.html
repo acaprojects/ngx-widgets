@@ -2,7 +2,7 @@
     <div
         class="map"
         #content
-        [style.width]="((model.ratio || 1) * model.w_ratio * 100) + '%'"
+        [style.width]="((model.ratio || 1) * 100) + '%'"
         [style.height]="(model.h_ratio * 100) + '%'"
         [style.opacity]="model.loading || !model.map_data ? 0 : 1"
     >
