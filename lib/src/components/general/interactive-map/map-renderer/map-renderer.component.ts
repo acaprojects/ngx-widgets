@@ -195,7 +195,7 @@ export class MapRendererComponent extends BaseWidgetComponent implements OnInit,
             const box_ratio = box.width / box.height;
             const map_ratio = map_box.width / map_box.height;
             this.model.ratio = Math.min(map_ratio / box_ratio, 1);
-            this.model.h_ratio = map_ratio * ((map_box.height / box.height) / this.scale);
+            this.model.h_ratio = Math.min(1, map_ratio * ((map_box.height / box.height) / this.scale));
             this.model.loading = false;
         } else {
             if (!this.model.map) {
