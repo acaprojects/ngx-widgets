@@ -86,6 +86,14 @@ export class MapInputDirective extends BaseWidgetComponent {
         this.model.listen_move_end = this.renderer.listen('window', 'mouseup', (e) => this.moveEnd());
     }
 
+    /**
+     * End move events on contextmenu action
+     * @param e
+     */
+    @HostListener('contextmenu', ['$event']) public onContext(e) {
+        this.timeout('contextmenu', () => this.moveEnd());
+    }
+
     public moveStart(e) {
         if (this.model.listen_move) {
             this.model.listen_move();
@@ -111,6 +119,7 @@ export class MapInputDirective extends BaseWidgetComponent {
             this.model.listen_move_end = null;
         }
     }
+
 
     public get isIE() {
         return Utility.isIE()

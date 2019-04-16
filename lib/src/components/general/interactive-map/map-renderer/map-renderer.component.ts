@@ -39,7 +39,7 @@ export class MapRendererComponent extends BaseWidgetComponent implements OnInit,
     @ViewChild('content') private content: ElementRef;
     @ViewChild('container') private container: ElementRef;
 
-    public model: { [name: string]: any } = {};
+    public model: { [name: string]: any, map?: SVGElement } = {};
 
     constructor(private service: MapService, private renderer: Renderer2, private el: ElementRef) {
         super();
@@ -187,7 +187,13 @@ export class MapRendererComponent extends BaseWidgetComponent implements OnInit,
     private resize() {
         if (this.container && this.model.map) {
             const box = this.container.nativeElement.getBoundingClientRect();
-            const map_box = this.model.map.getBoundingClientRect();
+            const view_box = this.model.map.getAttribute('viewBox').split(' ');
+            const map_box = {
+                top: +view_box[1],
+                left: +view_box[0],
+                width: +view_box[2],
+                height: +view_box[3]
+            };
                 // Check that map is rendered
             if (map_box.height === 0 || map_box.width === 0) {
                 return this.timeout('resize_fail', () => this.resize());
@@ -195,7 +201,9 @@ export class MapRendererComponent extends BaseWidgetComponent implements OnInit,
             const box_ratio = box.width / box.height;
             const map_ratio = map_box.width / map_box.height;
             this.model.ratio = Math.min(map_ratio / box_ratio, 1);
-            this.model.h_ratio = Math.min(1, map_ratio * ((map_box.height / box.height) / this.scale));
+            this.model.h_ratio = this.model.ratio === 1
+                ? (map_box.height / (map_box.width / box.width)) / box.height
+                : 1;
             this.model.loading = false;
         } else {
             if (!this.model.map) {
