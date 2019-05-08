@@ -37,6 +37,8 @@ export class MapInputDirective extends BaseWidgetComponent {
 
     private model: { [name: string]: any } = {};
 
+    private _active_listeners: (() => void)[] = [];
+
     private map_box: ClientRect;
     private lookup: { [src: string]: { [id: string]: POILocation } } = {};
 
@@ -275,10 +277,15 @@ export class MapInputDirective extends BaseWidgetComponent {
                 if (el) {
                     this.renderer.setStyle(el, 'pointer-events', 'auto');
                     this.renderer.setStyle(el, 'display', 'inline-block');
-                    this.subs.obs[`listen_${selector}`] = this.renderer.listen(el, item.event || 'click', () => {
+                    const unsub = this.renderer.listen(el, item.event || 'click', () => {
                         if (item.callback) { item.callback(); }
                         else { this.event.emit({ id: selector, type: 'listener_event' }); }
                     })
+                    this._active_listeners.push(() => {
+                        this.renderer.setStyle(el, 'pointer-events', '');
+                        this.renderer.setStyle(el, 'display', '');
+                        unsub();
+                    });
                 } else {
                     this.service.log('Warn', `Unable to find element with selector '${item.id ? `#${item.id}` : `${item.selector}`}'`, item.id ? `#${item.id}` : `${item.selector}`)
                 }
@@ -291,19 +298,12 @@ export class MapInputDirective extends BaseWidgetComponent {
      * Remove existing listeners from map
      */
     private clearListeners() {
-        if (this.model.listeners) {
-            for (const item of this.listeners) {
-                const selector = item.id ? `#${item.id}` : `${item.selector}`;
-                if (this.subs.obs[`listen_${selector}`]) {
-                    const el = this.map.querySelector(selector);
-                    if (el) {
-                        this.renderer.setStyle(el, 'pointer-events', '');
-                        this.renderer.setStyle(el, 'display', '');
-                    }
-                    const item = this.subs.obs[`listen_${selector}`];
-                    item instanceof Function ? item() : item.unsubscribe();
-                }
+        if (this._active_listeners) {
+            for (const listener of this._active_listeners) {
+                listener();
             }
+            delete this._active_listeners;
+            this._active_listeners = [];
         }
     }
 
