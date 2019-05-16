@@ -40,7 +40,7 @@ export class DynamicFormFieldComponent extends BaseWidgetComponent implements On
         return control ? control.valid : false;
     }
 
-    get errors(): { message?: string; [name: string]: boolean | string; } {
+    get errors(): { message?: string;[name: string]: boolean | string; } {
         const control = this.form && this.form.controls ? this.form.controls[this.field.key] : null;
         return control ? control.errors : null;
     }
@@ -55,7 +55,7 @@ export class DynamicFormFieldComponent extends BaseWidgetComponent implements On
 
     get dirty(): boolean {
         const control = this.form && this.form.controls ? this.form.controls[this.field.key] : null;
-        return control ? control.dirty : false;
+        return control ? control.dirty : true;
     }
 
     get format(): string {

@@ -57,8 +57,8 @@
             </i>
         </div>
     </div>
-    <div class="error-message" *ngIf="errors && dirty">
+    <div class="error-message" *ngIf="!!errors && dirty">
         <span *ngIf="errors.required">{{field.label}} is required</span>
-        <span *ngIf="errors.message">{{errors.message}}</span>
+        <span *ngIf="errors.message || !errors.required">{{errors.message || (field.label + ' is not valid')}}</span>
     </div>
 </div>
