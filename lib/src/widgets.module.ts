@@ -64,8 +64,8 @@ export class WidgetsHammerConfig extends HammerGestureConfig {
 })
 export class WidgetsModule {
     private static init = false;
-    private build = moment(1557979200000);
-    public static version = '0.27.11';
+    private build = moment(1557979740000);
+    public static version = '0.27.12';
 
     constructor() {
         if (!WidgetsModule.init) {
