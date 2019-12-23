@@ -1,9 +1,24 @@
-<div class="dynamic-field" widget [formGroup]="form" *ngIf="field && !field.hide && (field.control_type !== 'custom' || field.cmp)"
-    [class.disabled]="field.disabled">
-    <div [class]="'field ' + field.control_type + ' ' + field.key" [class.error]="(errors && dirty)">
+<div
+    class="dynamic-field"
+    widget
+    [formGroup]="form"
+    *ngIf="field && !field.hide && (field.control_type !== 'custom' || field.cmp)"
+    [class.disabled]="field.disabled"
+>
+    <div
+        [class]="'field ' + field.control_type + ' ' + field.key"
+        [class.error]="(errors && dirty)"
+    >
         <div class="icon" *ngIf="field.icon">
-            <i *ngIf="field.icon.type === 'icon' || field.icon.class" [class]="field.icon.class">{{field.icon?.value}}</i>
-            <img *ngIf="field.icon.type !== 'icon' && !field.icon.class" [src]="field.icon.src">
+            <i
+                *ngIf="field.icon.type === 'icon' || field.icon.class"
+                [class]="field.icon.class"
+                >{{field.icon?.value}}</i
+            >
+            <img
+                *ngIf="field.icon.type !== 'icon' && !field.icon.class"
+                [src]="field.icon.src"
+            />
         </div>
         <label [attr.for]="field.key" *ngIf="!field.no_label">
             {{field.label}}
@@ -11,54 +26,132 @@
             <span *ngIf="field.required">*</span>
         </label>
         <div class="value readonly" *ngIf="field.readonly">
-            <div class="content" (touchrelease)="performAction()" *ngIf="format">{{format}}</div>
-            <div class="content dim" (touchrelease)="performAction()" *ngIf="!format">No {{field.label}}</div>
+            <div
+                class="content"
+                (touchrelease)="performAction()"
+                *ngIf="format"
+            >
+                {{format}}
+            </div>
+            <div
+                class="content dim"
+                (touchrelease)="performAction()"
+                *ngIf="!format"
+            >
+                No {{field.label}}
+            </div>
         </div>
         <ng-container *ngIf="!field.readonly">
-            <div class="value" [class.flex]="field.flex" [ngSwitch]="field.control_type" [style.max-width]="field.width">
+            <div
+                class="value"
+                [class.flex]="field.flex"
+                [ngSwitch]="field.control_type"
+                [style.max-width]="field.width"
+            >
                 <!-- TEXT INPUT -->
-                <input *ngSwitchCase="'text'" #input [formControlName]="field.key" [id]="field.key" [placeholder]="field.label"
-                    [type]="field.type">
+                <input
+                    *ngSwitchCase="'text'"
+                    #input
+                    [formControlName]="field.key"
+                    [id]="field.key"
+                    [name]="field.key"
+                    [placeholder]="field.label"
+                    [type]="field.type"
+                />
                 <!-- DROPDOWN -->
-                <dropdown klass="form" *ngSwitchCase="'dropdown'" [list]="field.options" [formControlName]="field.key"
-                    [id]="field.key" [placeholder]="field.label"></dropdown>
+                <dropdown
+                    klass="form"
+                    *ngSwitchCase="'dropdown'"
+                    [list]="field.options"
+                    [formControlName]="field.key"
+                    [id]="field.key"
+                    [placeholder]="field.label"
+                ></dropdown>
                 <!-- ACTION FIELD -->
                 <div class="select" *ngSwitchCase="'select'">
-                    <div class="content" (touchrelease)="performAction()" *ngIf="format">{{format}}</div>
-                    <div class="content dim" (touchrelease)="performAction()" *ngIf="!format">No {{field.label}}</div>
+                    <div
+                        class="content"
+                        (touchrelease)="performAction()"
+                        *ngIf="format"
+                    >
+                        {{format}}
+                    </div>
+                    <div
+                        class="content dim"
+                        (touchrelease)="performAction()"
+                        *ngIf="!format"
+                    >
+                        No {{field.label}}
+                    </div>
                 </div>
                 <!-- FIELD GROUP -->
                 <div class="group" *ngSwitchCase="'group'">
-                    <ng-container *ngFor="let item of field.children; let i = index">
+                    <ng-container
+                        *ngFor="let item of field.children; let i = index"
+                    >
                         <div class="spacer" *ngIf="i !== 0"></div>
                         <div class="item">
-                            <dynamic-field [field]="item" [form]="form"></dynamic-field>
+                            <dynamic-field
+                                [field]="item"
+                                [form]="form"
+                            ></dynamic-field>
                         </div>
                     </ng-container>
                 </div>
                 <!-- TEXTAREA -->
-                <textarea klass="form" *ngSwitchCase="'textarea'" #input cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                    cdkAutosizeMinRows="4" cdkAutosizeMaxRows="8" [formControlName]="field.key" [id]="field.key"
-                    [placeholder]="field.label"></textarea>
+                <textarea
+                    klass="form"
+                    *ngSwitchCase="'textarea'"
+                    #input
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="4"
+                    cdkAutosizeMaxRows="8"
+                    [formControlName]="field.key"
+                    [id]="field.key"
+                    [name]="field.key"
+                    [placeholder]="field.label"
+                ></textarea>
                 <!-- TOGGLE -->
                 <ng-container *ngSwitchCase="'toggle'">
-                    <toggle klass="form" [type]="field.type || 'android'" [formControlName]="field.key" [id]="field.key" [options]="{ on_text: 'Yes', off_text: 'No' }"></toggle>
+                    <toggle
+                        klass="form"
+                        [type]="field.type || 'android'"
+                        [formControlName]="field.key"
+                        [id]="field.key"
+                        [options]="{ on_text: 'Yes', off_text: 'No' }"
+                    ></toggle>
                     <div *ngIf="field.format && format">{{format}}</div>
                 </ng-container>
                 <!-- SLIDER -->
-                <slider klass="form" *ngSwitchCase="'slider'" [formControlName]="field.key" [id]="field.key"></slider>
+                <slider
+                    klass="form"
+                    *ngSwitchCase="'slider'"
+                    [formControlName]="field.key"
+                    [id]="field.key"
+                ></slider>
                 <!-- CUSTOM FIELD -->
-                <custom-field *ngSwitchCase="'custom'" [field]="field" [form]="form" [cmp]="field.cmp"></custom-field>
+                <custom-field
+                    *ngSwitchCase="'custom'"
+                    [field]="field"
+                    [form]="form"
+                    [cmp]="field.cmp"
+                ></custom-field>
             </div>
         </ng-container>
         <div class="state" *ngIf="!field.no_status">
-            <i [style.opacity]="dirty && value && (isValid || errors) ? 1 : 0" class="material-icons">
+            <i
+                [style.opacity]="dirty && value && (isValid || errors) ? 1 : 0"
+                class="material-icons"
+            >
                 {{ errors && dirty ? 'error' : 'done' }}
             </i>
         </div>
     </div>
     <div class="error-message" *ngIf="!!errors && dirty">
-        <span *ngIf="errors.required">{{field.label}} is required</span>
-        <span *ngIf="errors.message || !errors.required">{{errors.message || (field.label + ' is not valid')}}</span>
+        <span *ngIf="errors?.required">{{field.label}} is required</span>
+        <span *ngIf="errors.message || !errors?.required"
+            >{{errors.message || (field.label + ' is not valid')}}</span
+        >
     </div>
 </div>
