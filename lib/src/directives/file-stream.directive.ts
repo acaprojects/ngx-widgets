@@ -7,7 +7,7 @@
  * @Last modified time: 15/12/2016 11:35 AM
  */
 
-import { ElementRef, Input, Renderer } from '@angular/core';
+import { ElementRef, Input, Renderer2 } from '@angular/core';
 import { Directive, OnInit } from '@angular/core';
 import { DropService } from '../services/drop-service/drop-service.service';
 
@@ -21,7 +21,7 @@ export class FileStreamDirective implements OnInit {
     @Input('file-stream') public stream = ''; // name of the stream the files should be sent to
     private _element: HTMLInputElement;
 
-    constructor(elementRef: ElementRef<HTMLInputElement>, private _dropService: DropService, private renderer: Renderer) {
+    constructor(elementRef: ElementRef<HTMLInputElement>, private _dropService: DropService, private renderer: Renderer2) {
         this._element = elementRef.nativeElement;
     }
 
