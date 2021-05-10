@@ -1,10 +1,8 @@
 
-import { Component, Input, Output, OnChanges, EventEmitter, OnInit, OnDestroy, SimpleChanges } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-
-import { DynamicField } from './dynamic-field.class';
-import { Subscription } from 'rxjs';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BaseWidgetComponent } from '../../../shared/base.component';
+import { DynamicField } from './dynamic-field.class';
 
 @Component({
     selector: 'dynamic-form',
@@ -19,29 +17,19 @@ export class DynamicFormComponent extends BaseWidgetComponent implements OnChang
 
     public form_group: FormGroup;
     public no_emit: boolean;
-    public changes: Subscription[];
 
     public ngOnInit() {
         this.form_group = this.makeFormGroup(this.fields);
-        this.subChanges();
     }
 
     public ngOnChanges(changes: SimpleChanges) {
         if (changes.fields) {
             this.form_group = this.makeFormGroup(this.fields);
-            this.subChanges();
+            this.form_group.valueChanges.subscribe(() => this.emitForm());
         }
         if (changes.validate) {
-            this.checkValid(true);
-        }
-    }
-
-    public ngOnDestroy() {
-        super.ngOnDestroy();
-        for (const change of (this.changes || [])) {
-            if (change instanceof Subscription) {
-                change.unsubscribe();
-            }
+            this.form_group?.markAsTouched();
+            this.emitForm();
         }
     }
 
@@ -71,56 +59,13 @@ export class DynamicFormComponent extends BaseWidgetComponent implements OnChang
         return new FormGroup(group);
     }
 
-    public subChanges() {
-        for (const change of (this.changes || [])) {
-            if (change instanceof Subscription) {
-                change.unsubscribe();
-            }
-        }
-        this.changes = [];
-        if (this.form_group) {
-            Object.keys(this.form_group.controls).forEach(key => {
-                const item = this.form_group.controls[key];
-                this.changes.push(item.valueChanges.subscribe(() => this.checkValid()));
-            });
-            this.changes.push(this.form_group.valueChanges.subscribe(() => this.checkValid()));
-        }
-    }
-
     public submit() {
-        this.checkValid();
+        this.emitForm();
         return false;
     }
 
-    public checkValid(mark: boolean = false) {
-        this.timeout('check', () => {
-            let valid = true;
-            if (this.form_group) {
-                Object.keys(this.form_group.controls).forEach(key => {
-                    const item = this.form_group.controls[key];
-                    if (item.invalid) { valid = false; }
-                    if (mark) { item.markAsTouched(); }
-                });
-            }
-            this.valid.emit(valid);
-            this.emitForm();
-        }, 50);
-    }
-
     public emitForm() {
-        if (this.no_emit) { return; }
-        const form_data: any = {};
-        let has_valid_item = false;
-
-        if (this.form_group) {
-            Object.keys(this.form_group.controls).forEach(key => {
-                const item = this.form_group.controls[key];
-                if (item.valid) {
-                    has_valid_item = true;
-                    form_data[key] = item.value;
-                }
-            });
-            if (has_valid_item) { this.form.emit(form_data); }
-        }
+        if (this.no_emit || !this.form_group?.valid) return;
+        this.form.emit(this.form_group.value);
     }
 }
